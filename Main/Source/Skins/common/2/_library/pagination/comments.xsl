@@ -28,9 +28,9 @@
       <xsl:variable name="typeid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">&amp;s_type=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE" /></xsl:if></xsl:variable>
       <xsl:variable name="siteid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE">&amp;s_siteid=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE" /></xsl:if></xsl:variable>
       <xsl:variable name="userid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_user']/VALUE">&amp;s_user=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_user']/VALUE" /></xsl:if></xsl:variable>
-	  <xsl:variable name="title" select="/H2G2/PARAMS/PARAM[NAME = 's_title']/VALUE" />
-	  <xsl:variable name="forumid" select="/H2G2/PARAMS/PARAM[NAME = 's_forumid']/VALUE" />
-      <xsl:variable name="querystring"><xsl:value-of select="$typeid"/><xsl:value-of select="$siteid"/><xsl:value-of select="$userid"/></xsl:variable>
+	  <xsl:variable name="title"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_title']/VALUE">&amp;s_title=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_title']/VALUE" /></xsl:if></xsl:variable>
+	  <xsl:variable name="forumid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_forumid']/VALUE">&amp;s_forumid=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_forumid']/VALUE" /></xsl:if></xsl:variable>
+      <xsl:variable name="querystring"><xsl:value-of select="$typeid"/><xsl:value-of select="$siteid"/><xsl:value-of select="$userid"/><xsl:value-of select="$forumid"/><xsl:value-of select="$title"/></xsl:variable>
 	  <xsl:variable name="STARTINDEX" select="/H2G2/COMMENTSLIST/STARTINDEX" />
 	  <xsl:variable name="TOTALCOUNT" select="/H2G2/COMMENTSLIST/TOTALCOUNT" />
 	  <xsl:variable name="ITEMSPERPAGE" select="/H2G2/COMMENTSLIST/ITEMSPERPAGE" />
@@ -55,7 +55,7 @@
 						<li class="first dna-button">
 								<xsl:choose>
 											<xsl:when test="$STARTINDEX > 0">
-													<a href="{$root}/commentslist?s_forumid={$forumid}&amp;s_title={$title}&amp;s_startindex=0&amp;{$querystring}">
+													<a href="{$root}/commentslist?s_startindex=0&amp;{$querystring}">
 															<xsl:text>First </xsl:text>
 													</a>
 											</xsl:when>
@@ -69,7 +69,7 @@
 							<li class="previous dna-button">
 									<xsl:choose>
 											<xsl:when test="$STARTINDEX > 0">
-													<a href="{$root}/commentslist?s_forumid={$forumid}&amp;s_title={$title}&amp;s_startindex={$STARTINDEX - $itemcount}&amp;{$querystring}">
+													<a href="{$root}/commentslist?s_startindex={$STARTINDEX - $itemcount}&amp;{$querystring}">
 															<span class="arrow">
 																	<xsl:text disable-output-escaping="yes"><![CDATA[&laquo;]]></xsl:text>
 															</span>
@@ -92,7 +92,7 @@
 							<li class="next dna-button">
 									<xsl:choose>
 											<xsl:when test="$TOTALCOUNT > $STARTINDEX + $itemcount">
-													<a href="{$root}/commentslist?s_forumid={$forumid}&amp;s_title={$title}&amp;s_startindex={($STARTINDEX + $itemcount)}&amp;{$querystring}">
+													<a href="{$root}/commentslist?s_startindex={($STARTINDEX + $itemcount)}&amp;{$querystring}">
 															<xsl:text>Next </xsl:text>
 															<span class="arrow">
 																	<xsl:text disable-output-escaping="yes"><![CDATA[&raquo;]]></xsl:text>
@@ -114,12 +114,12 @@
 											<xsl:when test="$TOTALCOUNT > $STARTINDEX + $itemcount">
 												<xsl:choose>
 													<xsl:when test="$TOTALCOUNT mod $itemcount =0">
-														<a href="{$root}/commentslist?s_forumid={$forumid}&amp;s_title={$title}&amp;s_startindex={(floor($TOTALCOUNT div $itemcount)-1) * $itemcount}&amp;{$querystring}">
+														<a href="{$root}/commentslist?s_startindex={(floor($TOTALCOUNT div $itemcount)-1) * $itemcount}&amp;{$querystring}">
 															<xsl:text> Last</xsl:text>
 														</a>
 													</xsl:when>
 													<xsl:otherwise>
-														<a href="{$root}/commentslist?s_forumid={$forumid}&amp;s_title={$title}&amp;s_startindex={(floor($TOTALCOUNT div $itemcount) * $itemcount)}&amp;{$querystring}">
+														<a href="{$root}/commentslist?s_startindex={(floor($TOTALCOUNT div $itemcount) * $itemcount)}&amp;{$querystring}">
 															<xsl:text> Last</xsl:text>
 														</a>
 													</xsl:otherwise>
