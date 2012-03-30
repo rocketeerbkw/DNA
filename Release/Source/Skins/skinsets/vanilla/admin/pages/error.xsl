@@ -62,7 +62,6 @@
             </p>
           </xsl:otherwise>
         </xsl:choose>
-        
       </div>
     </div>
   </xsl:template>
@@ -88,9 +87,32 @@
   </xsl:template>
 
   <xsl:template match="/H2G2/RESULT" mode="page">
-    <p class="dna-no-error">
-       Your updates have been saved.
-    </p>
+  	<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILE/@SITENAME" />
+    <xsl:choose>
+    	<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_action']/VALUE = 'getprofile'">
+    	</xsl:when>
+		<xsl:otherwise>
+		    <xsl:choose>
+			    <xsl:when test="@TYPE = 'TwitterProfileCreated'">
+			    
+			    	<xsl:variable name="profiletype">
+			    		<xsl:choose>
+			    			<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_action']/VALUE = 'updateprofile'">
+			    				<xsl:text>updated</xsl:text>
+			    			</xsl:when>
+			    			<xsl:otherwise>
+			    				<xsl:text>created</xsl:text>
+			    			</xsl:otherwise>
+			    		</xsl:choose>
+			    	</xsl:variable>
+			    	<p class="dna-no-error">Your Twitter profile has been <xsl:value-of select="$profiletype" />. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
+			    </xsl:when>
+			    <xsl:otherwise>
+			    	<p class="dna-no-error">Your updates have been saved.</p>
+			    </xsl:otherwise>
+		    </xsl:choose>		
+		</xsl:otherwise>    
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

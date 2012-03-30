@@ -16,11 +16,11 @@
   <xsl:variable name="staging_root"></xsl:variable>
   <xsl:variable name="bannerurl">/dna/h2g2/A516052</xsl:variable>
 <xsl:variable name="bannersrc"><xsl:value-of select="$imagesource"/>banners/whats_changed.gif</xsl:variable>
-<xsl:variable name="thisserver">http://dnarelease.national.core.bbc.co.uk</xsl:variable>
-<xsl:variable name="foreignserver">http://www.bbc.co.uk</xsl:variable>
+<xsl:variable name="thisserver">http://local.bbc.co.uk</xsl:variable>
+<xsl:variable name="foreignserver">http://local.bbc.co.uk</xsl:variable>
 <xsl:variable name="sso_resources">http://ops-dev14.national.core.bbc.co.uk</xsl:variable>
 <xsl:variable name="sso_script">/cgi-perl/signon/mainscript.pl</xsl:variable>
-<xsl:variable name="sso_redirectserver">http://dnarelease.national.core.bbc.co.uk</xsl:variable>
+<xsl:variable name="sso_redirectserver">http://local.bbc.co.uk</xsl:variable>
 <xsl:variable name="assetlibrary">
 	<xsl:choose>
 		<xsl:when test="/H2G2/SERVERNAME='OPS-DNA1'"><!-- dnadev -->

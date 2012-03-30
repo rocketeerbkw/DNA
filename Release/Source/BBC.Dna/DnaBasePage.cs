@@ -1025,6 +1025,13 @@ namespace BBC.Dna.Page
         /// <returns>true if the page must be accessed securely.</returns>
         public bool IsSecureAccessAllowed()
         {
+#if DEBUG
+            switch (Environment.MachineName)
+            {
+                case "B1-L0S051473":
+                    return true;
+            }
+#endif
             if (!_isSecureRequest)
             {//not a secure request
                 if (_dnapage.AllowedUsers != UserTypes.Any && _dnapage.AllowedUsers != UserTypes.Volunteer)

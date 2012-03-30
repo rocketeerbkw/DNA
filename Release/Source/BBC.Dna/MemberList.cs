@@ -386,7 +386,10 @@ namespace BBC.Dna.Component
                     callingUser.CreateUserFromTwitterUser(1, tweetUser);
                     callingUser.SynchroniseSiteSuffix(tweetUser.ProfileImageUrl);
 
-                    dataReader.Execute();
+                    if (dataReader != null)
+                    {
+                        dataReader.Execute();
+                    }
                 }
             }
             catch (Exception ex)
@@ -417,6 +420,41 @@ namespace BBC.Dna.Component
             }
 
             return twitterException;
+        }
+
+        /// <summary>
+        /// Retrieve the tweet user details from twitter
+        /// </summary>
+        /// <param name="twitterScreenName"></param>
+        /// <returns></returns>
+        public TweetUsers RetrieveTweetUserDetails(string twitterScreenName)
+        {
+             //TODO: Call the twitter api to get the user details
+            TwitterClient client;
+            TweetUsers tweetUser =  new TweetUsers();
+            
+            try
+            {
+                client = new TwitterClient();
+                tweetUser = client.GetUserDetails(twitterScreenName);
+            }
+            catch (Exception ex)
+            {
+                InputContext.Diagnostics.WriteExceptionToLog(ex);
+                tweetUser.TwitterResponseException = ex;
+            }
+
+            return tweetUser;
+        }
+
+        /// <summary>
+        /// Public method to retrieve the twitter user and map to a DNA account
+        /// </summary>
+        /// <param name="twitterScreenName"></param>
+        /// <returns></returns>
+        public string CreateRetrieveTwitterUser(string twitterScreenName)
+        {
+            return CreateRetrieveTwitterUser(twitterScreenName, null);
         }
 
         /// <summary>

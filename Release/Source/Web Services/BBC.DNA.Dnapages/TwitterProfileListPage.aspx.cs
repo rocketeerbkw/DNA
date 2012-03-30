@@ -40,7 +40,7 @@ public partial class TwitterProfileListPage : BBC.Dna.Page.DnaWebPage
     {
         get
         {
-            return DnaBasePage.UserTypes.EditorAndAbove;
+            return DnaBasePage.UserTypes.Administrator;
         }
     }
 }

@@ -10,5 +10,6 @@ namespace BBC.Dna.SocialAPI
     public class TweetUsers : TweetUser
     {
         //Can have a collection as twitter returns multiple users with a comma seperated screenname/id request
+        public Exception TwitterResponseException { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
 
 namespace BBC.Dna.SocialAPI
@@ -14,7 +15,8 @@ namespace BBC.Dna.SocialAPI
     {
         [OperationContract]
         [WebInvoke(
-            UriTemplate = "/users/show.xml?screen_name={username}", Method = "GET")]
+            UriTemplate = "/profiles/", Method = "GET", 
+                RequestFormat = WebMessageFormat.Json, ResponseFormat = WebMessageFormat.Json)]
 
 
         BuzzTwitterProfiles GetProfiles();

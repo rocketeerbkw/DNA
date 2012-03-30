@@ -21,7 +21,7 @@
     <OutputPath>obj\Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <OutputTarget>$(OutputPath)procs.sql</OutputTarget>
+    <OutputTarget>$(OutputPath)procedures.sql</OutputTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSmallGuide|AnyCPU' ">
     <OutputPath>bin\DebugSmallGuide\</OutputPath>
@@ -1283,6 +1283,7 @@
     <None Include="commentratingcreate.sql" />
     <None Include="CreateTweetInfoForComment.sql" />
     <None Include="CreateTweetInfoForPremodPostings.sql" />
+    <None Include="doestwitteruserexists.sql" />
     <None Include="GetCommentIdFromTweetId.sql" />
     <None Include="getcommentratingstats.sql" />
     <None Include="getmoderatingclassbyuser.sql" />
@@ -1296,6 +1297,7 @@
     <None Include="gettermsbyforumid.sql" />
     <None Include="gettermsbyforumidfromforums.sql" />
     <None Include="gettermsbymodidfromthreadmod.sql" />
+    <None Include="gettwitterscreennamefromtwitteruserid.sql" />
     <None Include="getuserstatus.sql" />
     <None Include="getBBCDivisions.sql" />
     <None Include="GetUserReputationList.sql" />

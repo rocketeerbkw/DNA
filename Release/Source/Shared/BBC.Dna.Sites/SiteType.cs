@@ -17,7 +17,9 @@ namespace BBC.Dna.Sites
         [XmlEnumAttribute]
         Community = 3,
         [XmlEnumAttribute]
-        EmbeddedComments = 4
+        EmbeddedComments = 4,
+        [XmlEnumAttribute]
+        Twitter = 5
     }
 
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]

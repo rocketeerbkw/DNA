@@ -67,7 +67,7 @@
 		BBC - Host Dashboard - Twitter Profile List
 	</xsl:template>
 	
-	<xsl:template match="H2G2[@TYPE = 'TWITTERCREATEPROFILE']" mode="objects_browsertitle">
+	<xsl:template match="H2G2[@TYPE = 'TWITTERPROFILE']" mode="objects_browsertitle">
 		BBC - Host Dashboard - Twitter Profile 	</xsl:template>	
 	
   <xsl:template match="H2G2[@TYPE = 'HOSTDASHBOARDUSERACTIVITYPAGE']" mode="objects_browsertitle">
