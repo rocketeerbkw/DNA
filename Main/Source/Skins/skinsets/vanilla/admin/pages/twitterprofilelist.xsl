@@ -48,7 +48,7 @@
 			    
 			    <form method="get" action="twitterprofilelist" class="blq-clearfix dna-fr">	
 					  <fieldset>
-			    		  <input type="hidden" name="s_activeonly">
+			    		  <input type="hidden" name="s_activeonly" id="activeonly">
 			    			  <xsl:attribute name="value">
 			    				  <xsl:choose>
 			    					  <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'on'">off</xsl:when>
@@ -87,7 +87,7 @@
 					
 		    		<xsl:call-template name="newprofilelink" />	 
 		    		   	    	
-					  <table>
+					  <table class="twitter-profile-list">
 						  <tr>
 							  <th class="profileid">Profile Id</th>
 							  <th>Active</th>
@@ -101,7 +101,7 @@
 						  <xsl:choose>
 							<xsl:when test="/H2G2/TWITTERPROFILELIST/@COUNT = 0">
 							  <tr>
-								<td colspan="7">There are no Twitter profiles for this site</td>
+								<td colspan="7" class="no-twitter-profiles">There are no Twitter profiles for this site</td>
 							  </tr>
 							</xsl:when>
 							<xsl:otherwise>
