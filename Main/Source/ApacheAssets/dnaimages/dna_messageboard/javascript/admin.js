@@ -400,7 +400,41 @@
         addListener(openTimeTable, "mousedown", function() {
             window.location = "/dna/mbarchers/admin/MessageBoardSchedule";
             return false;
-        });
+           });
+
+           /* 
+           Twitter Admin Console - Profile form submit 
+           */
+
+           addListener(".twitterprofile", "submit", function() {
+
+           	var isFormValidToSubmit = true;
+
+           	// Clear previous error messages
+           	$("span.dna-error-text").remove();
+
+           	// Check the profile id input is not empty
+           	if ($("#profileid").val() == "") {
+           		glow.dom.create('<span class="dna-error-text">Please enter a profile id</span>').insertAfter("#profileid");
+           		isFormValidToSubmit = false;
+           	}
+
+           	// Check the title input is not empty
+           	if ($("#title").val() == "") {
+           		glow.dom.create('<span class="dna-error-text">Please enter a title</span>').insertAfter("#title");
+           		isFormValidToSubmit = false;
+           	}
+
+           	// Make sure that both users and search terms text areas are not empty
+           	if (($("#users").val() == " " || $("#users").val() == "") && ($("#searchterms").val() == " " || $("#searchterms").val() == "")) {
+           		glow.dom.create('<span class="dna-error-text text">Please enter a user or a search term</span>').insertBefore("#users");
+           		isFormValidToSubmit = false;
+           	}
+
+           	return isFormValidToSubmit;
+
+           });        
+        
 
         //UserList functions
         ///////////////////////
