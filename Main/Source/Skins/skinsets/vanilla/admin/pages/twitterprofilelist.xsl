@@ -36,7 +36,7 @@
 						    		<xsl:apply-templates select="/H2G2/TWITTER-SITE-LIST/SITE" mode="objects_sites_twittersites" />
 						    	</select>
 						    	<div class="dna-buttons sites">
-						    		<input type="submit" value="Change site" />
+						    		<input type="submit" value="Change site" class="change-site"/>
 						    	</div>
 					    	</fieldset>
 					    </form>
@@ -48,7 +48,7 @@
 			    
 			    <form method="get" action="twitterprofilelist" class="blq-clearfix dna-fr">	
 					  <fieldset>
-			    		  <input type="hidden" name="s_activeonly" id="activeonly">
+			    		  <input type="hidden" name="s_activeonly" class="activeonly">
 			    			  <xsl:attribute name="value">
 			    				  <xsl:choose>
 			    					  <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'on'">off</xsl:when>
@@ -74,6 +74,14 @@
 										  <xsl:otherwise>Show active only</xsl:otherwise>
 									  </xsl:choose>								
 								  </xsl:attribute>
+								  <xsl:attribute name="class">
+									  <xsl:choose>
+										  <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'off'">
+											  <xsl:text>show-all-profiles</xsl:text>
+										  </xsl:when>
+										  <xsl:otherwise>show-active-only-profiles</xsl:otherwise>
+									  </xsl:choose>								
+								  </xsl:attribute>								  
 							  </input>
 						  </div>					
 					  </fieldset>
@@ -83,32 +91,34 @@
 	    	
 		    <div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
 				<div class="dna-box">
-					<h3>Number of profiles for <strong><xsl:value-of select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE/@SITETYPE" /></strong>: <xsl:value-of select="/H2G2/TWITTERPROFILELIST/@COUNT" /></h3>
+					<h3 class="profile-count">Number of profiles for <strong><xsl:value-of select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE/@SITETYPE" /></strong>: <xsl:value-of select="/H2G2/TWITTERPROFILELIST/@COUNT" /></h3>
 					
 		    		<xsl:call-template name="newprofilelink" />	 
 		    		   	    	
 					  <table class="twitter-profile-list">
-						  <tr>
-							  <th class="profileid">Profile Id</th>
-							  <th>Active</th>
-							  <th>Trusted Users</th>
-							  <th>Counts Only</th>
-							  <th>Keyword Counts</th>
-							  <th>Moderated Tweets</th>
-							  <th></th>
-						  </tr>
-						
-						  <xsl:choose>
-							<xsl:when test="/H2G2/TWITTERPROFILELIST/@COUNT = 0">
+					  	  <thead>
 							  <tr>
-								<td colspan="7" class="no-twitter-profiles">There are no Twitter profiles for this site</td>
+								  <th class="profileid">Profile Id</th>
+								  <th>Active</th>
+								  <th>Trusted Users</th>
+								  <th>Counts Only</th>
+								  <th>Keyword Counts</th>
+								  <th>Moderated Tweets</th>
+								  <th></th>
 							  </tr>
-							</xsl:when>
-							<xsl:otherwise>
-							  <xsl:apply-templates select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE" />
-							</xsl:otherwise>
-						  </xsl:choose>
-  						
+						  </thead>
+						  <tbody>
+							  <xsl:choose>
+								<xsl:when test="/H2G2/TWITTERPROFILELIST/@COUNT = 0">
+								  <tr>
+									<td colspan="7" class="no-twitter-profiles">There are no Twitter profiles for this site</td>
+								  </tr>
+								</xsl:when>
+								<xsl:otherwise>
+								  <xsl:apply-templates select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE" />
+								</xsl:otherwise>
+							  </xsl:choose>
+  						  </tbody>
 					  </table>
 		
 			    	<xsl:call-template name="newprofilelink" />	
@@ -121,9 +131,9 @@
   
 	<xsl:template name="newprofilelink">
 		<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILELIST/TWITTERPROFILE/@SITETYPE"/>
-		<div class="newprofilelink blq-clearfix dna-fr">
+		<div class="blq-clearfix dna-fr">
 			<ul class="dna-buttons">
-				<li><a href="twitterprofile?type={$sitetype}">New Profile</a></li>
+				<li><a href="twitterprofile?type={$sitetype}" class="create-new-profile">New Profile</a></li>
 			</ul>  
 		</div>
 	</xsl:template>
@@ -139,7 +149,7 @@
 			<td><xsl:value-of select="PROFILECOUNTSTATUS" /></td>
 			<td><xsl:value-of select="PROFILEKEYWORDCOUNTSTATUS" /></td>
 			<td><xsl:value-of select="MODERATIONSTATUS" /></td>
-			<td><a href="twitterprofile?type={$sitetype}&amp;profileId={$profileid}&amp;action=getprofile&amp;s_action=getprofile">Edit</a></td>
+			<td><a href="twitterprofile?type={$sitetype}&amp;profileId={$profileid}&amp;action=getprofile&amp;s_action=getprofile" class="edit-profile">Edit</a></td>
 		</tr>  
 	</xsl:template>
 	
