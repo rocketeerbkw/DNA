@@ -32,7 +32,7 @@
 					    	<fieldset>
 						    	<label for="sites">Site:</label>
 								  <select name="type" id="sites">
-		                			<option value="">Select a site</option>
+		                			<!-- option value="">Select a site</option -->
 						    		<xsl:apply-templates select="/H2G2/TWITTER-SITE-LIST/SITE" mode="objects_sites_twittersites" />
 						    	</select>
 						    	<div class="dna-buttons sites">
@@ -55,31 +55,33 @@
 			    					  <xsl:otherwise>on</xsl:otherwise>
 			    				  </xsl:choose>
 			    			  </xsl:attribute>
-			    		  </input>					
+			    		  </input>
+			    		  					
 						    <label for="activeonly">
 							    <xsl:choose>
-								    <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'off'">
+								    <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'on' or /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = ''">
 									    Show all profiles:
 								    </xsl:when>
 								    <xsl:otherwise>Show active profiles only:</xsl:otherwise>
 							    </xsl:choose>
 						    </label>
+						    
 						  <div class="dna-buttons">
 							  <input type="submit">
 								  <xsl:attribute name="value">
 									  <xsl:choose>
-										  <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'off'">
+										  <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'on' or /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = ''">
 											  <xsl:text>Show all</xsl:text>
 										  </xsl:when>
-										  <xsl:otherwise>Show active only</xsl:otherwise>
+										  <xsl:otherwise><xsl:text>Show active only</xsl:text></xsl:otherwise>
 									  </xsl:choose>								
 								  </xsl:attribute>
 								  <xsl:attribute name="class">
 									  <xsl:choose>
-										  <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'off'">
+										  <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'on' or /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = ''">
 											  <xsl:text>show-all-profiles</xsl:text>
 										  </xsl:when>
-										  <xsl:otherwise>show-active-only-profiles</xsl:otherwise>
+										  <xsl:otherwise><xsl:text>show-active-only-profiles</xsl:text></xsl:otherwise>
 									  </xsl:choose>								
 								  </xsl:attribute>								  
 							  </input>

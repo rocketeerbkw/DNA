@@ -50,9 +50,7 @@
 				</div>
 				<form method="get" action="twitterprofile" class="twitterprofile"> 
 					<input type="hidden" name="type">
-						<xsl:attribute name="value">
-							<xsl:value-of select="/H2G2/TWITTERPROFILE/@SITENAME" />
-						</xsl:attribute>
+						<xsl:attribute name="value">onionstreet</xsl:attribute>
 					</input>
 					<fieldset>
 						<ul class="twitter-profile">
