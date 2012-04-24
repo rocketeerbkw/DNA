@@ -26,6 +26,12 @@
 			<xsl:otherwise>Create</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
+  	<xsl:variable name="lowerprofiletype">
+		<xsl:choose>
+			<xsl:when test="/H2G2/PROFILE">update</xsl:when>
+			<xsl:otherwise>create</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>	
   
 	<xsl:call-template name="objects_links_breadcrumb">
 		<xsl:with-param name="pagename"> <xsl:value-of select="$profiletype" /> Twitter Profile</xsl:with-param>
@@ -44,9 +50,7 @@
 				</div>
 				<form method="get" action="twitterprofile" class="twitterprofile"> 
 					<input type="hidden" name="type">
-						<xsl:attribute name="value">
-							<xsl:value-of select="/H2G2/TWITTERPROFILE/@SITENAME" />
-						</xsl:attribute>
+						<xsl:attribute name="value">onionstreet</xsl:attribute>
 					</input>
 					<fieldset>
 						<ul class="twitter-profile">
@@ -115,12 +119,13 @@
 						</ul>
 						<ul class="dna-buttons profile">
 							<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILE/@SITENAME" />
+							
 							<xsl:if test="/H2G2/PROFILE">
 								<input type="hidden" name="s_action" value="updateprofile" />
 							</xsl:if>
 							<input type="hidden" name="action" value="createupdateprofile" />
-							<li><input type="submit" value="{$profiletype} Profile" /></li>
-							<li><a href="twitterprofilelist?type={$sitetype}" class="button">Cancel</a></li>
+							<li><input type="submit" value="{$profiletype} Profile" class="{$lowerprofiletype}-profile" /></li>
+							<li><a href="twitterprofilelist?type={$sitetype}" class="button cancel">Cancel</a></li>
 						</ul>					
 					</fieldset>
 				</form>
