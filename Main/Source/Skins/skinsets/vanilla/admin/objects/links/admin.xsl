@@ -32,9 +32,9 @@
 			<li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteid}">Manage your stories</a></li>
 		</xsl:if>
 		<xsl:if test="$dashboardtype = 'messageboard'">
-			<li><a href="/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
+			<li><a href="{$host}/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
 		</xsl:if>			
-		<li><a href="/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Opening times</a></li>
+		<li><a href="{$host}/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Opening times</a></li>
 
     <li>
       <xsl:value-of select="$dashboardmodstatus" />
