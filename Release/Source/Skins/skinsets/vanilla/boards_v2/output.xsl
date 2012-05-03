@@ -88,7 +88,8 @@
       			</xsl:otherwise>
       		</xsl:choose>
 
-			<xsl:if test="SITE/URLNAME = 'mbgardening'">
+			<xsl:if test="SITE[@ID='$currentSite']/SITEOPTIONS/SITEOPTION[NAME='MothBallSite']/VALUE='1'" />
+			<!--<xsl:if test="SITE/URLNAME = 'mbgardening'">-->
 				<xsl:comment>#set var="blq_mothball" value="1"</xsl:comment>
 			</xsl:if>
 
