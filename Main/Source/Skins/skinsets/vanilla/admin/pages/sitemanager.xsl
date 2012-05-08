@@ -415,7 +415,10 @@
         Not using Identity
       </option>
       <option value="comment">
-        IDv4 Comments Policy
+        <xsl:if test="$currentidentitypolicy = 'comment'">
+          <xsl:attribute name="selected"></xsl:attribute>
+        </xsl:if>
+        IDv4 Comments
       </option>
       <xsl:for-each select="POLICY">
         <option value="{.}">
