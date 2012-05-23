@@ -96,6 +96,46 @@ namespace BBC.Dna.Services
             return GetOutputStream(commentForumList);
         }
 
+        [WebGet(UriTemplate = "V1/site/{siteName}/coalescedcommentsforum/{commentForumIdList}/")]
+        [WebHelp(Comment = "Get the comments forum by ID")]
+        [OperationContract]
+        public Stream GetCommentForumByUIDs(string commentForumIdList, string siteName)
+        {
+            ISite site = GetSite(siteName);
+            CommentForum commentForumData;
+            Stream output = null;
+            try
+            {
+                //get the startindex to include the post id
+                var postValue = QueryStringHelper.GetQueryParameterAsString("includepostid", string.Empty);
+                if (postValue != string.Empty)
+                {
+                    int postId = 0;
+                    if (!Int32.TryParse(postValue, out postId))
+                    {
+                        throw ApiException.GetError(ErrorType.CommentNotFound);
+                    }
+                    _commentObj.StartIndex = _commentObj.GetStartIndexForPostId(postId);
+                }
+
+
+                commentForumData = _commentObj.GetCommentForumByUids(commentForumIdList, site);
+
+                //if null then send back 404
+                if (commentForumData == null)
+                {
+                    throw ApiException.GetError(ErrorType.ForumUnknown);
+                }
+                output = GetOutputStream(commentForumData, commentForumData.LastUpdate);
+
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+            return output;
+        }
+
         [WebGet(UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumId}/")]
         [WebHelp(Comment = "Get the comments forum by ID")]
         [OperationContract]
@@ -210,6 +250,7 @@ namespace BBC.Dna.Services
             }
             return output;
         }
+
 
         [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{sitename}/commentsforums/{commentForumID}/")]
         [WebHelp(Comment = "Create a new comment forum for the specified site with comment")]
