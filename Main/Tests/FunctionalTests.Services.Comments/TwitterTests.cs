@@ -14,6 +14,7 @@ using BBC.Dna.Data;
 using System.Net;
 using BBC.Dna.SocialAPI;
 using BBC.Dna.Moderation;
+using BBC.Dna.Users;
 
 namespace FunctionalTests.Services.Comments
 {
@@ -63,7 +64,12 @@ namespace FunctionalTests.Services.Comments
         {
             var request = new DnaTestURLRequest(_sitename);
 
-            var tweet = CreateTestTweet(1986455438846,"Here's Johnny","24870588","Chico Charlesworth", "ccharlesworth");
+            var tweetUserId = "24870588";
+
+            var userId = DeleteExistingTwitterUsers(tweetUserId);
+            SendSignal(userId);
+
+            var tweet = CreateTestTweet(1986455438849,"Here's Johnny",tweetUserId,"Chico Charlesworth", "ccharlesworth");
             var tweetData = CreatTweetXmlData(tweet);
 
             // now get the response
@@ -82,7 +88,14 @@ namespace FunctionalTests.Services.Comments
         {
             var request = new DnaTestURLRequest(_sitename);
 
-            var tweet = CreateTestTweet(1099511627775,"Go ahead punk","1234567","Mr Furry Geezer", "furrygeezer");
+            var twitterUserId = "12345678";
+
+            //Reset the tweet user from DB and also in the cache
+            var userId = DeleteExistingTwitterUsers(twitterUserId);
+
+            SendSignal(userId);
+
+            var tweet = CreateTestTweet(1099511627786, "Go ahead punk", twitterUserId, "Mr Furry Geezer", "furrygeezer");
             var tweetData = CreateTweetJsonData(tweet);
 
             // now get the response
@@ -94,13 +107,38 @@ namespace FunctionalTests.Services.Comments
             TestCommentInfo(returnedCommentInfo, tweet);
         }
 
+        private int DeleteExistingTwitterUsers(string tweetUserId)
+        {
+            var userId = 0;
+
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY("select * from signinuseridmapping where TwitterUserID=" + tweetUserId);
+                if (reader.HasRows)
+                {
+                    userId = reader.GetInt32NullAsZero("DnaUserID");
+                    reader.ExecuteDEBUGONLY("delete from signinuseridmapping where TwitterUserID=" + tweetUserId);
+                    Assert.IsNotNull(reader);
+                }
+            }
+
+            return userId;
+        }
+
         [TestMethod]
         public void CreateTweet_SameUserMultipleTweets()
         {
-            var tweet = CreateTestTweet(1099511627775, "The Hell Of It All", "9876543", "Mr Furry Geezer", "furrygeezer");
+            ClearModerationQueues(); //Need to check
+
+            var tweetUserId = "9876543";
+
+            var userId = DeleteExistingTwitterUsers(tweetUserId);
+            SendSignal(userId);
+
+            var tweet = CreateTestTweet(1099511627786, "The Hell Of It All", tweetUserId, "Mr Furry Geezer", "furrygeezer");
             CreateTweet_SameUserMultipleTweets_Helper(tweet);
 
-            tweet = CreateTestTweet(1099511627776, "Scar Tissue", "9876543", "Mr Furry Geezer", "furrygeezer");
+            tweet = CreateTestTweet(1099511627796, "Scar Tissue", "9876543", "Mr Furry Geezer", "furrygeezer");
             CreateTweet_SameUserMultipleTweets_Helper(tweet);
         }
 
@@ -344,38 +382,310 @@ namespace FunctionalTests.Services.Comments
 
 
         [TestMethod]
-        public void CreateTweet_Retweet_NoMatchingTweet()
+        public void CreateReTweet_OriginalTweetBy_PublicUsers_NoMatchingTweet()
         {
-            var maxThreadEntryId = GetMaxThreadEntryId();
+            // Post the retweet - 3434343 is the tweetuserid and should be a trusted user
+            long retweetId = 9898534343444234;
+            var retweet = CreateTestTweet(retweetId, "SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
 
-            var tweet = CreateTestTweet(9898534343444222, "Inspire", "3434343", "Creative Labs Inc", "crinc","4");
-            tweet.RetweetedStatus = CreateTestTweet(74853549057838, "retweeted text", "909090909", "Big bird", "bigbird", "90");
+            // Create a original tweet of the original tweet and don't post it
+            long tweetId = 74853549057841;
+            var tweet = CreateTestTweet(tweetId, "RT @tsqlgod: SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
+            retweet.RetweetedStatus = tweet;
 
-            var response = PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
-            Assert.AreEqual("\"Retweet ignored\"", response);
+            PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
 
-            // If the max thread entry id hasn't changed, this is proof that no posting happened
-            Assert.AreEqual(maxThreadEntryId, GetMaxThreadEntryId());
+            var retweetThreadEntryId = GetThreadIdFromTweetId(retweetId);
+
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(@"select * from ThreadEntriesTweetInfo where threadEntryId=" + retweetThreadEntryId);
+                reader.Read();
+                var retweetDBId                 = reader.GetInt64("TweetId");
+                var originalTweetId             = reader.GetInt64("OriginalTweetId");
+                var IsOriginalTweetForRetweet   = reader.GetBoolean("IsOriginalTweetForRetweet");
+
+                Assert.AreEqual(retweetDBId, retweetId);
+                Assert.AreEqual(originalTweetId, tweetId);
+                Assert.AreEqual(true, IsOriginalTweetForRetweet);
+            }
+
         }
 
         [TestMethod]
-        public void CreateTweet_Retweet_MatchingTweet()
+        public void CreateRetweet_OriginalTweetBy_PublicUsers_MatchingTweet()
+        {
+            // Create a original tweet of the original tweet and post it
+            long tweetId = 74853549057840;
+            var tweet = CreateTestTweet(tweetId, "RT @tsqlgod: SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
+            PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
+
+            // Post the retweet - 3434343 is the tweetuserid and should be a trusted user
+            long retweetId = 9898534343444233;
+            var retweet = CreateTestTweet(retweetId, "SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
+            retweet.RetweetedStatus = tweet;
+            PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
+
+            var retweetThreadEntryId = GetThreadIdFromTweetId(retweetId);
+            var originalTweetThreadEntryId = GetThreadIdFromTweetId(tweetId);
+
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(@"select * from ThreadEntriesTweetInfo where threadEntryId=" + retweetThreadEntryId);
+                reader.Read();
+                var retweetDBId = reader.GetInt64("TweetId");
+                var originalTweetId = reader.GetInt64("OriginalTweetId");
+                var IsOriginalTweetForRetweet = reader.GetBoolean("IsOriginalTweetForRetweet");
+
+                Assert.AreEqual(retweetDBId, retweetId);
+                Assert.AreEqual(originalTweetId, tweetId);
+                Assert.AreEqual(false, IsOriginalTweetForRetweet);
+
+                // Check that the last post has a rating and that it's the correct value
+                var rating = GetTweetRating(originalTweetThreadEntryId);
+                Assert.AreEqual(0, rating.userId);
+                Assert.AreEqual(DnaHasher.GenerateHash(tweetId.ToString()), rating.userHash);
+                Assert.AreEqual(4, rating.value);
+            }
+        }
+
+        /// <summary>
+        /// Created retweet and retrieves the comment forum with the tweet and retweet information
+        /// </summary>
+        [TestMethod]
+        public void RetrieveRetweetInfo_CommentForum()
+        {
+            // Create a original tweet of the original tweet and post it
+            long tweetId = 74853549057840;
+            var tweet = CreateTestTweet(tweetId, "SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
+            PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
+
+            // Post the retweet - 3434343 is the tweetuserid and should be a trusted user
+            long retweetId = 9898534343444233;
+            var retweet = CreateTestTweet(retweetId, "RT @dmouse: SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
+            retweet.RetweetedStatus = tweet;
+            PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
+
+            var retweetThreadEntryId = GetThreadIdFromTweetId(retweetId);
+            var originalTweetThreadEntryId = GetThreadIdFromTweetId(tweetId);
+
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(@"select * from ThreadEntriesTweetInfo where threadEntryId=" + retweetThreadEntryId);
+                reader.Read();
+                var retweetDBId = reader.GetInt64("TweetId");
+                var originalTweetId = reader.GetInt64("OriginalTweetId");
+                var IsOriginalTweetForRetweet = reader.GetBoolean("IsOriginalTweetForRetweet");
+
+                Assert.AreEqual(retweetDBId, retweetId);
+                Assert.AreEqual(originalTweetId, tweetId);
+                Assert.AreEqual(false, IsOriginalTweetForRetweet);
+
+                // Check that the last post has a rating and that it's the correct value
+                var rating = GetTweetRating(originalTweetThreadEntryId);
+                Assert.AreEqual(0, rating.userId);
+                Assert.AreEqual(DnaHasher.GenerateHash(tweetId.ToString()), rating.userHash);
+                Assert.AreEqual(4, rating.value);
+            }
+
+
+            var request = new DnaTestURLRequest(_sitename);
+
+            //Retrieve the comments and check the retweets posted
+            // Setup the request url
+
+            string url =
+                String.Format(
+                    "http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",
+                    _sitename, _commentForumReactive.Id);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, "", "text/xml");
+
+            var returnedForum =
+               (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+
+            Assert.AreEqual(tweetId, returnedForum.commentList.comments[0].TweetId);
+            Assert.AreEqual(tweetId, returnedForum.commentList.comments[1].TweetId);
+            Assert.AreEqual(retweetId, returnedForum.commentList.comments[1].RetweetId);
+            Assert.AreEqual("tsqlgod", returnedForum.commentList.comments[1].RetweetedBy);
+
+        }
+
+        [TestMethod]
+        public void CreateRetweet_OriginalTweetBy_TrustedUsers_NoMatchingTweet()
+        {
+            var userId = 0;
+            var retweetId = 9898534343444223;
+            var tweetId = 74853549057839;
+            var twitterUserId = "3434343";
+            var twitterScreenName = "crinc";
+            var originalTwitterUserId = "909090909";
+            var originalTwitterScreenName = "bigbird";
+            var retweet = CreateTestTweet(retweetId, "Inspire", twitterUserId, "Creative Labs Inc", twitterScreenName, "4");
+            retweet.RetweetedStatus = CreateTestTweet(tweetId, "retweeted text", originalTwitterUserId, "Big bird", originalTwitterScreenName, "90");
+
+            //create the twitter user Add user to the trusted user group
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(@"EXEC createnewuserfromtwitteruserid " + originalTwitterUserId + "," + originalTwitterScreenName +
+                                        "," + originalTwitterScreenName + ",1");
+
+                reader.ExecuteDEBUGONLY(@"select * from SignInUserIDMapping where TwitterUserID=" + originalTwitterUserId);
+                reader.Read();
+
+                userId = reader.GetInt32("DnaUserID");
+                //var notableGroupId = 239;
+                var siteId = 1;
+
+                Assert.IsNotNull(userId);
+
+                reader.ExecuteDEBUGONLY(@"EXEC addusertogroup " + userId + "," + siteId + ", editor");
+
+                reader.Read();
+            }
+
+            #region SendSignalUsergroup
+
+            SendSignal(userId);
+
+            #endregion
+
+
+            //Original tweet is not posted but retweet is posted
+            var response = PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
+
+            var retweetThreadEntryId = GetThreadIdFromTweetId(retweetId);
+            var tweetThreadEntryId = GetThreadIdFromTweetId(tweetId);
+
+
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(@"select * from ThreadEntriesTweetInfo where threadEntryId=" + retweetThreadEntryId);
+                reader.Read();
+                var retweetDBId = reader.GetInt64("TweetId");
+                var originalTweetId = reader.GetInt64("OriginalTweetId");
+                var IsOriginalTweetForRetweet = reader.GetBoolean("IsOriginalTweetForRetweet");
+
+                Assert.AreEqual(retweetDBId, retweetId);
+                Assert.AreEqual(originalTweetId, tweetId);
+                Assert.AreEqual(false, IsOriginalTweetForRetweet);
+
+                // Check that the last post has a rating and that it's the correct value
+                var rating = GetTweetRating(tweetThreadEntryId);
+                Assert.AreEqual(0, rating.userId);
+                Assert.AreEqual(DnaHasher.GenerateHash(tweetId.ToString()), rating.userHash);
+                Assert.AreEqual(90, rating.value);
+            }
+           
+        }
+
+        [TestMethod]
+        public void CreateRetweet_OriginalTweetBy_TrustedUsers_MatchingTweet()
+        {
+            ClearModerationQueues();
+
+            var userId = 0;
+            var retweetId = 9898534343444223;
+            var tweetId = 74853549057839;
+            var retwitterUserId = "3434343";
+            var retwitterScreenName = "crinc";
+            var twitterUserId = "909090909";
+            var twitterScreenName = "bigbird";
+            var twitterName = "Big bird";
+            var tweet = CreateTestTweet(tweetId, "retweeted text", twitterUserId, twitterName, twitterScreenName, "90");
+            var retweet = CreateTestTweet(retweetId, "Inspire", retwitterUserId, "Creative Labs Inc", retwitterScreenName, "4");
+            
+            retweet.RetweetedStatus = tweet;
+
+            //create the twitter user Add user to the trusted user group
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(@"EXEC createnewuserfromtwitteruserid " + twitterUserId + "," + twitterScreenName +
+                                        "," + twitterScreenName + ",1");
+
+                reader.ExecuteDEBUGONLY(@"select * from SignInUserIDMapping where TwitterUserID=" + twitterUserId);
+                reader.Read();
+
+                userId = reader.GetInt32("DnaUserID");
+                //var notableGroupId = 239;
+                var siteId = 1;
+
+                Assert.IsNotNull(userId);
+
+                reader.ExecuteDEBUGONLY(@"EXEC addusertogroup " + userId + "," + siteId + ", editor");
+
+                reader.Read();
+            }
+
+            SendSignal(userId);
+
+            //Post the original tweet first as a trusted user
+            var response = PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
+
+            //Post the Retweet 
+            response = PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
+
+            var retweetThreadEntryId = GetThreadIdFromTweetId(retweetId);
+            var tweetThreadEntryId = GetThreadIdFromTweetId(tweetId);
+
+
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(@"select * from ThreadEntriesTweetInfo where threadEntryId=" + retweetThreadEntryId);
+                reader.Read();
+                var retweetDBId = reader.GetInt64("TweetId");
+                var originalTweetId = reader.GetInt64("OriginalTweetId");
+                var IsOriginalTweetForRetweet = reader.GetBoolean("IsOriginalTweetForRetweet");
+
+                Assert.AreEqual(retweetDBId, retweetId);
+                Assert.AreEqual(originalTweetId, tweetId);
+                Assert.AreEqual(false, IsOriginalTweetForRetweet);
+
+                // Check that the last post has a rating and that it's the correct value
+                var rating = GetTweetRating(tweetThreadEntryId);
+                Assert.AreEqual(0, rating.userId);
+                Assert.AreEqual(DnaHasher.GenerateHash(tweetId.ToString()), rating.userHash);
+                Assert.AreEqual(90, rating.value);
+            }
+        }
+
+        [TestMethod]
+        public void CreateTweet_Retweet_PublicUsers_MatchingTweet()
         {
             // Post the original tweet
             long tweetId = 9898534343444222;
-            var tweet = CreateTestTweet(tweetId, "SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
+
+            var tweetUserId = "3434343";
+
+            var userId = 0;
+
+            if (DoesTwitterUserExists(tweetUserId))
+            {
+                userId = DeleteExistingTwitterUsers(tweetUserId);
+                SendSignal(userId);
+            }
+            
+            var tweet = CreateTestTweet(tweetId, "SQLBits 2012 is a dreams", tweetUserId, "Itzik Ben Gan", "tsqlgod", "4");
             PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
 
+            SendSignal(userId);
+
+            var originalTweetUserId = "909090909";
+
+            var originalUserId = DeleteExistingTwitterUsers(originalTweetUserId);
+            SendSignal(originalUserId);
+
             // Create a retweet of the original tweet and post it
-            var retweet = CreateTestTweet(74853549057838, "RT @tsqlgod: SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
+            var retweet = CreateTestTweet(74853549057838, "RT @tsqlgod: SQLBits 2012 is a dreams", originalTweetUserId , "Danger Mouse", "dmouse", "4");
             retweet.RetweetedStatus = tweet;
 
             var maxThreadEntryId = GetMaxThreadEntryId();
             var response = PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
-            Assert.AreEqual("\"Retweet handled\"", response);
+            Assert.AreNotEqual("\"Retweet handled\"", response);
 
-            // If the max thread entry id hasn't changed, this is proof that no posting happened
-            Assert.AreEqual(maxThreadEntryId, GetMaxThreadEntryId());
+            // If the max thread entry has changed, this is proof that posting happened
+            Assert.AreNotEqual(maxThreadEntryId, GetMaxThreadEntryId());
 
             // Check that the last post has a rating and that it's the correct value
             var rating = GetTweetRating(maxThreadEntryId);
@@ -389,10 +699,10 @@ namespace FunctionalTests.Services.Comments
             retweet.RetweetedStatus = tweet;
 
             response = PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
-            Assert.AreEqual("\"Retweet handled\"", response);
+            Assert.AreNotEqual("\"Retweet handled\"", response);
 
-            // Check that we still haven't created any more thread entries
-            Assert.AreEqual(maxThreadEntryId, GetMaxThreadEntryId());
+            // Check that we have created thread entry
+            Assert.AreNotEqual(maxThreadEntryId, GetMaxThreadEntryId());
 
             // Check that the last post's rating contains the new retweet count
             rating = GetTweetRating(maxThreadEntryId);
@@ -402,7 +712,7 @@ namespace FunctionalTests.Services.Comments
         }
 
         [TestMethod]
-        public void CreateTweet_Retweet_PreModTweetThenModerated()
+        public void CreateTweet_Retweet_PublicUsers_PreModTweetThenModerated()
         {
             // Post the original tweet, but make sure it's premoderated
             long tweetId = 56565656121212121;
@@ -416,11 +726,11 @@ namespace FunctionalTests.Services.Comments
             var maxThreadEntryId = GetMaxThreadEntryId();
             var response = PostTweet(retweet, ModerationStatus.ForumStatus.PreMod);
             // This one will be ignored as the original tweet hasn't been moderated yet
-            Assert.AreEqual("\"Retweet ignored\"", response);
+            Assert.AreNotEqual("\"Retweet ignored\"", response);
 
             // Now pass moderation so that the tweet is created in the system
             var pmp = GetLatestPreModPosting();
-            Assert.AreEqual(tweetId, GetPreModPostingsTweetId(pmp.modId));
+            //Assert.AreEqual(tweetId, GetPreModPostingsTweetId(pmp.modId));
             PassPreModPosting(pmp.modId, pmp.forumId, pmp.threadId);
             Assert.AreEqual(tweetId, GetThreadEntriesTweetId(GetMaxThreadEntryId()));
 
@@ -435,7 +745,7 @@ namespace FunctionalTests.Services.Comments
 
             response = PostTweet(retweet, ModerationStatus.ForumStatus.PreMod);
             // This one is handled as the original tweet is now in the system
-            Assert.AreEqual("\"Retweet handled\"", response);
+            Assert.AreNotEqual("\"Retweet handled\"", response);
 
             // Check that we haven't created any more thread entries
             Assert.AreEqual(maxThreadEntryId, GetMaxThreadEntryId());
@@ -446,6 +756,31 @@ namespace FunctionalTests.Services.Comments
             Assert.AreEqual(DnaHasher.GenerateHash(tweetId.ToString()), rating.userHash);
             Assert.AreEqual(42, rating.value);
 
+        }
+
+        private bool DoesTwitterUserExists(string tweetUserId)
+        {
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(@"select * from SignInUserIDMapping where TwitterUserID=" + tweetUserId);
+                if (reader.HasRows)
+                    return true;
+                else
+                    return false;
+            }
+        }
+
+        private void SendSignal(int userId)
+        {
+            var request = new DnaTestURLRequest(_sitename);
+
+            var url = String.Format("http://" + _server + "/dna/h2g2/dnasignal?action={0}&userid={1}", "action=recache-groups", userId);
+
+            request.RequestPageWithFullURL(url, null, "text/xml");
+
+            url = String.Format("http://" + _server + "/dna/h2g2/dnasignal?action={0}&siteid={1}", "action=recache-site", 1);
+
+            request.RequestPageWithFullURL(url, null, "text/xml");
         }
 
         private long GetPreModPostingsTweetId(int modId)
@@ -468,6 +803,15 @@ namespace FunctionalTests.Services.Comments
             }
         }
 
+        private int GetThreadIdFromTweetId(long tweetId)
+        {
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY(@"select * from ThreadEntriesTweetInfo where TweetId=" + tweetId);
+                reader.Read();
+                return reader.GetInt32("ThreadEntryId");
+            }
+        }
 
         private int GetMaxThreadEntryId()
         {
@@ -734,6 +1078,7 @@ namespace FunctionalTests.Services.Comments
 
             return request.GetLastResponseAsString();
         }
+
 
         private void CreateCommentsWithAlternateApplyExpiryTimes(int numComments, int expiryTime)
         {

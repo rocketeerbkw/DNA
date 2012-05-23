@@ -14,6 +14,7 @@ using BBC.Dna.Utils;
 using Microsoft.ServiceModel.Web;
 using System.Linq;
 using System.Runtime.Serialization;
+using BBC.Dna.SocialAPI;
 
 namespace BBC.Dna.Services
 {
@@ -61,6 +62,8 @@ namespace BBC.Dna.Services
                     throw ApiException.GetError(ErrorType.ForumUnknown);
                 }
 
+                _commentObj.CallingUser = GetCallingTwitterUser(site, tweet);
+
                 if (tweet.IsRetweet)
                     return HandleRetweet(site, commentForumData, tweet);
                 else
@@ -73,38 +76,173 @@ namespace BBC.Dna.Services
 
         }
 
+        /// <summary>
+        /// Method that choses the way the retweet needs to be handled
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="commentForumData"></param>
+        /// <param name="tweet"></param>
+        /// <param name="commentObj"></param>
+        /// <returns></returns>
         private Stream HandleRetweet(ISite site, CommentForum commentForumData, Tweet tweet)
         {
-            var commentId = _commentObj.GetCommentIdFromTweetId(tweet.RetweetedStatus.id);
-            if (commentId > 0)
-            {
-                Guid userHash = DnaHasher.GenerateHash(tweet.RetweetedStatus.id.ToString());
-                short ratingValue = tweet.RetweetedStatus.RetweetCount();
-                var newValue = _commentObj.CreateCommentRating(commentForumData, site, commentId, 0, ratingValue, userHash);
-                return GetOutputStream("Retweet handled");
-            }
+            var callingOriginalTweetuser = GetCallingTwitterUser(site, tweet.RetweetedStatus);
 
-            return GetOutputStream("Retweet ignored");
+            if (callingOriginalTweetuser.IsTrustedUser())
+            {
+                return HandleRetweetOriginalTweetByTrustedUsers(site, commentForumData, tweet);
+            }
+            else
+            {
+                return HandleRetweetOriginalTweetByPublicUsers(site, commentForumData, tweet);
+            }
         }
 
+        /// <summary>
+        /// Just increments the rating value and ignores the retweet
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="commentForumData"></param>
+        /// <param name="tweet"></param>
+        /// <returns></returns>
+        private Stream HandleRetweetOriginalTweetByPublicUsers(ISite site, CommentForum commentForumData, Tweet tweet)
+        {
+            //Capture the retweet info in the thread entry table
+            CommentInfo retweetCommentInfo = CreateCommentFromTweet(site, commentForumData, tweet);
+
+            var commentId = _commentObj.GetCommentIdFromTweetId(tweet.RetweetedStatus.id);
+
+            if (commentId > 0) //increment the comment rating value and capture the retweet info
+            {
+                IncrementCommentRating(site, commentForumData, tweet, commentId);
+
+                if (retweetCommentInfo.IsPreModPosting)
+                {
+                    _commentObj.CreateRetweetInfoForPreModPostings(retweetCommentInfo.PreModPostingsModId, tweet.id, tweet.RetweetedStatus.id, false);
+                }
+                else
+                {
+                    _commentObj.CreateRetweetInfoForComment(retweetCommentInfo.ID, tweet.id, tweet.RetweetedStatus.id, false);
+                }
+
+                return GetOutputStream(retweetCommentInfo);
+            }
+            else // capture the retweet info only as the original tweet doesn't exist
+            {
+                if (retweetCommentInfo.IsPreModPosting)
+                {
+                    _commentObj.CreateRetweetInfoForPreModPostings(retweetCommentInfo.PreModPostingsModId, tweet.id, tweet.RetweetedStatus.id, true);
+                }
+                else
+                {
+                    _commentObj.CreateRetweetInfoForComment(retweetCommentInfo.ID, tweet.id, tweet.RetweetedStatus.id, true);
+                }
+
+                return GetOutputStream(retweetCommentInfo);
+            }
+        }
+
+        /// <summary>
+        /// Adds an entry to the threadmod table and increments the comment rating value
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="commentForumData"></param>
+        /// <param name="tweet"></param>
+        /// <returns></returns>
+        private Stream HandleRetweetOriginalTweetByTrustedUsers(ISite site, CommentForum commentForumData, Tweet tweet)
+        {
+            //Add an entry in the ThreadEntry table
+            CommentInfo retweetCommentInfo = CreateCommentFromTweet(site, commentForumData, tweet);
+            
+            var commentId = _commentObj.GetCommentIdFromTweetId(tweet.RetweetedStatus.id);
+
+            if (commentId < 1) //create the original tweet as it doesn't exist in the system and increment the rating value
+            {
+                CommentInfo originalTweetInfo = CreateCommentFromTweet(site, commentForumData, tweet.RetweetedStatus);
+
+                IncrementCommentRating(site, commentForumData, tweet, originalTweetInfo.ID);
+            }
+            else //just increment the comment rating value
+            {
+                IncrementCommentRating(site, commentForumData, tweet, commentId);
+            }
+
+            if (retweetCommentInfo.IsPreModPosting)
+            {
+                _commentObj.CreateRetweetInfoForPreModPostings(retweetCommentInfo.PreModPostingsModId, tweet.id, tweet.RetweetedStatus.id, false);
+            }
+            else
+            {
+                _commentObj.CreateRetweetInfoForComment(retweetCommentInfo.ID, tweet.id, tweet.RetweetedStatus.id, false);
+            }
+
+            return GetOutputStream(retweetCommentInfo);
+        }
+
+        /// <summary>
+        /// Increment the original tweet's rating value
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="commentForumData"></param>
+        /// <param name="tweet"></param>
+        /// <param name="commentId"></param>
+        /// <returns></returns>
+        private int IncrementCommentRating(ISite site, CommentForum commentForumData, Tweet tweet, int commentId)
+        {
+            Guid userHash = DnaHasher.GenerateHash(tweet.RetweetedStatus.id.ToString());
+            short ratingValue = tweet.RetweetedStatus.RetweetCount();
+            return _commentObj.CreateCommentRating(commentForumData, site, commentId, 0, ratingValue, userHash);
+            
+        }
+
+        /// <summary>
+        /// Create the thread entry and capture the tweet info
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="commentForumData"></param>
+        /// <param name="tweet"></param>
+        /// <returns></returns>
         private Stream HandleTweet(ISite site, CommentForum commentForumData, Tweet tweet)
         {
-            var callingUser = new CallingTwitterUser(readerCreator, dnaDiagnostic, cacheManager);
+            return GetOutputStream(CreateCommentFromTweet(site, commentForumData, tweet));
+        }
 
-            callingUser.CreateUserFromTwitterUser(site.SiteID, tweet.user);
-            callingUser.SynchroniseSiteSuffix(tweet.user.ProfileImageUrl);
-
-            _commentObj.CallingUser = callingUser;
+        /// <summary>
+        /// Creates the tweet and the relevant tweet info
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="commentForumData"></param>
+        /// <param name="tweet"></param>
+        /// <returns></returns>
+        private CommentInfo CreateCommentFromTweet(ISite site, CommentForum commentForumData, Tweet tweet)
+        {
+            _commentObj.CallingUser = GetCallingTwitterUser(site, tweet);
 
             CommentInfo commentInfo = _commentObj.CreateComment(commentForumData, tweet.CreateCommentInfo());
 
-            // If the comment has a ModId, this means that it's
             if (commentInfo.IsPreModPosting)
-                _commentObj.CreateTweetInfoForPreModPostings(commentInfo.PreModPostingsModId, tweet.id);
+                _commentObj.CreateTweetInfoForPreModPostings(commentInfo.PreModPostingsModId, tweet.id, 0, false);
             else
-                _commentObj.CreateTweetInfoForComment(commentInfo.ID, tweet.id);
+                _commentObj.CreateTweetInfoForComment(commentInfo.ID, tweet.id, 0, false);
 
-            return GetOutputStream(commentInfo);
+
+            return commentInfo;
+        }
+
+        /// <summary>
+        /// Creates a twitter user and returns the twitter user details
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="tweet"></param>
+        /// <returns></returns>
+        private CallingTwitterUser GetCallingTwitterUser(ISite site, Tweet tweet)
+        {
+            var callingTwitterUser = new CallingTwitterUser(readerCreator, dnaDiagnostic, cacheManager);
+
+            callingTwitterUser.CreateUserFromTwitterUser(site.SiteID, tweet.user);
+            callingTwitterUser.SynchroniseSiteSuffix(tweet.user.ProfileImageUrl);
+
+            return callingTwitterUser;
         }
      }
 }

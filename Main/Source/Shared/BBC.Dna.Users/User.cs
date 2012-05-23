@@ -317,6 +317,36 @@ namespace BBC.Dna.Users
         }
 
         /// <summary>
+        /// Check to see if the tweet user is a trusted user
+        /// </summary>
+        /// <param name="siteID"></param>
+        /// <param name="tweetUser"></param>
+        /// <returns></returns>
+        public bool IsTweetUserATrustedUser(int siteID, TweetUser tweetUser)
+        {
+            if (tweetUser.id == null || tweetUser.id.Length == 0)
+                throw new ArgumentException("Invalid twitterUserId parameter");
+
+            if (siteID == 0)
+                throw new ArgumentException("Invalid siteID parameter");
+
+            using (IDnaDataReader reader = CreateStoreProcedureReader("istweetuseratrusteduser"))
+            {
+                reader.AddParameter("twitteruserid", tweetUser.id);
+                reader.AddParameter("siteid", siteID);
+                reader.Execute();
+                if (reader.Read() && reader.HasRows)
+                {
+                    // Get the id for the user.
+                    SiteID = siteID;
+                    ReadUserDetails(reader);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
         /// Creates a new stored procedure reader for the given procedure
         /// </summary>
         /// <param name="procedureName">The name of the procedure you want to call</param>
@@ -688,6 +718,14 @@ namespace BBC.Dna.Users
             }
 
             return false;
+        }
+
+        public bool IsTrustedUser()
+        {
+            if (IsUserA(UserTypes.Notable) || IsUserA(UserTypes.Editor))
+                return true;
+            else
+                return false;
         }
 
         /// <summary>
