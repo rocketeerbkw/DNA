@@ -76,7 +76,15 @@ namespace BBC.Dna.SocialAPI.Tests
             catch (Exception ex)
             {
                 string twitterLimitException = "The remote server returned an unexpected response: (400) Bad Request.";
-                Assert.AreEqual(twitterLimitException, ex.Message);
+                string twitterHttpException = "The HTTP request was forbidden with client authentication scheme 'Basic'.";
+                if (ex.Message.Equals(twitterHttpException))
+                {
+                    Assert.AreEqual(twitterHttpException, ex.InnerException.Message);
+                }
+                else
+                {
+                    Assert.AreEqual(twitterLimitException, ex.Message);
+                }
             }
 
         }
@@ -96,9 +104,14 @@ namespace BBC.Dna.SocialAPI.Tests
             {
                 string twitterLimitException = "The remote server returned an unexpected response: (400) Bad Request.";
                 string twitterErrorNotFound = "The remote server returned an error: (404) Not Found.";
+                string twitterHttpException = "The HTTP request was forbidden with client authentication scheme 'Basic'.";
                 if (ex.InnerException.Message.Equals(twitterErrorNotFound))
                 {
                     Assert.AreEqual(twitterErrorNotFound, ex.InnerException.Message);
+                }
+                else if (ex.Message.Equals(twitterHttpException))
+                {
+                    Assert.AreEqual(twitterHttpException, ex.InnerException.Message);
                 }
                 else
                 {
