@@ -70,6 +70,5 @@ from cte_usersposts
 inner join dbo.VComments vu on vu.Id = cte_usersposts.EntryID
 left join dbo.ThreadEntriesTweetInfo tet on vu.Id = tet.ThreadEntryId and tet.IsOriginalTweetForRetweet <> 1
 left join dbo.VCommentsRatingValue crv with(noexpand)  on crv.entryid = cte_usersposts.EntryID
-where tet.IsOriginalTweetForRetweet <> 1 
-and n > @startindex and n <= @startindex + @itemsPerPage
+where n > @startindex and n <= @startindex + @itemsPerPage
 order by n
