@@ -85,7 +85,6 @@ namespace BBC.Dna.SocialAPI.Tests
         public void SearchTwitterUserByScreenName_ReturnInCorrectResults_AlwaysException()
         {
             var strTwitterScreenName = "DotNetUser";
-
             TwitterClient client = new TwitterClient();
             TweetUsers tweetUser = new TweetUsers();
 
