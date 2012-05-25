@@ -114,7 +114,7 @@ namespace FunctionalTests.Services.Comments
             using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
             {
                 reader.ExecuteDEBUGONLY("select * from signinuseridmapping where TwitterUserID=" + tweetUserId);
-                if (reader.HasRows)
+                if (reader.HasRows && reader.Read())
                 {
                     userId = reader.GetInt32NullAsZero("DnaUserID");
                     reader.ExecuteDEBUGONLY("delete from signinuseridmapping where TwitterUserID=" + tweetUserId);
@@ -774,11 +774,11 @@ namespace FunctionalTests.Services.Comments
         {
             var request = new DnaTestURLRequest(_sitename);
 
-            var url = String.Format("http://" + _server + "/dna/h2g2/dnasignal?action={0}&userid={1}", "action=recache-groups", userId);
+            var url = String.Format("http://" + _server + "/dna/h2g2/dnasignal?action={0}&userid={1}", "recache-groups", userId);
 
             request.RequestPageWithFullURL(url, null, "text/xml");
 
-            url = String.Format("http://" + _server + "/dna/h2g2/dnasignal?action={0}&siteid={1}", "action=recache-site", 1);
+            url = String.Format("http://" + _server + "/dna/h2g2/dnasignal?action={0}&siteid={1}", "recache-site", 1);
 
             request.RequestPageWithFullURL(url, null, "text/xml");
         }
