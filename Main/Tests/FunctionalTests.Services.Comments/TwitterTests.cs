@@ -416,12 +416,12 @@ namespace FunctionalTests.Services.Comments
         public void CreateRetweet_OriginalTweetBy_PublicUsers_MatchingTweet()
         {
             // Create a original tweet of the original tweet and post it
-            long tweetId = 74853549057840;
+            long tweetId = 74853549057843;
             var tweet = CreateTestTweet(tweetId, "RT @tsqlgod: SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
             PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
 
             // Post the retweet - 3434343 is the tweetuserid and should be a trusted user
-            long retweetId = 9898534343444233;
+            long retweetId = 9898534343444236;
             var retweet = CreateTestTweet(retweetId, "SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
             retweet.RetweetedStatus = tweet;
             PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
@@ -456,12 +456,12 @@ namespace FunctionalTests.Services.Comments
         public void RetrieveRetweetInfo_CommentForum()
         {
             // Create a original tweet of the original tweet and post it
-            long tweetId = 74853549057840;
+            long tweetId = 74853549057842;
             var tweet = CreateTestTweet(tweetId, "SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
             PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
 
             // Post the retweet - 3434343 is the tweetuserid and should be a trusted user
-            long retweetId = 9898534343444233;
+            long retweetId = 9898534343444235;
             var retweet = CreateTestTweet(retweetId, "RT @dmouse: SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
             retweet.RetweetedStatus = tweet;
             PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
