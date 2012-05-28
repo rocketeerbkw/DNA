@@ -79,7 +79,7 @@ namespace BBC.Dna.SocialAPI.Tests
                 string twitterHttpException = "The HTTP request was forbidden with client authentication scheme 'Basic'.";
                 if (ex.Message.Equals(twitterHttpException))
                 {
-                    Assert.AreEqual(twitterHttpException, ex.InnerException.Message);
+                    Assert.AreEqual(twitterHttpException, ex.Message);
                 }
                 else
                 {
@@ -111,7 +111,7 @@ namespace BBC.Dna.SocialAPI.Tests
                 }
                 else if (ex.Message.Equals(twitterHttpException))
                 {
-                    Assert.AreEqual(twitterHttpException, ex.InnerException.Message);
+                    Assert.AreEqual(twitterHttpException, ex.Message);
                 }
                 else
                 {
