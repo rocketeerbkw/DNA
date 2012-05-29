@@ -66,8 +66,8 @@ namespace FunctionalTests.Services.Comments
 
             var tweetUserId = "24870588";
 
-            var userId = DeleteExistingTwitterUsers(tweetUserId);
-            SendSignal(userId);
+            //var userId = DeleteExistingTwitterUsers(tweetUserId);
+            //SendSignal(userId);
 
             //Deleting the existing tweet
             var existingTweetId = DeleteExistingTweet(1986455438849);
@@ -94,9 +94,9 @@ namespace FunctionalTests.Services.Comments
             var twitterUserId = "12345678";
 
             //Reset the tweet user from DB and also in the cache
-            var userId = DeleteExistingTwitterUsers(twitterUserId);
+            //var userId = DeleteExistingTwitterUsers(twitterUserId);
 
-            SendSignal(userId);
+            //SendSignal(userId);
 
             //Deleting the existing tweet
             var existingTweetId = DeleteExistingTweet(1099511627786);
@@ -157,8 +157,8 @@ namespace FunctionalTests.Services.Comments
 
             var tweetUserId = "9876543";
 
-            var userId = DeleteExistingTwitterUsers(tweetUserId);
-            SendSignal(userId);
+            //var userId = DeleteExistingTwitterUsers(tweetUserId);
+            //SendSignal(userId);
 
             //Deleting the existing tweet
             var existingTweetId = DeleteExistingTweet(1099511627786);
@@ -587,7 +587,7 @@ namespace FunctionalTests.Services.Comments
             var tweetId = 74853549057839;
             var twitterUserId = "3434343";
             var twitterScreenName = "crinc";
-            var originalTwitterUserId = "909090909";
+            var originalTwitterUserId = "909090910";
             var originalTwitterScreenName = "bigbird";
 
             //Deleting the existing tweet
@@ -623,6 +623,8 @@ namespace FunctionalTests.Services.Comments
             #region SendSignalUsergroup
 
             SendSignal(userId);
+
+            System.Threading.Thread.Sleep(15000);
 
             #endregion
 
@@ -665,7 +667,7 @@ namespace FunctionalTests.Services.Comments
             var tweetId = 74853549057839;
             var retwitterUserId = "3434343";
             var retwitterScreenName = "crinc";
-            var twitterUserId = "909090909";
+            var twitterUserId = "909090910";
             var twitterScreenName = "bigbird";
             var twitterName = "Big bird";
 
@@ -702,6 +704,8 @@ namespace FunctionalTests.Services.Comments
             }
 
             SendSignal(userId);
+
+            System.Threading.Thread.Sleep(15000);
 
             //Post the original tweet first as a trusted user
             var response = PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
@@ -743,11 +747,11 @@ namespace FunctionalTests.Services.Comments
 
             var userId = 0;
 
-            if (DoesTwitterUserExists(tweetUserId))
-            {
-                userId = DeleteExistingTwitterUsers(tweetUserId);
-                SendSignal(userId);
-            }
+            //if (DoesTwitterUserExists(tweetUserId))
+            //{
+            //    userId = DeleteExistingTwitterUsers(tweetUserId);
+            //    SendSignal(userId);
+            //}
 
             //Deleting the existing tweet
             var existingTweetId = DeleteExistingTweet(tweetId);
@@ -755,12 +759,12 @@ namespace FunctionalTests.Services.Comments
             var tweet = CreateTestTweet(tweetId, "SQLBits 2012 is a dreams", tweetUserId, "Itzik Ben Gan", "tsqlgod", "4");
             PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
 
-            SendSignal(userId);
+            //SendSignal(userId);
 
             var originalTweetUserId = "909090909";
 
-            var originalUserId = DeleteExistingTwitterUsers(originalTweetUserId);
-            SendSignal(originalUserId);
+            //var originalUserId = DeleteExistingTwitterUsers(originalTweetUserId);
+            //SendSignal(originalUserId);
 
             //Deleting the existing tweet
             var existingreTweetId = DeleteExistingTweet(74853549057838);
