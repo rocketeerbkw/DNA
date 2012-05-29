@@ -69,6 +69,9 @@ namespace FunctionalTests.Services.Comments
             var userId = DeleteExistingTwitterUsers(tweetUserId);
             SendSignal(userId);
 
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(1986455438849);
+
             var tweet = CreateTestTweet(1986455438849,"Here's Johnny",tweetUserId,"Chico Charlesworth", "ccharlesworth");
             var tweetData = CreatTweetXmlData(tweet);
 
@@ -94,6 +97,9 @@ namespace FunctionalTests.Services.Comments
             var userId = DeleteExistingTwitterUsers(twitterUserId);
 
             SendSignal(userId);
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(1099511627786);
 
             var tweet = CreateTestTweet(1099511627786, "Go ahead punk", twitterUserId, "Mr Furry Geezer", "furrygeezer");
             var tweetData = CreateTweetJsonData(tweet);
@@ -125,6 +131,24 @@ namespace FunctionalTests.Services.Comments
             return userId;
         }
 
+        private int DeleteExistingTweet(long tweetId)
+        {
+            var tweetID = 0;
+
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY("select * from dbo.ThreadEntriesTweetInfo where TweetId=" + tweetId);
+                if (reader.HasRows && reader.Read())
+                {
+                    tweetID = reader.GetInt32NullAsZero("TweetId");
+                    reader.ExecuteDEBUGONLY("delete from dbo.ThreadEntriesTweetInfo where TweetId=" + tweetId);
+                    Assert.IsNotNull(reader);
+                }
+            }
+
+            return tweetID;
+        }
+
         [TestMethod]
         public void CreateTweet_SameUserMultipleTweets()
         {
@@ -135,8 +159,15 @@ namespace FunctionalTests.Services.Comments
             var userId = DeleteExistingTwitterUsers(tweetUserId);
             SendSignal(userId);
 
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(1099511627786);
+
             var tweet = CreateTestTweet(1099511627786, "The Hell Of It All", tweetUserId, "Mr Furry Geezer", "furrygeezer");
             CreateTweet_SameUserMultipleTweets_Helper(tweet);
+
+
+            //Deleting the existing tweet
+            var existingTweetId1 = DeleteExistingTweet(1099511627796);
 
             tweet = CreateTestTweet(1099511627796, "Scar Tissue", "9876543", "Mr Furry Geezer", "furrygeezer");
             CreateTweet_SameUserMultipleTweets_Helper(tweet);
@@ -161,6 +192,11 @@ namespace FunctionalTests.Services.Comments
         public void CreateTweet_WithJsonData_BadSiteURL()
         {
             string badTweetPostUrl = String.Format("http://" + _server + "/dna/api/comments/TwitterService.svc/V1/site/0/commentsforums/{0}/", _commentForumReactive.Id);
+
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(9583548405684);
+
             var tweet = CreateTestTweet(9583548405684, "text", "1234", "Mr Flea - Bass maestro", "Flea");
             var tweetData = CreateTweetJsonData(tweet);
 
@@ -330,6 +366,11 @@ namespace FunctionalTests.Services.Comments
 
             var text = "Notes from a big country";
             var tweetId = 64645735745376;
+
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(tweetId);
+
             var tweet = CreateTestTweet(tweetId, text, "76767676", "Bill Bryson", "Bryson");
             PostTweet(tweet, ModerationStatus.ForumStatus.PreMod);
 
@@ -386,10 +427,18 @@ namespace FunctionalTests.Services.Comments
         {
             // Post the retweet - 3434343 is the tweetuserid and should be a trusted user
             long retweetId = 9898534343444234;
+
+            //Deleting the existing tweet
+            var existingreTweetId = DeleteExistingTweet(retweetId);
+
             var retweet = CreateTestTweet(retweetId, "SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
 
             // Create a original tweet of the original tweet and don't post it
             long tweetId = 74853549057841;
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(tweetId);
+
             var tweet = CreateTestTweet(tweetId, "RT @tsqlgod: SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
             retweet.RetweetedStatus = tweet;
 
@@ -417,11 +466,20 @@ namespace FunctionalTests.Services.Comments
         {
             // Create a original tweet of the original tweet and post it
             long tweetId = 74853549057843;
+
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(tweetId);
+
             var tweet = CreateTestTweet(tweetId, "RT @tsqlgod: SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
             PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
 
             // Post the retweet - 3434343 is the tweetuserid and should be a trusted user
             long retweetId = 9898534343444236;
+
+            //Deleting the existing tweet
+            var existingreTweetId = DeleteExistingTweet(retweetId);
+
             var retweet = CreateTestTweet(retweetId, "SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
             retweet.RetweetedStatus = tweet;
             PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
@@ -457,11 +515,19 @@ namespace FunctionalTests.Services.Comments
         {
             // Create a original tweet of the original tweet and post it
             long tweetId = 74853549057842;
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(tweetId);
+
             var tweet = CreateTestTweet(tweetId, "SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
             PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
 
             // Post the retweet - 3434343 is the tweetuserid and should be a trusted user
             long retweetId = 9898534343444235;
+
+            //Deleting the existing tweet
+            var existingreTweetId = DeleteExistingTweet(retweetId);
+
             var retweet = CreateTestTweet(retweetId, "RT @dmouse: SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
             retweet.RetweetedStatus = tweet;
             PostTweet(retweet, ModerationStatus.ForumStatus.Reactive);
@@ -522,7 +588,15 @@ namespace FunctionalTests.Services.Comments
             var twitterScreenName = "crinc";
             var originalTwitterUserId = "909090909";
             var originalTwitterScreenName = "bigbird";
+
+            //Deleting the existing tweet
+            var existingreTweetId = DeleteExistingTweet(retweetId);
+
             var retweet = CreateTestTweet(retweetId, "Inspire", twitterUserId, "Creative Labs Inc", twitterScreenName, "4");
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(tweetId);
+
             retweet.RetweetedStatus = CreateTestTweet(tweetId, "retweeted text", originalTwitterUserId, "Big bird", originalTwitterScreenName, "90");
 
             //create the twitter user Add user to the trusted user group
@@ -593,7 +667,15 @@ namespace FunctionalTests.Services.Comments
             var twitterUserId = "909090909";
             var twitterScreenName = "bigbird";
             var twitterName = "Big bird";
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(tweetId);
+
             var tweet = CreateTestTweet(tweetId, "retweeted text", twitterUserId, twitterName, twitterScreenName, "90");
+
+            //Deleting the existing tweet
+            var existingreTweetId = DeleteExistingTweet(retweetId);
+
             var retweet = CreateTestTweet(retweetId, "Inspire", retwitterUserId, "Creative Labs Inc", retwitterScreenName, "4");
             
             retweet.RetweetedStatus = tweet;
@@ -665,7 +747,10 @@ namespace FunctionalTests.Services.Comments
                 userId = DeleteExistingTwitterUsers(tweetUserId);
                 SendSignal(userId);
             }
-            
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(tweetId);
+
             var tweet = CreateTestTweet(tweetId, "SQLBits 2012 is a dreams", tweetUserId, "Itzik Ben Gan", "tsqlgod", "4");
             PostTweet(tweet, ModerationStatus.ForumStatus.Reactive);
 
@@ -675,6 +760,9 @@ namespace FunctionalTests.Services.Comments
 
             var originalUserId = DeleteExistingTwitterUsers(originalTweetUserId);
             SendSignal(originalUserId);
+
+            //Deleting the existing tweet
+            var existingreTweetId = DeleteExistingTweet(74853549057838);
 
             // Create a retweet of the original tweet and post it
             var retweet = CreateTestTweet(74853549057838, "RT @tsqlgod: SQLBits 2012 is a dreams", originalTweetUserId , "Danger Mouse", "dmouse", "4");
@@ -695,6 +783,10 @@ namespace FunctionalTests.Services.Comments
 
             // Create another retweet with a different retweet count, and post it
             tweet.RetweetCountString = "56";
+
+            //Deleting the existing tweet
+            var existingreTweetId2 = DeleteExistingTweet(122435565688909);
+            
             retweet = CreateTestTweet(122435565688909, "RT @tsqlgod: SQLBits 2012 is a dreams", "2626262626", "Penfold", "pfold", "56");
             retweet.RetweetedStatus = tweet;
 
@@ -716,8 +808,15 @@ namespace FunctionalTests.Services.Comments
         {
             // Post the original tweet, but make sure it's premoderated
             long tweetId = 56565656121212121;
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(tweetId);
+
             var tweet = CreateTestTweet(tweetId, "SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
             PostTweet(tweet, ModerationStatus.ForumStatus.PreMod);
+
+            //Deleting the existing tweet
+            var existingreTweetId = DeleteExistingTweet(74853549057838);
 
             // Create a retweet of the original tweet and post it
             var retweet = CreateTestTweet(74853549057838, "RT @tsqlgod: SQLBits 2012 is a dreams", "909090909", "Danger Mouse", "dmouse", "4");
@@ -740,6 +839,10 @@ namespace FunctionalTests.Services.Comments
 
             // Create another retweet with a different retweet count, and post it
             tweet.RetweetCountString = "42";
+
+            //Deleting the existing tweet
+            var existingreTweetId2 = DeleteExistingTweet(122435565688909);
+
             retweet = CreateTestTweet(122435565688909, "RT @tsqlgod: SQLBits 2012 is a dreams", "2626262626", "Penfold", "pfold", "42");
             retweet.RetweetedStatus = tweet;
 
@@ -906,6 +1009,10 @@ namespace FunctionalTests.Services.Comments
                                 "<a href=\"http://t.co/H3G9ZQGc\">http://t.co/H3G9ZQGc</a> and ftp://t.co/H3G9ZQGc";
             var twitterUserId = "24870599";
             var screenName = "ccharlesworth";
+
+            //Deleting the existing tweet
+            var existingtweetId = DeleteExistingTweet(876378637863786);
+
             var tweet = CreateTestTweet(876378637863786, text, twitterUserId, "Chico", screenName);
             var tweetData = CreatTweetXmlData(tweet);
 
@@ -929,13 +1036,22 @@ namespace FunctionalTests.Services.Comments
             // Post three tweets, and collect the param list for the ModeratePost call later
             // It checked that only failed tweets get archived to the "Deleted" tables
 
+            //Deleting the existing tweet
+            var existingtweetId = DeleteExistingTweet(64645735745376);
+
             // This one will fail moderation
             PostTweet(CreateTestTweet(64645735745376, "I, Partridge", "76767676", "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
             AddLatestPreModPostingToParamList(paramList, ModerationItemStatus.Failed, BBC.Dna.Api.PostStyle.Style.tweet);
 
+            //Deleting the existing tweet
+            var existingtweetId2 = DeleteExistingTweet(64645735745377);
+
             // This one will pass moderation
             PostTweet(CreateTestTweet(64645735745377, "chat suicide", "76767676", "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
             AddLatestPreModPostingToParamList(paramList, ModerationItemStatus.Passed, BBC.Dna.Api.PostStyle.Style.tweet);
+
+            //Deleting the existing tweet
+            var existingtweetId3 = DeleteExistingTweet(64645735745378);
 
             // This one will fail moderation, but the post style is not a tweet
             PostTweet(CreateTestTweet(64645735745378, "dormant volcano", "76767676", "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
@@ -1033,6 +1149,9 @@ namespace FunctionalTests.Services.Comments
                 case "Off": TestSite.SetSiteOption(_server, _sitename, "Moderation", "ProcessPreMod", 1, "0"); break;
                 default: Assert.Fail("Unknown processPremodSetting setting"); break;
             }
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(84745253749329);
 
             var tweet = CreateTestTweet(84745253749329, text, "4864748", "Mean machine", "meanmachine");
             PostTweet(tweet, ModerationStatus.ForumStatus.PreMod);
