@@ -1157,8 +1157,8 @@ namespace FunctionalTests.Services.Comments
                 default: Assert.Fail("Unknown processPremodSetting setting"); break;
             }
 
-            //Deleting the existing tweet
-            var existingTweetId = DeleteExistingTweet(84745253749329);
+            ////Deleting the existing tweet
+            //var existingTweetId = DeleteExistingTweet(84745253749329);
 
             var tweet = CreateTestTweet(84745253749329, text, "4864748", "Mean machine", "meanmachine");
             PostTweet(tweet, ModerationStatus.ForumStatus.PreMod);
