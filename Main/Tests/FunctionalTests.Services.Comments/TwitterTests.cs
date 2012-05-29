@@ -131,16 +131,16 @@ namespace FunctionalTests.Services.Comments
             return userId;
         }
 
-        private int DeleteExistingTweet(long tweetId)
+        private long DeleteExistingTweet(long tweetId)
         {
-            var tweetID = 0;
+            long tweetID = 0;
 
             using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
             {
                 reader.ExecuteDEBUGONLY("select * from dbo.ThreadEntriesTweetInfo where TweetId=" + tweetId);
                 if (reader.HasRows && reader.Read())
                 {
-                    tweetID = reader.GetInt32NullAsZero("TweetId");
+                    tweetID = reader.GetLongNullAsZero("TweetId");
                     reader.ExecuteDEBUGONLY("delete from dbo.ThreadEntriesTweetInfo where TweetId=" + tweetId);
                     Assert.IsNotNull(reader);
                 }
