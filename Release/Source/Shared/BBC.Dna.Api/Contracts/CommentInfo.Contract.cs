@@ -113,6 +113,27 @@ namespace BBC.Dna.Api
             set;
         }
 
+        [DataMember(Name = ("twitterscreenname"), Order = 14)]
+        public string TwitterScreenName
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("retweetid"), Order = 15)]
+        public long RetweetId
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("retweetedby"), Order = 16)]
+        public string RetweetedBy
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// When true, this comment should go into the premodpostings table (if it requires moderation)
         /// and if the configured time ellapses since it was queued before it's moderated, it is removed from the queue

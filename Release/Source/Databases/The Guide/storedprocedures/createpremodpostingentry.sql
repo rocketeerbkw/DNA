@@ -171,7 +171,7 @@ IF EXISTS (SELECT * FROM dbo.PreModPostingsTweetInfo WHERE ModId = @ModId)
 BEGIN
 	DECLARE @TweetId bigint
 	SELECT @TweetId = TweetId FROM PreModPostingsTweetInfo WHERE ModId = @ModId
-	EXEC createtweetinfoforcomment @EntryID, @TweetId
+	EXEC createtweetinfoforcomment @EntryID, @TweetId, 0, 0 -- @retweetoriginaltweetid = 0 & @isoriginaltweetforretweet = false
 	DELETE PreModPostingsTweetInfo WHERE ModId = @ModId
 END
 

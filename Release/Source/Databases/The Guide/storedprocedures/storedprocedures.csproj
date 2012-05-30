@@ -1272,6 +1272,8 @@
     <None Include="CommentForumsReadBySiteNamePrefixWithinTimeFrame.sql" />
     <None Include="CommentForumsReadBySiteNameWithinTimeFrame.sql" />
     <None Include="commentreplycreate.sql" />
+    <None Include="commentsreadbyforumids.sql" />
+    <None Include="commentsreadbyforumidseditorpicksfilter.sql" />
     <None Include="commentsreadbythreadid.sql" />
     <None Include="commentthreadcreate.sql" />
     <None Include="CommentForumUpdate.sql" />
@@ -1281,6 +1283,8 @@
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
+    <None Include="createretweetinfoforcomment.sql" />
+    <None Include="createretweetinfoforpremodpostings.sql" />
     <None Include="CreateTweetInfoForComment.sql" />
     <None Include="CreateTweetInfoForPremodPostings.sql" />
     <None Include="doestwitteruserexists.sql" />

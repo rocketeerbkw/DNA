@@ -18,7 +18,7 @@ namespace BBC.Dna.Users
         bool IsUserSignedIn(string cookie, string policy, int siteID, string identityUserName, string ipAddress, Guid BBCUid);
         bool IsUserSignedInSecure(string cookie, string secureCookie, string policy, int siteID, string ipAddress, Guid BBCUid);
         bool CreateUserFromDnaUserID(int userID, int siteID);
-
+        bool IsTrustedUser();
         /// <summary>
         /// Get property that states whether or not the request is secure or not
         /// </summary>
