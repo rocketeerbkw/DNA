@@ -35,6 +35,7 @@ namespace BBC.Dna.Objects.Tests
             tags.Enqueue("<ale>");
             tags.Enqueue("<yikes>");
             tags.Enqueue(";)");
+            tags.Enqueue("<3");
             
 
             Queue<string> tagTranslation = new Queue<string>();
@@ -42,12 +43,14 @@ namespace BBC.Dna.Objects.Tests
             tagTranslation.Enqueue("ale");
             tagTranslation.Enqueue("yikes");
             tagTranslation.Enqueue("winkeye");
+            tagTranslation.Enqueue("specialheart");
             
             
 
             MockRepository mocks = new MockRepository();
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.HasRows).Return(true);
+            //reader.Stub(x => x.Read()).Return(true).Repeat.Times(4);
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(4);
             reader.Stub(x => x.GetStringNullAsEmpty("name")).Return("").WhenCalled(x => x.ReturnValue = tagTranslation.Dequeue());
             reader.Stub(x => x.GetStringNullAsEmpty("tag")).Return("").WhenCalled(x => x.ReturnValue = tags.Dequeue());
@@ -99,6 +102,33 @@ I thought it was interesting that Rick Stein added the courgettes at the same ti
             Assert.AreEqual(expected, translated);
         }
 
+        /// <summary>
+        /// Moderation bug
+        /// https://jira.dev.bbc.co.uk/browse/SPSMOD-248
+        /// </summary>
+        [TestMethod]
+        public void FormatPost_FormatWithAndWithoutCleaningHTMLTagsPlainText_ExpectCorrectResult()
+        {
+            var testText = "MEGGIE  i hope you like it a<b then c>f <3  _____________________________________________  My life. .  Kill ME!  -much love meggie >.< or else known as deadie.  p.s- never let me meet her again.  p.p.s-school or as I like to call it, 'concetration camp' starts tomorow.   p.p.p.s-SAVE ME!";
+            var expected = "MEGGIE  i hope you like it a&lt;b then c&gt;f &lt;3  _____________________________________________  My life. .  Kill ME!  -much love meggie &gt;.&lt; or else known as deadie.  p.s- never let me meet her again.  p.p.s-school or as I like to call it, 'concetration camp' starts tomorow.   p.p.p.s-SAVE ME!";
+            var translated = ThreadPost.FormatPost(testText, CommentStatus.Hidden.NotHidden, false, false);
+            Assert.AreEqual(expected, translated);
+        }
+
+        /// <summary>
+        /// Moderation bug - rich text will strip out the invalid html
+        /// https://jira.dev.bbc.co.uk/browse/SPSMOD-248
+        /// </summary>
+        [TestMethod]
+        public void FormatPost_FormatWithAndWithCleaningHTMLTagsRichText_ExpectCorrectResult()
+        {
+            var testText = "MEGGIE  i hope you like it a<b then c>f <3  _____________________________________________  My life. .  Kill ME!  -much love meggie >.< or else known as deadie.  p.s- never let me meet her again.  p.p.s-school or as I like to call it, 'concetration camp' starts tomorow.   p.p.p.s-SAVE ME!";
+            var expected = "MEGGIE  i hope you like it af .&lt; or else known as deadie.  p.s- never let me meet her again.  p.p.s-school or as I like to call it, 'concetration camp' starts tomorow.   p.p.p.s-SAVE ME!";
+            var translated = ThreadPost.FormatPost(testText, CommentStatus.Hidden.NotHidden, true, false);
+            Assert.AreEqual(expected, translated);
+        }
+
+
         [TestMethod()]
         public void FormatPost_HiddenAwaitingPreModeration_ReturnsHiddenText()
         {
@@ -113,6 +143,9 @@ I thought it was interesting that Rick Stein added the courgettes at the same ti
 
 
         }
+
+
+
 
         [TestMethod()]
         public void FormatPost_HiddenAwaitingReferral_ReturnsHiddenText()
