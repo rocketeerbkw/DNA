@@ -202,7 +202,7 @@ namespace BBC.Dna.Component
 
                         String translated = string.Empty;
 
-                        if (!dataReader.GetInt32NullAsZero("PostStyle").Equals(2)) //poststyle = 2 (plaintext)
+                        if (!dataReader.GetInt32NullAsZero("PostStyle").Equals((int)BBC.Dna.Api.PostStyle.Style.plaintext)) //poststyle = 2 (plaintext)
                             translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, true, false);
                         else
                             translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, false, false);
