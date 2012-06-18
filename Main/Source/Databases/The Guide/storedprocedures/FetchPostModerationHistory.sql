@@ -23,7 +23,7 @@ BEGIN
 	tm.forumid,
 	tm.threadid,
 	tm.postid,
-	tmh.eventdate as 'datequeued',
+	tm.datequeued,
 	tmh.eventdate as 'datelocked',
 	case when tmh.status=2 then tmh.eventdate else null end as 'datereferred',
 	tmh.eventdate as 'datecompleted',
