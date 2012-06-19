@@ -1,27 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xs:schema xmlns:i="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="BBC.Dna.Api" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="BBC.Dna.Api">
-	<xs:include schemaLocation="commentsSummary.xsd"/>
-	<xs:include schemaLocation="commentsList.xsd"/>
-	<xs:include schemaLocation="moderationServiceGroup.xsd"/>
-	<xs:element name="commentForum">
-		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="id" type="xs:string" />
-				<xs:element name="title" type="xs:string" />
-				<xs:element name="uri" type="xs:string" />
-				<xs:element name="sitename" type="xs:string" />
-				<xs:element name="parentUri" type="xs:string" />
-				<xs:element name="closeDate" type="xs:dateTime" />
-				<xs:element ref="moderationServiceGroup"/>
-				<xs:element name="updated" type="dateTimeHelper"/>
-				<xs:element name="created" type="dateTimeHelper"/>
-				<xs:element name="isClosed" type="xs:boolean" />
+  <xs:include schemaLocation="commentsSummary.xsd"/>
+  <xs:include schemaLocation="commentsList.xsd"/>
+  <xs:include schemaLocation="moderationServiceGroup.xsd"/>
+  <xs:element name="commentForum">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="id" type="xs:string" />
+        <xs:element name="title" type="xs:string" />
+        <xs:element name="uri" type="xs:string" />
+        <xs:element name="sitename" type="xs:string" />
+        <xs:element name="parentUri" type="xs:string" />
+        <xs:element name="closeDate" type="xs:dateTime" />
+        <xs:element ref="moderationServiceGroup"/>
+        <xs:element name="updated" type="dateTimeHelper"/>
+        <xs:element name="created" type="dateTimeHelper"/>
+        <xs:element name="isClosed" type="xs:boolean" />
         <xs:element name="identityPolicy" type="xs:string" />
         <xs:element name="allowNotSignedInCommenting" type="xs:boolean" />
         <xs:element name="forumId" type="xs:integer" />
-				<xs:element ref="commentsSummary"/>
-				<xs:element ref="commentsList"/>
-			</xs:sequence>
-		</xs:complexType>
-	</xs:element>
+        <xs:element name="isContactForm" type="xs:boolean" />
+        <xs:element ref="commentsSummary"/>
+        <xs:element ref="commentsList"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
 </xs:schema>

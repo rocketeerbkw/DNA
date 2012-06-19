@@ -137,6 +137,7 @@ namespace BBC.Dna.Services
                 case ErrorType.UnableToHideUnHideThread: StatusCode = HttpStatusCode.BadRequest; break;
                 case ErrorType.NotAuthorized: StatusCode = HttpStatusCode.Unauthorized; break;
                 case ErrorType.MissingUserAttributes: StatusCode = HttpStatusCode.Unauthorized; break;
+                case ErrorType.InvalidContactEmail: StatusCode = HttpStatusCode.BadRequest; break;
                 default: StatusCode = HttpStatusCode.InternalServerError; break;
             }
 

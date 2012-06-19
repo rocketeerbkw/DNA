@@ -119,6 +119,8 @@
     <Compile Include="BannedEmailTests.cs" />
     <Compile Include="CheckIfArticleShouldBeHidden.cs" />
     <Compile Include="CheckUserNameSetSiteOptionTests.cs" />
+    <Compile Include="CommentForumListTests.cs" />
+    <Compile Include="ContactFormListBuilderTests.cs" />
     <Compile Include="Dna.Api\CommentCreate.cs" />
     <Compile Include="Dna.Api\CommentForum.cs" />
     <Compile Include="Dna.Api\CommentForumCachingAndStats.cs" />
@@ -193,6 +195,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Createh2g2UnitTestingSite.bat" />
+    <Shadow Include="Test References\BBC.Dna.accessor" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Source\BBC.Dna\BBC.DNA.csproj">

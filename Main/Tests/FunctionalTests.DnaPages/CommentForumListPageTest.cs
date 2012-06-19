@@ -21,6 +21,7 @@ namespace FunctionalTests
         private string _firstUid = String.Empty;
         private string _forumId = string.Empty;
         private bool _setupRun = false;
+        private string _defaultForumTitle = "newTitle";
 
         private DnaTestURLRequest _request = new DnaTestURLRequest("haveyoursay");
 
@@ -105,7 +106,7 @@ namespace FunctionalTests
             //DnaXmlValidator validator = new DnaXmlValidator(forumXml, "CommentBox.xsd");
             //validator.Validate();
             //Console.WriteLine("After MakeSureWeHaveACommentForum");
-            _request.RequestPage("acs?dnaaction=add&dnahostpageurl=http://www.bbc.co.uk/dna/something&dnauid=this is some unique id blah de blah blah2&dnainitialtitle=newtitle&skin=purexml");
+            _request.RequestPage("acs?dnaaction=add&dnahostpageurl=http://www.bbc.co.uk/dna/something&dnauid=this is some unique id blah de blah blah2&dnainitialtitle=" + _defaultForumTitle +"&skin=purexml");
             XmlDocument xml = _request.GetLastResponseAsXML();
             //DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, "CommentBox.xsd");
             //validator.Validate();
@@ -132,6 +133,7 @@ namespace FunctionalTests
                 {
                     _firstUid = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM/@UID").Value.ToString();
                     _forumId = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM/@FORUMID").Value.ToString();//Required for testing the new feature
+                    _defaultForumTitle = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM/TITLE").InnerText;
                 }
             }
         }
@@ -690,7 +692,7 @@ namespace FunctionalTests
 
             XmlDocument xml = _request.GetLastResponseAsXML();
 
-            CheckEmailWasSent("Terms section updated for the forum, test.", "The Terms section of the forum");
+            CheckEmailWasSent("Terms section updated for the forum, " + _defaultForumTitle + ".", "The Terms section of the forum");
             
             XmlNode node;
 

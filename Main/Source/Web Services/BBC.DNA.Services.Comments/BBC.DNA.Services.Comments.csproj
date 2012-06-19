@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CommentsService.cs" />
+    <Compile Include="ContactFormService.cs" />
     <Compile Include="ReviewService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="samples\commentboxtestharness.aspx.designer.cs">
@@ -154,6 +155,7 @@
     <Content Include="status.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ContactFormService.svc" />
     <Content Include="memcachedstatus.aspx" />
     <Content Include="samples\commentboxtestharness.aspx" />
     <Content Include="samples\dna_comments.css" />

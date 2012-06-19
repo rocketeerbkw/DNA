@@ -86,7 +86,11 @@ namespace Tests
             /// Use the current values in the fields. Use this if you manually want to set
             /// username, password and cookie
             /// </summary>
-            CURRENTSETTINGS
+            CURRENTSETTINGS,
+            /// <summary>
+            /// The not logged in user settings
+            /// </summary>
+            NOTLOGGEDIN
         }
 
         /// <summary>
@@ -1114,7 +1118,7 @@ namespace Tests
                 {
                     webRequest.Method = "POST";
                 }
-                
+
                 webRequest.ContentLength = data.Length;
                 try
                 {

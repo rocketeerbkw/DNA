@@ -276,6 +276,10 @@ namespace BBC.Dna.Api
             {
                 spName = "commentsreadbyforumideditorpicksfilter";
             }
+            else if (FilterBy == FilterBy.ContactFormPosts)
+            {
+                spName = "contactformpostsreadbyforumid";
+            }
 
             using (IDnaDataReader reader = CreateReader(spName))
             {
@@ -507,6 +511,7 @@ namespace BBC.Dna.Api
             {
                 throw ApiException.GetError(ErrorType.UnknownSite);
             }
+            
             var tmpCommentForum = GetCommentForumByUid(commentForum.Id, site);
             if (tmpCommentForum == null)
             {
@@ -543,6 +548,8 @@ namespace BBC.Dna.Api
             return tmpCommentForum;
         }
 
+        private string CONTACT_POST_TEXT = "Contact Form Post";
+
         /// <summary>
         /// Creates a comment for the given comment forum id
         /// </summary>
@@ -575,7 +582,14 @@ namespace BBC.Dna.Api
                 {
                     reader.AddParameter("commentforumid", commentForum.Id);
                     reader.AddParameter("userid", CallingUser.UserID);
-                    reader.AddParameter("content", comment.text);
+                    if (commentForum.isContactForm)
+                    {
+                        reader.AddParameter("content", CONTACT_POST_TEXT);
+                    }
+                    else
+                    {
+                        reader.AddParameter("content", comment.text);
+                    }
                     reader.AddParameter("hash", guid);
                     reader.AddParameter("forcemoderation", forceModeration);
                     //reader.AddParameter("forcepremoderation", (commentForum.ModerationServiceGroup == ModerationStatus.ForumStatus.PreMod?1:0));
@@ -639,10 +653,22 @@ namespace BBC.Dna.Api
                             replacement = new Dictionary<string, string>();
                             replacement.Add("commentforumid", commentForum.Id);
                             replacement.Add("sitename", site.SiteName);
-                            comment.ForumUri = UriDiscoverability.GetUriWithReplacments(BasePath,
-                                                                                        UriDiscoverability.UriType.
-                                                                                            CommentForumById,
-                                                                                        replacement);
+
+                            UriDiscoverability.UriType uriType = UriDiscoverability.UriType.CommentForumById;
+                            if (commentForum.isContactForm)
+                            {
+                                uriType = UriDiscoverability.UriType.ContactFormById;
+
+                                // We now need to store the comment in the encrypted thread entries table.
+                                using (IDnaDataReader contactDataReader = CreateReader("addencryptedcontactdetails"))
+                                {
+                                    contactDataReader.AddParameter("postid", comment.ID);
+                                    contactDataReader.AddParameter("text", comment.text);
+                                    contactDataReader.Execute();
+                                }
+                            }
+
+                            comment.ForumUri = UriDiscoverability.GetUriWithReplacments(BasePath, uriType, replacement);
                         }
                         else
                         {
@@ -925,7 +951,7 @@ namespace BBC.Dna.Api
                     reader.AddParameter("siteid", siteId);
                     reader.Execute();
 
-                    if (reader.HasRows && reader.Read())
+                    if (reader.HasRows && reader.Read() && !reader.IsDBNull("lastupdated"))
                     {
 //all good - read comments
                         lastUpdate = reader.GetDateTime("lastupdated");
@@ -1229,7 +1255,59 @@ namespace BBC.Dna.Api
             }
         }
 
+        /// <summary>
+        /// Creates a new contact form for a specificed site. If the contact form id already exists, then nothing will be created
+        /// </summary>
+        /// <param name="newContactForm">The new contact form object to create the contact form from</param>
+        /// <param name="site">The site that the form should belong to</param>
+        /// <returns>The contact form (either new or existing) which matches to the </returns>
+        public CommentForum CreateContactForm(ContactForm newContactForm, ISite site)
+        {
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
+
+            if (!CallingUser.IsUserA(UserTypes.Editor))
+            {
+                throw ApiException.GetError(ErrorType.NotAuthorized);
+            }
+
+            if (newContactForm.ContactEmail == null || !EmailAddressFilter.IsValidEmailAddresses(newContactForm.ContactEmail))
+            {
+                throw ApiException.GetError(ErrorType.InvalidContactEmail);
+            }
+
+            var contactForm = GetCommentForumByUid(newContactForm.Id, site);
+            if (contactForm == null)
+            {
+                newContactForm.ModerationServiceGroup = ModerationStatus.ForumStatus.Reactive;
+                CreateForum(newContactForm, site);
+                SetupContactFormDetails(newContactForm);
+                contactForm = GetCommentForumByUid(newContactForm.Id, site);
+            }
+            return contactForm;
+        }
+
         #region Private Functions
+
+        private void SetupContactFormDetails(ContactForm commentForum)
+        {
+            try
+            {
+                using (IDnaDataReader reader = CreateReader("setcommentforumascontactform"))
+                {
+                    reader.AddParameter("forumid", commentForum.ForumID);
+                    reader.AddParameter("contactemail", commentForum.ContactEmail);
+                    reader.Execute();
+                }
+            }
+            catch (Exception ex)
+            {
+                ApiException exception = ApiException.GetError(ErrorType.ForumUnknown, ex.InnerException);
+                throw exception;
+            }
+        }
 
         /// <summary>
         /// Creates the commentforumdata from a given reader
@@ -1275,13 +1353,26 @@ namespace BBC.Dna.Api
             var replacements = new Dictionary<string, string>();
             replacements.Add("commentforumid", reader.GetStringNullAsEmpty("uid"));
             replacements.Add("sitename", site.SiteName);
-            commentForum.Uri = UriDiscoverability.GetUriWithReplacments(BasePath,
-                                                                        UriDiscoverability.UriType.CommentForumById,
-                                                                        replacements);
-            commentForum.commentSummary.Uri = UriDiscoverability.GetUriWithReplacments(BasePath,
-                                                                                       UriDiscoverability.UriType.
-                                                                                           CommentsByCommentForumId,
-                                                                                       replacements);
+
+            if (reader.Exists("IsContactForm") && !reader.IsDBNull("IsContactForm"))
+            {
+                commentForum.isContactForm = true;
+                commentForum.Uri = UriDiscoverability.GetUriWithReplacments(BasePath,
+                                                                            UriDiscoverability.UriType.ContactFormById,
+                                                                            replacements);
+                commentForum.commentSummary.Uri = UriDiscoverability.GetUriWithReplacments(BasePath,
+                                                                                           UriDiscoverability.UriType.ContactFormById,
+                                                                                           replacements);
+            }
+            else
+            {
+                commentForum.Uri = UriDiscoverability.GetUriWithReplacments(BasePath,
+                                                                            UriDiscoverability.UriType.CommentForumById,
+                                                                            replacements);
+                commentForum.commentSummary.Uri = UriDiscoverability.GetUriWithReplacments(BasePath,
+                                                                                           UriDiscoverability.UriType.CommentsByCommentForumId,
+                                                                                           replacements);
+            }
 
             //get moderation status
             commentForum.ModerationServiceGroup = ModerationStatus.ForumStatus.Unknown;
@@ -1313,6 +1404,7 @@ namespace BBC.Dna.Api
 
             commentForum.NotSignedInUserId = reader.GetInt32NullAsZero("NotSignedInUserId");
             commentForum.allowNotSignedInCommenting = commentForum.NotSignedInUserId != 0;
+
             return commentForum;
         }
 
@@ -1472,8 +1564,9 @@ namespace BBC.Dna.Api
                 return false;
             }
             var lastUpdated = (DateTime) tempLastUpdated;
+
             //check if cache is up to date
-            if (DateTime.Compare(lastUpdated, CommentForumGetLastUpdate(uid, site.SiteID)) != 0)
+            if (DateTime.Compare(lastUpdated, CommentForumGetLastUpdate(uid, site.SiteID)) != 0 || lastUpdated == DateTime.MinValue)
             {
 //cache out of date so delete
                 DeleteCommentForumFromCache(uid, site);

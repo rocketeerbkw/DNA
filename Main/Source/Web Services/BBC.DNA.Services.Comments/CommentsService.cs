@@ -251,7 +251,6 @@ namespace BBC.Dna.Services
             return output;
         }
 
-
         [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{sitename}/commentsforums/{commentForumID}/")]
         [WebHelp(Comment = "Create a new comment forum for the specified site with comment")]
         [OperationContract]

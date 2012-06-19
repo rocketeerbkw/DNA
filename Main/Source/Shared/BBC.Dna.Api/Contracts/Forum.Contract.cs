@@ -123,5 +123,11 @@ namespace BBC.Dna.Api
         /// </summary>
         public DateTime LastUpdate;
 
+        [DataMember(Name = ("isContactForm"), Order = 15)]
+        public bool isContactForm
+        {
+            get;
+            set;
+        }
     }
 }

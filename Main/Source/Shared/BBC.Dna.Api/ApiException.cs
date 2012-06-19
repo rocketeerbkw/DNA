@@ -248,6 +248,10 @@ namespace BBC.Dna.Api
                     error = new ApiException("Entry Id is invalid or out of range", innerException);
                     break;
 
+                case ErrorType.InvalidContactEmail:
+                    error = new ApiException("Invalid Contact Email Provided", innerException);
+                    break;
+
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
                     break;
@@ -324,6 +328,7 @@ namespace BBC.Dna.Api
         NotAuthorized,
         MissingUserAttributes,
         PostFrequencyTimePeriodNotExpired,
-        InvalidEntryId
+        InvalidEntryId,
+        InvalidContactEmail
     }
 }

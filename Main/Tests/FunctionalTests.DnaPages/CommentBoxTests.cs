@@ -12,6 +12,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
+using System.Threading;
 
 
 
@@ -298,6 +299,8 @@ namespace FunctionalTests
             {
                 inputContext.SendSignal("action=recache-site");
             }
+
+            Thread.Sleep(2000);
 
             return true;
         }

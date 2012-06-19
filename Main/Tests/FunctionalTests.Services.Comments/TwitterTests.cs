@@ -745,8 +745,6 @@ namespace FunctionalTests.Services.Comments
 
             var tweetUserId = "3434343";
 
-            var userId = 0;
-
             //if (DoesTwitterUserExists(tweetUserId))
             //{
             //    userId = DeleteExistingTwitterUsers(tweetUserId);
