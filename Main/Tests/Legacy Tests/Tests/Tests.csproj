@@ -195,7 +195,6 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="Createh2g2UnitTestingSite.bat" />
-    <Shadow Include="Test References\BBC.Dna.accessor" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Source\BBC.Dna\BBC.DNA.csproj">
@@ -285,6 +284,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Shadow Include="Test References\BBC.Dna.accessor" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
