@@ -4,7 +4,6 @@
 
 #include "stdafx.h"
 #include "SSOBuilder.h"
-#include <ProfileApi.h>
 #include "Postcoder.h"
 #include "ProfileConnection.h"
 #include "XMLStringUtils.h"

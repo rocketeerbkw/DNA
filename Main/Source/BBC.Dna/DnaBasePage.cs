@@ -277,7 +277,6 @@ namespace BBC.Dna.Page
                 string identityWebServiceConnetionDetails = GetConnectionDetails["IdentityURL"].ConnectionString;
                 Diagnostics.WriteTimedEventToLog("IDENTITY", "Started with " + identityWebServiceConnetionDetails);
                 string clientIPAddress = GetParamStringOrEmpty("__ip__", "Client IP Address");
-                //_signInComponent = new DnaIdentityWebServiceProxy.DnaIdentityWebServiceProxy(identityWebServiceConnetionDetails, clientIPAddress);
                 _signInComponent = new DnaIdentityWebServiceProxy.IdentityRestSignIn(identityWebServiceConnetionDetails, clientIPAddress);
                 _signInComponent.SetService(CurrentSite.IdentityPolicy);
                 Diagnostics.WriteTimedEventToLog("IDENTITY", "Finished");
@@ -285,7 +284,7 @@ namespace BBC.Dna.Page
             else
             {
                 // Create a new profileAPI signin object
-                _signInComponent = new ProfileAPI(GetConnectionDetails["ProfileRead"].ConnectionString);
+                throw new NotSupportedException("The ProfileAPI is nolonger supported. Please set the site to use Identity as the Signin System.");
             }
 			
 			// If we have cached output available for this request, don't do any more work

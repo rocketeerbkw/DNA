@@ -29,8 +29,6 @@ any other party whatsoever.
 #include "ripleyserver.h"
 #include "TDVAssert.h"
 #include "StatusBuilder.h"
-#include <ProfileApi.h>
-
 #include "ripleystatistics.h"
 
 #ifdef _DEBUG
@@ -121,7 +119,7 @@ bool CStatusBuilder::AddRipleyServerInfo(CWholePage* pPage)
 	pPage->AddInside("STATUS-REPORT", sRipleyServerInfoXML);
 
 	CTDVString sProfileAPIVersionXML;
-	sProfileAPIVersionXML <<  "<PROFILEAPIVERSION>" << CProfileApi::GetVersion() << "</PROFILEAPIVERSION>";
+	sProfileAPIVersionXML <<  "<PROFILEAPIVERSION>0.0.0.0</PROFILEAPIVERSION>";
 	pPage->AddInside("STATUS-REPORT", sProfileAPIVersionXML);
 
 	return true;

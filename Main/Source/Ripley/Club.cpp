@@ -44,7 +44,7 @@ m_iJournalID(0),
 m_iForumID(0),
 m_iSiteID(1),
 m_iClubForumType(0),
-m_iStatus(ClubStatus::OPEN),
+m_iStatus(OPEN),
 m_bInitialised(false),
 m_PermissionUser(0),
 m_PermissionClub(0),
@@ -1410,7 +1410,7 @@ bool CClub::UpdateClub(const CTDVString& sTitle,const CTDVString& sBodyText,cons
 				bool bSiteModerated		= !(m_InputContext.IsSiteUnmoderated(m_iSiteID));
 				bool bUserModerated		= pViewer->GetIsPreModerated() || pViewer->GetIsPostModerated();
 				bool bArticleModerated	= CGuideEntry::IsArticleModerated(m_InputContext,h2g2ID);
-				bool bIsArticleInModeration	= CGuideEntry::IsArticleInModeration(m_InputContext,h2g2ID);
+				bool bIsArticleInModeration	= CGuideEntry::IsArticleInModeration(m_InputContext,h2g2ID) > 0;
 				
 				int iModId = 0;
 				if (bSiteModerated || bUserModerated || bArticleModerated || bIsArticleInModeration || bProfanitiesFound)
