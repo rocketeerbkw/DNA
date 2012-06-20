@@ -98,9 +98,6 @@ namespace Tests
             Assert.AreEqual(privateAccessor.requestedSiteID, expectedSiteID);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
         //[TestMethod]
         //public void GivenValidDataReaderShouldCreateXML()
         //{
