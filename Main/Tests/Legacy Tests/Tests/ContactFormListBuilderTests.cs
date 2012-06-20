@@ -101,18 +101,18 @@ namespace Tests
         /// <summary>
         /// 
         /// </summary>
-        [TestMethod]
-        public void GivenValidDataReaderShouldCreateXML()
-        {
-            Mockery mock = new Mockery();
-            IInputContext mockedInputContext = mock.NewMock<IInputContext>();
-            IDnaDataReader mockedReader = mock.NewMock<IDnaDataReader>();
+        //[TestMethod]
+        //public void GivenValidDataReaderShouldCreateXML()
+        //{
+        //    Mockery mock = new Mockery();
+        //    IInputContext mockedInputContext = mock.NewMock<IInputContext>();
+        //    IDnaDataReader mockedReader = mock.NewMock<IDnaDataReader>();
 
-            Stub.On(mockedInputContext).Method("CreateDnaDataReader").With("getcontactformslist").Will(Return.Value(mockedReader));
+        //    Stub.On(mockedInputContext).Method("CreateDnaDataReader").With("getcontactformslist").Will(Return.Value(mockedReader));
 
-            ContactFormListBuilder_Accessor privateAccessor = new ContactFormListBuilder_Accessor(mockedInputContext);
+        //    ContactFormListBuilder_Accessor privateAccessor = new ContactFormListBuilder_Accessor(mockedInputContext);
 
-            privateAccessor.GenerateXMLFromDataReader(mockedReader);
-        }
+        //    privateAccessor.GenerateXMLFromDataReader(mockedReader);
+        //}
     }
 }
