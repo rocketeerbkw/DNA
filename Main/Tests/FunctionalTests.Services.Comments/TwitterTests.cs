@@ -123,11 +123,11 @@ namespace FunctionalTests.Services.Comments
 
             using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("select * from signinuseridmapping where TwitterUserID=" + tweetUserId);
+                reader.ExecuteDEBUGONLY("select * from signinuseridmapping where TwitterUserID='" + tweetUserId + "'");
                 if (reader.HasRows && reader.Read())
                 {
                     userId = reader.GetInt32NullAsZero("DnaUserID");
-                    reader.ExecuteDEBUGONLY("delete from signinuseridmapping where TwitterUserID=" + tweetUserId);
+                    reader.ExecuteDEBUGONLY("delete from signinuseridmapping where TwitterUserID='" + tweetUserId + "'");
                     Assert.IsNotNull(reader);
                 }
             }
@@ -598,7 +598,7 @@ namespace FunctionalTests.Services.Comments
                 reader.ExecuteDEBUGONLY(@"EXEC createnewuserfromtwitteruserid " + originalTwitterUserId + "," + originalTwitterScreenName +
                                         "," + originalTwitterScreenName + ",1");
 
-                reader.ExecuteDEBUGONLY(@"select * from SignInUserIDMapping where TwitterUserID=" + originalTwitterUserId);
+                reader.ExecuteDEBUGONLY(@"select * from SignInUserIDMapping where TwitterUserID='" + originalTwitterUserId + "'");
                 reader.Read();
 
                 userId = reader.GetInt32("DnaUserID");
@@ -681,7 +681,7 @@ namespace FunctionalTests.Services.Comments
                 reader.ExecuteDEBUGONLY(@"EXEC createnewuserfromtwitteruserid " + twitterUserId + "," + twitterScreenName +
                                         "," + twitterScreenName + ",1");
 
-                reader.ExecuteDEBUGONLY(@"select * from SignInUserIDMapping where TwitterUserID=" + twitterUserId);
+                reader.ExecuteDEBUGONLY(@"select * from SignInUserIDMapping where TwitterUserID='" + twitterUserId + "'");
                 reader.Read();
 
                 userId = reader.GetInt32("DnaUserID");
@@ -862,7 +862,7 @@ namespace FunctionalTests.Services.Comments
         {
             using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY(@"select * from SignInUserIDMapping where TwitterUserID=" + tweetUserId);
+                reader.ExecuteDEBUGONLY(@"select * from SignInUserIDMapping where TwitterUserID='" + tweetUserId + "'");
                 if (reader.HasRows)
                     return true;
                 else
@@ -876,7 +876,14 @@ namespace FunctionalTests.Services.Comments
 
             var url = String.Format("http://" + _server + "/dna/h2g2/dnasignal?action={0}&userid={1}", "recache-groups", userId);
 
-            request.RequestPageWithFullURL(url, null, "text/xml");
+            try
+            {
+                request.RequestPageWithFullURL(url, null, "text/xml");
+            }
+            catch (Exception ex)
+            {
+                string v = ex.Message;
+            }
 
             url = String.Format("http://" + _server + "/dna/h2g2/dnasignal?action={0}&siteid={1}", "recache-site", 1);
 
