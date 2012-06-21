@@ -59,24 +59,39 @@ namespace FunctionalTests.Services.Comments
             _tweetPostUrlPremod = String.Format("http://" + _server + "/dna/api/comments/TwitterService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, _commentForumPremod.Id);
         }
 
+        private CommentForum CreateTestCommentForum(bool isReactiveModeration)
+        {
+            CommentsTests_V1 ct = new CommentsTests_V1();
+            CommentForum testCommentForum = null;
+            if (isReactiveModeration)
+            {
+                testCommentForum = ct.CommentForumCreate("Tests Reactive", Guid.NewGuid().ToString(), ModerationStatus.ForumStatus.Reactive);
+            }
+            else
+            {
+                testCommentForum = ct.CommentForumCreate("Tests Premod", Guid.NewGuid().ToString(), ModerationStatus.ForumStatus.PreMod);
+            }
+
+            return testCommentForum;
+        }
+
+        private string GetTweetPostURLForCommentForum(CommentForum commentForum)
+        {
+            return String.Format("http://" + _server + "/dna/api/comments/TwitterService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+        }
+
         [TestMethod]
         public void CreateTweet_WithXmlData()
         {
+            var testForum = CreateTestCommentForum(true);
             var request = new DnaTestURLRequest(_sitename);
 
             var tweetUserId = "24870588";
-
-            //var userId = DeleteExistingTwitterUsers(tweetUserId);
-            //SendSignal(userId);
-
-            //Deleting the existing tweet
-            var existingTweetId = DeleteExistingTweet(1986455438849);
-
-            var tweet = CreateTestTweet(1986455438849,"Here's Johnny",tweetUserId,"Chico Charlesworth", "ccharlesworth");
+            var tweet = CreateTestTweet(DateTime.Now.Ticks,"Here's Johnny",tweetUserId,"Chico Charlesworth", "ccharlesworth");
             var tweetData = CreatTweetXmlData(tweet);
 
             // now get the response
-            request.RequestPageWithFullURL(_tweetPostUrlReactive, tweetData, "text/xml");
+            request.RequestPageWithFullURL(GetTweetPostURLForCommentForum(testForum), tweetData, "text/xml");
 
             // Check to make sure that the page returned with the correct information
             var returnedCommentInfo = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
@@ -84,24 +99,13 @@ namespace FunctionalTests.Services.Comments
             TestCommentInfo(returnedCommentInfo, tweet);
         }
 
-
-
         [TestMethod]
         public void CreateTweet_WithJsonData()
         {
             var request = new DnaTestURLRequest(_sitename);
 
             var twitterUserId = "12345678";
-
-            //Reset the tweet user from DB and also in the cache
-            //var userId = DeleteExistingTwitterUsers(twitterUserId);
-
-            //SendSignal(userId);
-
-            //Deleting the existing tweet
-            var existingTweetId = DeleteExistingTweet(1099511627786);
-
-            var tweet = CreateTestTweet(1099511627786, "Go ahead punk", twitterUserId, "Mr Furry Geezer", "furrygeezer");
+            var tweet = CreateTestTweet(DateTime.Now.Ticks, "Go ahead punk", twitterUserId, "Mr Furry Geezer", "furrygeezer");
             var tweetData = CreateTweetJsonData(tweet);
 
             // now get the response
@@ -153,24 +157,12 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void CreateTweet_SameUserMultipleTweets()
         {
-            ClearModerationQueues(); //Need to check
-
             var tweetUserId = "9876543";
+            var tweet = CreateTestTweet(DateTime.Now.Ticks, "The Hell Of It All", tweetUserId, "Mr Furry Geezer", "furrygeezer");
 
-            //var userId = DeleteExistingTwitterUsers(tweetUserId);
-            //SendSignal(userId);
-
-            //Deleting the existing tweet
-            var existingTweetId = DeleteExistingTweet(1099511627786);
-
-            var tweet = CreateTestTweet(1099511627786, "The Hell Of It All", tweetUserId, "Mr Furry Geezer", "furrygeezer");
             CreateTweet_SameUserMultipleTweets_Helper(tweet);
 
-
-            //Deleting the existing tweet
-            var existingTweetId1 = DeleteExistingTweet(1099511627796);
-
-            tweet = CreateTestTweet(1099511627796, "Scar Tissue", "9876543", "Mr Furry Geezer", "furrygeezer");
+            tweet = CreateTestTweet(DateTime.Now.Ticks + 1, "Scar Tissue", tweetUserId, "Mr Furry Geezer", "furrygeezer");
             CreateTweet_SameUserMultipleTweets_Helper(tweet);
         }
 
@@ -1034,42 +1026,68 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void ArchiveFailedTweets_TweetArchived()
         {
-            ClearModerationQueues();
-
             var paramList = new DnaTestURLRequest.ParamList();
 
             // Post three tweets, and collect the param list for the ModeratePost call later
             // It checked that only failed tweets get archived to the "Deleted" tables
 
-            //Deleting the existing tweet
-            var existingtweetId = DeleteExistingTweet(64645735745376);
+            var testTweetID = 64645735745376;
+            var testTweetUserID = "76767676";
+
+            CommentForum testForum = CreateTestCommentForum(true);
+            string forumPostURL = GetTweetPostURLForCommentForum(testForum);
 
             // This one will fail moderation
-            PostTweet(CreateTestTweet(64645735745376, "I, Partridge", "76767676", "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
+            PostTweet(CreateTestTweet(testTweetID, "I, Partridge", testTweetUserID, "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
+        
+            // NEW CODE
+            //var tweet = CreateTestTweet(testTweetID, "I, Partridge", testTweetUserID, "Alan Partridge", "Ahah!");
+            //var request = new DnaTestURLRequest(_sitename);
+            //var tweetData = CreateTweetJsonData(tweet);
+            //request.RequestPageWithFullURL(forumPostURL, tweetData, "application/json");
+            // NEW CODE
+            
             AddLatestPreModPostingToParamList(paramList, ModerationItemStatus.Failed, BBC.Dna.Api.PostStyle.Style.tweet);
 
-            //Deleting the existing tweet
-            var existingtweetId2 = DeleteExistingTweet(64645735745377);
-
             // This one will pass moderation
-            PostTweet(CreateTestTweet(64645735745377, "chat suicide", "76767676", "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
+            PostTweet(CreateTestTweet(testTweetID, "chat suicide", testTweetUserID, "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
+            
+            // NEW CODE
+            //tweet = CreateTestTweet(testTweetID, "chat suicide", testTweetUserID, "Alan Partridge", "Ahah!");
+            //request = new DnaTestURLRequest(_sitename);
+            //tweetData = CreateTweetJsonData(tweet);
+            //request.RequestPageWithFullURL(forumPostURL, tweetData, "application/json");
+            // NEW CODE
+            
             AddLatestPreModPostingToParamList(paramList, ModerationItemStatus.Passed, BBC.Dna.Api.PostStyle.Style.tweet);
 
-            //Deleting the existing tweet
-            var existingtweetId3 = DeleteExistingTweet(64645735745378);
-
             // This one will fail moderation, but the post style is not a tweet
-            PostTweet(CreateTestTweet(64645735745378, "dormant volcano", "76767676", "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
+            PostTweet(CreateTestTweet(testTweetID, "dormant volcano", testTweetUserID, "Alan Partridge", "Ahah!"), ModerationStatus.ForumStatus.PreMod);
+            
+            // NEW CODE
+            //tweet = CreateTestTweet(testTweetID, "dormant volcano", testTweetUserID, "Alan Partridge", "Ahah!");
+            //request = new DnaTestURLRequest(_sitename);
+            //tweetData = CreateTweetJsonData(tweet);
+            //request.RequestPageWithFullURL(forumPostURL, tweetData, "application/json");
+            // NEW CODE
+
             AddLatestPreModPostingToParamList(paramList, ModerationItemStatus.Failed, BBC.Dna.Api.PostStyle.Style.plaintext);
             
             // Moderate these posts
             var request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
-            request.RequestPageWithParamList("ModeratePosts", paramList);
+
+            try
+            {
+                request.RequestPageWithParamList("ModeratePosts", paramList);
+            }
+            catch (Exception ex)
+            {
+                var m = ex.Message;
+            }
 
             using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
             {
-
                 reader.ExecuteDEBUGONLY(@"
                     select * 
                         from PreModPostingsDeleted pmpd
@@ -1077,24 +1095,24 @@ namespace FunctionalTests.Services.Comments
                         join ThreadModDeleted tmd on tmd.modid = pmptid.modid
                         where pmpd.reason='A' and pmptid.reason='A' and tmd.reason='A'");
                 Assert.IsTrue(reader.Read());
-                Assert.AreEqual(64645735745376, reader.GetInt64("tweetid"));
+                Assert.AreEqual(testTweetID, reader.GetInt64("tweetid"));
                 Assert.AreEqual("I, Partridge", reader.GetString("body"));
                 Assert.IsFalse(reader.Read(),"Only expecting one row of archived deleted posts");
 
                 // Check the last two posts are the other two moderated posts
                 reader.ExecuteDEBUGONLY(@"
-                    select top 2 * 
+                    select * 
                         from ThreadEntries te
                         join ThreadEntriesTweetInfo teti on teti.ThreadEntryId=te.EntryId
                         order by te.entryid desc");
 
                 Assert.IsTrue(reader.Read());
-                Assert.AreEqual(64645735745378, reader.GetInt64("tweetid"));
+                Assert.AreEqual(testTweetID, reader.GetInt64("tweetid"));
                 Assert.AreEqual("dormant volcano", reader.GetString("text"));
                 Assert.AreEqual(1, reader.GetInt32("Hidden"),"This post failed moderation so should be hidden");
 
                 Assert.IsTrue(reader.Read());
-                Assert.AreEqual(64645735745377, reader.GetInt64("tweetid"));
+                Assert.AreEqual(testTweetID, reader.GetInt64("tweetid"));
                 Assert.AreEqual("chat suicide", reader.GetString("text"));
                 Assert.IsFalse(reader.GetNullableInt32("Hidden").HasValue, "The hidden flag should be NULL, i.e. not hidded");
             }
@@ -1271,7 +1289,7 @@ namespace FunctionalTests.Services.Comments
 
             using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("select * from signinuseridmapping where TwitterUserID=" + tweet.user.id);
+                reader.ExecuteDEBUGONLY("select * from signinuseridmapping where TwitterUserID='" + tweet.user.id + "'");
                 Assert.IsTrue(reader.HasRows);
                 reader.Read();
                 var dnaUserId = reader.GetInt32("DnaUserId");
