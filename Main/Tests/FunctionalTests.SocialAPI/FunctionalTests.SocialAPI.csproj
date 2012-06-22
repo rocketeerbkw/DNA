@@ -7,7 +7,7 @@
     <ProjectGuid>{235D41BF-8288-42AC-B932-7D6E225DDAD0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FunctionalTests.SocialAPI.Tests</RootNamespace>
+    <RootNamespace>FunctionalTests.SocialAPI</RootNamespace>
     <AssemblyName>FunctionalTests.SocialAPI</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
