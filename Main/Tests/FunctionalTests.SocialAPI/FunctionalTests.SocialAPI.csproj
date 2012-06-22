@@ -55,7 +55,7 @@
     <Compile Include="SearchTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI.csproj">
+    <ProjectReference Include="..\..\Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI.csproj">
       <Project>{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D}</Project>
       <Name>BBC.Dna.SocialAPI %28Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI%29</Name>
     </ProjectReference>
