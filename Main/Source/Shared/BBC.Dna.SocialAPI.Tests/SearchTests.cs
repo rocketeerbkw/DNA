@@ -3,8 +3,9 @@ using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using BBC.Dna.SocialAPI;
 
-namespace BBC.Dna.SocialAPI.Tests
+namespace FunctionalTests.SocialAPI
 {
     /// <summary>
     /// Summary description for UnitTest1
