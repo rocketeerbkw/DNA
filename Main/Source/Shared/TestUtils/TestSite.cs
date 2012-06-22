@@ -9,6 +9,7 @@ using BBC.Dna.Utils;
 using BBC.Dna.Component;
 using BBC.Dna.Sites;
 using BBC.Dna.Moderation.Utils;
+using System.Threading;
 
 namespace Tests
 {
@@ -441,7 +442,7 @@ namespace Tests
             }
             DnaTestURLRequest myRequest = new DnaTestURLRequest(urlname);
             myRequest.RequestPageWithFullURL("http://" + server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site", "", "text/xml");
-
+            Thread.Sleep(2000);
         }
 
         #region IDnaComponent Members
