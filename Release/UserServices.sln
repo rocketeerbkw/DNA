@@ -158,7 +158,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		PublishRipleyDebug.bat = PublishRipleyDebug.bat
 		ripleyserver.xmlconf = ripleyserver.xmlconf
 		SmileyList.txt = SmileyList.txt
-		UserServices5.vsmdi = UserServices5.vsmdi
+		userservices5.vsmdi = userservices5.vsmdi
 		Web.config = Web.config
 	EndProjectSection
 EndProject
@@ -173,17 +173,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnterpriseLibrary", "Enterp
 		Source\Reference DLLs\EnterpriseLibrary\EntLibConfig.exe = Source\Reference DLLs\EnterpriseLibrary\EntLibConfig.exe
 		Source\Reference DLLs\EnterpriseLibrary\EntLibConfig.exe.config = Source\Reference DLLs\EnterpriseLibrary\EntLibConfig.exe.config
 		Source\Reference DLLs\EnterpriseLibrary\MergeConfiguration.exe = Source\Reference DLLs\EnterpriseLibrary\MergeConfiguration.exe
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.AppSettings.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.AppSettings.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.AppSettings.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.AppSettings.Configuration.Design.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Configuration.Design.XML
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.Configuration.Design.xml = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.Configuration.Design.xml
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Cryptography.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.Configuration.Design.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.dll
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.Database.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.XML
@@ -191,7 +188,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnterpriseLibrary", "Enterp
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.Design.UI.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.Design.UI.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.Design.UI.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.Design.UI.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.Design.XML
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.EnvironmentalOverrides.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.EnvironmentalOverrides.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.EnvironmentalOverrides.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Configuration.EnvironmentalOverrides.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Data.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Data.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Data.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Data.Configuration.Design.XML
@@ -200,12 +196,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnterpriseLibrary", "Enterp
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Data.SqlCe.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Data.SqlCe.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Data.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Data.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Configuration.Design.dll
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Configuration.Design.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.Configuration.Design.XML
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.dll
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.Logging.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.WCF.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.WCF.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.WCF.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.WCF.Configuration.Design.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.WCF.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.ExceptionHandling.WCF.dll
@@ -216,13 +209,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnterpriseLibrary", "Enterp
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.Database.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.Database.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.Database.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.Database.Configuration.Design.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.Database.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.Database.dll
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.Database.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.Database.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.Configuration.Design.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.dll
-		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.CallHandlers.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.Configuration.Design.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.Configuration.Design.dll
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.Configuration.Design.XML = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.Configuration.Design.XML
 		Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll = Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.PolicyInjection.dll
@@ -282,18 +273,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Saxon", "Saxon", "{E23162C3
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CertsAndGACUtils", "CertsAndGACUtils", "{88B566EF-02FA-4C58-A4E7-4BCC0E6C6091}"
-	ProjectSection(SolutionItems) = preProject
-		Source\Reference DLLs\CertsAndGACUtils\dna-dev.pfx = Source\Reference DLLs\CertsAndGACUtils\dna-dev.pfx
-		Source\Reference DLLs\CertsAndGACUtils\dna-live.pfx = Source\Reference DLLs\CertsAndGACUtils\dna-live.pfx
-		Source\Reference DLLs\CertsAndGACUtils\gacutil.exe = Source\Reference DLLs\CertsAndGACUtils\gacutil.exe
-		Source\Reference DLLs\CertsAndGACUtils\gacutil.exe.config = Source\Reference DLLs\CertsAndGACUtils\gacutil.exe.config
-		Source\Reference DLLs\CertsAndGACUtils\InstallCerts.bat = Source\Reference DLLs\CertsAndGACUtils\InstallCerts.bat
-		Source\Reference DLLs\CertsAndGACUtils\RegAsm.exe = Source\Reference DLLs\CertsAndGACUtils\RegAsm.exe
-		Source\Reference DLLs\CertsAndGACUtils\regasm.exe.config = Source\Reference DLLs\CertsAndGACUtils\regasm.exe.config
-		Source\Reference DLLs\CertsAndGACUtils\RegisterIdentityDLL-DevMachine.bat = Source\Reference DLLs\CertsAndGACUtils\RegisterIdentityDLL-DevMachine.bat
-		Source\Reference DLLs\CertsAndGACUtils\UnregisterOldIdentityDDL.bat = Source\Reference DLLs\CertsAndGACUtils\UnregisterOldIdentityDDL.bat
-		Source\Reference DLLs\CertsAndGACUtils\winhttpcertcfg.exe = Source\Reference DLLs\CertsAndGACUtils\winhttpcertcfg.exe
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ripley", "Ripley", "{1716050D-1B1B-4AF8-BF48-EE87B3D92431}"
 EndProject
@@ -312,63 +291,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RipleyServer", "Source\Ripl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RipleyTests", "Tests\Legacy Tests\RipleyTests\RipleyTests.csproj", "{351113F5-DBA7-4AE0-A218-1FFD165D1747}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "profileapi", "profileapi", "{9659F3CB-9747-4C28-A39B-79CC440599DE}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{D50C359B-5C27-4269-BECF-AA5E4D1BB5C9}"
-	ProjectSection(SolutionItems) = preProject
-		Source\Ripley\profileapi\profileapi\include\AdminLogMessage.h = Source\Ripley\profileapi\profileapi\include\AdminLogMessage.h
-		Source\Ripley\profileapi\profileapi\include\AdminMessage.h = Source\Ripley\profileapi\profileapi\include\AdminMessage.h
-		Source\Ripley\profileapi\profileapi\include\ApiAccess.h = Source\Ripley\profileapi\profileapi\include\ApiAccess.h
-		Source\Ripley\profileapi\profileapi\include\Attribute.h = Source\Ripley\profileapi\profileapi\include\Attribute.h
-		Source\Ripley\profileapi\profileapi\include\Code.h = Source\Ripley\profileapi\profileapi\include\Code.h
-		Source\Ripley\profileapi\profileapi\include\Constants.h = Source\Ripley\profileapi\profileapi\include\Constants.h
-		Source\Ripley\profileapi\profileapi\include\Countries.h = Source\Ripley\profileapi\profileapi\include\Countries.h
-		Source\Ripley\profileapi\profileapi\include\OtherUserStatus.h = Source\Ripley\profileapi\profileapi\include\OtherUserStatus.h
-		Source\Ripley\profileapi\profileapi\include\ProfileApi.h = Source\Ripley\profileapi\profileapi\include\ProfileApi.h
-		Source\Ripley\profileapi\profileapi\include\ProfileApiBase.h = Source\Ripley\profileapi\profileapi\include\ProfileApiBase.h
-		Source\Ripley\profileapi\profileapi\include\ProfileApiContext.h = Source\Ripley\profileapi\profileapi\include\ProfileApiContext.h
-		Source\Ripley\profileapi\profileapi\include\ProfileCodeRef.h = Source\Ripley\profileapi\profileapi\include\ProfileCodeRef.h
-		Source\Ripley\profileapi\profileapi\include\ProfileErrorMessage.h = Source\Ripley\profileapi\profileapi\include\ProfileErrorMessage.h
-		Source\Ripley\profileapi\profileapi\include\ProfileSql.h = Source\Ripley\profileapi\profileapi\include\ProfileSql.h
-		Source\Ripley\profileapi\profileapi\include\ProfileValue.h = Source\Ripley\profileapi\profileapi\include\ProfileValue.h
-		Source\Ripley\profileapi\profileapi\include\Service.h = Source\Ripley\profileapi\profileapi\include\Service.h
-		Source\Ripley\profileapi\profileapi\include\User.h = Source\Ripley\profileapi\profileapi\include\User.h
-		Source\Ripley\profileapi\profileapi\include\UserProfile.h = Source\Ripley\profileapi\profileapi\include\UserProfile.h
-		Source\Ripley\profileapi\profileapi\include\UserService.h = Source\Ripley\profileapi\profileapi\include\UserService.h
-		Source\Ripley\profileapi\profileapi\include\UserStatus.h = Source\Ripley\profileapi\profileapi\include\UserStatus.h
-		Source\Ripley\profileapi\profileapi\include\UserToUserRequest.h = Source\Ripley\profileapi\profileapi\include\UserToUserRequest.h
-		Source\Ripley\profileapi\profileapi\include\WarningPeriod.h = Source\Ripley\profileapi\profileapi\include\WarningPeriod.h
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bbcutil", "bbcutil", "{782B204B-C883-49B4-992A-E56A5C6670CD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{4CA9BB18-AD52-4B71-B168-71336F95A6D4}"
-	ProjectSection(SolutionItems) = preProject
-		Source\Ripley\profileapi\bbcutil\include\Cgi.h = Source\Ripley\profileapi\bbcutil\include\Cgi.h
-		Source\Ripley\profileapi\bbcutil\include\DirScanner.h = Source\Ripley\profileapi\bbcutil\include\DirScanner.h
-		Source\Ripley\profileapi\bbcutil\include\Dll.h = Source\Ripley\profileapi\bbcutil\include\Dll.h
-		Source\Ripley\profileapi\bbcutil\include\FileUt.h = Source\Ripley\profileapi\bbcutil\include\FileUt.h
-		Source\Ripley\profileapi\bbcutil\include\MiscUt.h = Source\Ripley\profileapi\bbcutil\include\MiscUt.h
-		Source\Ripley\profileapi\bbcutil\include\Str.h = Source\Ripley\profileapi\bbcutil\include\Str.h
-		Source\Ripley\profileapi\bbcutil\include\StrUt.h = Source\Ripley\profileapi\bbcutil\include\StrUt.h
-		Source\Ripley\profileapi\bbcutil\include\TimeUt.h = Source\Ripley\profileapi\bbcutil\include\TimeUt.h
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bbcdbc", "bbcdbc", "{BCA7212F-0FBA-4401-BA2C-366E345971A1}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{A3AE5E69-B5C3-4EC5-8747-6B3133B76C0C}"
-	ProjectSection(SolutionItems) = preProject
-		Source\Ripley\profileapi\bbcdbc\include\ConfFile.h = Source\Ripley\profileapi\bbcdbc\include\ConfFile.h
-		Source\Ripley\profileapi\bbcdbc\include\Configuration.h = Source\Ripley\profileapi\bbcdbc\include\Configuration.h
-		Source\Ripley\profileapi\bbcdbc\include\DBConnection.h = Source\Ripley\profileapi\bbcdbc\include\DBConnection.h
-		Source\Ripley\profileapi\bbcdbc\include\DBCursor.h = Source\Ripley\profileapi\bbcdbc\include\DBCursor.h
-		Source\Ripley\profileapi\bbcdbc\include\InClause.h = Source\Ripley\profileapi\bbcdbc\include\InClause.h
-		Source\Ripley\profileapi\bbcdbc\include\MySqlDBConnection.h = Source\Ripley\profileapi\bbcdbc\include\MySqlDBConnection.h
-		Source\Ripley\profileapi\bbcdbc\include\SQL.h = Source\Ripley\profileapi\bbcdbc\include\SQL.h
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "profileapi", "profileapi", "{F0432186-A062-496B-BA71-906766C5BA40}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vwcl", "vwcl", "{321FDD86-CD72-457D-A8AF-5038B62C52FE}"
 	ProjectSection(SolutionItems) = preProject
 		Source\Ripley\vwcl\vstandard.h = Source\Ripley\vwcl\vstandard.h
@@ -379,58 +301,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "networking", "networking", "{41C0ED7D-DF87-4C6D-9E93-DEAC789E2904}"
 	ProjectSection(SolutionItems) = preProject
 		Source\Ripley\vwcl\networking\vsmtpsocket.hpp = Source\Ripley\vwcl\networking\vsmtpsocket.hpp
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "debug", "debug", "{9E379CAA-5B2B-4C37-A28F-A804BEE61416}"
-	ProjectSection(SolutionItems) = preProject
-		Source\Ripley\profileapi\profileapi\debug\profileapi_d.dll = Source\Ripley\profileapi\profileapi\debug\profileapi_d.dll
-		Source\Ripley\profileapi\profileapi\debug\profileapi_d.lib = Source\Ripley\profileapi\profileapi\debug\profileapi_d.lib
-		Source\Ripley\profileapi\profileapi\debug\profileapi_d.pdb = Source\Ripley\profileapi\profileapi\debug\profileapi_d.pdb
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mysql", "mysql", "{480B30AF-4FF9-4188-B706-5A05D8447F6D}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "include", "include", "{C54DD6AC-BC30-4ADF-A47D-18CCB8709CDE}"
-	ProjectSection(SolutionItems) = preProject
-		Source\Ripley\mysql\include\config-netware.h = Source\Ripley\mysql\include\config-netware.h
-		Source\Ripley\mysql\include\config-os2.h = Source\Ripley\mysql\include\config-os2.h
-		Source\Ripley\mysql\include\config-win.h = Source\Ripley\mysql\include\config-win.h
-		Source\Ripley\mysql\include\errmsg.h = Source\Ripley\mysql\include\errmsg.h
-		Source\Ripley\mysql\include\libmysql.def = Source\Ripley\mysql\include\libmysql.def
-		Source\Ripley\mysql\include\libmysqld.def = Source\Ripley\mysql\include\libmysqld.def
-		Source\Ripley\mysql\include\m_ctype.h = Source\Ripley\mysql\include\m_ctype.h
-		Source\Ripley\mysql\include\m_string.h = Source\Ripley\mysql\include\m_string.h
-		Source\Ripley\mysql\include\my_alloc.h = Source\Ripley\mysql\include\my_alloc.h
-		Source\Ripley\mysql\include\my_dbug.h = Source\Ripley\mysql\include\my_dbug.h
-		Source\Ripley\mysql\include\my_getopt.h = Source\Ripley\mysql\include\my_getopt.h
-		Source\Ripley\mysql\include\my_global.h = Source\Ripley\mysql\include\my_global.h
-		Source\Ripley\mysql\include\my_list.h = Source\Ripley\mysql\include\my_list.h
-		Source\Ripley\mysql\include\my_pthread.h = Source\Ripley\mysql\include\my_pthread.h
-		Source\Ripley\mysql\include\my_sys.h = Source\Ripley\mysql\include\my_sys.h
-		Source\Ripley\mysql\include\mysql.h = Source\Ripley\mysql\include\mysql.h
-		Source\Ripley\mysql\include\mysql_com.h = Source\Ripley\mysql\include\mysql_com.h
-		Source\Ripley\mysql\include\mysql_embed.h = Source\Ripley\mysql\include\mysql_embed.h
-		Source\Ripley\mysql\include\mysql_time.h = Source\Ripley\mysql\include\mysql_time.h
-		Source\Ripley\mysql\include\mysql_version.h = Source\Ripley\mysql\include\mysql_version.h
-		Source\Ripley\mysql\include\mysqld_ername.h = Source\Ripley\mysql\include\mysqld_ername.h
-		Source\Ripley\mysql\include\mysqld_error.h = Source\Ripley\mysql\include\mysqld_error.h
-		Source\Ripley\mysql\include\raid.h = Source\Ripley\mysql\include\raid.h
-		Source\Ripley\mysql\include\typelib.h = Source\Ripley\mysql\include\typelib.h
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{B16FA7C0-26CA-401B-BCE5-7D676F652D53}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opt", "opt", "{E60F9F07-594B-4FD3-BC01-6F3C4D109D86}"
-	ProjectSection(SolutionItems) = preProject
-		Source\Ripley\mysql\lib\opt\libmysql.dll = Source\Ripley\mysql\lib\opt\libmysql.dll
-		Source\Ripley\mysql\lib\opt\libmysql.lib = Source\Ripley\mysql\lib\opt\libmysql.lib
-		Source\Ripley\mysql\lib\opt\mysqlclient.lib = Source\Ripley\mysql\lib\opt\mysqlclient.lib
-		Source\Ripley\mysql\lib\opt\mysys-max.lib = Source\Ripley\mysql\lib\opt\mysys-max.lib
-		Source\Ripley\mysql\lib\opt\mysys.lib = Source\Ripley\mysql\lib\opt\mysys.lib
-		Source\Ripley\mysql\lib\opt\mysys_tls.lib = Source\Ripley\mysql\lib\opt\mysys_tls.lib
-		Source\Ripley\mysql\lib\opt\regex.lib = Source\Ripley\mysql\lib\opt\regex.lib
-		Source\Ripley\mysql\lib\opt\strings.lib = Source\Ripley\mysql\lib\opt\strings.lib
-		Source\Ripley\mysql\lib\opt\zlib.lib = Source\Ripley\mysql\lib\opt\zlib.lib
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Data.Tests", "Source\Shared\BBC.Dna.Data.Tests\BBC.Dna.Data.Tests.csproj", "{0B6597BC-1CC6-4D5B-8850-94E750B4B413}"
@@ -480,6 +350,26 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Categories", "Tests\FunctionalTests.Services.Categories\FunctionalTests.Services.Categories.csproj", "{AC8105E5-8838-4871-80E8-93B8FB6C4C4E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Comments", "Tests\FunctionalTests.Services.Comments\FunctionalTests.Services.Comments.csproj", "{B0B274BF-EAD0-438F-AF11-C6E15E1287A7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {62AC310D-0AE3-4D92-A928-CA9291481B5A}
+		{4770D032-9B06-450D-8B00-7200D8330397} = {4770D032-9B06-450D-8B00-7200D8330397}
+		{A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77} = {A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77}
+		{648D0947-995E-407C-9B65-2A2BF855AA55} = {648D0947-995E-407C-9B65-2A2BF855AA55}
+		{30BBED4F-6E2F-4E4D-A421-E91E8206C4F4} = {30BBED4F-6E2F-4E4D-A421-E91E8206C4F4}
+		{528B5353-0E55-4935-9F73-961603046DEF} = {528B5353-0E55-4935-9F73-961603046DEF}
+		{BF321555-30BC-45A3-BF5F-0E381DE31FAE} = {BF321555-30BC-45A3-BF5F-0E381DE31FAE}
+		{93C4165F-3283-4A40-9609-C4B37A78EE6C} = {93C4165F-3283-4A40-9609-C4B37A78EE6C}
+		{ECAF0B64-57F6-4883-A633-93367D3BF1F1} = {ECAF0B64-57F6-4883-A633-93367D3BF1F1}
+		{B4EA926E-7D99-4077-8315-882F413B994D} = {B4EA926E-7D99-4077-8315-882F413B994D}
+		{FC9FCE85-B818-48F2-80A4-F8851A0D4944} = {FC9FCE85-B818-48F2-80A4-F8851A0D4944}
+		{C47CC990-90A2-457C-96A8-53722D81795A} = {C47CC990-90A2-457C-96A8-53722D81795A}
+		{B83A2AA4-D762-45E3-BB28-4B4A53D3C852} = {B83A2AA4-D762-45E3-BB28-4B4A53D3C852}
+		{F3AA54C0-3AFC-4132-A28F-1D9EB5A35544} = {F3AA54C0-3AFC-4132-A28F-1D9EB5A35544}
+		{B6F288C5-806D-40F5-A1A2-14EACD78ACB8} = {B6F288C5-806D-40F5-A1A2-14EACD78ACB8}
+		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B} = {5B2FC0E0-8C34-48F0-A57A-C46C5187834B}
+		{AFBC01F8-38CB-4B7E-8038-B663BB7B5830} = {AFBC01F8-38CB-4B7E-8038-B663BB7B5830}
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD} = {0F8243FA-0769-4A58-AC3F-12D51B6479DD}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Forums", "Tests\FunctionalTests.Services.Forums\FunctionalTests.Services.Forums.csproj", "{344FF2EF-8DD5-4FAB-991B-6A1D1E4B0F56}"
 EndProject
@@ -536,11 +426,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.SocialAPI", "BBC.Dn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.SocialAPI", "Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI.csproj", "{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.SocialAPI.Tests", "Source\Shared\BBC.Dna.SocialAPI.Tests\BBC.Dna.SocialAPI.Tests.csproj", "{235D41BF-8288-42AC-B932-7D6E225DDAD0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.SocialAPI", "Tests\FunctionalTests.SocialAPI\FunctionalTests.SocialAPI.csproj", "{235D41BF-8288-42AC-B932-7D6E225DDAD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.SocialAPI.Tests", "Source\Shared\BBC.Dna.SocialAPI.Tests\BBC.Dna.SocialAPI.Tests.csproj", "{A4F7704F-4932-473A-91DB-FEA3EA317DA7}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 55
+		SccNumberOfProjects = 56
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
 		SccLocalPath0 = .
@@ -756,10 +648,14 @@ Global
 		SccProjectTopLevelParentUniqueName53 = UserServices.sln
 		SccProjectName53 = Source/Shared/BBC.Dna.SocialAPI
 		SccLocalPath53 = Source\\Shared\\BBC.Dna.SocialAPI
-		SccProjectUniqueName54 = Source\\Shared\\BBC.Dna.SocialAPI.Tests\\BBC.Dna.SocialAPI.Tests.csproj
+		SccProjectUniqueName54 = Tests\\FunctionalTests.SocialAPI\\FunctionalTests.SocialAPI.csproj
 		SccProjectTopLevelParentUniqueName54 = UserServices.sln
-		SccProjectName54 = Source/Shared/BBC.Dna.SocialAPI.Tests
-		SccLocalPath54 = Source\\Shared\\BBC.Dna.SocialAPI.Tests
+		SccProjectName54 = Tests/FunctionalTests.SocialAPI
+		SccLocalPath54 = Tests\\FunctionalTests.SocialAPI
+		SccProjectUniqueName55 = Source\\Shared\\BBC.Dna.SocialAPI.Tests\\BBC.Dna.SocialAPI.Tests.csproj
+		SccProjectTopLevelParentUniqueName55 = UserServices.sln
+		SccProjectName55 = Source/Shared/BBC.Dna.SocialAPI.Tests
+		SccLocalPath55 = Source\\Shared\\BBC.Dna.SocialAPI.Tests
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UserServices5.vsmdi
@@ -1618,6 +1514,7 @@ Global
 		{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
 		{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B}.Debug|Win32.ActiveCfg = Debug|Any CPU
 		{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B}.DebugSmallGuide|.NET.ActiveCfg = Debug|Any CPU
 		{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
@@ -2687,6 +2584,42 @@ Global
 		{235D41BF-8288-42AC-B932-7D6E225DDAD0}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{235D41BF-8288-42AC-B932-7D6E225DDAD0}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{235D41BF-8288-42AC-B932-7D6E225DDAD0}.Retail|Win32.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.DebugSmallGuide|.NET.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.DebugSmallGuide|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.DebugSmallGuide|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.DebugSmallGuide|Win32.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Debug|.NET.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Debug|Win32.ActiveCfg = Debug|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Release|.NET.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Release|Any CPU.Build.0 = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.MySQL Release|Win32.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Release|.NET.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Release|Win32.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Retail|.NET.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7}.Retail|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2769,29 +2702,17 @@ Global
 		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {54187AB7-0320-401A-948D-F1AE381F3D2C}
 		{9BBD8F57-2EF3-47E2-9244-1930752A4FAF} = {C55F7869-3C5D-42AD-B4A5-A847BB965D4D}
 		{EA19FCEE-4091-44A3-BD72-B0267FF2F4FE} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
-		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
 		{635A0283-226B-42FA-BCF4-8144BA92A77E} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
 		{6049CBC4-1622-46D4-AA01-E528106493EC} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
 		{351113F5-DBA7-4AE0-A218-1FFD165D1747} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
 		{C47CC990-90A2-457C-96A8-53722D81795A} = {F89247D0-E5BB-4959-98D1-BDA98CA127D9}
 		{C32DB42E-9E40-4963-82D1-A968FAB86583} = {E2971637-C176-41F1-9C2B-A60A2249BBF8}
 		{ECAF0B64-57F6-4883-A633-93367D3BF1F1} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
 		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
-		{F0432186-A062-496B-BA71-906766C5BA40} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
 		{321FDD86-CD72-457D-A8AF-5038B62C52FE} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
-		{480B30AF-4FF9-4188-B706-5A05D8447F6D} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
-		{9659F3CB-9747-4C28-A39B-79CC440599DE} = {F0432186-A062-496B-BA71-906766C5BA40}
-		{782B204B-C883-49B4-992A-E56A5C6670CD} = {F0432186-A062-496B-BA71-906766C5BA40}
-		{BCA7212F-0FBA-4401-BA2C-366E345971A1} = {F0432186-A062-496B-BA71-906766C5BA40}
-		{D50C359B-5C27-4269-BECF-AA5E4D1BB5C9} = {9659F3CB-9747-4C28-A39B-79CC440599DE}
-		{9E379CAA-5B2B-4C37-A28F-A804BEE61416} = {9659F3CB-9747-4C28-A39B-79CC440599DE}
-		{4CA9BB18-AD52-4B71-B168-71336F95A6D4} = {782B204B-C883-49B4-992A-E56A5C6670CD}
-		{A3AE5E69-B5C3-4EC5-8747-6B3133B76C0C} = {BCA7212F-0FBA-4401-BA2C-366E345971A1}
 		{37B81E1F-D9D4-448A-B792-EF06F94A259B} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
 		{41C0ED7D-DF87-4C6D-9E93-DEAC789E2904} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
-		{C54DD6AC-BC30-4ADF-A47D-18CCB8709CDE} = {480B30AF-4FF9-4188-B706-5A05D8447F6D}
-		{B16FA7C0-26CA-401B-BCE5-7D676F652D53} = {480B30AF-4FF9-4188-B706-5A05D8447F6D}
-		{E60F9F07-594B-4FD3-BC01-6F3C4D109D86} = {B16FA7C0-26CA-401B-BCE5-7D676F652D53}
 		{0F8243FA-0769-4A58-AC3F-12D51B6479DD} = {6C3A9796-633A-4738-B003-BDBA5ABE3FD8}
 		{B83A2AA4-D762-45E3-BB28-4B4A53D3C852} = {96C76C5A-C07C-4269-A7D5-934AEE606719}
 		{B6F288C5-806D-40F5-A1A2-14EACD78ACB8} = {1B24DDDB-2681-4E12-9DD1-A42239CD0A47}
@@ -2806,9 +2727,10 @@ Global
 		{9CA32BFC-3AF7-411C-BBEC-1B232DEF0569} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
 		{1FC1E57E-9EE1-4A88-8D6C-60DA89013E8A} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
 		{8C787A7D-C6C1-45C7-A49F-F5D1952DE65F} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
+		{235D41BF-8288-42AC-B932-7D6E225DDAD0} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B} = {32224DE1-B8BD-4910-BFD6-0786C86F76EC}
 		{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D} = {F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B}
-		{235D41BF-8288-42AC-B932-7D6E225DDAD0} = {F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B}
+		{A4F7704F-4932-473A-91DB-FEA3EA317DA7} = {F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B}
 	EndGlobalSection
 	GlobalSection(TextTemplating) = postSolution
 		TextTemplating = 1

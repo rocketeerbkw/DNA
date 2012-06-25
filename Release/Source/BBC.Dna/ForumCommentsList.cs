@@ -26,6 +26,7 @@ namespace BBC.Dna
         private string _forumTitle = string.Empty;
         private int _userId = 0;
         private int _startIndex = 0;
+        private bool _displayContactFormPosts = false;
 
         /// <summary>
         /// The default constructor
@@ -59,6 +60,10 @@ namespace BBC.Dna
             var commentsListObj = new Comments(InputContext.Diagnostics, AppContext.ReaderCreator, AppContext.DnaCacheManager, InputContext.TheSiteList);
 
             commentsListObj.StartIndex = _startIndex;
+            if (_displayContactFormPosts)
+            {
+                commentsListObj.FilterBy = FilterBy.ContactFormPosts;
+            }
 
             var CommentsList = commentsListObj.GetCommentsListByForumId(_forumId, InputContext.CurrentSite);
 
@@ -111,6 +116,11 @@ namespace BBC.Dna
             if (InputContext.DoesParamExist("s_startindex", "startindex"))
             {
                 _startIndex = InputContext.GetParamIntOrZero("s_startindex", "s_startindex");
+            }
+
+            if (InputContext.DoesParamExist("displaycontactformposts", "Display contact form posts?"))
+            {
+                _displayContactFormPosts = true;
             }
         }
 

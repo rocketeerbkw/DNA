@@ -31,7 +31,6 @@ any other party whatsoever.
 #include "md5.h"
 #include "NewRegisterBuilder.h"
 #include "RegisterObject.h"
-#include <ProfileApi.h>
 #include "ProfileConnection.h"
 #include "NotFoundBuilder.h"
 #include "StoredProcedure.h"

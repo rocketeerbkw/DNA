@@ -12,7 +12,10 @@ CREATE PROCEDURE commentforumsreadbysitename	@siteurlname varchar(30) = null,
 	if (@sortBy is null or @sortBy ='') set @sortBy = 'created'
 	if (@sortDirection is null or @sortDirection ='') set @sortDirection = 'descending'
 	declare @siteid int
-	select @siteid= siteid from dbo.sites where urlname = @siteurlname
+	
+	select @siteid = siteid
+	from dbo.sites
+	where urlname = @siteurlname
 
 	select @totalresults = count(*) 
 	from dbo.commentforums cf
@@ -64,29 +67,34 @@ CREATE PROCEDURE commentforumsreadbysitename	@siteurlname varchar(30) = null,
 		where siteid = @siteid 
 		and @sortBy = 'postcount' and @sortDirection = 'ascending'
 	)
-	select cte.n, 
-	cte.forumID, 
-	uid as uid, 
-	sitename,
-	title, 
-	forumpostcount, 
-	moderationstatus, 
-	datecreated,  
-	lastupdated, 
-	url, 
-	isnull(forumclosedate, getdate()) as forumclosedate, 
-	siteid,
-	@totalresults as totalresults, 
-	@startindex as startindex, 
-	@itemsperpage as itemsperpage, 
-	vcf.canRead, 
-	vcf.canWrite, 
-	vcf.lastposted
-	, vcf.editorpickcount
-	, NotSignedInUserId
-	from cte_commentforum cte 
-	inner join VCommentForums vcf on vcf.forumid = cte.forumID
-	where n > @startindex and n <= @startindex + @itemsperpage
+	
+	SELECT 
+		cte.n, 
+		cte.forumID, 
+		uid as uid, 
+		sitename,
+		title, 
+		forumpostcount, 
+		moderationstatus, 
+		datecreated,  
+		lastupdated, 
+		url, 
+		isnull(forumclosedate, getdate()) as forumclosedate, 
+		siteid,
+		@totalresults as totalresults, 
+		@startindex as startindex, 
+		@itemsperpage as itemsperpage, 
+		vcf.canRead, 
+		vcf.canWrite, 
+		vcf.lastposted,
+		vcf.editorpickcount,
+		NotSignedInUserId,
+		IsContactForm
+	FROM 
+		cte_commentforum cte 
+		INNER JOIN VCommentForums vcf on vcf.forumid = cte.forumID
+	WHERE
+		n > @startindex and n <= @startindex + @itemsperpage
 	ORDER BY n
 	OPTION (OPTIMIZE FOR (@sortBy = 'created' ,@sortDirection = 'descending'))
 

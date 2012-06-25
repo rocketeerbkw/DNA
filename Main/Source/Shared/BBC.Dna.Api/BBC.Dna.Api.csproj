@@ -95,6 +95,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Contacts.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Contracts\ArticleInfo.Contract.cs" />
     <Compile Include="Contracts\Articles.Contract.cs" />

@@ -95,7 +95,7 @@ const char* CRipleyServerExtension::GetConfigFileName( )
 				return NULL;
 			}
 			// replace it with .xmlconf
-			strcpy(pExtension, ".xmlconf");
+			strcpy_s(pExtension, uBufLen, ".xmlconf");
 		}
 		else
 		{
@@ -103,7 +103,7 @@ const char* CRipleyServerExtension::GetConfigFileName( )
 			{
 				return NULL;
 			}
-			strcat(confFileName, ".xmlconf");
+			strcat_s(confFileName, uBufLen, ".xmlconf");
 		}
         m_sConfigFileName = confFileName;
 
@@ -190,7 +190,7 @@ BOOL WINAPI GetExtensionVersion(HSE_VERSION_INFO *pVer)
 	//_tcscpy(pVer->lpszExtensionDesc, sz);
 
 	pVer->dwExtensionVersion = HSE_VERSION;
-	strncpy(pVer->lpszExtensionDesc, "RipleyServer", HSE_MAX_EXT_DLL_NAME_LEN);
+	strncpy_s(pVer->lpszExtensionDesc, "RipleyServer", HSE_MAX_EXT_DLL_NAME_LEN);
 
 	return TRUE;
 }
@@ -221,7 +221,7 @@ DWORD WINAPI CRipleyServerExtension::HttpExtensionProc(EXTENSION_CONTROL_BLOCK *
         //Request contains data.
         char* pBuffer = new char[pECB->cbAvailable+1];
         ZeroMemory(pBuffer, pECB->cbAvailable + 1); 
-        strncpy(pBuffer, (const char*)pECB->lpbData, pECB->cbAvailable); 
+        strncpy_s(pBuffer, pECB->cbAvailable+1, (const char*)pECB->lpbData, pECB->cbAvailable); 
         requestdata << pBuffer;
         delete [] pBuffer;
 

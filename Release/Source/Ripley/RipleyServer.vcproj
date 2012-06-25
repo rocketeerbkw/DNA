@@ -158,7 +158,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include;mysql\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;_ADMIN_VERSION"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
@@ -187,11 +187,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="&#x0D;&#x0A;"
-				AdditionalDependencies="odbc32.lib odbccp32.lib mysqlclient.lib profileapi\profileapi\debug\profileapi_d.lib &quot;$(OutDir)&quot;\ripleycored.lib version.lib"
+				AdditionalDependencies="odbc32.lib odbccp32.lib &quot;$(OutDir)&quot;\ripleycored.lib version.lib"
 				OutputFile="$(OutDir)\RipleyServer.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;profileapi\profileapi\Debug;mysql\lib\opt"
+				AdditionalLibraryDirectories="&quot;$(OutDir)&quot;;"
 				IgnoreDefaultLibraryNames=""
 				ModuleDefinitionFile=".\RipleyServer.def"
 				GenerateDebugInformation="true"

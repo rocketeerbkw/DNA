@@ -98,9 +98,8 @@ bool CSimpleFtp::Put(const char* pLocalFile, const char* pRemoteFile, bool bBina
 		pRemoteFile = "";
 	}
 
-	return FtpPutFile(m_hConnection, pLocalFile, pRemoteFile,  
-		bBinary ? FTP_TRANSFER_TYPE_BINARY : FTP_TRANSFER_TYPE_ASCII
-		| INTERNET_FLAG_RELOAD, 0);
+	DWORD flags = bBinary ? FTP_TRANSFER_TYPE_BINARY : FTP_TRANSFER_TYPE_ASCII | INTERNET_FLAG_RELOAD;
+	return FtpPutFile(m_hConnection, pLocalFile, pRemoteFile, flags, 0) == S_OK;
 }
 
 bool CSimpleFtp::Move(const char* pRemoteFileSrc, const char* pRemoteFileDst, bool bBinary)
@@ -154,10 +153,8 @@ bool CSimpleFtp::Get(const char* pRemoteFile, const char* pLocalFile, bool bFail
 		pRemoteFile = "";
 	}
 
-	return FtpGetFile(m_hConnection, pRemoteFile, pLocalFile, bFailIfExists,
-		dwFileAttributes,
-		bBinary ? FTP_TRANSFER_TYPE_BINARY : FTP_TRANSFER_TYPE_ASCII | INTERNET_FLAG_RELOAD,
-		0);
+	DWORD flags = bBinary ? FTP_TRANSFER_TYPE_BINARY : FTP_TRANSFER_TYPE_ASCII | INTERNET_FLAG_RELOAD;
+	return FtpGetFile(m_hConnection, pRemoteFile, pLocalFile, bFailIfExists, dwFileAttributes, flags, 0) == S_OK;
 }
 
 bool CSimpleFtp::Rename(const char* pExistingFile, const char* pNewFile)
@@ -172,5 +169,5 @@ bool CSimpleFtp::Rename(const char* pExistingFile, const char* pNewFile)
 		return false;
 	}
 
-	return FtpRenameFile(m_hConnection, pExistingFile, pNewFile);
+	return FtpRenameFile(m_hConnection, pExistingFile, pNewFile) == S_OK;
 }

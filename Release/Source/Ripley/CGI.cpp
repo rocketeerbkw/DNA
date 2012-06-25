@@ -35,7 +35,6 @@ any other party whatsoever.
 #include "DBO.h"
 #include "XSLT.h"
 #include "vwcl\networking\vsmtpsocket.hpp"
-#include <ProfileApi.h>
 #include "SiteConfig.h"
 #include "CGI.h"
 #include "StoredProcedureBase.h"
@@ -2128,7 +2127,7 @@ bool CGI::GetCookie(CTDVString& sResult)
 	}
 	else
 	{
-		return GetCookieByName( CProfileApi::GetCookieName(), sResult);
+		return "";//GetCookieByName( CProfileApi::GetCookieName(), sResult);
 	}
 }
 

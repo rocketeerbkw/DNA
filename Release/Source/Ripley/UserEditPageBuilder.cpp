@@ -740,7 +740,7 @@ bool CUserEditPageBuilder::ProcessUndeleteRequest()
 	bool bSiteModerated = !(m_InputContext.IsSiteUnmoderated(m_pForm->GetSiteID()));
 	bool bUserModerated  = m_pViewer->GetIsPreModerated() || m_pViewer->GetIsPostModerated();
 	bool bArticleModerated = m_pForm->IsArticleModerated();
-	bool bArticleInModeration = m_pForm->IsArticleInModeration();
+	bool bArticleInModeration = m_pForm->IsArticleInModeration() > 0;
 	bool bIsAutoSinBin = m_pViewer->GetIsAutoSinBin();
 	if (bSiteModerated || bUserModerated || bArticleModerated || bArticleInModeration || bIsAutoSinBin)
 	{
@@ -895,7 +895,7 @@ bool CUserEditPageBuilder::ProcessUpdate()
 		bool bSiteModerated = !(m_InputContext.IsSiteUnmoderated(m_pForm->GetSiteID()));
 		bool bUserModerated  = m_pViewer->GetIsPreModerated() || m_pViewer->GetIsPostModerated();
 		bool bArticleModerated = m_pForm->IsArticleModerated();
-		bool bIsArticleInModeration = m_pForm->IsArticleInModeration();
+		bool bIsArticleInModeration = m_pForm->IsArticleInModeration() > 0;
 		bool bAutoSinBin = m_pViewer->GetIsAutoSinBin();
 		if (bSiteModerated || bUserModerated || bArticleModerated || bIsArticleInModeration || bAutoSinBin )
 		{

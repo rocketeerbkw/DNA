@@ -15,6 +15,7 @@ namespace BBC.Dna.Services
     public class ContactFormService : baseService
     {
         private readonly Comments contactFormComments;
+        private readonly Contacts contacts;
 
         public ContactFormService()
             : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
@@ -24,6 +25,8 @@ namespace BBC.Dna.Services
             string basePath = ConfigurationManager.AppSettings["ServerBasePath"];
             basePath = basePath.Remove(basePath.LastIndexOf("/")) + "/ContactFormService.svc";
             contactFormComments.BasePath = basePath;
+
+            contacts = new Contacts(dnaDiagnostic, readerCreator, cacheManager, Global.siteList);
         }
 
         [WebGet(UriTemplate = "V1/site/{sitename}/")]
@@ -107,6 +110,9 @@ namespace BBC.Dna.Services
                 }
 
                 CommentInfo contactInfo = contactFormComments.CreateComment(contactForm, contactDetails);
+                
+                // Send email here
+
                 return GetOutputStream(contactInfo);
             }
             catch (ApiException ex)

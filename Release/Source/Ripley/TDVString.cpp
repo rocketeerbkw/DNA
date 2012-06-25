@@ -934,7 +934,7 @@ bool CTDVString::CompareText(const CTDVString &Other) const
 			return true;
 
 		// NB. May need to change this on MacOS if it doesn't support stricmp().
-		return (stricmp(m_pData, Other.m_pData) == 0);
+		return (_stricmp(m_pData, Other.m_pData) == 0);
 	}
 
 	return false;
@@ -963,7 +963,7 @@ bool CTDVString::CompareText(const TDVCHAR *pOther) const
 	}
 
 	// NB. May need to change this on MacOS if it doesn't support stricmp().
-	return (stricmp(m_pData, pOther) == 0);
+	return (_stricmp(m_pData, pOther) == 0);
 }
 
 bool CTDVString::operator <(const CTDVString& Other) const

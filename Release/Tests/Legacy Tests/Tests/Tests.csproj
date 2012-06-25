@@ -119,6 +119,8 @@
     <Compile Include="BannedEmailTests.cs" />
     <Compile Include="CheckIfArticleShouldBeHidden.cs" />
     <Compile Include="CheckUserNameSetSiteOptionTests.cs" />
+    <Compile Include="CommentForumListTests.cs" />
+    <Compile Include="ContactFormListBuilderTests.cs" />
     <Compile Include="Dna.Api\CommentCreate.cs" />
     <Compile Include="Dna.Api\CommentForum.cs" />
     <Compile Include="Dna.Api\CommentForumCachingAndStats.cs" />
@@ -282,6 +284,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Shadow Include="Test References\BBC.Dna.accessor" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

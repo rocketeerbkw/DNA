@@ -18,7 +18,8 @@ namespace BBC.Dna.Api
             Comment,
             RatingForumById,
             RatingsByRatingForumId,
-            Threads
+            Threads,
+            ContactFormById
         }
 
         #endregion
@@ -39,6 +40,7 @@ namespace BBC.Dna.Api
                                 "http://www.bbc.co.uk/dna/[sitename]/comments/UserComplaintPage?PostID=[postid]&s_start=1");
             UriTypeMapping.Add(UriType.Comment, "[parentUri]?PostID=[postid]");
             UriTypeMapping.Add(UriType.Threads, "V1/site/[sitename]/ratingsforums/[uid]/threads");
+            UriTypeMapping.Add(UriType.ContactFormById, "V1/site/[sitename]/contactform/[commentforumid]/");
         }
 
         /// <summary>
