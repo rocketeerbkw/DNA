@@ -8,6 +8,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.SocialAPI;
+using BBC.Dna.Api;
 using BBC.Dna.Users;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Xml.Linq;
@@ -68,6 +69,7 @@ namespace BBC.Dna.Component
             //Clean any existing XML.
             RootElement.RemoveAll();
 
+            
 
             if (InputContext.ViewingUser == null || !InputContext.ViewingUser.IsSuperUser)
             {
@@ -75,6 +77,7 @@ namespace BBC.Dna.Component
                 return;
             }
 
+           
             GetQueryParameters();
 
             var siteName = string.Empty;
@@ -289,7 +292,26 @@ namespace BBC.Dna.Component
 
             if (isProfileCreated.Equals("OK"))
             {
-                return new Result("TwitterProfileCreated", String.Format("Twitter profile, {0} created successfully.", _profileId));
+                //Create and map commentforum
+                Comments commentObj = new Comments(dnaDiagnostic,readerCreator, AppContext.DnaCacheManager, InputContext.TheSiteList);
+
+                CommentForum commentForum = new CommentForum();
+                commentForum.isContactForm = false;
+                commentForum.SiteName = siteName;
+                commentForum.ParentUri = siteName; // not sure what should be the parenturi
+                commentForum.Id = _profileId;
+
+                CommentForum commentForumData = commentObj.CreateCommentForum(commentForum, InputContext.CurrentSite);
+
+                if (commentForumData != null && commentForumData.Id == _profileId)
+                {
+                    return new Result("TwitterProfileCreated", String.Format("Twitter profile, {0} created successfully.", _profileId));
+                }
+                else
+                {
+                    return new Error { Type = "COMMENTFORUMCREATIONINVALIDACTION", ErrorMessage = "Comment Forum creation failed: " + _profileId };
+                }
+                
             }
             else
             {

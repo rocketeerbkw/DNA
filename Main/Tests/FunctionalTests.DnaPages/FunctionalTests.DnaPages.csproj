@@ -279,6 +279,8 @@
     <Compile Include="NUnitAdapter.cs" />
     <Compile Include="RadioButtonListTester.cs" />
     <Compile Include="SiteOptionsTests.cs" />
+    <Compile Include="TwitterProfileListPageTests.cs" />
+    <Compile Include="TwitterProfilePageTests.cs" />
     <Compile Include="UserListPageTest.cs" />
     <Compile Include="UserSynchronisationTests.cs" />
   </ItemGroup>
