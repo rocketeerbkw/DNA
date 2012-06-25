@@ -14,7 +14,6 @@ using BBC.Dna.Utils;
 using BBC.Dna.Objects;
 using BBC.Dna.Users;
 
-
 namespace BBC.Dna.Page
 {
     /// <summary>
@@ -841,6 +840,41 @@ namespace BBC.Dna.Page
             return transformer;
         }
 
+#if DEBUG
+        /// <summary>
+        /// A private class used to load XSLT files on another thread with a large stack
+        /// Implemented to get around the reduced stack size in IIS 7
+        /// </summary>
+        private class TransformerLargeStack
+        {
+            private XslCompiledTransform transformer;
+
+            private void LoadInternal(string xsltFileName)
+            {
+                transformer = new XslCompiledTransform(false /* xsltDebugging*/);
+
+                // this stuff is necessary to cope with our stylesheets having DTDs
+                // Without all this settings and resolver stuff, you can't use the Load method
+                // and tell it to allow DTDs
+                XmlReaderSettings xset = new XmlReaderSettings();
+                xset.ProhibitDtd = false;
+                using (XmlReader xread = XmlReader.Create(xsltFileName, xset))
+                {
+                    transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
+                }
+            }
+
+            public XslCompiledTransform Load(string xsltFileName)
+            {
+                var thread = new Thread(() => LoadInternal(xsltFileName), 1024 * 1024);
+                thread.Start();
+                thread.Join();
+
+                return transformer;
+            }
+        }
+#endif
+
 		/// <summary>
 		/// Takes the path to an XSLT stylesheet and creates a compiled transformer
 		/// </summary>
@@ -853,6 +887,7 @@ namespace BBC.Dna.Page
 //            // Use xslt debugging?
 //            xsltDebugging = true;
 //#endif
+
             XslCompiledTransform transformer = new XslCompiledTransform(false /* xsltDebugging*/);
 
 			// this stuff is necessary to cope with our stylesheets having DTDs
@@ -864,7 +899,13 @@ namespace BBC.Dna.Page
 			{
                 try
                 {
+#if DEBUG
+                    // Only need to do this on our IIS7 dev environments
+                    var transLargeStack = new TransformerLargeStack();
+                    transformer = transLargeStack.Load(xsltFileName);
+#else
                     transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
+#endif
                 }
                 catch (Exception e)
                 {
@@ -984,6 +1025,13 @@ namespace BBC.Dna.Page
         /// <returns>true if the page must be accessed securely.</returns>
         public bool IsSecureAccessAllowed()
         {
+#if DEBUG
+            switch (Environment.MachineName)
+            {
+                case "B1-L0S051473":
+                    return true;
+            }
+#endif
             if (!_isSecureRequest)
             {//not a secure request
                 if (_dnapage.AllowedUsers != UserTypes.Any && _dnapage.AllowedUsers != UserTypes.Volunteer)

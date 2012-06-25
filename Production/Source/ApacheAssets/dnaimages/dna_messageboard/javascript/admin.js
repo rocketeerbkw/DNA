@@ -400,7 +400,41 @@
         addListener(openTimeTable, "mousedown", function() {
             window.location = "/dna/mbarchers/admin/MessageBoardSchedule";
             return false;
-        });
+           });
+
+           /* 
+           Twitter Admin Console - Profile form submit 
+           */
+
+           addListener(".twitterprofile", "submit", function() {
+
+           	var isFormValidToSubmit = true;
+
+           	// Clear previous error messages
+           	$("span.dna-error-text").remove();
+
+           	// Check the profile id input is not empty
+           	if ($("#profileid").val() == "") {
+           		glow.dom.create('<span class="dna-error-text">Please enter a profile id</span>').insertAfter("#profileid");
+           		isFormValidToSubmit = false;
+           	}
+
+           	// Check the title input is not empty
+           	if ($("#title").val() == "") {
+           		glow.dom.create('<span class="dna-error-text">Please enter a title</span>').insertAfter("#title");
+           		isFormValidToSubmit = false;
+           	}
+
+           	// Make sure that both users and search terms text areas are not empty
+           	if (($("#users").val() == " " || $("#users").val() == "") && ($("#searchterms").val() == " " || $("#searchterms").val() == "")) {
+           		glow.dom.create('<span class="dna-error-text text">Please enter a user or a search term</span>').insertBefore("#users");
+           		isFormValidToSubmit = false;
+           	}
+
+           	return isFormValidToSubmit;
+
+           });        
+        
 
         //UserList functions
         ///////////////////////
@@ -654,4 +688,48 @@ function modmanagement_access(sel) {
 function modmanagement_addmoderator() {
     targetForm = document.forms['moderatormanagement'];
     targetForm.elements['viewtype'].value = 'addmoderator';
+}
+
+function sitemanager_showHideAdvanced(div, toggleOptions) {
+    var ele = document.getElementById(div);
+    var toggleLink = document.getElementById(toggleOptions);
+
+    if (ele.style.display == "block") {
+        ele.style.display = "none";
+        toggleLink.innerHTML = "Show Advanced Options";
+        
+    }
+    else {
+        ele.style.display = "block";
+        toggleLink.innerHTML = "Hide Advanced Options";
+    }
+}
+
+function sitemanager_validateForm(theForm) {
+    var errorStyle = "2px solid red";
+    var error = document.getElementById("dnaErrorDiv");
+    if (error == null) {
+        error = new Div();
+    }
+    
+    error.style.display = "none";
+    theForm.notes.style.border = "";
+
+
+    with (theForm) {
+        notes.value = notes.value.replace(/^\s*/, "").replace(/\s*$/, "")
+        if (notes.value == '') {
+            error.innerHTML = "<p>Update notes cannot be empty.</p>";
+            notes.style.border = errorStyle;
+            error.style.display = "block";
+
+            return false;
+        }
+    }
+
+    theForm.reason.style.border = "";
+    theForm.termtext.style.border = "";
+    error.style.display = "none";
+    return confirm("Are you sure you want update the service " + theForm.urlname + "?");
+    
 }

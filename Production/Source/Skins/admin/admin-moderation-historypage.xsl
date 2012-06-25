@@ -140,12 +140,39 @@
             </b>
           </td>
         </tr>
+        
+		<xsl:variable name="uri">
+			<xsl:choose>
+				<xsl:when test="/H2G2/SERVERNAME = 'B1-L0S061416'">
+					<xsl:text>http://local.bbc.co.uk</xsl:text>
+				</xsl:when>		
+				<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB1' or /H2G2/SERVERNAME = 'VP-DEV-DNA-WEB3'">
+					<xsl:text>http://dnaint.national.core.bbc.co.uk</xsl:text>
+				</xsl:when>			
+				<xsl:when test="/H2G2/SERVERNAME = 'OPS-DNA1'">
+					<xsl:text>http://dnarelease.national.core.bbc.co.uk</xsl:text>
+				</xsl:when>
+				<xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB2' or /H2G2/SERVERNAME = 'VP-DEV-DNA-WEB4'">
+					<xsl:text>http://dnatest.national.core.bbc.co.uk</xsl:text>
+				</xsl:when>			
+				<xsl:when test="/H2G2/SERVERNAME = 'NMSDNA0'">
+					<xsl:text>http://dna-staging.bbc.co.uk</xsl:text>
+				</xsl:when>	
+				<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
+					<xsl:text>http://extdev.bbc.co.uk</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:text>http://www.bbc.co.uk</xsl:text>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>        
+        
         <tr align="center" vAlign="top">
           <td colspan="13">
             <b>Subject</b>:
             <xsl:choose>
               <xsl:when test="@POSTID">
-                <a href="/dna/{MODERATION/URLNAME}/F{@FORUMID}?thread={@THREADID}&amp;post={@POSTID}#p{@POSTID}">
+                <a href="{$uri}/dna/{MODERATION/URLNAME}/F{@FORUMID}?thread={@THREADID}&amp;post={@POSTID}#p{@POSTID}">
                   <xsl:value-of select="SUBJECT"/>
                 </a>
               </xsl:when>

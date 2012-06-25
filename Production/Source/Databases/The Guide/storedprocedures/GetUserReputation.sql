@@ -55,6 +55,6 @@ select
 from dbo.userreputationscore urs 
 inner join dbo.userreputationthreshold urt on urt.modclassid = urs.modclassid
 inner join users u on u.userid = urs.userid
-where urs.userid=@userid and urs.modclassid=1 --@modclassid
+where urs.userid=@userid --and urs.modclassid=1 --@modclassid
 	 
 END

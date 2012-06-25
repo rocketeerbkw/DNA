@@ -18,6 +18,10 @@
         <xs:element name="isEditorPick" type="xs:boolean" />
         <xs:element name="index" type="xs:int" />
         <xs:element name="neroRatingValue" type="xs:int" />
+        <xs:element name="tweetId" type="xs:long" />
+        <xs:element name="twitterscreenname" type="xs:string" nillable="true" />
+        <xs:element name="retweetid" type="xs:long" />
+        <xs:element name="retweetedby" type="xs:string" nillable="true" />
       </xs:sequence>
 		</xs:complexType>
 	</xs:element>

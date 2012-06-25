@@ -254,6 +254,7 @@ namespace FunctionalTests
             postData.Add(new KeyValuePair<string, string>("moderatorsemail", xml.SelectSingleNode("/H2G2/SITEMANAGER/MODERATORSEMAIL").InnerText));
             postData.Add(new KeyValuePair<string, string>("editorsemail", xml.SelectSingleNode("/H2G2/SITEMANAGER/EDITORSEMAIL").InnerText));
             postData.Add(new KeyValuePair<string, string>("feedbackemail", xml.SelectSingleNode("/H2G2/SITEMANAGER/FEEDBACKEMAIL").InnerText));
+            postData.Add(new KeyValuePair<string, string>("sampleurl", xml.SelectSingleNode("/H2G2/SITEMANAGER/SAMPLEURL").InnerText));
             
             var premoderated = xml.SelectSingleNode("/H2G2/SITEMANAGER/PREMODERATED").InnerText;
             var unmoderated = xml.SelectSingleNode("/H2G2/SITEMANAGER/UNMODERATED").InnerText;
@@ -290,6 +291,7 @@ namespace FunctionalTests
 
             postData.Add(new KeyValuePair<string, string>("riskmodonoff", xml.SelectSingleNode("/H2G2/SITEMANAGER/RISKMODONOFF").InnerText));
             postData.Add(new KeyValuePair<string, string>("riskmodpublishmethod", xml.SelectSingleNode("/H2G2/SITEMANAGER/RISKMODPUBLISHMETHOD").InnerText));
+            postData.Add(new KeyValuePair<string, string>("notes", Guid.NewGuid().ToString()));
 
 
             return postData;

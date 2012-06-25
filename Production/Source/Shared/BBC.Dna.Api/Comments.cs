@@ -221,6 +221,39 @@ namespace BBC.Dna.Api
         }
 
         /// <summary>
+        /// Comment forum that reads comments from multiple forums
+        /// </summary>
+        /// <param name="uidList">List of form uid</param>
+        /// <param name="site"></param>
+        /// <returns>Comment forum object including comments from all the forums</returns>
+        public CommentForum GetCommentForumByUids(string uidList, ISite site)
+        {
+            CommentForum commentForum = null;
+            
+            if (GetCommentForumByUidFromCache(uidList, site, ref commentForum))
+            {
+                return commentForum;
+            }
+
+            try
+            {
+                commentForum = new CommentForum();
+                commentForum.commentSummary = new CommentsSummary();
+                commentForum.Id = uidList;
+                commentForum.commentList = GetCommentsListByForumIds(uidList, site);
+
+                commentForum.identityPolicy = site.IdentityPolicy;
+                AddCommentForumToCache(commentForum, site);
+            }
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message, ex.InnerException);
+                //DnaApiWebProtocalException.ThrowDnaApiWebProtocalException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
+            }
+            return commentForum;
+        }
+
+        /// <summary>
         /// Reads a specific forum comments by the ID and siteid
         /// </summary>
         /// <param name="forumid">The forums internal id</param>
@@ -253,6 +286,62 @@ namespace BBC.Dna.Api
                     reader.AddParameter("itemsperpage", ItemsPerPage);
                     reader.AddParameter("SortBy", SortBy.ToString());
                     reader.AddParameter("SortDirection", SortDirection.ToString());
+
+                    reader.Execute();
+
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            commentList.comments.Add(CommentCreateFromReader(reader, site));
+                            commentList.TotalCount = reader.GetInt32NullAsZero("totalresults");
+                        }
+                    }
+                } 
+                catch (Exception ex)
+                {
+                    throw new ApiException(ex.Message, ex.InnerException);
+                    //DnaApiWebProtocalException.ThrowDnaApiWebProtocalException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
+                }
+            }
+            return commentList;
+        }
+
+
+        /// <summary>
+        /// Reads a forum comments by the IDs and siteid
+        /// </summary>
+        /// <param name="forumid">The forums internal id</param>
+        /// <param name="site"></param>
+        /// <returns>The list of comments from all the forums specified</returns>
+        public CommentsList GetCommentsListByForumIds(string forumuids, ISite site)
+        {
+            var commentList = new CommentsList();
+
+            commentList.comments = new List<CommentInfo>();
+            commentList.TotalCount = 0;
+            commentList.ItemsPerPage = ItemsPerPage;
+            commentList.StartIndex = StartIndex;
+            commentList.SortBy = SortBy;
+            commentList.SortDirection = SortDirection;
+            commentList.FilterBy = FilterBy;
+
+            String spName = "commentsreadbyforumids";
+            if (FilterBy == FilterBy.EditorPicks)
+            {
+                spName = "commentsreadbyforumidseditorpicksfilter";
+            }
+
+            using (IDnaDataReader reader = CreateReader(spName))
+            {
+                try
+                {
+                    reader.AddParameter("forumuids", forumuids);
+                    reader.AddParameter("startindex", StartIndex);
+                    reader.AddParameter("itemsperpage", ItemsPerPage);
+                    reader.AddParameter("SortBy", SortBy.ToString());
+                    reader.AddParameter("SortDirection", SortDirection.ToString());
+                    reader.AddParameter("siteurlname", site.SiteName);
 
                     reader.Execute();
 
@@ -492,6 +581,7 @@ namespace BBC.Dna.Api
                     //reader.AddParameter("forcepremoderation", (commentForum.ModerationServiceGroup == ModerationStatus.ForumStatus.PreMod?1:0));
                     reader.AddParameter("ignoremoderation", ignoreModeration);
                     reader.AddParameter("isnotable", CallingUser.IsUserA(UserTypes.Notable));
+                    reader.AddParameter("applyprocesspremodexpirytime", comment.ApplyProcessPremodExpiryTime);
 
                     if (CallingUser.UserID != commentForum.NotSignedInUserId)
                     {//dont include as this is data protection
@@ -516,10 +606,11 @@ namespace BBC.Dna.Api
                     }
 
                     reader.Execute();
+
                     if (reader.HasRows && reader.Read())
                     {
 //all good - create comment
-                        comment.IsPreModPosting = reader.GetInt32NullAsZero("IsPreModPosting") == 1;
+                        comment.PreModPostingsModId = reader.GetInt32NullAsZero("PreModPostingModId");
                         comment.IsPreModerated = (reader.GetInt32NullAsZero("IsPreModerated") == 1);
                         comment.hidden = (comment.IsPreModerated
                                               ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
@@ -584,20 +675,36 @@ namespace BBC.Dna.Api
         /// <param name="commentForum"></param>
         /// <param name="comment">The comment to add</param>
         /// <returns>The created comment object</returns>
-        public int CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, int value)
+        public int CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, short value)
         {
             if (userId == 0 && (BbcUid == Guid.Empty || string.IsNullOrEmpty(IpAddress)))
             {
                 throw ApiException.GetError(ErrorType.MissingUserAttributes);
             }
 
-            var updatedValue = 0;
-            //create unique comment hash
             Guid userHash = Guid.Empty;
             if (userId == 0)
             {
                 userHash = DnaHasher.GenerateHash(BbcUid + "|" + IpAddress);
             }
+
+            return CreateCommentRating(commentForum, site, entryId, userId, value, userHash);
+        }
+
+        public int CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, short value, Guid userHash)
+        {
+            if (userId == 0 && userHash == Guid.Empty)
+            {
+                throw ApiException.GetError(ErrorType.MissingUserAttributes);
+            }
+
+            if (entryId <= 0)
+            {
+                throw ApiException.GetError(ErrorType.InvalidEntryId);
+            }
+
+            var updatedValue = 0;
+            //create unique comment hash
             //add comment to db
             try
             {
@@ -606,11 +713,11 @@ namespace BBC.Dna.Api
                     reader.AddParameter("postid", entryId);
                     reader.AddParameter("forumid", commentForum.ForumID);
                     reader.AddParameter("siteid", site.SiteID);
-                    
+
                     reader.AddParameter("userid", userId);
                     reader.AddParameter("userhash", userHash);
                     reader.AddParameter("value", value);
-                    
+
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {
@@ -668,7 +775,7 @@ namespace BBC.Dna.Api
             {
                 throw ApiException.GetError(ErrorType.SiteIsClosed);
             }
-            //is comment forum closed
+            // reject comments that do not have any text
             if (String.IsNullOrEmpty(comment.text))
             {
                 throw ApiException.GetError(ErrorType.EmptyText);
@@ -916,7 +1023,7 @@ namespace BBC.Dna.Api
                     if (reader.HasRows && reader.Read())
                     {
                         //all good - create comment
-                        comment.IsPreModPosting = reader.GetInt32NullAsZero("IsPreModPosting") == 1;
+                        comment.PreModPostingsModId = reader.GetInt32NullAsZero("PreModPostingModId");
                         comment.IsPreModerated = (reader.GetInt32NullAsZero("IsPreModerated") == 1);
                         comment.hidden = (comment.IsPreModerated
                                               ? CommentStatus.Hidden.Hidden_AwaitingPreModeration
@@ -1042,6 +1149,84 @@ namespace BBC.Dna.Api
                 
             }
             return startIndex;
+        }
+
+        public void CreateTweetInfoForComment(int postId, long tweetId, long retweetOriginalTweetId, bool isOriginalTweetForRetweet)
+        {
+            using (IDnaDataReader reader = CreateReader("createtweetinfoforcomment"))
+            {
+                reader.AddParameter("postid", postId);
+                reader.AddParameter("tweetid", tweetId);
+                reader.AddParameter("retweetoriginaltweetid", retweetOriginalTweetId);
+                reader.AddParameter("isoriginaltweetforretweet", isOriginalTweetForRetweet);
+
+                reader.Execute();
+            }
+        }
+
+        public void CreateRetweetInfoForComment(int postId, long tweetId, long retweetOriginalTweetId, bool isOriginalTweetForRetweet)
+        {
+            using (IDnaDataReader reader = CreateReader("createRetweetinfoforcomment"))
+            {
+                reader.AddParameter("postid", postId);
+                reader.AddParameter("tweetid", tweetId);
+                reader.AddParameter("retweetoriginaltweetid", retweetOriginalTweetId);
+                reader.AddParameter("isoriginaltweetforretweet", isOriginalTweetForRetweet);
+                try
+                {
+                    reader.Execute();
+                }
+                catch (Exception ex)
+                {
+                    ApiException exception = ApiException.GetError(ErrorType.CommentNotFound, ex.InnerException);
+                    throw exception;
+                }
+            }
+        }
+
+        public int GetCommentIdFromTweetId(long tweetId)
+        {
+            using (IDnaDataReader reader = CreateReader("getcommentidfromtweetid"))
+            {
+                reader.AddParameter("tweetid", tweetId);
+                reader.Execute();
+                if (reader.Read())
+                    return reader.GetInt32NullAsZero("threadentryid");
+
+                return 0;
+            }
+        }
+
+        public void CreateTweetInfoForPreModPostings(int modId, long tweetId, long retweetOriginalTweetId, bool isOriginalTweetForRetweet)
+        {
+            using (IDnaDataReader reader = CreateReader("createtweetinfoforpremodpostings"))
+            {
+                reader.AddParameter("modid", modId);
+                reader.AddParameter("tweetid", tweetId);
+                reader.AddParameter("retweetoriginaltweetid", retweetOriginalTweetId);
+                reader.AddParameter("isoriginaltweetforretweet", isOriginalTweetForRetweet);
+                reader.Execute();
+            }
+        }
+
+        public void CreateRetweetInfoForPreModPostings(int modId, long tweetId, long retweetOriginalTweetId, bool isOriginalTweetForRetweet)
+        {
+            using (IDnaDataReader reader = CreateReader("createretweetinfoforpremodpostings"))
+            {
+                reader.AddParameter("modid", modId);
+                reader.AddParameter("tweetid", tweetId);
+                reader.AddParameter("retweetoriginaltweetid", retweetOriginalTweetId);
+                reader.AddParameter("isoriginaltweetforretweet", isOriginalTweetForRetweet);
+                try
+                {
+                    reader.Execute();
+                }
+                catch (Exception ex)
+                {
+                    ApiException exception = ApiException.GetError(ErrorType.CommentNotFound, ex.InnerException);
+                    throw exception;
+                }
+            }
         }
 
         #region Private Functions
@@ -1186,7 +1371,28 @@ namespace BBC.Dna.Api
                 commentInfo.NeroRatingValue = reader.GetInt32NullAsZero("nerovalue");
             }
 
+            if (reader.DoesFieldExist("tweetid"))
+            {
+                commentInfo.TweetId = reader.GetLongNullAsZero("tweetid");
+            }
+
             commentInfo.text = CommentInfo.FormatComment(reader.GetString("text"), commentInfo.PostStyle, commentInfo.hidden, commentInfo.User.Editor);
+
+            if (reader.DoesFieldExist("twitterscreenname"))
+            {
+                commentInfo.TwitterScreenName = reader.GetStringNullAsEmpty("twitterscreenname");
+            }
+
+            if (reader.DoesFieldExist("retweetid"))
+            {
+                commentInfo.RetweetId = reader.GetLongNullAsZero("retweetid");
+            }
+
+            if (reader.DoesFieldExist("retweetedby"))
+            {
+                commentInfo.RetweetedBy = reader.GetStringNullAsEmpty("retweetedby");
+            }
+
             return commentInfo;
         }
 

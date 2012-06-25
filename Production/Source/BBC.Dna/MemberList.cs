@@ -6,6 +6,9 @@ using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.SocialAPI;
+using BBC.Dna.Users;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Component
 {
@@ -33,6 +36,9 @@ namespace BBC.Dna.Component
                    
         string _cacheName = String.Empty;
 
+        IDnaDataReaderCreator readerCreator;
+        IDnaDiagnostics dnaDiagnostic;
+
         /// <summary>
         /// Default constructor for the Member List component
         /// </summary>
@@ -40,6 +46,19 @@ namespace BBC.Dna.Component
         public MemberList(IInputContext context)
             : base(context)
         {
+        }
+
+        /// <summary>
+        /// Overloaded constructor that takes in the context, DnaDataReaderCreator and DnaDiagnostics
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="dnaReaderCreator"></param>
+        /// <param name="dnaDiagnostics"></param>
+        public MemberList(IInputContext context, IDnaDataReaderCreator dnaReaderCreator, IDnaDiagnostics dnaDiagnostics)
+            : base(context)
+        {
+            this.readerCreator = dnaReaderCreator;
+            this.dnaDiagnostic = dnaDiagnostics;
         }
 
         /// <summary>
@@ -279,6 +298,9 @@ namespace BBC.Dna.Component
 
             using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader(storedProcedureName))
             {
+                var twitterAPIException = string.Empty;
+                var twitterException = string.Empty;
+
                 dataReader.AddParameter("viewinguserid", InputContext.ViewingUser.UserID);
 
                 if (userSearchType == 0)
@@ -305,6 +327,10 @@ namespace BBC.Dna.Component
                 {
                     dataReader.AddParameter("LoginName", searchText);
                 }
+                else if (userSearchType == 6)
+                {
+                    dataReader.AddParameter("twitterscreenname", searchText);
+                }
                 if (checkAllSites)
                 {
                     dataReader.AddParameter("checkallsites", 1);
@@ -316,11 +342,119 @@ namespace BBC.Dna.Component
 
                 dataReader.Execute();
 
+                if (false == dataReader.HasRows && userSearchType == 6)
+                {
+
+                    twitterException = CreateRetrieveTwitterUser(searchText, dataReader);
+                }
+
                 GenerateMemberListXml(dataReader, 
                                         userSearchType, 
                                         searchText,
-                                        checkAllSites);
+                                        checkAllSites,
+                                        twitterException);
             }
+        }
+
+        /// <summary>
+        /// This method creates and maps the twitter user to a DNA User ID and retrieve the created twitter user details
+        /// </summary>
+        /// <param name="searchText"></param>
+        /// <param name="dataReader"></param>
+        private string CreateRetrieveTwitterUser(string searchText, IDnaDataReader dataReader)
+        {
+            //TODO: Call the twitter api to get the user details
+            TwitterClient client;
+            TweetUsers tweetUser;
+            //var twitterAPIException = string.Empty;
+            var twitterException = string.Empty;
+            try
+            {
+                client = new TwitterClient();
+                tweetUser = new TweetUsers();
+
+                tweetUser = client.GetUserDetails(searchText);
+
+                // Create the twitter user with the associated dnauserid in DNA
+                if (tweetUser != null)
+                {
+                    ICacheManager cacheManager = CacheFactory.GetCacheManager();
+
+                    var callingUser = new CallingTwitterUser(this.readerCreator, this.dnaDiagnostic, cacheManager);
+
+                    //Create the twitter user and map it to DNA with site id 1
+                    callingUser.CreateUserFromTwitterUser(1, tweetUser);
+                    callingUser.SynchroniseSiteSuffix(tweetUser.ProfileImageUrl);
+
+                    if (dataReader != null)
+                    {
+                        dataReader.Execute();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                InputContext.Diagnostics.WriteExceptionToLog(ex);
+
+                var twitterRateLimitException = "Rate limit exceeded.";
+                var twitterErrorNotFound = "The remote server returned an error: (404) Not Found.";
+                var twitterUnexpectedResponseException = "The remote server returned an unexpected response: (400) Bad Request.";
+
+                if (ex.Message.Contains(twitterRateLimitException))
+                {
+                    twitterException = "Twitter API has reached its rate limit. Please try again later.";
+                }
+                else if (ex.Message.Equals(twitterErrorNotFound) ||
+                    ex.InnerException.Message.Equals(twitterErrorNotFound))
+                {
+                    twitterException = "Searched user not found in Twitter";
+                }
+                else if (ex.Message.Equals(twitterUnexpectedResponseException))
+                {
+                    twitterException = "Twitter Exception: " + ex.Message + " Please try again in few minutes.";
+                }
+                else
+                {
+                    twitterException = "Twitter Exception: " + ex.Message;
+                }
+            }
+
+            return twitterException;
+        }
+
+        /// <summary>
+        /// Retrieve the tweet user details from twitter
+        /// </summary>
+        /// <param name="twitterScreenName"></param>
+        /// <returns></returns>
+        public TweetUsers RetrieveTweetUserDetails(string twitterScreenName)
+        {
+             //TODO: Call the twitter api to get the user details
+            TwitterClient client;
+            TweetUsers tweetUser =  new TweetUsers();
+            
+            try
+            {
+                client = new TwitterClient();
+                tweetUser = client.GetUserDetails(twitterScreenName);
+            }
+            catch (Exception ex)
+            {
+                InputContext.Diagnostics.WriteExceptionToLog(ex);
+                tweetUser.TwitterResponseException = ex;
+            }
+
+            return tweetUser;
+        }
+
+        /// <summary>
+        /// Public method to retrieve the twitter user and map to a DNA account
+        /// </summary>
+        /// <param name="twitterScreenName"></param>
+        /// <returns></returns>
+        public string CreateRetrieveTwitterUser(string twitterScreenName)
+        {
+            return CreateRetrieveTwitterUser(twitterScreenName, null);
         }
 
         /// <summary>
@@ -330,11 +464,13 @@ namespace BBC.Dna.Component
         /// <param name="userSearchType"></param>
         /// <param name="searchText"></param>
         /// <param name="checkAllSites"></param>
+        /// <param name="twitterAPIException"></param>
         public void GenerateMemberListXml(
             IDnaDataReader dataReader,
             int userSearchType,
             string searchText,
-            bool checkAllSites)
+            bool checkAllSites,
+            string twitterAPIException)
         {
             int count = 0;
 
@@ -342,6 +478,7 @@ namespace BBC.Dna.Component
             AddAttribute(memberList, "USERSEARCHTYPE", userSearchType.ToString());
             AddAttribute(memberList, "SEARCHTEXT", searchText);
             AddAttribute(memberList, "CHECKALLSITES", checkAllSites.ToString());
+            
 
             if (dataReader.HasRows)
             {
@@ -401,7 +538,14 @@ namespace BBC.Dna.Component
                             AddTextTag(userAccount, "BBCUID", dataReader.GetGuidAsStringOrEmpty("BBCUID"));
                         }
 
-                        AddIntElement(userAccount, "SSOUSERID", dataReader.GetInt32NullAsZero("SSOUserID"));
+                        if (userSearchType == 6)
+                        {
+                            AddTextTag(userAccount, "TWITTERUSERID", dataReader.GetStringNullAsEmpty("TwitterUserID"));
+                        }
+                        else
+                        {
+                            AddIntElement(userAccount, "SSOUSERID", dataReader.GetInt32NullAsZero("SSOUserID"));
+                        }
                         AddTextTag(userAccount, "IDENTITYUSERID", dataReader.GetStringNullAsEmpty("IdentityUserID"));
                         AddIntElement(userAccount, "ACTIVE", dataReader.GetInt32NullAsZero("STATUS") != 0 ? 1:0);
                         userAccounts.AppendChild(userAccount);
@@ -415,6 +559,8 @@ namespace BBC.Dna.Component
             }
 
             AddAttribute(memberList, "COUNT", count);
+
+            AddAttribute(memberList, "TWITTEREXCEPTION", twitterAPIException);
 
             //FileCache.PutItem(AppContext.TheAppContext.Config.CachePath, "memberlist", _cacheName, memberList.OuterXml);
 
@@ -453,6 +599,10 @@ namespace BBC.Dna.Component
             else if (userSearchType == 5)
             {
                 storedProcedureName = "SearchForUserViaLoginName";
+            }
+            else if (userSearchType == 6)
+            {
+                storedProcedureName = "SearchForTwitterUserViaScreenName";
             }
             return storedProcedureName;
         }

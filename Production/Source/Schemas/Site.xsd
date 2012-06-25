@@ -18,6 +18,11 @@
 						<xs:documentation>Url Site name. replicates Site Name</xs:documentation>
 					</xs:annotation>
 				</xs:element>
+        <xs:element name="SAMPLEURL" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Url for the service</xs:documentation>
+          </xs:annotation>
+        </xs:element>
 				<xs:element name="SHORTNAME" type="xs:string" minOccurs="0">
 					<xs:annotation>
 						<xs:documentation>Site shortname description.</xs:documentation>

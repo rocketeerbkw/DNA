@@ -197,6 +197,8 @@ namespace BBC.Dna.Component
                         AddTextTag(post, "SUBJECT", dataReader.GetStringNullAsEmpty("subject"));
 
                         AddTextTag(post, "RAWTEXT", StringUtils.StripInvalidXmlChars(dataReader.GetStringNullAsEmpty("text")));
+
+                        AddIntElement(post, "POSTSTYLE", dataReader.GetInt32NullAsZero("PostStyle"));
                         
                         String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, true, false);
                         if (!dataReader.IsDBNull("commentforumurl"))
@@ -292,6 +294,7 @@ namespace BBC.Dna.Component
                                 XmlElement statusXml = AddElementTag(authorXml, "STATUS");
                                 AddAttribute(statusXml, "STATUSID", dataReader.GetInt32NullAsZero("prefstatus"));
                                 AddAttribute(statusXml, "DURATION", dataReader.GetInt32NullAsZero("prefstatusduration"));
+                                AddAttribute(statusXml, "SITESUFFIX", dataReader.GetStringNullAsEmpty("SiteSuffix"));
                                 if ( !dataReader.IsDBNull("prefstatuschangeddate"))
                                 {
                                     AddDateXml(dataReader.GetDateTime("prefstatuschangeddate"), statusXml, "STATUSCHANGEDDATE");
@@ -325,6 +328,7 @@ namespace BBC.Dna.Component
                                 XmlElement status = AddElementTag(alertUserXml, "STATUS");
                                 AddAttribute(status, "STATUSID", dataReader.GetInt32NullAsZero("complainantprefstatus"));
                                 AddAttribute(status, "DURATION", dataReader.GetInt32NullAsZero("complainantprefstatusduration"));
+                                AddAttribute(status, "SITESUFFIX", dataReader.GetStringNullAsEmpty("SiteSuffix"));
                                 if (!dataReader.IsDBNull("complainantprefstatuschangeddate"))
                                 {
                                     AddDateXml(dataReader.GetDateTime("complainantprefstatuschangeddate"), alertUserXml, "STATUSCHANGEDDATE");
@@ -377,6 +381,7 @@ namespace BBC.Dna.Component
                 ModerationItemStatus decision = (ModerationItemStatus)InputContext.GetParamIntOrZero("decision", i, "Moderation Decision");
                 int referId = InputContext.GetParamIntOrZero("referto", i, "Refer");
                 int siteId = InputContext.GetParamIntOrZero("siteid", i, "SiteId");
+                Api.PostStyle.Style postStyle = (Api.PostStyle.Style)InputContext.GetParamIntOrZero("PostStyle", i, "PostStyle");
                 int threadModStatus = InputContext.GetParamIntOrZero("threadmoderationstatus", i, "Thread Moderation Status");
 
                 bool sendEmail = InputContext.GetSiteOptionValueBool(siteId, "Moderation", "DoNotSendEmail") == false;
@@ -386,49 +391,78 @@ namespace BBC.Dna.Component
                 // Custom Email Text should be either removed URLs or a custom entry.
                 String customText = InputContext.GetParamStringOrEmpty("customemailtext",i, "Custom Email Text");
 
-                // Handle PreMod Postings
-                bool preModPosting = false;
-                if (postId == 0)
+                if (IsArchivePreModPosting(postId, decision, postStyle))
                 {
-                    bool create = decision == ModerationItemStatus.PassedWithEdit;
-                    using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("checkpremodpostingexists"))
+                    ArchivePreModPosting(modId);
+                }
+                else
+                {
+                    // Handle PreMod Postings
+                    bool preModPosting = false;
+                    if (postId == 0)
                     {
-                        dataReader.AddParameter("modid", modId);
-                        dataReader.AddParameter("create", create);
-                        dataReader.Execute();
-
-                        if (dataReader.Read())
+                        bool create = decision == ModerationItemStatus.PassedWithEdit;
+                        using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("checkpremodpostingexists"))
                         {
-                            preModPosting = dataReader.DoesFieldExist("modid");
-                            if (create)
+                            dataReader.AddParameter("modid", modId);
+                            dataReader.AddParameter("create", create);
+                            dataReader.Execute();
+
+                            if (dataReader.Read())
                             {
-                                postId = dataReader.GetInt32NullAsZero("postid");
-                                threadId = dataReader.GetInt32NullAsZero("threadid");
+                                preModPosting = dataReader.DoesFieldExist("modid");
+                                if (create)
+                                {
+                                    postId = dataReader.GetInt32NullAsZero("postid");
+                                    threadId = dataReader.GetInt32NullAsZero("threadid");
+                                }
                             }
                         }
                     }
-                }
 
-                // Edit the post.
-                if (decision == ModerationItemStatus.PassedWithEdit)
-                {
-                    String subject = InputContext.GetParamStringOrEmpty("editpostsubject",i, "Edit Post Subject");
-                    String body = InputContext.GetParamStringOrEmpty("editposttext",i, "Edit Post Body");
-                    int userId = InputContext.ViewingUser.UserID;
-                    ModerationPosts.EditPost(AppContext.ReaderCreator, userId, postId, subject,body, false, true);
-                }
+                    // Edit the post.
+                    if (decision == ModerationItemStatus.PassedWithEdit)
+                    {
+                        String subject = InputContext.GetParamStringOrEmpty("editpostsubject", i, "Edit Post Subject");
+                        String body = InputContext.GetParamStringOrEmpty("editposttext", i, "Edit Post Body");
+                        int userId = InputContext.ViewingUser.UserID;
+                        ModerationPosts.EditPost(AppContext.ReaderCreator, userId, postId, subject, body, false, true);
+                    }
 
-                Update(siteId, forumId, threadId, postId, modId, decision, notes, referId, threadModStatus, sendEmail, emailType, customText);
+                    Update(siteId, forumId, threadId, postId, modId, decision, notes, referId, threadModStatus, sendEmail, emailType, customText);
 
-                // Post Distress Message
-                int distressID = InputContext.GetParamIntOrZero("distressmessageid", i, "Distress Message");
-                if (distressID > 0)
-                {
-                    ModerationDistressMessages distressMessage = new ModerationDistressMessages(InputContext);
-                    distressMessage.PostDistressMessage(distressID, siteId, forumId, threadId, postId);
+                    // Post Distress Message
+                    int distressID = InputContext.GetParamIntOrZero("distressmessageid", i, "Distress Message");
+                    if (distressID > 0)
+                    {
+                        ModerationDistressMessages distressMessage = new ModerationDistressMessages(InputContext);
+                        distressMessage.PostDistressMessage(distressID, siteId, forumId, threadId, postId);
+                    }
                 }
             }
 
+        }
+
+        private bool IsArchivePreModPosting(int postId, ModerationItemStatus decision, Api.PostStyle.Style postStyle)
+        {
+            if (postId == 0 &&
+                decision == ModerationItemStatus.Failed &&
+                postStyle == Api.PostStyle.Style.tweet)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ArchivePreModPosting(int modId)
+        {
+            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("archivepremodposting"))
+            {
+                dataReader.AddParameter("modId", modId);
+                dataReader.AddParameter("reason", (char)ThreadModDeleteReason.Archive);
+                dataReader.Execute();
+            }
         }
 
         /// <summary>

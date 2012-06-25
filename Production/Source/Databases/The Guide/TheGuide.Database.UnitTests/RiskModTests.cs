@@ -1285,7 +1285,7 @@ namespace TheGuide.Database.UnitTests
                 -- that stops the same user from creating a new conversation within a minute of the last one, doesn't stop the post
                 update threadentries set forumid=-{0} where forumid={0} and userid={3}
 
-                declare @hash uniqueidentifier, @returnthread int, @returnpost int, @ispremodposting int, @ispremoderated int
+                declare @hash uniqueidentifier, @returnthread int, @returnpost int, @premodpostingmodid int, @ispremoderated int
                 set @hash=newid()
                 exec posttoforuminternal    @userid= {3}, 
 										    @forumid = {0}, 
@@ -1309,7 +1309,7 @@ namespace TheGuide.Database.UnitTests
 										    @ipaddress = 'testip',
 										    @queueid = null, 
 										    @clubid = 0, 
-										    @ispremodposting =@ispremodposting OUTPUT,
+										    @premodpostingmodid =@premodpostingmodid OUTPUT,
 										    @ispremoderated =@ispremoderated OUTPUT, 
 										    @bbcuid = '{5}',
 										    @isnotable = 0, 

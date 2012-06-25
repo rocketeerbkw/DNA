@@ -24,6 +24,7 @@ namespace FunctionalTests
         private static int _siteId = 1;
         private static int _normalUserId = TestUserAccounts.GetNormalUserAccount.UserID;
         private string _normalUserSearch = String.Format("userlist?searchText=DotNetNormalUser&usersearchtype=2&skin=purexml");
+        private string _twitterUserScreenName = String.Format("userlist?searchText=twittersearch&usersearchtype=6&skin=purexml");
         private IInputContext testContext = DnaMockery.CreateDatabaseInputContext();
 
         public UserListPageTest()
@@ -116,6 +117,63 @@ namespace FunctionalTests
             var xml = request.GetLastResponseAsXML();
 
             CheckValidXml(xml, true);
+        }
+
+        [TestMethod]
+        public void UserList_SearchTwitterUserName_ReturnsCorrectResults()
+        {
+            var twitterSearchName = "FurryGeezer";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserSuperUser();
+            request.UseEditorAuthentication = true;
+
+            _twitterUserScreenName = _twitterUserScreenName.Replace("twittersearch", twitterSearchName);
+
+            request.RequestPage(_twitterUserScreenName);
+
+            var xml = request.GetLastResponseAsXML();
+
+            if (string.IsNullOrEmpty(xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value))
+            {
+                Assert.AreEqual(xml.SelectSingleNode("//H2G2/MEMBERLIST/USERACCOUNTS/USERACCOUNT/USERNAME").InnerXml, twitterSearchName);
+            }
+            else
+            {
+                var expectedTwitterException = "Twitter Exception: The remote server returned an unexpected response: (400) Bad Request. Please try again in few minutes.";
+
+                Assert.AreEqual(xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value, expectedTwitterException);
+            }
+        }
+
+        [TestMethod]
+        public void UserList_SearchTwitterUserName_ReturnsException()
+        {
+            var twitterSearchName = "_DotNetNormalUser";
+
+            var request = new DnaTestURLRequest(_siteName);
+            request.SetCurrentUserSuperUser();
+            request.UseEditorAuthentication = true;
+
+            _twitterUserScreenName = _twitterUserScreenName.Replace("twittersearch", twitterSearchName);
+
+            request.RequestPage(_twitterUserScreenName);
+
+            var xml = request.GetLastResponseAsXML();
+
+            var expectedTwitterError = "Searched user not found in Twitter";
+
+            var expectedTwitterException = "Twitter Exception: The remote server returned an unexpected response: (400) Bad Request. Please try again in few minutes.";
+
+            if (true == xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value.Contains("Twitter Exception:"))
+            {
+                Assert.AreEqual(expectedTwitterException, xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value);
+            }
+            else
+            {
+                Assert.AreEqual(expectedTwitterError, xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value);
+            }
+            
         }
 
         [TestMethod]

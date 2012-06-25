@@ -732,6 +732,60 @@ namespace FunctionalTests.Services.Comments
                 (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
         }
 
+
+        /// <summary>
+        /// Test coalesced comment forum filtered by multiple comment uids
+        /// </summary>
+        [TestMethod]
+        public void GetCoalescedCommentForumXML()
+        {
+            var request = new DnaTestURLRequest(_sitename);
+            request.SetCurrentUserNormal();
+
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/",
+                                       _sitename);
+            // now get the response
+            request.RequestPageWithFullURL(url, "", "text/xml");
+            // Check to make sure that the page returned with the correct information
+            XmlDocument xml = request.GetLastResponseAsXML();
+            var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForumList);
+            validator.Validate();
+            var returnedList =
+                (CommentForumList)
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
+
+            var commentForumUIDs = string.Empty;
+
+            for (int i = 17; i < returnedList.CommentForums.Count; i++)
+            {
+                commentForumUIDs += returnedList.CommentForums[i].Id + ",";
+            }
+           
+
+            commentForumUIDs = commentForumUIDs.TrimEnd(',');
+
+            //CommentForum commentForum = returnedList.CommentForums.First();
+
+            // Setup the request url
+            url =
+                String.Format(
+                    "http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/coalescedcommentsforum/{1}/",
+                    _sitename, commentForumUIDs);
+
+            // now get the response
+            request.RequestPageWithFullURL(url, "", "text/xml");
+
+            // Check to make sure that the page returned with the correct information
+            xml = request.GetLastResponseAsXML();
+            //validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
+            //validator.Validate();
+
+            var returnedForum =
+               (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
+        }
+
+
         /// <summary>
         /// Test GetCommentForumXMLWithoutNamespace method from service
         /// </summary>
@@ -2006,7 +2060,6 @@ namespace FunctionalTests.Services.Comments
             string title = "Functiontest Title";
             string parentUri = "http://www.bbc.co.uk/dna/h2g2/";
             ModerationStatus.ForumStatus moderationStatus = ModerationStatus.ForumStatus.PostMod;
-            bool isClosed = false;
             DateTime closeDate = DateTime.Now.AddDays(10);
             string commentForumXml = String.Format("<commentForum xmlns=\"BBC.Dna.Api\">" +
                                                    "<id>{0}</id>" +
@@ -2039,7 +2092,6 @@ namespace FunctionalTests.Services.Comments
             title = "Functiontest Title1";
             parentUri = "http://www.bbc.co.uk/dna/h2g2/1";
             moderationStatus = ModerationStatus.ForumStatus.Reactive;
-            isClosed = true;
             closeDate = DateTime.Now.AddDays(1);
             commentForumXml = String.Format("<commentForum xmlns=\"BBC.Dna.Api\">" +
                                                    "<id>{0}</id>" +

@@ -309,7 +309,7 @@ namespace Tests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("INSERT INTO dbo.ArticleMod values (559, null, null, null, 4, null, null, '2008-05-08', null, null, null, null, null, null)");
+                reader.ExecuteDEBUGONLY("INSERT INTO dbo.ArticleMod values (559, null, null, null, 4, null, null, '2008-05-08', null, null, null, null, null, null, null)");
             }
 
             using (IDnaDataReader reader = context.CreateDnaDataReader("checkifarticleshouldbehidden"))
@@ -335,7 +335,7 @@ namespace Tests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("INSERT INTO dbo.ArticleMod values (559, null, null, null, 2, null, null, null, null, null, null, null, null, null)");
+                reader.ExecuteDEBUGONLY("INSERT INTO dbo.ArticleMod values (559, null, null, null, 2, null, null, null, null, null, null, null, null, null, null)");
             }
 
             using (IDnaDataReader reader = context.CreateDnaDataReader("checkifarticleshouldbehidden"))
@@ -361,7 +361,7 @@ namespace Tests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("INSERT INTO dbo.ArticleMod values (559, getdate(), getdate(), 6, 0, null, null, null, null, null, null, null, null, null)");
+                reader.ExecuteDEBUGONLY("INSERT INTO dbo.ArticleMod values (559, getdate(), getdate(), 6, 0, null, null, null, null, null, null, null, null, null, null)");
             }
 
             using (IDnaDataReader reader = context.CreateDnaDataReader("checkifarticleshouldbehidden"))

@@ -1,8 +1,7 @@
 CREATE PROCEDURE createnewuserfromtwitteruserid		@twitteruserid			nvarchar(40) = null,
-													@username				varchar(255),
-													@siteid					int = 1,
-													@displayname			nvarchar(255) = null
-													
+													@twitterscreenname		nvarchar(255),
+													@twittername		    nvarchar(255),
+													@siteid					int = 1
 AS
 -- Try to get the dnauserid from the sign in mapping table
 DECLARE @DnaUserID int
@@ -14,9 +13,15 @@ BEGIN
 	INSERT INTO dbo.SignInUserIDMapping(TwitterUserID) VALUES (@twitteruserid)
 	SELECT @DnaUserID = @@IDENTITY
 END
+ELSE 
+BEGIN
+	-- update the screenname if the user already exists and the screenname is changed
+	UPDATE dbo.users 
+	SET UserName = @twittername, LoginName = @twitterscreenname
+	WHERE UserID = @DnaUserID AND (UserName <> @twittername OR LoginName <> @twitterscreenname)
+END
 
--- Now call the internal create new user from id
-EXEC createnewuserfromuserid @DnaUserID, @username, null, @siteid, null, null, @displayname, null, null
+EXEC createnewuserfromuserid @DnaUserID, @twitterscreenname, null, @siteid, null, null, @twittername, null, null
 
 
 

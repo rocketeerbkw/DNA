@@ -32,7 +32,7 @@ as
 	
 	;with cte_usersposts as
 	(
-		select row_number() over ( order by te.threadid, te.PostIndex asc) as n, te.EntryID
+		select row_number() over ( order by te.dateposted asc) as n, te.EntryID
 		from dbo.ThreadEntries te
 		INNER JOIN dbo.CommentForums cf ON cf.ForumID = te.ForumID
 		where  cf.siteid = @siteid
@@ -41,7 +41,7 @@ as
 
 		union all
 
-		select row_number() over ( order by te.threadid, te.PostIndex desc) as n, te.EntryID
+		select row_number() over ( order by te.dateposted desc) as n, te.EntryID
 		from dbo.ThreadEntries te
 		INNER JOIN dbo.CommentForums cf ON cf.ForumID = te.ForumID
 		where  cf.siteid = @siteid
@@ -59,6 +59,6 @@ as
 	left join dbo.VCommentsRatingValue crv WITH(NOEXPAND)  on crv.entryid = cte_usersposts.EntryID
 	where n > @startindex and n <= @startindex + @itemsPerPage
 	order by n
-	OPTION (OPTIMIZE FOR (@prefix='%',@siteid=1))
+	OPTION (OPTIMIZE FOR (@prefix='%',@siteid=0))
 	
 	

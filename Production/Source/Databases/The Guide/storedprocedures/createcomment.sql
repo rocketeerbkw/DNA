@@ -22,14 +22,14 @@ BEGIN
 	IF @siteid != @contentsiteid
 	BEGIN
 		-- Content relates to a different site .
-		SELECT 0 'postid', @hostpageurl 'hostpageurl', 1 'canread', 0 'canwrite', 0 'ispremoderated', 0 'ispremodposting', @contentsiteid 'contentsiteid'
+		SELECT 0 'postid', @hostpageurl 'hostpageurl', 1 'canread', 0 'canwrite', 0 'ispremoderated', 0 'premodpostingmodid', @contentsiteid 'contentsiteid'
 		RETURN 0
 	END
 	
 	-- Check to see if the forum has gone past it's closing date, bypass for ignored moderation.
 	IF (@ignoremoderation = 0 AND @ForumCloseDate < GetDate())
 	BEGIN
-		SELECT 0 'postid', @hostpageurl 'hostpageurl', 1 'canread', 0 'canwrite', 0 'ispremoderated', 0 'ispremodposting',  @contentsiteid 'contentsiteid'
+		SELECT 0 'postid', @hostpageurl 'hostpageurl', 1 'canread', 0 'canwrite', 0 'ispremoderated', 0 'premodpostingmodid',  @contentsiteid 'contentsiteid'
 		RETURN 0
 	END
 	
@@ -40,7 +40,7 @@ BEGIN
 	
 	IF ( @canwrite = 0 AND @ignoremoderation = 0 )
 	BEGIN
-		SELECT 0 'postid', @hostpageurl 'hostpageurl', @canread 'CanRead', @canwrite 'CanWrite', 0 'ispremoderated', 0 'ispremodposting',  @contentsiteid 'contentsiteid'
+		SELECT 0 'postid', @hostpageurl 'hostpageurl', @canread 'CanRead', @canwrite 'CanWrite', 0 'ispremoderated', 0 'premodpostingmodid',  @contentsiteid 'contentsiteid'
 		RETURN @returncode
 	END
 
@@ -58,13 +58,13 @@ BEGIN
 
 	DECLARE @newpostid INT
 	DECLARE @newthreadid INT
-	DECLARE @ispremodposting INT
+	DECLARE @premodpostingmodid INT
 	DECLARE @ispremoderated INT
 	DECLARE @IsComment TINYINT
 	SELECT @IsComment = 1 -- User's do not want comments appearing on their MorePosts page. This flag controls if ThreadPostings is populated. != 0 equates to don't populate.
 	EXEC @returncode = posttoforuminternal  @userid, @forumid, @inreplyto, @threadid, @subject, @content, @poststyle, @hash, NULL, NULL, @newthreadid OUTPUT, 
 											@newpostid OUTPUT, NULL, NULL, @forcemoderation, @forcepremoderation, @ignoremoderation, 1, 0, @ipaddress, NULL, 0, 
-											@ispremodposting OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment,
+											@premodpostingmodid OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment,
 											/*@modnotes*/ NULL,/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0
 
 	-- Find out if post was premoderated.
@@ -75,7 +75,7 @@ BEGIN
 	--BEGIN
 	--	SET @premoderation = 0 
 	--END
-	SELECT ISNULL(@newpostid, 0) 'postid', @hostpageurl 'hostpageurl', ISNULL(@canread,1) 'canread', ISNULL(@canwrite,1) 'canwrite', ISNULL(@ispremoderated,0) 'ispremoderated', ISNULL(@ispremodposting,0) 'ispremodposting',  @contentsiteid 'contentsiteid'
+	SELECT ISNULL(@newpostid, 0) 'postid', @hostpageurl 'hostpageurl', ISNULL(@canread,1) 'canread', ISNULL(@canwrite,1) 'canwrite', ISNULL(@ispremoderated,0) 'ispremoderated', ISNULL(@premodpostingmodid,0) 'premodpostingmodid',  @contentsiteid 'contentsiteid'
 
 	RETURN @returncode
     

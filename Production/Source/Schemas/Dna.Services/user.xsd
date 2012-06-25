@@ -9,6 +9,7 @@
 				<xs:element name="notable" type="xs:boolean" />
 				<xs:element name="bbcId" type="xs:string" nillable="true"/>
         <xs:element name="siteSpecificDisplayName" type="xs:string" nillable="true"/>
+        <xs:element name="twitterScreenName" type="xs:string" nillable="true"/><!-- @username in twitter-->
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

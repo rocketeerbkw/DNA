@@ -50,18 +50,20 @@ begin
 		SELECT ModId, 1 AS Duplicate FROM ComplaintDuplicates WHERE HashValue = @hash
 		return (0) -- This error is expected for duplicate complaints.
 	END CATCH
+
+	EXEC openemailaddresskey
 	
 	IF @complainantid = 0 
 	BEGIN
 	-- set up verification email uid and save complaint
 		declare @verificationUid uniqueidentifier
 		set @verificationUid = newid()
-	
+		
 		insert into [dbo].[ThreadModAwaitingEmailVerification]
-		(ID, ForumID, ThreadID, PostId, DateQueued, [CorrespondenceEmail], [ComplaintText],[SiteID], [IPAddress], 
+		(ID, ForumID, ThreadID, PostId, DateQueued, [EncryptedCorrespondenceEmail], [ComplaintText],[SiteID], [IPAddress], 
 		[BBCUid])
 		values
-		(@verificationUid, @ForumID, @ThreadID, @PostID, getdate(), @correspondenceemail, @complainttext, @SiteID,
+		(@verificationUid, @ForumID, @ThreadID, @PostID, getdate(), dbo.udf_encryptemailaddress(@correspondenceemail,@PostId), @complainttext, @SiteID,
 		@ipaddress, @bbcuid) 
 		
 		select @verificationUid as verificationUid
@@ -79,13 +81,13 @@ begin
 	END
 
 	--Add New Moderation item to queue.
-	insert into ThreadMod (PostID, ThreadID, ForumID, DateQueued, Status, 
-							NewPost, ComplainantID, CorrespondenceEmail, 
-							ComplaintText, SiteID )
-	values (@PostID, @ThreadID, @ForumID, getdate(), 0, 1, @complainantid, 
-				@correspondenceemail, @complainttext, @SiteID )
+	insert into ThreadMod ( PostID,  ThreadID,  ForumID, DateQueued, Status, NewPost,  ComplainantID, EncryptedCorrespondenceEmail, ComplaintText,  SiteID )
+	values                (@PostID, @ThreadID, @ForumID, getdate(),  0,      1,       @complainantid, NULL,                        @complainttext, @SiteID )
 	-- capture the key value
-	set @ModID = @@identity
+	set @ModID = SCOPE_IDENTITY();
+	
+	UPDATE ThreadMod SET EncryptedCorrespondenceEmail=dbo.udf_encryptemailaddress(@correspondenceemail,ModID) WHERE ModId=@ModId
+	
 	if @ipaddress IS NOT NULL
 	BEGIN
 		insert into ThreadModIPAddress (ThreadModID, IPAddress, BBCUID) VALUES(@ModID, @ipaddress, @bbcuid)

@@ -196,20 +196,15 @@ namespace BBC.Dna.Moderation
                     reader.AddParameter("EditorID", editorID);
                     reader.AddParameter("SignInBanned", bannedFromSignIn);
                     reader.AddParameter("ComplaintBanned", bannedFromComplaints);
+                    reader.AddIntReturnValue();
                     reader.Execute();
-                    if (reader.HasRows && reader.Read())
+                    var duplicate = reader.GetIntReturnValue();
+                    if (duplicate == 0)
                     {
-                        if (reader.GetInt32("Duplicate") == 0)
-                        {
-                            var bannedEmails = GetObjectFromCache();
-                            bannedEmails.bannedEmailsList.Add(email, new BannedEmailDetails(email, bannedFromSignIn, bannedFromComplaints, editorID, editorName, DateTime.Now));
-                            AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), bannedEmails);
-                            SendSignals();
-                        }
-                    }
-                    else
-                    {
-                        throw new Exception("Incorrect return from AddEmailTobannedEmails sp");
+                        var bannedEmails = GetObjectFromCache();
+                        bannedEmails.bannedEmailsList.Add(email, new BannedEmailDetails(email, bannedFromSignIn, bannedFromComplaints, editorID, editorName, DateTime.Now));
+                        AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), bannedEmails);
+                        SendSignals();
                     }
                 }
             }

@@ -114,4 +114,5 @@ WHERE	g.EntryID IN
 )
 AND g.siteid = @siteid
 ORDER BY DateCreated DESC
+OPTION(OPTIMIZE FOR (@userid=0))
 END

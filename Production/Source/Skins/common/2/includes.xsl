@@ -133,7 +133,7 @@
             <xsl:include href="_library/pagination/contributions.xsl" />
             <xsl:include href="_library/pagination/userevents.xsl" />
             <xsl:include href="_library/pagination/userreputationreport.xsl" />
-  
+			<xsl:include href="_library/pagination/comments.xsl" />
 
 
             <xsl:include href="_library/sso/loginurl.xsl" />

@@ -163,7 +163,7 @@ END
 
 COMMIT TRAN
 
-
+EXEC openemailaddresskey
 -- Return the details. 
 SELECT		tm.ModID,
 		ge.Subject 'TopicTitle',
@@ -181,6 +181,7 @@ SELECT		tm.ModID,
 		p.PrefStatus,
 		p.PrefStatusChangedDate,
 		p.PrefStatusDuration,
+		p.SiteSuffix,
 		--uts.UserTagDescription as 'UserMemberTag',
 		te.Subject,
 		tm.Notes,
@@ -194,7 +195,7 @@ SELECT		tm.ModID,
 		cp.PrefStatusChangedDate	'ComplainantPrefStatusChangedDate',
 		cp.PrefStatusDuration		'ComplainantPrefStatusDuration',
 		--cuts.UserTagDescription		'ComplainantMemberTag',
-		tm.CorrespondenceEmail,
+		dbo.udf_decryptemailaddress(tm.EncryptedCorrespondenceEmail,tm.ModID) as CorrespondenceEmail, 
 		tm.ComplaintText,
 		te.PostStyle,
 		te.text,
@@ -256,7 +257,7 @@ LEFT JOIN Users lu WITH (NOLOCK) ON lu.UserId = tm.LockedBy
 LEFT JOIN GuideEntries ge WITH (NOLOCK) ON ge.ForumId = tm.ForumId
 
 -- Annonymous complainants: see if we can get a user record for the complainant from the email address. Only do it if we don't have a ComplaintantID and the email address is neither null nor blank. 
-LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND dbo.udf_hashemailaddress(tm.CorrespondenceEmail) = users_emails.hashedemail AND users_emails.hashedemail is not null 
+LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND dbo.udf_hashemailaddress(dbo.udf_decryptemailaddress(tm.EncryptedCorrespondenceEmail,tm.ModID)) = users_emails.hashedemail AND users_emails.hashedemail is not null 
 		AND users_emails.userid = (select min(userid) from users WITH (NOLOCK) where hashedemail = users_emails.hashedemail)
 
 -- Get the UID & URL if it's a comment forum. 
@@ -281,6 +282,7 @@ SELECT	tm.ModID,
 		p.PrefStatus,
 		p.PrefStatusChangedDate,
 		p.PrefStatusDuration,
+		p.SiteSuffix,
 		--uts.UserTagDescription as 'UserMemberTag',
 		pmp.Subject,
 		tm.Notes,
@@ -294,7 +296,7 @@ SELECT	tm.ModID,
 		cp.PrefStatusChangedDate	'ComplainantPrefStatusChangedDate',
 		cp.PrefStatusDuration		'ComplainantPrefStatusDuration',
 		--cuts.UserTagDescription		'ComplainantMemberTag',
-		tm.CorrespondenceEmail,
+		dbo.udf_decryptemailaddress(tm.EncryptedCorrespondenceEmail,tm.ModID) as CorrespondenceEmail,
 		tm.ComplaintText,
 		pmp.PostStyle,
 		pmp.body as 'text',
@@ -355,7 +357,7 @@ LEFT JOIN Users lu WITH (NOLOCK) ON lu.UserId = tm.LockedBy
 LEFT JOIN GuideEntries ge WITH (NOLOCK) ON ge.ForumId = tm.ForumId
 
 -- Annonymous complainants: see if we can get a user record for the complainant from the email address. Only do it if we don't have a ComplaintantID and the email address is neither null nor blank. 
-LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND dbo.udf_hashemailaddress(tm.CorrespondenceEmail) = users_emails.hashedemail AND users_emails.hashedemail is not null 
+LEFT JOIN Users users_emails WITH (NOLOCK) ON ISNULL(tm.ComplainantID,0) = 0 AND dbo.udf_hashemailaddress(dbo.udf_decryptemailaddress(tm.EncryptedCorrespondenceEmail,tm.ModID)) = users_emails.hashedemail AND users_emails.hashedemail is not null 
 		AND users_emails.userid = (select min(userid) from users WITH (NOLOCK) where hashedemail = users_emails.hashedemail)
 
 

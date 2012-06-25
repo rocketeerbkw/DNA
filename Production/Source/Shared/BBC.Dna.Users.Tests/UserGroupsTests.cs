@@ -553,7 +553,6 @@ namespace BBC.Dna.Users.Tests
             var signalType = "recache-groups";
 
             var groupName = "editor";
-            var groupId = 1;
             var siteIds = new Queue<int>();
             siteIds.Enqueue(1);
             siteIds.Enqueue(2);

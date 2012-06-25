@@ -165,6 +165,16 @@ BEGIN
 	RETURN @ErrorCode
 END
 
+-- If we captured some tweet information when the post went into the PreModPostings table
+-- transfer the info into the corresponding table for the new thread entry
+IF EXISTS (SELECT * FROM dbo.PreModPostingsTweetInfo WHERE ModId = @ModId)
+BEGIN
+	DECLARE @TweetId bigint
+	SELECT @TweetId = TweetId FROM PreModPostingsTweetInfo WHERE ModId = @ModId
+	EXEC createtweetinfoforcomment @EntryID, @TweetId, 0, 0 -- @retweetoriginaltweetid = 0 & @isoriginaltweetforretweet = false
+	DELETE PreModPostingsTweetInfo WHERE ModId = @ModId
+END
+
 -- Increment the post by thread counter for the specific thread
 EXEC updatethreadpostcount @ThreadID, 1
 SELECT @ErrorCode = @@ERROR

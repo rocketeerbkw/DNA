@@ -200,7 +200,7 @@ EXEC openemailaddresskey
 -- also return if this was a legacy moderation or not
 select	dbo.udf_decryptemailaddress(U.EncryptedEmail,U.UserId) as AuthorsEmail,
 		U.UserID as AuthorID,
-		AM.CorrespondenceEmail as ComplainantsEmail,
+		dbo.udf_decryptemailaddress(AM.EncryptedCorrespondenceEmail,AM.ModID) as ComplainantsEmail, 
 		AM.ComplainantID,
 		case when AM.NewArticle = 0 then 1 else 0 end as IsLegacy,
 		G.Status as EntryStatus

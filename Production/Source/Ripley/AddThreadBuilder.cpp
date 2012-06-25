@@ -458,7 +458,7 @@ bool CAddThreadBuilder::Build(CWholePage* pPage)
 		// we should detect that fact and handle it differently
 
 		bool bWasQueued = false;
-		bool bIsPreModPosting = false;
+		int bPreModPostingModId = false;
 		bool bIsPreModerated = false;
 		int iSeconds = 0;
 		
@@ -466,7 +466,7 @@ bool CAddThreadBuilder::Build(CWholePage* pPage)
 		bSuccess = bSuccess && Forum.PostToForum(pViewingUser, iForumID, iReplyTo,
 			iThreadID, sSubject, sBody, iPostStyle, &iNewThreadID, &iNewPostID, 
 			NULL, NULL, &bProfanityFound, iClub, 0, sValidPhrases, true, &bWasQueued,
-			bIgnoreModeration, &iSeconds, &bNonAllowedURLsFound, &bIsPreModPosting, &bIsPreModerated,  &bEmailAddressFound );
+			bIgnoreModeration, &iSeconds, &bNonAllowedURLsFound, &bPreModPostingModId, &bIsPreModerated,  &bEmailAddressFound );
 
 		//Handle key phrases  associated with discussion.
 		if ( bSuccess && m_InputContext.ParamExists("phrase") )
@@ -575,7 +575,7 @@ bool CAddThreadBuilder::Build(CWholePage* pPage)
 				sPreModMessage << " PROFANITYFOUND='1'";
 			}
 			*/
-			if (bIsPreModPosting)
+			if (bPreModPostingModId > 0)
 			{
 				sPreModMessage << " ISPREMODPOSTING='1'";
 			}

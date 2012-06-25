@@ -378,6 +378,7 @@
     .dna-dashboard table td {text-align:right}
     .dna-dashboard table.dna-dashboard-activity th.date {width: 19%}
     .dna-dashboard table.dna-dashboard-contributions th.date,.dna-dashboard table.dna-dashboard-activity th#site {width: 10%}
+    .dna-dashboard table.dna-dashboard-comments th.date,.dna-dashboard table.dna-dashboard-activity th#site {width: 10%}
     .dna-dashboard table.dna-dashboard-activity {width: 98%}
     .dna-dashboard table.dna-dashboard-activity .type {width:8%;}
     .dna-dashboard table td.time {width:20%} 
@@ -385,6 +386,7 @@
     .dna-dashboard table.dna-dashboard-activity td {vertical-align:top;text-align:left;line-height: 1.4em;word-wrap:break-word}
     .dna-dashboard table.dna-dashboard-activity td p {margin-left:0}
     .dna-dashboard table.dna-dashboard-contributions td,  .dna-dashboard table.dna-dashboard-cfl td{vertical-align:top}
+    .dna-dashboard table.dna-dashboard-comments td,  .dna-dashboard table.dna-dashboard-cfl td{vertical-align:top}
 	.dna-dashboard tr.odd {background-color:#ebebd6}
 	
 	.dna-dashboard ul.dna-dashboard-links {padding: 5px 10px}    
@@ -415,13 +417,41 @@
 	.dna-dashboard .dna-dashboard-cfl li {line-height:1.6em}
 	
 	.dna-dashboard table.dna-siteManager {padding-top: 10px;padding-bottom: 10px;width:auto}
-    .dna-dashboard .dna-siteManager td{padding: 5px;word-wrap:break-word;}
+    .dna-dashboard .dna-siteManager td{padding: 5px;word-wrap:break-word; width: 200px}
     .dna-dashboard .dna-siteManager td.title{font-weight: bold; text-align: right;}
     .dna-dashboard .dna-siteManager td.value{text-align: left;}
     
     .dna-dashboard .dna-termslist table {}
     .dna-dashboard .dna-termslist td {text-align: left; padding: 2px; word-wrap:break-word;}
     
+    /* Twitter Admin Console */
+    .twitter-admin .dna-mb-intro {min-height:3.2em;}
+    .twitter-admin table {background-color:#fff;border:1px solid #999;margin-left:10px;width:932px}
+    .twitter-admin table td,.twitter-admin table th {border:1px solid #999;text-align:center}
+    .twitter-admin th {background-color:#56A4CE; border:none !important; color:#fff}
+    .twitter-admin th.profileid {text-align:left;width:30%}
+    .twitter-admin td.profileid {text-align:left; word-wrap:break-word}
+    .twitter-admin .dna-buttons {margin-right: 0;padding-right:0 !important}
+    .twitter-admin .newprofilelink .dna-buttons {float:right}
+    .twitter-admin .dna-buttons li {margin-right: 0 !important}
+    .twitter-admin .dna-mb-intro label {float:left;margin-top:5px;width:50px}
+    .twitter-admin .dna-mb-intro .dna-buttons.sites {margin:-23px 0 0 10px}
+    .twitter-admin .dna-mb-intro label[for="activeonly"] {width:230px}
+    .twitter-admin .dna-mb-intro .dna-buttons {clear:none;float:right;margin: 0 5px 0 0; width:auto}
+    .twitter-admin select {width: 250px}
+    .twitter-admin label em {font-size: 0.8em;}
+    .twitter-admin .twitterprofile fieldset {width:100%}
+	.twitter-admin .twitter-profile li {clear:both;line-height: 2em;margin:2em 0}
+	.twitter-admin li.states label {margin:10px 0; width:auto}
+	.twitter-admin label {float:left;line-height:1em;width:20%}
+	.twitter-admin .twitter-profile input[type="checkbox"] {float:left;margin:10px 20px}
+	.twitter-admin .twitter-profile input[type="text"], .twitter-admin .twitter-profile textarea {width:50%}
+	.twitter-admin .dna-box form {margin:10px}
+	.twitter-admin .dna-buttons {float:right;text-align:right;width:100%}
+	.twitter-admin .dna-buttons.profile {width:100%}
+	.twitter-admin .dna-buttons.profile li {float:right;margin-left:10px !important}
+	.twitter-admin .dna-error-text {float: right;line-height:1em;margin-top:5px;width: 255px}	
+	
 }
 
 @media print{

@@ -34,5 +34,8 @@ namespace BBC.Dna.Api
 
         [DataMember(Name = "siteSpecificDisplayName", Order = 8, IsRequired = false)]
         public string SiteSpecificDisplayName { get; set; }
+
+        [DataMember(Name = "twitterScreenName", Order = 9, IsRequired = false)] //@username in twitter
+        public string TwitterScreenName { get; set; }
     }
 }

@@ -21,7 +21,7 @@
     <OutputPath>obj\Release\</OutputPath>
   </PropertyGroup>
   <PropertyGroup>
-    <OutputTarget>$(OutputPath)procs.sql</OutputTarget>
+    <OutputTarget>$(OutputPath)procedures.sql</OutputTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugSmallGuide|AnyCPU' ">
     <OutputPath>bin\DebugSmallGuide\</OutputPath>
@@ -1266,11 +1266,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="addforumfilterterm.sql" />
+    <None Include="ArchivePremodPosting.sql" />
     <None Include="cachegetarticleinfo2.sql" />
     <None Include="cachegetcategory.sql" />
     <None Include="CommentForumsReadBySiteNamePrefixWithinTimeFrame.sql" />
     <None Include="CommentForumsReadBySiteNameWithinTimeFrame.sql" />
     <None Include="commentreplycreate.sql" />
+    <None Include="commentsreadbyforumids.sql" />
+    <None Include="commentsreadbyforumidseditorpicksfilter.sql" />
     <None Include="commentsreadbythreadid.sql" />
     <None Include="commentthreadcreate.sql" />
     <None Include="CommentForumUpdate.sql" />
@@ -1280,6 +1283,13 @@
     <None Include="addTermsFilterUpdate.sql" />
     <None Include="addTermsFilterTerm.sql" />
     <None Include="commentratingcreate.sql" />
+    <None Include="createretweetinfoforcomment.sql" />
+    <None Include="createretweetinfoforpremodpostings.sql" />
+    <None Include="CreateTweetInfoForComment.sql" />
+    <None Include="CreateTweetInfoForPremodPostings.sql" />
+    <None Include="doestwitteruserexists.sql" />
+    <None Include="GetCommentIdFromTweetId.sql" />
+    <None Include="getcommentratingstats.sql" />
     <None Include="getmoderatingclassbyuser.sql" />
     <None Include="createnewuserfromtwitteruserid.sql" />
     <None Include="getalluserpostingstats4.sql" />
@@ -1287,12 +1297,16 @@
     <None Include="ApplyUserReputation.sql" />
     <None Include="ApplyUserReputations.sql" />
     <None Include="getcommentforumdetailsbyforumid.sql" />
+    <None Include="getnewssitestats.sql" />
     <None Include="gettermsbyforumid.sql" />
     <None Include="gettermsbyforumidfromforums.sql" />
     <None Include="gettermsbymodidfromthreadmod.sql" />
+    <None Include="gettwitterscreennamefromtwitteruserid.sql" />
     <None Include="getuserstatus.sql" />
     <None Include="getBBCDivisions.sql" />
     <None Include="GetUserReputationList.sql" />
+    <None Include="processexpiredpremodpostings.sql" />
+    <None Include="SearchForTwitterUserViaScreenName.sql" />
     <None Include="updatetrackedmemberformodclass.sql" />
     <None Include="GetUserReputation.sql" />
     <None Include="updatetrackedmemberlistinternal.sql" />

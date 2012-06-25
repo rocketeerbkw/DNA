@@ -49,6 +49,14 @@
 									</xsl:if>
 								</input>
 							</li>
+							<li>
+								<label for="searchType_6">Twitter screen name</label>
+								<input id="searchType_6" type="radio" name="usersearchtype" value="6">
+									<xsl:if test="/H2G2/MEMBERLIST/@USERSEARCHTYPE = '6'">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>
+							</li>
 						</ul>
 						<ul class="dna-fl">
 							<li>
@@ -75,6 +83,14 @@
 									</xsl:if>
 								</input>
 							</li>
+							<!--<li>
+								<label for="searchType_7">Twitter userid</label>
+								<input id="searchType_7" type="radio" name="usersearchtype" value="7">
+									<xsl:if test="/H2G2/MEMBERLIST/@USERSEARCHTYPE = '7'">
+										<xsl:attribute name="checked">checked</xsl:attribute>
+									</xsl:if>
+								</input>
+							</li>-->
 						</ul>
 					</fieldset>
 					<div class="dna-fr dna-buttons">
@@ -85,6 +101,11 @@
 					<xsl:choose>
 						<xsl:when test="/H2G2/MEMBERLIST/@COUNT = '0'">
 							<p>No users found matching these details.</p>
+						</xsl:when>
+					</xsl:choose>
+					<xsl:choose>
+						<xsl:when test="/H2G2/MEMBERLIST/@TWITTEREXCEPTION != ''">
+							<p><xsl:value-of select="/H2G2/MEMBERLIST/@TWITTEREXCEPTION"/></p>
 						</xsl:when>
 					</xsl:choose>
 				</xsl:if>			

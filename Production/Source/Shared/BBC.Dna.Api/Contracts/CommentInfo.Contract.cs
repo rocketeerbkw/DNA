@@ -106,6 +106,34 @@ namespace BBC.Dna.Api
             set;
         }
 
+        [DataMember(Name = ("tweetId"), Order = 13)]
+        public long TweetId
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("twitterscreenname"), Order = 14)]
+        public string TwitterScreenName
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("retweetid"), Order = 15)]
+        public long RetweetId
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("retweetedby"), Order = 16)]
+        public string RetweetedBy
+        {
+            get;
+            set;
+        }
+
         /// <summary>
         /// When true, this comment should go into the premodpostings table (if it requires moderation)
         /// and if the configured time ellapses since it was queued before it's moderated, it is removed from the queue
@@ -123,9 +151,18 @@ namespace BBC.Dna.Api
         public bool IsPreModerated = false;
 
         /// <summary>
+        /// This is the modid returned by the posting system if the post has gone straight
+        /// into the PreModPostings table
+        /// </summary>
+        public int PreModPostingsModId { get; set; }
+
+        /// <summary>
         /// The comment in the premod table
         /// </summary>
-        public bool IsPreModPosting = false;
+        public bool IsPreModPosting
+        {
+            get { return PreModPostingsModId > 0; }
+        }
 
 
         /// <summary>
@@ -175,6 +212,15 @@ namespace BBC.Dna.Api
 
                 case Api.PostStyle.Style.rawtext:
                     //do nothing
+                    break;
+
+                case Api.PostStyle.Style.tweet:
+                    if (!isEditor)
+                    {
+                        _text = HtmlUtils.RemoveAllHtmlTags(_text);
+                    }
+                    _text = LinkTranslator.TranslateExLinksToHtml(_text);
+                    _text = LinkTranslator.TranslateTwitterTags(_text);
                     break;
 
                 case Api.PostStyle.Style.unknown:

@@ -88,7 +88,12 @@
       			</xsl:otherwise>
       		</xsl:choose>
 
-      		<xsl:if test="SITECONFIG/V2_BOARDS/FOOTER/COLOUR">
+			<xsl:if test="SITE/SITEOPTIONS/SITEOPTION[NAME='MothBallSite']/VALUE='1'">
+			<!--<xsl:if test="SITE/URLNAME = 'mbgardening'">-->
+				<xsl:comment>#set var="blq_mothball" value="1"</xsl:comment>
+			</xsl:if>
+
+			<xsl:if test="SITECONFIG/V2_BOARDS/FOOTER/COLOUR">
       			<xsl:comment>#set var="blq_footer_color" value="<xsl:value-of select="SITECONFIG/V2_BOARDS/FOOTER/COLOUR"/>"</xsl:comment>
       		</xsl:if>
 

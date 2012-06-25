@@ -34,13 +34,13 @@ CREATE PROCEDURE posttoforum @userid int,
 							@modnotes varchar(255) = NULL, -- Moderation Notes if post is entered into mod queue
 							@profanityxml xml = NULL -- ProfanityIds if post is entered into the threadmod
 AS
-declare @returnthreadid int, @returnpostid int, @ispremodposting int, @ispremoderated int
-SET @ispremodposting = 0
+declare @returnthreadid int, @returnpostid int, @premodpostingmodid int, @ispremoderated int
+SET @premodpostingmodid = 0
 DECLARE @ReturnCode INT 
 
 EXEC @ReturnCode = posttoforuminternal  @userid, @forumid, @inreplyto, @threadid, @subject, @content, @poststyle, @hash, @keywords, @nickname, @returnthreadid OUTPUT, 
 										@returnpostid OUTPUT, @type, @eventdate, @forcemoderate, @forcepremoderation, @ignoremoderation, DEFAULT, @nodeid, @ipaddress, 
-										NULL, @clubid, @ispremodposting OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment, @modnotes,
+										NULL, @clubid, @premodpostingmodid OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, @IsComment, @modnotes,
 										/*@isthreadedcomment*/ 0,/*@ignoreriskmoderation*/ 0, @profanityxml
 
 --Update Clubs Last Updated if new post to clubs forum.
@@ -49,7 +49,7 @@ BEGIN
 	EXEC @ReturnCode = forceupdateentry 0, @clubid
 END
 
-SELECT 'ThreadID' = @returnthreadid, 'PostID' = @returnpostid, 'WasQueued' = 0, 'IsPreModPosting' = @ispremodposting, 'IsPreModerated' = @ispremoderated
+SELECT 'ThreadID' = @returnthreadid, 'PostID' = @returnpostid, 'WasQueued' = 0, 'PreModPostingModId' = @premodpostingmodid, 'IsPreModerated' = @ispremoderated
 
 RETURN @ReturnCode
 

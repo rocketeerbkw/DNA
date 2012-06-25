@@ -27,7 +27,10 @@ CREATE PROCEDURE createnewsite	@urlname varchar(50),
 									@queuepostings int = 0,
 									@modclassid int = 1,
 									@identitypolicy varchar(255),
-									@bbcdivisionid int =0
+									@bbcdivisionid int =0,
+									@sampleurl varchar(255) = '',
+									@notes varchar(max) ='',
+									@viewinguser int
 AS
 
 IF EXISTS (SELECT * FROM Sites WHERE URLName = @urlname)
@@ -50,13 +53,13 @@ BEGIN
 						AutoMessageUserID, Passworded, Unmoderated, ArticleForumStyle, ThreadOrder,
 						ThreadEditTimeLimit, EventEmailSubject, EventAlertMessageUserID, IncludeCrumbtrail, 
 						AllowPostCodesInSearch, SiteEmergencyClosed, SSOService, AllowRemoveVote, QueuePostings,
-						ModClassId, IdentityPolicy, bbcdivisionid )
+						ModClassId, IdentityPolicy, bbcdivisionid, SampleUrl )
 		VALUES(@urlname, @shortname, @description, @defaultskin, @skinset, @premoderation, 
 				@noautoswitch, @moderatorsemail, @editorsemail, @feedbackemail,
 				@automessageuserid, @passworded, @unmoderated, @articleforumstyle, @threadorder,
 				@threadedittimelimit, @eventemailsubject, @eventalertmessageuserid, @includecrumbtrail, 
 				@allowpostcodesinsearch, @siteemergencyclosed, ISNULL(@ssoservice,@urlname), @allowremovevote,
-				@queuepostings, @modclassid, @identitypolicy, @bbcdivisionid )
+				@queuepostings, @modclassid, @identitypolicy, @bbcdivisionid, @sampleurl )
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN
@@ -67,6 +70,10 @@ BEGIN
 
 	declare @siteid int
 	SELECT @siteid = @@IDENTITY
+	
+	insert into siteupdate (userid, siteid, notes)
+	values
+	(@viewinguser, @siteid, @notes)
 
 	INSERT INTO SiteSkins (SiteID, SkinName, Description, UseFrames)
 		VALUES(@siteid, @defaultskin, @skindescription, @useframes)

@@ -8,6 +8,8 @@
 
 	<xsl:template name="objects_links_admin">
 	
+		<xsl:variable name="siteid"><xsl:value-of select="/H2G2/SITESUMMARYSTATS/@SITEID" /></xsl:variable>
+	
 		<xsl:variable name="dashboardmodstatus">
 			<xsl:text>This </xsl:text><xsl:value-of select="$dashboardtype" /><xsl:text> is </xsl:text>
 			<xsl:choose>
@@ -24,15 +26,15 @@
 		</xsl:variable>
 		
 		<xsl:if test="$dashboardtype = 'blog'">
-			<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your entries</a></li>
+			<li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteid}">Manage your entries</a></li>
 		</xsl:if>
 		<xsl:if test="$dashboardtype = 'story'">
-			<li><a href="/dna/{$dashboardtypename}/admin/commentforumlist">Manage your stories</a></li>
+			<li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteid}">Manage your stories</a></li>
 		</xsl:if>
 		<xsl:if test="$dashboardtype = 'messageboard'">
-			<li><a href="/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
+			<li><a href="{$host}/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
 		</xsl:if>			
-		<li><a href="/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Opening times</a></li>
+		<li><a href="{$host}/dna/{$dashboardtypename}/admin/MessageBoardSchedule">Opening times</a></li>
 
     <li>
       <xsl:value-of select="$dashboardmodstatus" />

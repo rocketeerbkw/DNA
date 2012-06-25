@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-
 using System.Runtime.Serialization;
 using BBC.Dna.Moderation;
 using System.ServiceModel.Syndication;
+using BBC.Dna.SocialAPI;
 
 namespace BBC.Dna.Api
 {
@@ -15,7 +15,10 @@ namespace BBC.Dna.Api
     [DataContract(Name = "tweet", Namespace = "BBC.Dna.Api")]
     public class Tweet
     {
-        [DataMember(Name = ("id"))]
+        // We always get the id from "id_str" just in case the json client has difficulty processing the 64 bit ID
+        // The general concensus out in the interweb is that you should always use id_str as it's guaranteed to work
+        // https://dev.twitter.com/discussions/3948
+        [DataMember(Name = ("id_str"))]
         public long id;
 
         [DataMember(Name = ("created_at"))]
@@ -29,6 +32,32 @@ namespace BBC.Dna.Api
 
         [DataMember(Name = ("profile_image_url"))]
         public string profileImageUrl;
+
+        [DataMember(Name = ("retweeted_status"))]
+        public Tweet RetweetedStatus;
+
+        // have to store retweet_count as string, because if the count > 100, twitter return "100+"
+        [DataMember(Name = ("retweet_count"))]
+        public string RetweetCountString = "0";
+
+        public short RetweetCount()
+        {
+            int retweetCount;
+            if (!int.TryParse(RetweetCountString, out retweetCount))
+            {
+                // The assumption that the only time it won't parse is when twitter return "100+" as a retweet count
+                return 101;
+            }
+            else
+            {
+                if (retweetCount > short.MaxValue)
+                    return short.MaxValue;
+                else
+                    return (short)retweetCount;
+            }
+        }
+
+        public bool IsRetweet { get { return RetweetedStatus != null; } }
 
         public CommentInfo CreateCommentInfo()
         {

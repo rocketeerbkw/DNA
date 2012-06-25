@@ -142,7 +142,7 @@
 				<xsl:text>https://id.test.bbc.co.uk/</xsl:text>
 			</xsl:when>
       <xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'or (not(contains(/H2G2/SERVERNAME, 'NARTHUR')) and not(contains(/H2G2/SERVERNAME, 'NMSDNA0')))">
-				<xsl:text>https://id.stage.bbc.co.uk/</xsl:text>
+				<xsl:text>https://id.test.bbc.co.uk/</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:text>https://id.bbc.co.uk/</xsl:text>
@@ -167,6 +167,9 @@
 	<xsl:variable name="id_ptrt">
 		<xsl:choose>
 			<xsl:when test="/H2G2/SERVERNAME = 'PC-S061416'">
+				<xsl:text>http%3A%2F%2Flocal.bbc.co.uk</xsl:text>
+			</xsl:when>		
+			<xsl:when test="/H2G2/SERVERNAME = 'B1-L0S051473'">
 				<xsl:text>http%3A%2F%2Flocal.bbc.co.uk</xsl:text>
 			</xsl:when>		
 			<xsl:when test="/H2G2/SERVERNAME = 'PC-S052330'">

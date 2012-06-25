@@ -112,11 +112,15 @@
 			<xsl:call-template name="objects_stripe" />	   
 			<td>
 				<h4 class="blq-hide">Entry number <xsl:value-of select="position() + ancestor::COMMENTFORUMLIST/@SKIP " /> </h4>
+				<xsl:variable name="siteId" select="SITEID"/>
+				<xsl:variable name="forumId" select="@FORUMID"/>
+				<xsl:variable name="title" select="TITLE"/>
 				<ul>
 					<li><strong>Title: </strong><xsl:value-of select="TITLE"/></li>
 					<li><strong>Forum ID: </strong><xsl:value-of select="@FORUMID"/></li>
 					<li><strong>UID: </strong><xsl:value-of select="@UID"/></li>
 					<li><strong>Comment count: </strong><xsl:value-of select="@FORUMPOSTCOUNT"/></li>
+					<li><strong>Comments: </strong><a href="{$root-secure-moderation}/admin/commentslist?s_siteid={$siteId}&amp;s_forumid={$forumId}&amp;s_title={$title}" target="_blank">Click here</a></li>
 				</ul>
 			</td>
 			<td>

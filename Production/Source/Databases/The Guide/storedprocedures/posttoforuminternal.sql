@@ -12,7 +12,7 @@ In: @userid - id of user posting
 @ipaddress varchar(25) = null,
 @queueid int  = NULL, 
 @clubid int = 0, 
-@ispremodposting int OUTPUT, 
+@premodpostingmodid int OUTPUT, 
 @bbcuid uniqueidentifier = NULL,
 @isnotable tinyint = 0, 
 @IsComment tinyint = 0 -- Flag to control if ThreadPostings is populated. != 0 equates to don't populate.
@@ -39,7 +39,7 @@ CREATE PROCEDURE posttoforuminternal @userid int,
 										@ipaddress varchar(25) = null,
 										@queueid int  = NULL, 
 										@clubid int = 0, 
-										@ispremodposting int OUTPUT,
+										@premodpostingmodid int OUTPUT,
 										@ispremoderated int OUTPUT, 
 										@bbcuid uniqueidentifier = NULL,
 										@isnotable tinyint = 0, 
@@ -50,8 +50,8 @@ CREATE PROCEDURE posttoforuminternal @userid int,
 										@profanityxml xml = NULL,  
 										@forcepremodposting bit = 0,
 										@forcepremodpostingdate datetime = NULL,
-										@riskmodthreadentryqueueid int = NULL
-
+										@riskmodthreadentryqueueid int = NULL,
+										@applyprocesspremodexpirytime bit = 0
 AS
 declare @curtime datetime
 DECLARE @privmsg 	INT
@@ -100,7 +100,7 @@ BEGIN
 	IF (@isnotable = 1 AND @premoderation = 1)
 	BEGIN
 		SET @premoderation = 0
-		SET @unmoderated = 0	
+		SET @unmoderated = 0
 	END
 	ELSE
 	BEGIN
@@ -191,11 +191,18 @@ END
 INSERT INTO PostDuplicates (HashValue, DatePosted, ForumID, ThreadID, Parent, UserID)
 	VALUES(@hash, @curtime, @forumid, @threadid, @inreplyto, @userid)
 
+DECLARE @ProcessPreMod char(1)
+SET @ProcessPreMod = dbo.udf_getsiteoptionsetting (@siteid,'Moderation','ProcessPreMod')
+
+-- If we are applying the process premod expiry time, act as if the ProcessPreMod site option is on
+IF @applyprocesspremodexpirytime = 1
+	SET @ProcessPreMod = '1'
+
 /*
 	Check to see if the site has the process premod messages set. This basically means that the post will not
 	be inserted into the threads table untill it has passed moderation.
 */
-IF (@forcepremodposting=1 OR (@premoderation = 1 AND dbo.udf_getsiteoptionsetting (@siteid,'Moderation','ProcessPreMod') = '1') )
+IF (@forcepremodposting=1 OR (@premoderation = 1 AND @ProcessPreMod = '1') )
 BEGIN
 
 	BEGIN TRY
@@ -203,11 +210,11 @@ BEGIN
 										@content, @poststyle, @hash, @keywords, @nickname, @type, 
 										@eventdate, @clubid, @allowevententries, @nodeid, @ipaddress,
 										@bbcuid, @iscomment, @threadread, @threadwrite, @modnotes, @forcepremodpostingdate,
-										@riskmodthreadentryqueueid, @profanityxml
+										@riskmodthreadentryqueueid, @profanityxml, @applyprocesspremodexpirytime,
+										@premodpostingmodid OUTPUT
 										
-		-- COMMIT and Now Set the IsPreModPosting flag and return
+		-- COMMIT. The PreModPostingModId value will be returned in @premodpostingmodid
 		COMMIT TRANSACTION
-		SET @ispremodposting = 1
 		RETURN 0
 	    
 	END TRY

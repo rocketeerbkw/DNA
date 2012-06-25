@@ -188,6 +188,9 @@ REGEDIT4
 "/AlertGroups"="/ripleyserver.dll?AlertGroups?"
 "/Members"="/ripleyserver.dll?Members?"
 "/MemberDetails"="/dna/dnapages/MemberDetails.aspx?"
+"/commentslist"="/dna/dnapages/CommentsListPage.aspx?"
+"/TwitterProfileList"="/dna/dnapages/TwitterProfileListPage.aspx?"
+"/TwitterProfile"="/dna/dnapages/TwitterProfilePage.aspx?"
 --"/MemberDetailsAdmin"="/dna/dnapages/MemberDetails.aspx?"
 
 "/DynamicListAdmin"="/dna/dnapages/DynamicListAdmin.aspx?"

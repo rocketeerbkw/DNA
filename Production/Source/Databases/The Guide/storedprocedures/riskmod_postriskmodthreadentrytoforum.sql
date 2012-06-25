@@ -38,14 +38,14 @@ BEGIN
 		SET @modnotes = @newmodnotes
 END
 
-declare @returnthreadid int, @ispremodposting int, @ispremoderated int, @newthreadentryid int
-SET @ispremodposting = 0
+declare @returnthreadid int, @premodpostingmodid int, @ispremoderated int, @newthreadentryid int
+SET @premodpostingmodid = 0
 DECLARE @ReturnCode INT 
 
 -- Post the entry, ignoring risk moderation (otherwise we could be in an infinite loop!)
 EXEC @ReturnCode = posttoforuminternal  @userid, @forumid, @inreplyto, @threadid, @subject, @content, @poststyle, @hash, @keywords, @nickname, @returnthreadid OUTPUT, 
 										@newthreadentryid OUTPUT, @type, @eventdate, @forcemoderate, @forcepremoderation, @ignoremoderation, /*@AllowEventEntries*/DEFAULT, 
-										@nodeid, @ipaddress, /*@queueid*/NULL, @clubid, @ispremodposting OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, 
+										@nodeid, @ipaddress, /*@queueid*/NULL, @clubid, @premodpostingmodid OUTPUT, @ispremoderated OUTPUT, @bbcuid, @isnotable, 
 										@IsComment, @modnotes, @isthreadedcomment, /*@ignoreriskmoderation*/ 1, NULL /* @profanityxml */, @forcepremodposting, 
 										/* @forcepremodpostingdate*/ @dateposted, @riskmodthreadentryqueueid
 
@@ -71,6 +71,6 @@ BEGIN
 	END
 END
 
-SELECT 'ThreadID' = @returnthreadid, 'PostID' = @newthreadentryid, 'WasQueued' = 0, 'IsPreModPosting' = @ispremodposting, 'IsPreModerated' = @ispremoderated
+SELECT 'ThreadID' = @returnthreadid, 'PostID' = @newthreadentryid, 'WasQueued' = 0, 'premodpostingmodid' = @premodpostingmodid, 'IsPreModerated' = @ispremoderated
 
 RETURN @ReturnCode

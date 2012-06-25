@@ -119,7 +119,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("duration", newDuration));
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
-            
+            postData.Enqueue(new KeyValuePair<string, string>("hideAllSites", "1"));
 
 
             var request = new DnaTestURLRequest(_siteName);
@@ -146,7 +146,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("duration", newDuration));
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
-
+            postData.Enqueue(new KeyValuePair<string, string>("hideAllSites", "1"));
 
 
             var request = new DnaTestURLRequest(_siteName);
@@ -174,6 +174,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("duration", newDuration));
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
+            postData.Enqueue(new KeyValuePair<string, string>("hideAllSites", "1"));
 
 
 
@@ -202,7 +203,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("duration", newDuration));
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
-
+            postData.Enqueue(new KeyValuePair<string, string>("hideAllSites", "1"));
 
 
             var request = new DnaTestURLRequest(_siteName);
@@ -244,6 +245,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
             postData.Enqueue(new KeyValuePair<string, string>("hideAllPosts", "1"));
+            postData.Enqueue(new KeyValuePair<string, string>("hideAllSites", "1"));
 
             var request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserSuperUser();
@@ -270,7 +272,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("duration", newDuration));
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
-
+            postData.Enqueue(new KeyValuePair<string, string>("hideAllSites", "1"));
 
 
             var request = new DnaTestURLRequest(_siteName);
@@ -297,7 +299,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
             postData.Enqueue(new KeyValuePair<string, string>("hideAllPosts", "1"));
-
+            postData.Enqueue(new KeyValuePair<string, string>("hideAllSites", "1"));
 
             var request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserSuperUser();
@@ -322,7 +324,7 @@ namespace FunctionalTests
             postData.Enqueue(new KeyValuePair<string, string>("duration", newDuration));
             //postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
-
+            postData.Enqueue(new KeyValuePair<string, string>("hideAllSites", "1"));
 
             var request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserSuperUser();

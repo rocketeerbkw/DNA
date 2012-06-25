@@ -18,7 +18,8 @@ SELECT 	Id,
 		SiteSpecificDisplayName,
 		IsEditorPick,
 		PostIndex,
-		case when crv.value is null then 0 else crv.value end as nerovalue
+		case when crv.value is null then 0 else crv.value end as nerovalue,
+		TweetId
 	FROM VComments vc
 	left join dbo.VCommentsRatingValue crv with(noexpand)  on crv.entryid = vc.id
 	WHERE id = @postid
