@@ -1,18 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-
 using System.Runtime.Serialization;
-using System.Xml;
 using BBC.Dna.Moderation.Utils;
-using System.Xml.Serialization;
 using BBC.Dna.Utils;
 
 namespace BBC.Dna.Api
 {
+    [KnownType(typeof(ContactDetails))]
+    [Serializable]
+    [DataContract(Name = "contact", Namespace = "BBC.Dna.Api")]
+    public partial class ContactDetails : CommentInfo
+    {
+        public ContactDetails()
+        {
+        }
+    }
+
     [KnownType(typeof(CommentInfo))]
     [Serializable] [DataContract(Name = "comment", Namespace = "BBC.Dna.Api")]
     public partial class CommentInfo : baseContract

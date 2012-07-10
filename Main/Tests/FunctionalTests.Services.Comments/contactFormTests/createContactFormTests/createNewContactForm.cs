@@ -256,7 +256,7 @@ namespace FunctionalTests.Services.Comments.contactFormTests.createContactFormTe
 
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
-            CommentForum newContactForm = (CommentForum)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentForum));
+            ContactForm newContactForm = (ContactForm)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(ContactForm));
             Assert.AreEqual(title, newContactForm.Title);
             Assert.AreEqual(parentUri, newContactForm.ParentUri);
             Assert.IsTrue(newContactForm.isContactForm);

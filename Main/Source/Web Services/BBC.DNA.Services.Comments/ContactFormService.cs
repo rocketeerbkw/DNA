@@ -14,19 +14,16 @@ namespace BBC.Dna.Services
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class ContactFormService : baseService
     {
-        private readonly Comments contactFormComments;
-        private readonly Contacts contacts;
+        private readonly Contacts contactFormComments;
 
         public ContactFormService()
             : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
-            contactFormComments = new Comments(dnaDiagnostic, readerCreator, cacheManager, Global.siteList);
+            contactFormComments = new Contacts(dnaDiagnostic, readerCreator, cacheManager, Global.siteList);
             contactFormComments.FilterBy = FilterBy.ContactFormPosts;
             string basePath = ConfigurationManager.AppSettings["ServerBasePath"];
             basePath = basePath.Remove(basePath.LastIndexOf("/")) + "/ContactFormService.svc";
             contactFormComments.BasePath = basePath;
-
-            contacts = new Contacts(dnaDiagnostic, readerCreator, cacheManager, Global.siteList);
         }
 
         [WebGet(UriTemplate = "V1/site/{sitename}/")]
@@ -68,7 +65,7 @@ namespace BBC.Dna.Services
         [WebInvoke(Method="POST", UriTemplate = "V1/site/{sitename}/")]
         [WebHelp(Comment = "Create a new contact form for the specified site")]
         [OperationContract]
-        public Stream CreateContactFormForSite(string siteName, ContactForm contactForm)
+        public Stream CreateContactFormForSite(string siteName, ContactForm newContactFormDetails)
         {
             ISite site = GetSite(siteName);
             if (site == null)
@@ -79,7 +76,8 @@ namespace BBC.Dna.Services
             try
             {
                 contactFormComments.CallingUser = GetCallingUser(site);
-                CommentForum commentForumData = contactFormComments.CreateContactForm(contactForm, site);
+                ContactForm commentForumData = contactFormComments.CreateContactForm(newContactFormDetails, site);
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
                 return GetOutputStream(commentForumData);
             }
             catch (ApiException ex)
@@ -91,7 +89,7 @@ namespace BBC.Dna.Services
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/contactform/{contactFormId}/")]
         [WebHelp(Comment = "Create a new contact details in a given contact form")]
         [OperationContract]
-        public Stream CreateContactDetails(string contactFormId, string siteName, CommentInfo contactDetails)
+        public Stream CreateContactDetails(string siteName, string contactFormId, ContactDetails newContactDetails)
         {
             ISite site = GetSite(siteName);
             if (site == null)
@@ -102,18 +100,18 @@ namespace BBC.Dna.Services
             try
             {
                 contactFormComments.CallingUser = GetCallingUser(site);
-                CommentForum contactForm = contactFormComments.GetCommentForumByUid(contactFormId, site);
+                ContactForm contactForm = contactFormComments.GetContactFormFromFormID(contactFormId, site);
 
                 if (contactForm == null)
                 {
                     throw ApiException.GetError(ErrorType.ForumUnknown);
                 }
 
-                CommentInfo contactInfo = contactFormComments.CreateComment(contactForm, contactDetails);
-                
-                // Send email here
+                ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactForm, newContactDetails);
 
-                return GetOutputStream(contactInfo);
+                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail);
+                WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
+                return GetOutputStream(contactDetails);
             }
             catch (ApiException ex)
             {

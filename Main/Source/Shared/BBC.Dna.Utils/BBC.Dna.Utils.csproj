@@ -128,6 +128,7 @@
     <Compile Include="EmailAddressFilter.cs" />
     <Compile Include="Entities.cs" />
     <Compile Include="Error.cs" />
+    <Compile Include="FileCaching.cs" />
     <Compile Include="GuideMLTranslator.cs" />
     <Compile Include="HtmlUtils.cs" />
     <Compile Include="ICache.cs" />
