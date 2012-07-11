@@ -21,10 +21,10 @@
 
     <xsl:template match="/H2G2[@TYPE = 'USER-COMPLAINT'] | /H2G2[@TYPE = 'USERCOMPLAINTPAGE']" mode="page">
         <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"></xsl:text>
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-BR" lang="pt-BR">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-Hans" lang="zh-Hans">
             <head profile="http://dublincore.org/documents/dcq-html/">
                 
-                <title>BBC Brasil - Reclamações</title>
+                <title>BBC Zhongwen - 投诉</title>
                 
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                 <meta name="description" content="" />
@@ -70,7 +70,7 @@
                 <div id="blq-container">
                     <div id="blq-main">
                         
-                        <h1>BBC BRasil - Reclamações</h1>
+                        <h1>BBC Zhongwen - 投诉</h1>
                         
                         <xsl:apply-templates select="USER-COMPLAINT-FORM | USERCOMPLAINT | ERROR" mode="input_user-complaint-form" />
                         

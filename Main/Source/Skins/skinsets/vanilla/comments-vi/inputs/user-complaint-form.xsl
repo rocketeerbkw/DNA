@@ -15,20 +15,20 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>Reclame sobre um <xsl:call-template name="item_name"/></h2>
-            <p>Este formulário é para ser usado apenas nos casos de reclamações sérias sobre um comentário específico que viole a <a href="{$houserulespopupurl}">Regras</a>.</p>
-            <p>Não use esse formulário se você tiver alguma dúvida ou um comentário geral a fazer, entre uma mensagem como parte do debate.</p>
-            <p>A mensagem sobre a qual você postou uma reclamação será enviada a um moderador, que decidirá se houve violação das <a href="{$houserulespopupurl}">Regras</a>. A decisão será informada a você por e-mail.</p>
+            <h2>Khiếu nại về <xsl:call-template name="item_name"/></h2>
+            <p>Đơn này chỉ dành cho khiếu nại nghiệm trọng về nội dung cụ thể nào đó đã vi phạm <a href="{$houserulespopupurl}">Quy định nội bộ</a>.</p>
+            <p>Nếu bạn có nhận xét chung chung hay thắc mắc thì xin đừng dùng đơn này, hãy đăng thông điệp đó vào diễn đàn. </p>
+            <p>Thông điệp của bạn sẽ được gửi tới người duyệt xem xét và quyết định liệu nó có vi phạm <a href="{$houserulespopupurl}">Quy định nội bộ</a>. Bạn sẽ được thông báo bằng email.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
-                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registre minha reclamação</a>
+                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Đăng ký khiếu nại của tôi</a>
                 </xsl:when>
                 <xsl:when test="@H2G2ID">
-                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registre minha reclamação</a>
+                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Đăng ký khiếu nại của tôi</a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registre minha reclamação</a>
+                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Đăng ký khiếu nại của tôi</a>
                 </xsl:otherwise>
               </xsl:choose>
             </p>
@@ -38,7 +38,7 @@
             <xsl:with-param name="unauthorised"></xsl:with-param>
             <xsl:with-param name="loggedout">
                 <div class="content">
-                    <p>Você não está associado a em uma conta neste website. Se você tiver registrado uma conta, use-a, pois isto facilitará o processamento de sua reclamação.</p>
+                    <p>Bạn chưa đăng nhập trên trang web này. Nếu bạn đã đăng ký tài khoản, xin vui lòng đăng nhập để tiện việc xử lý khiếu nại của bạn. </p>
                     <p class="action">
                       <a>
                       	<xsl:attribute name="href">
@@ -56,7 +56,7 @@
 		                     </xsl:otherwise>
 		                  </xsl:choose>
 		                  </xsl:attribute>
-                          <xsl:text>Registre-se</xsl:text>
+                          <xsl:text>Đăng nhập</xsl:text>
                       </a>
                     </p>
                 </div>
@@ -67,13 +67,13 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>publique</xsl:text>
+        <xsl:text>đăng</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
-        <xsl:text>artigo</xsl:text>
+        <xsl:text>bài</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>conteúdo</xsl:text>
+        <xsl:text>nội dung của mục</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -94,41 +94,41 @@
               </xsl:choose>
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
-            	<h2>Alrtando aos moderadores</h2>
-            	<p>Por favor, selecione qual das <a href="{$houserulespopupurl}">Regras</a> você acha <xsl:call-template name="item_name"/> que foi violada. Se você acha que mais de uma regra foi violada, por favor, escolha a que considera mais grave.</p>
+            	<h2>Báo cáo với người duyệt</h2>
+            	<p>Hãy chọn xem mục nào <a href="{$houserulespopupurl}">Quy định nội bộ</a> bạn tin điều này <xsl:call-template name="item_name"/> đã bị vi phạm. Nếu bạn cho rằng nó đã vi phạm một vài quy định thì quy định nào bị vi phạm nặng nề nhất. </p>
             </div>
             
             <div class="content">
-              <h2>Razão para a sua reclamação</h2>
+              <h2>Lý do khiếu nại của bạn</h2>
               <p>
-                Eu acho que isso <xsl:call-template name="item_name"/> viola uma das <a href="{$houserulespopupurl}">Regras</a> porque 
+                Tôi tin rằng <xsl:call-template name="item_name"/> đã vi phạm một trong điều <a href="{$houserulespopupurl}">Quy định nội bộ</a> bởi vì nó đã
               </p>
                
                 <p class="options">
                 	<p class="options">
-                		<input type="radio" id="dnaacs-cq-1" value="é difamatório ou calunioso" name="s_complaintText"/><label for="dnaacs-cq-1">é difamatório ou calunioso</label>
-                		<input type="radio" id="dnaacs-cq-2" value="é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo" name="s_complaintText"/><label for="dnaacs-cq-2">é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo</label>
-                		<input type="radio" id="dnaacs-cq-3" value="contém xingamentos ou outras palavras que podem ser consideradas ofensivas" name="s_complaintText"/><label for="dnaacs-cq-3">contém xingamentos ou outras palavras que podem ser consideradas ofensivas</label>
-                		<input type="radio" id="dnaacs-cq-4" value="viola a lei ou incentiva ou estimula o delito criminal tal como violação de direitos autorais desacato a um tribunal" name="s_complaintText"/><label for="dnaacs-cq-4">viola a lei ou incentiva ou estimula o delito criminal tal como violação de <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">direitos autorais</a> desacato a um tribunal</label>
-                		<input type="radio" id="dnaacs-cq-5" value="advertises products or services for profit or gain" name="s_complaintText"/><label for="dnaacs-cq-5">advertises products or services for profit or gain</label>
-                		<input type="radio" id="dnaacs-cq-7" value="está imitando alguém" name="s_complaintText"/><label for="dnaacs-cq-7">está imitando alguém</label>
-                		<input type="radio" id="dnaacs-cq-8" value="inclui informação pessoal como números de telefones, endereço postal ou de e-mail" name="s_complaintText"/><label for="dnaacs-cq-8">inclui informação pessoal como números de telefones, endereço postal ou de e-mail</label>
+                		<input type="radio" id="dnaacs-cq-1" value="phỉ báng" name="s_complaintText"/><label for="dnaacs-cq-1">phỉ báng</label>
+                		<input type="radio" id="dnaacs-cq-2" value="mang tính kỳ thị chủng tộc, giới tính, lạm dụng hoặc gây phản cảm nói chung" name="s_complaintText"/><label for="dnaacs-cq-2">mang tính kỳ thị chủng tộc, giới tính, lạm dụng hoặc gây phản cảm nói chung</label>
+                		<input type="radio" id="dnaacs-cq-3" value="chứa ngôn từ tục tiễu hoặc ngôn ngữ gây phản cảm." name="s_complaintText"/><label for="dnaacs-cq-3">chứa ngôn từ tục tiễu hoặc ngôn ngữ gây phản cảm</label>
+                		<input type="radio" id="dnaacs-cq-4" value="vi phạm pháp luật hoặc khuyến khích hành vi trái pháp luật như vi phạm bản quyền không tuân theo pháp luật" name="s_complaintText"/><label for="dnaacs-cq-4">vi phạm pháp luật hoặc khuyến khích hành vi trái pháp luật như vi phạm <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">bản quyền</a> không tuân theo pháp luật</label>
+                		<input type="radio" id="dnaacs-cq-5" value="quảng cáo cho sản phẩm hoặc dịch vụ vì mục đích lợi nhuận" name="s_complaintText"/><label for="dnaacs-cq-5">quảng cáo cho sản phẩm hoặc dịch vụ vì mục đích lợi nhuận</label>
+                		<input type="radio" id="dnaacs-cq-7" value="bắt chước ai đó" name="s_complaintText"/><label for="dnaacs-cq-7">bắt chước ai đó</label>
+                		<input type="radio" id="dnaacs-cq-8" value="chứa thông tin cá nhân như số điện thoại, địa chỉ email hoặc địa chỉ nhà" name="s_complaintText"/><label for="dnaacs-cq-8">chứa thông tin cá nhân như số điện thoại, địa chỉ email hoặc địa chỉ nhà</label>
                 		<xsl:call-template name="library_userstate">
                       <xsl:with-param name="loggedin">
-                        <input type="radio" id="dnaacs-cq-9" value="não tem relação com o tema em debate" name="s_complaintText"/><label for="dnaacs-cq-9">não tem relação com o tema em debate</label>
+                        <input type="radio" id="dnaacs-cq-9" value="nằm ngoài phạm vi của ban hoặc thuộc đề tài đang được xem xét" name="s_complaintText"/><label for="dnaacs-cq-9">nằm ngoài phạm vi của ban hoặc thuộc đề tài đang được xem xét</label>
                       </xsl:with-param>
                     </xsl:call-template>
-                		<input type="radio" id="dnaacs-cq-10" value="não está escrito em português" name="s_complaintText"/><label for="dnaacs-cq-10">não está escrito em português</label>
-                		<input type="radio" id="dnaacs-cq-11" value="contém um link externo para um site que viola nossos Princípios Editoriais" name="s_complaintText"/><label for="dnaacs-cq-11">contém um link externo para um site que viola nossos <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Princípios Editoriais</a></label>
-                		<input type="radio" id="dnaacs-cq-12" value="descreve ou incentiva atividades que podem pôr em risco a segurança ou bem-estar de outros" name="s_complaintText"/><label for="dnaacs-cq-12">descreve ou incentiva atividades que podem pôr em risco a segurança ou bem-estar de outros</label>
-                		<input type="radio" id="dnaacs-cq-13" value="contém um nome de usuário inadequado" name="s_complaintText"/><label for="dnaacs-cq-13">contém um nome de usuário inadequado</label>
-                		<input type="radio" id="dnaacs-cq-14" value="é um spam" name="s_complaintText"/><label for="dnaacs-cq-14">é um spam</label>
-                		<input type="radio" id="dnaacs-cq-6" value="Outra" name="s_complaintText"/><label for="dnaacs-cq-6">viola a regra por uma razão não relacionada acima</label>
+                		<input type="radio" id="dnaacs-cq-10" value="không có trong tiếng Anh" name="s_complaintText"/><label for="dnaacs-cq-10">không có trong tiếng Anh</label>
+                		<input type="radio" id="dnaacs-cq-11" value="chứa đường dẫn đến trang bên ngoài vi phạm Cẩm nang biên tập" name="s_complaintText"/><label for="dnaacs-cq-11">chứa đường dẫn đến trang bên ngoài vi phạm <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Cẩm nang biên tập</a></label>
+                		<input type="radio" id="dnaacs-cq-12" value="mô tả hoặc kích động những hành vi gây nguy hiểm tới sự an toàn hoặc sức khỏe của người khác. " name="s_complaintText"/><label for="dnaacs-cq-12">mô tả hoặc kích động những hành vi gây nguy hiểm tới sự an toàn hoặc sức khỏe của người khác.</label>
+                		<input type="radio" id="dnaacs-cq-13" value="có chứa tên người sử dụng không phù hợp" name="s_complaintText"/><label for="dnaacs-cq-13">có chứa tên người sử dụng không phù hợp</label>
+                		<input type="radio" id="dnaacs-cq-14" value="là thư rác" name="s_complaintText"/><label for="dnaacs-cq-14">là thư rác</label>
+                		<input type="radio" id="dnaacs-cq-6" value="Khác" name="s_complaintText"/><label for="dnaacs-cq-6">phạm luật với lý do không có trong danh sách trên</label>
                 	</p>
                 </p>
 
               <p class="action">
-                <input type="submit" value="Próxima página"/>
+                <input type="submit" value="Trang tiếp"/>
               </p>
             </div>
             
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Selecione a categoria da sua reclamação");
+        alert("Hãy chọn ‎lý‎‎‎ do");
         return;
         }
         else {
@@ -174,19 +174,19 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Por favor, preencha os campos abaixo com o motivo que na sua opinião <xsl:call-template name="item_name"/> esta regra foi violada. Quando tiver terminado, clique em Enviar Comentário para sua reclamação que seja analisada por um moderador.</p>
+           	<p>Xin bạn vui lòng điền vào ô dưới đây lý do bạn cho rằng <xsl:call-template name="item_name"/> phạm luật. Khi điền xong, mới bạn bấm nút Gửi Khiếu nại để chuyển tới người điều hành xem xét. </p>
                <p>
-                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Outra'">
-                    Gostaria de reclamar deste comentário <xsl:call-template name="item_name"/> pelo seguinte motivo:
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Khác'">
+                    Tôi muốn khiếu nại về <xsl:call-template name="item_name"/> với lý do sau:
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Outra'">
-                        <xsl:text>Acredito que </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Khác'">
+                        <xsl:text>Tôi tin rằng </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> pelo seguinte motivo:</xsl:text>
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> với lý do sau:</xsl:text>
                     	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
@@ -204,12 +204,12 @@
                   <!-- email address is not required in this instance -->
                 </xsl:when>
                 <xsl:otherwise>
-                    <h3>Seu endereço de e-mail</h3>
+                    <h3>Địa chỉ email của bạn</h3>
                     <p>
-                      <em>Precisamos de seu endereço de e-mail para processar sua reclamação e informá-lo da decisão do moderador. Pode ser que precisemos contatá-lo diretamente caso necessitemos maiores informações osbre sua reclamação.</em>
+                      <em>Chúng tôi cần có email của bạn để xử lý đơn khiếu nại và thông báo với bạn về quyết định của người điều hành. Thỉnh thoảng chúng tôi cũng sẽ liên hệ trực tiếp với bạn nếu cần thông tin thêm về khiếu nại của bạn.</em>
                     </p>
                     <p>
-                        <label for="emailaddress">endeço de e-mail.</label>
+                        <label for="emailaddress">Địa chỉ email  </label>
                         <input type="text" name="email" id="emailaddress" value="" class="textbox"/>
                     </p>
                 </xsl:otherwise>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Esconder <xsl:call-template name="item_name"/> intantaneamente</label>.
+                        <label for="hidePost"> Dấu đi <xsl:call-template name="item_name"/> ngay lập tức</label>.
                     </p>
                 </xsl:if>
                 
@@ -237,8 +237,8 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="Enviar"/>
-                    <input type="submit" value="Enviar reclamação" name="Submit" class="button"/>
+                    <input type="hidden" name="action" value="Gửi"/>
+                    <input type="submit" value="Gửi Phàn nàn" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -247,11 +247,11 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
       <div class="content">
-        <h2>Informação</h2>
+        <h2>Information</h2>
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              Você foi bloqueado e não poderá usar o sistema de reclamações, por favor, escreva para:<br />
+              Bạn đã bị chặn không được dùng phiếu khiếu nại trên mạng, hãy viết về:<br />
               BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
@@ -272,12 +272,12 @@
 
   <xsl:template match="USERCOMPLAINT[@REQUIRESVERIFICATION = '1']" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Confirmação de endereço de e-amil</h2>
+      <h2>Xác nhận email</h2>
       <p>
-        Sua reclamação foi enviada. Ela não será analisada por um moderador até que você confirme seu endereço de e-mail. Isto é feito para evitar spam ou uso falso de dientidade alheia.
+        Khiếu nại của bạn đã được nộp. Người điều hành sẽ không nhận được nếu bạn chưa xác nhận email của mình. Chúng tôi phải làm như vậy để ngăn chặn thư rác và nạn giả danh. 
       </p>
       <p>
-        ^Você receberá m e-mail em breve com um link para que possa ativar sua reclamação. Clique neste link para enviar sua reclamação aos moderadores.
+        Bạn sẽ nhận một email trong giây lát để kích hoạt khiếu nại của mình. Bấm vào đường dẫn này để gửi khiếu nại của bạn về người điều hành. 
       </p>
       
       <p class="action">
@@ -289,7 +289,7 @@
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Siga navegando</xsl:text>
+          <xsl:text>Tiếp tục lướt web</xsl:text>
         </a>
       </p>
     </div>
@@ -297,17 +297,17 @@
 
   <xsl:template match="USER-COMPLAINT-FORM[MESSAGE/@TYPE = 'SUBMIT-SUCCESSFUL'] | USERCOMPLAINT[@MODID]" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Siga navegando</h2>
+      <h2>Gửi khiếu nại thành công</h2>
       <p>
-        Sua reclamação foi recebida e enviada à equipe de moderadores. Um moderador decidirá se alguma das <a href="{$houserulespopupurl}">Regras</a> foi violada e irá informá-lo por e-mail.
+        Khiếu nại của bạn đã được nhận và chuyển tới nhóm điều hành. Họ sẽ quyết định xem
       </p>
       <p>
-        Seu ID de Referência de Moderação é: <strong>
+        Số tham khảo trong hệ thống điều hành của bạn là: <strong>
           <xsl:value-of select="(MODERATION-REFERENCE | @MODID)[1]"/>
         </strong>
       </p>
       <xsl:if test="@HIDDEN and @HIDDEN != 0">
-        <p>Adicionalmente, este post foi escondido.</p>
+        <p>Thêm nữa, mục này đã bị ẩn đi.</p>
       </xsl:if>
       <p class="action">
         <a class="close">
@@ -319,14 +319,14 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/brasil</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/vietnamese</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Siga navegando</xsl:text>
+          <xsl:text>Tiếp tục lướt web</xsl:text>
         </a>
       </p>
     </div>

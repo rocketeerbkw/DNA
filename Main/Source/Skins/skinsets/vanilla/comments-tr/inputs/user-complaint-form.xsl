@@ -15,20 +15,20 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>Reclame sobre um <xsl:call-template name="item_name"/></h2>
-            <p>Este formulário é para ser usado apenas nos casos de reclamações sérias sobre um comentário específico que viole a <a href="{$houserulespopupurl}">Regras</a>.</p>
-            <p>Não use esse formulário se você tiver alguma dúvida ou um comentário geral a fazer, entre uma mensagem como parte do debate.</p>
-            <p>A mensagem sobre a qual você postou uma reclamação será enviada a um moderador, que decidirá se houve violação das <a href="{$houserulespopupurl}">Regras</a>. A decisão será informada a você por e-mail.</p>
+            <h2>hakkında şikayette bulunun <xsl:call-template name="item_name"/></h2>
+            <p>Bu form, sadece <a href="{$houserulespopupurl}">kullanım koşullarını ihlal ettiği düşünülen içeriğe ilişkin şikayetlerle ilgili olarak kullanılabilir</a>.</p>
+            <p>Eğer genel bir yorum yapmak ya da soru yöneltmek isterseniz, bu formu kullanmak yerine bir mesajla tartışmaya katılın.</p>
+            <p>Hakkında şikayetçi olduğunuz mesaj, <a href="{$houserulespopupurl}"> kullanım koşullarının ihlal edilip edilmediğine karar verecek olan moderatöre iletilecek</a>. Karar hakkında elektronik posta mesajı aracılığıyla bilgilendirileceksiniz.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
-                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registre minha reclamação</a>
+                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Şikayetimi kayda geçir</a>
                 </xsl:when>
                 <xsl:when test="@H2G2ID">
-                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registre minha reclamação</a>
+                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Şikayetimi kayda geçir</a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registre minha reclamação</a>
+                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Şikayetimi kayda geçir</a>
                 </xsl:otherwise>
               </xsl:choose>
             </p>
@@ -38,7 +38,7 @@
             <xsl:with-param name="unauthorised"></xsl:with-param>
             <xsl:with-param name="loggedout">
                 <div class="content">
-                    <p>Você não está associado a em uma conta neste website. Se você tiver registrado uma conta, use-a, pois isto facilitará o processamento de sua reclamação.</p>
+                    <p>Bu siteye giriş yapmamışsınız. Bir hesabınız varsa şikayetinizin işleme konulması için lütfen giriş yapın.</p>
                     <p class="action">
                       <a>
                       	<xsl:attribute name="href">
@@ -56,7 +56,7 @@
 		                     </xsl:otherwise>
 		                  </xsl:choose>
 		                  </xsl:attribute>
-                          <xsl:text>Registre-se</xsl:text>
+                          <xsl:text>Giriş</xsl:text>
                       </a>
                     </p>
                 </div>
@@ -67,13 +67,13 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>publique</xsl:text>
+        <xsl:text>mesaj</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
-        <xsl:text>artigo</xsl:text>
+        <xsl:text>haber</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>conteúdo</xsl:text>
+        <xsl:text>içerik</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -94,41 +94,41 @@
               </xsl:choose>
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
-            	<h2>Alrtando aos moderadores</h2>
-            	<p>Por favor, selecione qual das <a href="{$houserulespopupurl}">Regras</a> você acha <xsl:call-template name="item_name"/> que foi violada. Se você acha que mais de uma regra foi violada, por favor, escolha a que considera mais grave.</p>
+            	<h2>moderatörleri uyarmak</h2>
+            	<p>Bu yorumun ihlal ettiğini düşündüğünüz <a href="{$houserulespopupurl}">kullanım koşulunu</a> seçin.<xsl:call-template name="item_name"/> Eğer birden fazla kuralın ihlal edildiğini düşünüyorsanız en ciddi ihlali seçin.</p>
             </div>
             
             <div class="content">
-              <h2>Razão para a sua reclamação</h2>
+              <h2>Şikayetinizin nedeni:</h2>
               <p>
-                Eu acho que isso <xsl:call-template name="item_name"/> viola uma das <a href="{$houserulespopupurl}">Regras</a> porque 
+                Bunun <xsl:call-template name="item_name"/> ihlal etmiş olabileceğini düşünüyorum. <a href="{$houserulespopupurl}">kullanım koşullarını </a> Çünkü: 
               </p>
                
                 <p class="options">
                 	<p class="options">
-                		<input type="radio" id="dnaacs-cq-1" value="é difamatório ou calunioso" name="s_complaintText"/><label for="dnaacs-cq-1">é difamatório ou calunioso</label>
-                		<input type="radio" id="dnaacs-cq-2" value="é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo" name="s_complaintText"/><label for="dnaacs-cq-2">é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo</label>
-                		<input type="radio" id="dnaacs-cq-3" value="contém xingamentos ou outras palavras que podem ser consideradas ofensivas" name="s_complaintText"/><label for="dnaacs-cq-3">contém xingamentos ou outras palavras que podem ser consideradas ofensivas</label>
-                		<input type="radio" id="dnaacs-cq-4" value="viola a lei ou incentiva ou estimula o delito criminal tal como violação de direitos autorais desacato a um tribunal" name="s_complaintText"/><label for="dnaacs-cq-4">viola a lei ou incentiva ou estimula o delito criminal tal como violação de <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">direitos autorais</a> desacato a um tribunal</label>
-                		<input type="radio" id="dnaacs-cq-5" value="advertises products or services for profit or gain" name="s_complaintText"/><label for="dnaacs-cq-5">advertises products or services for profit or gain</label>
-                		<input type="radio" id="dnaacs-cq-7" value="está imitando alguém" name="s_complaintText"/><label for="dnaacs-cq-7">está imitando alguém</label>
-                		<input type="radio" id="dnaacs-cq-8" value="inclui informação pessoal como números de telefones, endereço postal ou de e-mail" name="s_complaintText"/><label for="dnaacs-cq-8">inclui informação pessoal como números de telefones, endereço postal ou de e-mail</label>
+                		<input type="radio" id="dnaacs-cq-1" value="iftira ve hakaret içeriyor" name="s_complaintText"/><label for="dnaacs-cq-1">iftira ve hakaret içeriyor</label>
+                		<input type="radio" id="dnaacs-cq-2" value="ırkçı, cinsiyet ayrımcısı, homofobik, taciz eden, küçük düşüren ve hakaret ifadeleri içeriyor" name="s_complaintText"/><label for="dnaacs-cq-2">ırkçı, cinsiyet ayrımcısı, homofobik, taciz eden, küçük düşüren ve hakaret ifadeleri içeriyor</label>
+                		<input type="radio" id="dnaacs-cq-3" value="küfür ve hakaret olarak görülebilecek ifadeler içeriyor" name="s_complaintText"/><label for="dnaacs-cq-3">küfür ve hakaret olarak görülebilecek ifadeler içeriyor</label>
+                		<input type="radio" id="dnaacs-cq-4" value="yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor fikri mülkiyet hakkı ihlali mahkemeye itaatsizlik" name="s_complaintText"/><label for="dnaacs-cq-4">yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">fikri mülkiyet hakkı ihlali</a> mahkemeye itaatsizlik</label>
+                		<input type="radio" id="dnaacs-cq-5" value="kâr ve gelir amaçlı hizmet ve ürün reklamı yapılıyor" name="s_complaintText"/><label for="dnaacs-cq-5">kâr ve gelir amaçlı hizmet ve ürün reklamı yapılıyor</label>
+                		<input type="radio" id="dnaacs-cq-7" value="birilerinin taklidi yapılıyor" name="s_complaintText"/><label for="dnaacs-cq-7">birilerinin taklidi yapılıyor</label>
+                		<input type="radio" id="dnaacs-cq-8" value="telefon numarası, ev ya da elektronik posta adresi gibi kişisel bilgiler içeriyor" name="s_complaintText"/><label for="dnaacs-cq-8">telefon numarası, ev ya da elektronik posta adresi gibi kişisel bilgiler içeriyor</label>
                 		<xsl:call-template name="library_userstate">
                       <xsl:with-param name="loggedin">
-                        <input type="radio" id="dnaacs-cq-9" value="não tem relação com o tema em debate" name="s_complaintText"/><label for="dnaacs-cq-9">não tem relação com o tema em debate</label>
+                        <input type="radio" id="dnaacs-cq-9" value="başlık ya da tartışılan konunun dışında" name="s_complaintText"/><label for="dnaacs-cq-9">başlık ya da tartışılan konunun dışında</label>
                       </xsl:with-param>
                     </xsl:call-template>
-                		<input type="radio" id="dnaacs-cq-10" value="não está escrito em português" name="s_complaintText"/><label for="dnaacs-cq-10">não está escrito em português</label>
-                		<input type="radio" id="dnaacs-cq-11" value="contém um link externo para um site que viola nossos Princípios Editoriais" name="s_complaintText"/><label for="dnaacs-cq-11">contém um link externo para um site que viola nossos <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Princípios Editoriais</a></label>
-                		<input type="radio" id="dnaacs-cq-12" value="descreve ou incentiva atividades que podem pôr em risco a segurança ou bem-estar de outros" name="s_complaintText"/><label for="dnaacs-cq-12">descreve ou incentiva atividades que podem pôr em risco a segurança ou bem-estar de outros</label>
-                		<input type="radio" id="dnaacs-cq-13" value="contém um nome de usuário inadequado" name="s_complaintText"/><label for="dnaacs-cq-13">contém um nome de usuário inadequado</label>
-                		<input type="radio" id="dnaacs-cq-14" value="é um spam" name="s_complaintText"/><label for="dnaacs-cq-14">é um spam</label>
-                		<input type="radio" id="dnaacs-cq-6" value="Outra" name="s_complaintText"/><label for="dnaacs-cq-6">viola a regra por uma razão não relacionada acima</label>
+                		<input type="radio" id="dnaacs-cq-10" value="Türkçe değil" name="s_complaintText"/><label for="dnaacs-cq-10">Türkçe değil</label>
+                		<input type="radio" id="dnaacs-cq-11" value="aykırı içeriğe sahip olan bir internet sitesine link içeriyor. BBC Yayın İlkeleri'ne" name="s_complaintText"/><label for="dnaacs-cq-11">aykırı içeriğe sahip olan bir internet sitesine link içeriyor. <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">BBC Yayın İlkeleri'ne</a></label>
+                		<input type="radio" id="dnaacs-cq-12" value="başkalarının güvenliğini tehlikeye atabilecek faaliyetlere ilişkin tarif ve teşvik edici ifadeler içeriyor" name="s_complaintText"/><label for="dnaacs-cq-12">başkalarının güvenliğini tehlikeye atabilecek faaliyetlere ilişkin tarif ve teşvik edici ifadeler içeriyor</label>
+                		<input type="radio" id="dnaacs-cq-13" value="uygun olmayan bir kullanıcı adı içeriyor" name="s_complaintText"/><label for="dnaacs-cq-13">uygun olmayan bir kullanıcı adı içeriyor</label>
+                		<input type="radio" id="dnaacs-cq-14" value="istenmeyen elekronik posta mesajı" name="s_complaintText"/><label for="dnaacs-cq-14">istenmeyen elekronik posta mesajı</label>
+                		<input type="radio" id="dnaacs-cq-6" value="Diğer" name="s_complaintText"/><label for="dnaacs-cq-6">yukarıda yer almayan bir kuralı ihlal ediyor</label>
                 	</p>
                 </p>
 
               <p class="action">
-                <input type="submit" value="Próxima página"/>
+                <input type="submit" value="Sonraki sayfa or İleri"/>
               </p>
             </div>
             
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Selecione a categoria da sua reclamação");
+        alert("Lütfen şikayet sebebinizi seçin");
         return;
         }
         else {
@@ -174,19 +174,19 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Por favor, preencha os campos abaixo com o motivo que na sua opinião <xsl:call-template name="item_name"/> esta regra foi violada. Quando tiver terminado, clique em Enviar Comentário para sua reclamação que seja analisada por um moderador.</p>
+           	<p>Lütfen aşağıdaki kutuya hangi nedenle kural ihlali olduğunu düşündüğünüzü yazın. <xsl:call-template name="item_name"/> Formu doldurduktan sonra da moderatör tarafından incelenmek üzere Şikayeti Gönder'e tıklayın.</p>
                <p>
-                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Outra'">
-                    Gostaria de reclamar deste comentário <xsl:call-template name="item_name"/> pelo seguinte motivo:
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Diğer'">
+                    bu konuda şikayette bulunmak istiyorum: <xsl:call-template name="item_name"/> Aşağıdaki nedenle 
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Outra'">
-                        <xsl:text>Acredito que </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Diğer'">
+                        <xsl:text>buna inanıyorum: </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> pelo seguinte motivo:</xsl:text>
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> Aşağıdaki nedenle </xsl:text>
                     	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
@@ -204,12 +204,12 @@
                   <!-- email address is not required in this instance -->
                 </xsl:when>
                 <xsl:otherwise>
-                    <h3>Seu endereço de e-mail</h3>
+                    <h3>Elektronik posta adresiniz:</h3>
                     <p>
-                      <em>Precisamos de seu endereço de e-mail para processar sua reclamação e informá-lo da decisão do moderador. Pode ser que precisemos contatá-lo diretamente caso necessitemos maiores informações osbre sua reclamação.</em>
+                      <em>Şikayetinizi işleme koymak ve moderatörün kararı konusunda sizi bilgilendirmek için elektronik posta adresiniz gerekli. Şikayetiniz hakkında ek bilgiye ihtiyaç olursa sizinle temas kurmamız da gerekebilir.</em>
                     </p>
                     <p>
-                        <label for="emailaddress">endeço de e-mail.</label>
+                        <label for="emailaddress">Elektronik posta adresi:</label>
                         <input type="text" name="email" id="emailaddress" value="" class="textbox"/>
                     </p>
                 </xsl:otherwise>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Esconder <xsl:call-template name="item_name"/> intantaneamente</label>.
+                        <label for="hidePost"> Gizleyin <xsl:call-template name="item_name"/> anında</label>.
                     </p>
                 </xsl:if>
                 
@@ -237,8 +237,8 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="Enviar"/>
-                    <input type="submit" value="Enviar reclamação" name="Submit" class="button"/>
+                    <input type="hidden" name="action" value="Gönder"/>
+                    <input type="submit" value="Şikayet et" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -247,11 +247,11 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
       <div class="content">
-        <h2>Informação</h2>
+        <h2>Bilgi</h2>
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              Você foi bloqueado e não poderá usar o sistema de reclamações, por favor, escreva para:<br />
+              Site üzerinden şikayet göndermeniz engellendi, lütfen şu adrese yazın:<br />
               BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
@@ -272,12 +272,12 @@
 
   <xsl:template match="USERCOMPLAINT[@REQUIRESVERIFICATION = '1']" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Confirmação de endereço de e-amil</h2>
+      <h2>Elektronik posta doğrulama</h2>
       <p>
-        Sua reclamação foi enviada. Ela não será analisada por um moderador até que você confirme seu endereço de e-mail. Isto é feito para evitar spam ou uso falso de dientidade alheia.
+        Şikayetiniz gönderildi. Ancak elektronik posta doğrulaması yapılmadan moderatöre ulaşmayacak. Bu, başkalarının adına mesaj gönderilmesini ve istenmeyen mesajları engellemek için gerekli.
       </p>
       <p>
-        ^Você receberá m e-mail em breve com um link para que possa ativar sua reclamação. Clique neste link para enviar sua reclamação aos moderadores.
+        Şikayetinizin moderatörlere ulaşmasını sağlamak için lütfen linke tıklayın.
       </p>
       
       <p class="action">
@@ -289,7 +289,7 @@
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Siga navegando</xsl:text>
+          <xsl:text>Sitede gezinmeye devam edin</xsl:text>
         </a>
       </p>
     </div>
@@ -297,17 +297,17 @@
 
   <xsl:template match="USER-COMPLAINT-FORM[MESSAGE/@TYPE = 'SUBMIT-SUCCESSFUL'] | USERCOMPLAINT[@MODID]" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Siga navegando</h2>
+      <h2>Sitede gezinmeye devam edin</h2>
       <p>
-        Sua reclamação foi recebida e enviada à equipe de moderadores. Um moderador decidirá se alguma das <a href="{$houserulespopupurl}">Regras</a> foi violada e irá informá-lo por e-mail.
+        Şikayetiniz başarıyla ulaştı ve moderatör ekibine iletildi.  <a href="{$houserulespopupurl}">Kullanım koşullarına</a> uygun olup olmadığı incelendikten sonra elektronik posta adresinize gönderilecek bir mesajla bilgilendirileceksiniz.
       </p>
       <p>
-        Seu ID de Referência de Moderação é: <strong>
+        Moderasyon referans numaranız: <strong>
           <xsl:value-of select="(MODERATION-REFERENCE | @MODID)[1]"/>
         </strong>
       </p>
       <xsl:if test="@HIDDEN and @HIDDEN != 0">
-        <p>Adicionalmente, este post foi escondido.</p>
+        <p>Bu gönderi gizlendi.</p>
       </xsl:if>
       <p class="action">
         <a class="close">
@@ -319,14 +319,14 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/brasil</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/turkce</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Siga navegando</xsl:text>
+          <xsl:text>Sitede gezinmeye devam edin</xsl:text>
         </a>
       </p>
     </div>

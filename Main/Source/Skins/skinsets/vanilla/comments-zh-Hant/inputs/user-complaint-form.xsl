@@ -15,20 +15,20 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>Reclame sobre um <xsl:call-template name="item_name"/></h2>
-            <p>Este formulário é para ser usado apenas nos casos de reclamações sérias sobre um comentário específico que viole a <a href="{$houserulespopupurl}">Regras</a>.</p>
-            <p>Não use esse formulário se você tiver alguma dúvida ou um comentário geral a fazer, entre uma mensagem como parte do debate.</p>
-            <p>A mensagem sobre a qual você postou uma reclamação será enviada a um moderador, que decidirá se houve violação das <a href="{$houserulespopupurl}">Regras</a>. A decisão será informada a você por e-mail.</p>
+            <h2>投訴關於<xsl:call-template name="item_name"/></h2>
+            <p>這份表格只適用於嚴重的投訴，該特定内容違反了<a href="{$houserulespopupurl}">編輯原則</a></p>
+            <p>如果你有一般評論或者問題，請勿使用此表格。請在相關討論區發表評論。</p>
+            <p>你所投訴的評論將會送交編輯審核，編輯將決定該評論是否違反了<a href="{$houserulespopupurl}">編輯原則。</a>有關的決定將會通過電子郵件通知你。</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
-                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registre minha reclamação</a>
+                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">登記我的投訴</a>
                 </xsl:when>
                 <xsl:when test="@H2G2ID">
-                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registre minha reclamação</a>
+                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">登記我的投訴</a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registre minha reclamação</a>
+                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">登記我的投訴</a>
                 </xsl:otherwise>
               </xsl:choose>
             </p>
@@ -38,7 +38,7 @@
             <xsl:with-param name="unauthorised"></xsl:with-param>
             <xsl:with-param name="loggedout">
                 <div class="content">
-                    <p>Você não está associado a em uma conta neste website. Se você tiver registrado uma conta, use-a, pois isto facilitará o processamento de sua reclamação.</p>
+                    <p>你沒有登錄到這個網站的帳戶。如果你已經擁有註冊帳戶，請登錄進入，這樣可以幫助我們處理你的投訴。</p>
                     <p class="action">
                       <a>
                       	<xsl:attribute name="href">
@@ -56,7 +56,7 @@
 		                     </xsl:otherwise>
 		                  </xsl:choose>
 		                  </xsl:attribute>
-                          <xsl:text>Registre-se</xsl:text>
+                          <xsl:text>登錄</xsl:text>
                       </a>
                     </p>
                 </div>
@@ -67,13 +67,13 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>publique</xsl:text>
+        <xsl:text>發表</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
-        <xsl:text>artigo</xsl:text>
+        <xsl:text>文章</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>conteúdo</xsl:text>
+        <xsl:text>内容項目</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -94,41 +94,41 @@
               </xsl:choose>
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
-            	<h2>Alrtando aos moderadores</h2>
-            	<p>Por favor, selecione qual das <a href="{$houserulespopupurl}">Regras</a> você acha <xsl:call-template name="item_name"/> que foi violada. Se você acha que mais de uma regra foi violada, por favor, escolha a que considera mais grave.</p>
+            	<h2>通知編輯</h2>
+            	<p>請選擇哪一條<a href="{$houserulespopupurl}">編輯原則s</a>你認爲這項原則<xsl:call-template name="item_name"/>給違反了。如果你認為違反了超過一項原則，請選擇最嚴重的違反程度。</p>
             </div>
             
             <div class="content">
-              <h2>Razão para a sua reclamação</h2>
+              <h2>投訴原因</h2>
               <p>
-                Eu acho que isso <xsl:call-template name="item_name"/> viola uma das <a href="{$houserulespopupurl}">Regras</a> porque 
+                我相信它<xsl:call-template name="item_name"/>可能違反了<a href="{$houserulespopupurl}">編輯原則</a>因爲它
               </p>
                
                 <p class="options">
                 	<p class="options">
-                		<input type="radio" id="dnaacs-cq-1" value="é difamatório ou calunioso" name="s_complaintText"/><label for="dnaacs-cq-1">é difamatório ou calunioso</label>
-                		<input type="radio" id="dnaacs-cq-2" value="é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo" name="s_complaintText"/><label for="dnaacs-cq-2">é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo</label>
-                		<input type="radio" id="dnaacs-cq-3" value="contém xingamentos ou outras palavras que podem ser consideradas ofensivas" name="s_complaintText"/><label for="dnaacs-cq-3">contém xingamentos ou outras palavras que podem ser consideradas ofensivas</label>
-                		<input type="radio" id="dnaacs-cq-4" value="viola a lei ou incentiva ou estimula o delito criminal tal como violação de direitos autorais desacato a um tribunal" name="s_complaintText"/><label for="dnaacs-cq-4">viola a lei ou incentiva ou estimula o delito criminal tal como violação de <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">direitos autorais</a> desacato a um tribunal</label>
-                		<input type="radio" id="dnaacs-cq-5" value="advertises products or services for profit or gain" name="s_complaintText"/><label for="dnaacs-cq-5">advertises products or services for profit or gain</label>
-                		<input type="radio" id="dnaacs-cq-7" value="está imitando alguém" name="s_complaintText"/><label for="dnaacs-cq-7">está imitando alguém</label>
-                		<input type="radio" id="dnaacs-cq-8" value="inclui informação pessoal como números de telefones, endereço postal ou de e-mail" name="s_complaintText"/><label for="dnaacs-cq-8">inclui informação pessoal como números de telefones, endereço postal ou de e-mail</label>
+                		<input type="radio" id="dnaacs-cq-1" value="涉及中傷或誹謗" name="s_complaintText"/><label for="dnaacs-cq-1">涉及中傷或誹謗</label>
+                		<input type="radio" id="dnaacs-cq-2" value="涉及種族歧視、性別歧視、同性戀恐懼、性描寫、淩辱或其他冒犯" name="s_complaintText"/><label for="dnaacs-cq-2">涉及種族歧視、性別歧視、同性戀恐懼、性描寫、淩辱或其他冒犯</label>
+                		<input type="radio" id="dnaacs-cq-3" value="包含咒駡字詞或其他可能冒犯他人的語言" name="s_complaintText"/><label for="dnaacs-cq-3">包含咒駡字詞或其他可能冒犯他人的語言</label>
+                		<input type="radio" id="dnaacs-cq-4" value="違反法律、同情或鼓勵非法行爲，例如違反版權或藐視法庭" name="s_complaintText"/><label for="dnaacs-cq-4">違反法律、同情或鼓勵非法行爲，例如違反<a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">版權</a>或藐視法庭</label>
+                		<input type="radio" id="dnaacs-cq-5" value="為商品做廣告宣傳賺取利潤" name="s_complaintText"/><label for="dnaacs-cq-5">為商品做廣告宣傳賺取利潤</label>
+                		<input type="radio" id="dnaacs-cq-7" value="冒充他人" name="s_complaintText"/><label for="dnaacs-cq-7">冒充他人</label>
+                		<input type="radio" id="dnaacs-cq-8" value="含有個人資料，例如電話號碼、郵遞或電郵地址" name="s_complaintText"/><label for="dnaacs-cq-8">含有個人資料，例如電話號碼、郵遞或電郵地址</label>
                 		<xsl:call-template name="library_userstate">
                       <xsl:with-param name="loggedin">
-                        <input type="radio" id="dnaacs-cq-9" value="não tem relação com o tema em debate" name="s_complaintText"/><label for="dnaacs-cq-9">não tem relação com o tema em debate</label>
+                        <input type="radio" id="dnaacs-cq-9" value="與討論的題目完全無關" name="s_complaintText"/><label for="dnaacs-cq-9">與討論的題目完全無關</label>
                       </xsl:with-param>
                     </xsl:call-template>
-                		<input type="radio" id="dnaacs-cq-10" value="não está escrito em português" name="s_complaintText"/><label for="dnaacs-cq-10">não está escrito em português</label>
-                		<input type="radio" id="dnaacs-cq-11" value="contém um link externo para um site que viola nossos Princípios Editoriais" name="s_complaintText"/><label for="dnaacs-cq-11">contém um link externo para um site que viola nossos <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Princípios Editoriais</a></label>
-                		<input type="radio" id="dnaacs-cq-12" value="descreve ou incentiva atividades que podem pôr em risco a segurança ou bem-estar de outros" name="s_complaintText"/><label for="dnaacs-cq-12">descreve ou incentiva atividades que podem pôr em risco a segurança ou bem-estar de outros</label>
-                		<input type="radio" id="dnaacs-cq-13" value="contém um nome de usuário inadequado" name="s_complaintText"/><label for="dnaacs-cq-13">contém um nome de usuário inadequado</label>
-                		<input type="radio" id="dnaacs-cq-14" value="é um spam" name="s_complaintText"/><label for="dnaacs-cq-14">é um spam</label>
-                		<input type="radio" id="dnaacs-cq-6" value="Outra" name="s_complaintText"/><label for="dnaacs-cq-6">viola a regra por uma razão não relacionada acima</label>
+                		<input type="radio" id="dnaacs-cq-10" value="不是中文" name="s_complaintText"/><label for="dnaacs-cq-10">不是中文</label>
+                		<input type="radio" id="dnaacs-cq-11" value="含有外界鏈接，違反我們的編輯守則" name="s_complaintText"/><label for="dnaacs-cq-11">含有外界鏈接，違反我們的<a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">編輯守則</a></label>
+                		<input type="radio" id="dnaacs-cq-12" value="形容或鼓勵某些危害其他人安全或福祉的行爲" name="s_complaintText"/><label for="dnaacs-cq-12">形容或鼓勵某些危害其他人安全或福祉的行爲</label>
+                		<input type="radio" id="dnaacs-cq-13" value="含有不適當的用戶名" name="s_complaintText"/><label for="dnaacs-cq-13">含有不適當的用戶名</label>
+                		<input type="radio" id="dnaacs-cq-14" value="是濫發訊息" name="s_complaintText"/><label for="dnaacs-cq-14">是濫發訊息</label>
+                		<input type="radio" id="dnaacs-cq-6" value="其他" name="s_complaintText"/><label for="dnaacs-cq-6">違反原則的原因不在上列</label>
                 	</p>
                 </p>
 
               <p class="action">
-                <input type="submit" value="Próxima página"/>
+                <input type="submit" value="下一頁"/>
               </p>
             </div>
             
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Selecione a categoria da sua reclamação");
+        alert("請選擇投訴原因");
         return;
         }
         else {
@@ -174,19 +174,19 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Por favor, preencha os campos abaixo com o motivo que na sua opinião <xsl:call-template name="item_name"/> esta regra foi violada. Quando tiver terminado, clique em Enviar Comentário para sua reclamação que seja analisada por um moderador.</p>
+           	<p>請在以下格子填寫爲什麽你認爲<xsl:call-template name="item_name"/>違反這項原則。填寫完畢後，請點擊“發送投訴”，讓編輯可以審核。</p>
                <p>
-                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Outra'">
-                    Gostaria de reclamar deste comentário <xsl:call-template name="item_name"/> pelo seguinte motivo:
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = '其他'">
+                    我要投訴這個<xsl:call-template name="item_name"/>因爲下列原因：
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Outra'">
-                        <xsl:text>Acredito que </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != '其他'">
+                        <xsl:text>我相信</xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> pelo seguinte motivo:</xsl:text>
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text>因爲下列原因：</xsl:text>
                     	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
@@ -204,12 +204,12 @@
                   <!-- email address is not required in this instance -->
                 </xsl:when>
                 <xsl:otherwise>
-                    <h3>Seu endereço de e-mail</h3>
+                    <h3>你的電郵地址</h3>
                     <p>
-                      <em>Precisamos de seu endereço de e-mail para processar sua reclamação e informá-lo da decisão do moderador. Pode ser que precisemos contatá-lo diretamente caso necessitemos maiores informações osbre sua reclamação.</em>
+                      <em>我們需要你的電郵地址來處理你的投訴，以及通知你有關編輯的決定。有時候，我們可能需要與你直接聯繫，以取得關於你的投訴的更多資料。</em>
                     </p>
                     <p>
-                        <label for="emailaddress">endeço de e-mail.</label>
+                        <label for="emailaddress">Email address</label>
                         <input type="text" name="email" id="emailaddress" value="" class="textbox"/>
                     </p>
                 </xsl:otherwise>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Esconder <xsl:call-template name="item_name"/> intantaneamente</label>.
+                        <label for="hidePost">隱藏這個<xsl:call-template name="item_name"/>立刻</label>.
                     </p>
                 </xsl:if>
                 
@@ -237,8 +237,8 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="Enviar"/>
-                    <input type="submit" value="Enviar reclamação" name="Submit" class="button"/>
+                    <input type="hidden" name="action" value="發送"/>
+                    <input type="submit" value="發表投訴" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -247,11 +247,11 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
       <div class="content">
-        <h2>Informação</h2>
+        <h2>資料</h2>
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              Você foi bloqueado e não poderá usar o sistema de reclamações, por favor, escreva para:<br />
+              你已經被拒絕使用在綫投訴系統，請致函：<br />
               BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
@@ -272,12 +272,12 @@
 
   <xsl:template match="USERCOMPLAINT[@REQUIRESVERIFICATION = '1']" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Confirmação de endereço de e-amil</h2>
+      <h2>電郵核實</h2>
       <p>
-        Sua reclamação foi enviada. Ela não será analisada por um moderador até que você confirme seu endereço de e-mail. Isto é feito para evitar spam ou uso falso de dientidade alheia.
+        你的投訴已經提交。在你核實你的電子郵件地址之前，編輯不會予以處理。這個做法是爲了防止冒充和濫發行爲。
       </p>
       <p>
-        ^Você receberá m e-mail em breve com um link para que possa ativar sua reclamação. Clique neste link para enviar sua reclamação aos moderadores.
+        你很快會收到一封電子郵件，當中附有一個鏈接以啓動你的投訴。點擊這個鏈接將會把你的投訴送達編輯。
       </p>
       
       <p class="action">
@@ -289,7 +289,7 @@
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Siga navegando</xsl:text>
+          <xsl:text>繼續瀏覽</xsl:text>
         </a>
       </p>
     </div>
@@ -297,17 +297,17 @@
 
   <xsl:template match="USER-COMPLAINT-FORM[MESSAGE/@TYPE = 'SUBMIT-SUCCESSFUL'] | USERCOMPLAINT[@MODID]" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Siga navegando</h2>
+      <h2>投訴成立</h2>
       <p>
-        Sua reclamação foi recebida e enviada à equipe de moderadores. Um moderador decidirá se alguma das <a href="{$houserulespopupurl}">Regras</a> foi violada e irá informá-lo por e-mail.
+        你的投訴已經送達編輯團隊。他們將審核
       </p>
       <p>
-        Seu ID de Referência de Moderação é: <strong>
+        你的編輯參考號碼是：<strong>
           <xsl:value-of select="(MODERATION-REFERENCE | @MODID)[1]"/>
         </strong>
       </p>
       <xsl:if test="@HIDDEN and @HIDDEN != 0">
-        <p>Adicionalmente, este post foi escondido.</p>
+        <p>此外，有關文稿已經被隱藏。</p>
       </xsl:if>
       <p class="action">
         <a class="close">
@@ -319,14 +319,14 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/brasil</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/zhongwen/trad</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Siga navegando</xsl:text>
+          <xsl:text>繼續瀏覽</xsl:text>
         </a>
       </p>
     </div>

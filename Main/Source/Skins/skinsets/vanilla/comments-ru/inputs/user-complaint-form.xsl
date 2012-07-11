@@ -15,9 +15,9 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>Жалоба на <xsl:call-template name="item_name"/></h2>
-            <p>Эта форма должна быть использована лишь для серьезных жалоб на определенное содержание комментария, которое нарушает <a href="{$houserulespopupurl}">Правила форумов</a>.</p>
-            <p>Если ваш комментарий носит общий характер или вопрос, не используйте эту форму. Воспользуйтесь либо системой отправки сообщений, либо формой обратной связи.</p>
+            <h2>Пожаловаться на <xsl:call-template name="item_name"/></h2>
+            <p>Эта форма должна быть использована лишь для серьезных жалоб на определенное содержание комментария, которое нарушает <a href="{$houserulespopupurl}">Правила форумов Би-би-си</a>.</p>
+            <p>Если ваш комментарий носит общий характер или представляет собой вопрос, не используйте эту форму. Воспользуйтесь либо системой отправки комментариев, либо формой обратной связи.</p>
             <p>Ваша жалоба будет отправлена модератору, который решит, нарушает ли комментарий, на который вы жалуетесь <a href="{$houserulespopupurl}">Правила форумов Би-би-си</a>. Вы получите электронное письмо с решением модератора по поводу вашей жалобы.</p>
             <p class="action">
               <xsl:choose>
@@ -95,7 +95,7 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Отправить сообщение модераторам</h2>
-            	<p>Выберите, какой из пунктов <a href="{$houserulespopupurl}">Правил форумов Би-би-си</a> вы считаете <xsl:call-template name="item_name"/> был нарушен. Если вам кажется, что было нарушено несколько пунктов, выберите самый серьезный.</p>
+            	<p>Выберите, какой из пунктов <a href="{$houserulespopupurl}">Правил форумов Би-би-си,</a> вы считаете, <xsl:call-template name="item_name"/> был нарушен. Если вам кажется, что было нарушено несколько пунктов, выберите самый серьезный.</p>
             </div>
             
             <div class="content">
@@ -109,8 +109,8 @@
                 		<input type="radio" id="dnaacs-cq-1" value="носит клеветнический характер" name="s_complaintText"/><label for="dnaacs-cq-1">носит клеветнический характер</label>
                 		<input type="radio" id="dnaacs-cq-2" value="носит расистский, сексистский, гомофобный, сексуально откровенный, насильственный или оскорбительный характер" name="s_complaintText"/><label for="dnaacs-cq-2">носит расистский, сексистский, гомофобный, сексуально откровенный, насильственный или оскорбительный характер</label>
                 		<input type="radio" id="dnaacs-cq-3" value="содержит нецензурные или оскорбительные слова" name="s_complaintText"/><label for="dnaacs-cq-3">содержит нецензурные или оскорбительные слова</label>
-                		<input type="radio" id="dnaacs-cq-4" value="нарушает закон или подстрекает к незаконной деятельности, как то:" name="s_complaintText"/><label for="dnaacs-cq-4">нарушает закон или подстрекает к незаконной деятельности, как то: <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">нарушение авторского права</a> или нарушение судебного запрета</label>
-                		<input type="radio" id="dnaacs-cq-5" value="рекламирует продукцию или сервис в целях получения прибыли" name="s_complaintText"/><label for="dnaacs-cq-5">рекламирует продукцию или сервис в целях получения прибыли</label>
+                		<input type="radio" id="dnaacs-cq-4" value="нарушает закон или подстрекает к незаконной деятельности, как то: нарушение авторского права неуважение к суду" name="s_complaintText"/><label for="dnaacs-cq-4">нарушает закон или подстрекает к незаконной деятельности, как то: <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">нарушение авторского права</a> неуважение к суду</label>
+                		<input type="radio" id="dnaacs-cq-5" value="рекламирует продукцию или услуги в целях получения прибыли" name="s_complaintText"/><label for="dnaacs-cq-5">рекламирует продукцию или услуги в целях получения прибыли</label>
                 		<input type="radio" id="dnaacs-cq-7" value="выдает себя за кого-то другого" name="s_complaintText"/><label for="dnaacs-cq-7">выдает себя за кого-то другого</label>
                 		<input type="radio" id="dnaacs-cq-8" value="содержит личные данные (к примеру, телефон или адрес)" name="s_complaintText"/><label for="dnaacs-cq-8">содержит личные данные (к примеру, телефон или адрес)</label>
                 		<xsl:call-template name="library_userstate">
@@ -121,14 +121,14 @@
                 		<input type="radio" id="dnaacs-cq-10" value="написан не на русском языке" name="s_complaintText"/><label for="dnaacs-cq-10">написан не на русском языке</label>
                 		<input type="radio" id="dnaacs-cq-11" value="содержит ссылку на вебсайт, который нарушает Редакционные ценности Би-би-си" name="s_complaintText"/><label for="dnaacs-cq-11">содержит ссылку на вебсайт, который нарушает <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Редакционные ценности Би-би-си</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="описывает или подстрекает к опасной деятельности, которая может повлиять на безопасность других людей" name="s_complaintText"/><label for="dnaacs-cq-12">описывает или подстрекает к опасной деятельности, которая может повлиять на безопасность других людей</label>
-                		<input type="radio" id="dnaacs-cq-13" value="содержит нецензурное имя" name="s_complaintText"/><label for="dnaacs-cq-13">содержит нецензурное имя</label>
-                		<input type="radio" id="dnaacs-cq-14" value="является спамом" name="s_complaintText"/><label for="dnaacs-cq-14">является спамом</label>
-                		<input type="radio" id="dnaacs-cq-6" value="нарушает правила по пункту, не перечисленному выше" name="s_complaintText"/><label for="dnaacs-cq-6">нарушает правила по пункту, не перечисленному выше</label>
+                		<input type="radio" id="dnaacs-cq-13" value="содержит нецензурное имя пользователя" name="s_complaintText"/><label for="dnaacs-cq-13">содержит нецензурное имя пользователя</label>
+                		<input type="radio" id="dnaacs-cq-14" value="is spam" name="s_complaintText"/><label for="dnaacs-cq-14">является спамом</label>
+                		<input type="radio" id="dnaacs-cq-6" value="Другое" name="s_complaintText"/><label for="dnaacs-cq-6">нарушает правила по пункту, не перечисленному выше</label>
                 	</p>
                 </p>
 
               <p class="action">
-                <input type="submit" value="Next Page"/>
+                <input type="submit" value="Следующая страница"/>
               </p>
             </div>
             
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Please choose a complaint reason");
+        alert("Выберите причину вашей жалобы");
         return;
         }
         else {
@@ -174,17 +174,17 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Пожалуйста, заполните эту графу, объяснив причину, по которой вы считает, что комментарий <xsl:call-template name="item_name"/> нарушает это правило. Затем нажмите на кнопку "Отправить жалобу". Она будет переправлена модератору.</p>
+           	<p>Пожалуйста, заполните эту графу, объяснив причину, по которой вы считаете, что комментарий <xsl:call-template name="item_name"/> нарушает это правило. Затем нажмите на кнопку "Отправить жалобу". Она будет переправлена модератору.</p>
                <p>
-                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Other'">
-                    Я хочу пожаловаться на этот комментарий, <xsl:call-template name="item_name"/> так как 
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Другое'">
+                    Я хочу пожаловаться на этот комментарий, <xsl:call-template name="item_name"/> так как
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Other'">
-                        <xsl:text>я считаю, что </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Другое'">
+                        <xsl:text>Мне кажется, что этот комментарий (или его автор) </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> он нарушает:</xsl:text>
                     	</xsl:if>
@@ -206,7 +206,7 @@
                 <xsl:otherwise>
                     <h3>Ваш электронный адрес</h3>
                     <p>
-                      <em>Нам необходим ваш электронный адрес, чтобы мы могли проинформировать вас о решении модератора. Мы так же можем написать вам, если нам нужна будет дополнительная информация по поводу вашей жалобы.</em>
+                      <em>Нам нужен ваш электронный адрес, чтобы мы могли проинформировать вас о решении модератора. Мы можем написать вам, если нам нужна будет дополнительная информация по поводу вашей жалобы.</em>
                     </p>
                     <p>
                         <label for="emailaddress">Адрес электронной почты</label>
@@ -237,8 +237,8 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="submit"/>
-                    <input type="submit" value="Send Complaint" name="Submit" class="button"/>
+                    <input type="hidden" name="action" value="Отправить"/>
+                    <input type="submit" value="Отправить жалобу" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -251,7 +251,7 @@
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              Вы не можете использовать систему жалоб, так как вы были заблокированы системой. Пожалуйста, напишите сюда:<br />
+              Вы не можете использовать систему жалоб, так как вы были заблокированы. Пожалуйста, напишите сюда: <br />
               BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
@@ -274,10 +274,10 @@
     <div class="content">
       <h2>Подтверждение электронного адреса</h2>
       <p>
-        Ваша жалоба была отправлена. Модератор сможет прочесть ее лишь после того, как вы подтвердите свой электронный адрес. Эта процедура необходима для борьбы со спамом.
+        Ваша жалоба отправлена. Модератор сможет прочесть ее лишь после того, как вы подтвердите свой электронный адрес. Эта процедура необходима для борьбы со спамом.
       </p>
       <p>
-        Вы скоро получите электронное письмо со ссылкой для того, чтобы активировать вашу жалобу. Нажав на ссылку, вы перешлете свою жалобу модераторам.
+        Вы скоро получите электронное письмо со ссылкой для того, чтобы активировать вашу жалобу. Нажав на ссылку, вы отправите свою жалобу модераторам.
       </p>
       
       <p class="action">
@@ -299,7 +299,7 @@
     <div class="content">
       <h2>Жалоба получена</h2>
       <p>
-        Ваша жалоба была отправлена модератору. Модератор решит, нарушает ли комментарий <a href="{$houserulespopupurl}">Правила форумов Би-би-си,</a> и уведомит вас о своем решение по электронной почте.
+        Ваша жалоба отправлена модератору. Модератор решит, нарушает ли комментарий <a href="{$houserulespopupurl}">Правила форумов Би-би-си,</a> и уведомит вас о своем решении по электронной почте.
       </p>
       <p>
         Ваш номер жалобы: <strong>
@@ -319,7 +319,7 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/russian</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 

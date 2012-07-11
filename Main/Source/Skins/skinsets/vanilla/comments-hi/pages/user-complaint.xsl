@@ -21,7 +21,7 @@
 
     <xsl:template match="/H2G2[@TYPE = 'USER-COMPLAINT'] | /H2G2[@TYPE = 'USERCOMPLAINTPAGE']" mode="page">
         <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"></xsl:text>
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="hi" lang="hi">
             <head profile="http://dublincore.org/documents/dcq-html/">
                 
                 <title>BBC Hindi - शिकायतें</title>

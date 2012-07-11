@@ -15,20 +15,20 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>Keluhan tentang <xsl:call-template name="item_name"/></h2>
-            <p>Formulir ini hanya untuk keluhan serius tentang materi tertentu yang melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a></p>
-            <p>Jika anda ingin menyampaikan komentar atau pertanyaan umum, jangan gunakan formulir ini namun kirim pesan untuk diskusi.</p>
-            <p>Pesan yang Anda keluhkan akan dkirim ke moderator, yang akan menentukan apakah melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a> Anda akan mendapat informasi tentang keputusan itu melalui email. </p>
+            <h2>... бўйича шикоят <xsl:call-template name="item_name"/></h2>
+            <p>Ушбу формадан фақат форум қоидасини бузаётган изоҳлар борасидаги жиддий шикоятлар учун фойдаланилади <a href="{$houserulespopupurl}">Форумлар қоидалари</a>.</p>
+            <p>Агар сизда умумий изоҳ ёки савол бўлса, бу формадан фойдаланманг. Ё хабар йўлланг ёки қайта алоқа формасидан фойдаланинг.</p>
+            <p>Сизнинг шикоятингиз модераторга етказилади. Модератор изоҳ форум қоидасини бузган-бузмаганини ўрганади <a href="{$houserulespopupurl}">Форумлар қоидалари</a>. Сиз ўз шикоятингиз борасида қандай қарорга келингани ҳақида электрон мактуб оласиз.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
-                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Daftarkan keluhan saya</a>
+                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Менинг шикоятимни қайд этинг</a>
                 </xsl:when>
                 <xsl:when test="@H2G2ID">
-                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Daftarkan keluhan saya</a>
+                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Менинг шикоятимни қайд этинг</a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Daftarkan keluhan saya</a>
+                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Менинг шикоятимни қайд этинг</a>
                 </xsl:otherwise>
               </xsl:choose>
             </p>
@@ -38,7 +38,7 @@
             <xsl:with-param name="unauthorised"></xsl:with-param>
             <xsl:with-param name="loggedout">
                 <div class="content">
-                    <p>Anda tidak terdaftar. Jika Anda memiliki akun terdaftar, silahkan masuk dan kami akan membantu untuk memproses keluhan Anda.</p>
+                    <p>Сиз веб-сайтга кирганингизча йўқ. Агар рўйхатдан ўтган бўлсангиз, ўз исмингиз ва очарсўзингизни киритинг. Бу нарса шикоятингиз билан боғлиқ жараённи осонлаштиради.</p>
                     <p class="action">
                       <a>
                       	<xsl:attribute name="href">
@@ -56,7 +56,7 @@
 		                     </xsl:otherwise>
 		                  </xsl:choose>
 		                  </xsl:attribute>
-                          <xsl:text>Masuk</xsl:text>
+                          <xsl:text>Кириш</xsl:text>
                       </a>
                     </p>
                 </div>
@@ -67,13 +67,13 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>Kirim pesan</xsl:text>
+        <xsl:text>юбориш</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
-        <xsl:text>artikel</xsl:text>
+        <xsl:text>мақола</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>materi</xsl:text>
+        <xsl:text>контент</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -94,41 +94,41 @@
               </xsl:choose>
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
-            	<h2>Mengingatkan moderator</h2>
-            	<p>Mohon pilih yang mana dari <a href="{$houserulespopupurl}">Peraturan Internal</a> yang menurut Anda <xsl:call-template name="item_name"/> sudah dilanggar. Jika menurut Anda melangar lebih dari satu peraturan, mohon pilih pelanggaran paling serius.</p>
+            	<h2>Модераторларни огоҳ қилиш</h2>
+            	<p>Сизнингча қайси банд <a href="{$houserulespopupurl}">Форумлар қоидаларига</a> зид деб ҳисоблайсиз <xsl:call-template name="item_name"/> Агар сиз бир неча қоида бузилган, деб ҳисобласангиз, улардан энг жиддийсини танланг.</p>
             </div>
             
             <div class="content">
-              <h2>Alasan keluhan</h2>
+              <h2>Шикоят сабаби</h2>
               <p>
-                Saya yakin ini <xsl:call-template name="item_name"/> mungkin melanggar satu dari <a href="{$houserulespopupurl}">Peraturan Internal</a> karena
+                Менинг фикримча, бу <xsl:call-template name="item_name"/> қуйидаги қоидани бузаяпти <a href="{$houserulespopupurl}">Форумлар қоидасини</a> чунки унда:
               </p>
                
                 <p class="options">
                 	<p class="options">
-                		<input type="radio" id="dnaacs-cq-1" value="memfintah atau mencemarkan nama baik" name="s_complaintText"/><label for="dnaacs-cq-1">memfintah atau mencemarkan nama baik,</label>
-                		<input type="radio" id="dnaacs-cq-2" value="rasis, seksis, homofobia, seksual secara terang-terangan, menghina atau menyerang" name="s_complaintText"/><label for="dnaacs-cq-2">rasis, seksis, homofobia, seksual secara terang-terangan, menghina atau menyerang</label>
-                		<input type="radio" id="dnaacs-cq-3" value="mengandung kata makian atau yang mungkin menghina" name="s_complaintText"/><label for="dnaacs-cq-3">mengandung kata makian atau yang mungkin menghina</label>
-                		<input type="radio" id="dnaacs-cq-4" value="melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar hak cipta menghina pengadilan" name="s_complaintText"/><label for="dnaacs-cq-4">melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">hak cipta</a> menghina pengadilan</label>
-                		<input type="radio" id="dnaacs-cq-5" value="mempromosikan produk atau jasa untuk mendapat keuntungan" name="s_complaintText"/><label for="dnaacs-cq-5">mempromosikan produk atau jasa untuk mendapat keuntungan</label>
-                		<input type="radio" id="dnaacs-cq-7" value="atau berkedok sebagai orang lain" name="s_complaintText"/><label for="dnaacs-cq-7">atau berkedok sebagai orang lain</label>
-                		<input type="radio" id="dnaacs-cq-8" value="memuat informasi pribadi seperti nomor telepon, alamat surat maupun alamat email" name="s_complaintText"/><label for="dnaacs-cq-8">memuat informasi pribadi seperti nomor telepon, alamat surat maupun alamat email</label>
+                		<input type="radio" id="dnaacs-cq-1" value="бўҳтон мазмун бор" name="s_complaintText"/><label for="dnaacs-cq-1">бўҳтон мазмун бор</label>
+                		<input type="radio" id="dnaacs-cq-2" value="ирқчи, жинсий, очиқдан-очиқ шаҳвоний, зўравонликка асосланган ё таҳқирловчи мазмун бор" name="s_complaintText"/><label for="dnaacs-cq-2">ирқчи, жинсий, очиқдан-очиқ шаҳвоний, зўравонликка асосланган ё таҳқирловчи мазмун бор</label>
+                		<input type="radio" id="dnaacs-cq-3" value="сўкиниш ёки таҳқирлаш мазмунига эга сўзлар бор" name="s_complaintText"/><label for="dnaacs-cq-3">сўкиниш ёки таҳқирлаш мазмунига эга сўзлар бор</label>
+                		<input type="radio" id="dnaacs-cq-4" value="қонунни бузаяпти ёки ноқонуний амалга ундаяпти, хусусан муаллифлик ҳуқуқи маҳкама тақиқини бузиш" name="s_complaintText"/><label for="dnaacs-cq-4">қонунни бузаяпти ёки ноқонуний амалга ундаяпти, хусусан <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">муаллифлик ҳуқуқи</a> маҳкама тақиқини бузиш</label>
+                		<input type="radio" id="dnaacs-cq-5" value="фойда олиш мақсадида маҳсулот ёки хизматни реклама қилаяпти" name="s_complaintText"/><label for="dnaacs-cq-5">фойда олиш мақсадида маҳсулот ёки хизматни реклама қилаяпти</label>
+                		<input type="radio" id="dnaacs-cq-7" value="ўзини бошқа одам деб тақдим қилаяпти" name="s_complaintText"/><label for="dnaacs-cq-7">ўзини бошқа одам деб тақдим қилаяпти</label>
+                		<input type="radio" id="dnaacs-cq-8" value="ичида шахсий маълумотлар бор, масалан телефон рақамлари ёки уй манзили" name="s_complaintText"/><label for="dnaacs-cq-8">ичида шахсий маълумотлар бор, масалан телефон рақамлари ёки уй манзили</label>
                 		<xsl:call-template name="library_userstate">
                       <xsl:with-param name="loggedin">
-                        <input type="radio" id="dnaacs-cq-9" value="tidak sesuai dengan tema atau subyek yang didiskusikan" name="s_complaintText"/><label for="dnaacs-cq-9">tidak sesuai dengan tema atau subyek yang didiskusikan</label>
+                        <input type="radio" id="dnaacs-cq-9" value="муҳокама қилинаётган мавзуга тааллуқли эмас" name="s_complaintText"/><label for="dnaacs-cq-9">муҳокама қилинаётган мавзуга тааллуқли эмас</label>
                       </xsl:with-param>
                     </xsl:call-template>
-                		<input type="radio" id="dnaacs-cq-10" value="tidak dalam Bahasa Indonesia" name="s_complaintText"/><label for="dnaacs-cq-10">tidak dalam Bahasa Indonesia</label>
-                		<input type="radio" id="dnaacs-cq-11" value="berisi kaitan dengan situs internet luar yang melanggar Kebijakan Editorial" name="s_complaintText"/><label for="dnaacs-cq-11">berisi kaitan dengan situs internet luar yang melanggar  <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Kebijakan Editorial</a></label>
-                		<input type="radio" id="dnaacs-cq-12" value="menggambarkan atau mendorong kegiatan yang bisa membahayakan keselamatan atau kesejahteraan orang lain" name="s_complaintText"/><label for="dnaacs-cq-12">menggambarkan atau mendorong kegiatan yang bisa membahayakan keselamatan atau kesejahteraan orang lain</label>
-                		<input type="radio" id="dnaacs-cq-13" value="berisi nama pengguna yang tidak tepat" name="s_complaintText"/><label for="dnaacs-cq-13">berisi nama pengguna yang tidak tepat,</label>
-                		<input type="radio" id="dnaacs-cq-14" value="spam" name="s_complaintText"/><label for="dnaacs-cq-14">spam</label>
-                		<input type="radio" id="dnaacs-cq-6" value="Yang lain" name="s_complaintText"/><label for="dnaacs-cq-6">atau melanggar peraturan dengan alasan yang tidak terdaftar di atas</label>
+                		<input type="radio" id="dnaacs-cq-10" value="ўзбек тилида ёзилмаган" name="s_complaintText"/><label for="dnaacs-cq-10">ўзбек тилида ёзилмаган</label>
+                		<input type="radio" id="dnaacs-cq-11" value="Бошқа веб-саҳифага линк берилган. У эса Би-би-си Таҳририй сиёсатига зид" name="s_complaintText"/><label for="dnaacs-cq-11">Бошқа веб-саҳифага линк берилган. У эса <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Би-би-си Таҳририй сиёсатига зид</a></label>
+                		<input type="radio" id="dnaacs-cq-12" value="бошқалар хавфсизлигига таъсир кўрсатиши мумкин бўлган хатарли ҳаракатни тасвирлаяпти ёки шунга гижгижлаяпти" name="s_complaintText"/><label for="dnaacs-cq-12">бошқалар хавфсизлигига таъсир кўрсатиши мумкин бўлган хатарли ҳаракатни тасвирлаяпти ёки шунга гижгижлаяпти</label>
+                		<input type="radio" id="dnaacs-cq-13" value="фойдаланувчининг номи номақбул ном" name="s_complaintText"/><label for="dnaacs-cq-13">фойдаланувчининг номи номақбул ном</label>
+                		<input type="radio" id="dnaacs-cq-14" value="бу спам" name="s_complaintText"/><label for="dnaacs-cq-14">бу спам</label>
+                		<input type="radio" id="dnaacs-cq-6" value="Бошқа " name="s_complaintText"/><label for="dnaacs-cq-6">юқорида тилга олинмаган банд бўйича қоидани бузаяпти</label>
                 	</p>
                 </p>
 
               <p class="action">
-                <input type="submit" value="Halaman berikutnya"/>
+                <input type="submit" value="Кейинги саҳифа"/>
               </p>
             </div>
             
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Alasan mengajukan keluhan");
+        alert("Шикоят учун сабабни танланг");
         return;
         }
         else {
@@ -174,19 +174,19 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Mohon isi kotak di bawa untuk menginformasikan alasan Anda <xsl:call-template name="item_name"/> bahwa peraturan dilanggar. Jika sudah selesai, klik Kirim Keluhan sehingga bisa dibaca oleh moderator.</p>
+           	<p>Марҳамат қилиб пастдаги бўлимни тўлдиринг. Нега сиз ушбу изоҳ <xsl:call-template name="item_name"/> қоидани бузаяпти, деб ўйлайсиз. Шундан сўнг "Шикоят юбориш" тугмасини босинг. Уни модератор олади</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Other'">
-                    Saya ingin menyampaikan keluhan <xsl:call-template name="item_name"/> dengan alasan berikut
+                    Мен ушбу изоҳ бўйича шикоят қилмоқчиман, <xsl:call-template name="item_name"/> чунки у
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Other'">
-                        <xsl:text>Saya yakin hal ini </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text>менинг фикримча, </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> dengan alasan berikut</xsl:text>
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> қуйидаги қоидани бузаяпти:</xsl:text>
                     	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
@@ -204,12 +204,12 @@
                   <!-- email address is not required in this instance -->
                 </xsl:when>
                 <xsl:otherwise>
-                    <h3>Alamat email Anda</h3>
+                    <h3>Сизнинг электрон почтангиз манзили</h3>
                     <p>
-                      <em>Kami membutuhkan email Anda untuk memproses keluhan Anda dan menginformasikn Anda tentang keputusan moderator. Dalam beberapa kesempatan, kami mungkin perlu menghubungi Anda jika kami membutuhkan lebih banyak informasi sehubungan dengan keluhan Anda.</em>
+                      <em>Бизга сизнинг электрон почтангиз модераторнинг қарори ҳақида сизни хабардор этиш учун керак. Сизнинг шикоятингиз борасида бизга яна қўшимча маълумот керак бўлса, биз сизга мактуб ёзишимиз мумкин.</em>
                     </p>
                     <p>
-                        <label for="emailaddress">Alamat email</label>
+                        <label for="emailaddress">Электрон почта манзили</label>
                         <input type="text" name="email" id="emailaddress" value="" class="textbox"/>
                     </p>
                 </xsl:otherwise>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Tutup <xsl:call-template name="item_name"/> segera</label>.
+                        <label for="hidePost"> Буни яшир <xsl:call-template name="item_name"/> зудлик билан</label>.
                     </p>
                 </xsl:if>
                 
@@ -237,8 +237,8 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="Kirim"/>
-                    <input type="submit" value="Kirim keluhan" name="Submit" class="button"/>
+                    <input type="hidden" name="action" value="Юбориш"/>
+                    <input type="submit" value="Шикоятни жўнатинг" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -247,11 +247,11 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
       <div class="content">
-        <h2>Informasi</h2>
+        <h2>Ахборот</h2>
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              Anda dilarang menggunakan sistem keluhan internet, mohon tulis ke:<br />
+              Сиз шикоят қилиш тизимидан фойдалана олмайсиз, чунки бунга тўсиқ қўйилган. Марҳамат қилиб мана бу ерга ёзинг:<br />
               BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
@@ -272,12 +272,12 @@
 
   <xsl:template match="USERCOMPLAINT[@REQUIRESVERIFICATION = '1']" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Verifikasi email</h2>
+      <h2>Электрон почта манзили</h2>
       <p>
-        Keluhan anda sudah disampaikan. Mungkin moderator tidak bisa membaca sampai Anda melakukan verifikasi atas alamat email Anda. Hal ini untuk mencegah penipuan dan spam. 
+        Сизнинг шикоятингиз юборилди. Модератор уни сиз ўзингизнинг электрон почтангиз манзилини тасдиқлаганингиздан кейин ўқий олади. Бу нарса спамга қарши кураш учун зарур.
       </p>
       <p>
-        Anda akan segera mendapat email dengan link untuk mengaktifkan keluhan. Dengan mengklik link ini maka keluhan Anda akan terkirim kepada moderator.
+        Сиз тез орада ўз шикоятингизни активация қилиш учун линк оласиз. Бу линкка босиб ўз шикоятингизни модераторга йўллайсиз.
       </p>
       
       <p class="action">
@@ -289,7 +289,7 @@
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Teruskan menjelajah</xsl:text>
+          <xsl:text>Саҳифани ўқишда давом этиш</xsl:text>
         </a>
       </p>
     </div>
@@ -297,17 +297,17 @@
 
   <xsl:template match="USER-COMPLAINT-FORM[MESSAGE/@TYPE = 'SUBMIT-SUCCESSFUL'] | USERCOMPLAINT[@MODID]" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Keluhan berhasil</h2>
+      <h2>Шикоят қабул қилинди</h2>
       <p>
-        Keluhan Anda sudah berhasil terkirim dan akan diteruskankepada Tim Moderator. Mereka akan menentukan apakah <a href="{$houserulespopupurl}">Peraturan Internal</a> sudah dilanggar dan akan memberitahu kepada Anda melalui alamat email
+        Сизнинг шикоятингиз модераторга юборилди. Модератор изоҳ қоидани бузаётган-бузмаётганини ўрганиб бир қарорга келади.
       </p>
       <p>
-        Identifikasi rujukan Anda adalah <strong>
+        Сизнинг шикоятингиз рақами: <strong>
           <xsl:value-of select="(MODERATION-REFERENCE | @MODID)[1]"/>
         </strong>
       </p>
       <xsl:if test="@HIDDEN and @HIDDEN != 0">
-        <p>Sebagai tambahan informasi, pesan ini tidak diperlihatkan</p>
+        <p>Ушбу изоҳ яширилган.</p>
       </xsl:if>
       <p class="action">
         <a class="close">
@@ -319,14 +319,14 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/indonesia</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/uzbek</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Teruskan menjelajah</xsl:text>
+          <xsl:text>Саҳифани ўқишда давом этиш</xsl:text>
         </a>
       </p>
     </div>
