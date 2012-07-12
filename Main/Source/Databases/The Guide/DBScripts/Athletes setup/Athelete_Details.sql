@@ -1,610 +1,607 @@
-insert into [dbo].[AtheletesDetails] select Name='Samantha Murray', TwitterScreenName='_samanthamurray', TwitterUserID='312060941'
-insert into [dbo].[AtheletesDetails] select Name='Amy Oliver', TwitterScreenName='2012amy', TwitterUserID='103820454'
-insert into [dbo].[AtheletesDetails] select Name='Alex Partridge', TwitterScreenName='2012parters', TwitterUserID='120872742'
-insert into [dbo].[AtheletesDetails] select Name='470 Girls', TwitterScreenName='470Girls', TwitterUserID='168430127'
-insert into [dbo].[AtheletesDetails] select Name='Adelinde Cornelissen', TwitterScreenName='a_cornelissen', TwitterUserID='187470438'
-insert into [dbo].[AtheletesDetails] select Name='Aaron ramsey', TwitterScreenName='aaronjramsey', TwitterUserID='263099844'
-insert into [dbo].[AtheletesDetails] select Name='Andrew Baggaley', TwitterScreenName='ABaggaley', TwitterUserID='85112264'
-insert into [dbo].[AtheletesDetails] select Name='Abhinav Bindra', TwitterScreenName='Abhinav_Bindra', TwitterUserID='95425326'
-insert into [dbo].[AtheletesDetails] select Name='Abi - VJA girl', TwitterScreenName='AbiOyepitan', TwitterUserID='405781818'
-insert into [dbo].[AtheletesDetails] select Name='abi walker', TwitterScreenName='abiwalker24', TwitterUserID='319682752'
-insert into [dbo].[AtheletesDetails] select Name='Adam Gemili', TwitterScreenName='Adam_Gemili', TwitterUserID='256564842'
-insert into [dbo].[AtheletesDetails] select Name='Adam Brown', TwitterScreenName='AdamBrownSwim', TwitterUserID='197096489'
-insert into [dbo].[AtheletesDetails] select Name='Adam Scholefield', TwitterScreenName='AdamScholefield', TwitterUserID='383114626'
-insert into [dbo].[AtheletesDetails] select Name='Aden Tutton', TwitterScreenName='adentutton', TwitterUserID='22936903'
-insert into [dbo].[AtheletesDetails] select Name='Aimee Willmott', TwitterScreenName='aimee_willmott', TwitterUserID='447263234'
-insert into [dbo].[AtheletesDetails] select Name='Ben Ainslie', TwitterScreenName='AinslieBen', TwitterUserID='387835596'
-insert into [dbo].[AtheletesDetails] select Name='Steve Lewis', TwitterScreenName='AirLewis', TwitterUserID='58926395'
-insert into [dbo].[AtheletesDetails] select Name='Alana Nicholls', TwitterScreenName='alana_nicholls', TwitterUserID='342535508'
-insert into [dbo].[AtheletesDetails] select Name='Aleksandra Wozniak', TwitterScreenName='alekswoz', TwitterUserID='381840064'
-insert into [dbo].[AtheletesDetails] select Name='Alex Danson', TwitterScreenName='AlexDanson15', TwitterUserID='243323755'
-insert into [dbo].[AtheletesDetails] select Name='Alexander Edmondson', TwitterScreenName='alexedmo', TwitterUserID='261603260'
-insert into [dbo].[AtheletesDetails] select Name='Alex Gregory', TwitterScreenName='AlexGregoryGB', TwitterUserID='259815969'
-insert into [dbo].[AtheletesDetails] select Name='Alex Morgan', TwitterScreenName='alexmorgan13', TwitterUserID='28665877'
-insert into [dbo].[AtheletesDetails] select Name='alex rutlidge', TwitterScreenName='alexrutlidge88', TwitterUserID='569798230'
-insert into [dbo].[AtheletesDetails] select Name='Alex Scott', TwitterScreenName='Alexscott2', TwitterUserID='22518658'
-insert into [dbo].[AtheletesDetails] select Name='Alistair Brownlee', TwitterScreenName='AliBrownleetri', TwitterUserID='142681025'
-insert into [dbo].[AtheletesDetails] select Name='Alicia Blagg', TwitterScreenName='AliciaBlagg', TwitterUserID='314725957'
-insert into [dbo].[AtheletesDetails] select Name='Alise Post', TwitterScreenName='alisepost11', TwitterUserID='81203823'
-insert into [dbo].[AtheletesDetails] select Name='Alison e Emanuel', TwitterScreenName='AlisonEEmanuel', TwitterUserID='355730783'
-insert into [dbo].[AtheletesDetails] select Name='Alastair Wilson', TwitterScreenName='aliwilson17', TwitterUserID='218273099'
-insert into [dbo].[AtheletesDetails] select Name='Allyson Felix', TwitterScreenName='allysonfelix', TwitterUserID='24485503'
-insert into [dbo].[AtheletesDetails] select Name='Amanda Furrer', TwitterScreenName='Amanda_Furrer', TwitterUserID='375992789'
-insert into [dbo].[AtheletesDetails] select Name='Amy Cure', TwitterScreenName='amylcure', TwitterUserID='418397883'
-insert into [dbo].[AtheletesDetails] select Name='andrea hewitt', TwitterScreenName='andreahewittnz', TwitterUserID='32175685'
-insert into [dbo].[AtheletesDetails] select Name='Andre Greipel', TwitterScreenName='AndreGreipel', TwitterUserID='461796015'
-insert into [dbo].[AtheletesDetails] select Name='Andrew Pozzi', TwitterScreenName='andrew_pozzi', TwitterUserID='341963514'
-insert into [dbo].[AtheletesDetails] select Name='Andrew Bart Simpson', TwitterScreenName='AndrewBSimpson', TwitterUserID='84095841'
-insert into [dbo].[AtheletesDetails] select Name='Andrew Osagie', TwitterScreenName='andrewosagie', TwitterUserID='140091393'
-insert into [dbo].[AtheletesDetails] select Name='andrew selby', TwitterScreenName='andrewselby1', TwitterUserID='352317874'
-insert into [dbo].[AtheletesDetails] select Name='Andrew Willis', TwitterScreenName='AndrewSWillis', TwitterUserID='31408930'
-insert into [dbo].[AtheletesDetails] select Name='Andrew Triggs Hodge', TwitterScreenName='andrewthodge', TwitterUserID='182737724'
-insert into [dbo].[AtheletesDetails] select Name='Andy Murray', TwitterScreenName='andy_murray', TwitterUserID='14123683'
-insert into [dbo].[AtheletesDetails] select Name='Andy Sutcliffe', TwitterScreenName='andy_sutcliffe1', TwitterUserID='472906044'
-insert into [dbo].[AtheletesDetails] select Name='andyroddick', TwitterScreenName='andyroddick', TwitterUserID='13838562'
-insert into [dbo].[AtheletesDetails] select Name='andy turner', TwitterScreenName='andyturner110h', TwitterUserID='213711945'
-insert into [dbo].[AtheletesDetails] select Name='Angela Hannah', TwitterScreenName='angelgracej', TwitterUserID='486478233'
-insert into [dbo].[AtheletesDetails] select Name='Angelo Taylor', TwitterScreenName='Angelo_Taylor', TwitterUserID='43349698'
-insert into [dbo].[AtheletesDetails] select Name='Angie Winstanley', TwitterScreenName='angiewsmith10', TwitterUserID='419872351'
-insert into [dbo].[AtheletesDetails] select Name='Anna Bentley', TwitterScreenName='AnnaBentleyGBR', TwitterUserID='269858934'
-insert into [dbo].[AtheletesDetails] select Name='Anna Meares', TwitterScreenName='AnnaMeares', TwitterUserID='178616491'
-insert into [dbo].[AtheletesDetails] select Name='Anne Keothavong', TwitterScreenName='annekeothavong', TwitterUserID='16526393'
-insert into [dbo].[AtheletesDetails] select Name='Annie Last', TwitterScreenName='AnnieLast1', TwitterUserID='607546947'
-insert into [dbo].[AtheletesDetails] select Name='Annie Lush', TwitterScreenName='annielush1', TwitterUserID='121806823'
-insert into [dbo].[AtheletesDetails] select Name='Annie Panter', TwitterScreenName='anniepanter', TwitterUserID='165746428'
-insert into [dbo].[AtheletesDetails] select Name='Anyika Onuora', TwitterScreenName='annyonuora', TwitterUserID='436104499'
-insert into [dbo].[AtheletesDetails] select Name='Anthony Joshua', TwitterScreenName='anthonyfjoshua', TwitterUserID='338299807'
-insert into [dbo].[AtheletesDetails] select Name='Anthony Ogogo', TwitterScreenName='AnthonyOgogo', TwitterUserID='236854083'
-insert into [dbo].[AtheletesDetails] select Name='Antony James', TwitterScreenName='AntonyJamesFly', TwitterUserID='205643354'
-insert into [dbo].[AtheletesDetails] select Name='Naomi', TwitterScreenName='ArcherNomes', TwitterUserID='567445967'
-insert into [dbo].[AtheletesDetails] select Name='Alison Williamson', TwitterScreenName='ArcheryAlison', TwitterUserID='228298620'
-insert into [dbo].[AtheletesDetails] select Name='Larry', TwitterScreenName='archerylarry', TwitterUserID='533077636'
-insert into [dbo].[AtheletesDetails] select Name='Nicky Hunt', TwitterScreenName='archerynicky', TwitterUserID='161046713'
-insert into [dbo].[AtheletesDetails] select Name='Asha Randall', TwitterScreenName='AshaRandall', TwitterUserID='144836578'
-insert into [dbo].[AtheletesDetails] select Name='Ashleigh Ball', TwitterScreenName='ashleigh_ball22', TwitterUserID='231410365'
-insert into [dbo].[AtheletesDetails] select Name='Ashley Jackson', TwitterScreenName='ashleyjackson7', TwitterUserID='78922403'
-insert into [dbo].[AtheletesDetails] select Name='Ashley McKenzie', TwitterScreenName='Ashleymckenzi12', TwitterUserID='444198452'
-insert into [dbo].[AtheletesDetails] select Name='Andreas Thorkildsen', TwitterScreenName='AThorkildsen', TwitterUserID='168143577'
-insert into [dbo].[AtheletesDetails] select Name='Austin Smith', TwitterScreenName='AustinSmith5', TwitterUserID='276225479'
-insert into [dbo].[AtheletesDetails] select Name='azania stewart', TwitterScreenName='azania13', TwitterUserID='572906719'
-insert into [dbo].[AtheletesDetails] select Name='Azizulhasni Awang', TwitterScreenName='AzizulAWANG', TwitterUserID='50559049'
-insert into [dbo].[AtheletesDetails] select Name='Rachel Bragg', TwitterScreenName='bambi_bragg', TwitterUserID='25601158'
-insert into [dbo].[AtheletesDetails] select Name='Barbara Parker', TwitterScreenName='BarbaraParker3', TwitterUserID='321083981'
-insert into [dbo].[AtheletesDetails] select Name='Bas Verwijlen', TwitterScreenName='basverwijlen', TwitterUserID='22125702'
-insert into [dbo].[AtheletesDetails] select Name='Lynne Beattie', TwitterScreenName='Beats_10', TwitterUserID='132300934'
-insert into [dbo].[AtheletesDetails] select Name='Rebecca Adlington', TwitterScreenName='BeckAdlington', TwitterUserID='134563275'
-insert into [dbo].[AtheletesDetails] select Name='Rebecca Turner', TwitterScreenName='beckidafish', TwitterUserID='523812475'
-insert into [dbo].[AtheletesDetails] select Name='BelcherPage2012', TwitterScreenName='belcherpage2012', TwitterUserID='131211256'
-insert into [dbo].[AtheletesDetails] select Name='Ben Hawes', TwitterScreenName='benhawes14', TwitterUserID='20359647'
-insert into [dbo].[AtheletesDetails] select Name='Beth Rodford', TwitterScreenName='bethrodford', TwitterUserID='157311000'
-insert into [dbo].[AtheletesDetails] select Name='Beth Storry', TwitterScreenName='bethstorry', TwitterUserID='244444830'
-insert into [dbo].[AtheletesDetails] select Name='Beth Tweddle', TwitterScreenName='bethtweddlenews', TwitterUserID='70643606'
-insert into [dbo].[AtheletesDetails] select Name='Bill Lucas', TwitterScreenName='BillLucas2012', TwitterUserID='294119553'
-insert into [dbo].[AtheletesDetails] select Name='Blake Griffin', TwitterScreenName='blakegriffin', TwitterUserID='34430522'
-insert into [dbo].[AtheletesDetails] select Name='Bobby White', TwitterScreenName='bobby_white_12', TwitterUserID='223404067'
-insert into [dbo].[AtheletesDetails] select Name='Bradley Wiggins', TwitterScreenName='bradwiggins', TwitterUserID='38824843'
-insert into [dbo].[AtheletesDetails] select Name='Brett Morse', TwitterScreenName='Brett_Morse', TwitterUserID='50009338'
-insert into [dbo].[AtheletesDetails] select Name='Britt Goodwin', TwitterScreenName='Britt9Goodwin', TwitterUserID='369625589'
-insert into [dbo].[AtheletesDetails] select Name='BRYONY SHAW', TwitterScreenName='BRYONYSHAW', TwitterUserID='24948176'
-insert into [dbo].[AtheletesDetails] select Name='Richard Jefferies', TwitterScreenName='C1_Rich', TwitterUserID='536524449'
-insert into [dbo].[AtheletesDetails] select Name='Caitlin McClatchey', TwitterScreenName='CaitMcClatchey', TwitterUserID='278133623'
-insert into [dbo].[AtheletesDetails] select Name='Mary Spencer', TwitterScreenName='Canadianboxer', TwitterUserID='368717558'
-insert into [dbo].[AtheletesDetails] select Name='Caroline Wozniacki', TwitterScreenName='CaroWozniacki', TwitterUserID='94166168'
-insert into [dbo].[AtheletesDetails] select Name='Casey Stoney', TwitterScreenName='CaseyStoney', TwitterUserID='243855971'
-insert into [dbo].[AtheletesDetails] select Name='Chantelle Handy', TwitterScreenName='chan2211', TwitterUserID='274996668'
-insert into [dbo].[AtheletesDetails] select Name='Charles Cousins', TwitterScreenName='CharlesCousins', TwitterUserID='314766633'
-insert into [dbo].[AtheletesDetails] select Name='Chloe Wilcox', TwitterScreenName='chloewilcox86', TwitterUserID='283207769'
-insert into [dbo].[AtheletesDetails] select Name='Chris Bartley', TwitterScreenName='Chris_BartleyGB', TwitterUserID='101017618'
-insert into [dbo].[AtheletesDetails] select Name='Chris Lamont', TwitterScreenName='Chris_Lamont', TwitterUserID='103035467'
-insert into [dbo].[AtheletesDetails] select Name='chris adcock', TwitterScreenName='ChrisAdcock1', TwitterUserID='260710985'
-insert into [dbo].[AtheletesDetails] select Name='Chris Froome', TwitterScreenName='chrisfroome', TwitterUserID='63525135'
-insert into [dbo].[AtheletesDetails] select Name='Chris Hoy', TwitterScreenName='chrishoy', TwitterUserID='19762524'
-insert into [dbo].[AtheletesDetails] select Name='Chris Mears', TwitterScreenName='ChrisMears93', TwitterUserID='463920714'
-insert into [dbo].[AtheletesDetails] select Name='Christine Ohuruogu', TwitterScreenName='chrissyohuruogu', TwitterUserID='34882196'
-insert into [dbo].[AtheletesDetails] select Name='Christian Malcolm', TwitterScreenName='ChristianM200', TwitterUserID='295637500'
-insert into [dbo].[AtheletesDetails] select Name='Chris McDermott', TwitterScreenName='ChristopherMcD_', TwitterUserID='40095510'
-insert into [dbo].[AtheletesDetails] select Name='Ciara Gibson Byrne', TwitterScreenName='ciaragb92', TwitterUserID='267378848'
-insert into [dbo].[AtheletesDetails] select Name='Ciaran James', TwitterScreenName='Ciaranj19', TwitterUserID='290983776'
-insert into [dbo].[AtheletesDetails] select Name='Ciaran Williams GBR', TwitterScreenName='CiaranWilliams', TwitterUserID='57933449'
-insert into [dbo].[AtheletesDetails] select Name='Claire Nixon', TwitterScreenName='ClaireNixon93', TwitterUserID='288997160'
-insert into [dbo].[AtheletesDetails] select Name='David Clarke', TwitterScreenName='ClarkieGB7', TwitterUserID='275201100'
-insert into [dbo].[AtheletesDetails] select Name='Kim Clijsters', TwitterScreenName='Clijsterskim', TwitterUserID='61804151'
-insert into [dbo].[AtheletesDetails] select Name='ConstantineLouloudis', TwitterScreenName='clouloudis', TwitterUserID='560525497'
-insert into [dbo].[AtheletesDetails] select Name='Claire Rafferty', TwitterScreenName='clrafferty1', TwitterUserID='234923743'
-insert into [dbo].[AtheletesDetails] select Name='Colin Fleming', TwitterScreenName='colin_fleming', TwitterUserID='59554068'
-insert into [dbo].[AtheletesDetails] select Name='Catharine Pendrel', TwitterScreenName='cpendrel', TwitterUserID='338395920'
-insert into [dbo].[AtheletesDetails] select Name='Craig Figes', TwitterScreenName='CraigFigesGBWP', TwitterUserID='470195113'
-insert into [dbo].[AtheletesDetails] select Name='Craig Gibbons', TwitterScreenName='CraigGibbons85', TwitterUserID='124849902'
-insert into [dbo].[AtheletesDetails] select Name='Crista Cullen', TwitterScreenName='cristacullen5', TwitterUserID='358675720'
-insert into [dbo].[AtheletesDetails] select Name='conrad williams', TwitterScreenName='cwilliams400', TwitterUserID='246364153'
-insert into [dbo].[AtheletesDetails] select Name='Daniel Sturridge', TwitterScreenName='D_Sturridge', TwitterUserID='268400722'
-insert into [dbo].[AtheletesDetails] select Name='David Greene', TwitterScreenName='DaiGreene', TwitterUserID='160979509'
-insert into [dbo].[AtheletesDetails] select Name='Dan Clark', TwitterScreenName='Dan00Clark', TwitterUserID='210041383'
-insert into [dbo].[AtheletesDetails] select Name='Dan Fox', TwitterScreenName='Danfox450', TwitterUserID='104572995'
-insert into [dbo].[AtheletesDetails] select Name='Dan Hunter', TwitterScreenName='danhunter4', TwitterUserID='247464508'
-insert into [dbo].[AtheletesDetails] select Name='Daniel Fogg', TwitterScreenName='daniel_fogg', TwitterUserID='260452085'
-insert into [dbo].[AtheletesDetails] select Name='Dani King', TwitterScreenName='DaniKing1', TwitterUserID='114623366'
-insert into [dbo].[AtheletesDetails] select Name='Danny Rose', TwitterScreenName='Danny25Rose', TwitterUserID='458406189'
-insert into [dbo].[AtheletesDetails] select Name='Danny Talbot', TwitterScreenName='DannyRakeTalbot', TwitterUserID='268445866'
-insert into [dbo].[AtheletesDetails] select Name='Darren Cheesman', TwitterScreenName='DarrenCheesman', TwitterUserID='49980783'
-insert into [dbo].[AtheletesDetails] select Name='joris daudet', TwitterScreenName='daudetjoris', TwitterUserID='525732318'
-insert into [dbo].[AtheletesDetails] select Name='David Florence', TwitterScreenName='David_Florence', TwitterUserID='97653873'
-insert into [dbo].[AtheletesDetails] select Name='DAVID CARRY', TwitterScreenName='davidcarry', TwitterUserID='32878627'
-insert into [dbo].[AtheletesDetails] select Name='David Kostelecky', TwitterScreenName='DavidKostelecky', TwitterUserID='338838047'
-insert into [dbo].[AtheletesDetails] select Name='Debbie Tanner', TwitterScreenName='debstanner', TwitterUserID='305562159'
-insert into [dbo].[AtheletesDetails] select Name='juan del potro', TwitterScreenName='delpotrojuan', TwitterUserID='139556944'
-insert into [dbo].[AtheletesDetails] select Name='Dawn Harper', TwitterScreenName='DHarp100mH', TwitterUserID='198746241'
-insert into [dbo].[AtheletesDetails] select Name='Diana Lopez ¯êÉ¯ê£', TwitterScreenName='dianalopez25', TwitterUserID='37792771'
-insert into [dbo].[AtheletesDetails] select Name='Abdul Buhari', TwitterScreenName='discusabs', TwitterUserID='282760711'
-insert into [dbo].[AtheletesDetails] select Name='Novak Djokovic', TwitterScreenName='DjokerNole', TwitterUserID='259925559'
-insert into [dbo].[AtheletesDetails] select Name='Dominique Allen', TwitterScreenName='dom_allen12', TwitterUserID='211016044'
-insert into [dbo].[AtheletesDetails] select Name='Dami Bakare', TwitterScreenName='donlybakare', TwitterUserID='335598656'
-insert into [dbo].[AtheletesDetails] select Name='Donny Robinson', TwitterScreenName='DonnyRobinson', TwitterUserID='30524255'
-insert into [dbo].[AtheletesDetails] select Name='Drew Sullivan', TwitterScreenName='drewsullivan8', TwitterUserID='222604030'
-insert into [dbo].[AtheletesDetails] select Name='Katherine Driscoll', TwitterScreenName='driscoll86', TwitterUserID='352194115'
-insert into [dbo].[AtheletesDetails] select Name='Daniel Sliwinski', TwitterScreenName='dsliwinski90', TwitterUserID='202759313'
-insert into [dbo].[AtheletesDetails] select Name='Dwyane Wade', TwitterScreenName='DwyaneWade', TwitterUserID='33995409'
-insert into [dbo].[AtheletesDetails] select Name='Ed Clancy', TwitterScreenName='Ed_Clancy', TwitterUserID='253977106'
-insert into [dbo].[AtheletesDetails] select Name='Edith Bosch', TwitterScreenName='edithbosch', TwitterUserID='196997744'
-insert into [dbo].[AtheletesDetails] select Name='Ed McKeever', TwitterScreenName='edmckeever', TwitterUserID='51978065'
-insert into [dbo].[AtheletesDetails] select Name='Edward Scott', TwitterScreenName='EdScott88', TwitterUserID='147339079'
-insert into [dbo].[AtheletesDetails] select Name='Eilidh Child', TwitterScreenName='EilidhChild', TwitterUserID='318474041'
-insert into [dbo].[AtheletesDetails] select Name='Eilish Mccolgan', TwitterScreenName='EilishMccolgan', TwitterUserID='22261059'
-insert into [dbo].[AtheletesDetails] select Name='Elena', TwitterScreenName='ElenaBaltacha', TwitterUserID='52069104'
-insert into [dbo].[AtheletesDetails] select Name='Ellie Faulkner', TwitterScreenName='elliefaulkner', TwitterUserID='40082331'
-insert into [dbo].[AtheletesDetails] select Name='Ellie Simmonds', TwitterScreenName='EllieSimmonds1', TwitterUserID='329112005'
-insert into [dbo].[AtheletesDetails] select Name='Ellen White', TwitterScreenName='ellsbells89', TwitterUserID='288230375'
-insert into [dbo].[AtheletesDetails] select Name='Ellen Gandy', TwitterScreenName='EllyGandy', TwitterUserID='491053356'
-insert into [dbo].[AtheletesDetails] select Name='Emanuel Rego', TwitterScreenName='Emanuel_Volei', TwitterUserID='88018095'
-insert into [dbo].[AtheletesDetails] select Name='Emily Seebohm', TwitterScreenName='emcbomb', TwitterUserID='172694011'
-insert into [dbo].[AtheletesDetails] select Name='Emily Batty', TwitterScreenName='emilybatty', TwitterUserID='91610009'
-insert into [dbo].[AtheletesDetails] select Name='Emily Diamond', TwitterScreenName='EmilyDiamond11', TwitterUserID='223608531'
-insert into [dbo].[AtheletesDetails] select Name='Emily Maguire', TwitterScreenName='emilymaguire23', TwitterUserID='265426770'
-insert into [dbo].[AtheletesDetails] select Name='Emily Kaye Freeman', TwitterScreenName='emkfree', TwitterUserID='246994942'
-insert into [dbo].[AtheletesDetails] select Name='Emma Johansson', TwitterScreenName='emmaprocyclist', TwitterUserID='262607070'
-insert into [dbo].[AtheletesDetails] select Name='Emma Snowsill', TwitterScreenName='emmasnowsill', TwitterUserID='25663900'
-insert into [dbo].[AtheletesDetails] select Name='Eniola Aluko', TwitterScreenName='EniAlu', TwitterUserID='91205401'
-insert into [dbo].[AtheletesDetails] select Name='Eric Boateng', TwitterScreenName='EricBoateng', TwitterUserID='164547612'
-insert into [dbo].[AtheletesDetails] select Name='Euan Burton', TwitterScreenName='Euan_Burton', TwitterUserID='127945292'
-insert into [dbo].[AtheletesDetails] select Name='Evelyn Stevens', TwitterScreenName='evelyn_stevens', TwitterUserID='421398203'
-insert into [dbo].[AtheletesDetails] select Name='Morrison Rhodes', TwitterScreenName='Exmouth49er', TwitterUserID='276908282'
-insert into [dbo].[AtheletesDetails] select Name='Fabian cancellara', TwitterScreenName='f_cancellara', TwitterUserID='170591249'
-insert into [dbo].[AtheletesDetails] select Name='fara williams', TwitterScreenName='fara_williams47', TwitterUserID='295843877'
-insert into [dbo].[AtheletesDetails] select Name='Fiona McCann', TwitterScreenName='FeeMc1987', TwitterUserID='213273098'
-insert into [dbo].[AtheletesDetails] select Name='FERRAND-PREVOT', TwitterScreenName='FERRANDPREVOT', TwitterUserID='352231718'
-insert into [dbo].[AtheletesDetails] select Name='Fernando Verdasco', TwitterScreenName='FeVerdasco7', TwitterUserID='571340577'
-insert into [dbo].[AtheletesDetails] select Name='Fox-Pitt Eventing', TwitterScreenName='foxpitteventing', TwitterUserID='249715327'
-insert into [dbo].[AtheletesDetails] select Name='francescafox', TwitterScreenName='francescafox13', TwitterUserID='558978358'
-insert into [dbo].[AtheletesDetails] select Name='Frankie Snell', TwitterScreenName='FrancescaSnell', TwitterUserID='57339651'
-insert into [dbo].[AtheletesDetails] select Name='francesca halsall', TwitterScreenName='franhalsall', TwitterUserID='48683091'
-insert into [dbo].[AtheletesDetails] select Name='Missy Franklin', TwitterScreenName='FranklinMissy', TwitterUserID='365822838'
-insert into [dbo].[AtheletesDetails] select Name='fran leighton', TwitterScreenName='franleighton6', TwitterUserID='560355579'
-insert into [dbo].[AtheletesDetails] select Name='Frida Svensson', TwitterScreenName='Frida_Rower', TwitterUserID='161045120'
-insert into [dbo].[AtheletesDetails] select Name='Kathryn Fudge', TwitterScreenName='fudge89', TwitterUserID='19909703'
-insert into [dbo].[AtheletesDetails] select Name='Gael Monfils', TwitterScreenName='Gael_Monfils', TwitterUserID='71975446'
-insert into [dbo].[AtheletesDetails] select Name='Robin Garnham', TwitterScreenName='GarnhamRobin', TwitterUserID='518332053'
-insert into [dbo].[AtheletesDetails] select Name='Gareth Evans', TwitterScreenName='Gazpin_69kg', TwitterUserID='322590572'
-insert into [dbo].[AtheletesDetails] select Name='GB Basketball', TwitterScreenName='gbbasketball', TwitterUserID='61771888'
-insert into [dbo].[AtheletesDetails] select Name='Daniel Awde', TwitterScreenName='GBDawde', TwitterUserID='385035372'
-insert into [dbo].[AtheletesDetails] select Name='Mark Hawkins', TwitterScreenName='GBHandball_MH20', TwitterUserID='61608179'
-insert into [dbo].[AtheletesDetails] select Name='British Shooting', TwitterScreenName='GBShooting', TwitterUserID='547053991'
-insert into [dbo].[AtheletesDetails] select Name='Georgia Davies', TwitterScreenName='Ge0rgiaDavies90', TwitterUserID='65013070'
-insert into [dbo].[AtheletesDetails] select Name='Gemma Louise Howell', TwitterScreenName='Gemh7', TwitterUserID='326283970'
-insert into [dbo].[AtheletesDetails] select Name='Gemma Gibbons', TwitterScreenName='gemma_gibbons', TwitterUserID='375813110'
-insert into [dbo].[AtheletesDetails] select Name='Gemma Spofforth', TwitterScreenName='GemmaSpofforth', TwitterUserID='179170204'
-insert into [dbo].[AtheletesDetails] select Name='Georgie Twigg', TwitterScreenName='georgietwigg', TwitterUserID='45929373'
-insert into [dbo].[AtheletesDetails] select Name='Georgina Cassar', TwitterScreenName='GeorginaCassar', TwitterUserID='242664088'
-insert into [dbo].[AtheletesDetails] select Name='Geraint Thomas', TwitterScreenName='GeraintThomas86', TwitterUserID='155320577'
-insert into [dbo].[AtheletesDetails] select Name='glenn o\'shea', TwitterScreenName='glenno176', TwitterUserID='27855280'
-insert into [dbo].[AtheletesDetails] select Name='Glenn Warfe', TwitterScreenName='GlennWarfe', TwitterUserID='508657384'
-insert into [dbo].[AtheletesDetails] select Name='glen robinson', TwitterScreenName='glenrob89', TwitterUserID='316996084'
-insert into [dbo].[AtheletesDetails] select Name='Goldie Sayers', TwitterScreenName='goldiesayers', TwitterUserID='179213911'
-insert into [dbo].[AtheletesDetails] select Name='Gorgs Geikie', TwitterScreenName='GorgsGeikie', TwitterUserID='102465497'
-insert into [dbo].[AtheletesDetails] select Name='Grace Carter', TwitterScreenName='graciecarter18', TwitterUserID='619808345'
-insert into [dbo].[AtheletesDetails] select Name='Jamie Gray', TwitterScreenName='Grayolympics', TwitterUserID='564091896'
-insert into [dbo].[AtheletesDetails] select Name='Greg Rutherford', TwitterScreenName='GregJRutherford', TwitterUserID='66129243'
-insert into [dbo].[AtheletesDetails] select Name='Greg Searle', TwitterScreenName='GregSearle2012', TwitterUserID='217030484'
-insert into [dbo].[AtheletesDetails] select Name='Rachel Smith', TwitterScreenName='Gymnast_Rachel', TwitterUserID='236979026'
-insert into [dbo].[AtheletesDetails] select Name='Helen Richardson', TwitterScreenName='h_richardson8', TwitterUserID='247694811'
-insert into [dbo].[AtheletesDetails] select Name='Claire Hallissey', TwitterScreenName='HallisseyC', TwitterUserID='420790483'
-insert into [dbo].[AtheletesDetails] select Name='Hamish Bond', TwitterScreenName='hamishb1', TwitterUserID='55622756'
-insert into [dbo].[AtheletesDetails] select Name='Hannah Starling', TwitterScreenName='HannahfStarling', TwitterUserID='361244756'
-insert into [dbo].[AtheletesDetails] select Name='Hannah Whelan', TwitterScreenName='HannahkWhelan', TwitterUserID='277384132'
-insert into [dbo].[AtheletesDetails] select Name='Hannah Macleod', TwitterScreenName='hannahmacleod6', TwitterUserID='233600234'
-insert into [dbo].[AtheletesDetails] select Name='Hannah Miley', TwitterScreenName='HannahMiley89', TwitterUserID='185688167'
-insert into [dbo].[AtheletesDetails] select Name='Hannah Powell', TwitterScreenName='hannahpowell92', TwitterUserID='447367729'
-insert into [dbo].[AtheletesDetails] select Name='Harry Martin', TwitterScreenName='HarryMartin_9', TwitterUserID='404865623'
-insert into [dbo].[AtheletesDetails] select Name='hazel musgrove', TwitterScreenName='hazel_musgrove', TwitterUserID='569053042'
-insert into [dbo].[AtheletesDetails] select Name='Heather Watson', TwitterScreenName='HeatherWatson92', TwitterUserID='70547392'
-insert into [dbo].[AtheletesDetails] select Name='Helen Jenkins', TwitterScreenName='heljinx', TwitterUserID='44196807'
-insert into [dbo].[AtheletesDetails] select Name='Helene Hendriks', TwitterScreenName='hendrikshelene', TwitterUserID='247925905'
-insert into [dbo].[AtheletesDetails] select Name='Carl Hester', TwitterScreenName='HesterDressage', TwitterUserID='188264147'
-insert into [dbo].[AtheletesDetails] select Name='Holly Bleasdale', TwitterScreenName='HollyBleasdale', TwitterUserID='253631550'
-insert into [dbo].[AtheletesDetails] select Name='Holly Lam-Moores', TwitterScreenName='hollyhandball3', TwitterUserID='274501289'
-insert into [dbo].[AtheletesDetails] select Name='Hope Solo', TwitterScreenName='hopesolo', TwitterUserID='61355746'
-insert into [dbo].[AtheletesDetails] select Name='Hunter Kemper', TwitterScreenName='hunterkemper', TwitterUserID='58839900'
-insert into [dbo].[AtheletesDetails] select Name='Husayn Rosowsky', TwitterScreenName='husaynroso', TwitterUserID='43871645'
-insert into [dbo].[AtheletesDetails] select Name='Diego Hypolito', TwitterScreenName='hypolitoginasta', TwitterUserID='173586360'
-insert into [dbo].[AtheletesDetails] select Name='Iain Lewers', TwitterScreenName='iainlewers', TwitterUserID='287781981'
-insert into [dbo].[AtheletesDetails] select Name='Iain Percy', TwitterScreenName='IainPercy', TwitterUserID='84095155'
-insert into [dbo].[AtheletesDetails] select Name='Imogen Bankier', TwitterScreenName='imogenbankier', TwitterUserID='30048219'
-insert into [dbo].[AtheletesDetails] select Name='Yelena Isinbaeva', TwitterScreenName='Isinbayeva', TwitterUserID='68674343'
-insert into [dbo].[AtheletesDetails] select Name='Ian Stannard', TwitterScreenName='IStannard', TwitterUserID='460541045'
-insert into [dbo].[AtheletesDetails] select Name='Stephanie Rice', TwitterScreenName='ItsStephRice', TwitterUserID='105971448'
-insert into [dbo].[AtheletesDetails] select Name='julien absalon', TwitterScreenName='j_absalon', TwitterUserID='133198434'
-insert into [dbo].[AtheletesDetails] select Name='Jessica Ennis', TwitterScreenName='J_Ennis', TwitterUserID='156380350'
-insert into [dbo].[AtheletesDetails] select Name='Jack Bobridge', TwitterScreenName='JackBobridge', TwitterUserID='287355792'
-insert into [dbo].[AtheletesDetails] select Name='Jack Butland', TwitterScreenName='jackbutland_26', TwitterUserID='374678735'
-insert into [dbo].[AtheletesDetails] select Name='Jack Laugher', TwitterScreenName='JackLaugher', TwitterUserID='218196055'
-insert into [dbo].[AtheletesDetails] select Name='Jack Green', TwitterScreenName='jackpgreen', TwitterUserID='66340814'
-insert into [dbo].[AtheletesDetails] select Name='Jade Smith', TwitterScreenName='jaddsmith', TwitterUserID='53103918'
-insert into [dbo].[AtheletesDetails] select Name='Jade', TwitterScreenName='jadefaulkner', TwitterUserID='181107202'
-insert into [dbo].[AtheletesDetails] select Name='Jade Jones', TwitterScreenName='jadejonestkd', TwitterUserID='220997138'
-insert into [dbo].[AtheletesDetails] select Name='James foad', TwitterScreenName='james_foadGBrow', TwitterUserID='37913157'
-insert into [dbo].[AtheletesDetails] select Name='james dasaolu', TwitterScreenName='JamesDasaolu', TwitterUserID='198616344'
-insert into [dbo].[AtheletesDetails] select Name='James Disney-May', TwitterScreenName='JamesDisneyMay', TwitterUserID='336894256'
-insert into [dbo].[AtheletesDetails] select Name='James Goddard', TwitterScreenName='JamesGoddard83', TwitterUserID='290609656'
-insert into [dbo].[AtheletesDetails] select Name='James Austin', TwitterScreenName='jameswillaustin', TwitterUserID='168202592'
-insert into [dbo].[AtheletesDetails] select Name='Jamie Murray', TwitterScreenName='jamie_murray', TwitterUserID='14131275'
-insert into [dbo].[AtheletesDetails] select Name='Jamie Dwyer', TwitterScreenName='JamieDwyer01', TwitterUserID='216229947'
-insert into [dbo].[AtheletesDetails] select Name='Jan Frodeno', TwitterScreenName='janfrodeno', TwitterUserID='31164384'
-insert into [dbo].[AtheletesDetails] select Name='Jarrod Shoemaker', TwitterScreenName='jarrodshoemaker', TwitterUserID='40723056'
-insert into [dbo].[AtheletesDetails] select Name='Jason Lee', TwitterScreenName='Jase8Lee', TwitterUserID='236845409'
-insert into [dbo].[AtheletesDetails] select Name='Jenaya Wade-Fray', TwitterScreenName='JayWadeFray', TwitterUserID='567084412'
-insert into [dbo].[AtheletesDetails] select Name='Jack Waller', TwitterScreenName='JDWaller6', TwitterUserID='237318555'
-insert into [dbo].[AtheletesDetails] select Name='james l ellington', TwitterScreenName='Jellington100m', TwitterUserID='254276089'
-insert into [dbo].[AtheletesDetails] select Name='Jennifer Pinches', TwitterScreenName='jempin515', TwitterUserID='37704287'
-insert into [dbo].[AtheletesDetails] select Name='Jen McIntosh', TwitterScreenName='JenMac600', TwitterUserID='161351710'
-insert into [dbo].[AtheletesDetails] select Name='Jenna Randall', TwitterScreenName='JennaRtweets', TwitterUserID='200497519'
-insert into [dbo].[AtheletesDetails] select Name='jennifertaylor', TwitterScreenName='jenntaylor06', TwitterUserID='132484818'
-insert into [dbo].[AtheletesDetails] select Name='jessica eddie', TwitterScreenName='jesseddie', TwitterUserID='21037719'
-insert into [dbo].[AtheletesDetails] select Name='Jessica Walker', TwitterScreenName='JessicaWalker10', TwitterUserID='288327871'
-insert into [dbo].[AtheletesDetails] select Name='Jessica Varnish', TwitterScreenName='JessVarnish', TwitterUserID='239876668'
-insert into [dbo].[AtheletesDetails] select Name='James Fair', TwitterScreenName='jfair25', TwitterUserID='227817944'
-insert into [dbo].[AtheletesDetails] select Name='Javi Gomez Noya', TwitterScreenName='Jgomeznoya', TwitterUserID='266771482'
-insert into [dbo].[AtheletesDetails] select Name='James Honeybone', TwitterScreenName='JHoneybone', TwitterUserID='278977561'
-insert into [dbo].[AtheletesDetails] select Name='Jill Scott', TwitterScreenName='JillScott12', TwitterUserID='73983778'
-insert into [dbo].[AtheletesDetails] select Name='James Tindall', TwitterScreenName='jimmyt20', TwitterUserID='227082076'
-insert into [dbo].[AtheletesDetails] select Name='Jennifer Knobbs', TwitterScreenName='jknobbs', TwitterUserID='32583477'
-insert into [dbo].[AtheletesDetails] select Name='Joanna Parker', TwitterScreenName='JoannaParkertt', TwitterUserID='341744645'
-insert into [dbo].[AtheletesDetails] select Name='Joanna Rowsell', TwitterScreenName='JoannaRowsell', TwitterUserID='43090176'
-insert into [dbo].[AtheletesDetails] select Name='Joanne Jackson', TwitterScreenName='JoanneJackson86', TwitterUserID='113449381'
-insert into [dbo].[AtheletesDetails] select Name='Joanne Morgan', TwitterScreenName='JoanneMorgan', TwitterUserID='572678500'
-insert into [dbo].[AtheletesDetails] select Name='Jodie Williams', TwitterScreenName='JodieAlicia27', TwitterUserID='258426023'
-insert into [dbo].[AtheletesDetails] select Name='Joe Roebuck', TwitterScreenName='JoeRoebuck', TwitterUserID='264133481'
-insert into [dbo].[AtheletesDetails] select Name='johannah leedham', TwitterScreenName='joey_leedham13', TwitterUserID='463778601'
-insert into [dbo].[AtheletesDetails] select Name='John Pearce', TwitterScreenName='JohnNailsPearce', TwitterUserID='273124345'
-insert into [dbo].[AtheletesDetails] select Name='KJT', TwitterScreenName='JohnsonThompson', TwitterUserID='42230810'
-insert into [dbo].[AtheletesDetails] select Name='Jonathan Brownlee', TwitterScreenName='jonny_brownlee', TwitterUserID='355452893'
-insert into [dbo].[AtheletesDetails] select Name='Jon Schofield', TwitterScreenName='Jonscho', TwitterUserID='41073227'
-insert into [dbo].[AtheletesDetails] select Name='Francesca Jones', TwitterScreenName='Jonsey90', TwitterUserID='115739101'
-insert into [dbo].[AtheletesDetails] select Name='Jonty Clarke', TwitterScreenName='JontyClarke', TwitterUserID='79818725'
-insert into [dbo].[AtheletesDetails] select Name='Jo Pavey', TwitterScreenName='jopavey', TwitterUserID='24224320'
-insert into [dbo].[AtheletesDetails] select Name='Joe O\'Regan', TwitterScreenName='JORegan91', TwitterUserID='279681266'
-insert into [dbo].[AtheletesDetails] select Name='Jose A. Hermida', TwitterScreenName='Josehermida', TwitterUserID='35229364'
-insert into [dbo].[AtheletesDetails] select Name='Josh Taylor', TwitterScreenName='JoshTaylorBoxer', TwitterUserID='556124292'
-insert into [dbo].[AtheletesDetails] select Name='Joshua Richmond', TwitterScreenName='JoshuaRichmond4', TwitterUserID='606331339'
-insert into [dbo].[AtheletesDetails] select Name='Josie Tomic', TwitterScreenName='JosieTomic', TwitterUserID='287344281'
-insert into [dbo].[AtheletesDetails] select Name='jason steele', TwitterScreenName='jsteele_30', TwitterUserID='281536104'
-insert into [dbo].[AtheletesDetails] select Name='Julie Page', TwitterScreenName='juliepage10', TwitterUserID='33268497'
-insert into [dbo].[AtheletesDetails] select Name='Justin Reid-Ross', TwitterScreenName='JustinReidRoss', TwitterUserID='27010118'
-insert into [dbo].[AtheletesDetails] select Name='KristinArmstrong', TwitterScreenName='k_armstrong', TwitterUserID='17379227'
-insert into [dbo].[AtheletesDetails] select Name='Kate Macgregor', TwitterScreenName='k8mac12', TwitterUserID='468443429'
-insert into [dbo].[AtheletesDetails] select Name='Kaarle McCulloch', TwitterScreenName='kaarlemcculloch', TwitterUserID='45477482'
-insert into [dbo].[AtheletesDetails] select Name='karen carney', TwitterScreenName='karenjcarney', TwitterUserID='544979276'
-insert into [dbo].[AtheletesDetails] select Name='Karina Bryant', TwitterScreenName='karinabryantgb', TwitterUserID='114002549'
-insert into [dbo].[AtheletesDetails] select Name='Katherine Copeland', TwitterScreenName='kate_copeland', TwitterUserID='350971770'
-insert into [dbo].[AtheletesDetails] select Name='Kate Dennison', TwitterScreenName='KateDennison', TwitterUserID='69551985'
-insert into [dbo].[AtheletesDetails] select Name='Kate Haywood', TwitterScreenName='katehaywood', TwitterUserID='120160897'
-insert into [dbo].[AtheletesDetails] select Name='Kate Hollywood', TwitterScreenName='KateHollywood10', TwitterUserID='165675053'
-insert into [dbo].[AtheletesDetails] select Name='Kate McIlroy', TwitterScreenName='katemcilroy', TwitterUserID='238850012'
-insert into [dbo].[AtheletesDetails] select Name='Kate Walsh', TwitterScreenName='katewalsh11', TwitterUserID='270556083'
-insert into [dbo].[AtheletesDetails] select Name='Katie Clark', TwitterScreenName='KatieC_23', TwitterUserID='267289093'
-insert into [dbo].[AtheletesDetails] select Name='Katie O\'Donnell', TwitterScreenName='KatieODonnellFh', TwitterUserID='363092629'
-insert into [dbo].[AtheletesDetails] select Name='Kobe Bryant', TwitterScreenName='KBTWOFOUR', TwitterUserID='38050162'
-insert into [dbo].[AtheletesDetails] select Name='Kevin Durant', TwitterScreenName='KDTrey5', TwitterUserID='35936474'
-insert into [dbo].[AtheletesDetails] select Name='Kelita Zupancic', TwitterScreenName='KelitaZupancic', TwitterUserID='361372932'
-insert into [dbo].[AtheletesDetails] select Name='kelsi fairbrother', TwitterScreenName='kelsifair', TwitterUserID='602080221'
-insert into [dbo].[AtheletesDetails] select Name='Keri-anne Payne', TwitterScreenName='KeriannePayne', TwitterUserID='48300575'
-insert into [dbo].[AtheletesDetails] select Name='Kerri Walsh', TwitterScreenName='kerrileewalsh', TwitterUserID='104063340'
-insert into [dbo].[AtheletesDetails] select Name='Kieran O\'Malley', TwitterScreenName='key8701', TwitterUserID='100369346'
-insert into [dbo].[AtheletesDetails] select Name='Kieron Achara', TwitterScreenName='KieronAchara', TwitterUserID='498349091'
-insert into [dbo].[AtheletesDetails] select Name='Kimberly Butler', TwitterScreenName='kimbutler42', TwitterUserID='43054286'
-insert into [dbo].[AtheletesDetails] select Name='Kim Little', TwitterScreenName='kimlittle16', TwitterUserID='261197204'
-insert into [dbo].[AtheletesDetails] select Name='Kim Rhode', TwitterScreenName='KimRhode', TwitterUserID='89126030'
-insert into [dbo].[AtheletesDetails] select Name='peter kirkbride', TwitterScreenName='KirkbridePeter', TwitterUserID='562630483'
-insert into [dbo].[AtheletesDetails] select Name='Kirsty Coventry', TwitterScreenName='KirstyCoventry', TwitterUserID='164221206'
-insert into [dbo].[AtheletesDetails] select Name='Kosuke Kitajima', TwitterScreenName='kitajimakosuke', TwitterUserID='152966830'
-insert into [dbo].[AtheletesDetails] select Name='Kelly Smith', TwitterScreenName='kjs8eng', TwitterUserID='22526034'
-insert into [dbo].[AtheletesDetails] select Name='Karen Bardsley', TwitterScreenName='klbardsley', TwitterUserID='16409117'
-insert into [dbo].[AtheletesDetails] select Name='Kris Gemmell', TwitterScreenName='KrisGemmell_', TwitterUserID='233066416'
-insert into [dbo].[AtheletesDetails] select Name='Kristian Thomas', TwitterScreenName='Kristian_Thomas', TwitterUserID='322100767'
-insert into [dbo].[AtheletesDetails] select Name='Colin Oates', TwitterScreenName='Kumo49', TwitterUserID='61753046'
-insert into [dbo].[AtheletesDetails] select Name='Lizzie Armitstead', TwitterScreenName='L_ArmiTstead', TwitterUserID='420978767'
-insert into [dbo].[AtheletesDetails] select Name='Lance Louw', TwitterScreenName='LanceLouw_11', TwitterUserID='414670208'
-insert into [dbo].[AtheletesDetails] select Name='Lani Belcher', TwitterScreenName='lanibelcher', TwitterUserID='220746642'
-insert into [dbo].[AtheletesDetails] select Name='Larissa e Juliana', TwitterScreenName='Larissa_Juliana', TwitterUserID='194718802'
-insert into [dbo].[AtheletesDetails] select Name='LaShawn Merritt', TwitterScreenName='lashawnmerritt', TwitterUserID='40587475'
-insert into [dbo].[AtheletesDetails] select Name='Laura Bartlett', TwitterScreenName='laurabartlett19', TwitterUserID='107377197'
-insert into [dbo].[AtheletesDetails] select Name='Laura Innes', TwitterScreenName='Laurainnes1989', TwitterUserID='266182205'
-insert into [dbo].[AtheletesDetails] select Name='Laura Reback Bennett', TwitterScreenName='LauraRBennett', TwitterUserID='24577288'
-insert into [dbo].[AtheletesDetails] select Name='Laura Robson', TwitterScreenName='laurarobson5', TwitterUserID='20304556'
-insert into [dbo].[AtheletesDetails] select Name='Laura Trott', TwitterScreenName='LauraTrott31', TwitterUserID='270418444'
-insert into [dbo].[AtheletesDetails] select Name='Laura Turner', TwitterScreenName='LauraTurner100', TwitterUserID='23136154'
-insert into [dbo].[AtheletesDetails] select Name='Laura Unsworth', TwitterScreenName='LauraUnsworth4', TwitterUserID='478981691'
-insert into [dbo].[AtheletesDetails] select Name='Laura Weightman', TwitterScreenName='LauraWeightman', TwitterUserID='324404321'
-insert into [dbo].[AtheletesDetails] select Name='Lawrence Clarke', TwitterScreenName='lawrence_clarke', TwitterUserID='317282812'
-insert into [dbo].[AtheletesDetails] select Name='Lawrence Okoye', TwitterScreenName='LawrenceOkoye1', TwitterUserID='344063601'
-insert into [dbo].[AtheletesDetails] select Name='Rachel Laybourne', TwitterScreenName='Laybourne04', TwitterUserID='622764652'
-insert into [dbo].[AtheletesDetails] select Name='Lee McConnell', TwitterScreenName='LeeMcConnell400', TwitterUserID='372926687'
-insert into [dbo].[AtheletesDetails] select Name='Liam Heath', TwitterScreenName='Liam_heath', TwitterUserID='306114871'
-insert into [dbo].[AtheletesDetails] select Name='Liam Phillips', TwitterScreenName='liamPHILLIPS65', TwitterUserID='146442319'
-insert into [dbo].[AtheletesDetails] select Name='Liam Pitchford', TwitterScreenName='liampitchford', TwitterUserID='259802833'
-insert into [dbo].[AtheletesDetails] select Name='Liam Tancock', TwitterScreenName='LiamTancock', TwitterUserID='43706838'
-insert into [dbo].[AtheletesDetails] select Name='Lloyd Madsen', TwitterScreenName='Lloyd_Madsen', TwitterUserID='181533013'
-insert into [dbo].[AtheletesDetails] select Name='Chris Tomlinson', TwitterScreenName='LongJumpChris', TwitterUserID='352589854'
-insert into [dbo].[AtheletesDetails] select Name='Lotte Friis', TwitterScreenName='lottefriis', TwitterUserID='109640961'
-insert into [dbo].[AtheletesDetails] select Name='Louisa Pouli', TwitterScreenName='Louisa_Pouli', TwitterUserID='307446238'
-insert into [dbo].[AtheletesDetails] select Name='Louisa Sawers', TwitterScreenName='LouisaSawers', TwitterUserID='288370527'
-insert into [dbo].[AtheletesDetails] select Name='Louise Bond-Williams', TwitterScreenName='Louise_bw', TwitterUserID='318727852'
-insert into [dbo].[AtheletesDetails] select Name='Louise Hazel', TwitterScreenName='LouiseHazel', TwitterUserID='54003221'
-insert into [dbo].[AtheletesDetails] select Name='Louise Jukes', TwitterScreenName='louisejukes', TwitterUserID='52702397'
-insert into [dbo].[AtheletesDetails] select Name='Louis Smith', TwitterScreenName='louissmith1989', TwitterUserID='100570359'
-insert into [dbo].[AtheletesDetails] select Name='Lou Reeve', TwitterScreenName='loureeve', TwitterUserID='561988981'
-insert into [dbo].[AtheletesDetails] select Name='Lucy Macgregor', TwitterScreenName='LucyMacgregor1', TwitterUserID='123670135'
-insert into [dbo].[AtheletesDetails] select Name='Lucy Martin', TwitterScreenName='LUCYMARTIN05', TwitterUserID='349242145'
-insert into [dbo].[AtheletesDetails] select Name='Lucy Wicks', TwitterScreenName='lucywicks2', TwitterUserID='304394869'
-insert into [dbo].[AtheletesDetails] select Name='Luke Campbell', TwitterScreenName='luke11campbell', TwitterUserID='267308679'
-insert into [dbo].[AtheletesDetails] select Name='Luke lennon ford', TwitterScreenName='Lukey400m', TwitterUserID='270045445'
-insert into [dbo].[AtheletesDetails] select Name='Luol Deng', TwitterScreenName='LuolDeng9', TwitterUserID='162749920'
-insert into [dbo].[AtheletesDetails] select Name='Lutalo Muhammad', TwitterScreenName='LutaloMuhammad', TwitterUserID='345588074'
-insert into [dbo].[AtheletesDetails] select Name='Lynn McCafferty', TwitterScreenName='Lynn_GBHandball', TwitterUserID='29855798'
-insert into [dbo].[AtheletesDetails] select Name='Lynne Hutchison', TwitterScreenName='lynnehutch94', TwitterUserID='208742566'
-insert into [dbo].[AtheletesDetails] select Name='Lynsey Sharp', TwitterScreenName='LynseySharp', TwitterUserID='31392974'
-insert into [dbo].[AtheletesDetails] select Name='Maartje Paumen', TwitterScreenName='MaartjePaumen', TwitterUserID='146066598'
-insert into [dbo].[AtheletesDetails] select Name='Mahe Drysdale', TwitterScreenName='MaheDrysdale', TwitterUserID='67269278'
-insert into [dbo].[AtheletesDetails] select Name='Mamedy Doucara', TwitterScreenName='MamedyDoucara', TwitterUserID='33316570'
-insert into [dbo].[AtheletesDetails] select Name='Manuel Fumic', TwitterScreenName='ManuelFumic', TwitterUserID='97919809'
-insert into [dbo].[AtheletesDetails] select Name='Marc Gasol', TwitterScreenName='MarcGasol', TwitterUserID='24423418'
-insert into [dbo].[AtheletesDetails] select Name='Marco A Loughran', TwitterScreenName='MarcoL89', TwitterUserID='205715380'
-insert into [dbo].[AtheletesDetails] select Name='Margaret Adeoye', TwitterScreenName='MargaretAdeoye', TwitterUserID='494988754'
-insert into [dbo].[AtheletesDetails] select Name='Maria Bertelli', TwitterScreenName='mariabertelli', TwitterUserID='66981487'
-insert into [dbo].[AtheletesDetails] select Name='Mariana Pajon', TwitterScreenName='marianapajon', TwitterUserID='192990536'
-insert into [dbo].[AtheletesDetails] select Name='Marianne Vos', TwitterScreenName='marianne_vos', TwitterUserID='47603820'
-insert into [dbo].[AtheletesDetails] select Name='Mark Cavendish', TwitterScreenName='MarkCavendish', TwitterUserID='275575393'
-insert into [dbo].[AtheletesDetails] select Name='Mark Hunter', TwitterScreenName='MarkHunterGB', TwitterUserID='153531301'
-insert into [dbo].[AtheletesDetails] select Name='Martyn Rooney', TwitterScreenName='MartynRooney', TwitterUserID='59785937'
-insert into [dbo].[AtheletesDetails] select Name='Marvin Sordell', TwitterScreenName='MarvinSordell', TwitterUserID='42065340'
-insert into [dbo].[AtheletesDetails] select Name='Steven Mason', TwitterScreenName='Mason1Steven', TwitterUserID='348997027'
-insert into [dbo].[AtheletesDetails] select Name='GBR Match Race Girls', TwitterScreenName='matchracegirls', TwitterUserID='121827022'
-insert into [dbo].[AtheletesDetails] select Name='Matthew Glaetzer', TwitterScreenName='MattGlaetzer', TwitterUserID='557728113'
-insert into [dbo].[AtheletesDetails] select Name='Matt Holland', TwitterScreenName='mattholland1989', TwitterUserID='228713576'
-insert into [dbo].[AtheletesDetails] select Name='Matt Wells', TwitterScreenName='mattwells09', TwitterUserID='329565044'
-insert into [dbo].[AtheletesDetails] select Name='Maurren Higa Maggi', TwitterScreenName='MaurrenHMaggi', TwitterUserID='301264769'
-insert into [dbo].[AtheletesDetails] select Name='Max Heinzer', TwitterScreenName='MaxHeinzer', TwitterUserID='445366988'
-insert into [dbo].[AtheletesDetails] select Name='max Whitlock', TwitterScreenName='maxwhitlock1', TwitterUserID='594435142'
-insert into [dbo].[AtheletesDetails] select Name='Mayra Aguiar', TwitterScreenName='mayraaguiarjudo', TwitterUserID='497157482'
-insert into [dbo].[AtheletesDetails] select Name='Paige McPherson', TwitterScreenName='mcfierce2012', TwitterUserID='522005095'
-insert into [dbo].[AtheletesDetails] select Name='Mark McGivern', TwitterScreenName='McGivern7', TwitterUserID='104225933'
-insert into [dbo].[AtheletesDetails] select Name='Melissa Hoskins', TwitterScreenName='MelissaMHoskins', TwitterUserID='55739070'
-insert into [dbo].[AtheletesDetails] select Name='Surbiton GB Boys', TwitterScreenName='MensHockey2012', TwitterUserID='243323060'
-insert into [dbo].[AtheletesDetails] select Name='Mhairi Spence', TwitterScreenName='MhairiSpence', TwitterUserID='295884713'
-insert into [dbo].[AtheletesDetails] select Name='Michael Hepburn', TwitterScreenName='michael_hepburn', TwitterUserID='212745500'
-insert into [dbo].[AtheletesDetails] select Name='Michelle Li', TwitterScreenName='miichelleli', TwitterUserID='177118000'
-insert into [dbo].[AtheletesDetails] select Name='David Millar', TwitterScreenName='millarmind', TwitterUserID='325461522'
-insert into [dbo].[AtheletesDetails] select Name='Milos Raonic', TwitterScreenName='milosraonic', TwitterUserID='35441526'
-insert into [dbo].[AtheletesDetails] select Name='Misty May-Treanor', TwitterScreenName='MistyMayTreanor', TwitterUserID='72509949'
-insert into [dbo].[AtheletesDetails] select Name='Michael Jamieson', TwitterScreenName='mj88live', TwitterUserID='268484639'
-insert into [dbo].[AtheletesDetails] select Name='markis kido', TwitterScreenName='mkidkido', TwitterUserID='162550347'
-insert into [dbo].[AtheletesDetails] select Name='Mervyn Luckwell', TwitterScreenName='ml95m', TwitterUserID='278238022'
-insert into [dbo].[AtheletesDetails] select Name='MarkLewisFrancis MBE', TwitterScreenName='mlewisfrancis', TwitterUserID='229047451'
-insert into [dbo].[AtheletesDetails] select Name='Mo Farah', TwitterScreenName='Mo_Farah', TwitterUserID='83855918'
-insert into [dbo].[AtheletesDetails] select Name='Moe Sbihi', TwitterScreenName='moesbihi', TwitterUserID='258837364'
-insert into [dbo].[AtheletesDetails] select Name='Naija Princess', TwitterScreenName='mokoro4', TwitterUserID='87722995'
-insert into [dbo].[AtheletesDetails] select Name='Monique Gladding', TwitterScreenName='moniquegladding', TwitterUserID='123054246'
-insert into [dbo].[AtheletesDetails] select Name='Moussa CISSE', TwitterScreenName='Moussa_Cisse', TwitterUserID='257889352'
-insert into [dbo].[AtheletesDetails] select Name='Martin Stamper', TwitterScreenName='MStamper_TKD', TwitterUserID='297389481'
-insert into [dbo].[AtheletesDetails] select Name='Mark Todd', TwitterScreenName='MTEventing', TwitterUserID='265192550'
-insert into [dbo].[AtheletesDetails] select Name='Nick McCormick', TwitterScreenName='n1ck_mcCorm1ck', TwitterUserID='260160569'
-insert into [dbo].[AtheletesDetails] select Name='Natalie Coughlin', TwitterScreenName='NatalieCoughlin', TwitterUserID='26593416'
-insert into [dbo].[AtheletesDetails] select Name='Natalie Seymour', TwitterScreenName='NatalieSeymour9', TwitterUserID='393590044'
-insert into [dbo].[AtheletesDetails] select Name='nataliestafford', TwitterScreenName='nataliestafford', TwitterUserID='18732619'
-insert into [dbo].[AtheletesDetails] select Name='NataschaKeller', TwitterScreenName='NataschaKeller', TwitterUserID='569397301'
-insert into [dbo].[AtheletesDetails] select Name='Nate Reinking', TwitterScreenName='NATEREINKING12', TwitterUserID='76415133'
-insert into [dbo].[AtheletesDetails] select Name='Nathan Outteridge', TwitterScreenName='nath49er', TwitterUserID='121720364'
-insert into [dbo].[AtheletesDetails] select Name='Nathan Woodward', TwitterScreenName='NathWoodward', TwitterUserID='272101282'
-insert into [dbo].[AtheletesDetails] select Name='Ashleigh Nelson', TwitterScreenName='nelson_ashleigh', TwitterUserID='567126726'
-insert into [dbo].[AtheletesDetails] select Name='Annette Edmondson', TwitterScreenName='NettieEdmondson', TwitterUserID='386464078'
-insert into [dbo].[AtheletesDetails] select Name='nicola sanders', TwitterScreenName='nic400', TwitterUserID='177916323'
-insert into [dbo].[AtheletesDetails] select Name='Anita Asante', TwitterScreenName='NicenNeetz', TwitterUserID='291519504'
-insert into [dbo].[AtheletesDetails] select Name='Nick Catlin', TwitterScreenName='nickcatlin8', TwitterUserID='244081862'
-insert into [dbo].[AtheletesDetails] select Name='Nick Dempsey', TwitterScreenName='nickdempsey1', TwitterUserID='23297777'
-insert into [dbo].[AtheletesDetails] select Name='Nick Robinson-Baker', TwitterScreenName='NickRB', TwitterUserID='43328523'
-insert into [dbo].[AtheletesDetails] select Name='Nick Woodbridge', TwitterScreenName='NickWoodbridge', TwitterUserID='109813877'
-insert into [dbo].[AtheletesDetails] select Name='Nicola Adams', TwitterScreenName='NicolaAdams2012', TwitterUserID='87429715'
-insert into [dbo].[AtheletesDetails] select Name='Nicola White', TwitterScreenName='NicolaWhite28', TwitterUserID='396646951'
-insert into [dbo].[AtheletesDetails] select Name='Nicole Cooke', TwitterScreenName='NicoleCooke2012', TwitterUserID='326694732'
-insert into [dbo].[AtheletesDetails] select Name='Nigel Levine', TwitterScreenName='NigelLevine', TwitterUserID='493250976'
-insert into [dbo].[AtheletesDetails] select Name='Nina Heglund', TwitterScreenName='NinaHeglund', TwitterUserID='385599597'
-insert into [dbo].[AtheletesDetails] select Name='Noemi Cantele', TwitterScreenName='noemicantele', TwitterUserID='275403986'
-insert into [dbo].[AtheletesDetails] select Name='Asafa Powell', TwitterScreenName='officialasafa', TwitterUserID='97497690'
-insert into [dbo].[AtheletesDetails] select Name='Olaf Tufte', TwitterScreenName='OlafTufte08', TwitterUserID='489471387'
-insert into [dbo].[AtheletesDetails] select Name='Sam Oldham', TwitterScreenName='Oldham93', TwitterUserID='370804141'
-insert into [dbo].[AtheletesDetails] select Name='Olivia Federici', TwitterScreenName='Olivia_Federici', TwitterUserID='43328128'
-insert into [dbo].[AtheletesDetails] select Name='Team PatienceBithell', TwitterScreenName='PatienceBithell', TwitterUserID='126029371'
-insert into [dbo].[AtheletesDetails] select Name='Pau Gasol', TwitterScreenName='paugasol', TwitterUserID='163559269'
-insert into [dbo].[AtheletesDetails] select Name='Paula Findlay', TwitterScreenName='PaulaFindlay', TwitterUserID='72516652'
-insert into [dbo].[AtheletesDetails] select Name='Paula Radcliffe', TwitterScreenName='paulajradcliffe', TwitterUserID='62540002'
-insert into [dbo].[AtheletesDetails] select Name='Paul Goodison', TwitterScreenName='paulgoodisongbr', TwitterUserID='245356124'
-insert into [dbo].[AtheletesDetails] select Name='Paul Drinkhall', TwitterScreenName='pdrinkhall', TwitterUserID='103683026'
-insert into [dbo].[AtheletesDetails] select Name='Shane Perkins', TwitterScreenName='PerkoPerkins', TwitterUserID='101107460'
-insert into [dbo].[AtheletesDetails] select Name='Peter kennaugh', TwitterScreenName='Petekennaugh', TwitterUserID='155320364'
-insert into [dbo].[AtheletesDetails] select Name='Peter Bakare', TwitterScreenName='peterbakare', TwitterUserID='99162968'
-insert into [dbo].[AtheletesDetails] select Name='Peter Chambers', TwitterScreenName='PeterChambersGB', TwitterUserID='425973019'
-insert into [dbo].[AtheletesDetails] select Name='Pete Reed', TwitterScreenName='PeteReedNikon', TwitterUserID='256955184'
-insert into [dbo].[AtheletesDetails] select Name='Pete Reed', TwitterScreenName='PeteReedRowing', TwitterUserID='555359654'
-insert into [dbo].[AtheletesDetails] select Name='Peter Waterfield', TwitterScreenName='PeterWaterfield', TwitterUserID='56408315'
-insert into [dbo].[AtheletesDetails] select Name='Phelan Hill', TwitterScreenName='PhelanGBcox2012', TwitterUserID='293478711'
-insert into [dbo].[AtheletesDetails] select Name='Phil Burrows', TwitterScreenName='Phil_Burrows18', TwitterUserID='153765578'
-insert into [dbo].[AtheletesDetails] select Name='philip hindes', TwitterScreenName='Philip_hindes', TwitterUserID='216837549'
-insert into [dbo].[AtheletesDetails] select Name='Phillips Idowu MBE', TwitterScreenName='PhillipsIdowu', TwitterUserID='97898140'
-insert into [dbo].[AtheletesDetails] select Name='Pietie', TwitterScreenName='pietiecoetzee', TwitterUserID='181247710'
-insert into [dbo].[AtheletesDetails] select Name='pops mensah-bonsu', TwitterScreenName='PopsMBonsu', TwitterUserID='360344843'
-insert into [dbo].[AtheletesDetails] select Name='Stacie Powell', TwitterScreenName='powellstacie', TwitterUserID='502248046'
-insert into [dbo].[AtheletesDetails] select Name='Annie Vernon', TwitterScreenName='prideofcornwall', TwitterUserID='59446631'
-insert into [dbo].[AtheletesDetails] select Name='Danny purvis', TwitterScreenName='PurvisDanny', TwitterUserID='582080822'
-insert into [dbo].[AtheletesDetails] select Name='Elizabeth Simmonds', TwitterScreenName='QueenMond', TwitterUserID='49939257'
-insert into [dbo].[AtheletesDetails] select Name='Queen Underwood', TwitterScreenName='QueenUnderwood', TwitterUserID='338512447'
-insert into [dbo].[AtheletesDetails] select Name='rachel brown', TwitterScreenName='rach_brown1', TwitterUserID='261726547'
-insert into [dbo].[AtheletesDetails] select Name='Rachel Cawthorn', TwitterScreenName='RachelCawthorn', TwitterUserID='246398288'
-insert into [dbo].[AtheletesDetails] select Name='Rachel Newton', TwitterScreenName='RachelNewton9', TwitterUserID='531245408'
-insert into [dbo].[AtheletesDetails] select Name='Rachael Vanderwal', TwitterScreenName='rachvanderwal', TwitterUserID='544574749'
-insert into [dbo].[AtheletesDetails] select Name='Rafa Nadal', TwitterScreenName='RafaelNadal', TwitterUserID='344634424'
-insert into [dbo].[AtheletesDetails] select Name='Rajiv Ouseph', TwitterScreenName='rajivouseph', TwitterUserID='212203422'
-insert into [dbo].[AtheletesDetails] select Name='Rassie Pieterse', TwitterScreenName='Rassie_Pieterse', TwitterUserID='116489865'
-insert into [dbo].[AtheletesDetails] select Name='Rachel Drabble', TwitterScreenName='RDrabsWaterpolo', TwitterUserID='284544203'
-insert into [dbo].[AtheletesDetails] select Name='Rebecca Tunney:)', TwitterScreenName='Rebecca_Tunney', TwitterUserID='348406531'
-insert into [dbo].[AtheletesDetails] select Name='Rebecca Soni', TwitterScreenName='rebsoni', TwitterUserID='21338412'
-insert into [dbo].[AtheletesDetails] select Name='Rebecca Gallantree', TwitterScreenName='RGallantree', TwitterUserID='293731094'
-insert into [dbo].[AtheletesDetails] select Name='RHYS WILLIAMS', TwitterScreenName='rhys400h', TwitterUserID='348966834'
-insert into [dbo].[AtheletesDetails] select Name='Richard Hounslow', TwitterScreenName='RichardHounslow', TwitterUserID='73449571'
-insert into [dbo].[AtheletesDetails] select Name='Richard Brickell', TwitterScreenName='richbrick25', TwitterUserID='57597817'
-insert into [dbo].[AtheletesDetails] select Name='Richard Buck', TwitterScreenName='rickbee400', TwitterUserID='191901320'
-insert into [dbo].[AtheletesDetails] select Name='Rob Bale', TwitterScreenName='rob_bale', TwitterUserID='204680972'
-insert into [dbo].[AtheletesDetails] select Name='Rob Tobin', TwitterScreenName='Rob_Tobin', TwitterUserID='40245272'
-insert into [dbo].[AtheletesDetails] select Name='Rob Williams', TwitterScreenName='Rob_WilliamsGB', TwitterUserID='298679762'
-insert into [dbo].[AtheletesDetails] select Name='Rob Moore', TwitterScreenName='rob13moore', TwitterUserID='225098832'
-insert into [dbo].[AtheletesDetails] select Name='Robbie Grabarz', TwitterScreenName='RobbieGrabarz', TwitterUserID='474124577'
-insert into [dbo].[AtheletesDetails] select Name='Robbie Renwick', TwitterScreenName='RobbieRenwick', TwitterUserID='269304331'
-insert into [dbo].[AtheletesDetails] select Name='robertscheidt', TwitterScreenName='robert_scheidt', TwitterUserID='551082579'
-insert into [dbo].[AtheletesDetails] select Name='Robert Archibald', TwitterScreenName='RobertArchibald', TwitterUserID='28208115'
-insert into [dbo].[AtheletesDetails] select Name='Roberto Pavoni', TwitterScreenName='Roberto_Pavoni', TwitterUserID='291001606'
-insert into [dbo].[AtheletesDetails] select Name='Roberto Cammarelle', TwitterScreenName='RobyCammarelle', TwitterUserID='435798197'
-insert into [dbo].[AtheletesDetails] select Name='Robyn Nicholls', TwitterScreenName='robyn_nicholls', TwitterUserID='280242371'
-insert into [dbo].[AtheletesDetails] select Name='Michael Rock', TwitterScreenName='RockySwimmer', TwitterUserID='468719138'
-insert into [dbo].[AtheletesDetails] select Name='Roger Federer', TwitterScreenName='roger0922', TwitterUserID='53215565'
-insert into [dbo].[AtheletesDetails] select Name='Chloe Rogers', TwitterScreenName='RogersChloe12', TwitterUserID='234349647'
-insert into [dbo].[AtheletesDetails] select Name='Rohan Dennis', TwitterScreenName='RohanDennis', TwitterUserID='112867743'
-insert into [dbo].[AtheletesDetails] select Name='Rory Warlow', TwitterScreenName='rorywarlow', TwitterUserID='221672071'
-insert into [dbo].[AtheletesDetails] select Name='Ross Hutchins', TwitterScreenName='RoscoHutchins', TwitterUserID='44388447'
-insert into [dbo].[AtheletesDetails] select Name='Rose Anderson', TwitterScreenName='Rose_Anderson5', TwitterUserID='346513291'
-insert into [dbo].[AtheletesDetails] select Name='Rosie Morris', TwitterScreenName='rosiemorris86', TwitterUserID='158887692'
-insert into [dbo].[AtheletesDetails] select Name='Ross Murray', TwitterScreenName='RosscoJammin', TwitterUserID='322819029'
-insert into [dbo].[AtheletesDetails] select Name='Richard Smith', TwitterScreenName='RS_smudge', TwitterUserID='134823513'
-insert into [dbo].[AtheletesDetails] select Name='Richard Chambers', TwitterScreenName='rschambers10GB', TwitterUserID='48972086'
-insert into [dbo].[AtheletesDetails] select Name='Andy Baddeley', TwitterScreenName='runbadders', TwitterUserID='237389906'
-insert into [dbo].[AtheletesDetails] select Name='Russell Mark', TwitterScreenName='RussellMarkGold', TwitterUserID='345624316'
-insert into [dbo].[AtheletesDetails] select Name='Ryan Bertrand', TwitterScreenName='ryanbertrand3', TwitterUserID='217423296'
-insert into [dbo].[AtheletesDetails] select Name='Ryan Lochte', TwitterScreenName='ryanlochte', TwitterUserID='35348026'
-insert into [dbo].[AtheletesDetails] select Name='Ryan Sissons', TwitterScreenName='ryansissons', TwitterUserID='190260207'
-insert into [dbo].[AtheletesDetails] select Name='Sabine Spitz', TwitterScreenName='sabinespitz', TwitterUserID='19059344'
-insert into [dbo].[AtheletesDetails] select Name='marat_safin', TwitterScreenName='safin_marat1', TwitterUserID='492003467'
-insert into [dbo].[AtheletesDetails] select Name='Sally Walton', TwitterScreenName='sallywalton23', TwitterUserID='242081101'
-insert into [dbo].[AtheletesDetails] select Name='Sam Quek', TwitterScreenName='SamanthaQuek', TwitterUserID='279229632'
-insert into [dbo].[AtheletesDetails] select Name='Samuel Weale', TwitterScreenName='samweale', TwitterUserID='341721614'
-insert into [dbo].[AtheletesDetails] select Name='sam townsend', TwitterScreenName='samwtownsend', TwitterUserID='583165284'
-insert into [dbo].[AtheletesDetails] select Name='Sarah Thomas', TwitterScreenName='sarah_thomas18', TwitterUserID='316408881'
-insert into [dbo].[AtheletesDetails] select Name='Sarah Barrow', TwitterScreenName='SarahBarrow', TwitterUserID='34269240'
-insert into [dbo].[AtheletesDetails] select Name='Sarah Clark', TwitterScreenName='sarahclark_judo', TwitterUserID='52068189'
-insert into [dbo].[AtheletesDetails] select Name='sally conway', TwitterScreenName='sconway70', TwitterUserID='153464185'
-insert into [dbo].[AtheletesDetails] select Name='Scott Overall', TwitterScreenName='scottoverall', TwitterUserID='169206054'
-insert into [dbo].[AtheletesDetails] select Name='Scott Sinclair', TwitterScreenName='Scotty_Sinclair', TwitterUserID='146519069'
-insert into [dbo].[AtheletesDetails] select Name='scott sunderland', TwitterScreenName='scottysundo', TwitterUserID='589677326'
-insert into [dbo].[AtheletesDetails] select Name='Sean King', TwitterScreenName='SDKing4', TwitterUserID='277172506'
-insert into [dbo].[AtheletesDetails] select Name='Sean D Ryder', TwitterScreenName='SDRyder12', TwitterUserID='58819702'
-insert into [dbo].[AtheletesDetails] select Name='Serena Williams', TwitterScreenName='serenawilliams', TwitterUserID='26589987'
-insert into [dbo].[AtheletesDetails] select Name='Serena Williams', TwitterScreenName='Serenawilliams1', TwitterUserID='99397823'
-insert into [dbo].[AtheletesDetails] select Name='Sergio Pessoa', TwitterScreenName='sergiopessoa', TwitterUserID='27960658'
-insert into [dbo].[AtheletesDetails] select Name='Perri shakes-drayton', TwitterScreenName='Shakesdrayton', TwitterUserID='174185700'
-insert into [dbo].[AtheletesDetails] select Name='Shanaze Reade', TwitterScreenName='ShanazeReade', TwitterUserID='58434192'
-insert into [dbo].[AtheletesDetails] select Name='Eric Shanteau', TwitterScreenName='Shanteau', TwitterUserID='31028361'
-insert into [dbo].[AtheletesDetails] select Name='Shara proctor', TwitterScreenName='SharaProctor', TwitterUserID='176290186'
-insert into [dbo].[AtheletesDetails] select Name='Shawneyj', TwitterScreenName='Shawneyj', TwitterUserID='412725099'
-insert into [dbo].[AtheletesDetails] select Name='Shelley Russell', TwitterScreenName='Shells_bells_', TwitterUserID='176721865'
-insert into [dbo].[AtheletesDetails] select Name='Sophie Hosking', TwitterScreenName='SHMH1', TwitterUserID='66124019'
-insert into [dbo].[AtheletesDetails] select Name='James Huckle', TwitterScreenName='ShooterHuckle', TwitterUserID='29570255'
-insert into [dbo].[AtheletesDetails] select Name='shauna mullin', TwitterScreenName='shuvolleygb', TwitterUserID='122950681'
-insert into [dbo].[AtheletesDetails] select Name='Kelly Sibley', TwitterScreenName='sible2109', TwitterUserID='35408223'
-insert into [dbo].[AtheletesDetails] select Name='Sifiso Nhlapo', TwitterScreenName='SifisoNhlapo', TwitterUserID='33823058'
-insert into [dbo].[AtheletesDetails] select Name='Simeon Williamson', TwitterScreenName='simba100m', TwitterUserID='47555071'
-insert into [dbo].[AtheletesDetails] select Name='Siobhan O\'Connor', TwitterScreenName='SiobhanMOConnor', TwitterUserID='265916293'
-insert into [dbo].[AtheletesDetails] select Name='Savannah Marshall', TwitterScreenName='Smarshall1991', TwitterUserID='313296185'
-insert into [dbo].[AtheletesDetails] select Name='Kyle Johnson', TwitterScreenName='SmoothKJ88', TwitterUserID='348649884'
-insert into [dbo].[AtheletesDetails] select Name='Sophie Williams', TwitterScreenName='sophie_a_w', TwitterUserID='154659914'
-insert into [dbo].[AtheletesDetails] select Name='Sophie Allen', TwitterScreenName='SophieAllen12', TwitterUserID='413003180'
-insert into [dbo].[AtheletesDetails] select Name='Sophie Cox', TwitterScreenName='sophiecox_judo', TwitterUserID='358715549'
-insert into [dbo].[AtheletesDetails] select Name='Sophie Hitchon', TwitterScreenName='SophieHitchon', TwitterUserID='348724478'
-insert into [dbo].[AtheletesDetails] select Name='Sophie Troiano', TwitterScreenName='sophietroiano', TwitterUserID='83548278'
-insert into [dbo].[AtheletesDetails] select Name='Sebastian Prieto', TwitterScreenName='speb04', TwitterUserID='404023771'
-insert into [dbo].[AtheletesDetails] select Name='Jermaine James', TwitterScreenName='Spinkickkid', TwitterUserID='34852727'
-insert into [dbo].[AtheletesDetails] select Name='Stanislas Wawrinka', TwitterScreenName='stanwawrinka', TwitterUserID='65187067'
-insert into [dbo].[AtheletesDetails] select Name='Stephen Jenness', TwitterScreenName='StephenJenness', TwitterUserID='490759729'
-insert into [dbo].[AtheletesDetails] select Name='Steve Hooker', TwitterScreenName='stevehookerpv', TwitterUserID='424655869'
-insert into [dbo].[AtheletesDetails] select Name='Steven Burke', TwitterScreenName='StevenBurke88', TwitterUserID='293601868'
-insert into [dbo].[AtheletesDetails] select Name='Steven James Larsson', TwitterScreenName='StevenLarsson', TwitterUserID='29688368'
-insert into [dbo].[AtheletesDetails] select Name='Susannah Townsend', TwitterScreenName='stownsend7', TwitterUserID='98196849'
-insert into [dbo].[AtheletesDetails] select Name='Stuart Stokes', TwitterScreenName='stuart_stokes', TwitterUserID='626288004'
-insert into [dbo].[AtheletesDetails] select Name='Stuart Hayes', TwitterScreenName='StuHayes13', TwitterUserID='193619580'
-insert into [dbo].[AtheletesDetails] select Name='Sven Nys', TwitterScreenName='sven_nys', TwitterUserID='278194473'
-insert into [dbo].[AtheletesDetails] select Name='Sam Willoughby', TwitterScreenName='SW91', TwitterUserID='42731990'
-insert into [dbo].[AtheletesDetails] select Name='Ben Swift', TwitterScreenName='swiftybswift', TwitterUserID='108441763'
-insert into [dbo].[AtheletesDetails] select Name='Amy Smith', TwitterScreenName='SwimAmySmith', TwitterUserID='378231131'
-insert into [dbo].[AtheletesDetails] select Name='Jessica Hardy', TwitterScreenName='swimhardy', TwitterUserID='18891737'
-insert into [dbo].[AtheletesDetails] select Name='Ross Davenport', TwitterScreenName='SwimmerRoss', TwitterUserID='202098639'
-insert into [dbo].[AtheletesDetails] select Name='katie dawkins', TwitterScreenName='synchroD', TwitterUserID='267256508'
-insert into [dbo].[AtheletesDetails] select Name='katie skelton', TwitterScreenName='SynchroKS', TwitterUserID='267856439'
-insert into [dbo].[AtheletesDetails] select Name='Taine Paton', TwitterScreenName='Taine_Paton', TwitterUserID='351763909'
-insert into [dbo].[AtheletesDetails] select Name='Natasha Jonas', TwitterScreenName='TashaJonas', TwitterUserID='283727817'
-insert into [dbo].[AtheletesDetails] select Name='Team GBR', TwitterScreenName='TeamGBR', TwitterUserID='19239587'
-insert into [dbo].[AtheletesDetails] select Name='Tamgho Teddy', TwitterScreenName='TeddyTamgho', TwitterUserID='340179260'
-insert into [dbo].[AtheletesDetails] select Name='Teddy Riner', TwitterScreenName='TedRiner', TwitterUserID='187819822'
-insert into [dbo].[AtheletesDetails] select Name='Temi Fagbenle', TwitterScreenName='TemiFagbenle', TwitterUserID='360898778'
-insert into [dbo].[AtheletesDetails] select Name='Andy Tennant', TwitterScreenName='tennanto', TwitterUserID='210627341'
-insert into [dbo].[AtheletesDetails] select Name='Thomas Stalker', TwitterScreenName='ThomasStalker1', TwitterUserID='263355828'
-insert into [dbo].[AtheletesDetails] select Name='Alan Campbell', TwitterScreenName='tidewaysculler', TwitterUserID='23637396'
-insert into [dbo].[AtheletesDetails] select Name='Tiffany Porter', TwitterScreenName='tiffofili', TwitterUserID='98810867'
-insert into [dbo].[AtheletesDetails] select Name='Tim Baillie', TwitterScreenName='timbaillie', TwitterUserID='43357811'
-insert into [dbo].[AtheletesDetails] select Name='Tim Brabants', TwitterScreenName='TimBrabants', TwitterUserID='30431181'
-insert into [dbo].[AtheletesDetails] select Name='TimMorehouse', TwitterScreenName='TimMorehouse', TwitterUserID='18363918'
-insert into [dbo].[AtheletesDetails] select Name='Janko Tipsarevic', TwitterScreenName='TipsarevicJanko', TwitterUserID='168213572'
-insert into [dbo].[AtheletesDetails] select Name='Terrence Jennings', TwitterScreenName='TKDTJ728', TwitterUserID='41690040'
-insert into [dbo].[AtheletesDetails] select Name='tom boonen', TwitterScreenName='tomboonen1', TwitterUserID='581483024'
-insert into [dbo].[AtheletesDetails] select Name='Tom Cleverley', TwitterScreenName='tomclevz23', TwitterUserID='420301038'
-insert into [dbo].[AtheletesDetails] select Name='Tom Daley', TwitterScreenName='TomDaley1994', TwitterUserID='53732896'
-insert into [dbo].[AtheletesDetails] select Name='Tom James', TwitterScreenName='TomJames2012', TwitterUserID='173185410'
-insert into [dbo].[AtheletesDetails] select Name='tonia couch', TwitterScreenName='toniacouch', TwitterUserID='85669614'
-insert into [dbo].[AtheletesDetails] select Name='Manuel Huerta', TwitterScreenName='trimanny', TwitterUserID='212224580'
-insert into [dbo].[AtheletesDetails] select Name='Tom Solesbury', TwitterScreenName='tsolesbury2012', TwitterUserID='326779622'
-insert into [dbo].[AtheletesDetails] select Name='Usain St. Leo Bolt', TwitterScreenName='usainbolt', TwitterUserID='45112524'
-insert into [dbo].[AtheletesDetails] select Name='Victoria Pendleton', TwitterScreenName='v_pendleton', TwitterUserID='160950525'
-insert into [dbo].[AtheletesDetails] select Name='Ciara Michel', TwitterScreenName='vb_ci', TwitterUserID='63036940'
-insert into [dbo].[AtheletesDetails] select Name='VeronicaCampbelBrown', TwitterScreenName='VCampbellBrown', TwitterUserID='208708810'
-insert into [dbo].[AtheletesDetails] select Name='Venus Williams', TwitterScreenName='Venuseswilliams', TwitterUserID='50725573'
-insert into [dbo].[AtheletesDetails] select Name='Vicky Bowen', TwitterScreenName='vicbowen', TwitterUserID='569096933'
-insert into [dbo].[AtheletesDetails] select Name='Vicki Lucass', TwitterScreenName='VickiLucass', TwitterUserID='267278705'
-insert into [dbo].[AtheletesDetails] select Name='Victoria Thornley', TwitterScreenName='VickyThornleyGB', TwitterUserID='564831195'
-insert into [dbo].[AtheletesDetails] select Name='victoria azarenka', TwitterScreenName='vika7', TwitterUserID='93131556'
-insert into [dbo].[AtheletesDetails] select Name='Vicky Holland', TwitterScreenName='VixHolland', TwitterUserID='204454773'
-insert into [dbo].[AtheletesDetails] select Name='Victoria Pendleton', TwitterScreenName='vpendleton', TwitterUserID='19763062'
-insert into [dbo].[AtheletesDetails] select Name='Wade Paton', TwitterScreenName='WadePaton', TwitterUserID='209489177'
-insert into [dbo].[AtheletesDetails] select Name='Chris Walker-Hebborn', TwitterScreenName='WalkerHebborn', TwitterUserID='205951712'
-insert into [dbo].[AtheletesDetails] select Name='Anna Watkins', TwitterScreenName='watkinsteamgb', TwitterUserID='43856340'
-insert into [dbo].[AtheletesDetails] select Name='Glenn Eller', TwitterScreenName='wgeller3', TwitterUserID='114951369'
-insert into [dbo].[AtheletesDetails] select Name='Wendy Houvenaghel', TwitterScreenName='WHouvenaghel', TwitterUserID='558829275'
-insert into [dbo].[AtheletesDetails] select Name='Will Satch', TwitterScreenName='WilliamSatch', TwitterUserID='573849741'
-insert into [dbo].[AtheletesDetails] select Name='Peter Wilson', TwitterScreenName='wilpex', TwitterUserID='277647634'
-insert into [dbo].[AtheletesDetails] select Name='Daniel McMillan', TwitterScreenName='WMO_GB18', TwitterUserID='316075037'
-insert into [dbo].[AtheletesDetails] select Name='Yao Ming', TwitterScreenName='YaoMing', TwitterUserID='85616395'
-insert into [dbo].[AtheletesDetails] select Name='Ina-Yoko Teutenberg', TwitterScreenName='yokoteute', TwitterUserID='151424524'
-insert into [dbo].[AtheletesDetails] select Name='Yvette Baker', TwitterScreenName='yvettebaker91', TwitterUserID='267295547'
-insert into [dbo].[AtheletesDetails] select Name='zach railey', TwitterScreenName='zachsail', TwitterUserID='29384069'
-insert into [dbo].[AtheletesDetails] select Name='Zac Purchase', TwitterScreenName='ZacPurchase', TwitterUserID='20505122'
-insert into [dbo].[AtheletesDetails] select Name='Zara Dampney', TwitterScreenName='Zara_Dampney', TwitterUserID='119370087'
-insert into [dbo].[AtheletesDetails] select Name='Zoe Smith', TwitterScreenName='ZoePabloSmith', TwitterUserID='27718308'
-insert into [dbo].[AtheletesDetails] select Name='Zo+½ vanderWeel', TwitterScreenName='ZoevanderWeel', TwitterUserID='18601857'
-
-
-
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Samantha Murray', TwitterScreenName='_samanthamurray', TwitterUserID='312060941', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Amy Oliver', TwitterScreenName='2012amy', TwitterUserID='103820454', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alex Partridge', TwitterScreenName='2012parters', TwitterUserID='120872742', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='470 Girls', TwitterScreenName='470Girls', TwitterUserID='168430127', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Adelinde Cornelissen', TwitterScreenName='a_cornelissen', TwitterUserID='187470438', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Aaron ramsey', TwitterScreenName='aaronjramsey', TwitterUserID='263099844', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andrew Baggaley', TwitterScreenName='ABaggaley', TwitterUserID='85112264', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Abhinav Bindra', TwitterScreenName='Abhinav_Bindra', TwitterUserID='95425326', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Abi - VJA girl', TwitterScreenName='AbiOyepitan', TwitterUserID='405781818', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='abi walker', TwitterScreenName='abiwalker24', TwitterUserID='319682752', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Adam Gemili', TwitterScreenName='Adam_Gemili', TwitterUserID='256564842', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Adam Brown', TwitterScreenName='AdamBrownSwim', TwitterUserID='197096489', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Adam Scholefield', TwitterScreenName='AdamScholefield', TwitterUserID='383114626', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Aden Tutton', TwitterScreenName='adentutton', TwitterUserID='22936903', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Aimee Willmott', TwitterScreenName='aimee_willmott', TwitterUserID='447263234', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ben Ainslie', TwitterScreenName='AinslieBen', TwitterUserID='387835596', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Steve Lewis', TwitterScreenName='AirLewis', TwitterUserID='58926395', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alana Nicholls', TwitterScreenName='alana_nicholls', TwitterUserID='342535508', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Aleksandra Wozniak', TwitterScreenName='alekswoz', TwitterUserID='381840064', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alex Danson', TwitterScreenName='AlexDanson15', TwitterUserID='243323755', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alexander Edmondson', TwitterScreenName='alexedmo', TwitterUserID='261603260', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alex Gregory', TwitterScreenName='AlexGregoryGB', TwitterUserID='259815969', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alex Morgan', TwitterScreenName='alexmorgan13', TwitterUserID='28665877', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='alex rutlidge', TwitterScreenName='alexrutlidge88', TwitterUserID='569798230', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alex Scott', TwitterScreenName='Alexscott2', TwitterUserID='22518658', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alistair Brownlee', TwitterScreenName='AliBrownleetri', TwitterUserID='142681025', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alicia Blagg', TwitterScreenName='AliciaBlagg', TwitterUserID='314725957', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alise Post', TwitterScreenName='alisepost11', TwitterUserID='81203823', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alison e Emanuel', TwitterScreenName='AlisonEEmanuel', TwitterUserID='355730783', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alastair Wilson', TwitterScreenName='aliwilson17', TwitterUserID='218273099', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Allyson Felix', TwitterScreenName='allysonfelix', TwitterUserID='24485503', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Amanda Furrer', TwitterScreenName='Amanda_Furrer', TwitterUserID='375992789', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Amy Cure', TwitterScreenName='amylcure', TwitterUserID='418397883', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='andrea hewitt', TwitterScreenName='andreahewittnz', TwitterUserID='32175685', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andre Greipel', TwitterScreenName='AndreGreipel', TwitterUserID='461796015', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andrew Pozzi', TwitterScreenName='andrew_pozzi', TwitterUserID='341963514', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andrew Bart Simpson', TwitterScreenName='AndrewBSimpson', TwitterUserID='84095841', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andrew Osagie', TwitterScreenName='andrewosagie', TwitterUserID='140091393', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='andrew selby', TwitterScreenName='andrewselby1', TwitterUserID='352317874', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andrew Willis', TwitterScreenName='AndrewSWillis', TwitterUserID='31408930', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andrew Triggs Hodge', TwitterScreenName='andrewthodge', TwitterUserID='182737724', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andy Murray', TwitterScreenName='andy_murray', TwitterUserID='14123683', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andy Sutcliffe', TwitterScreenName='andy_sutcliffe1', TwitterUserID='472906044', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='andyroddick', TwitterScreenName='andyroddick', TwitterUserID='13838562', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='andy turner', TwitterScreenName='andyturner110h', TwitterUserID='213711945', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Angela Hannah', TwitterScreenName='angelgracej', TwitterUserID='486478233', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Angelo Taylor', TwitterScreenName='Angelo_Taylor', TwitterUserID='43349698', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Angie Winstanley', TwitterScreenName='angiewsmith10', TwitterUserID='419872351', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Anna Bentley', TwitterScreenName='AnnaBentleyGBR', TwitterUserID='269858934', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Anna Meares', TwitterScreenName='AnnaMeares', TwitterUserID='178616491', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Anne Keothavong', TwitterScreenName='annekeothavong', TwitterUserID='16526393', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Annie Last', TwitterScreenName='AnnieLast1', TwitterUserID='607546947', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Annie Lush', TwitterScreenName='annielush1', TwitterUserID='121806823', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Annie Panter', TwitterScreenName='anniepanter', TwitterUserID='165746428', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Anyika Onuora', TwitterScreenName='annyonuora', TwitterUserID='436104499', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Anthony Joshua', TwitterScreenName='anthonyfjoshua', TwitterUserID='338299807', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Anthony Ogogo', TwitterScreenName='AnthonyOgogo', TwitterUserID='236854083', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Antony James', TwitterScreenName='AntonyJamesFly', TwitterUserID='205643354', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Naomi', TwitterScreenName='ArcherNomes', TwitterUserID='567445967', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alison Williamson', TwitterScreenName='ArcheryAlison', TwitterUserID='228298620', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Larry', TwitterScreenName='archerylarry', TwitterUserID='533077636', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nicky Hunt', TwitterScreenName='archerynicky', TwitterUserID='161046713', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Asha Randall', TwitterScreenName='AshaRandall', TwitterUserID='144836578', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ashleigh Ball', TwitterScreenName='ashleigh_ball22', TwitterUserID='231410365', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ashley Jackson', TwitterScreenName='ashleyjackson7', TwitterUserID='78922403', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ashley McKenzie', TwitterScreenName='Ashleymckenzi12', TwitterUserID='444198452', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andreas Thorkildsen', TwitterScreenName='AThorkildsen', TwitterUserID='168143577', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Austin Smith', TwitterScreenName='AustinSmith5', TwitterUserID='276225479', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='azania stewart', TwitterScreenName='azania13', TwitterUserID='572906719', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Azizulhasni Awang', TwitterScreenName='AzizulAWANG', TwitterUserID='50559049', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rachel Bragg', TwitterScreenName='bambi_bragg', TwitterUserID='25601158', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Barbara Parker', TwitterScreenName='BarbaraParker3', TwitterUserID='321083981', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Bas Verwijlen', TwitterScreenName='basverwijlen', TwitterUserID='22125702', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lynne Beattie', TwitterScreenName='Beats_10', TwitterUserID='132300934', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rebecca Adlington', TwitterScreenName='BeckAdlington', TwitterUserID='134563275', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rebecca Turner', TwitterScreenName='beckidafish', TwitterUserID='523812475', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='BelcherPage2012', TwitterScreenName='belcherpage2012', TwitterUserID='131211256', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ben Hawes', TwitterScreenName='benhawes14', TwitterUserID='20359647', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Beth Rodford', TwitterScreenName='bethrodford', TwitterUserID='157311000', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Beth Storry', TwitterScreenName='bethstorry', TwitterUserID='244444830', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Beth Tweddle', TwitterScreenName='bethtweddlenews', TwitterUserID='70643606', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Bill Lucas', TwitterScreenName='BillLucas2012', TwitterUserID='294119553', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Blake Griffin', TwitterScreenName='blakegriffin', TwitterUserID='34430522', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Bobby White', TwitterScreenName='bobby_white_12', TwitterUserID='223404067', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Bradley Wiggins', TwitterScreenName='bradwiggins', TwitterUserID='38824843', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Brett Morse', TwitterScreenName='Brett_Morse', TwitterUserID='50009338', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Britt Goodwin', TwitterScreenName='Britt9Goodwin', TwitterUserID='369625589', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='BRYONY SHAW', TwitterScreenName='BRYONYSHAW', TwitterUserID='24948176', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Richard Jefferies', TwitterScreenName='C1_Rich', TwitterUserID='536524449', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Caitlin McClatchey', TwitterScreenName='CaitMcClatchey', TwitterUserID='278133623', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mary Spencer', TwitterScreenName='Canadianboxer', TwitterUserID='368717558', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Caroline Wozniacki', TwitterScreenName='CaroWozniacki', TwitterUserID='94166168', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Casey Stoney', TwitterScreenName='CaseyStoney', TwitterUserID='243855971', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chantelle Handy', TwitterScreenName='chan2211', TwitterUserID='274996668', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Charles Cousins', TwitterScreenName='CharlesCousins', TwitterUserID='314766633', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chloe Wilcox', TwitterScreenName='chloewilcox86', TwitterUserID='283207769', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chris Bartley', TwitterScreenName='Chris_BartleyGB', TwitterUserID='101017618', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chris Lamont', TwitterScreenName='Chris_Lamont', TwitterUserID='103035467', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='chris adcock', TwitterScreenName='ChrisAdcock1', TwitterUserID='260710985', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chris Froome', TwitterScreenName='chrisfroome', TwitterUserID='63525135', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chris Hoy', TwitterScreenName='chrishoy', TwitterUserID='19762524', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chris Mears', TwitterScreenName='ChrisMears93', TwitterUserID='463920714', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Christine Ohuruogu', TwitterScreenName='chrissyohuruogu', TwitterUserID='34882196', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Christian Malcolm', TwitterScreenName='ChristianM200', TwitterUserID='295637500', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chris McDermott', TwitterScreenName='ChristopherMcD_', TwitterUserID='40095510', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ciara Gibson Byrne', TwitterScreenName='ciaragb92', TwitterUserID='267378848', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ciaran James', TwitterScreenName='Ciaranj19', TwitterUserID='290983776', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ciaran Williams GBR', TwitterScreenName='CiaranWilliams', TwitterUserID='57933449', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Claire Nixon', TwitterScreenName='ClaireNixon93', TwitterUserID='288997160', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='David Clarke', TwitterScreenName='ClarkieGB7', TwitterUserID='275201100', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kim Clijsters', TwitterScreenName='Clijsterskim', TwitterUserID='61804151', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='ConstantineLouloudis', TwitterScreenName='clouloudis', TwitterUserID='560525497', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Claire Rafferty', TwitterScreenName='clrafferty1', TwitterUserID='234923743', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Colin Fleming', TwitterScreenName='colin_fleming', TwitterUserID='59554068', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Catharine Pendrel', TwitterScreenName='cpendrel', TwitterUserID='338395920', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Craig Figes', TwitterScreenName='CraigFigesGBWP', TwitterUserID='470195113', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Craig Gibbons', TwitterScreenName='CraigGibbons85', TwitterUserID='124849902', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Crista Cullen', TwitterScreenName='cristacullen5', TwitterUserID='358675720', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='conrad williams', TwitterScreenName='cwilliams400', TwitterUserID='246364153', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Daniel Sturridge', TwitterScreenName='D_Sturridge', TwitterUserID='268400722', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='David Greene', TwitterScreenName='DaiGreene', TwitterUserID='160979509', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Dan Clark', TwitterScreenName='Dan00Clark', TwitterUserID='210041383', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Dan Fox', TwitterScreenName='Danfox450', TwitterUserID='104572995', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Dan Hunter', TwitterScreenName='danhunter4', TwitterUserID='247464508', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Daniel Fogg', TwitterScreenName='daniel_fogg', TwitterUserID='260452085', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Dani King', TwitterScreenName='DaniKing1', TwitterUserID='114623366', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Danny Rose', TwitterScreenName='Danny25Rose', TwitterUserID='458406189', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Danny Talbot', TwitterScreenName='DannyRakeTalbot', TwitterUserID='268445866', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Darren Cheesman', TwitterScreenName='DarrenCheesman', TwitterUserID='49980783', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='joris daudet', TwitterScreenName='daudetjoris', TwitterUserID='525732318', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='David Florence', TwitterScreenName='David_Florence', TwitterUserID='97653873', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='DAVID CARRY', TwitterScreenName='davidcarry', TwitterUserID='32878627', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='David Kostelecky', TwitterScreenName='DavidKostelecky', TwitterUserID='338838047', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Debbie Tanner', TwitterScreenName='debstanner', TwitterUserID='305562159', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='juan del potro', TwitterScreenName='delpotrojuan', TwitterUserID='139556944', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Dawn Harper', TwitterScreenName='DHarp100mH', TwitterUserID='198746241', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Diana Lopez ¯êÉ¯ê£', TwitterScreenName='dianalopez25', TwitterUserID='37792771', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Abdul Buhari', TwitterScreenName='discusabs', TwitterUserID='282760711', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Novak Djokovic', TwitterScreenName='DjokerNole', TwitterUserID='259925559', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Dominique Allen', TwitterScreenName='dom_allen12', TwitterUserID='211016044', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Dami Bakare', TwitterScreenName='donlybakare', TwitterUserID='335598656', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Donny Robinson', TwitterScreenName='DonnyRobinson', TwitterUserID='30524255', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Drew Sullivan', TwitterScreenName='drewsullivan8', TwitterUserID='222604030', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Katherine Driscoll', TwitterScreenName='driscoll86', TwitterUserID='352194115', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Daniel Sliwinski', TwitterScreenName='dsliwinski90', TwitterUserID='202759313', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Dwyane Wade', TwitterScreenName='DwyaneWade', TwitterUserID='33995409', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ed Clancy', TwitterScreenName='Ed_Clancy', TwitterUserID='253977106', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Edith Bosch', TwitterScreenName='edithbosch', TwitterUserID='196997744', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ed McKeever', TwitterScreenName='edmckeever', TwitterUserID='51978065', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Edward Scott', TwitterScreenName='EdScott88', TwitterUserID='147339079', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Eilidh Child', TwitterScreenName='EilidhChild', TwitterUserID='318474041', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Eilish Mccolgan', TwitterScreenName='EilishMccolgan', TwitterUserID='22261059', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Elena', TwitterScreenName='ElenaBaltacha', TwitterUserID='52069104', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ellie Faulkner', TwitterScreenName='elliefaulkner', TwitterUserID='40082331', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ellie Simmonds', TwitterScreenName='EllieSimmonds1', TwitterUserID='329112005', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ellen White', TwitterScreenName='ellsbells89', TwitterUserID='288230375', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ellen Gandy', TwitterScreenName='EllyGandy', TwitterUserID='491053356', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Emanuel Rego', TwitterScreenName='Emanuel_Volei', TwitterUserID='88018095', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Emily Seebohm', TwitterScreenName='emcbomb', TwitterUserID='172694011', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Emily Batty', TwitterScreenName='emilybatty', TwitterUserID='91610009', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Emily Diamond', TwitterScreenName='EmilyDiamond11', TwitterUserID='223608531', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Emily Maguire', TwitterScreenName='emilymaguire23', TwitterUserID='265426770', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Emily Kaye Freeman', TwitterScreenName='emkfree', TwitterUserID='246994942', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Emma Johansson', TwitterScreenName='emmaprocyclist', TwitterUserID='262607070', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Emma Snowsill', TwitterScreenName='emmasnowsill', TwitterUserID='25663900', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Eniola Aluko', TwitterScreenName='EniAlu', TwitterUserID='91205401', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Eric Boateng', TwitterScreenName='EricBoateng', TwitterUserID='164547612', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Euan Burton', TwitterScreenName='Euan_Burton', TwitterUserID='127945292', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Evelyn Stevens', TwitterScreenName='evelyn_stevens', TwitterUserID='421398203', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Morrison Rhodes', TwitterScreenName='Exmouth49er', TwitterUserID='276908282', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Fabian cancellara', TwitterScreenName='f_cancellara', TwitterUserID='170591249', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='fara williams', TwitterScreenName='fara_williams47', TwitterUserID='295843877', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Fiona McCann', TwitterScreenName='FeeMc1987', TwitterUserID='213273098', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='FERRAND-PREVOT', TwitterScreenName='FERRANDPREVOT', TwitterUserID='352231718', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Fernando Verdasco', TwitterScreenName='FeVerdasco7', TwitterUserID='571340577', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Fox-Pitt Eventing', TwitterScreenName='foxpitteventing', TwitterUserID='249715327', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='francescafox', TwitterScreenName='francescafox13', TwitterUserID='558978358', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Frankie Snell', TwitterScreenName='FrancescaSnell', TwitterUserID='57339651', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='francesca halsall', TwitterScreenName='franhalsall', TwitterUserID='48683091', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Missy Franklin', TwitterScreenName='FranklinMissy', TwitterUserID='365822838', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='fran leighton', TwitterScreenName='franleighton6', TwitterUserID='560355579', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Frida Svensson', TwitterScreenName='Frida_Rower', TwitterUserID='161045120', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kathryn Fudge', TwitterScreenName='fudge89', TwitterUserID='19909703', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Gael Monfils', TwitterScreenName='Gael_Monfils', TwitterUserID='71975446', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Robin Garnham', TwitterScreenName='GarnhamRobin', TwitterUserID='518332053', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Gareth Evans', TwitterScreenName='Gazpin_69kg', TwitterUserID='322590572', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='GB Basketball', TwitterScreenName='gbbasketball', TwitterUserID='61771888', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Daniel Awde', TwitterScreenName='GBDawde', TwitterUserID='385035372', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mark Hawkins', TwitterScreenName='GBHandball_MH20', TwitterUserID='61608179', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='British Shooting', TwitterScreenName='GBShooting', TwitterUserID='547053991', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Georgia Davies', TwitterScreenName='Ge0rgiaDavies90', TwitterUserID='65013070', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Gemma Louise Howell', TwitterScreenName='Gemh7', TwitterUserID='326283970', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Gemma Gibbons', TwitterScreenName='gemma_gibbons', TwitterUserID='375813110', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Gemma Spofforth', TwitterScreenName='GemmaSpofforth', TwitterUserID='179170204', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Georgie Twigg', TwitterScreenName='georgietwigg', TwitterUserID='45929373', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Georgina Cassar', TwitterScreenName='GeorginaCassar', TwitterUserID='242664088', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Geraint Thomas', TwitterScreenName='GeraintThomas86', TwitterUserID='155320577', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='glenn o\''shea', TwitterScreenName='glenno176', TwitterUserID='27855280', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Glenn Warfe', TwitterScreenName='GlennWarfe', TwitterUserID='508657384', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='glen robinson', TwitterScreenName='glenrob89', TwitterUserID='316996084', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Goldie Sayers', TwitterScreenName='goldiesayers', TwitterUserID='179213911', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Gorgs Geikie', TwitterScreenName='GorgsGeikie', TwitterUserID='102465497', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Grace Carter', TwitterScreenName='graciecarter18', TwitterUserID='619808345', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jamie Gray', TwitterScreenName='Grayolympics', TwitterUserID='564091896', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Greg Rutherford', TwitterScreenName='GregJRutherford', TwitterUserID='66129243', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Greg Searle', TwitterScreenName='GregSearle2012', TwitterUserID='217030484', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rachel Smith', TwitterScreenName='Gymnast_Rachel', TwitterUserID='236979026', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Helen Richardson', TwitterScreenName='h_richardson8', TwitterUserID='247694811', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Claire Hallissey', TwitterScreenName='HallisseyC', TwitterUserID='420790483', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Hamish Bond', TwitterScreenName='hamishb1', TwitterUserID='55622756', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Hannah Starling', TwitterScreenName='HannahfStarling', TwitterUserID='361244756', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Hannah Whelan', TwitterScreenName='HannahkWhelan', TwitterUserID='277384132', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Hannah Macleod', TwitterScreenName='hannahmacleod6', TwitterUserID='233600234', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Hannah Miley', TwitterScreenName='HannahMiley89', TwitterUserID='185688167', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Hannah Powell', TwitterScreenName='hannahpowell92', TwitterUserID='447367729', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Harry Martin', TwitterScreenName='HarryMartin_9', TwitterUserID='404865623', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='hazel musgrove', TwitterScreenName='hazel_musgrove', TwitterUserID='569053042', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Heather Watson', TwitterScreenName='HeatherWatson92', TwitterUserID='70547392', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Helen Jenkins', TwitterScreenName='heljinx', TwitterUserID='44196807', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Helene Hendriks', TwitterScreenName='hendrikshelene', TwitterUserID='247925905', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Carl Hester', TwitterScreenName='HesterDressage', TwitterUserID='188264147', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Holly Bleasdale', TwitterScreenName='HollyBleasdale', TwitterUserID='253631550', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Holly Lam-Moores', TwitterScreenName='hollyhandball3', TwitterUserID='274501289', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Hope Solo', TwitterScreenName='hopesolo', TwitterUserID='61355746', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Hunter Kemper', TwitterScreenName='hunterkemper', TwitterUserID='58839900', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Husayn Rosowsky', TwitterScreenName='husaynroso', TwitterUserID='43871645', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Diego Hypolito', TwitterScreenName='hypolitoginasta', TwitterUserID='173586360', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Iain Lewers', TwitterScreenName='iainlewers', TwitterUserID='287781981', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Iain Percy', TwitterScreenName='IainPercy', TwitterUserID='84095155', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Imogen Bankier', TwitterScreenName='imogenbankier', TwitterUserID='30048219', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Yelena Isinbaeva', TwitterScreenName='Isinbayeva', TwitterUserID='68674343', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ian Stannard', TwitterScreenName='IStannard', TwitterUserID='460541045', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Stephanie Rice', TwitterScreenName='ItsStephRice', TwitterUserID='105971448', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='julien absalon', TwitterScreenName='j_absalon', TwitterUserID='133198434', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jessica Ennis', TwitterScreenName='J_Ennis', TwitterUserID='156380350', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jack Bobridge', TwitterScreenName='JackBobridge', TwitterUserID='287355792', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jack Butland', TwitterScreenName='jackbutland_26', TwitterUserID='374678735', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jack Laugher', TwitterScreenName='JackLaugher', TwitterUserID='218196055', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jack Green', TwitterScreenName='jackpgreen', TwitterUserID='66340814', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jade Smith', TwitterScreenName='jaddsmith', TwitterUserID='53103918', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jade', TwitterScreenName='jadefaulkner', TwitterUserID='181107202', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jade Jones', TwitterScreenName='jadejonestkd', TwitterUserID='220997138', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='James foad', TwitterScreenName='james_foadGBrow', TwitterUserID='37913157', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='james dasaolu', TwitterScreenName='JamesDasaolu', TwitterUserID='198616344', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='James Disney-May', TwitterScreenName='JamesDisneyMay', TwitterUserID='336894256', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='James Goddard', TwitterScreenName='JamesGoddard83', TwitterUserID='290609656', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='James Austin', TwitterScreenName='jameswillaustin', TwitterUserID='168202592', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jamie Murray', TwitterScreenName='jamie_murray', TwitterUserID='14131275', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jamie Dwyer', TwitterScreenName='JamieDwyer01', TwitterUserID='216229947', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jan Frodeno', TwitterScreenName='janfrodeno', TwitterUserID='31164384', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jarrod Shoemaker', TwitterScreenName='jarrodshoemaker', TwitterUserID='40723056', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jason Lee', TwitterScreenName='Jase8Lee', TwitterUserID='236845409', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jenaya Wade-Fray', TwitterScreenName='JayWadeFray', TwitterUserID='567084412', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jack Waller', TwitterScreenName='JDWaller6', TwitterUserID='237318555', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='james l ellington', TwitterScreenName='Jellington100m', TwitterUserID='254276089', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jennifer Pinches', TwitterScreenName='jempin515', TwitterUserID='37704287', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jen McIntosh', TwitterScreenName='JenMac600', TwitterUserID='161351710', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jenna Randall', TwitterScreenName='JennaRtweets', TwitterUserID='200497519', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='jennifertaylor', TwitterScreenName='jenntaylor06', TwitterUserID='132484818', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='jessica eddie', TwitterScreenName='jesseddie', TwitterUserID='21037719', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jessica Walker', TwitterScreenName='JessicaWalker10', TwitterUserID='288327871', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jessica Varnish', TwitterScreenName='JessVarnish', TwitterUserID='239876668', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='James Fair', TwitterScreenName='jfair25', TwitterUserID='227817944', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Javi Gomez Noya', TwitterScreenName='Jgomeznoya', TwitterUserID='266771482', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='James Honeybone', TwitterScreenName='JHoneybone', TwitterUserID='278977561', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jill Scott', TwitterScreenName='JillScott12', TwitterUserID='73983778', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='James Tindall', TwitterScreenName='jimmyt20', TwitterUserID='227082076', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jennifer Knobbs', TwitterScreenName='jknobbs', TwitterUserID='32583477', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Joanna Parker', TwitterScreenName='JoannaParkertt', TwitterUserID='341744645', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Joanna Rowsell', TwitterScreenName='JoannaRowsell', TwitterUserID='43090176', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Joanne Jackson', TwitterScreenName='JoanneJackson86', TwitterUserID='113449381', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Joanne Morgan', TwitterScreenName='JoanneMorgan', TwitterUserID='572678500', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jodie Williams', TwitterScreenName='JodieAlicia27', TwitterUserID='258426023', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Joe Roebuck', TwitterScreenName='JoeRoebuck', TwitterUserID='264133481', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='johannah leedham', TwitterScreenName='joey_leedham13', TwitterUserID='463778601', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='John Pearce', TwitterScreenName='JohnNailsPearce', TwitterUserID='273124345', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='KJT', TwitterScreenName='JohnsonThompson', TwitterUserID='42230810', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jonathan Brownlee', TwitterScreenName='jonny_brownlee', TwitterUserID='355452893', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jon Schofield', TwitterScreenName='Jonscho', TwitterUserID='41073227', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Francesca Jones', TwitterScreenName='Jonsey90', TwitterUserID='115739101', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jonty Clarke', TwitterScreenName='JontyClarke', TwitterUserID='79818725', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jo Pavey', TwitterScreenName='jopavey', TwitterUserID='24224320', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Joe O\''Regan', TwitterScreenName='JORegan91', TwitterUserID='279681266', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jose A. Hermida', TwitterScreenName='Josehermida', TwitterUserID='35229364', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Josh Taylor', TwitterScreenName='JoshTaylorBoxer', TwitterUserID='556124292', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Joshua Richmond', TwitterScreenName='JoshuaRichmond4', TwitterUserID='606331339', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Josie Tomic', TwitterScreenName='JosieTomic', TwitterUserID='287344281', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='jason steele', TwitterScreenName='jsteele_30', TwitterUserID='281536104', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Julie Page', TwitterScreenName='juliepage10', TwitterUserID='33268497', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Justin Reid-Ross', TwitterScreenName='JustinReidRoss', TwitterUserID='27010118', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='KristinArmstrong', TwitterScreenName='k_armstrong', TwitterUserID='17379227', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kate Macgregor', TwitterScreenName='k8mac12', TwitterUserID='468443429', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kaarle McCulloch', TwitterScreenName='kaarlemcculloch', TwitterUserID='45477482', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='karen carney', TwitterScreenName='karenjcarney', TwitterUserID='544979276', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Karina Bryant', TwitterScreenName='karinabryantgb', TwitterUserID='114002549', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Katherine Copeland', TwitterScreenName='kate_copeland', TwitterUserID='350971770', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kate Dennison', TwitterScreenName='KateDennison', TwitterUserID='69551985', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kate Haywood', TwitterScreenName='katehaywood', TwitterUserID='120160897', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kate Hollywood', TwitterScreenName='KateHollywood10', TwitterUserID='165675053', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kate McIlroy', TwitterScreenName='katemcilroy', TwitterUserID='238850012', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kate Walsh', TwitterScreenName='katewalsh11', TwitterUserID='270556083', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Katie Clark', TwitterScreenName='KatieC_23', TwitterUserID='267289093', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Katie O\''Donnell', TwitterScreenName='KatieODonnellFh', TwitterUserID='363092629', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kobe Bryant', TwitterScreenName='KBTWOFOUR', TwitterUserID='38050162', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kevin Durant', TwitterScreenName='KDTrey5', TwitterUserID='35936474', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kelita Zupancic', TwitterScreenName='KelitaZupancic', TwitterUserID='361372932', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='kelsi fairbrother', TwitterScreenName='kelsifair', TwitterUserID='602080221', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Keri-anne Payne', TwitterScreenName='KeriannePayne', TwitterUserID='48300575', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kerri Walsh', TwitterScreenName='kerrileewalsh', TwitterUserID='104063340', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kieran O\''Malley', TwitterScreenName='key8701', TwitterUserID='100369346', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kieron Achara', TwitterScreenName='KieronAchara', TwitterUserID='498349091', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kimberly Butler', TwitterScreenName='kimbutler42', TwitterUserID='43054286', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kim Little', TwitterScreenName='kimlittle16', TwitterUserID='261197204', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kim Rhode', TwitterScreenName='KimRhode', TwitterUserID='89126030', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='peter kirkbride', TwitterScreenName='KirkbridePeter', TwitterUserID='562630483', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kirsty Coventry', TwitterScreenName='KirstyCoventry', TwitterUserID='164221206', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kosuke Kitajima', TwitterScreenName='kitajimakosuke', TwitterUserID='152966830', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kelly Smith', TwitterScreenName='kjs8eng', TwitterUserID='22526034', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Karen Bardsley', TwitterScreenName='klbardsley', TwitterUserID='16409117', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kris Gemmell', TwitterScreenName='KrisGemmell_', TwitterUserID='233066416', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kristian Thomas', TwitterScreenName='Kristian_Thomas', TwitterUserID='322100767', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Colin Oates', TwitterScreenName='Kumo49', TwitterUserID='61753046', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lizzie Armitstead', TwitterScreenName='L_ArmiTstead', TwitterUserID='420978767', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lance Louw', TwitterScreenName='LanceLouw_11', TwitterUserID='414670208', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lani Belcher', TwitterScreenName='lanibelcher', TwitterUserID='220746642', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Larissa e Juliana', TwitterScreenName='Larissa_Juliana', TwitterUserID='194718802', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='LaShawn Merritt', TwitterScreenName='lashawnmerritt', TwitterUserID='40587475', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Laura Bartlett', TwitterScreenName='laurabartlett19', TwitterUserID='107377197', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Laura Innes', TwitterScreenName='Laurainnes1989', TwitterUserID='266182205', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Laura Reback Bennett', TwitterScreenName='LauraRBennett', TwitterUserID='24577288', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Laura Robson', TwitterScreenName='laurarobson5', TwitterUserID='20304556', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Laura Trott', TwitterScreenName='LauraTrott31', TwitterUserID='270418444', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Laura Turner', TwitterScreenName='LauraTurner100', TwitterUserID='23136154', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Laura Unsworth', TwitterScreenName='LauraUnsworth4', TwitterUserID='478981691', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Laura Weightman', TwitterScreenName='LauraWeightman', TwitterUserID='324404321', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lawrence Clarke', TwitterScreenName='lawrence_clarke', TwitterUserID='317282812', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lawrence Okoye', TwitterScreenName='LawrenceOkoye1', TwitterUserID='344063601', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rachel Laybourne', TwitterScreenName='Laybourne04', TwitterUserID='622764652', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lee McConnell', TwitterScreenName='LeeMcConnell400', TwitterUserID='372926687', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Liam Heath', TwitterScreenName='Liam_heath', TwitterUserID='306114871', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Liam Phillips', TwitterScreenName='liamPHILLIPS65', TwitterUserID='146442319', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Liam Pitchford', TwitterScreenName='liampitchford', TwitterUserID='259802833', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Liam Tancock', TwitterScreenName='LiamTancock', TwitterUserID='43706838', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lloyd Madsen', TwitterScreenName='Lloyd_Madsen', TwitterUserID='181533013', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chris Tomlinson', TwitterScreenName='LongJumpChris', TwitterUserID='352589854', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lotte Friis', TwitterScreenName='lottefriis', TwitterUserID='109640961', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Louisa Pouli', TwitterScreenName='Louisa_Pouli', TwitterUserID='307446238', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Louisa Sawers', TwitterScreenName='LouisaSawers', TwitterUserID='288370527', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Louise Bond-Williams', TwitterScreenName='Louise_bw', TwitterUserID='318727852', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Louise Hazel', TwitterScreenName='LouiseHazel', TwitterUserID='54003221', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Louise Jukes', TwitterScreenName='louisejukes', TwitterUserID='52702397', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Louis Smith', TwitterScreenName='louissmith1989', TwitterUserID='100570359', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lou Reeve', TwitterScreenName='loureeve', TwitterUserID='561988981', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lucy Macgregor', TwitterScreenName='LucyMacgregor1', TwitterUserID='123670135', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lucy Martin', TwitterScreenName='LUCYMARTIN05', TwitterUserID='349242145', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lucy Wicks', TwitterScreenName='lucywicks2', TwitterUserID='304394869', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Luke Campbell', TwitterScreenName='luke11campbell', TwitterUserID='267308679', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Luke lennon ford', TwitterScreenName='Lukey400m', TwitterUserID='270045445', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Luol Deng', TwitterScreenName='LuolDeng9', TwitterUserID='162749920', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lutalo Muhammad', TwitterScreenName='LutaloMuhammad', TwitterUserID='345588074', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lynn McCafferty', TwitterScreenName='Lynn_GBHandball', TwitterUserID='29855798', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lynne Hutchison', TwitterScreenName='lynnehutch94', TwitterUserID='208742566', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Lynsey Sharp', TwitterScreenName='LynseySharp', TwitterUserID='31392974', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Maartje Paumen', TwitterScreenName='MaartjePaumen', TwitterUserID='146066598', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mahe Drysdale', TwitterScreenName='MaheDrysdale', TwitterUserID='67269278', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mamedy Doucara', TwitterScreenName='MamedyDoucara', TwitterUserID='33316570', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Manuel Fumic', TwitterScreenName='ManuelFumic', TwitterUserID='97919809', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Marc Gasol', TwitterScreenName='MarcGasol', TwitterUserID='24423418', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Marco A Loughran', TwitterScreenName='MarcoL89', TwitterUserID='205715380', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Margaret Adeoye', TwitterScreenName='MargaretAdeoye', TwitterUserID='494988754', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Maria Bertelli', TwitterScreenName='mariabertelli', TwitterUserID='66981487', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mariana Pajon', TwitterScreenName='marianapajon', TwitterUserID='192990536', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Marianne Vos', TwitterScreenName='marianne_vos', TwitterUserID='47603820', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mark Cavendish', TwitterScreenName='MarkCavendish', TwitterUserID='275575393', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mark Hunter', TwitterScreenName='MarkHunterGB', TwitterUserID='153531301', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Martyn Rooney', TwitterScreenName='MartynRooney', TwitterUserID='59785937', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Marvin Sordell', TwitterScreenName='MarvinSordell', TwitterUserID='42065340', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Steven Mason', TwitterScreenName='Mason1Steven', TwitterUserID='348997027', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='GBR Match Race Girls', TwitterScreenName='matchracegirls', TwitterUserID='121827022', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Matthew Glaetzer', TwitterScreenName='MattGlaetzer', TwitterUserID='557728113', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Matt Holland', TwitterScreenName='mattholland1989', TwitterUserID='228713576', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Matt Wells', TwitterScreenName='mattwells09', TwitterUserID='329565044', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Maurren Higa Maggi', TwitterScreenName='MaurrenHMaggi', TwitterUserID='301264769', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Max Heinzer', TwitterScreenName='MaxHeinzer', TwitterUserID='445366988', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='max Whitlock', TwitterScreenName='maxwhitlock1', TwitterUserID='594435142', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mayra Aguiar', TwitterScreenName='mayraaguiarjudo', TwitterUserID='497157482', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Paige McPherson', TwitterScreenName='mcfierce2012', TwitterUserID='522005095', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mark McGivern', TwitterScreenName='McGivern7', TwitterUserID='104225933', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Melissa Hoskins', TwitterScreenName='MelissaMHoskins', TwitterUserID='55739070', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Surbiton GB Boys', TwitterScreenName='MensHockey2012', TwitterUserID='243323060', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mhairi Spence', TwitterScreenName='MhairiSpence', TwitterUserID='295884713', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Michael Hepburn', TwitterScreenName='michael_hepburn', TwitterUserID='212745500', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Michelle Li', TwitterScreenName='miichelleli', TwitterUserID='177118000', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='David Millar', TwitterScreenName='millarmind', TwitterUserID='325461522', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Milos Raonic', TwitterScreenName='milosraonic', TwitterUserID='35441526', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Misty May-Treanor', TwitterScreenName='MistyMayTreanor', TwitterUserID='72509949', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Michael Jamieson', TwitterScreenName='mj88live', TwitterUserID='268484639', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='markis kido', TwitterScreenName='mkidkido', TwitterUserID='162550347', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mervyn Luckwell', TwitterScreenName='ml95m', TwitterUserID='278238022', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='MarkLewisFrancis MBE', TwitterScreenName='mlewisfrancis', TwitterUserID='229047451', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mo Farah', TwitterScreenName='Mo_Farah', TwitterUserID='83855918', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Moe Sbihi', TwitterScreenName='moesbihi', TwitterUserID='258837364', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Naija Princess', TwitterScreenName='mokoro4', TwitterUserID='87722995', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Monique Gladding', TwitterScreenName='moniquegladding', TwitterUserID='123054246', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Moussa CISSE', TwitterScreenName='Moussa_Cisse', TwitterUserID='257889352', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Martin Stamper', TwitterScreenName='MStamper_TKD', TwitterUserID='297389481', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Mark Todd', TwitterScreenName='MTEventing', TwitterUserID='265192550', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nick McCormick', TwitterScreenName='n1ck_mcCorm1ck', TwitterUserID='260160569', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Natalie Coughlin', TwitterScreenName='NatalieCoughlin', TwitterUserID='26593416', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Natalie Seymour', TwitterScreenName='NatalieSeymour9', TwitterUserID='393590044', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='nataliestafford', TwitterScreenName='nataliestafford', TwitterUserID='18732619', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='NataschaKeller', TwitterScreenName='NataschaKeller', TwitterUserID='569397301', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nate Reinking', TwitterScreenName='NATEREINKING12', TwitterUserID='76415133', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nathan Outteridge', TwitterScreenName='nath49er', TwitterUserID='121720364', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nathan Woodward', TwitterScreenName='NathWoodward', TwitterUserID='272101282', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ashleigh Nelson', TwitterScreenName='nelson_ashleigh', TwitterUserID='567126726', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Annette Edmondson', TwitterScreenName='NettieEdmondson', TwitterUserID='386464078', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='nicola sanders', TwitterScreenName='nic400', TwitterUserID='177916323', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Anita Asante', TwitterScreenName='NicenNeetz', TwitterUserID='291519504', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nick Catlin', TwitterScreenName='nickcatlin8', TwitterUserID='244081862', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nick Dempsey', TwitterScreenName='nickdempsey1', TwitterUserID='23297777', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nick Robinson-Baker', TwitterScreenName='NickRB', TwitterUserID='43328523', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nick Woodbridge', TwitterScreenName='NickWoodbridge', TwitterUserID='109813877', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nicola Adams', TwitterScreenName='NicolaAdams2012', TwitterUserID='87429715', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nicola White', TwitterScreenName='NicolaWhite28', TwitterUserID='396646951', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nicole Cooke', TwitterScreenName='NicoleCooke2012', TwitterUserID='326694732', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nigel Levine', TwitterScreenName='NigelLevine', TwitterUserID='493250976', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Nina Heglund', TwitterScreenName='NinaHeglund', TwitterUserID='385599597', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Noemi Cantele', TwitterScreenName='noemicantele', TwitterUserID='275403986', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Asafa Powell', TwitterScreenName='officialasafa', TwitterUserID='97497690', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Olaf Tufte', TwitterScreenName='OlafTufte08', TwitterUserID='489471387', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sam Oldham', TwitterScreenName='Oldham93', TwitterUserID='370804141', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Olivia Federici', TwitterScreenName='Olivia_Federici', TwitterUserID='43328128', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Team PatienceBithell', TwitterScreenName='PatienceBithell', TwitterUserID='126029371', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Pau Gasol', TwitterScreenName='paugasol', TwitterUserID='163559269', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Paula Findlay', TwitterScreenName='PaulaFindlay', TwitterUserID='72516652', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Paula Radcliffe', TwitterScreenName='paulajradcliffe', TwitterUserID='62540002', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Paul Goodison', TwitterScreenName='paulgoodisongbr', TwitterUserID='245356124', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Paul Drinkhall', TwitterScreenName='pdrinkhall', TwitterUserID='103683026', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Shane Perkins', TwitterScreenName='PerkoPerkins', TwitterUserID='101107460', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Peter kennaugh', TwitterScreenName='Petekennaugh', TwitterUserID='155320364', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Peter Bakare', TwitterScreenName='peterbakare', TwitterUserID='99162968', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Peter Chambers', TwitterScreenName='PeterChambersGB', TwitterUserID='425973019', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Pete Reed', TwitterScreenName='PeteReedNikon', TwitterUserID='256955184', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Pete Reed', TwitterScreenName='PeteReedRowing', TwitterUserID='555359654', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Peter Waterfield', TwitterScreenName='PeterWaterfield', TwitterUserID='56408315', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Phelan Hill', TwitterScreenName='PhelanGBcox2012', TwitterUserID='293478711', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Phil Burrows', TwitterScreenName='Phil_Burrows18', TwitterUserID='153765578', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='philip hindes', TwitterScreenName='Philip_hindes', TwitterUserID='216837549', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Phillips Idowu MBE', TwitterScreenName='PhillipsIdowu', TwitterUserID='97898140', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Pietie', TwitterScreenName='pietiecoetzee', TwitterUserID='181247710', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='pops mensah-bonsu', TwitterScreenName='PopsMBonsu', TwitterUserID='360344843', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Stacie Powell', TwitterScreenName='powellstacie', TwitterUserID='502248046', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Annie Vernon', TwitterScreenName='prideofcornwall', TwitterUserID='59446631', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Danny purvis', TwitterScreenName='PurvisDanny', TwitterUserID='582080822', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Elizabeth Simmonds', TwitterScreenName='QueenMond', TwitterUserID='49939257', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Queen Underwood', TwitterScreenName='QueenUnderwood', TwitterUserID='338512447', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='rachel brown', TwitterScreenName='rach_brown1', TwitterUserID='261726547', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rachel Cawthorn', TwitterScreenName='RachelCawthorn', TwitterUserID='246398288', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rachel Newton', TwitterScreenName='RachelNewton9', TwitterUserID='531245408', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rachael Vanderwal', TwitterScreenName='rachvanderwal', TwitterUserID='544574749', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rafa Nadal', TwitterScreenName='RafaelNadal', TwitterUserID='344634424', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rajiv Ouseph', TwitterScreenName='rajivouseph', TwitterUserID='212203422', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rassie Pieterse', TwitterScreenName='Rassie_Pieterse', TwitterUserID='116489865', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rachel Drabble', TwitterScreenName='RDrabsWaterpolo', TwitterUserID='284544203', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rebecca Tunney:)', TwitterScreenName='Rebecca_Tunney', TwitterUserID='348406531', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rebecca Soni', TwitterScreenName='rebsoni', TwitterUserID='21338412', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rebecca Gallantree', TwitterScreenName='RGallantree', TwitterUserID='293731094', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='RHYS WILLIAMS', TwitterScreenName='rhys400h', TwitterUserID='348966834', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Richard Hounslow', TwitterScreenName='RichardHounslow', TwitterUserID='73449571', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Richard Brickell', TwitterScreenName='richbrick25', TwitterUserID='57597817', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Richard Buck', TwitterScreenName='rickbee400', TwitterUserID='191901320', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rob Bale', TwitterScreenName='rob_bale', TwitterUserID='204680972', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rob Tobin', TwitterScreenName='Rob_Tobin', TwitterUserID='40245272', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rob Williams', TwitterScreenName='Rob_WilliamsGB', TwitterUserID='298679762', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rob Moore', TwitterScreenName='rob13moore', TwitterUserID='225098832', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Robbie Grabarz', TwitterScreenName='RobbieGrabarz', TwitterUserID='474124577', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Robbie Renwick', TwitterScreenName='RobbieRenwick', TwitterUserID='269304331', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='robertscheidt', TwitterScreenName='robert_scheidt', TwitterUserID='551082579', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Robert Archibald', TwitterScreenName='RobertArchibald', TwitterUserID='28208115', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Roberto Pavoni', TwitterScreenName='Roberto_Pavoni', TwitterUserID='291001606', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Roberto Cammarelle', TwitterScreenName='RobyCammarelle', TwitterUserID='435798197', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Robyn Nicholls', TwitterScreenName='robyn_nicholls', TwitterUserID='280242371', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Michael Rock', TwitterScreenName='RockySwimmer', TwitterUserID='468719138', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Roger Federer', TwitterScreenName='roger0922', TwitterUserID='53215565', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chloe Rogers', TwitterScreenName='RogersChloe12', TwitterUserID='234349647', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rohan Dennis', TwitterScreenName='RohanDennis', TwitterUserID='112867743', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rory Warlow', TwitterScreenName='rorywarlow', TwitterUserID='221672071', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ross Hutchins', TwitterScreenName='RoscoHutchins', TwitterUserID='44388447', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rose Anderson', TwitterScreenName='Rose_Anderson5', TwitterUserID='346513291', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Rosie Morris', TwitterScreenName='rosiemorris86', TwitterUserID='158887692', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ross Murray', TwitterScreenName='RosscoJammin', TwitterUserID='322819029', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Richard Smith', TwitterScreenName='RS_smudge', TwitterUserID='134823513', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Richard Chambers', TwitterScreenName='rschambers10GB', TwitterUserID='48972086', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andy Baddeley', TwitterScreenName='runbadders', TwitterUserID='237389906', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Russell Mark', TwitterScreenName='RussellMarkGold', TwitterUserID='345624316', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ryan Bertrand', TwitterScreenName='ryanbertrand3', TwitterUserID='217423296', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ryan Lochte', TwitterScreenName='ryanlochte', TwitterUserID='35348026', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ryan Sissons', TwitterScreenName='ryansissons', TwitterUserID='190260207', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sabine Spitz', TwitterScreenName='sabinespitz', TwitterUserID='19059344', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='marat_safin', TwitterScreenName='safin_marat1', TwitterUserID='492003467', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sally Walton', TwitterScreenName='sallywalton23', TwitterUserID='242081101', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sam Quek', TwitterScreenName='SamanthaQuek', TwitterUserID='279229632', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Samuel Weale', TwitterScreenName='samweale', TwitterUserID='341721614', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='sam townsend', TwitterScreenName='samwtownsend', TwitterUserID='583165284', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sarah Thomas', TwitterScreenName='sarah_thomas18', TwitterUserID='316408881', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sarah Barrow', TwitterScreenName='SarahBarrow', TwitterUserID='34269240', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sarah Clark', TwitterScreenName='sarahclark_judo', TwitterUserID='52068189', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='sally conway', TwitterScreenName='sconway70', TwitterUserID='153464185', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Scott Overall', TwitterScreenName='scottoverall', TwitterUserID='169206054', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Scott Sinclair', TwitterScreenName='Scotty_Sinclair', TwitterUserID='146519069', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='scott sunderland', TwitterScreenName='scottysundo', TwitterUserID='589677326', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sean King', TwitterScreenName='SDKing4', TwitterUserID='277172506', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sean D Ryder', TwitterScreenName='SDRyder12', TwitterUserID='58819702', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Serena Williams', TwitterScreenName='serenawilliams', TwitterUserID='26589987', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Serena Williams', TwitterScreenName='Serenawilliams1', TwitterUserID='99397823', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sergio Pessoa', TwitterScreenName='sergiopessoa', TwitterUserID='27960658', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Perri shakes-drayton', TwitterScreenName='Shakesdrayton', TwitterUserID='174185700', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Shanaze Reade', TwitterScreenName='ShanazeReade', TwitterUserID='58434192', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Eric Shanteau', TwitterScreenName='Shanteau', TwitterUserID='31028361', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Shara proctor', TwitterScreenName='SharaProctor', TwitterUserID='176290186', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Shawneyj', TwitterScreenName='Shawneyj', TwitterUserID='412725099', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Shelley Russell', TwitterScreenName='Shells_bells_', TwitterUserID='176721865', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sophie Hosking', TwitterScreenName='SHMH1', TwitterUserID='66124019', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='James Huckle', TwitterScreenName='ShooterHuckle', TwitterUserID='29570255', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='shauna mullin', TwitterScreenName='shuvolleygb', TwitterUserID='122950681', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kelly Sibley', TwitterScreenName='sible2109', TwitterUserID='35408223', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sifiso Nhlapo', TwitterScreenName='SifisoNhlapo', TwitterUserID='33823058', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Simeon Williamson', TwitterScreenName='simba100m', TwitterUserID='47555071', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Siobhan O\''Connor', TwitterScreenName='SiobhanMOConnor', TwitterUserID='265916293', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Savannah Marshall', TwitterScreenName='Smarshall1991', TwitterUserID='313296185', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Kyle Johnson', TwitterScreenName='SmoothKJ88', TwitterUserID='348649884', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sophie Williams', TwitterScreenName='sophie_a_w', TwitterUserID='154659914', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sophie Allen', TwitterScreenName='SophieAllen12', TwitterUserID='413003180', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sophie Cox', TwitterScreenName='sophiecox_judo', TwitterUserID='358715549', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sophie Hitchon', TwitterScreenName='SophieHitchon', TwitterUserID='348724478', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sophie Troiano', TwitterScreenName='sophietroiano', TwitterUserID='83548278', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sebastian Prieto', TwitterScreenName='speb04', TwitterUserID='404023771', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jermaine James', TwitterScreenName='Spinkickkid', TwitterUserID='34852727', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Stanislas Wawrinka', TwitterScreenName='stanwawrinka', TwitterUserID='65187067', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Stephen Jenness', TwitterScreenName='StephenJenness', TwitterUserID='490759729', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Steve Hooker', TwitterScreenName='stevehookerpv', TwitterUserID='424655869', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Steven Burke', TwitterScreenName='StevenBurke88', TwitterUserID='293601868', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Steven James Larsson', TwitterScreenName='StevenLarsson', TwitterUserID='29688368', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Susannah Townsend', TwitterScreenName='stownsend7', TwitterUserID='98196849', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Stuart Stokes', TwitterScreenName='stuart_stokes', TwitterUserID='626288004', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Stuart Hayes', TwitterScreenName='StuHayes13', TwitterUserID='193619580', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sven Nys', TwitterScreenName='sven_nys', TwitterUserID='278194473', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Sam Willoughby', TwitterScreenName='SW91', TwitterUserID='42731990', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ben Swift', TwitterScreenName='swiftybswift', TwitterUserID='108441763', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Amy Smith', TwitterScreenName='SwimAmySmith', TwitterUserID='378231131', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Jessica Hardy', TwitterScreenName='swimhardy', TwitterUserID='18891737', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ross Davenport', TwitterScreenName='SwimmerRoss', TwitterUserID='202098639', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='katie dawkins', TwitterScreenName='synchroD', TwitterUserID='267256508', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='katie skelton', TwitterScreenName='SynchroKS', TwitterUserID='267856439', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Taine Paton', TwitterScreenName='Taine_Paton', TwitterUserID='351763909', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Natasha Jonas', TwitterScreenName='TashaJonas', TwitterUserID='283727817', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Team GBR', TwitterScreenName='TeamGBR', TwitterUserID='19239587', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Tamgho Teddy', TwitterScreenName='TeddyTamgho', TwitterUserID='340179260', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Teddy Riner', TwitterScreenName='TedRiner', TwitterUserID='187819822', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Temi Fagbenle', TwitterScreenName='TemiFagbenle', TwitterUserID='360898778', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Andy Tennant', TwitterScreenName='tennanto', TwitterUserID='210627341', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Thomas Stalker', TwitterScreenName='ThomasStalker1', TwitterUserID='263355828', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Alan Campbell', TwitterScreenName='tidewaysculler', TwitterUserID='23637396', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Tiffany Porter', TwitterScreenName='tiffofili', TwitterUserID='98810867', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Tim Baillie', TwitterScreenName='timbaillie', TwitterUserID='43357811', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Tim Brabants', TwitterScreenName='TimBrabants', TwitterUserID='30431181', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='TimMorehouse', TwitterScreenName='TimMorehouse', TwitterUserID='18363918', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Janko Tipsarevic', TwitterScreenName='TipsarevicJanko', TwitterUserID='168213572', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Terrence Jennings', TwitterScreenName='TKDTJ728', TwitterUserID='41690040', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='tom boonen', TwitterScreenName='tomboonen1', TwitterUserID='581483024', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Tom Cleverley', TwitterScreenName='tomclevz23', TwitterUserID='420301038', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Tom Daley', TwitterScreenName='TomDaley1994', TwitterUserID='53732896', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Tom James', TwitterScreenName='TomJames2012', TwitterUserID='173185410', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='tonia couch', TwitterScreenName='toniacouch', TwitterUserID='85669614', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Manuel Huerta', TwitterScreenName='trimanny', TwitterUserID='212224580', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Tom Solesbury', TwitterScreenName='tsolesbury2012', TwitterUserID='326779622', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Usain St. Leo Bolt', TwitterScreenName='usainbolt', TwitterUserID='45112524', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Victoria Pendleton', TwitterScreenName='v_pendleton', TwitterUserID='160950525', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ciara Michel', TwitterScreenName='vb_ci', TwitterUserID='63036940', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='VeronicaCampbelBrown', TwitterScreenName='VCampbellBrown', TwitterUserID='208708810', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Venus Williams', TwitterScreenName='Venuseswilliams', TwitterUserID='50725573', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Vicky Bowen', TwitterScreenName='vicbowen', TwitterUserID='569096933', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Vicki Lucass', TwitterScreenName='VickiLucass', TwitterUserID='267278705', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Victoria Thornley', TwitterScreenName='VickyThornleyGB', TwitterUserID='564831195', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='victoria azarenka', TwitterScreenName='vika7', TwitterUserID='93131556', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Vicky Holland', TwitterScreenName='VixHolland', TwitterUserID='204454773', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Victoria Pendleton', TwitterScreenName='vpendleton', TwitterUserID='19763062', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Wade Paton', TwitterScreenName='WadePaton', TwitterUserID='209489177', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Chris Walker-Hebborn', TwitterScreenName='WalkerHebborn', TwitterUserID='205951712', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Anna Watkins', TwitterScreenName='watkinsteamgb', TwitterUserID='43856340', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Glenn Eller', TwitterScreenName='wgeller3', TwitterUserID='114951369', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Wendy Houvenaghel', TwitterScreenName='WHouvenaghel', TwitterUserID='558829275', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Will Satch', TwitterScreenName='WilliamSatch', TwitterUserID='573849741', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Peter Wilson', TwitterScreenName='wilpex', TwitterUserID='277647634', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Daniel McMillan', TwitterScreenName='WMO_GB18', TwitterUserID='316075037', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Yao Ming', TwitterScreenName='YaoMing', TwitterUserID='85616395', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Ina-Yoko Teutenberg', TwitterScreenName='yokoteute', TwitterUserID='151424524', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Yvette Baker', TwitterScreenName='yvettebaker91', TwitterUserID='267295547', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='zach railey', TwitterScreenName='zachsail', TwitterUserID='29384069', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Zac Purchase', TwitterScreenName='ZacPurchase', TwitterUserID='20505122', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Zara Dampney', TwitterScreenName='Zara_Dampney', TwitterUserID='119370087', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Zoe Smith', TwitterScreenName='ZoePabloSmith', TwitterUserID='27718308', Processed=0
+insert into [dbo].[AtheletesDetails] select ProfileUID='', Name='Zo+½ vanderWeel', TwitterScreenName='ZoevanderWeel', TwitterUserID='18601857', Processed=0
 
 update [dbo].[AtheletesDetails] set ProfileUID='89d59bda-d289-4859-878c-bf02bc0622a9' where TwitterUserID='312060941'
 update [dbo].[AtheletesDetails] set ProfileUID='39a0dd3d-6cdd-4134-911e-78311f3c94bc' where TwitterUserID='103820454'

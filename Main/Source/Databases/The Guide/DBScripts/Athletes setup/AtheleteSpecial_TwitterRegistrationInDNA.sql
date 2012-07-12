@@ -1,5 +1,4 @@
 USE TheGuide
-GO
 
 DECLARE @Id					int
 DECLARE @TwitterUserID		nvarchar(40)
