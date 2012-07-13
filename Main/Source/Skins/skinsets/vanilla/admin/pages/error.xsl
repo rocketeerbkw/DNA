@@ -108,7 +108,8 @@
 			    	<p class="dna-no-error">Your Twitter profile has been <xsl:value-of select="$profiletype" />. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
 			    </xsl:when>
 			    <xsl:otherwise>
-			    	<p class="dna-no-error">Your updates have been saved.</p>
+			    	<!--<p class="dna-no-error">Your updates have been saved.</p>-->
+					<p class="dna-no-error">Your Twitter profile has been updated. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
 			    </xsl:otherwise>
 		    </xsl:choose>		
 		</xsl:otherwise>    

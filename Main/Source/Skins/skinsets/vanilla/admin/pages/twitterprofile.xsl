@@ -83,7 +83,7 @@
 							<li class="states blq-clearfix">
 								<label for="active">Active:</label>
 								<input type="checkbox" name="active" id="active" value="true">
-									<xsl:if test="/H2G2/PROFILE/ACTIVEONLY = 'true'">
+									<xsl:if test="/H2G2/PROFILE/ENABLED = 'true'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
 								</input>
