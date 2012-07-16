@@ -11,15 +11,9 @@
 
 #include <list>
 #include "TDVString.h"
-
-//#import "C:\Projects\BBC.DNA\DnaIdentityInterop\bin\Debug\DnaIdentityInterop.tlb" no_namespace
-
 using namespace std;
 
-class CProfileApi;
 class CProfileConnection;
-
-typedef list<CProfileApi*> PROFILELIST;
 
 class CProfileConnectionPool  
 {
@@ -27,7 +21,7 @@ public:
 	CProfileConnectionPool(const TDVCHAR* sConnectionFile, const TDVCHAR* sIdentityWebServiceUri);
 	virtual ~CProfileConnectionPool();
 	bool GetConnection(CProfileConnection& Connection, bool bUseIdentitySignIn, const TDVCHAR* sClientIPAddress);
-	bool ReleaseProfileConnection(CProfileApi* pProfile);
+	bool ReleaseProfileConnection();
 	CTDVString GetIdentityWebServiceUri();
 	const void Unlock();
 	const void Lock();
@@ -36,7 +30,6 @@ public:
 protected:
 	CTDVString m_sConnectionFile;
 	CTDVString m_sIdentityWebServiceUri;
-	PROFILELIST m_ProfileList;
 	int m_iNumActive;
 	int m_iMaxSize;
 	CRITICAL_SECTION m_criticalsection;

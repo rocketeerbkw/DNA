@@ -10,7 +10,6 @@
 	SccLocalPath="SAK"
 	SccProvider="SAK"
 	Keyword="MFCProj"
-	AssemblyReferenceSearchPaths="&quot;.\profileapi\include&quot;"
 	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
@@ -50,7 +49,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;_ADMIN_VERSION;_LIB;__LCC__"
 				StringPooling="true"
 				ExceptionHandling="2"
@@ -124,7 +123,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="profileapi\profileapi\include;profileapi\bbcdbc\include;profileapi\bbcutil\include"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_ADMIN_VERSION;_LIB;__LCC__"
 				ExceptionHandling="2"
 				BasicRuntimeChecks="3"
@@ -136,7 +135,7 @@
 				BrowseInformation="0"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -574,10 +573,6 @@
 			</File>
 			<File
 				RelativePath="InspectUserBuilder.cpp"
-				>
-			</File>
-			<File
-				RelativePath="InterestList.cpp"
 				>
 			</File>
 			<File
@@ -1824,10 +1819,6 @@
 			</File>
 			<File
 				RelativePath="InspectUserBuilder.h"
-				>
-			</File>
-			<File
-				RelativePath="InterestList.h"
 				>
 			</File>
 			<File

@@ -744,12 +744,12 @@ namespace BBC.Dna
                     InputContext.Diagnostics.WriteExceptionToLog(ex);
                     _userLoggedIn = false;
                 }
-                catch (MySql.Data.MySqlClient.MySqlException ex)
-                {
-                    InputContext.Diagnostics.WriteWarningToLog("User", "Failed to log in user");
-                    InputContext.Diagnostics.WriteExceptionToLog(ex);
-                    _userLoggedIn = false;
-                }
+                //catch (MySql.Data.MySqlClient.MySqlException ex)
+                //{
+                //    InputContext.Diagnostics.WriteWarningToLog("User", "Failed to log in user");
+                //    InputContext.Diagnostics.WriteExceptionToLog(ex);
+                //    _userLoggedIn = false;
+                //}
             }
 
             _loginName = signInComponent.LoginName;

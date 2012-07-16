@@ -1554,7 +1554,7 @@ bool CArticleEditForm::UpdateEntry(CUser* pUpdatingUser, bool& bProfanityFound, 
 		bool bSiteModerated = !(m_InputContext.IsSiteUnmoderated(m_SiteID));
 		bool bUserModerated  = pUpdatingUser->GetIsPreModerated() || pUpdatingUser->GetIsPostModerated();
 		bool bArticleModerated	= IsArticleModerated();
-		bool bArticleInModeration = IsArticleInModeration();
+		bool bArticleInModeration = IsArticleInModeration() > 0;
 		bool bAutoSinBin = pUpdatingUser->GetIsAutoSinBin();
 
 		// Queue, update moderation status and hide the guide entry.

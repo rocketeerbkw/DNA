@@ -5,19 +5,19 @@
     <Regular>
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Utils\bin\Debug\BBC.Dna.Utils.dll" pdbFile="Source\Shared\BBC.Dna.Utils\bin\Debug\BBC.Dna.Utils.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Api\bin\Debug\BBC.Dna.Api.dll" pdbFile="Source\Shared\BBC.Dna.Api\bin\Debug\BBC.Dna.Api.pdb" instrumentInPlace="true" />
-      <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.BannedEmails\bin\Debug\BBC.Dna.BannedEmails.dll" pdbFile="Source\Shared\BBC.Dna.BannedEmails\bin\Debug\BBC.Dna.BannedEmails.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Data\bin\Debug\BBC.Dna.Data.dll" pdbFile="Source\Shared\BBC.Dna.Data\bin\Debug\BBC.Dna.Data.pdb" instrumentInPlace="true" />
-      <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Groups\bin\Debug\BBC.Dna.Groups.dll" pdbFile="Source\Shared\BBC.Dna.Groups\bin\Debug\BBC.Dna.Groups.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\BBC.Dna\bin\Debug\BBC.Dna.dll" pdbFile="Source\BBC.Dna\bin\Debug\BBC.Dna.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.DNA.Moderation.Utils\bin\Debug\BBC.DNA.Moderation.Utils.dll" pdbFile="Source\Shared\BBC.DNA.Moderation.Utils\bin\Debug\BBC.DNA.Moderation.Utils.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Moderation\bin\Debug\BBC.Dna.Moderation.dll" pdbFile="Source\Shared\BBC.Dna.Moderation\bin\Debug\BBC.Dna.Moderation.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Objects\bin\Debug\BBC.Dna.Objects.dll" pdbFile="Source\Shared\BBC.Dna.Objects\bin\Debug\BBC.Dna.Objects.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Services\bin\Debug\BBC.Dna.Services.dll" pdbFile="Source\Shared\BBC.Dna.Services\bin\Debug\BBC.Dna.Services.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Users\bin\Debug\BBC.Dna.Users.dll" pdbFile="Source\Shared\BBC.Dna.Users\bin\Debug\BBC.Dna.Users.pdb" instrumentInPlace="true" />
-      <CodeCoverageItem binaryFile="Source\Shared\Memcached.ClientLibrary\bin\Debug\Memcached.ClientLibrary.dll" pdbFile="Source\Shared\Memcached.ClientLibrary\bin\Debug\Memcached.ClientLibrary.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Sites\bin\BBC.Dna.Site.dll" pdbFile="Source\Shared\BBC.Dna.Sites\bin\BBC.Dna.Site.pdb" instrumentInPlace="true" />
       <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.Common\bin\Debug\BBC.Dna.Common.dll" pdbFile="Source\Shared\BBC.Dna.Common\bin\Debug\BBC.Dna.Common.pdb" instrumentInPlace="true" />
+      <CodeCoverageItem binaryFile="Source\Shared\BBC.Dna.SocialAPI\bin\Debug\BBC.Dna.SocialAPI.dll" pdbFile="Source\Shared\BBC.Dna.SocialAPI\bin\Debug\BBC.Dna.SocialAPI.pdb" instrumentInPlace="true" />
     </Regular>
+    <AspNet>
+    </AspNet>
   </CodeCoverage>
   <TestTypeSpecific />
 </TestRunConfiguration>

@@ -31,6 +31,7 @@ begin
 	inner join CommentForums cf on tmp.Uid = cf.Uid
 	inner join Forums f on f.ForumID = cf.ForumID	
 	left join fastmodforums fmf on fmf.forumid = f.forumID
+	AND ISNULL(cf.IsContactForm,0) = 0
 	
 	return 0;
 end

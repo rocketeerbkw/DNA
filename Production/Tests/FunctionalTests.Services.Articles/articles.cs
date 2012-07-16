@@ -1698,7 +1698,15 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
                 Console.WriteLine("Get Random Article");
                 string url = String.Format("http://" + _server + "/dna/api/articles/ArticleService.svc/V1/site/{0}/articles/random?type=Edited&format=xml", _sitename);
                 // now get the response
-                request.RequestPageWithFullURL(url, null, "text/xml");
+                try
+                {
+                    request.RequestPageWithFullURL(url, null, "text/xml");
+                }
+                catch (Exception ex)
+                {
+                    Assert.Fail(ex.Message);
+                }
+
                 // Check to make sure that the page returned with the correct information
                 XmlDocument xml = request.GetLastResponseAsXML();
                 DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaArticle);

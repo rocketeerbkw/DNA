@@ -22,6 +22,7 @@ if charindex(',',@prefix) > 0
 		where uid like @prefix -- AND cf.siteid = @siteid
 --		and (f.ForumPostCount + (select isnull(sum(PostCountDelta),0) from ForumPostCountAdjust WHERE ForumID = f.ForumID)) <> 0
 		and f.canread=1
+		and ISNULL(cf.IsContactForm,0) = 0
 		order by t.LastPosted desc
 	)
 	select 

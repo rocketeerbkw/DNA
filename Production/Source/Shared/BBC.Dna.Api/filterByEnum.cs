@@ -20,6 +20,11 @@
         /// <summary>
         /// Which have posts within a certain time period
         /// </summary>
-        PostsWithinTimePeriod
+        PostsWithinTimePeriod,
+
+        /// <summary>
+        /// Only posts that belong to Contact Forms
+        /// </summary>
+        ContactFormPosts
     }
 }

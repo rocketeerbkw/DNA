@@ -26,6 +26,8 @@ namespace BBC.Dna
         private bool _skipUidProcessing = false;
         private bool _skipUrlProcessing = false;
 
+        private bool _displayContactForms = false;
+
         private readonly ICacheManager _cache;
         private int _forumId = 1;
         private string _cmd = String.Empty;
@@ -86,7 +88,13 @@ namespace BBC.Dna
                 SerialiseAndAppend(result, "");
             }
 
-            if (hostpageurl == String.Empty || _skipUrlProcessing == true)
+            if (_displayContactForms)
+            {
+                // Hand over all work to the Contact forms builder
+                ContactFormListBuilder contactForms = new ContactFormListBuilder(InputContext);
+                ImportAndAppend(contactForms.GetContactFormsAsXml(),"");
+            }
+            else if (hostpageurl == String.Empty || _skipUrlProcessing == true)
             {
                 if (dnaUidCount != 0 && _skipUidProcessing != true)
                 {
@@ -109,8 +117,6 @@ namespace BBC.Dna
 			{
 				GeneratePageXmlByUrl(hostpageurl, skip, show);
 			}
-
-            
         }
 
         /// <summary>
@@ -323,7 +329,7 @@ namespace BBC.Dna
                 }
             }
         }
-        
+
         /// <summary>
         /// Gets the complete comment forum list with skip and show from the database from the params and then generates the page xml
         /// </summary>
@@ -338,7 +344,6 @@ namespace BBC.Dna
                     .AddParameter("@show", show);
 
                 dataReader.Execute();
-
                 GenerateCommentForumListXml(dataReader, skip, show, 0, String.Empty);
             }
         }
@@ -359,7 +364,6 @@ namespace BBC.Dna
                     .AddParameter("@show", show);
 
                 dataReader.Execute();
-
                 GenerateCommentForumListXml(dataReader, skip, show, siteID, String.Empty);
             }
         }
@@ -380,7 +384,6 @@ namespace BBC.Dna
                     .AddParameter("@show", show);
 
                 dataReader.Execute();
-
                 GenerateCommentForumListXml(dataReader, skip, show, 0, hostpageurl);
             }
         }
@@ -400,9 +403,7 @@ namespace BBC.Dna
                 }
 
                 reader.AddParameter("@dnauids", sb.ToString());
-
                 reader.Execute();
-
                 GenerateCommentForumListXml(reader, 0, 200, 0, String.Empty);
             }
         }
@@ -477,6 +478,11 @@ namespace BBC.Dna
             {
                 _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
             }
+
+            if (InputContext.DoesParamExist("displaycontactforms", "display the contact forms?"))
+            {
+                _displayContactForms = true;
+            }
         }
 
         /// <summary>
@@ -527,7 +533,6 @@ namespace BBC.Dna
 
             //TODO: Move this to the right place
             RootElement.AppendChild(commentForumList);
-           
         }
 
         /// <summary>

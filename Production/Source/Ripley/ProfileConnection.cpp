@@ -5,7 +5,6 @@
 #include "stdafx.h"
 #include "ProfileConnection.h"
 #include "ProfileConnectionPool.h"
-#include <ProfileApi.h>
 #include "CGI.h"
 #include "tdvassert.h"
 #include "XmlObject.h"
@@ -15,8 +14,7 @@
 //////////////////////////////////////////////////////////////////////
 
 CProfileConnection::CProfileConnection()
-:m_pProfile(NULL),
-m_pOwningPool(NULL),
+:m_pOwningPool(NULL),
 m_pIdentityInteropPtr(NULL),
 m_dTimerStart(0),
 m_dTimerSplitTime(0)
@@ -52,7 +50,6 @@ void CProfileConnection::AddTimingsInfo(const TDVCHAR* sInfo, bool bNewInfo)
 }
 
 bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPool,
-											  CProfileApi* pProfile,
 											  bool bUseIdentityWebService,
 											  const TDVCHAR* sClientIPAddress,
 											  CTDVString sDebugUserID)
@@ -60,11 +57,6 @@ bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPoo
 	AddTimingsInfo("InitialiseConnection",true);
 
 	bool bInitialised = false;
-	if (pOwningPool == NULL && pProfile == NULL && !bUseIdentityWebService)
-	{
-		AddTimingsInfo("Already Initialized",false);
-		return bInitialised;
-	}
 
 	if (bUseIdentityWebService)
 	{
@@ -105,8 +97,7 @@ bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPoo
 				CTDVString sIdURL = pOwningPool->GetIdentityWebServiceUri();
 				_bstr_t sIdentityUri(sIdURL);
 				_bstr_t sIPAddress(sClientIPAddress);
-				variant_t ok = m_pIdentityInteropPtr->Initialise(sIdentityUri, sIPAddress);
-				bInitialised = ok.boolVal;
+				bInitialised = variant_t(m_pIdentityInteropPtr->Initialise(sIdentityUri, sIPAddress));
 			}
 			if (!bInitialised)
 			{
@@ -135,7 +126,6 @@ bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPoo
 	}
 
 	m_pOwningPool = pOwningPool;
-	m_pProfile = pProfile;
 	m_DateCreated = CTDVDateTime::GetCurrentTime();
 	AddTimingsInfo("InitialiseConnection finished",false);
 
@@ -145,20 +135,13 @@ bool CProfileConnection::InitialiseConnection(CProfileConnectionPool* pOwningPoo
 
 bool CProfileConnection::IsInitialised()
 {
-	return (NULL != m_pOwningPool && (m_pProfile != NULL || m_pIdentityInteropPtr != NULL)); 
+	return (NULL != m_pOwningPool && m_pIdentityInteropPtr != NULL); 
 }
 	
 bool CProfileConnection::ReleaseConnection()
 {
 	if (!IsInitialised())
 	{
-		return true;
-	}
-
-	if (m_pProfile != NULL && m_pOwningPool->ReleaseProfileConnection(m_pProfile))
-	{
-		m_pProfile = NULL;
-		m_pOwningPool = NULL;
 		return true;
 	}
 	
@@ -194,21 +177,6 @@ bool CProfileConnection::SetService(const TDVCHAR* sSiteName, CGI* pCGI)
 		
 		bSuccess = SUCCEEDED(hr);
 	}
-	else if (m_pProfile != NULL)
-	{
-		bSuccess = m_pProfile->SetService(sSiteName);
-		if (!bSuccess)
-		{
-			CTDVString sError = "CProfileConnection::SetService - ";
-			sError << m_pProfile->GetErrorMessage();
-			TDVASSERT(false,sError);
-			pCGI->WriteInputLog("SSOERROR - " + sError);
-
-			m_pProfile->Disconnect();
-			bSuccess = m_pProfile->SetService(sSiteName);
-		}
-	}
-
 	return bSuccess;
 }
 
@@ -226,10 +194,6 @@ const TDVCHAR* CProfileConnection::GetUserName()
 		{
 			m_sLastIdentityError = "Failed to get user name";
 		}
-	}
-	else if (m_pProfile != NULL)
-	{
-		return m_pProfile->GetUserName();
 	}
 	return NULL;
 }
@@ -258,10 +222,6 @@ bool CProfileConnection::UpdateUserProfileValue(const TDVCHAR* sName, const TDVC
 	{
 		TDVASSERT(false,"We don't do updates to users details in Identity");
 	}
-	else if (m_pProfile != NULL)
-	{
-		return m_pProfile->UpdateUserProfileTextValue(sName,sValue);
-	}
 	return false;
 }
 
@@ -278,10 +238,6 @@ bool CProfileConnection::LoginUser(unsigned int& uiCanLogin)
 		{
 			m_sLastIdentityError = "Failed to get logged in status";
 		}
-	}
-	else if (m_pProfile != NULL)
-	{
-		return m_pProfile->LoginUser(uiCanLogin);
 	}
 	return false;
 }
@@ -302,16 +258,6 @@ bool CProfileConnection::GetUserProfileValue(const TDVCHAR* sName, CTDVString& s
 		catch(...)
 		{
 			m_sLastIdentityError = "Failed to get user attribute";
-		}
-	}
-	else if (m_pProfile != NULL)
-	{
-		AddTimingsInfo("Using ProfileAPI",false);
-		CProfileValue ProfileValue;
-		if (m_pProfile->GetUserProfileValue(sName,ProfileValue))
-		{
-			sValue = ProfileValue.GetTextValue();
-			bSuccess = true;
 		}
 	}
 	AddTimingsInfo("Finished getting value",false);
@@ -358,15 +304,6 @@ bool CProfileConnection::IsUsersEMailValidated(bool& bValidated)
 		bValidated = true;
 		return true;
 	}
-	else if (m_pProfile != NULL)
-	{
-		CProfileValue ProfileValue;
-		if (m_pProfile->GetUserProfileValue("email",ProfileValue))
-		{
-			bValidated = ProfileValue.GetIsValidated();
-			return true;
-		}
-	}
 
 	return false;
 }
@@ -393,13 +330,6 @@ bool CProfileConnection::SetUser(const TDVCHAR* sSsoCookie)
 			m_sLastIdentityError = "Failed to set the user via cookie";
 		}
 	}
-	else if (m_pProfile != NULL)
-	{
-		AddTimingsInfo("Using ProfileAPI",false);
-		bool bLoggedIn = m_pProfile->SetUser(sSsoCookie);
-		AddTimingsInfo("Finished Setting User",false);
-		return bLoggedIn;
-	}
 	return false;
 }
 
@@ -417,11 +347,6 @@ bool CProfileConnection::SetUser(const TDVCHAR* sUsername, const TDVCHAR* sPassw
 			m_sLastIdentityError = "Failed to set user via username and password";
 		}
 	}
-	else if (m_pProfile != NULL)
-	{
-		return m_pProfile->SetUser(sUsername, sPassword);		
-	}
-
 	return false;
 }
 
@@ -448,13 +373,6 @@ bool CProfileConnection::SetUserViaCookieAndUserName(const TDVCHAR* sSsoCookie, 
 		{
 			m_sLastIdentityError = "Failed to set the user via cookie";
 		}
-	}
-	else if (m_pProfile != NULL)
-	{
-		AddTimingsInfo("Using ProfileAPI",false);
-		bool bLoggedIn = m_pProfile->SetUser(sSsoCookie);
-		AddTimingsInfo("Finished Setting User",false);
-		return bLoggedIn;
 	}
 	return false;
 }
@@ -500,16 +418,6 @@ bool CProfileConnection::GetCookieValue(bool bRemember, CTDVString& sCookieValue
 			m_sLastIdentityError = "Failed to get user cookie value";
 		}
 	}
-	else if (m_pProfile != NULL)
-	{
-		CStr sValue;
-		if (m_pProfile->GetCookieValue(bRemember,sValue))
-		{
-			sCookieValue = sValue.GetStr();
-			return true;
-		}
-	}
-
 	return false;
 }
 
@@ -561,24 +469,6 @@ bool CProfileConnection::AttributeExistsForService(const TDVCHAR* sAttributeName
 			m_sLastIdentityError = "Failed checking for attribute exists";
 		}
 	}
-	else if (m_pProfile != NULL)
-	{
-		CServiceAttribute attr;
-		if (m_pProfile->GetServiceAttribute(sAttributeName,attr))
-		{
-			if (pbIsMandatory != NULL)
-			{
-				*pbIsMandatory = attr.GetIsMandatory();
-			}
-			return true;
-		}
-		
-		if (pbIsMandatory != NULL)
-		{
-			*pbIsMandatory = false;
-		}
-	}
-
 	return false;
 }
 
@@ -596,10 +486,6 @@ bool CProfileConnection::CheckUserIsLoggedIn(bool& bUserLoggedIn)
 		{
 			m_sLastIdentityError = "Failed checking if user logged in";
 		}
-	}
-	else if (m_pProfile != NULL)
-	{
-		bSuccess = m_pProfile->CheckUserIsLoggedIn(bUserLoggedIn);
 	}
 	return bSuccess;
 }
@@ -619,11 +505,6 @@ bool CProfileConnection::IsUserSignedIn(bool& bUserSignedIn)
 			m_sLastIdentityError = "Failed checking if user signed in";
 		}
 	}
-	else if (m_pProfile != NULL)
-	{
-		// ProfileAPI just uses the Logged in value
-		bSuccess = m_pProfile->CheckUserIsLoggedIn(bUserSignedIn);
-	}
 	return bSuccess;
 }
 
@@ -633,41 +514,7 @@ const TDVCHAR* CProfileConnection::GetErrorMessage()
 	{
 		return m_sLastIdentityError;
 	}
-	else if (m_pProfile != NULL)
-	{
-		return m_pProfile->GetErrorMessage();
-	}
 	return "uninitialised connection";
-}
-
-/*********************************************************************************
-
-	bool CProfileConnection::GetServiceMinAndMaxAge(const char* pServiceName,int& nMinAge,int& nMaxAge)
-
-		Author:		Mark Neves
-		Created:	25/09/2006
-		Inputs:		pServiceName = the name of the service (equates to the URLName of the DNA site)
-		Outputs:	nMinAge contains the min age for the service
-					nMaxAge contains the max age for the service
-		Returns:	-
-		Purpose:	A Ronseal-class function :-)
-
-*********************************************************************************/
-
-bool CProfileConnection::GetServiceMinAndMaxAge(const char* pServiceName,int& nMinAge,int& nMaxAge)
-{
-	if (IsInitialised())
-	{
-		CService service;
-		if (m_pProfile->GetServiceInfo(pServiceName,service))
-		{
-			nMinAge = service.GetMinAge();
-			nMaxAge = service.GetMaxAge();
-			return true;
-		}
-	}
-
-	return false;
 }
 
 bool CProfileConnection::DoesAppNamedSpacedAttributeExist(const TDVCHAR* pAppNameSpace, const TDVCHAR* pAttributeName)
@@ -684,10 +531,6 @@ bool CProfileConnection::DoesAppNamedSpacedAttributeExist(const TDVCHAR* pAppNam
 		{
 			m_sLastIdentityError = "Failed to get user attribute";
 		}
-	}
-	else if (m_pProfile != NULL)
-	{
-		AddTimingsInfo("Using ProfileAPI - Not supported!",false);
 	}
 	return false;
 }
@@ -710,12 +553,6 @@ bool CProfileConnection::GetAppNamedSpacedAttribute(const TDVCHAR* pAppNameSpace
 			m_sLastIdentityError = "Failed to get user attribute";
 		}
 	}
-	else if (m_pProfile != NULL)
-	{
-		AddTimingsInfo("Using ProfileAPI - Not supported!",false);
-		bSuccess = false;
-	}
 	AddTimingsInfo("Finished getting value",false);
-
 	return bSuccess;
 }

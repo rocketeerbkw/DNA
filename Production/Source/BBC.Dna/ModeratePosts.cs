@@ -199,8 +199,14 @@ namespace BBC.Dna.Component
                         AddTextTag(post, "RAWTEXT", StringUtils.StripInvalidXmlChars(dataReader.GetStringNullAsEmpty("text")));
 
                         AddIntElement(post, "POSTSTYLE", dataReader.GetInt32NullAsZero("PostStyle"));
+
+                        String translated = string.Empty;
+
+                        if (!dataReader.GetInt32NullAsZero("PostStyle").Equals((int)BBC.Dna.Api.PostStyle.Style.plaintext)) //poststyle = 2 (plaintext)
+                            translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, true, false);
+                        else
+                            translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, false, false);
                         
-                        String translated = ThreadPost.FormatPost(dataReader.GetStringNullAsEmpty("text"), CommentStatus.Hidden.NotHidden, true, false);
                         if (!dataReader.IsDBNull("commentforumurl"))
                         {
                             translated = CommentInfo.FormatComment(dataReader.GetStringNullAsEmpty("text"), BBC.Dna.Api.PostStyle.Style.richtext, CommentStatus.Hidden.NotHidden, false);

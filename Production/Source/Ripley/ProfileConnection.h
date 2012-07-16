@@ -11,12 +11,72 @@
 
 #include "TDVString.h"
 #include "TDVDateTime.h"
-#include "profileapi\profileapi\include\service.h"
-#import "C:\Builds\User Services\Reference DLLs\DnaIdentityWebServiceProxy.tlb" no_namespace
+#import "..\Reference DLLs\DnaIdentityWebServiceProxy.tlb" no_namespace
 
 class CProfileConnectionPool;
-class CProfileApi;
 class CGI;
+
+#define BLOCK_PASSWORD			"password_block"
+#define BLOCK_PASSWORD_TIME     "password_block_time"
+
+//UPDATE m_CantLoginStr if you change any of these or add/remove
+#define CANLOGIN_UNKNOWN						0	
+#define CANLOGIN								1
+#define CANLOGIN_STR							"User can login."
+#define CANTLOGIN_NOT_VALID						3
+#define CANTLOGIN_NOT_VALID_STR					"User can't login. User account is not valid, possibly removed."
+#define CANTLOGIN_MANDATORY_MISSING				4
+#define CANTLOGIN_MANDATORY_MISSING_STR			"User can't login. Not all mamdatory fields are present."
+#define CANTLOGIN_NOT_VALIDATED					5
+#define CANTLOGIN_NOT_VALIDATED_STR				"User can't login. Not all fields which require validation are validated."
+#define CANTLOGIN_BANNED						6
+#define CANTLOGIN_BANNED_STR					"User can't login. User is banned from the service."
+#define CANTLOGIN_PASSBLOCK						7
+#define CANTLOGIN_PASSBLOCK_STR					"User can't login. User account is blocked (password block)."
+#define CANTLOGIN_SQBLOCK						8
+#define CANTLOGIN_SQBLOCK_STR					"User can't login. User account is blocked (sq block)."
+#define CANTLOGIN_GLOBAL_AGREEMENT				9
+#define CANTLOGIN_GLOBAL_AGREEMENT_STR			"User can't login. User has not accepted global agreement."
+#define CANTLOGIN_SERVICE_AGREEMENT				10
+#define CANTLOGIN_SERVICE_AGREEMENT_STR			"User can't login. User has not accepted service agreement."
+#define CANTLOGIN_NOT_REGISTERED				11
+#define CANTLOGIN_NOT_REGISTERED_STR			"User can't login. User is not registered for the service."
+#define CANTLOGIN_CHANGE_PASSWORD				12
+#define CANTLOGIN_CHANGE_PASSWORD_STR			"User can't login. User is required to change his/her password first."
+#define CANLOGIN_LOGGEDIN						13
+#define CANLOGIN_LOGGEDIN_STR					"User is already logged in."
+#define CANTLOGIN_INCORRECT_AUTHENTICATION_TYPE	14
+#define CANTLOGIN_INCORRECT_AUTHENTICATION_TYPE_STR	"User can't login. User is adminuser and service is not adminservice or vice versa."
+#define CANTLOGIN_TOO_YOUNG						15
+#define CANTLOGIN_TOO_YOUNG_STR					"User can't login. User's age is lower than minimum age for the service."
+#define CANTLOGIN_TOO_OLD						16
+#define CANTLOGIN_TOO_OLD_STR					"User can't login. User's age is greater than maximum age for the service."
+#define CANTLOGIN_MAX							16
+//UPDATE m_CantLoginStr if you change any of these or add/remove
+
+#define PASSCONSTR_SPACE		1			//password has space(s) in it
+#define PASSCONSTR_SHORT		2			//password is too short
+#define PASSCONSTR_FORBIDDEN	3			//some forbidden word is used as a password
+#define PASSCONSTR_OK			4			//password is fine
+
+
+#define USERNAME_MAX_LEN	255
+
+
+#define USERNAME_CONSTR_OK			1			//user name is fine
+#define USERNAME_CONSTR_LONG		2			//user name is too long
+
+
+#define SELECT_FOR_UPDATE	1
+#define SELECT_CONSISTENT	2
+#define	SELECT_SHARE		3
+
+
+#define SCRATCHPAD_SESSION_ID_LENGTH	32
+
+
+#define CALL_SYSTEM		true
+#define CALL_APP		false
 
 class CProfileConnection  
 {
@@ -30,7 +90,7 @@ public:
 		SIT_IDENTITY
 	};
 
-	virtual bool InitialiseConnection(CProfileConnectionPool* pOwningPool, CProfileApi* pProfile, bool bUseIdentityWebService, const TDVCHAR* sClientIPAddress, CTDVString sDebugUserID);
+	virtual bool InitialiseConnection(CProfileConnectionPool* pOwningPool, bool bUseIdentityWebService, const TDVCHAR* sClientIPAddress, CTDVString sDebugUserID);
 	virtual bool IsInitialised();
 	virtual bool ReleaseConnection();
 	virtual bool SetService(const TDVCHAR* sSiteName, CGI* pCGI);
@@ -50,7 +110,6 @@ public:
 	virtual bool GetCookieValue(bool bRemember, CTDVString& sCookieValue);
 	virtual bool AttributeExistsForService(const TDVCHAR* sAttributeName, bool* pbIsMandatory = NULL);
 	virtual bool IsUsersEMailValidated(bool& bValidated);
-	virtual bool GetServiceMinAndMaxAge(const char* pServiceName,int& nMinAge,int& nMaxAge);
 	virtual eSignInType GetSignInType() { return SIT_PROFILEAPI; }
 
 	virtual bool DoesAppNamedSpacedAttributeExist(const TDVCHAR* pAppNameSpace, const TDVCHAR* pAttributeName);
@@ -64,7 +123,6 @@ public:
 
 protected:
 
-	CProfileApi* m_pProfile;
 	CProfileConnectionPool* m_pOwningPool;
 	IDnaIdentityWebServiceProxyPtr m_pIdentityInteropPtr;
 	CTDVDateTime m_DateCreated;

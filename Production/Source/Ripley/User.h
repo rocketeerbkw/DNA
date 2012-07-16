@@ -42,7 +42,7 @@ class CStoredProcedure;
 #include <map>
 using namespace std;
 
-class CProfileApi;
+//class CProfileApi;
 
 /*
 	class CUser

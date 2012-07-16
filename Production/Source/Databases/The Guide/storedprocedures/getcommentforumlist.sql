@@ -4,7 +4,8 @@ BEGIN
 	DECLARE @total int
 	
 	SELECT @total = COUNT(*) FROM Forums f WITH(NOLOCK) 
-	INNER JOIN CommentForums cf WITH(NOLOCK) on cf.ForumID = f.ForumID;
+	INNER JOIN CommentForums cf WITH(NOLOCK) on cf.ForumID = f.ForumID
+	WHERE ISNULL(cf.IsContactForm,0) = 0;
 
 WITH CTE_COMMENTFORUMLIST AS
 (
