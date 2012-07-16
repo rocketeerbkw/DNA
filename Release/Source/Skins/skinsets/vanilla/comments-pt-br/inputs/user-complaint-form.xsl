@@ -18,7 +18,7 @@
             <h2>Reclame sobre um <xsl:call-template name="item_name"/></h2>
             <p>Este formulário é para ser usado apenas nos casos de reclamações sérias sobre um comentário específico que viole a <a href="{$houserulespopupurl}">Regras</a>.</p>
             <p>Não use esse formulário se você tiver alguma dúvida ou um comentário geral a fazer, entre uma mensagem como parte do debate.</p>
-            <p>A mensagem sobre a qual você postou uma reclamação será enviada a um moderador, que decidirá se houve violação das  <a href="{$houserulespopupurl}">Regras</a>. A decisão será informada a você por e-mail.</p>
+            <p>A mensagem sobre a qual você postou uma reclamação será enviada a um moderador, que decidirá se houve violação das <a href="{$houserulespopupurl}">Regras</a>. A decisão será informada a você por e-mail.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -67,13 +67,13 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>post</xsl:text>
+        <xsl:text>publique</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
-        <xsl:text>article</xsl:text>
+        <xsl:text>artigo</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>content item</xsl:text>
+        <xsl:text>conteúdo</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -94,41 +94,41 @@
               </xsl:choose>
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
-            	<h2>Alerting the moderators</h2>
-            	<p>Please choose which of the <a href="{$houserulespopupurl}">House Rules</a> you believe this <xsl:call-template name="item_name"/> has broken. If you feel it breaks more than one rule, please choose the most serious breach.</p>
+            	<h2>Alrtando aos moderadores</h2>
+            	<p>Por favor, selecione qual das <a href="{$houserulespopupurl}">Regras</a> você acha <xsl:call-template name="item_name"/> que foi violada. Se você acha que mais de uma regra foi violada, por favor, escolha a que considera mais grave.</p>
             </div>
             
             <div class="content">
-              <h2>Reason for your complaint</h2>
+              <h2>Razão para a sua reclamação</h2>
               <p>
-                I believe this <xsl:call-template name="item_name"/>  may break one of the <a href="{$houserulespopupurl}">House Rules</a> because it:
+                Eu acho que isso <xsl:call-template name="item_name"/> viola uma das <a href="{$houserulespopupurl}">Regras</a> porque 
               </p>
                
                 <p class="options">
                 	<p class="options">
-                		<input type="radio" id="dnaacs-cq-1" value="is defamatory or libellous" name="s_complaintText"/><label for="dnaacs-cq-1">is defamatory or libellous</label>
-                		<input type="radio" id="dnaacs-cq-2" value="is racist, sexist, homophobic, sexually explicit, abusive or otherwise objectionable" name="s_complaintText"/><label for="dnaacs-cq-2">is racist, sexist, homophobic, sexually explicit, abusive or otherwise offensive</label>
-                		<input type="radio" id="dnaacs-cq-3" value="contains swear words or other language likely to offend" name="s_complaintText"/><label for="dnaacs-cq-3">contains swear words or other language likely to offend</label>
-                		<input type="radio" id="dnaacs-cq-4" value="breaks the law or condones or encourages unlawful activity such as breach of copyright or contempt of court" name="s_complaintText"/><label for="dnaacs-cq-4">breaks the law or condones or encourages unlawful activity such as breach of <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">copyright</a> or contempt of court</label>
+                		<input type="radio" id="dnaacs-cq-1" value="é difamatório ou calunioso" name="s_complaintText"/><label for="dnaacs-cq-1">é difamatório ou calunioso</label>
+                		<input type="radio" id="dnaacs-cq-2" value="é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo" name="s_complaintText"/><label for="dnaacs-cq-2">é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo</label>
+                		<input type="radio" id="dnaacs-cq-3" value="contém xingamentos ou outras palavras que podem ser consideradas ofensivas" name="s_complaintText"/><label for="dnaacs-cq-3">contém xingamentos ou outras palavras que podem ser consideradas ofensivas</label>
+                		<input type="radio" id="dnaacs-cq-4" value="viola a lei ou incentiva ou estimula o delito criminal tal como violação de direitos autorais desacato a um tribunal" name="s_complaintText"/><label for="dnaacs-cq-4">viola a lei ou incentiva ou estimula o delito criminal tal como violação de <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">direitos autorais</a> desacato a um tribunal</label>
                 		<input type="radio" id="dnaacs-cq-5" value="advertises products or services for profit or gain" name="s_complaintText"/><label for="dnaacs-cq-5">advertises products or services for profit or gain</label>
-                		<input type="radio" id="dnaacs-cq-7" value="is impersonating someone else" name="s_complaintText"/><label for="dnaacs-cq-7">is impersonating someone else</label>
-                		<input type="radio" id="dnaacs-cq-8" value="includes personal information such as phone numbers, postal or email addresses" name="s_complaintText"/><label for="dnaacs-cq-8">includes personal information such as phone numbers, postal or email addresses</label>
+                		<input type="radio" id="dnaacs-cq-7" value="está imitando alguém" name="s_complaintText"/><label for="dnaacs-cq-7">está imitando alguém</label>
+                		<input type="radio" id="dnaacs-cq-8" value="inclui informação pessoal como números de telefones, endereço postal ou de e-mail" name="s_complaintText"/><label for="dnaacs-cq-8">inclui informação pessoal como números de telefones, endereço postal ou de e-mail</label>
                 		<xsl:call-template name="library_userstate">
                       <xsl:with-param name="loggedin">
-                        <input type="radio" id="dnaacs-cq-9" value="is off-topic for the board or subject being discussed" name="s_complaintText"/><label for="dnaacs-cq-9">is off-topic for the board or subject being discussed</label>
+                        <input type="radio" id="dnaacs-cq-9" value="não tem relação com o tema em debate" name="s_complaintText"/><label for="dnaacs-cq-9">não tem relação com o tema em debate</label>
                       </xsl:with-param>
                     </xsl:call-template>
-                		<input type="radio" id="dnaacs-cq-10" value="is not in English" name="s_complaintText"/><label for="dnaacs-cq-10">is not in English</label>
-                		<input type="radio" id="dnaacs-cq-11" value="contains a link to an external website which breaks our Editorial Guidelines" name="s_complaintText"/><label for="dnaacs-cq-11">contains a link to an external website which breaks our <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Editorial Guidelines</a></label>
-                		<input type="radio" id="dnaacs-cq-12" value="describes or encourage activities which could endanger the safety or well-being of others" name="s_complaintText"/><label for="dnaacs-cq-12">describes or encourage activities which could endanger the safety or well-being of others</label>
-                		<input type="radio" id="dnaacs-cq-13" value="contains an inappropriate username" name="s_complaintText"/><label for="dnaacs-cq-13">contains an inappropriate username</label>
-                		<input type="radio" id="dnaacs-cq-14" value="is spam" name="s_complaintText"/><label for="dnaacs-cq-14">is spam</label>
-                		<input type="radio" id="dnaacs-cq-6" value="Other" name="s_complaintText"/><label for="dnaacs-cq-6">breaks the rules for a reason not listed above</label>
+                		<input type="radio" id="dnaacs-cq-10" value="não está escrito em português" name="s_complaintText"/><label for="dnaacs-cq-10">não está escrito em português</label>
+                		<input type="radio" id="dnaacs-cq-11" value="contém um link externo para um site que viola nossos Princípios Editoriais" name="s_complaintText"/><label for="dnaacs-cq-11">contém um link externo para um site que viola nossos <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Princípios Editoriais</a></label>
+                		<input type="radio" id="dnaacs-cq-12" value="descreve ou incentiva atividades que podem pôr em risco a segurança ou bem-estar de outros" name="s_complaintText"/><label for="dnaacs-cq-12">descreve ou incentiva atividades que podem pôr em risco a segurança ou bem-estar de outros</label>
+                		<input type="radio" id="dnaacs-cq-13" value="contém um nome de usuário inadequado" name="s_complaintText"/><label for="dnaacs-cq-13">contém um nome de usuário inadequado</label>
+                		<input type="radio" id="dnaacs-cq-14" value="é um spam" name="s_complaintText"/><label for="dnaacs-cq-14">é um spam</label>
+                		<input type="radio" id="dnaacs-cq-6" value="Outra" name="s_complaintText"/><label for="dnaacs-cq-6">viola a regra por uma razão não relacionada acima</label>
                 	</p>
                 </p>
 
               <p class="action">
-                <input type="submit" value="Next Page"/>
+                <input type="submit" value="Próxima página"/>
               </p>
             </div>
             
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Please choose a complaint reason");
+        alert("Selecione a categoria da sua reclamação");
         return;
         }
         else {
@@ -174,19 +174,19 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Please fill in the box below to tell us the reason you feel the <xsl:call-template name="item_name"/> breaks this rule. When you are finished, click on Send Complaint so that it can be reviewed by a moderator.</p>
+           	<p>Por favor, preencha os campos abaixo com o motivo que na sua opinião <xsl:call-template name="item_name"/> esta regra foi violada. Quando tiver terminado, clique em Enviar Comentário para sua reclamação que seja analisada por um moderador.</p>
                <p>
-                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Other'">
-                    I wish to complain about this <xsl:call-template name="item_name"/> for the following reason:
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Outra'">
+                    Gostaria de reclamar deste comentário <xsl:call-template name="item_name"/> pelo seguinte motivo:
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Other'">
-                        <xsl:text>I believe this </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Outra'">
+                        <xsl:text>Acredito que </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> for the following reason:</xsl:text>
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> pelo seguinte motivo:</xsl:text>
                     	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
@@ -204,12 +204,12 @@
                   <!-- email address is not required in this instance -->
                 </xsl:when>
                 <xsl:otherwise>
-                    <h3>Your email address</h3>
+                    <h3>Seu endereço de e-mail</h3>
                     <p>
-                      <em>We need your email address to process your complaint and inform you of the moderator's decision. Occasionally, we may need to contact you directly if we require more information about your complaint.</em>
+                      <em>Precisamos de seu endereço de e-mail para processar sua reclamação e informá-lo da decisão do moderador. Pode ser que precisemos contatá-lo diretamente caso necessitemos maiores informações osbre sua reclamação.</em>
                     </p>
                     <p>
-                        <label for="emailaddress">Email address</label>
+                        <label for="emailaddress">endeço de e-mail.</label>
                         <input type="text" name="email" id="emailaddress" value="" class="textbox"/>
                     </p>
                 </xsl:otherwise>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Hide this <xsl:call-template name="item_name"/> instantly</label>.
+                        <label for="hidePost"> Esconder <xsl:call-template name="item_name"/> intantaneamente</label>.
                     </p>
                 </xsl:if>
                 
@@ -237,8 +237,8 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="submit"/>
-                    <input type="submit" value="Send Complaint" name="Submit" class="button"/>
+                    <input type="hidden" name="action" value="Enviar"/>
+                    <input type="submit" value="Enviar reclamação" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -247,11 +247,11 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
       <div class="content">
-        <h2>Information</h2>
+        <h2>Informação</h2>
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              You have been blocked from using the online complaints system, please write to:<br />
+              Você foi bloqueado e não poderá usar o sistema de reclamações, por favor, escreva para:<br />
               BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
@@ -272,12 +272,12 @@
 
   <xsl:template match="USERCOMPLAINT[@REQUIRESVERIFICATION = '1']" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Email verification</h2>
+      <h2>Confirmação de endereço de e-amil</h2>
       <p>
-        Your complaint has been submitted. It will not be seen by a moderator until you have verified your email address. This is to help prevent impersonation and spamming.
+        Sua reclamação foi enviada. Ela não será analisada por um moderador até que você confirme seu endereço de e-mail. Isto é feito para evitar spam ou uso falso de dientidade alheia.
       </p>
       <p>
-        You will shortly receive an email with a link to activate your complaint. Clicking this link will send your complaint to the moderators.
+        ^Você receberá m e-mail em breve com um link para que possa ativar sua reclamação. Clique neste link para enviar sua reclamação aos moderadores.
       </p>
       
       <p class="action">
@@ -289,7 +289,7 @@
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Continue browsing</xsl:text>
+          <xsl:text>Siga navegando</xsl:text>
         </a>
       </p>
     </div>
@@ -297,17 +297,17 @@
 
   <xsl:template match="USER-COMPLAINT-FORM[MESSAGE/@TYPE = 'SUBMIT-SUCCESSFUL'] | USERCOMPLAINT[@MODID]" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Complaint Successful</h2>
+      <h2>Siga navegando</h2>
       <p>
-        Your complaint has successfully been collected and forwarded onto the Moderation team. They will decide whether the <a href="{$houserulespopupurl}">House Rules</a> have been broken and will update you via your email address.
+        Sua reclamação foi recebida e enviada à equipe de moderadores. Um moderador decidirá se alguma das <a href="{$houserulespopupurl}">Regras</a> foi violada e irá informá-lo por e-mail.
       </p>
       <p>
-        Your Moderation Reference ID is: <strong>
+        Seu ID de Referência de Moderação é: <strong>
           <xsl:value-of select="(MODERATION-REFERENCE | @MODID)[1]"/>
         </strong>
       </p>
       <xsl:if test="@HIDDEN and @HIDDEN != 0">
-        <p>Additionally, this post has been hidden.</p>
+        <p>Adicionalmente, este post foi escondido.</p>
       </xsl:if>
       <p class="action">
         <a class="close">
@@ -319,14 +319,14 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/brasil</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>Continue browsing</xsl:text>
+          <xsl:text>Siga navegando</xsl:text>
         </a>
       </p>
     </div>

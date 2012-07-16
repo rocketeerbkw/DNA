@@ -4,8 +4,8 @@ using System.IO;
 using System.Text;
 using BBC.Dna;
 using BBC.Dna.Component;
-using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using BBC.Dna.Utils;
 
 namespace Tests
 {

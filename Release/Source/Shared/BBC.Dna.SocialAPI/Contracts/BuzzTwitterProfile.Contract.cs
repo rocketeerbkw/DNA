@@ -16,7 +16,9 @@ namespace BBC.Dna.SocialAPI
         private bool? _isProfileKeywordCountEnabled;
         private bool? _isModerationEnabled;
         private bool? _isTrustedUsersEnabled;
-
+        private bool? _isActive;
+        private string _isTitleAvailable;
+        
         [DataMember(Name = ("type"))]
         public string SiteURL { get; set; }
 
@@ -25,6 +27,26 @@ namespace BBC.Dna.SocialAPI
 
         [DataMember (Name = ("profileId"))]
         public string ProfileId { get; set; }
+
+        [DataMember (Name=("title"))]
+        public string Title 
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_isTitleAvailable))
+                {
+                    return string.Empty;
+                }
+                else
+                {
+                    return _isTitleAvailable;
+                }
+            }
+            set
+            {
+                _isTitleAvailable = value;
+            }
+        }
 
         [DataMember(Name = ("keywords"))]
         public List<string> SearchKeywords { get; set; }
@@ -89,6 +111,26 @@ namespace BBC.Dna.SocialAPI
             }
         }
 
+        [DataMember(Name = ("enabled"))]
+        public bool? Active
+        {
+            get
+            {
+                if (false == _isActive.HasValue)
+                {
+                    return false;
+                }
+                else
+                {
+                    return _isActive.Value;
+                }
+            }
+            set
+            {
+                _isActive = value;
+            }
+        }
+
         [DataMember (Name = ("trustedUsersEnabled"))]
         public bool? TrustedUsersEnabled 
         {
@@ -109,10 +151,9 @@ namespace BBC.Dna.SocialAPI
             }
         }
 
-        /*[DataMember (Name = ("active"))]
-        public bool? Active { get; set; }
+        
 
-        [DataMember (Name = ("id"))]
+        /*[DataMember (Name = ("id"))]
         public string Id { get; set; }
 
         [DataMember (Name = ("version"))]

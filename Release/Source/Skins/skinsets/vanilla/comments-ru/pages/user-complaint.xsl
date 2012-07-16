@@ -21,7 +21,7 @@
 
     <xsl:template match="/H2G2[@TYPE = 'USER-COMPLAINT'] | /H2G2[@TYPE = 'USERCOMPLAINTPAGE']" mode="page">
         <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"></xsl:text>
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ru" lang="ru">
             <head profile="http://dublincore.org/documents/dcq-html/">
                 
                 <title>BBC Russian - Жалобы</title>
@@ -70,7 +70,7 @@
                 <div id="blq-container">
                     <div id="blq-main">
                         
-                        <h1>BBC Russian Жалобы</h1>
+                        <h1>BBC Russian - Жалобы</h1>
                         
                         <xsl:apply-templates select="USER-COMPLAINT-FORM | USERCOMPLAINT | ERROR" mode="input_user-complaint-form" />
                         

@@ -32,7 +32,7 @@
 					    	<fieldset>
 						    	<label for="sites">Site:</label>
 								  <select name="type" id="sites">
-		                			<!-- option value="">Select a site</option -->
+		                			<!--<option value="">Test site</option>-->
 						    		<xsl:apply-templates select="/H2G2/TWITTER-SITE-LIST/SITE" mode="objects_sites_twittersites" />
 						    	</select>
 						    	<div class="dna-buttons sites">

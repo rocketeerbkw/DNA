@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>Keluhan tentang <xsl:call-template name="item_name"/></h2>
-            <p>Formulir ini hanya untuk keluhan serius tentang materi tertentu yang melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a>.</p>
+            <p>Formulir ini hanya untuk keluhan serius tentang materi tertentu yang melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a></p>
             <p>Jika anda ingin menyampaikan komentar atau pertanyaan umum, jangan gunakan formulir ini namun kirim pesan untuk diskusi.</p>
-            <p>Pesan yang Anda keluhkan akan dkirim ke moderator, yang akan menentukan apakah melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a>. Anda akan mendapat informasi tentang keputusan itu melalui email.</p>
+            <p>Pesan yang Anda keluhkan akan dkirim ke moderator, yang akan menentukan apakah melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a> Anda akan mendapat informasi tentang keputusan itu melalui email. </p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -38,7 +38,7 @@
             <xsl:with-param name="unauthorised"></xsl:with-param>
             <xsl:with-param name="loggedout">
                 <div class="content">
-                    <p>Anda tidak terdaftar. Jika Anda memiliki akun terdaftar, silahkan masuk dan kami akan membantu untuk memproses keluhan Anda. </p>
+                    <p>Anda tidak terdaftar. Jika Anda memiliki akun terdaftar, silahkan masuk dan kami akan membantu untuk memproses keluhan Anda.</p>
                     <p class="action">
                       <a>
                       	<xsl:attribute name="href">
@@ -106,10 +106,10 @@
                
                 <p class="options">
                 	<p class="options">
-                		<input type="radio" id="dnaacs-cq-1" value="memfintah atau mencemarkan nama baik," name="s_complaintText"/><label for="dnaacs-cq-1">memfintah atau mencemarkan nama baik,</label>
+                		<input type="radio" id="dnaacs-cq-1" value="memfintah atau mencemarkan nama baik" name="s_complaintText"/><label for="dnaacs-cq-1">memfintah atau mencemarkan nama baik,</label>
                 		<input type="radio" id="dnaacs-cq-2" value="rasis, seksis, homofobia, seksual secara terang-terangan, menghina atau menyerang" name="s_complaintText"/><label for="dnaacs-cq-2">rasis, seksis, homofobia, seksual secara terang-terangan, menghina atau menyerang</label>
-                		<input type="radio" id="dnaacs-cq-3" value="melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar" name="s_complaintText"/><label for="dnaacs-cq-3">melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar</label>
-                		<input type="radio" id="dnaacs-cq-4" value="melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar menghina pengadilan" name="s_complaintText"/><label for="dnaacs-cq-4">melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">hak cipta</a> menghina pengadilan</label>
+                		<input type="radio" id="dnaacs-cq-3" value="mengandung kata makian atau yang mungkin menghina" name="s_complaintText"/><label for="dnaacs-cq-3">mengandung kata makian atau yang mungkin menghina</label>
+                		<input type="radio" id="dnaacs-cq-4" value="melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar hak cipta menghina pengadilan" name="s_complaintText"/><label for="dnaacs-cq-4">melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">hak cipta</a> menghina pengadilan</label>
                 		<input type="radio" id="dnaacs-cq-5" value="mempromosikan produk atau jasa untuk mendapat keuntungan" name="s_complaintText"/><label for="dnaacs-cq-5">mempromosikan produk atau jasa untuk mendapat keuntungan</label>
                 		<input type="radio" id="dnaacs-cq-7" value="atau berkedok sebagai orang lain" name="s_complaintText"/><label for="dnaacs-cq-7">atau berkedok sebagai orang lain</label>
                 		<input type="radio" id="dnaacs-cq-8" value="memuat informasi pribadi seperti nomor telepon, alamat surat maupun alamat email" name="s_complaintText"/><label for="dnaacs-cq-8">memuat informasi pribadi seperti nomor telepon, alamat surat maupun alamat email</label>
@@ -118,17 +118,17 @@
                         <input type="radio" id="dnaacs-cq-9" value="tidak sesuai dengan tema atau subyek yang didiskusikan" name="s_complaintText"/><label for="dnaacs-cq-9">tidak sesuai dengan tema atau subyek yang didiskusikan</label>
                       </xsl:with-param>
                     </xsl:call-template>
-                		<input type="radio" id="dnaacs-cq-10" value="tidak sesuai dengan tema atau subyek yang didiskusikan" name="s_complaintText"/><label for="dnaacs-cq-10">tidak sesuai dengan tema atau subyek yang didiskusikan</label>
-                		<input type="radio" id="dnaacs-cq-11" value="berisi kaitan dengan situs internet luar yang melanggar Kebijakan Editorial" name="s_complaintText"/><label for="dnaacs-cq-11">berisi kaitan dengan situs internet luar yang melanggar <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Kebijakan Editorial</a></label>
+                		<input type="radio" id="dnaacs-cq-10" value="tidak dalam Bahasa Indonesia" name="s_complaintText"/><label for="dnaacs-cq-10">tidak dalam Bahasa Indonesia</label>
+                		<input type="radio" id="dnaacs-cq-11" value="berisi kaitan dengan situs internet luar yang melanggar Kebijakan Editorial" name="s_complaintText"/><label for="dnaacs-cq-11">berisi kaitan dengan situs internet luar yang melanggar  <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Kebijakan Editorial</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="menggambarkan atau mendorong kegiatan yang bisa membahayakan keselamatan atau kesejahteraan orang lain" name="s_complaintText"/><label for="dnaacs-cq-12">menggambarkan atau mendorong kegiatan yang bisa membahayakan keselamatan atau kesejahteraan orang lain</label>
-                		<input type="radio" id="dnaacs-cq-13" value="berisi nama pengguna yang tidak tepat," name="s_complaintText"/><label for="dnaacs-cq-13">berisi nama pengguna yang tidak tepat,</label>
+                		<input type="radio" id="dnaacs-cq-13" value="berisi nama pengguna yang tidak tepat" name="s_complaintText"/><label for="dnaacs-cq-13">berisi nama pengguna yang tidak tepat,</label>
                 		<input type="radio" id="dnaacs-cq-14" value="spam" name="s_complaintText"/><label for="dnaacs-cq-14">spam</label>
-                		<input type="radio" id="dnaacs-cq-6" value="atau melanggar peraturan dengan alasan yang tidak terdaftar di atas" name="s_complaintText"/><label for="dnaacs-cq-6">atau melanggar peraturan dengan alasan yang tidak terdaftar di atas</label>
+                		<input type="radio" id="dnaacs-cq-6" value="Yang lain" name="s_complaintText"/><label for="dnaacs-cq-6">atau melanggar peraturan dengan alasan yang tidak terdaftar di atas</label>
                 	</p>
                 </p>
 
               <p class="action">
-                <input type="submit" value="Next Page"/>
+                <input type="submit" value="Halaman berikutnya"/>
               </p>
             </div>
             
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Please choose a complaint reason");
+        alert("Alasan mengajukan keluhan");
         return;
         }
         else {
@@ -237,8 +237,8 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="submit"/>
-                    <input type="submit" value="Send Complaint" name="Submit" class="button"/>
+                    <input type="hidden" name="action" value="Kirim"/>
+                    <input type="submit" value="Kirim keluhan" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -299,7 +299,7 @@
     <div class="content">
       <h2>Keluhan berhasil</h2>
       <p>
-        Keluhan Anda sudah berhasil terkirim dan akan diteruskankepada Tim Moderator. Mereka akan menentukan apakah  <a href="{$houserulespopupurl}">Peraturan Internal</a> sudah dilanggar dan akan memberitahu kepada Anda melalui alamat email
+        Keluhan Anda sudah berhasil terkirim dan akan diteruskankepada Tim Moderator. Mereka akan menentukan apakah <a href="{$houserulespopupurl}">Peraturan Internal</a> sudah dilanggar dan akan memberitahu kepada Anda melalui alamat email
       </p>
       <p>
         Identifikasi rujukan Anda adalah <strong>
@@ -319,7 +319,7 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/indonesia</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 
