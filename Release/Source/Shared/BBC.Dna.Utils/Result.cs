@@ -18,6 +18,13 @@
             Message = message;
         }
 
+        public Result(string type, string message, string extraInfo)
+        {
+            Type = type;
+            Message = message;
+            ExtraInfo = extraInfo;
+        }
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Order = 0, ElementName = "MESSAGE")]
         public string Message
