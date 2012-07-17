@@ -54,12 +54,13 @@ namespace BBC.Dna.Component
         public override void ProcessRequest()
         {
             string action = String.Empty;
+
             //Clean any existing XML.
             RootElement.RemoveAll();
             
-            if (InputContext.ViewingUser == null || !InputContext.ViewingUser.IsSuperUser)
+            if (InputContext.ViewingUser == null || !InputContext.ViewingUser.IsModerator)
             {
-                AddErrorXml("INVALID PERMISSIONS", "Superuser permissions required", RootElement);
+                AddErrorXml("INVALID PERMISSIONS", "Moderator permissions required", RootElement);
                 return;
             }
             
@@ -242,9 +243,9 @@ namespace BBC.Dna.Component
         /// </summary>
         private void GetQueryParameters()
         {
-            if (InputContext.DoesParamExist("s_sitename", "s_sitename"))
+            if (InputContext.DoesParamExist("sitename", "sitename"))
             {
-                _siteType = InputContext.GetParamStringOrEmpty("s_sitename", "s_sitename");
+                _siteType = InputContext.GetParamStringOrEmpty("sitename", "sitename");
             }
 
             if (InputContext.DoesParamExist("action", "Command string for flow"))
