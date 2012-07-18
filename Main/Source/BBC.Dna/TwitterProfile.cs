@@ -74,9 +74,9 @@ namespace BBC.Dna.Component
             //Clean any existing XML.
             RootElement.RemoveAll();
 
-            if (InputContext.ViewingUser == null || !InputContext.ViewingUser.IsModerator)
+            if (InputContext.ViewingUser == null || (false == InputContext.ViewingUser.IsEditor) || (false == InputContext.ViewingUser.IsSuperUser))
             {
-                AddErrorXml("INVALID PERMISSIONS", "Moderator permissions required", RootElement);
+                AddErrorXml("INVALID PERMISSIONS", "Editor permissions required", RootElement);
                 return;
             }
             
@@ -154,13 +154,13 @@ namespace BBC.Dna.Component
 
                 if (twitterProfile != null)
                 {
-                    //var twitterUserIds = string.Empty;
+                    var twitterUserIds = string.Empty;
 
-                    //if (twitterProfile.Users.Count > 0)
-                    //{
-                    //    twitterUserIds = string.Join(",", twitterProfile.Users.ToArray());
-                    //    twitterProfile.Users = GetTwitterScreenNamesFromDNA(twitterUserIds);
-                    //}
+                    if (twitterProfile.Users.Count > 0)
+                    {
+                        twitterUserIds = string.Join(",", twitterProfile.Users.ToArray());
+                        twitterProfile.Users = GetTwitterScreenNamesFromDNA(twitterUserIds);
+                    }
 
                     try
                     {
@@ -214,7 +214,7 @@ namespace BBC.Dna.Component
                 }
                 else
                 {
-                    return new Error { Type = "GETTWITTERPROFILEINVALIDACTION", ErrorMessage = "Twitter Profile retrieval failed" };
+                    return new Error { Type = "GETTWITTERPROFILEINVALIDACTION", ErrorMessage = "Twitter Profile retrieval from Buzz failed" };
                 }
             }
             catch (Exception ex)
@@ -277,10 +277,9 @@ namespace BBC.Dna.Component
 
                 List<string> twitterUserIds = new List<string>();
                 var isValidUser = string.Empty;
-                /*
+                
                 var userExists = false;
 
-                
                 foreach (string tweetUserScreenName in twitterUserScreenNameList)
                 {
                     Dictionary<bool, string> twitterUser = new Dictionary<bool,string>();
@@ -308,16 +307,15 @@ namespace BBC.Dna.Component
                     }
                 }
                 
-                */
 
                 if (string.IsNullOrEmpty(_profileId) || string.IsNullOrEmpty(_title) || string.IsNullOrEmpty(_commentForumURI))
                 {
                     return new Error { Type = "TWITTERPROFILEMANDATORYFIELDSMISSING", ErrorMessage = "Please fill in the mandatory fields for creating/updating a profile" };
                 }
 
-                //twitterProfile.Users = twitterUserIds;
+                twitterProfile.Users = twitterUserIds;
 
-                twitterProfile.Users = twitterUserScreenNameList;
+                //twitterProfile.Users = twitterUserScreenNameList;
                 twitterProfile.ProfileId = _profileId;
                 twitterProfile.Title = _title;
                 twitterProfile.SearchKeywords = _searchterms.Split(',').Where(x => x != " " && !string.IsNullOrEmpty(x)).Distinct().Select(p => p.Trim()).ToList();
@@ -366,7 +364,7 @@ namespace BBC.Dna.Component
                             string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
 
                             var commentforumlistURI = str[0].Replace("moderation", siteName);
-                            commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl= " + commentForumData.ParentUri);
+                            commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl= " + commentForumData.ParentUri.Trim());
 
                             return new Result("TwitterProfileCreated", String.Format("Twitter profile, {0} created successfully.", _profileId), commentforumlistURI);
                         }
@@ -384,7 +382,7 @@ namespace BBC.Dna.Component
                             string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
 
                             var commentforumlistURI = str[0].Replace("moderation", siteName);
-                            commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForumData.ParentUri);
+                            commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForumData.ParentUri.Trim());
 
                             return new Result("TwitterProfileUpdated", String.Format("Twitter profile, {0} updated successfully.", _profileId), commentforumlistURI);
                         }
@@ -397,12 +395,12 @@ namespace BBC.Dna.Component
                 catch (Exception e)
                 {
                     InputContext.Diagnostics.WriteExceptionToLog(e);
-                    return new Error { Type = "SITEINVALIDACTION", ErrorMessage = String.Format("Site, '{0}' doesn't exist ", siteName) };
+                    return new Error { Type = "SITEINVALIDACTION", ErrorMessage = String.Format("Site, '{0}' doesn't exist", siteName) };
                 }
             }
             else
             {
-                return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = "Twitter Profile creation failed: " + isProfileCreated };
+                return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = String.Format("Twitter Profile, '{0}' creation failed", isProfileCreated) };
             }
         }
 
@@ -423,15 +421,13 @@ namespace BBC.Dna.Component
 
                 if (dataReader.HasRows && dataReader.Read())
                 {
-                    var twitterUserExists = dataReader.GetStringNullAsEmpty("TwitterUserID"); 
-                    if (twitterUserExists.Equals("NA"))
-                    {
-                        UserExists.Add(false, string.Empty);
-                    }
-                    else
-                    {
-                        UserExists.Add(true, twitterUserExists);
-                    }
+                    var twitterUserExists = dataReader.GetStringNullAsEmpty("TwitterUserID");
+                    
+                    UserExists.Add(true, twitterUserExists);
+                }
+                else
+                {
+                    UserExists.Add(false, string.Empty);
                 }
             }
 
