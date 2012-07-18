@@ -76,20 +76,20 @@
 								</input>
 							</li>
 							<li>
-								<label for="commentforumparenturl">Commentforum Parent URI <span>*</span>:</label>
+								<label for="commentforumparenturl">Commentforum ParentURI<span>*</span>:</label>
 								<input type="text" name="commentforumparenturl" id="commentforumparenturl">
 									<xsl:attribute name="value"><xsl:value-of select="/H2G2/PROFILE/COMMENTFORUMPARENTURI" /></xsl:attribute>
 								</input>
 							</li>
 							<li>
-								<label for="users">Users: <br /><em>You must enter at least one user or search term</em></label>
+								<label for="users">Users: <br /><em>You must enter at least one twitter user id or search term</em></label>
 								<textarea name="users" id="users">
 									<xsl:text> </xsl:text>
 									<xsl:apply-templates select="/H2G2/PROFILE/USERS/ITEM" mode="items" />
 								</textarea>
 							</li>
 							<li>
-								<label for="searchterms">Search Terms:<br /><em>You must enter at least one user or search term</em></label>
+								<label for="searchterms">Search Terms:<br /><em>You must enter at least one twitter user id or search term</em></label>
 								<textarea name="searchterms" id="searchterms">
 									<xsl:text> </xsl:text>
 									<xsl:apply-templates select="/H2G2/PROFILE/KEYWORDS/ITEM" mode="items" />

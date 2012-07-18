@@ -94,6 +94,11 @@
   	<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILE/@SITENAME" />
     <xsl:choose>
     	<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_action']/VALUE = 'getprofile'">
+			<xsl:choose>
+				<xsl:when test="@TYPE = 'TwitterProfileRetrieved'">
+					<p class="dna-no-error"><xsl:value-of select="/H2G2/RESULT/MESSAGE"/></p>
+				</xsl:when>
+			</xsl:choose>
     	</xsl:when>
 		<xsl:otherwise>
 		    <xsl:choose>
