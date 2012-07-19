@@ -8,6 +8,7 @@
 			<xs:sequence>
         <xs:element name="ERRORMESSAGE" type="xs:string"/>
         <xs:element name="EXTRAINFO" type="xs:string" minOccurs="0"/>
+        <xs:element name="ERRORLINKPARAMETER" type="xs:string" minOccurs="0"/>
       </xs:sequence>
       <xs:attribute name="TYPE" type="xs:string" use="required">
         <xs:annotation>
