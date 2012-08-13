@@ -7,10 +7,12 @@ AS
 	SELECT @ModID = SCOPE_IDENTITY()       
 		                
 	-- Now insert the modid and the profanity ids/termsid into the ModTermMapping table  
-	  
-	 INSERT INTO dbo.ForumModTermMapping (ThreadModID, ModClassID, ForumID, TermID)
-	 SELECT @ModID,
+	if (@profanityxml IS NOT NULL)
+	BEGIN	  
+		INSERT INTO dbo.ForumModTermMapping (ThreadModID, ModClassID, ForumID, TermID)
+		SELECT @ModID,
 			A.B.value('(ModClassID)[1]', 'int' ) ModClassID,
 			A.B.value('(ForumID)[1]', 'int' ) ForumID,
 			A.B.value('(TermID)[1]', 'int' ) TermID
-	 FROM   @profanityxml.nodes('/Profanities/Terms/TermDetails') A(B) 
+		FROM   @profanityxml.nodes('/Profanities/Terms/TermDetails') A(B) 
+	END
