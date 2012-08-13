@@ -74,12 +74,14 @@ namespace BBC.Dna.Component
             //Clean any existing XML.
             RootElement.RemoveAll();
 
+   
             if (InputContext.ViewingUser == null || (false == InputContext.ViewingUser.IsEditor) || (false == InputContext.ViewingUser.IsSuperUser))
             {
                 AddErrorXml("INVALID PERMISSIONS", "Editor permissions required", RootElement);
                 return;
             }
             
+
             GetQueryParameters();
 
             var siteName = string.Empty;
@@ -205,7 +207,7 @@ namespace BBC.Dna.Component
                     if (commentForum != null && (false == String.IsNullOrEmpty(commentForum.SiteName)) )
                     {
                         commentforumlistURI = str1[0].Replace("moderation", commentForum.SiteName);
-                        commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForum.ParentUri.Trim());
+                        commentforumlistURI = commentforumlistURI.Replace("twitterprofilelist", "commentforumlist?dnahostpageurl=" + commentForum.ParentUri.Trim());
 
                         return new Result("TwitterProfileRetrieved", String.Format("Twitter profile, '{0}' retrieved successfully.", twitterProfileId), commentforumlistURI);
                     }
@@ -355,41 +357,13 @@ namespace BBC.Dna.Component
                 {
                     ISite site = InputContext.TheSiteList.GetSite(siteName);
 
-                    if (string.IsNullOrEmpty(_pageAction))
+                    if ((string.IsNullOrEmpty(_pageAction)) || (false == _pageAction.ToLower().Equals("updateprofile")))
                     {
-                        CommentForum commentForumData = commentObj.CreateCommentForum(commentForum, site);
-
-                        if (commentForumData != null && commentForumData.Id == _profileId)
-                        {
-                            string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
-
-                            var commentforumlistURI = str[0].Replace("moderation", siteName);
-                            commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl= " + commentForumData.ParentUri.Trim());
-
-                            return new Result("TwitterProfileCreated", String.Format("Twitter profile, {0} created successfully.", _profileId), commentforumlistURI);
-                        }
-                        else
-                        {
-                            return new Error { Type = "COMMENTFORUMCREATIONINVALIDACTION", ErrorMessage = "Comment Forum creation failed: " + _profileId };
-                        }
+                        return CreateCommentForum(siteName, commentObj, commentForum, site);
                     }
                     else
                     {
-                        CommentForum commentForumData = commentObj.CreateAndUpdateCommentForum(commentForum, site, false);
-
-                        if (commentForumData != null && commentForumData.Id == _profileId)
-                        {
-                            string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
-
-                            var commentforumlistURI = str[0].Replace("moderation", siteName);
-                            commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForumData.ParentUri.Trim());
-
-                            return new Result("TwitterProfileUpdated", String.Format("Twitter profile, {0} updated successfully.", _profileId), commentforumlistURI);
-                        }
-                        else
-                        {
-                            return new Error { Type = "COMMENTFORUMUPDATEINVALIDACTION", ErrorMessage = "Comment Forum update failed: " + _profileId };
-                        }
+                        return UpdateCommentForum(siteName, commentObj, site, commentForum);
                     }
                 }
                 catch (Exception e)
@@ -401,6 +375,72 @@ namespace BBC.Dna.Component
             else
             {
                 return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = String.Format("Twitter Profile, '{0}' creation failed", isProfileCreated) };
+            }
+        }
+
+        /// <summary>
+        /// If comment forum exists, then update an existing comment forum 
+        /// Else create a new comment forum
+        /// </summary>
+        /// <param name="siteName"></param>
+        /// <param name="commentObj"></param>
+        /// <param name="site"></param>
+        /// <param name="createCommentForum"></param>
+        /// <returns></returns>
+        private BaseResult UpdateCommentForum(string siteName, Comments commentObj, ISite site, CommentForum createCommentForum)
+        {
+            CommentForum commentForumUpdateData = commentObj.GetCommentForumByUid(_profileId, site);
+
+            if (commentForumUpdateData != null)
+            {
+                commentForumUpdateData.ParentUri = _commentForumURI;
+                commentForumUpdateData.Title = _title;
+                commentForumUpdateData = commentObj.CreateAndUpdateCommentForum(commentForumUpdateData, site, false);
+
+                if (commentForumUpdateData != null && commentForumUpdateData.Id == _profileId)
+                {
+                    string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
+
+                    var commentforumlistURI = str[0].Replace("moderation", siteName);
+                    commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForumUpdateData.ParentUri.Trim());
+
+                    return new Result("TwitterProfileUpdated", String.Format("Twitter profile, {0} updated successfully.", _profileId), commentforumlistURI);
+                }
+                else
+                {
+                    return new Error { Type = "COMMENTFORUMUPDATEINVALIDACTION", ErrorMessage = "Comment Forum update failed: " + _profileId };
+                }
+            }
+            else
+            {
+                return CreateCommentForum(siteName, commentObj, createCommentForum, site);
+            }
+        }
+
+        /// <summary>
+        /// Create a new comment forum
+        /// </summary>
+        /// <param name="siteName"></param>
+        /// <param name="commentObj"></param>
+        /// <param name="commentForum"></param>
+        /// <param name="site"></param>
+        /// <returns></returns>
+        private BaseResult CreateCommentForum(string siteName, Comments commentObj, CommentForum commentForum, ISite site)
+        {
+            CommentForum commentForumData = commentObj.CreateAndUpdateCommentForum(commentForum, site,false);
+
+            if (commentForumData != null && commentForumData.Id == _profileId)
+            {
+                string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
+
+                var commentforumlistURI = str[0].Replace("moderation", siteName);
+                commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl= " + commentForumData.ParentUri.Trim());
+
+                return new Result("TwitterProfileCreated", String.Format("Twitter profile, {0} created successfully.", _profileId), commentforumlistURI);
+            }
+            else
+            {
+                return new Error { Type = "COMMENTFORUMCREATIONINVALIDACTION", ErrorMessage = "Comment Forum creation failed: " + _profileId };
             }
         }
 

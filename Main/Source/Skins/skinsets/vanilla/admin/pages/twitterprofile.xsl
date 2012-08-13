@@ -72,7 +72,7 @@
 							<li>
 								<label for="title">Title <span>*</span>:</label>
 								<input type="text" name="title" id="title">
-									<xsl:attribute name="value"><xsl:value-of select="/H2G2/PROFILE/PROFILEID" /></xsl:attribute> 
+									<xsl:attribute name="value"><xsl:value-of select="/H2G2/PROFILE/TITLE" /></xsl:attribute> 
 								</input>
 							</li>
 							<li>
