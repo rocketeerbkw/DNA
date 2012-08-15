@@ -17,7 +17,7 @@ where DateAssessed is not null
 order by dateposted desc
 
 -- This shows all the sites that have been mis configured in the BI solution. Update the details in the BI web interface.
-select distinct 'Sites Mis-configured' = siteid from RiskModDecisionsForThreadEntries where isrisky is null and dateassessed > '2012-08-14 16:15:00'
+select distinct 'Sites Mis-configured' = siteid from RiskModDecisionsForThreadEntries where isrisky is null and dateassessed > DATEADD(DAY, -1, GetDate())
 
 --Delete all items from the biqueue that don't belong to sites which are risk mod
 /*
