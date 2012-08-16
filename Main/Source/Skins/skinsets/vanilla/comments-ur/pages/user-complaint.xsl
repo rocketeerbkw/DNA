@@ -24,7 +24,7 @@
         <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ur" lang="ur">
             <head profile="http://dublincore.org/documents/dcq-html/">
                 
-                <title>BBC Urdu - شکایات</title>
+                <title>بی بی سی اردو - شکایات</title>
                 
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                 <meta name="description" content="" />
@@ -42,6 +42,7 @@
                 <xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
                 
                 <link rel="stylesheet" href="/dnaimages/components/barlesque_thin/style/complaints.css" type="text/css" />
+				<link rel="stylesheet" href="/worldservice/comments/ur_complaints.css" type="text/css" />
             	<script type="text/javascript" src="/dnaimages/javascript/DNA.js"/>
             	
             	<script type="text/javascript">
@@ -70,7 +71,7 @@
                 <div id="blq-container">
                     <div id="blq-main">
                         
-                        <h1>BBC Urdu - شکایات</h1>
+                        <h1>بی بی سی اردو - شکایات</h1>
                         
                         <xsl:apply-templates select="USER-COMPLAINT-FORM | USERCOMPLAINT | ERROR" mode="input_user-complaint-form" />
                         

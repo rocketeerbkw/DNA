@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>شکایت کے لیے <xsl:call-template name="item_name"/></h2>
-            <p>یہ فارم صرف ہاؤس رولز کی خلاف ورزی کی شکایات کے لیے ہے <a href="{$houserulespopupurl}">ہاؤز رولز </a></p>
+            <p>یہ فارم صرف ہاؤس رولز کی خلاف ورزی کی شکایات کے لیے ہے <a href="{$houserulespopupurl}">ہاؤس رولز </a></p>
             <p>برائے مہربانی عمومی تبصرے یا کسی سوال کے لیے یہ فارم استعمال نہ کریں بلکہ اپنا پیغام مباحثے میں پوسٹ کریں</p>
-            <p>جس تبصرے کے بارے میں آپ نے شکایت کی ہے اسے موڈریٹر کو بھیجا جائے گا اور وہی یہ فیصلہ کریں گے کہ ہاؤس رولز کی خلاف ورزی ہوئی ہے <a href="{$houserulespopupurl}">ہاؤز رولز </a> ان کے فیصلے کے بارے میں آپ کو بذریعہ ای میل سے مطلع کیا جائے گا</p>
+            <p>جس تبصرے کے بارے میں آپ نے شکایت کی ہے اسے موڈریٹر کو بھیجا جائے گا اور وہی یہ فیصلہ کریں گے کہ ہاؤس رولز کی خلاف ورزی ہوئی ہے <a href="{$houserulespopupurl}">ہاؤس رولز </a> ان کے فیصلے کے بارے میں آپ کو بذریعہ ای میل سے مطلع کیا جائے گا</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -38,7 +38,7 @@
             <xsl:with-param name="unauthorised"></xsl:with-param>
             <xsl:with-param name="loggedout">
                 <div class="content">
-                    <p>آپ اس ویب سائٹ کے کسی اکاؤنٹ پر سائنڈ ان نہیں ہیں۔ اگر آپ رجسٹرڈ ہیں تو سائن ان کیجیے اس سے ہمیں آپ کی شکایت سے نمٹنے میں مدد ملے گی</p>
+                    <p>آپ اس ویب سائٹ کے کسی اکاؤنٹ پر سائن ان نہیں ہیں۔ اگر آپ رجسٹرڈ ہیں تو سائن ان کیجیے اس سے ہمیں آپ کی شکایت سے نمٹنے میں مدد ملے گی</p>
                     <p class="action">
                       <a>
                       	<xsl:attribute name="href">
@@ -117,14 +117,14 @@
                 		<input type="radio" id="dnaacs-cq-8" value="ذاتی معلومات مثلاً ٹیلیفون نمبر، پوسٹل یا ای میل پتہ وغیرہ دیے گئے ہیں" name="s_complaintText"/><label for="dnaacs-cq-8">ذاتی معلومات مثلاً ٹیلیفون نمبر، پوسٹل یا ای میل پتہ وغیرہ دیے گئے ہیں</label>
                 		<xsl:call-template name="library_userstate">
                       <xsl:with-param name="loggedin">
-                        <input type="radio" id="dnaacs-cq-9" value="is off-topic for the board or subject being discussed" name="s_complaintText"/><label for="dnaacs-cq-9">اس مباحثے یا فورم کے موضوع سے متعلق نہیں</label>
+                        <input type="radio" id="dnaacs-cq-9" value="اس مباحثے یا فورم کے موضوع سے متعلق نہیں" name="s_complaintText"/><label for="dnaacs-cq-9">اس مباحثے یا فورم کے موضوع سے متعلق نہیں</label>
                       </xsl:with-param>
                     </xsl:call-template>
-                		<input type="radio" id="dnaacs-cq-10" value="انگریزی میں نہیں" name="s_complaintText"/><label for="dnaacs-cq-10">انگریزی میں نہیں</label>
+                		<input type="radio" id="dnaacs-cq-10" value="اردو میں نہیں" name="s_complaintText"/><label for="dnaacs-cq-10">اردو میں نہیں</label>
                 		<input type="radio" id="dnaacs-cq-11" value="کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو ایڈیٹوریل گائیڈ لائنز کے خلاف ہے" name="s_complaintText"/><label for="dnaacs-cq-11">کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">ایڈیٹوریل گائیڈ لائنز کے خلاف ہے </a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے" name="s_complaintText"/><label for="dnaacs-cq-12">ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے</label>
-                		<input type="radio" id="dnaacs-cq-13" value="contains an inappropriate username" name="s_complaintText"/><label for="dnaacs-cq-13">contains an inappropriate username</label>
-                		<input type="radio" id="dnaacs-cq-14" value="is spam" name="s_complaintText"/><label for="dnaacs-cq-14">is spam</label>
+                		<input type="radio" id="dnaacs-cq-13" value="یوزر نیم نامناسب ہے" name="s_complaintText"/><label for="dnaacs-cq-13">یوزر نیم نامناسب ہے</label>
+                		<input type="radio" id="dnaacs-cq-14" value="سپیم ہے" name="s_complaintText"/><label for="dnaacs-cq-14">سپیم ہے</label>
                 		<input type="radio" id="dnaacs-cq-6" value="دیگر" name="s_complaintText"/><label for="dnaacs-cq-6">کسی ایسے قانون کی خلاف ورزی جو اوپر درج نہیں ہے</label>
                 	</p>
                 </p>
@@ -179,17 +179,17 @@
            	<p>برائے مہربانی نیچے دیے گئے خانے میں وہ وجہ درج کریں جس کی وجہ سے آپ کے خیال میں <xsl:call-template name="item_name"/> ضابطے کی خلاف ورزی ہوئی ہے۔ لکھنے کے بعد ’شکایت بھیجیں‘ کے بٹن پر کلک کریں تاکہ موڈریٹر اس کا جائزہ لے سکیں </p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'دیگر'">
-                    مجھے مندرجہ ذیل <xsl:call-template name="item_name"/> اسباب کی بنا پر شکایت ہیں:
+                    مجھے مندرجہ ذیل <xsl:call-template name="item_name"/> اسباب کی بنا پر شکایت ہے:
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'دیگر'">
+                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'دیگر'">
                         <xsl:text>میرے خیال میں یہ </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> اس وجہ سے:</xsl:text>
-                    	</xsl:if>
+                    	</xsl:if> -->
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -208,7 +208,7 @@
                 <xsl:otherwise>
                     <h3>آپ کا ای میل ایڈریس</h3>
                     <p>
-                      <em>ہمیں آپ کی شکایت کا جائزہ لینے اور موڈریٹر کے فیصلے سے آپ کو آگاہ کرنے کے لیے آپ کا ای میل ایڈریس درکار ہے۔ اگر ضرورت ہوگی تو ہم شکایت سے متعلق مزید معلومات کے لیے آپ سے براہ راست  رابطہ کر سکتے ہیں  </em>
+                      <em>ہمیں آپ کی شکایت کا جائزہ لینے اور موڈریٹر کے فیصلے سے آپ کو آگاہ کرنے کے لیے آپ کا ای میل ایڈریس درکار ہے۔ اگر ضرورت ہوگی تو ہم شکایت سے متعلق مزید معلومات کے لیے آپ سے براہ راست  رابطہ کر سکتے ہیں</em>
                     </p>
                     <p>
                         <label for="emailaddress">ای میل ایڈریس</label>
@@ -300,8 +300,8 @@
   <xsl:template match="USER-COMPLAINT-FORM[MESSAGE/@TYPE = 'SUBMIT-SUCCESSFUL'] | USERCOMPLAINT[@MODID]" mode="input_user-complaint-form">
     <div class="content">
       <h2>شکایت کامیاب</h2>
-      <p>
-        آپ کی شکایت موصول ہوگئی ہے اور موڈریشن ٹیم کو بھیج دی گئی ہے۔ وہی اس بات کا فیصلہ کریں گے کہ اس تبصرے میں ہاؤس رولز کی خلاف ورزی ہوئی ہے اور آپ کو ای میل کے ذریعہ مطلع کیا جائے گا
+       <p>
+        آپ کی شکایت موصول ہوگئی ہے اور موڈریشن ٹیم کو بھیج دی گئی ہے۔ وہی اس بات کا فیصلہ کریں گے کہ اس تبصرے میں ہاؤس رولز کی خلاف ورزی ہوئی ہے اور آپ کو ای میل کے ذریعہ مطلع کیا جائے گا <a href="{$houserulespopupurl}">ہاؤس رولز </a> کی خلاف ورزی ہوئی ہے اور آپ کو ای میل کے ذریعے اپ ڈیٹ کیا جائے گا
       </p>
       <p>
         آپ کا موڈریشن ریفرنس آئی ڈی: <strong>

@@ -24,7 +24,7 @@
         <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="zh-Hant" lang="zh-Hant">
             <head profile="http://dublincore.org/documents/dcq-html/">
                 
-                <title>BBC Zhongwen - 投訴</title>
+                <title>BBC 中文網 - 投訴</title>
                 
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                 <meta name="description" content="" />
@@ -42,6 +42,8 @@
                 <xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
                 
                 <link rel="stylesheet" href="/dnaimages/components/barlesque_thin/style/complaints.css" type="text/css" />
+				<link rel="stylesheet" href="/worldservice/comments/zh-hant_complaints.css" type="text/css" />
+
             	<script type="text/javascript" src="/dnaimages/javascript/DNA.js"/>
             	
             	<script type="text/javascript">
@@ -70,7 +72,7 @@
                 <div id="blq-container">
                     <div id="blq-main">
                         
-                        <h1>BBC Zhongwen - 投訴</h1>
+                        <h1>BBC 中文網 - 投訴</h1>
                         
                         <xsl:apply-templates select="USER-COMPLAINT-FORM | USERCOMPLAINT | ERROR" mode="input_user-complaint-form" />
                         

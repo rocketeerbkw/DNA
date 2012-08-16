@@ -67,7 +67,7 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>отправить</xsl:text>
+        <xsl:text>комментарий</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
         <xsl:text>статья</xsl:text>
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Отправить сообщение модераторам</h2>
-            	<p>Выберите, какой из пунктов <a href="{$houserulespopupurl}">Правил форумов Би-би-си,</a> вы считаете, <xsl:call-template name="item_name"/> был нарушен. Если вам кажется, что было нарушено несколько пунктов, выберите самый серьезный.</p>
+            	<p>Выберите, какой из пунктов <a href="{$houserulespopupurl}">Правил форумов Би-би-си,</a> вы считаете, <xsl:call-template name="item_name"/> нарушил. Если вам кажется, что было нарушено несколько пунктов, выберите самый серьезный.</p>
             </div>
             
             <div class="content">
               <h2>Причина жалобы</h2>
               <p>
-                Мне кажется, что этот комментарий (или его автор) <xsl:call-template name="item_name"/> нарушает один из пунктов <a href="{$houserulespopupurl}">Правил форумов Би-би-си,</a> потому что он:
+                Мне кажется, что этот <xsl:call-template name="item_name"/> нарушает один из пунктов <a href="{$houserulespopupurl}">Правил форумов Би-би-си,</a> потому что он:
               </p>
                
                 <p class="options">
@@ -174,7 +174,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Пожалуйста, заполните эту графу, объяснив причину, по которой вы считаете, что комментарий <xsl:call-template name="item_name"/> нарушает это правило. Затем нажмите на кнопку "Отправить жалобу". Она будет переправлена модератору.</p>
+           	<p>Пожалуйста, заполните эту графу, объяснив причину, по которой вы считаете, что <xsl:call-template name="item_name"/> нарушает это правило. Затем нажмите на кнопку "Отправить жалобу". Она будет переправлена модератору.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Другое'">
                     Я хочу пожаловаться на этот комментарий, <xsl:call-template name="item_name"/> так как
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Другое'">
+                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Другое'">
                         <xsl:text>Мне кажется, что этот комментарий (или его автор) </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> он нарушает:</xsl:text>
-                    	</xsl:if>
+                    	</xsl:if> -->
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Скрыть это <xsl:call-template name="item_name"/> немедленно</label>.
+                        <label for="hidePost"> Скрыть этот <xsl:call-template name="item_name"/> немедленно</label>.
                     </p>
                 </xsl:if>
                 

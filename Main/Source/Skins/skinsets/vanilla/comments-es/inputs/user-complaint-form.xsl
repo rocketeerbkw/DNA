@@ -15,20 +15,20 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>Quéjese acerca de <xsl:call-template name="item_name"/></h2>
+            <h2>Quéjese acerca de este <xsl:call-template name="item_name"/></h2>
             <p>Este formulario está destinado solamente a reclamos sobre comentarios que rompan <a href="{$houserulespopupurl}">las reglas</a>.</p>
-            <p>Si usted quiere hacer un comentario o enviar una pregunta por favor no utilice este formulario. Publique un comentario en la discusión.</p>
-            <p>El mensaje por el cual se está quejando será enviado a un moderador, quien decidirá si rompe o no <a href="{$houserulespopupurl}">las reglas</a>. Se le notificará cuál fue la decisión por correo electrónico.</p>
+            <p>Si usted quiere enviar su opinión o alguna pregunta por favor no utilice este formulario. Publique un comentario en la discusión.</p>
+            <p>El comentario por el cual se está quejando será enviado a un moderador, quien decidirá si rompe o no.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
-                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registrar mi queja</a>
+                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Enviar mi queja</a>
                 </xsl:when>
                 <xsl:when test="@H2G2ID">
-                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registrar mi queja</a>
+                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Enviar mi queja</a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Registrar mi queja</a>
+                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Enviar mi queja</a>
                 </xsl:otherwise>
               </xsl:choose>
             </p>
@@ -67,7 +67,7 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>publicar</xsl:text>
+        <xsl:text>comentario</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
         <xsl:text>artículo</xsl:text>
@@ -109,7 +109,7 @@
                 		<input type="radio" id="dnaacs-cq-1" value="es difamatorio" name="s_complaintText"/><label for="dnaacs-cq-1">es difamatorio</label>
                 		<input type="radio" id="dnaacs-cq-2" value="es insultante, obsceno, amenazante o atenta contra las creencias, la raza o la preferencia sexual de un grupo de personas." name="s_complaintText"/><label for="dnaacs-cq-2">es insultante, obsceno, amenazante o atenta contra las creencias, la raza o la preferencia sexual de un grupo de personas.</label>
                 		<input type="radio" id="dnaacs-cq-3" value="contiene palabras soeces o un lenguaje que puede resultar ofensivo" name="s_complaintText"/><label for="dnaacs-cq-3">contiene palabras soeces o un lenguaje que puede resultar ofensivo</label>
-                		<input type="radio" id="dnaacs-cq-4" value="es ilegal o hace apología del delito en actividades tales como infringir el derecho de autor desacato a un tribunal de Justicia" name="s_complaintText"/><label for="dnaacs-cq-4">es ilegal o hace apología del delito en actividades tales como  <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">infringir el derecho de autor</a> desacato a un tribunal de Justicia</label>
+                		<input type="radio" id="dnaacs-cq-4" value="es ilegal o hace apología del delito en actividades tales como infringir el derecho de autor o desacato a un tribunal de Justicia" name="s_complaintText"/><label for="dnaacs-cq-4">es ilegal o hace apología del delito en actividades tales como  <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">infringir el derecho de autor</a> o desacato a un tribunal de Justicia</label>
                 		<input type="radio" id="dnaacs-cq-5" value="hacer publicidad de productos y servicios para obtener alguna ganancia o beneficio." name="s_complaintText"/><label for="dnaacs-cq-5">hacer publicidad de productos y servicios para obtener alguna ganancia o beneficio.</label>
                 		<input type="radio" id="dnaacs-cq-7" value="suplanta la identidad de otra persona" name="s_complaintText"/><label for="dnaacs-cq-7">suplanta la identidad de otra persona</label>
                 		<input type="radio" id="dnaacs-cq-8" value="incluye información privada, tal como números telefónicos, dirección postal o de correo electrónico" name="s_complaintText"/><label for="dnaacs-cq-8">incluye información privada, tal como números telefónicos, dirección postal o de correo electrónico</label>
@@ -122,7 +122,7 @@
                 		<input type="radio" id="dnaacs-cq-11" value="contiene un vínculo a un sitio externo que romper con nuestra línea editorial" name="s_complaintText"/><label for="dnaacs-cq-11">contiene un vínculo a un sitio externo que romper con nuestra <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">línea editorial</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="describe o incita a actividades que pueden dañar a terceros" name="s_complaintText"/><label for="dnaacs-cq-12">describe o incita a actividades que pueden dañar a terceros</label>
                 		<input type="radio" id="dnaacs-cq-13" value="contiene un nombre de usuario no apropiado" name="s_complaintText"/><label for="dnaacs-cq-13">contiene un nombre de usuario no apropiado</label>
-                		<input type="radio" id="dnaacs-cq-14" value="correos basura o en serie (spam)" name="s_complaintText"/><label for="dnaacs-cq-14">correos basura o en serie (spam)</label>
+                		<input type="radio" id="dnaacs-cq-14" value="es un correo basura o en serie (spam)" name="s_complaintText"/><label for="dnaacs-cq-14">es un correo basura o en serie (spam)</label>
                 		<input type="radio" id="dnaacs-cq-6" value="Otro" name="s_complaintText"/><label for="dnaacs-cq-6">rompe las reglas por un motivo que no está enumerado arriba</label>
                 	</p>
                 </p>
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Por favor selecciones el motivo de su queja");
+        alert("Por favor seleccione el motivo de su queja");
         return;
         }
         else {
@@ -174,20 +174,20 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Por favor rellene la caja de abajo para decirnos el motivo por el cual usted piensa que <xsl:call-template name="item_name"/> rompe las reglas. Cuando termine, haga clic en Enviar queja para que pueda ser revisada por uno de los moderadores.</p>
+           	<p>Por favor rellene la caja de abajo para decirnos el motivo por el cual usted piensa que este <xsl:call-template name="item_name"/> rompe las reglas. Cuando termine, haga clic en "Enviar su queja" para que pueda ser revisada por uno de los moderadores.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Otro'">
-                    Deseo quejarme acerca de este <xsl:call-template name="item_name"/> por la siguiente razón_
+                    Deseo quejarme acerca de este <xsl:call-template name="item_name"/> por la siguiente razón:
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Otro'">
+                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Otro'">
                         <xsl:text>Creo que este </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> por la siguiente razón_</xsl:text>
-                    	</xsl:if>
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> por la siguiente razón:</xsl:text>
+                    	</xsl:if> -->
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -238,7 +238,7 @@
                       </xsl:otherwise>
                     </xsl:choose>
                     <input type="hidden" name="action" value="Enviar"/>
-                    <input type="submit" value="Envíe su queja" name="Submit" class="button"/>
+                    <input type="submit" value="Enviar su queja" name="Submit" class="button"/>
                 </p>
             </div>
             
