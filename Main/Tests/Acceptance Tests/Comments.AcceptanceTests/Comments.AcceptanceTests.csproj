@@ -63,12 +63,18 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ContactForms.CreateForm.feature</DependentUpon>
     </Compile>
+    <Compile Include="StepDefinitions\AdminConsoleAuthorization.cs" />
     <Compile Include="StepDefinitions\CreateContactDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepDefinitions\CreateForum.cs" />
     <Compile Include="StepDefinitions\CreateContactForm.cs" />
     <Compile Include="StepDefinitions\Global.cs" />
     <Compile Include="Support\ContactFormTestUtils.cs" />
+    <Compile Include="TwitterAdminConsole.AdminConsoleAuthorization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TwitterAdminConsole.AdminConsoleAuthorization.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
@@ -86,6 +92,10 @@
     <None Include="ContactForms.CreateForm.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ContactForms.CreateForm.feature.cs</LastGenOutput>
+    </None>
+    <None Include="TwitterAdminConsole.AdminConsoleAuthorization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TwitterAdminConsole.AdminConsoleAuthorization.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
