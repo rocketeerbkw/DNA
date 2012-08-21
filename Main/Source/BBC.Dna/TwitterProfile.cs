@@ -73,7 +73,7 @@ namespace BBC.Dna.Component
 
             //Clean any existing XML.
             RootElement.RemoveAll();
-
+            
             if (InputContext.ViewingUser == null || ((false == InputContext.ViewingUser.IsEditor) && (false == InputContext.ViewingUser.IsSuperUser)))
             {
                 AddErrorXml("UNAUTHORIZED", "Editor permissions required", RootElement);
@@ -432,7 +432,7 @@ namespace BBC.Dna.Component
                 string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
 
                 var commentforumlistURI = str[0].Replace("moderation", siteName);
-                commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl= " + commentForumData.ParentUri.Trim());
+                commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForumData.ParentUri.Trim());
 
                 return new Result("TwitterProfileCreated", String.Format("Twitter profile, {0} created successfully.", _profileId), commentforumlistURI);
             }
