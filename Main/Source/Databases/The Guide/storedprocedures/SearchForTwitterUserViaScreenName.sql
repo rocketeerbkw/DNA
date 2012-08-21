@@ -32,9 +32,8 @@ SELECT
 	INNER JOIN Preferences p WITH(NOLOCK) ON p.UserID = u.UserID 
 	INNER JOIN Sites s WITH(NOLOCK) ON s.SiteID = p.SiteID  
 	INNER JOIN Userstatuses us WITH(NOLOCK) ON us.UserStatusID = p.PrefStatus  
---	INNER JOIN GroupMembers g WITH(NOLOCK) ON g.UserID = @ViewingUserID AND g.GroupID = @EditorGroupID AND g.SiteID = s.SiteID  
 	INNER JOIN SignInUserIdMapping sm WITH(NOLOCK) ON sm.DnaUserID = u.UserID AND sm.TwitterUserID IS NOT NULL
 	WHERE
-		u.UserName = @twitterscreenname
+		u.LoginName = @twitterscreenname
 	ORDER BY u.UserID DESC, s.SiteID 
 END
