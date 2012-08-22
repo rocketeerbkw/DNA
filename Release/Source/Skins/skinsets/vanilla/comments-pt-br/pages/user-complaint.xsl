@@ -42,6 +42,7 @@
                 <xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
                 
                 <link rel="stylesheet" href="/dnaimages/components/barlesque_thin/style/complaints.css" type="text/css" />
+				<link rel="stylesheet" href="/worldservice/comments/pt-br_complaints.css" type="text/css" />
             	<script type="text/javascript" src="/dnaimages/javascript/DNA.js"/>
             	
             	<script type="text/javascript">
@@ -70,7 +71,7 @@
                 <div id="blq-container">
                     <div id="blq-main">
                         
-                        <h1>BBC BRasil - Reclamações</h1>
+                        <h1>BBC Brasil - Reclamações</h1>
                         
                         <xsl:apply-templates select="USER-COMPLAINT-FORM | USERCOMPLAINT | ERROR" mode="input_user-complaint-form" />
                         

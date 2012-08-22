@@ -94,14 +94,14 @@
               </xsl:choose>
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
-            	<h2>moderatörleri uyarmak</h2>
+            	<h2>Moderatörleri uyarmak</h2>
             	<p>Bu yorumun ihlal ettiğini düşündüğünüz <a href="{$houserulespopupurl}">kullanım koşulunu</a> seçin.<xsl:call-template name="item_name"/> Eğer birden fazla kuralın ihlal edildiğini düşünüyorsanız en ciddi ihlali seçin.</p>
             </div>
             
             <div class="content">
               <h2>Şikayetinizin nedeni:</h2>
               <p>
-                Bunun <xsl:call-template name="item_name"/> ihlal etmiş olabileceğini düşünüyorum. <a href="{$houserulespopupurl}">kullanım koşullarını </a> Çünkü: 
+                Bu mesajın <xsl:call-template name="item_name"/> ihlal etmiş olabileceğini düşünüyorum <a href="{$houserulespopupurl}">kullanım koşullarını </a> çünkü:
               </p>
                
                 <p class="options">
@@ -109,7 +109,7 @@
                 		<input type="radio" id="dnaacs-cq-1" value="iftira ve hakaret içeriyor" name="s_complaintText"/><label for="dnaacs-cq-1">iftira ve hakaret içeriyor</label>
                 		<input type="radio" id="dnaacs-cq-2" value="ırkçı, cinsiyet ayrımcısı, homofobik, taciz eden, küçük düşüren ve hakaret ifadeleri içeriyor" name="s_complaintText"/><label for="dnaacs-cq-2">ırkçı, cinsiyet ayrımcısı, homofobik, taciz eden, küçük düşüren ve hakaret ifadeleri içeriyor</label>
                 		<input type="radio" id="dnaacs-cq-3" value="küfür ve hakaret olarak görülebilecek ifadeler içeriyor" name="s_complaintText"/><label for="dnaacs-cq-3">küfür ve hakaret olarak görülebilecek ifadeler içeriyor</label>
-                		<input type="radio" id="dnaacs-cq-4" value="yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor fikri mülkiyet hakkı ihlali mahkemeye itaatsizlik" name="s_complaintText"/><label for="dnaacs-cq-4">yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">fikri mülkiyet hakkı ihlali</a> mahkemeye itaatsizlik</label>
+                		<input type="radio" id="dnaacs-cq-4" value="yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor fikri mülkiyet hakkı ihlali, mahkemeye itaatsizlik gibi" name="s_complaintText"/><label for="dnaacs-cq-4">yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">fikri mülkiyet hakkı ihlali,</a> mahkemeye itaatsizlik gibi</label>
                 		<input type="radio" id="dnaacs-cq-5" value="kâr ve gelir amaçlı hizmet ve ürün reklamı yapılıyor" name="s_complaintText"/><label for="dnaacs-cq-5">kâr ve gelir amaçlı hizmet ve ürün reklamı yapılıyor</label>
                 		<input type="radio" id="dnaacs-cq-7" value="birilerinin taklidi yapılıyor" name="s_complaintText"/><label for="dnaacs-cq-7">birilerinin taklidi yapılıyor</label>
                 		<input type="radio" id="dnaacs-cq-8" value="telefon numarası, ev ya da elektronik posta adresi gibi kişisel bilgiler içeriyor" name="s_complaintText"/><label for="dnaacs-cq-8">telefon numarası, ev ya da elektronik posta adresi gibi kişisel bilgiler içeriyor</label>
@@ -128,7 +128,7 @@
                 </p>
 
               <p class="action">
-                <input type="submit" value="Sonraki sayfa or İleri"/>
+                <input type="submit" value="Sonraki sayfa"/>
               </p>
             </div>
             
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Diğer'">
+                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Diğer'">
                         <xsl:text>buna inanıyorum: </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> Aşağıdaki nedenle </xsl:text>
-                    	</xsl:if>
+                    	</xsl:if> -->
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>

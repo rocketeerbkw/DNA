@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>Keluhan tentang <xsl:call-template name="item_name"/></h2>
-            <p>Formulir ini hanya untuk keluhan serius tentang materi tertentu yang melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a></p>
-            <p>Jika anda ingin menyampaikan komentar atau pertanyaan umum, jangan gunakan formulir ini namun kirim pesan untuk diskusi.</p>
-            <p>Pesan yang Anda keluhkan akan dkirim ke moderator, yang akan menentukan apakah melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a> Anda akan mendapat informasi tentang keputusan itu melalui email. </p>
+            <p>Formulir ini hanya untuk keluhan serius tentang materi tertentu yang melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a>.</p>
+            <p>Jika Anda ingin menyampaikan komentar atau pertanyaan umum, jangan gunakan formulir ini namun kirim pesan untuk diskusi.</p>
+            <p>Pesan yang Anda keluhkan akan dkirim ke moderator, yang akan menentukan apakah melanggar <a href="{$houserulespopupurl}">Peraturan Internal</a>. Anda akan mendapat informasi tentang keputusan itu melalui email. </p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -38,7 +38,7 @@
             <xsl:with-param name="unauthorised"></xsl:with-param>
             <xsl:with-param name="loggedout">
                 <div class="content">
-                    <p>Anda tidak terdaftar. Jika Anda memiliki akun terdaftar, silahkan masuk dan kami akan membantu untuk memproses keluhan Anda.</p>
+                    <p>Anda tidak terdaftar. Jika Anda memiliki akun terdaftar, silakan masuk dan kami akan membantu untuk memproses keluhan Anda.</p>
                     <p class="action">
                       <a>
                       	<xsl:attribute name="href">
@@ -67,7 +67,7 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>Kirim pesan</xsl:text>
+        <xsl:text>pesan</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
         <xsl:text>artikel</xsl:text>
@@ -101,17 +101,17 @@
             <div class="content">
               <h2>Alasan keluhan</h2>
               <p>
-                Saya yakin ini <xsl:call-template name="item_name"/> mungkin melanggar satu dari <a href="{$houserulespopupurl}">Peraturan Internal</a> karena
+                Saya yakin <xsl:call-template name="item_name"/> ini mungkin melanggar satu dari <a href="{$houserulespopupurl}">Peraturan Internal</a> karena:
               </p>
                
                 <p class="options">
                 	<p class="options">
-                		<input type="radio" id="dnaacs-cq-1" value="memfintah atau mencemarkan nama baik" name="s_complaintText"/><label for="dnaacs-cq-1">memfintah atau mencemarkan nama baik,</label>
+                		<input type="radio" id="dnaacs-cq-1" value="memfintah atau mencemarkan nama baik" name="s_complaintText"/><label for="dnaacs-cq-1">memfintah atau mencemarkan nama baik</label>
                 		<input type="radio" id="dnaacs-cq-2" value="rasis, seksis, homofobia, seksual secara terang-terangan, menghina atau menyerang" name="s_complaintText"/><label for="dnaacs-cq-2">rasis, seksis, homofobia, seksual secara terang-terangan, menghina atau menyerang</label>
                 		<input type="radio" id="dnaacs-cq-3" value="mengandung kata makian atau yang mungkin menghina" name="s_complaintText"/><label for="dnaacs-cq-3">mengandung kata makian atau yang mungkin menghina</label>
-                		<input type="radio" id="dnaacs-cq-4" value="melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar hak cipta menghina pengadilan" name="s_complaintText"/><label for="dnaacs-cq-4">melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">hak cipta</a> menghina pengadilan</label>
+                		<input type="radio" id="dnaacs-cq-4" value="melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar hak cipta, menghina pengadilan" name="s_complaintText"/><label for="dnaacs-cq-4">melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">hak cipta,</a> menghina pengadilan</label>
                 		<input type="radio" id="dnaacs-cq-5" value="mempromosikan produk atau jasa untuk mendapat keuntungan" name="s_complaintText"/><label for="dnaacs-cq-5">mempromosikan produk atau jasa untuk mendapat keuntungan</label>
-                		<input type="radio" id="dnaacs-cq-7" value="atau berkedok sebagai orang lain" name="s_complaintText"/><label for="dnaacs-cq-7">atau berkedok sebagai orang lain</label>
+                		<input type="radio" id="dnaacs-cq-7" value="berkedok sebagai orang lain" name="s_complaintText"/><label for="dnaacs-cq-7">berkedok sebagai orang lain</label>
                 		<input type="radio" id="dnaacs-cq-8" value="memuat informasi pribadi seperti nomor telepon, alamat surat maupun alamat email" name="s_complaintText"/><label for="dnaacs-cq-8">memuat informasi pribadi seperti nomor telepon, alamat surat maupun alamat email</label>
                 		<xsl:call-template name="library_userstate">
                       <xsl:with-param name="loggedin">
@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="tidak dalam Bahasa Indonesia" name="s_complaintText"/><label for="dnaacs-cq-10">tidak dalam Bahasa Indonesia</label>
-                		<input type="radio" id="dnaacs-cq-11" value="berisi kaitan dengan situs internet luar yang melanggar Kebijakan Editorial" name="s_complaintText"/><label for="dnaacs-cq-11">berisi kaitan dengan situs internet luar yang melanggar  <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Kebijakan Editorial</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="berisi nama pengguna yang tidak tepat Kebijakan Editorial" name="s_complaintText"/><label for="dnaacs-cq-11">berisi nama pengguna yang tidak tepat <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Kebijakan Editorial</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="menggambarkan atau mendorong kegiatan yang bisa membahayakan keselamatan atau kesejahteraan orang lain" name="s_complaintText"/><label for="dnaacs-cq-12">menggambarkan atau mendorong kegiatan yang bisa membahayakan keselamatan atau kesejahteraan orang lain</label>
                 		<input type="radio" id="dnaacs-cq-13" value="berisi nama pengguna yang tidak tepat" name="s_complaintText"/><label for="dnaacs-cq-13">berisi nama pengguna yang tidak tepat,</label>
                 		<input type="radio" id="dnaacs-cq-14" value="spam" name="s_complaintText"/><label for="dnaacs-cq-14">spam</label>
@@ -174,20 +174,20 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Mohon isi kotak di bawa untuk menginformasikan alasan Anda <xsl:call-template name="item_name"/> bahwa peraturan dilanggar. Jika sudah selesai, klik Kirim Keluhan sehingga bisa dibaca oleh moderator.</p>
+           	<p>Mohon isi kotak di bawah ini untuk menginformasikan alasan Anda <xsl:call-template name="item_name"/> bahwa peraturan dilanggar. Jika sudah selesai, klik Kirim Keluhan sehingga bisa dibaca oleh moderator.</p>
                <p>
-                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Other'">
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Yang lain'">
                     Saya ingin menyampaikan keluhan <xsl:call-template name="item_name"/> dengan alasan berikut
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Other'">
+                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Yang lain'">
                         <xsl:text>Saya yakin hal ini </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> dengan alasan berikut</xsl:text>
-                    	</xsl:if>
+                    	</xsl:if> -->
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -206,7 +206,7 @@
                 <xsl:otherwise>
                     <h3>Alamat email Anda</h3>
                     <p>
-                      <em>Kami membutuhkan email Anda untuk memproses keluhan Anda dan menginformasikn Anda tentang keputusan moderator. Dalam beberapa kesempatan, kami mungkin perlu menghubungi Anda jika kami membutuhkan lebih banyak informasi sehubungan dengan keluhan Anda.</em>
+                      <em>Kami membutuhkan email Anda untuk memproses keluhan Anda dan menginformasikan Anda tentang keputusan moderator. Dalam beberapa kesempatan, kami mungkin perlu menghubungi Anda jika kami membutuhkan lebih banyak informasi sehubungan dengan keluhan Anda.</em>
                     </p>
                     <p>
                         <label for="emailaddress">Alamat email</label>

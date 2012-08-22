@@ -15,7 +15,7 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>Khiếu nại về <xsl:call-template name="item_name"/></h2>
+            <h2>Khiếu nại về nội dung <xsl:call-template name="item_name"/></h2>
             <p>Đơn này chỉ dành cho khiếu nại nghiệm trọng về nội dung cụ thể nào đó đã vi phạm <a href="{$houserulespopupurl}">Quy định nội bộ</a>.</p>
             <p>Nếu bạn có nhận xét chung chung hay thắc mắc thì xin đừng dùng đơn này, hãy đăng thông điệp đó vào diễn đàn. </p>
             <p>Thông điệp của bạn sẽ được gửi tới người duyệt xem xét và quyết định liệu nó có vi phạm <a href="{$houserulespopupurl}">Quy định nội bộ</a>. Bạn sẽ được thông báo bằng email.</p>
@@ -67,7 +67,7 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>đăng</xsl:text>
+        <xsl:text>bình luận</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
         <xsl:text>bài</xsl:text>
@@ -95,7 +95,7 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Báo cáo với người duyệt</h2>
-            	<p>Hãy chọn xem mục nào <a href="{$houserulespopupurl}">Quy định nội bộ</a> bạn tin điều này <xsl:call-template name="item_name"/> đã bị vi phạm. Nếu bạn cho rằng nó đã vi phạm một vài quy định thì quy định nào bị vi phạm nặng nề nhất. </p>
+            	<p>Hãy chọn xem mục nào <a href="{$houserulespopupurl}">Quy định nội bộ</a> bạn tin điều này <xsl:call-template name="item_name"/> này đã bị vi phạm. Nếu bạn cho rằng nó đã vi phạm một vài quy định thì quy định nào bị vi phạm nặng nề nhất.</p>
             </div>
             
             <div class="content">
@@ -108,7 +108,7 @@
                 	<p class="options">
                 		<input type="radio" id="dnaacs-cq-1" value="phỉ báng" name="s_complaintText"/><label for="dnaacs-cq-1">phỉ báng</label>
                 		<input type="radio" id="dnaacs-cq-2" value="mang tính kỳ thị chủng tộc, giới tính, lạm dụng hoặc gây phản cảm nói chung" name="s_complaintText"/><label for="dnaacs-cq-2">mang tính kỳ thị chủng tộc, giới tính, lạm dụng hoặc gây phản cảm nói chung</label>
-                		<input type="radio" id="dnaacs-cq-3" value="chứa ngôn từ tục tiễu hoặc ngôn ngữ gây phản cảm." name="s_complaintText"/><label for="dnaacs-cq-3">chứa ngôn từ tục tiễu hoặc ngôn ngữ gây phản cảm</label>
+                		<input type="radio" id="dnaacs-cq-3" value="chứa ngôn từ tục tĩu hoặc ngôn ngữ gây phản cảm." name="s_complaintText"/><label for="dnaacs-cq-3">chứa ngôn từ tục tĩu hoặc ngôn ngữ gây phản cảm.</label>
                 		<input type="radio" id="dnaacs-cq-4" value="vi phạm pháp luật hoặc khuyến khích hành vi trái pháp luật như vi phạm bản quyền không tuân theo pháp luật" name="s_complaintText"/><label for="dnaacs-cq-4">vi phạm pháp luật hoặc khuyến khích hành vi trái pháp luật như vi phạm <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">bản quyền</a> không tuân theo pháp luật</label>
                 		<input type="radio" id="dnaacs-cq-5" value="quảng cáo cho sản phẩm hoặc dịch vụ vì mục đích lợi nhuận" name="s_complaintText"/><label for="dnaacs-cq-5">quảng cáo cho sản phẩm hoặc dịch vụ vì mục đích lợi nhuận</label>
                 		<input type="radio" id="dnaacs-cq-7" value="bắt chước ai đó" name="s_complaintText"/><label for="dnaacs-cq-7">bắt chước ai đó</label>
@@ -174,7 +174,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Xin bạn vui lòng điền vào ô dưới đây lý do bạn cho rằng <xsl:call-template name="item_name"/> phạm luật. Khi điền xong, mới bạn bấm nút Gửi Khiếu nại để chuyển tới người điều hành xem xét. </p>
+           	<p>Xin bạn vui lòng điền vào ô dưới đây lý do bạn cho rằng <xsl:call-template name="item_name"/> phạm luật. Khi điền xong, mời bạn bấm nút Gửi Khiếu nại để chuyển tới người điều hành xem xét. </p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Khác'">
                     Tôi muốn khiếu nại về <xsl:call-template name="item_name"/> với lý do sau:
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Khác'">
+                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Khác'">
                         <xsl:text>Tôi tin rằng </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> với lý do sau:</xsl:text>
-                    	</xsl:if>
+                    	</xsl:if> -->
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -299,7 +299,7 @@
     <div class="content">
       <h2>Gửi khiếu nại thành công</h2>
       <p>
-        Khiếu nại của bạn đã được nhận và chuyển tới nhóm điều hành. Họ sẽ quyết định xem
+        Khiếu nại của bạn đã được nhận và chuyển tới nhóm điều hành. Họ sẽ quyết định xem <a href="{$houserulespopupurl}">Quy định nội bộ</a> có bị vi phạm không và sẽ cập nhật vào địa chỉ email của bạn.
       </p>
       <p>
         Số tham khảo trong hệ thống điều hành của bạn là: <strong>

@@ -42,6 +42,7 @@
                 <xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
                 
                 <link rel="stylesheet" href="/dnaimages/components/barlesque_thin/style/complaints.css" type="text/css" />
+				<link rel="stylesheet" href="/worldservice/comments/id_complaints.css" type="text/css" />
             	<script type="text/javascript" src="/dnaimages/javascript/DNA.js"/>
             	
             	<script type="text/javascript">

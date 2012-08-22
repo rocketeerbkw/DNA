@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>شکایت درباره <xsl:call-template name="item_name"/></h2>
-            <p>این فرم فقط برای  شکایت های جدی درباره محتوای خاصی است که ناقض XX است <a href="{$houserulespopupurl}">مقررات سایت</a></p>
+            <p>این فرم فقط برای  شکایت های جدی درباره محتوای خاصی است که ناقض مقررات است: <a href="{$houserulespopupurl}">مقررات صفحه</a></p>
             <p>اگر نظری کلی یا پرسشی دارید، لطفا از این فرم استفاده نکنید و پیام خود را به صورت اظهار نظر درباره بحث ارسال کنید</p>
-            <p>پیامی که از آن شکایت می کنید به یکی از مسئولان صفحه ارسال می شود تا احتمال نقض XX را بررسی کند <a href="{$houserulespopupurl}">مقررات سایت</a> تصمیم نهایی در این باره با ایمیل به اطلاع شما خواهد رسید</p>
+            <p>پیامی که از آن شکایت می کنید به یکی از مسئولان صفحه ارسال می شود تا احتمال نقض  مقررات را بررسی کند: <a href="{$houserulespopupurl}">مقررات صفحه</a> تصمیم نهایی در این باره با ایمیل به اطلاع شما خواهد رسید</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -101,7 +101,7 @@
             <div class="content">
               <h2>دلیل شکایت شما</h2>
               <p>
-                به عقیده من <xsl:call-template name="item_name"/> یکی از XX را ممکن است نقض کرده باشد <a href="{$houserulespopupurl}">مقررات سایت</a> زیرا:
+                به عقیده من <xsl:call-template name="item_name"/> یکی از  مقررات را ممکن است نقض کرده باشد: <a href="{$houserulespopupurl}">مقررات صفحه</a> زیرا:
               </p>
                
                 <p class="options">
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'دلایل دیگر'">
+                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'دلایل دیگر'">
                         <xsl:text>علت شکایت من </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> در زیر آمده است:</xsl:text>
-                    	</xsl:if>
+                    	</xsl:if> -->
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
