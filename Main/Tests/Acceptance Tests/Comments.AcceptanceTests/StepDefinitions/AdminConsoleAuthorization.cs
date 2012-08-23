@@ -50,7 +50,7 @@ namespace Comments.AcceptanceTests.StepDefinitions
             var responseXml = request.GetLastResponseAsXML();
             var errorXml = responseXml.SelectSingleNode("//H2G2/ERROR");
             Assert.IsNotNull(errorXml);
-            Assert.AreEqual("UNAUTHORIZED", errorXml.Attributes["TYPE"].Value);
+            Assert.AreEqual("Authorization", errorXml.Attributes["TYPE"].Value);
         }
     }
 }
