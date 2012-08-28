@@ -1255,59 +1255,7 @@ namespace BBC.Dna.Api
             }
         }
 
-        /// <summary>
-        /// Creates a new contact form for a specificed site. If the contact form id already exists, then nothing will be created
-        /// </summary>
-        /// <param name="newContactForm">The new contact form object to create the contact form from</param>
-        /// <param name="site">The site that the form should belong to</param>
-        /// <returns>The contact form (either new or existing) which matches to the </returns>
-        public CommentForum CreateContactForm(ContactForm newContactForm, ISite site)
-        {
-            if (site == null)
-            {
-                throw ApiException.GetError(ErrorType.UnknownSite);
-            }
-
-            if (!CallingUser.IsUserA(UserTypes.Editor))
-            {
-                throw ApiException.GetError(ErrorType.NotAuthorized);
-            }
-
-            if (newContactForm.ContactEmail == null || !EmailAddressFilter.IsValidEmailAddresses(newContactForm.ContactEmail))
-            {
-                throw ApiException.GetError(ErrorType.InvalidContactEmail);
-            }
-
-            var contactForm = GetCommentForumByUid(newContactForm.Id, site);
-            if (contactForm == null)
-            {
-                newContactForm.ModerationServiceGroup = ModerationStatus.ForumStatus.Reactive;
-                CreateForum(newContactForm, site);
-                SetupContactFormDetails(newContactForm);
-                contactForm = GetCommentForumByUid(newContactForm.Id, site);
-            }
-            return contactForm;
-        }
-
         #region Private Functions
-
-        private void SetupContactFormDetails(ContactForm commentForum)
-        {
-            try
-            {
-                using (IDnaDataReader reader = CreateReader("setcommentforumascontactform"))
-                {
-                    reader.AddParameter("forumid", commentForum.ForumID);
-                    reader.AddParameter("contactemail", commentForum.ContactEmail);
-                    reader.Execute();
-                }
-            }
-            catch (Exception ex)
-            {
-                ApiException exception = ApiException.GetError(ErrorType.ForumUnknown, ex.InnerException);
-                throw exception;
-            }
-        }
 
         /// <summary>
         /// Creates the commentforumdata from a given reader

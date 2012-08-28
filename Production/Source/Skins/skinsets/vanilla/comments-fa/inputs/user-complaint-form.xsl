@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>شکایت درباره <xsl:call-template name="item_name"/></h2>
-            <p>این فرم فقط برای  شکایت های جدی درباره محتوای خاصی است که ناقض  است <a href="{$houserulespopupurl}">مقررات سایت</a></p>
+            <p>این فرم فقط برای  شکایت های جدی درباره محتوای خاصی است که ناقض مقررات است: <a href="{$houserulespopupurl}">مقررات صفحه</a></p>
             <p>اگر نظری کلی یا پرسشی دارید، لطفا از این فرم استفاده نکنید و پیام خود را به صورت اظهار نظر درباره بحث ارسال کنید</p>
-            <p>پیامی که از آن شکایت می کنید به یکی از مسئولان صفحه ارسال می شود تا احتمال نقض  را بررسی کند <a href="{$houserulespopupurl}">مقررات سایت</a> تصمیم نهایی در این باره با ایمیل به اطلاع شما خواهد رسید</p>
+            <p>پیامی که از آن شکایت می کنید به یکی از مسئولان صفحه ارسال می شود تا احتمال نقض  مقررات را بررسی کند: <a href="{$houserulespopupurl}">مقررات صفحه</a> تصمیم نهایی در این باره با ایمیل به اطلاع شما خواهد رسید</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -28,7 +28,7 @@
                   <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">ثبت شکایت</a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">ثبت شکایت</a>
+                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Rثبت شکایت</a>
                 </xsl:otherwise>
               </xsl:choose>
             </p>
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>آگاه ساختن مسئولان</h2>
-            	<p>Please choose which of the <a href="{$houserulespopupurl}">مقررات سایت</a> به نظر شما <xsl:call-template name="item_name"/> نقض شده است.اگر فکر می کنید این نظر بیش از یکی از مقررات را نقض کرده است لطفا  موردی را که بیشتر نقض شده انتخاب کنید.</p>
+            	<p>لطفا انتخاب کنید کدامیک از <a href="{$houserulespopupurl}">مقررات سایت</a> به نظر شما <xsl:call-template name="item_name"/> نقض شده است.اگر فکر می کنید این نظر بیش از یکی از مقررات را نقض کرده است لطفا  موردی را که بیشتر نقض شده انتخاب کنید.</p>
             </div>
             
             <div class="content">
               <h2>دلیل شکایت شما</h2>
               <p>
-                به عقیده من <xsl:call-template name="item_name"/> یکی از  را ممکن است نقض کرده باشد <a href="{$houserulespopupurl}">مقررات سایت</a> زیرا:
+                به عقیده من <xsl:call-template name="item_name"/> یکی از  مقررات را ممکن است نقض کرده باشد: <a href="{$houserulespopupurl}">مقررات صفحه</a> زیرا:
               </p>
                
                 <p class="options">
@@ -109,8 +109,8 @@
                 		<input type="radio" id="dnaacs-cq-1" value="افترا آمیز یا توهین آمیز است" name="s_complaintText"/><label for="dnaacs-cq-1">افترا آمیز یا توهین آمیز است</label>
                 		<input type="radio" id="dnaacs-cq-2" value="نژاد پرستانه، حاوی تبعیض جنسی، ضد همجنسگرایی، حاوی اشاره های آشکار جنسی، توهین آمیز و یا به هر حال اهانت آمیز است" name="s_complaintText"/><label for="dnaacs-cq-2">نژاد پرستانه، حاوی تبعیض جنسی، ضد همجنسگرایی، حاوی اشاره های آشکار جنسی، توهین آمیز و یا به هر حال اهانت آمیز است</label>
                 		<input type="radio" id="dnaacs-cq-3" value="دارای فحش یا لحنی است که ممکن است توهین آمیز باشد" name="s_complaintText"/><label for="dnaacs-cq-3">دارای فحش یا لحنی است که ممکن است توهین آمیز باشد</label>
-                		<input type="radio" id="dnaacs-cq-4" value="قانون را می شکند یا  اقدامی غیرقانونی را ترغیب یا از آن چشم پوشی می کند، مانند نقض یا اهانت به دادگاه" name="s_complaintText"/><label for="dnaacs-cq-4">قانون را می شکند یا  اقدامی غیرقانونی را ترغیب یا از آن چشم پوشی می کند، مانند نقض  <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">حقوق انصاری آثار</a> یا اهانت به دادگاه</label>
-                		<input type="radio" id="dnaacs-cq-5" value="خدمات و کالاهایی را برای کسب سود تبلیغ می کند" name="s_complaintText"/><label for="dnaacs-cq-5">خدمات و کالاهایی را برای کسب سود تبلیغ می کند</label>
+                		<input type="radio" id="dnaacs-cq-4" value="قانون را می شکند یا  اقدامی غیرقانونی را ترغیب یا از آن چشم پوشی می کند، مانند نقض  حقوق انصاری آثار یا اهانت به دادگاه" name="s_complaintText"/><label for="dnaacs-cq-4">قانون را می شکند یا  اقدامی غیرقانونی را ترغیب یا از آن چشم پوشی می کند، مانند نقض  <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">حقوق انصاری آثار</a> یا اهانت به دادگاه</label>
+                		<input type="radio" id="dnaacs-cq-5" value="خدمات و کالاهایی را برای کسب سود تبلیغ می کند" name="s_complaintText"/><label for="dnaacs-cq-5">aخدمات و کالاهایی را برای کسب سود تبلیغ می کند</label>
                 		<input type="radio" id="dnaacs-cq-7" value="با این نظر، کسی خود را جای کس دیگری جا می  زند" name="s_complaintText"/><label for="dnaacs-cq-7">با این نظر، کسی خود را جای کس دیگری جا می  زند</label>
                 		<input type="radio" id="dnaacs-cq-8" value="شامل اطلاعات شخصی است مانند شماره تلفن، نشانی پستی یا ایمیل" name="s_complaintText"/><label for="dnaacs-cq-8">شامل اطلاعات شخصی است مانند شماره تلفن، نشانی پستی یا ایمیل</label>
                 		<xsl:call-template name="library_userstate">
@@ -119,16 +119,16 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="به زبان فارسی نیست" name="s_complaintText"/><label for="dnaacs-cq-10">به زبان فارسی نیست</label>
-                		<input type="radio" id="dnaacs-cq-11" value="شامل لینکی به یک سایت دیگر است که    ما را نقض می کند" name="s_complaintText"/><label for="dnaacs-cq-11">شامل لینکی به یک سایت دیگر است که    ما را نقض می کند<a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">دستورالعمل حرفه ای بی بی سی</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="شامل لینکی به یک سایت دیگر است که  XX  ما را نقض می کند دستورالعمل حرفه ای بی بی سی" name="s_complaintText"/><label for="dnaacs-cq-11">شامل لینکی به یک سایت دیگر است که  XX  ما را نقض می کند <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">دستورالعمل حرفه ای بی بی سی</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="کارهایی را توضیح می دهد یا ترغیب می کند که می تواند دیگران به خطر بیندازد" name="s_complaintText"/><label for="dnaacs-cq-12">کارهایی را توضیح می دهد یا ترغیب می کند که می تواند دیگران به خطر بیندازد</label>
                 		<input type="radio" id="dnaacs-cq-13" value="شامل یک نام کاربری نامناسب است" name="s_complaintText"/><label for="dnaacs-cq-13">شامل یک نام کاربری نامناسب است</label>
                 		<input type="radio" id="dnaacs-cq-14" value="هرزنامه است" name="s_complaintText"/><label for="dnaacs-cq-14">هرزنامه است</label>
-                		<input type="radio" id="dnaacs-cq-6" value="مقررات را به دلیلی که در بالا نیامده نقض می کند" name="s_complaintText"/><label for="dnaacs-cq-6">مقررات را به دلیلی که در بالا نیامده نقض می کند</label>
+                		<input type="radio" id="dnaacs-cq-6" value="دلایل دیگر" name="s_complaintText"/><label for="dnaacs-cq-6">مقررات را به دلیلی که در بالا نیامده نقض می کند</label>
                 	</p>
                 </p>
 
               <p class="action">
-                <input type="submit" value="Next Page"/>
+                <input type="submit" value="صفحه بعد"/>
               </p>
             </div>
             
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Please choose a complaint reason");
+        alert("لطفا دلیل شکایت را انتخاب کنید");
         return;
         }
         else {
@@ -176,18 +176,18 @@
            <div class="content"> 
            	<p>لطفا با استفاده از پنجره زیر،  دلیلی را که فکر می کنید <xsl:call-template name="item_name"/> این نظر، مقررات را نقض کرده  بنویسید و روی ارسال شکایت کلیک کنید.</p>
                <p>
-                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Other'">
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'دلایل دیگر'">
                     می خواهم در این باره شکایت کنم <xsl:call-template name="item_name"/> به دلیل زیر:
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Other'">
+                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'دلایل دیگر'">
                         <xsl:text>علت شکایت من </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> در زیر آمده است:</xsl:text>
-                    	</xsl:if>
+                    	</xsl:if> -->
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -237,8 +237,8 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="submit"/>
-                    <input type="submit" value="Send Complaint" name="Submit" class="button"/>
+                    <input type="hidden" name="action" value="ارسال کنید"/>
+                    <input type="submit" value="شکایت خود را بفرستید" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -319,7 +319,7 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/persian</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 

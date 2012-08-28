@@ -48,9 +48,18 @@
 				<div class="dna-fr">
 				  <span>* denotes required field</span>
 				</div>
-				<form method="get" action="twitterprofile" class="twitterprofile"> 
-					<input type="hidden" name="type">
-						<xsl:attribute name="value">onionstreet</xsl:attribute>
+				<form method="post" action="twitterprofile" class="twitterprofile"> 
+					<input type="hidden" name="sitename" id="sitename">
+						<xsl:attribute name="value">
+							<xsl:choose>
+								<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE">
+									<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE" />
+								</xsl:when>
+								<xsl:otherwise>
+									<xsl:value-of select="/H2G2/TWITTER-SITE-LIST/SITE/NAME" />
+								</xsl:otherwise>
+							</xsl:choose>
+						</xsl:attribute>
 					</input>
 					<fieldset>
 						<ul class="twitter-profile">
@@ -67,14 +76,20 @@
 								</input>
 							</li>
 							<li>
-								<label for="users">Users: <br /><em>You must enter at least one user or search term</em></label>
+								<label for="commentforumparenturl">Commentforum ParentURI<span>*</span>:</label>
+								<input type="text" name="commentforumparenturl" id="commentforumparenturl">
+									<xsl:attribute name="value"><xsl:value-of select="/H2G2/PROFILE/COMMENTFORUMPARENTURI" /></xsl:attribute>
+								</input>
+							</li>
+							<li>
+								<label for="users">Users: <br /><em>You must enter at least one twitter user screen name or search term</em></label>
 								<textarea name="users" id="users">
 									<xsl:text> </xsl:text>
 									<xsl:apply-templates select="/H2G2/PROFILE/USERS/ITEM" mode="items" />
 								</textarea>
 							</li>
 							<li>
-								<label for="searchterms">Search Terms:<br /><em>You must enter at least one user or search term</em></label>
+								<label for="searchterms">Search Terms:<br /><em>You must enter at least one twitter user screen name or search term</em></label>
 								<textarea name="searchterms" id="searchterms">
 									<xsl:text> </xsl:text>
 									<xsl:apply-templates select="/H2G2/PROFILE/KEYWORDS/ITEM" mode="items" />
@@ -83,7 +98,7 @@
 							<li class="states blq-clearfix">
 								<label for="active">Active:</label>
 								<input type="checkbox" name="active" id="active" value="true">
-									<xsl:if test="/H2G2/PROFILE/ACTIVEONLY = 'true'">
+									<xsl:if test="/H2G2/PROFILE/ENABLED = 'true'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
 								</input>
@@ -125,8 +140,14 @@
 							</xsl:if>
 							<input type="hidden" name="action" value="createupdateprofile" />
 							<li><input type="submit" value="{$profiletype} Profile" class="{$lowerprofiletype}-profile" /></li>
-							<li><a href="twitterprofilelist?type={$sitetype}" class="button cancel">Cancel</a></li>
-						</ul>					
+							<li><a href="twitterprofilelist?sitename={$sitetype}" class="button cancel">Cancel</a></li>
+						</ul>	
+						<ul>	
+							<xsl:if test="/H2G2/RESULT/EXTRAINFO">
+								<xsl:variable name="commentforumlisturl" select="/H2G2/RESULT/EXTRAINFO"/>
+								<p>Please follow the url, <b><a href="{$commentforumlisturl}">Comment Forum</a></b> to manage the comment forum</p>
+							</xsl:if>
+						</ul>
 					</fieldset>
 				</form>
 			</div>	

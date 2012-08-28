@@ -8,9 +8,11 @@ using BBC.Dna.Data;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.SocialAPI;
+using BBC.Dna.Api;
 using BBC.Dna.Users;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Xml.Linq;
+using BBC.Dna.Sites;
 
 namespace BBC.Dna.Component
 {
@@ -27,6 +29,8 @@ namespace BBC.Dna.Component
         private string _users = string.Empty;
         private string _searchterms = string.Empty;
         private string _cmd = string.Empty;
+        private string _pageAction = string.Empty;
+        private string _commentForumURI = string.Empty;
         private bool _isActive = false;
         private bool _isTrustedUsersEnabled = false;
         private bool _isCountsEnabled = false;
@@ -37,6 +41,7 @@ namespace BBC.Dna.Component
         IDnaDataReaderCreator readerCreator;
         IDnaDiagnostics dnaDiagnostic;
 
+        
         /// <summary>
         /// Default constructor for the Twitter Create Profile component
         /// </summary>
@@ -65,16 +70,16 @@ namespace BBC.Dna.Component
         public override void ProcessRequest()
         {
             string action = String.Empty;
+
             //Clean any existing XML.
             RootElement.RemoveAll();
 
-
-            if (InputContext.ViewingUser == null || !InputContext.ViewingUser.IsSuperUser)
+            if (InputContext.ViewingUser == null || (false == InputContext.ViewingUser.IsEditor) || (false == InputContext.ViewingUser.IsSuperUser))
             {
-                AddErrorXml("INVALID PERMISSIONS", "Superuser permissions required", RootElement);
+                AddErrorXml("INVALID PERMISSIONS", "Editor permissions required", RootElement);
                 return;
             }
-
+            
             GetQueryParameters();
 
             var siteName = string.Empty;
@@ -107,7 +112,7 @@ namespace BBC.Dna.Component
             switch (_cmd.ToUpper())
             {
                 case "CREATEUPDATEPROFILE":
-                    return CreateProfileOnBuzz(siteName);
+                    return CreateUpdateProfileOnBuzz(siteName);
                 
                 case "GETPROFILE":
                     return GetProfileFromBuzz(_profileId);
@@ -137,18 +142,44 @@ namespace BBC.Dna.Component
         {
             BuzzClient client;
             BuzzTwitterProfile twitterProfile = null;
+            CommentForum commentForum = null;
+            Comments commentObj = new Comments(dnaDiagnostic, readerCreator, AppContext.DnaCacheManager, InputContext.TheSiteList);
             try
             {
                 client = new BuzzClient();
                 twitterProfile = new BuzzTwitterProfile();
+                commentForum = new CommentForum();
 
                 twitterProfile = client.GetProfile(twitterProfileId);
 
                 if (twitterProfile != null)
                 {
-                    var twitterUserIds = string.Join(",", twitterProfile.Users.ToArray());
+                    var twitterUserIds = string.Empty;
 
-                    twitterProfile.Users = GetTwitterScreenNamesFromDNA(twitterUserIds);
+                    if (twitterProfile.Users.Count > 0)
+                    {
+                        twitterUserIds = string.Join(",", twitterProfile.Users.ToArray());
+                        twitterProfile.Users = GetTwitterScreenNamesFromDNA(twitterUserIds);
+                    }
+
+                    try
+                    {
+                        ISite site = InputContext.TheSiteList.GetSite(_siteName);
+
+                        if (site != null)
+                        {
+                            commentForum = commentObj.GetCommentForumByUid(twitterProfile.ProfileId, site);
+
+                            if (commentForum != null)
+                            {
+                                _commentForumURI = commentForum.ParentUri;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        InputContext.Diagnostics.WriteExceptionToLog(ex);
+                    }
 
                     string str = StringUtils.SerializeToXmlReturnAsString(twitterProfile);
 
@@ -156,6 +187,9 @@ namespace BBC.Dna.Component
                     actualXml = actualXml.Replace("xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"BBC.Dna.SocialAPI\"", "").Trim();
                     actualXml = actualXml.Replace("xmlns:d2p1=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\"", "").Trim();
                     actualXml = actualXml.Replace("d2p1:string", "item");
+
+                    actualXml = actualXml.Replace("</profile>", "<commentforumparenturi>" + _commentForumURI + "</commentforumparenturi></profile>");
+
                     //Making all the XML Nodes uppercase
                     actualXml = StringUtils.ConvertXmlTagsToUppercase(actualXml);
 
@@ -164,17 +198,29 @@ namespace BBC.Dna.Component
                     XmlNode appendNode = doc.DocumentElement;
 
                     ImportAndAppend(appendNode, "");
-                    return new Result("TwitterProfileRetrieved", String.Format("Twitter profile, {0} retrieved successfully.", twitterProfileId));
+                    string[] str1 = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
+
+                    var commentforumlistURI = string.Empty;
+
+                    if (commentForum != null && (false == String.IsNullOrEmpty(commentForum.SiteName)) )
+                    {
+                        commentforumlistURI = str1[0].Replace("moderation", commentForum.SiteName);
+                        commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForum.ParentUri.Trim());
+
+                        return new Result("TwitterProfileRetrieved", String.Format("Twitter profile, '{0}' retrieved successfully.", twitterProfileId), commentforumlistURI);
+                    }
+
+                    return new Result("TwitterProfileRetrieved", String.Format("Twitter profile, '{0} retrieved successfully but comment forum hasn't been created yet.", twitterProfileId));
                 }
                 else
                 {
-                    return new Error { Type = "GETTWITTERPROFILEINVALIDACTION", ErrorMessage = "Twitter Profile retrieval failed: " };
+                    return new Error { Type = "GETTWITTERPROFILEINVALIDACTION", ErrorMessage = "Twitter Profile retrieval from Buzz failed" };
                 }
             }
             catch (Exception ex)
             {
                 InputContext.Diagnostics.WriteExceptionToLog(ex);
-                return new Error { Type = "GETTWITTERPROFILEINVALIDACTION", ErrorMessage = "Twitter Profile retrieval failed: " };
+                return new Error { Type = "GETTWITTERPROFILEINVALIDACTION", ErrorMessage = "Twitter Profile retrieval failed" };
             }
         }
 
@@ -199,7 +245,7 @@ namespace BBC.Dna.Component
                     {
                         var twitterScreenName = dataReader.GetStringNullAsEmpty("TwitterScreenName");
 
-                        if (!string.IsNullOrEmpty(twitterScreenName))
+                        if (false == string.IsNullOrEmpty(twitterScreenName))
                         {
                             twitterScreenNames.Add(twitterScreenName);
                         }
@@ -216,7 +262,7 @@ namespace BBC.Dna.Component
         /// </summary>
         /// <param name="siteName"></param>
         /// <returns></returns>
-        private BaseResult CreateProfileOnBuzz(string siteName)
+        private BaseResult CreateUpdateProfileOnBuzz(string siteName)
         {
             BuzzTwitterProfile twitterProfile = null;
             var isProfileCreated = string.Empty;
@@ -231,6 +277,7 @@ namespace BBC.Dna.Component
 
                 List<string> twitterUserIds = new List<string>();
                 var isValidUser = string.Empty;
+                
                 var userExists = false;
 
                 foreach (string tweetUserScreenName in twitterUserScreenNameList)
@@ -249,16 +296,7 @@ namespace BBC.Dna.Component
                             }
                             else
                             {
-                                isValidUser = IsValidTwitterUser(tweetUserScreenName);
-                                if (isValidUser.Contains("Twitter"))
-                                {
-                                    return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "When trying to retrieve, '" + tweetUserScreenName + "' " + isValidUser };
-                                }
-                                else
-                                {
-                                    twitterUserIds.Add(isValidUser);
-                                    //register the user
-                                }
+                                return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "The following user is not registered in DNA yet, '" + tweetUserScreenName + "' " + isValidUser + "Please follow the link to register a valid twitter user, ", ErrorLinkParameter = tweetUserScreenName };
                             }
                         }
                     }
@@ -268,18 +306,28 @@ namespace BBC.Dna.Component
                         twitterUser = null;
                     }
                 }
+                
+
+                if (string.IsNullOrEmpty(_profileId) || string.IsNullOrEmpty(_title) || string.IsNullOrEmpty(_commentForumURI))
+                {
+                    return new Error { Type = "TWITTERPROFILEMANDATORYFIELDSMISSING", ErrorMessage = "Please fill in the mandatory fields for creating/updating a profile" };
+                }
 
                 twitterProfile.Users = twitterUserIds;
-               
+
+                //twitterProfile.Users = twitterUserScreenNameList;
                 twitterProfile.ProfileId = _profileId;
+                twitterProfile.Title = _title;
                 twitterProfile.SearchKeywords = _searchterms.Split(',').Where(x => x != " " && !string.IsNullOrEmpty(x)).Distinct().Select(p => p.Trim()).ToList();
-               
+                
                 twitterProfile.ProfileCountEnabled = _isCountsEnabled;
                 twitterProfile.ProfileKeywordCountEnabled = _keywordCountsEnabled;
                 twitterProfile.ModerationEnabled = _isModerationEnabled;
                 twitterProfile.TrustedUsersEnabled = _isTrustedUsersEnabled;
 
-                isProfileCreated = client.CreateProfile(twitterProfile);
+                twitterProfile.Active = _isActive;
+
+                isProfileCreated = client.CreateUpdateProfile(twitterProfile);
 
             }
             catch (Exception ex)
@@ -289,11 +337,70 @@ namespace BBC.Dna.Component
 
             if (isProfileCreated.Equals("OK"))
             {
-                return new Result("TwitterProfileCreated", String.Format("Twitter profile, {0} created successfully.", _profileId));
+                //Create and map commentforum
+                Comments commentObj = new Comments(dnaDiagnostic,readerCreator, AppContext.DnaCacheManager, InputContext.TheSiteList);
+
+                CommentForum commentForum = new CommentForum();
+                commentForum.isContactForm = false;
+                commentForum.SiteName = siteName;
+                if (false == string.IsNullOrEmpty(_commentForumURI))
+                    commentForum.ParentUri = _commentForumURI; 
+                else
+                    commentForum.ParentUri = string.Empty;
+
+                commentForum.Id = _profileId;
+                commentForum.Title = _title;
+
+                try
+                {
+                    ISite site = InputContext.TheSiteList.GetSite(siteName);
+
+                    if (string.IsNullOrEmpty(_pageAction))
+                    {
+                        CommentForum commentForumData = commentObj.CreateCommentForum(commentForum, site);
+
+                        if (commentForumData != null && commentForumData.Id == _profileId)
+                        {
+                            string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
+
+                            var commentforumlistURI = str[0].Replace("moderation", siteName);
+                            commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl= " + commentForumData.ParentUri.Trim());
+
+                            return new Result("TwitterProfileCreated", String.Format("Twitter profile, {0} created successfully.", _profileId), commentforumlistURI);
+                        }
+                        else
+                        {
+                            return new Error { Type = "COMMENTFORUMCREATIONINVALIDACTION", ErrorMessage = "Comment Forum creation failed: " + _profileId };
+                        }
+                    }
+                    else
+                    {
+                        CommentForum commentForumData = commentObj.CreateAndUpdateCommentForum(commentForum, site, false);
+
+                        if (commentForumData != null && commentForumData.Id == _profileId)
+                        {
+                            string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
+
+                            var commentforumlistURI = str[0].Replace("moderation", siteName);
+                            commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForumData.ParentUri.Trim());
+
+                            return new Result("TwitterProfileUpdated", String.Format("Twitter profile, {0} updated successfully.", _profileId), commentforumlistURI);
+                        }
+                        else
+                        {
+                            return new Error { Type = "COMMENTFORUMUPDATEINVALIDACTION", ErrorMessage = "Comment Forum update failed: " + _profileId };
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    InputContext.Diagnostics.WriteExceptionToLog(e);
+                    return new Error { Type = "SITEINVALIDACTION", ErrorMessage = String.Format("Site, '{0}' doesn't exist", siteName) };
+                }
             }
             else
             {
-                return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = "Twitter Profile creation failed: " + isProfileCreated };
+                return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = String.Format("Twitter Profile, '{0}' creation failed", isProfileCreated) };
             }
         }
 
@@ -314,15 +421,13 @@ namespace BBC.Dna.Component
 
                 if (dataReader.HasRows && dataReader.Read())
                 {
-                    var twitterUserExists = dataReader.GetStringNullAsEmpty("TwitterUserID"); 
-                    if (twitterUserExists.Equals("NA"))
-                    {
-                        UserExists.Add(false, string.Empty);
-                    }
-                    else
-                    {
-                        UserExists.Add(true, twitterUserExists);
-                    }
+                    var twitterUserExists = dataReader.GetStringNullAsEmpty("TwitterUserID");
+                    
+                    UserExists.Add(true, twitterUserExists);
+                }
+                else
+                {
+                    UserExists.Add(false, string.Empty);
                 }
             }
 
@@ -447,7 +552,7 @@ namespace BBC.Dna.Component
                 _isModerationEnabled = Convert.ToBoolean(InputContext.GetParamStringOrEmpty("moderated", "moderated"));
             }
 
-            if (InputContext.DoesParamExist("type", "sitename"))
+            if (InputContext.DoesParamExist("sitename", "sitename"))
             {
                 _siteName = InputContext.GetParamStringOrEmpty("sitename", "sitename");
             }
@@ -456,6 +561,17 @@ namespace BBC.Dna.Component
             {
                 _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
             }
+
+            if (InputContext.DoesParamExist("s_action", "page update action"))
+            {
+                _pageAction = InputContext.GetParamStringOrEmpty("s_action", "page update action");
+            }
+
+            if (InputContext.DoesParamExist("commentforumparenturl", "Comment Forum Parent URI"))
+            {
+                _commentForumURI = InputContext.GetParamStringOrEmpty("commentforumparenturl", "Comment Forum Parent URI");
+            }
+
             _userId = InputContext.ViewingUser.UserID;
         }
     }

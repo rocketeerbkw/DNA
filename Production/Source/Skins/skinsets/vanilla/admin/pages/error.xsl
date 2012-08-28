@@ -81,6 +81,10 @@
         <xsl:when test="@TYPE = 'ImageNameMissing'"><a href="#dna-preview-topic-edit-{$topicId}">Add a topic promo image</a></xsl:when>
         <xsl:when test="@TYPE = 'AltTextMissing'"><a href="#dna-preview-topic-edit-{$topicId}">Provide an alt text</a></xsl:when>
         <xsl:when test="@CODE = 'UserNotLoggedIn'">You are not logged in</xsl:when>
+		<xsl:when test="@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTION'">
+			<xsl:variable name="tweetusername" select="ERRORLINKPARAMETER"/>
+			<xsl:value-of select="ERRORMESSAGE"/><a href="UserList?searchText={$tweetusername}&amp;usersearchtype=6">User List</a>
+		</xsl:when>
         <xsl:otherwise><xsl:value-of select="ERRORMESSAGE"/></xsl:otherwise>
       </xsl:choose>
     </p>
@@ -90,6 +94,11 @@
   	<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILE/@SITENAME" />
     <xsl:choose>
     	<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_action']/VALUE = 'getprofile'">
+			<xsl:choose>
+				<xsl:when test="@TYPE = 'TwitterProfileRetrieved'">
+					<p class="dna-no-error"><xsl:value-of select="/H2G2/RESULT/MESSAGE"/></p>
+				</xsl:when>
+			</xsl:choose>
     	</xsl:when>
 		<xsl:otherwise>
 		    <xsl:choose>
@@ -108,7 +117,7 @@
 			    	<p class="dna-no-error">Your Twitter profile has been <xsl:value-of select="$profiletype" />. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
 			    </xsl:when>
 			    <xsl:otherwise>
-			    	<p class="dna-no-error">Your updates have been saved.</p>
+					<p class="dna-no-error">Your Twitter profile has been updated. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
 			    </xsl:otherwise>
 		    </xsl:choose>		
 		</xsl:otherwise>    

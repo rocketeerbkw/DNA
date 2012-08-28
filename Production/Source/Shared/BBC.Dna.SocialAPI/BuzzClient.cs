@@ -162,7 +162,7 @@ namespace BBC.Dna.SocialAPI
         /// </summary>
         /// <param name="twitterProfile"></param>
         /// <returns></returns>
-        public string CreateProfile(BuzzTwitterProfile twitterProfile)
+        public string CreateUpdateProfile(BuzzTwitterProfile twitterProfile)
         {
             var resStatus = string.Empty;
             var uri = ConfigurationSettings.AppSettings["BuzzProfileAPI"].ToString();

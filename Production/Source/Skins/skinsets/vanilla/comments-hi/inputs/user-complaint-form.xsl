@@ -15,10 +15,10 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>के बारे में शिकायत <xsl:call-template name="item_name"/></h2>
-            <p>ये फॉर्म केवल गंभीर शिकायतों के लिए है जो खास सामग्री के बारे में हैं <a href="{$houserulespopupurl}">आंतरिक नियम</a></p>
-            <p>यदि आपकी कोई सामान्य टिप्पणी या सवाल है तो कृपया इस फॉर्म का प्रयोग न करें, चर्चा के लिए एक संदेश भेजें</p>
-            <p>आपने जो शिकायती संदेश भेजा है, उसे एक संचालक को पास भेजा जाएगा जो इस बारे में तय करेंगे <a href="{$houserulespopupurl}">आंतरिक नियम</a> उनके निर्णय के बारे में आपको ई-मेल के माध्यम से सूचित किया जाएगा</p>
+            <h2>आपकी शिकायत जिस पोस्ट से जुड़ी है वो <xsl:call-template name="item_name"/></h2>
+            <p>ये फ़ॉर्म केवल ऐसे कमेंट के बारे में शिकायत करने के लिए है जो हमारे हाउस रूल्स तोड़ता है. हमारे <a href="{$houserulespopupurl}">हाउस रूल्स</a>.</p>
+            <p>अगर आप कोई सवाल पूछना चाहते हैं या टिप्पणी करना चाहते हैं तो अपना कमेंट सामान्य तरीके से पोस्ट करें.</p>
+            <p>आपने जिस कमेंट के बारे में शिकायत की है उसे हमारी टीम के एक सदस्य पढ़ेगा और तय करेंगा कि कमेंट हमारे हाउस रुल्स तोड़ता है या नहीं. हमारे <a href="{$houserulespopupurl}">हाउस रूल्स</a>. हमारे फ़ैसले की सूचना आपको ई-मेल से दी जाएगी.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -38,7 +38,7 @@
             <xsl:with-param name="unauthorised"></xsl:with-param>
             <xsl:with-param name="loggedout">
                 <div class="content">
-                    <p>आपने इस वेबसाइट पर साइन इन नहीं किया है. यदि आपने इस वेबसाइट पर एक अकाउंट बनाया है तो कृपया साइन-इन करें क्योंकि इससे हमें आपकी शिकायत आगे बढ़ाने में मदद मिलेगी</p>
+                    <p>आपने इस वेबसाइट पर साइन-इन नहीं किया है. यदि आपने इस वेबसाइट पर एक अकाउंट बनाया है तो कृपया साइन-इन करें क्योंकि इससे हमें आपकी शिकायत आगे बढ़ाने में मदद मिलेगी</p>
                     <p class="action">
                       <a>
                       	<xsl:attribute name="href">
@@ -56,7 +56,7 @@
 		                     </xsl:otherwise>
 		                  </xsl:choose>
 		                  </xsl:attribute>
-                          <xsl:text>साइन इन</xsl:text>
+                          <xsl:text>साइन-इन करें</xsl:text>
                       </a>
                     </p>
                 </div>
@@ -67,7 +67,7 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>भेजे</xsl:text>
+        <xsl:text>पोस्ट</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
         <xsl:text>लेख</xsl:text>
@@ -94,41 +94,41 @@
               </xsl:choose>
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
-            	<h2>संचालकों को सचेत कर रहा है</h2>
-            	<p>कृपया चयन करें <a href="{$houserulespopupurl}">हाउस रूल्स</a> आप ये मानते हैं <xsl:call-template name="item_name"/> यदि आपको लगता है कि इससे एक से अधिक नियम टूटते हैं तो कृपया उस चूक को चुने जो सबसे अधिक गंभीर है</p>
+            	<h2>हमारी टीम को एलर्ट करें</h2>
+            	<p>आपकी राय में हमारे <a href="{$houserulespopupurl}">हाउस रूल्स</a> में कौन सा रूल तोड़ा गया है. <xsl:call-template name="item_name"/> यदि आपको लगता है कि एक से अधिक रूल तोड़े गए हैं को तो कृपया उस चूक को चुने जो सबसे अधिक गंभीर है</p>
             </div>
             
             <div class="content">
               <h2>आपकी शिकायत की वजह</h2>
               <p>
-					मैं ये मानता हूं <xsl:call-template name="item_name"/>  कोई नियम टूट सकता है <a href="{$houserulespopupurl}">हाउस रूल्स</a> क्योंकि ये
+				मेरी राय में ये <xsl:call-template name="item_name"/>  कोई नियम टूट सकता है <a href="{$houserulespopupurl}">हाउस रूल्स</a>  के नियमों में से एक को तोड़ रहा है क्योंकि यह
               </p>
                
                 <p class="options">
                 	<p class="options">
                 		<input type="radio" id="dnaacs-cq-1" value="अपमानसूचक या निंदात्मक है" name="s_complaintText"/><label for="dnaacs-cq-1">अपमानसूचक या निंदात्मक है</label>
                 		<input type="radio" id="dnaacs-cq-2" value="नस्ली, कामुक या किसी और तरह से अपमानजनक है" name="s_complaintText"/><label for="dnaacs-cq-2">नस्ली, कामुक या किसी और तरह से अपमानजनक है</label>
-                		<input type="radio" id="dnaacs-cq-3" value="में ऐसी भाषा का इस्तेमाल है जो लोगों को बुरी लग सकती है" name="s_complaintText"/><label for="dnaacs-cq-3">में ऐसी भाषा का इस्तेमाल है जो लोगों को बुरी लग सकती है</label>
-                		<input type="radio" id="dnaacs-cq-4" value="कानून तोड़ती है या गैर कानूनी गतिविधियों को बढ़ावा देती है या अदालत की अवमानना" name="s_complaintText"/><label for="dnaacs-cq-4">कानून तोड़ती है या गैर कानूनी गतिविधियों को बढ़ावा देती है <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">कॉपीराइट</a> या अदालत की अवमानना</label>
-                		<input type="radio" id="dnaacs-cq-5" value="उत्पादों या सेवाओं का लाभ या मुनाफे के लिए विज्ञापन" name="s_complaintText"/><label for="dnaacs-cq-5">उत्पादों या सेवाओं का लाभ या मुनाफे के लिए विज्ञापन</label>
-                		<input type="radio" id="dnaacs-cq-7" value="किसी और का छद्म वेश है" name="s_complaintText"/><label for="dnaacs-cq-7">किसी और का छद्म वेश है</label>
+                		<input type="radio" id="dnaacs-cq-3" value="ऐसी भाषा का इस्तेमाल करता है जो लोगों को बुरी लग सकती है" name="s_complaintText"/><label for="dnaacs-cq-3">ऐसी भाषा का इस्तेमाल करता है जो लोगों को बुरी लग सकती है</label>
+                		<input type="radio" id="dnaacs-cq-4" value="कानून तोड़ता है या गैर कानूनी गतिविधियों को बढ़ावा देता है कॉपीराइट या अदालत की अवमानना" name="s_complaintText"/><label for="dnaacs-cq-4">कानून तोड़ता है या गैर कानूनी गतिविधियों को बढ़ावा देता है <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">कॉपीराइट</a> या अदालत की अवमानना</label>
+                		<input type="radio" id="dnaacs-cq-5" value="उत्पादों या सेवाओं का लाभ या मुनाफे के लिए विज्ञापन करता है" name="s_complaintText"/><label for="dnaacs-cq-5">उत्पादों या सेवाओं का लाभ या मुनाफे के लिए विज्ञापन करता है</label>
+                		<input type="radio" id="dnaacs-cq-7" value="किसी जानेमाने व्यक्ति की राय दिखने की कोशिश करता है" name="s_complaintText"/><label for="dnaacs-cq-7">किसी जानेमाने व्यक्ति की राय दिखने की कोशिश करता है</label>
                 		<input type="radio" id="dnaacs-cq-8" value="इसमें फोन नंबर, पोस्टल या ई-मेल जैसी निजी जानकारी शामिल है" name="s_complaintText"/><label for="dnaacs-cq-8">इसमें फोन नंबर, पोस्टल या ई-मेल जैसी निजी जानकारी शामिल है</label>
                 		<xsl:call-template name="library_userstate">
                       <xsl:with-param name="loggedin">
-                        <input type="radio" id="dnaacs-cq-9" value="इस पर चर्चा होनी चाहिए" name="s_complaintText"/><label for="dnaacs-cq-9">इस पर चर्चा होनी चाहिए</label>
+                        <input type="radio" id="dnaacs-cq-9" value="इसका चर्चा के विषय के कोई लेना-देना नहीं है" name="s_complaintText"/><label for="dnaacs-cq-9">इसका चर्चा के विषय के कोई लेना-देना नहीं है</label>
                       </xsl:with-param>
                     </xsl:call-template>
-                		<input type="radio" id="dnaacs-cq-10" value="ये अंग्रेजी में नहीं है" name="s_complaintText"/><label for="dnaacs-cq-10">ये अंग्रेजी में नहीं है</label>
-                		<input type="radio" id="dnaacs-cq-11" value="इसमें एक बाहरी वेबसाइट की लिंक है जो हमारे नियम तोड़ती है" name="s_complaintText"/><label for="dnaacs-cq-11">इसमें एक बाहरी वेबसाइट की लिंक है जो हमारे नियम तोड़ती है <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">संपादकीय दिशा-निर्देश</a></label>
-                		<input type="radio" id="dnaacs-cq-12" value="ये ऐसी गतिविधियों को बताता है या बढ़ावा देता है जो सुरक्षा के लिए खतरा या दूसरों को नुकसान पहुंचा सकता है" name="s_complaintText"/><label for="dnaacs-cq-12">ये ऐसी गतिविधियों को बताता है या बढ़ावा देता है जो सुरक्षा के लिए खतरा या दूसरों को नुकसान पहुंचा सकता है</label>
+                		<input type="radio" id="dnaacs-cq-10" value="ये चर्चा के विषय की भाषा में नहीं है." name="s_complaintText"/><label for="dnaacs-cq-10">ये चर्चा के विषय की भाषा में नहीं है.</label>
+                		<input type="radio" id="dnaacs-cq-11" value="इसमें एक बाहरी वेबसाइट की लिंक है जो हमारे नियम तोड़ता है हमारी एडिटोरियल गाईडलाइन्स" name="s_complaintText"/><label for="dnaacs-cq-11">इसमें एक बाहरी वेबसाइट की लिंक है जो हमारे नियम तोड़ता है <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">हमारी एडिटोरियल गाईडलाइन्स</a></label>
+                		<input type="radio" id="dnaacs-cq-12" value="ये ऐसी गतिविधियों को बताता या बढ़ावा देता है जो सुरक्षा के लिए खतरा या दूसरों को नुकसान पहुंचा सकता है" name="s_complaintText"/><label for="dnaacs-cq-12">ये ऐसी गतिविधियों को बताता या बढ़ावा देता है जो सुरक्षा के लिए खतरा या दूसरों को नुकसान पहुंचा सकता है</label>
                 		<input type="radio" id="dnaacs-cq-13" value="इसमें एक अनुचित यूज़रनेम है" name="s_complaintText"/><label for="dnaacs-cq-13">इसमें एक अनुचित यूज़रनेम है</label>
                 		<input type="radio" id="dnaacs-cq-14" value="ये स्पैम है" name="s_complaintText"/><label for="dnaacs-cq-14">ये स्पैम है</label>
-                		<input type="radio" id="dnaacs-cq-6" value="ये नियम तोड़ता है जिसकी वजह इस सूची में नहीं है" name="s_complaintText"/><label for="dnaacs-cq-6">ये नियम तोड़ता है जिसकी वजह इस सूची में नहीं है</label>
+                		<input type="radio" id="dnaacs-cq-6" value="अन्य" name="s_complaintText"/><label for="dnaacs-cq-6">ये ऐसा नियम तोड़ता है जिसकी वजह इस सूची में नहीं है</label>
                 	</p>
                 </p>
 
               <p class="action">
-                <input type="submit" value="Next Page"/>
+                <input type="submit" value="अगला पेज"/>
               </p>
             </div>
             
@@ -145,7 +145,7 @@
         ["custom", {
         arg: function(values, opts, callback, formData) {
         if (values[0] == "") {
-        alert("Please choose a complaint reason");
+        alert("शिकायत का कारण चुनें");
         return;
         }
         else {
@@ -174,20 +174,20 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>आपको जो वजह लगती है, उसे हमें बताने के लिए कृपया नीचे दिए गए बॉक्स को भरिए <xsl:call-template name="item_name"/> नियम तोड़ता है. पूरा करने के बाद भेजे या शिकायत पर क्लिक करें ताकि संचालक इसकी समीक्षा कर सकें</p>
+           	<p>कृपया नीचे दिए गए बॉक्स में लिखिए कि क्यों ये <xsl:call-template name="item_name"/> नियम तोड़ता है. लिखने के बाद शिकायत भेजें पर क्लिक करें ताकि हमारी टीम इसको देख सके.</p>
                <p>
-                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Other'">
-						मैं इस बारे में शिकायत करना चाहता हूं <xsl:call-template name="item_name"/> इस वजह से
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'अन्य'">
+                    मेरी राय में इस <xsl:call-template name="item_name"/> को हटाना चाहिए क्योंकि
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Other'">
+                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'अन्य'">
                         <xsl:text>मैं मानता हूं </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> इसकी वजह ये है</xsl:text>
-                    	</xsl:if>
+                    	</xsl:if> -->
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -209,7 +209,7 @@
                       <em>आपकी शिकायत आगे बढ़ाने और उस पर संचालक के निर्णय से आपको अवगत कराने के लिए हमें आपके ई-मेल पते की आवश्यकता है. आपकी शिकायत के बारे में अधिक जानकारी के लिए कभी-कभी हम आपसे सीधे संपर्क भी कर सकते हैं.</em>
                     </p>
                     <p>
-                        <label for="emailaddress">ई-मेल पता</label>
+                        <label for="emailaddress">आपका ई-मेल पता</label>
                         <input type="text" name="email" id="emailaddress" value="" class="textbox"/>
                     </p>
                 </xsl:otherwise>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> इसे छुपाएं <xsl:call-template name="item_name"/> फौरन</label>.
+                        <label for="hidePost"> तत्काल <xsl:call-template name="item_name"/> फौरन</label>.
                     </p>
                 </xsl:if>
                 
@@ -237,8 +237,8 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="submit"/>
-                    <input type="submit" value="Send Complaint" name="Submit" class="button"/>
+                    <input type="hidden" name="action" value="भेजें"/>
+                    <input type="submit" value="शिकायत भेजें" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -251,7 +251,7 @@
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              शिकायतें दर्ज कराने के लिए ऑनलाइन प्रणाली का इस्तेमाल करने से आपको रोक दिया गया है. कृपया हमें लिखें<br />
+			   आपको शिकायतें दर्ज कराने के ऑनलाइन सिस्टम से ब्लॉक कर दिया गया है. कृपया हमें यहाँ लिखे<br />
               BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
@@ -272,12 +272,12 @@
 
   <xsl:template match="USERCOMPLAINT[@REQUIRESVERIFICATION = '1']" mode="input_user-complaint-form">
     <div class="content">
-      <h2>ई-मेल का सत्यापन</h2>
+      <h2>ई-मेल वेरिफ़ाइ करें</h2>
       <p>
-        आपकी शिकायत दर्ज हो गई है. आप जब तक अपने ई-मेल पते का सत्यापन नहीं कराते, संचालक इसे नहीं देखेंगे. इससे झूठी शिकायतें और स्पैम रोकने में मदद मिलेगी.
+            आपकी शिकायत दर्ज हो गई है. आप जब तक अपने ई-मेल पते को वेरिफ़ाइ नहीं करते, हमारी टीम इसे नहीं देखेगी. ऐसा झूठी शिकायतें और स्पैम रोकने के लिए किया गया है.
       </p>
       <p>
-        ई-मेल के जरिए आपको एक लिंक शीघ्र मिलेगा. इस पर क्लिक करने से आपकी शिकायत संचालक तक पहुंच जाएगी
+            ई-मेल के जरिए आपको एक लिंक शीघ्र मिलेगा. इस पर क्लिक करने से आपकी शिकायत संचालक तक पहुंच जाएगी
       </p>
       
       <p class="action">
@@ -289,7 +289,7 @@
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>ब्राउज़िंग जारी</xsl:text>
+          <xsl:text>ब्राउज़िंग जारी रखें</xsl:text>
         </a>
       </p>
     </div>
@@ -299,10 +299,10 @@
     <div class="content">
       <h2>शिकायत सफलतापूर्वक पहुंच गई</h2>
       <p>
-        आपकी शिकायत सफलतापूर्वक सहेजी गई है और संचालकों की टीम को अग्रेषित की गई है. वे इस बारे में निर्णय करेंगे <a href="{$houserulespopupurl}">आंतरिक नियम</a> तोड़े गए हैं और आपको ई-मेल के जरिए सूचित किया जाएगा
+        आपकी शिकायत हमें मिल गई है और हमारी टीम को भेज दी गई है. वे इस बारे में निर्णय करेंगे. <a href="{$houserulespopupurl}">हाउस रूल्स</a> तोड़े गए हैं और आपको ई-मेल के जरिए सूचित किया जाएगा
       </p>
       <p>
-        आपकी संचालन संदर्भ पहचान संख्या है <strong>
+            आपकी मॉडरेशन रेफ़ेरंस आई-डी है <strong>
           <xsl:value-of select="(MODERATION-REFERENCE | @MODID)[1]"/>
         </strong>
       </p>
@@ -319,14 +319,14 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/hindi</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 
               </xsl:with-param>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:text>ब्राउज़िंग जारी</xsl:text>
+          <xsl:text>ब्राउज़िंग जारी रखें</xsl:text>
         </a>
       </p>
     </div>

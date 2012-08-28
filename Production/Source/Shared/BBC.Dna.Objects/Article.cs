@@ -205,7 +205,7 @@ namespace BBC.Dna.Objects
 
                     if (_applySkinOnGuideML) //transformation required?
                     {
-                        string apiGuideSkin = ConfigurationSettings.AppSettings["guideMLXSLTSkinPath"];
+                         string apiGuideSkin = ConfigurationManager.AppSettings["guideMLXSLTSkinPath"];
 
                         int errorCount = 0;
                         string transformedContent = XSLTransformer.TransformUsingXslt(apiGuideSkin, _guideMLAsXmlElement.OwnerDocument, ref errorCount);

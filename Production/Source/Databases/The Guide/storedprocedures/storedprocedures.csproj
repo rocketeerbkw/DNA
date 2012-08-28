@@ -1290,6 +1290,7 @@
     <None Include="CreateTweetInfoForComment.sql" />
     <None Include="CreateTweetInfoForPremodPostings.sql" />
     <None Include="doestwitteruserexists.sql" />
+    <None Include="getcontactformdetailfromformid.sql" />
     <None Include="getcontactformslist.sql" />
     <None Include="GetCommentIdFromTweetId.sql" />
     <None Include="getcommentratingstats.sql" />

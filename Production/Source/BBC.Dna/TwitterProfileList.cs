@@ -21,6 +21,7 @@ namespace BBC.Dna.Component
     {
         private string _siteType = string.Empty;
         private string _cmd = string.Empty;
+        private string _activeOnly = string.Empty;
 
         IDnaDataReaderCreator readerCreator;
         IDnaDiagnostics dnaDiagnostic;
@@ -53,20 +54,21 @@ namespace BBC.Dna.Component
         public override void ProcessRequest()
         {
             string action = String.Empty;
+
             //Clean any existing XML.
             RootElement.RemoveAll();
-
-            if (InputContext.ViewingUser == null || !InputContext.ViewingUser.IsSuperUser)
+            
+            if (InputContext.ViewingUser == null || (false == InputContext.ViewingUser.IsEditor) || (false == InputContext.ViewingUser.IsSuperUser))
             {
-                AddErrorXml("INVALID PERMISSIONS", "Superuser permissions required", RootElement);
+                AddErrorXml("INVALID PERMISSIONS", "Editor permissions required", RootElement);
                 return;
             }
-
+            
             GetQueryParameters();
 
             var profileList = GenerateProfileList();
 
-            if (false == string.IsNullOrEmpty(_cmd))
+            if (false == string.IsNullOrEmpty(_activeOnly))
             {
                 profileList = ProcessCommand(profileList, _siteType);
             }
@@ -93,18 +95,54 @@ namespace BBC.Dna.Component
         {
             BuzzTwitterProfiles filteredProfileList = new BuzzTwitterProfiles();
 
-            if (_cmd.ToUpper().Equals("SITESPECIFICPROFILES"))
+            //Get active only profiles
+
+            if (_activeOnly.ToUpper().Equals("ON"))
             {
                 foreach (BuzzTwitterProfile profile in profileList)
                 {
-                    if (profile.SiteURL.Equals(siteType))
+                    if (true == profile.Active.Value)
                     {
                         filteredProfileList.Add(profile);
                     }
                 }
-                return filteredProfileList;
+                if (_cmd.ToUpper().Equals("SITESPECIFICPROFILES"))
+                {
+                    filteredProfileList = GetSiteSpecificProfileList(filteredProfileList, siteType);
+                }
             }
-            return null;
+            else
+            {
+                filteredProfileList = profileList;
+
+                if (_cmd.ToUpper().Equals("SITESPECIFICPROFILES"))
+                {
+                    filteredProfileList = GetSiteSpecificProfileList(filteredProfileList, siteType);
+                }
+            }
+            
+            return filteredProfileList;
+        }
+
+        /// <summary>
+        /// Filter twitter profiles based on the site
+        /// </summary>
+        /// <param name="profileList"></param>
+        /// <param name="siteType"></param>
+        /// <returns></returns>
+        private BuzzTwitterProfiles GetSiteSpecificProfileList(BuzzTwitterProfiles profileList, string siteType)
+        {
+            BuzzTwitterProfiles filteredProfileList = new BuzzTwitterProfiles();
+
+            foreach (BuzzTwitterProfile profile in profileList)
+            {
+                if (profile.SiteURL.Equals(siteType))
+                {
+                    filteredProfileList.Add(profile);
+                }
+            }
+
+            return filteredProfileList;
         }
 
         /// <summary>
@@ -190,7 +228,7 @@ namespace BBC.Dna.Component
                 AddAttribute(profileNode, "SITETYPE", profile.SiteURL);
 
                 AddTextTag(profileNode, "PROFILEID", profile.ProfileId);
-                //AddTextTag(profileNode, "ACTIVESTATUS", profile.Active.HasValue ? profile.Active.Value.ToString() : string.Empty);
+                AddTextTag(profileNode, "ACTIVESTATUS", profile.Active.HasValue ? profile.Active.Value.ToString() : string.Empty);
                 AddTextTag(profileNode, "TRUSTEDUSERSTATUS", profile.TrustedUsersEnabled.HasValue ? profile.TrustedUsersEnabled.Value.ToString() : string.Empty);
                 AddTextTag(profileNode, "PROFILECOUNTSTATUS", profile.ProfileCountEnabled.HasValue ? profile.ProfileCountEnabled.Value.ToString() : string.Empty);
                 AddTextTag(profileNode, "PROFILEKEYWORDCOUNTSTATUS", profile.ProfileKeywordCountEnabled.HasValue ? profile.ProfileKeywordCountEnabled.Value.ToString(): string.Empty);
@@ -205,14 +243,19 @@ namespace BBC.Dna.Component
         /// </summary>
         private void GetQueryParameters()
         {
-            if (InputContext.DoesParamExist("s_sitename", "s_sitename"))
+            if (InputContext.DoesParamExist("sitename", "sitename"))
             {
-                _siteType = InputContext.GetParamStringOrEmpty("s_sitename", "s_sitename");
+                _siteType = InputContext.GetParamStringOrEmpty("sitename", "sitename");
             }
 
             if (InputContext.DoesParamExist("action", "Command string for flow"))
             {
                 _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
+            }
+
+            if (InputContext.DoesParamExist("s_activeonly","active only profiles"))
+            {
+                _activeOnly = InputContext.GetParamStringOrEmpty("s_activeonly","active only profiles");
             }
         }
     }
