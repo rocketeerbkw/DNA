@@ -58,9 +58,9 @@ namespace BBC.Dna.Component
             //Clean any existing XML.
             RootElement.RemoveAll();
             
-            if (InputContext.ViewingUser == null || (false == InputContext.ViewingUser.IsEditor) || (false == InputContext.ViewingUser.IsSuperUser))
+            if (InputContext.ViewingUser == null || ((false == InputContext.ViewingUser.IsEditor) && (false == InputContext.ViewingUser.IsSuperUser)))
             {
-                AddErrorXml("INVALID PERMISSIONS", "Editor permissions required", RootElement);
+                AddErrorXml("UNAUTHORIZED", "Editor permissions required", RootElement);
                 return;
             }
             

@@ -17,9 +17,12 @@ namespace Dna.SnesIntegration.ActivityProcessor
         {
             try
             {
-                var ser = new DataContractJsonSerializer(typeof(T));
-                var ms = new MemoryStream(Encoding.Unicode.GetBytes(json));
-                return ser.ReadObject(ms) as T;
+                using (var ms = new MemoryStream(Encoding.Unicode.GetBytes(json)))
+                {
+                    var ser = new DataContractJsonSerializer(typeof(T));
+                    //var ms = new MemoryStream(Encoding.Unicode.GetBytes(json));
+                    return ser.ReadObject(ms) as T;
+                }
             }
             catch (Exception)
             {

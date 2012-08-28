@@ -51,13 +51,15 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
         {
             SnesActivityProcessor.SnesActivityLogger.LogRequest(GetActivityJson(), GetUri().ToString());
             var activityJson = GetActivityJson();
-            var content = HttpContent.Create(activityJson, Encoding.UTF8, "application/json");
-            using (var response = func(GetUri(), content))
+            using (var content = HttpContent.Create(activityJson, Encoding.UTF8, "application/json"))
             {
-                response.Content.LoadIntoBuffer();
-                Content = response.Content.ReadAsString();
-                LogResponse(response);
-                return response.StatusCode;
+                using (var response = func(GetUri(), content))
+                {
+                    response.Content.LoadIntoBuffer();
+                    Content = response.Content.ReadAsString();
+                    LogResponse(response);
+                    return response.StatusCode;
+                }
             }
         }
 

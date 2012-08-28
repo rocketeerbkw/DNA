@@ -9,6 +9,16 @@ BEGIN
 END
 ELSE
 BEGIN
-	INSERT dbo.ThreadEntriesTweetInfo(ThreadEntryId,TweetId,OriginalTweetId,IsOriginalTweetForRetweet) 
-	VALUES (@postid, @tweetid, @retweetoriginaltweetid, @isoriginaltweetforretweet)
+	IF EXISTS (SELECT * FROM dbo.ThreadEntriesTweetInfo WHERE ThreadEntryId = @postid)
+	BEGIN
+		UPDATE dbo.ThreadEntriesTweetInfo  
+		SET TweetId = @tweetid, OriginalTweetId = @retweetoriginaltweetid, IsOriginalTweetForRetweet = @isoriginaltweetforretweet  
+		WHERE ThreadEntryId = @postid 
+	END
+	ELSE
+	BEGIN
+		INSERT dbo.ThreadEntriesTweetInfo(ThreadEntryId,TweetId,OriginalTweetId,IsOriginalTweetForRetweet)   
+		VALUES (@postid, @tweetid, @retweetoriginaltweetid, @isoriginaltweetforretweet)  
+	END
 END
+

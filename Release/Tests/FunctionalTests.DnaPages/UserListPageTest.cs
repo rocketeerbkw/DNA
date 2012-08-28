@@ -136,7 +136,7 @@ namespace FunctionalTests
 
             if (string.IsNullOrEmpty(xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value))
             {
-                Assert.AreEqual(xml.SelectSingleNode("//H2G2/MEMBERLIST/USERACCOUNTS/USERACCOUNT/USERNAME").InnerXml, twitterSearchName);
+                Assert.AreEqual(xml.SelectSingleNode("//H2G2/MEMBERLIST/USERACCOUNTS/USERACCOUNT/LOGINNAME").InnerXml, twitterSearchName);
             }
             else
             {
