@@ -1,13 +1,5 @@
-CREATE PROCEDURE searchfortwitteruserviascreenname 
-(
-	@viewinguserid		int, 
-	@twitterscreenname	varchar(255), 
-	@checkallsites		tinyint
-)
+CREATE PROCEDURE searchfortwitteruserviascreenname @viewinguserid int, @twitterscreenname varchar(255), @checkallsites tinyint
 AS
-
-BEGIN
-
 -- Get the Editor group id from the groups table  
 --  DECLARE @EditorGroupID int  
 --  SELECT @EditorGroupID = GroupID FROM Groups WHERE Name = 'Editor';  
@@ -36,4 +28,3 @@ SELECT
 	WHERE
 		u.LoginName = @twitterscreenname
 	ORDER BY u.UserID DESC, s.SiteID 
-END

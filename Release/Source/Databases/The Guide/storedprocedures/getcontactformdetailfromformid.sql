@@ -5,7 +5,7 @@ SELECT
 	'ForumID' = vcf.ForumID,
 	'ParentURI' = vcf.URL,
 	'Title' = vcf.Title,
-	'ContactEmail' = cf.EncryptedContactEmail,
+	'ContactEmail' = dbo.udf_decryptemailaddress(cf.EncryptedContactEmail,cf.ForumID),
 	'ContactFormUID' = vcf.UID
 FROM dbo.VCommentForums vcf
 INNER JOIN dbo.ContactForms cf ON vcf.ForumID = cf.ForumID

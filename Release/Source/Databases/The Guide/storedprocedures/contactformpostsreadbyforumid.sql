@@ -2,6 +2,8 @@ CREATE procedure contactformpostsreadbyforumid @forumid int, @startindex int = n
 as
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
 
+EXEC openemailaddresskey;
+
 declare @totalresults int 
 if (@startindex is null) set @startindex = 0
 if (@itemsPerPage is null or @itemsPerPage = 0) set @itemsPerPage = 20
@@ -34,7 +36,7 @@ select cte_usersposts.n,
 	vu.UserID,
 	vu.ForumID,
 	vu.parentUri,
-	tee.Text,
+	'Text' = dbo.udf_decryptemailaddress(tee.EncryptedText,tee.EntryID),
 	vu.Hidden,
 	vu.PostStyle,
 	vu.forumuid,
