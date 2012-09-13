@@ -41,6 +41,12 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="TechTalk.SpecFlow, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -48,6 +54,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comments.AnonymousPosting.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Comments.AnonymousPosting.feature</DependentUpon>
+    </Compile>
     <Compile Include="Comments.CreateForum.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -64,11 +75,14 @@
       <DependentUpon>ContactForms.CreateForm.feature</DependentUpon>
     </Compile>
     <Compile Include="StepDefinitions\AdminConsoleAuthorization.cs" />
+    <Compile Include="StepDefinitions\AnonymousCommentPosting.cs" />
     <Compile Include="StepDefinitions\CreateContactDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepDefinitions\CreateForum.cs" />
     <Compile Include="StepDefinitions\CreateContactForm.cs" />
     <Compile Include="StepDefinitions\Global.cs" />
+    <Compile Include="Support\APIRequester.cs" />
+    <Compile Include="Support\CommentForumTestUtils.cs" />
     <Compile Include="Support\ContactFormTestUtils.cs" />
     <Compile Include="TwitterAdminConsole.AdminConsoleAuthorization.feature.cs">
       <AutoGen>True</AutoGen>
@@ -81,6 +95,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Comments.AnonymousPosting.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Comments.AnonymousPosting.feature.cs</LastGenOutput>
+    </None>
     <None Include="Comments.CreateForum.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Comments.CreateForum.feature.cs</LastGenOutput>

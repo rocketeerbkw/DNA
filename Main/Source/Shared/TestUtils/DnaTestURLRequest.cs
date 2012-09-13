@@ -12,6 +12,8 @@ using BBC.Dna.Data;
 using NUnit.Extensions.Asp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtils;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
 
 namespace Tests
 {
@@ -145,6 +147,7 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -160,6 +163,7 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -175,6 +179,7 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -190,6 +195,7 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -205,6 +211,7 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -220,6 +227,7 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -235,6 +243,7 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -250,6 +259,7 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
+            _cookieList.Clear();
         }
 
 /*        /// <summary>
@@ -275,10 +285,11 @@ namespace Tests
             UserAccount user = TestUserAccounts.GetNonLoggedInUserAccount;
             _userName = user.UserName;
             _password = user.Password;
-            _cookie = user.Cookie;
-            _secureCookie = user.SecureCookie;
+            _cookie = null;
+            _secureCookie = null;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -293,6 +304,7 @@ namespace Tests
             _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -308,6 +320,7 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
+            _cookieList.Clear();
         }
 
         /// <summary>
@@ -325,6 +338,7 @@ namespace Tests
             _cookie = cookie;
             _userid = dnaUserID;
             _useIdentity = useIdentity;
+            _cookieList.Clear();
         }
 
         public bool UseDebugUserSecureCookie
@@ -585,7 +599,19 @@ namespace Tests
         /// <param name="cookie">The cookie you want to add</param>
         public void AddCookie(Cookie cookie)
         {
-            _cookieList.Add(cookie);
+            bool add = true;
+            foreach (Cookie c in _cookieList)
+            {
+                if (c.Name == cookie.Name)
+                {
+                    add = false;
+                }
+            }
+
+            if (add)
+            {
+                _cookieList.Add(cookie);
+            }
         }
 
         /// <summary>
@@ -976,6 +1002,8 @@ namespace Tests
                     debugUserParams += "|bannedemail";
                 }
 
+                AddCookie(new Cookie("DNADEBUGUSER","ID-"+_userName));
+
                 pageAndParams += debugUserParams;
             }
             return pageAndParams;
@@ -1058,12 +1086,12 @@ namespace Tests
             }
 
             // Check to see if we need to add a cookie
-            if (_cookie.Length >= 66)
+            webRequest.CookieContainer = new CookieContainer();
+            if (_cookie != null && _cookie.Length >= 66)
             {
                 Console.WriteLine("Adding cookie: " + _cookie);
 
                 // Create and add the cookie to the request
-                webRequest.CookieContainer = new CookieContainer();
                 Cookie cookie;
                 if (_useIdentity)
                 {
@@ -1570,6 +1598,36 @@ namespace Tests
 
             // return the response
             return _responseAsString;
+        }
+
+        public HttpStatusCode GetLastStatusCode()
+        {
+            return _response.StatusCode;
+        }
+
+        public Object GetLastResponseAsJSONObject(Type jsonType)
+        {
+            Object jsonObject = null;
+            DataContractJsonSerializer xs = new DataContractJsonSerializer(jsonType);
+            using (MemoryStream memoryStream = new MemoryStream(StringToUTF8ByteArray(GetLastResponseAsString())))
+            {
+                XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+                jsonObject = xs.ReadObject(memoryStream);
+            }
+
+            return jsonObject;
+        }
+
+        /// <summary>
+        /// Converts the String to UTF8 Byte array and is used in De serialization
+        /// </summary>
+        /// <param name="pXmlString"></param>
+        /// <returns></returns>
+        private static Byte[] StringToUTF8ByteArray(String pXmlString)
+        {
+            UTF8Encoding encoding = new UTF8Encoding();
+            Byte[] byteArray = encoding.GetBytes(pXmlString);
+            return byteArray;
         }
     }
 }

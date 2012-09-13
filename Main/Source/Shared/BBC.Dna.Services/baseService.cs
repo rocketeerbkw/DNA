@@ -140,7 +140,12 @@ namespace BBC.Dna.Services
             _internalRequest = (QueryStringHelper.GetQueryParameterAsString("_bbc_", "") == "1");
             debugDnaUserId = "";
 #if DEBUG
-            debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");
+            debugDnaUserId = QueryStringHelper.GetCookieValueAsString("DNADEBUGUSER", "");
+            if (debugDnaUserId.Length > 0)
+            {
+                debugDnaUserId = debugDnaUserId.Replace("ID-","");
+            }
+            //debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");
 #endif
             
         }
