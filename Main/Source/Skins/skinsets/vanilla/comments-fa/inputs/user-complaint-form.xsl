@@ -237,7 +237,7 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="ارسال کنید"/>
+                    <input type="hidden" name="action" value="submit"/>
                     <input type="submit" value="شکایت خود را بفرستید" name="Submit" class="button"/>
                 </p>
             </div>

@@ -237,7 +237,7 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="Enviar"/>
+                    <input type="hidden" name="action" value="submit"/>
                     <input type="submit" value="Enviar reclamação" name="Submit" class="button"/>
                 </p>
             </div>
