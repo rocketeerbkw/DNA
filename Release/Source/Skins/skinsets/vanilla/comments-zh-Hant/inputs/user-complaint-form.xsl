@@ -209,7 +209,7 @@
                       <em>我們需要你的電郵地址來處理你的投訴，以及通知你編輯的決定。有時候，我們可能需要與你直接聯繫，以取得關於你的投訴的更多資料。</em>
                     </p>
                     <p>
-                        <label for="emailaddress">Email address</label>
+                        <label for="emailaddress">電郵地址</label>
                         <input type="text" name="email" id="emailaddress" value="" class="textbox"/>
                     </p>
                 </xsl:otherwise>
@@ -237,7 +237,7 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="發送"/>
+                    <input type="hidden" name="action" value="submit"/>
                     <input type="submit" value="發表投訴" name="Submit" class="button"/>
                 </p>
             </div>

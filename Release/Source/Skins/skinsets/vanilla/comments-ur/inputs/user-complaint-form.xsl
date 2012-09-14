@@ -67,7 +67,7 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>بھیجیں</xsl:text>
+        <xsl:text></xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
         <xsl:text>آرٹیکل</xsl:text>
@@ -121,7 +121,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="اردو میں نہیں" name="s_complaintText"/><label for="dnaacs-cq-10">اردو میں نہیں</label>
-                		<input type="radio" id="dnaacs-cq-11" value="کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو ایڈیٹوریل گائیڈ لائنز کے خلاف ہے" name="s_complaintText"/><label for="dnaacs-cq-11">کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">ایڈیٹوریل گائیڈ لائنز کے خلاف ہے </a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو ایڈیٹوریل گائیڈ لائنز کے خلاف ہے" name="s_complaintText"/><label for="dnaacs-cq-11">کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو ایڈیٹوریل<a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">گائیڈ لائنز کے خلاف ہے </a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے" name="s_complaintText"/><label for="dnaacs-cq-12">ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے</label>
                 		<input type="radio" id="dnaacs-cq-13" value="یوزر نیم نامناسب ہے" name="s_complaintText"/><label for="dnaacs-cq-13">یوزر نیم نامناسب ہے</label>
                 		<input type="radio" id="dnaacs-cq-14" value="سپیم ہے" name="s_complaintText"/><label for="dnaacs-cq-14">سپیم ہے</label>
@@ -239,7 +239,7 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="بھیجیں"/>
+                    <input type="hidden" name="action" value="submit"/>
                     <input type="submit" value="شکایت بھیجیں" name="Submit" class="button"/>
                 </p>
             </div>

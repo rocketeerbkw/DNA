@@ -237,7 +237,7 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="发送"/>
+                    <input type="hidden" name="action" value="submit"/>
                     <input type="submit" value="发表投诉" name="Submit" class="button"/>
                 </p>
             </div>
