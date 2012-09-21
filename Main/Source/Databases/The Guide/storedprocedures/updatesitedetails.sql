@@ -27,7 +27,8 @@ CREATE PROCEDURE updatesitedetails	@siteid int,
 										@bbcdivisionid int =0,
 										@sampleurl varchar(255) = '',
 										@notes varchar(max) ='',
-										@viewinguser int
+										@viewinguser int,
+										@contactformsemail varchar(255)
 As
 if EXISTS (SELECT * FROM SiteSkins WHERE SiteID = @siteid AND SkinName = @defaultskin)
 BEGIN
@@ -60,7 +61,8 @@ BEGIN
 			SiteEmergencyClosed		= siteemergencyclosed,
 			IdentityPolicy			= ISNULL(@identitypolicy,IdentityPolicy),
 			BBCDivisionID			= @bbcdivisionid,
-			sampleurl				= @sampleurl
+			sampleurl				= @sampleurl,
+			ContactFormsEmail		= @contactformsemail
 		WHERE SiteID = @siteid
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)

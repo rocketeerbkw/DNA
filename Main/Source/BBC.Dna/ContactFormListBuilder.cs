@@ -6,6 +6,8 @@ using BBC.Dna.Data;
 using System.Xml;
 using BBC.Dna.Utils;
 using BBC.Dna.Moderation;
+using BBC.Dna.Api;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna
 {
@@ -47,6 +49,35 @@ namespace BBC.Dna
 
         private void ProcessInputParameters()
         {
+            if (InputContext.DoesParamExist("action", "process action param"))
+            {
+                switch (InputContext.GetParamStringOrEmpty("action", "process action param").ToLower())
+                {
+                    case "updatecontactemail":
+                        {
+                            int forumID = InputContext.GetParamIntOrZero("forumid", "Contact form forumid");
+                            string contactEmailAddress = InputContext.GetParamStringOrEmpty("contactemail", "new contact email address");
+                            if (forumID > 0 && contactEmailAddress.Length > 0)
+                            {
+                                Contacts contactForm = new Contacts(AppContext.TheAppContext.Diagnostics, AppContext.ReaderCreator, CacheFactory.GetCacheManager(), InputContext.TheSiteList);
+                                BaseResult result = null;
+                                if (contactForm.SetContactFormEmailAddress(forumID, contactEmailAddress))
+                                {
+                                    result = new Result("UPDATEEMAIL", "Contact Email Updated");
+                                }
+                                else
+                                {
+                                    result = new Error("UPDATEEMAIL", "Contact Email Invalid for update. Ensure it ends with '@bbc.co.uk' and valid");
+                                }
+                                SerialiseAndAppend(result, "");
+                            }
+                            break;
+                        }
+                    default :
+                        break;
+                }
+            }
+
             if (InputContext.DoesParamExist("skip", "Items to skip"))
             {
                 skip = InputContext.GetParamIntOrZero("skip", "Items to skip");

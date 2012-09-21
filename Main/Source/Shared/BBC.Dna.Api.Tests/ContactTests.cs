@@ -8,6 +8,7 @@ using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna.Api.Tests
 {
@@ -77,7 +78,43 @@ namespace BBC.Dna.Api.Tests
             ContactDetails info = new ContactDetails();
             info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
             info.text = "This is a test email";
-            contacts.SendDetailstoContactEmail(info, "mark.howitt@bbc.co.uk");
+            contacts.SendDetailstoContactEmail(info, "mark.howitt@bbc.co.uk", "ops-fs0.national.core.bbc.co.uk");
+        }
+
+        [TestMethod]
+        public void ShouldDeserialiseToContactFormMessageString()
+        {
+            ContactForm contactForm = new ContactForm();
+            contactForm.Id = "FirstContactForm_111";
+            contactForm.ParentUri = "http://local.bbc.co.uk/dna/h2g2";
+            contactForm.Title = "FirstContactForm+1";
+            contactForm.contactDetailsList = new ContactDetailsList();
+            contactForm.contactDetailsList.contacts = new List<ContactDetails>();
+            ContactDetails contactDetail = new ContactDetails();
+            contactForm.contactDetailsList.contacts.Add(contactDetail);
+            
+            ContactFormMessage msg = new ContactFormMessage();
+            msg.Subject = "testing Subject";
+            msg.Body = new Dictionary<string, string>();
+            msg.Body.Add("Your Email","myemail@bbc.co.uk");
+            msg.Body.Add("Your Suggestions","Improve the contact form");
+            msg.Body.Add("Your Favourite Social Network","facebook");
+            msg.Body.Add("Favourite BBC site","sport");
+            msg.Body.Add("Gender","m");
+
+            contactDetail.text = StringUtils.SerializeToJsonReturnAsString(msg);
+
+            string stringContactForm = StringUtils.SerializeToJsonReturnAsString(contactForm);
+
+            string body = "";
+            ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetail.text, typeof(ContactFormMessage));
+            string subject = message.Subject;
+
+            foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
+            {
+                string messageLine = content.Key + " : " + content.Value + "\n";
+                body += messageLine;
+            }
         }
 
         [TestMethod]
@@ -162,10 +199,12 @@ namespace BBC.Dna.Api.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ApiException))]
-        public void ShouldThrowInvalidContactEmailExceptionWhenCreatingANewFormGivenNoContactEmail()
+        public void ShouldThrowMissingContactEmailExceptionWhenCreatingANewFormGivenNoContactEmail()
         {
             Contacts contacts = new Contacts(null, null, null, null);
             ISite mockedSite = mocks.StrictMock<ISite>();
+            mockedSite.Stub(x => x.ContactFormsEmail).Return("");
+
             ICallingUser mockedUser = mocks.StrictMock<ICallingUser>();
             mockedUser.Stub(x => x.IsUserA(UserTypes.Editor)).Return(true);
             contacts.CallingUser = mockedUser;
@@ -180,7 +219,7 @@ namespace BBC.Dna.Api.Tests
             }
             catch (ApiException ex)
             {
-                Assert.AreEqual(ApiException.GetError(ErrorType.InvalidContactEmail).Message, ex.Message);
+                Assert.AreEqual(ApiException.GetError(ErrorType.MissingContactEmail).Message, ex.Message);
                 throw ex;
             }
         }

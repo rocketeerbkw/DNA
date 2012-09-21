@@ -109,9 +109,39 @@ namespace BBC.Dna.Services
 
                 ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactForm, newContactDetails);
 
-                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail);
+                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail, emailServerAddress);
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
                 return GetOutputStream(contactDetails);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/contactform/{contactFormId}/")]
+        [WebHelp(Comment = "Creates new Contact Detail, also creates the Contact Form if it doesn't exist")]
+        [OperationContract]
+        public Stream CreateCommentContactFormWithContact(string siteName, ContactForm ContactFormDetails, string contactFormId)
+        {
+            ISite site = GetSite(siteName);
+            try
+            {
+                ContactFormDetails.Id = contactFormId;
+                contactFormComments.CallingUser = GetCallingUserOrNotSignedInUser(site, ContactFormDetails);
+
+                ContactForm contactFormData = contactFormComments.CreateContactForm(ContactFormDetails, site);
+
+                if (ContactFormDetails.contactDetailsList != null &&
+                    ContactFormDetails.contactDetailsList.contacts != null &&
+                    ContactFormDetails.contactDetailsList.contacts.Count > 0)
+                {
+                    // check if there is a rating to add
+                    ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactFormData, (ContactDetails)ContactFormDetails.contactDetailsList.contacts[0]);
+                    contactFormComments.SendDetailstoContactEmail(contactDetails, contactFormData.ContactEmail, emailServerAddress);
+                    return GetOutputStream(contactDetails);
+                }
+                return GetOutputStream(contactFormData);
             }
             catch (ApiException ex)
             {

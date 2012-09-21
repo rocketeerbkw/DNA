@@ -445,6 +445,12 @@ namespace Tests
             Thread.Sleep(2000);
         }
 
+        public string ContactFormsEmail
+        {
+            get;
+            set;
+        }
+
         #region IDnaComponent Members
 
         /// <summary>

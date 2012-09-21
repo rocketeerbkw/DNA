@@ -235,5 +235,9 @@ namespace BBC.Dna.Sites
         /// <returns>A result of type result for ok or error with messaging</returns>
         BaseResult AddSkinAndMakeDefault(string skinSet, string skinName, string skinDescription, bool useFrames, IDnaDataReaderCreator readerCreator);
 
-        }
+        /// <summary>
+        /// Default site Contact Forms Email Property
+        /// </summary>
+        string ContactFormsEmail { get; set; }
+    }
 }

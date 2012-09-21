@@ -108,6 +108,7 @@
     <Compile Include="Contracts\CommentsList.Contract.cs" />
     <Compile Include="Contracts\CommentsSummary.Contract.cs" />
     <Compile Include="Contracts\ContactForm.Contract.cs" />
+    <Compile Include="Contracts\ContactFormMessage.Contract.cs" />
     <Compile Include="Contracts\ErrorData.Contract.cs" />
     <Compile Include="Contracts\Forum.Contract.cs" />
     <Compile Include="Contracts\RatingInfo.Contract.cs" />

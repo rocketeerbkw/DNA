@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Configuration;
 using BBC.Dna.Users;
 using BBC.Dna.Moderation.Utils;
+using System.Xml;
 
 namespace BBC.Dna.Api
 {
@@ -38,35 +39,82 @@ namespace BBC.Dna.Api
         /// <returns>The contact form (either new or existing) which matches to the </returns>
         public ContactForm CreateContactForm(ContactForm newContactForm, ISite site)
         {
-            if (site == null)
-            {
-                throw ApiException.GetError(ErrorType.UnknownSite);
-            }
-
-            if (CallingUser == null || !CallingUser.IsUserA(UserTypes.Editor))
-            {
-                throw ApiException.GetError(ErrorType.NotAuthorized);
-            }
-
-            if (newContactForm == null)
-            {
-                throw ApiException.GetError(ErrorType.InvalidContactEmail);
-            }
-
-            if (newContactForm.ContactEmail == null || !EmailAddressFilter.IsValidEmailAddresses(newContactForm.ContactEmail))
-            {
-                throw ApiException.GetError(ErrorType.InvalidContactEmail);
-            }
-
             ContactForm contactForm = GetContactFormDetailFromFormID(newContactForm.Id, site);
             if (contactForm == null)
             {
+                if (site == null)
+                {
+                    throw ApiException.GetError(ErrorType.UnknownSite);
+                }
+
+                // Do check for anonymous site option
+                if (CallingUser == null || !CallingUser.IsUserA(UserTypes.Editor))
+                {
+                    throw ApiException.GetError(ErrorType.NotAuthorized);
+                }
+
+                if (newContactForm == null)
+                {
+                    throw ApiException.GetError(ErrorType.InvalidContactEmail);
+                }
+
+                if (newContactForm.ContactEmail == null)
+                {
+                    newContactForm.ContactEmail = site.ContactFormsEmail;
+                }
+
+                if (newContactForm.ContactEmail.Length == 0)
+                {
+                    throw ApiException.GetError(ErrorType.MissingContactEmail);
+                }
+
+                if (!EmailAddressFilter.IsValidEmailAddresses(newContactForm.ContactEmail) || !newContactForm.ContactEmail.ToLower().EndsWith("@bbc.co.uk"))
+                {
+                    throw ApiException.GetError(ErrorType.InvalidContactEmail);
+                }
+
                 newContactForm.ModerationServiceGroup = ModerationStatus.ForumStatus.Reactive;
                 CreateForum(newContactForm, site);
                 SetupContactFormDetails(newContactForm);
                 contactForm = GetContactFormDetailFromFormID(newContactForm.Id, site);
             }
             return contactForm;
+        }
+
+        public bool SetContactFormEmailAddress(int contactFormID, string contactEmailAddress)
+        {
+            if (contactEmailAddress.Length > 0)
+            {
+                if (EmailAddressFilter.IsValidEmailAddresses(contactEmailAddress) && contactEmailAddress.ToLower().EndsWith("@bbc.co.uk"))
+                {
+                    try
+                    {
+                        SetupContactFormDetails(contactFormID, contactEmailAddress);
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private string GetContactFormEmailAddressForSite(int siteId)
+        {
+            string emailAddress = "";
+            using (IDnaDataReader reader = CreateReader("getcontactformemailaddressforsite"))
+            {
+                reader.AddParameter("siteid", siteId);
+                reader.Execute();
+                if (reader.HasRows && reader.Read())
+                {
+                    emailAddress = reader.GetStringNullAsEmpty("contactemailaddress");
+                }
+            }
+
+            return emailAddress;
         }
 
         private ContactForm GetContactFormDetailFromFormID(string contactFormID, ISite site)
@@ -103,12 +151,17 @@ namespace BBC.Dna.Api
 
         private void SetupContactFormDetails(ContactForm commentForum)
         {
+            SetupContactFormDetails(commentForum.ForumID, commentForum.ContactEmail);
+        }
+
+        private void SetupContactFormDetails(int forumID, string contactEmail)
+        {
             try
             {
                 using (IDnaDataReader reader = CreateReader("setcommentforumascontactform"))
                 {
-                    reader.AddParameter("forumid", commentForum.ForumID);
-                    reader.AddParameter("contactemail", commentForum.ContactEmail);
+                    reader.AddParameter("forumid", forumID);
+                    reader.AddParameter("contactemail", contactEmail);
                     reader.Execute();
                 }
             }
@@ -119,11 +172,13 @@ namespace BBC.Dna.Api
             }
         }
 
-        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient)
+        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string emailServerAddress)
         {
-            string sender = SiteList.GetSite("h2g2").EditorsEmail;
-            string subject = contactDetails.ForumUri;
-            string body = contactDetails.text;
+            string sender = SiteList.GetSite("h2g2").ContactFormsEmail;
+            string subject;
+            string body;
+
+            CreateEmailSubjectAndbody(contactDetails, out subject, out body);
 
             try
             {
@@ -137,8 +192,8 @@ namespace BBC.Dna.Api
                 message.Body = body;
 
                 SmtpClient client = new SmtpClient();
-                //client.Host = "ops-fs0.national.core.bbc.co.uk";
-                //client.Port = 25;
+                client.Host = emailServerAddress;
+                client.Port = 25;
                 //client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
                 //client.SendAsync(message, message);
                 client.Send(message);
@@ -148,6 +203,68 @@ namespace BBC.Dna.Api
                 WriteFailedEmailToFile(sender, recipient, subject, body, "ContactDetails-");
                 DnaDiagnostics.WriteExceptionToLog(e);
             }
+        }
+
+        private static void CreateEmailSubjectAndbody(ContactDetails contactDetails, out string subject, out string body)
+        {
+            // Do the default thing
+            subject = contactDetails.ForumUri;
+            body = contactDetails.text; 
+            
+            // Now see if we actully got some XML, If so use that instead
+            if (body.StartsWith("<") && body.EndsWith(">"))
+            {
+                TryParseXMLTextMessage(contactDetails, ref subject, ref body);
+            }
+            else if (body.StartsWith("{") && body.EndsWith("}"))
+            {
+                try
+                {
+                    ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetails.text, typeof(ContactFormMessage));
+                    subject = message.Subject;
+                    body = "";
+                    foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
+                    {
+                        string messageLine = content.Key + " : " + content.Value + "\n";
+                        body += messageLine;
+                    }
+                }
+                catch
+                {
+                    subject = contactDetails.ForumUri;
+                    body = contactDetails.text;
+                }
+            }
+        }
+
+        private static void TryParseXMLTextMessage(ContactDetails contactDetails, ref string subject, ref string body)
+        {
+            try
+            {
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(contactDetails.text);
+                StringBuilder newBody = new StringBuilder();
+
+                foreach (XmlNode item in doc.FirstChild.SelectNodes("/"))
+                {
+                    if (item.Name.ToLower() == "subject")
+                    {
+                        subject = item.InnerText;
+                    }
+                    else
+                    {
+                        newBody.AppendLine(item.Name + ":");
+                        newBody.AppendLine(item.InnerText);
+                        newBody.AppendLine();
+                    }
+                }
+
+                if (newBody.Length > 0)
+                {
+                    body = newBody.ToString();
+                }
+            }
+            catch { }
         }
 
         private void client_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
