@@ -12,6 +12,7 @@ namespace BBC.Dna.Api
     {
         public ContactDetails()
         {
+            User = new User();
         }
     }
 

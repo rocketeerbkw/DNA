@@ -8,6 +8,7 @@ using BBC.Dna.Sites;
 using DnaIdentityWebServiceProxy;
 using BBC.Dna.Moderation;
 using System.Linq;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna.Component
 {
@@ -73,6 +74,7 @@ namespace BBC.Dna.Component
                         AddIntElement(xml, "MODERATIONCLASSID", dataReader.GetInt32NullAsZero("modclassid"));
                         AddTextElement(xml, "CURRENTIDENTITYPOLICY", dataReader.GetStringNullAsEmpty("IdentityPolicy"));
                         AddIntElement(xml, "BBCDIVISION", dataReader.GetInt16("BBCDivisionid"));
+                        AddTextElement(xml, "CONTACTFORMSEMAIL", dataReader.GetStringNullAsEmpty("ContactFormsEmail"));
                     }
                 }
 
@@ -120,6 +122,7 @@ namespace BBC.Dna.Component
                 AddIntElement(xml, "MODERATIONCLASSID", 1);
                 AddTextElement(xml, "CURRENTIDENTITYPOLICY", "");
                 AddIntElement(xml, "BBCDIVISION", 0);
+                AddTextElement(xml, "CONTACTFORMSEMAIL", "");
             }
 
             // Get the Identity Policies and add them to the xml
@@ -190,6 +193,7 @@ namespace BBC.Dna.Component
             string identityPolicy = InputContext.GetParamStringOrEmpty("identitypolicy", "IdentityPolicy");
             string sampleUrl = InputContext.GetParamStringOrEmpty("sampleurl", "SAMPLEURL");
             string notes = InputContext.GetParamStringOrEmpty("notes", "notes");
+            string contactFormsEmail = InputContext.GetParamStringOrEmpty("contactformsemail", "contactformsemail");
 
             using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("updatesitedetails"))
             {
@@ -222,6 +226,14 @@ namespace BBC.Dna.Component
                 dataReader.AddParameter("sampleurl", sampleUrl);
                 dataReader.AddParameter("notes", notes);
                 dataReader.AddParameter("viewinguser", InputContext.ViewingUser.UserID);
+
+                if (!EmailAddressFilter.IsValidEmailAddresses(contactFormsEmail) || !contactFormsEmail.ToLower().EndsWith("@bbc.co.uk"))
+                {
+                    // Use the current email
+                    contactFormsEmail = SiteList.GetSiteList().GetSite(siteId).ContactFormsEmail;
+                }
+
+                dataReader.AddParameter("contactformsemail", contactFormsEmail);
 
                 dataReader.Execute();
 
@@ -306,6 +318,7 @@ namespace BBC.Dna.Component
             int queuePostings = InputContext.GetParamIntOrZero("queuePostings", "QueuePostings");
             int useFrames = InputContext.GetParamIntOrZero("useframes", "UseFrames");
             string identityPolicy = InputContext.GetParamStringOrEmpty("identitypolicy", "IdentityPolicy");
+            string contactFormsEmail = InputContext.GetParamStringOrEmpty("contactformsemail", "contactformsemail");
 
             if ( urlName == string.Empty || description == string.Empty || shortName == string.Empty)
             {
@@ -397,6 +410,14 @@ namespace BBC.Dna.Component
                 reader.AddParameter("sampleurl", sampleUrl);
                 reader.AddParameter("notes", notes);
                 reader.AddParameter("viewinguser", InputContext.ViewingUser.UserID);
+
+                if (!EmailAddressFilter.IsValidEmailAddresses(contactFormsEmail) || !contactFormsEmail.ToLower().EndsWith("@bbc.co.uk"))
+                {
+                    contactFormsEmail = "";
+                }
+
+                reader.AddParameter("contactformsemail", contactFormsEmail);
+
                 reader.Execute();
                 reader.Read();
                 siteId = reader.GetInt32("SiteID");
@@ -407,20 +428,6 @@ namespace BBC.Dna.Component
                 AddErrorXml("CREATE ERROR", "Unable to create site .", RootElement);
                 return false;
             }
-
-
-            /*if (bCommentsSite)
-            {
-                // Add the "acs" skin to the site, for Comments sites.
-                using (IDnaDataReader reader = _basePage.CreateDnaDataReader("addskintosite"))
-                {
-                    reader.AddParameter("siteid", siteId);
-                    reader.AddParameter("skinname", "acs");
-                    reader.AddParameter("description", "acs");
-                    reader.AddParameter("useframes", GetYesNoValue(ddUseFrames));
-                    reader.Execute();
-                }
-            }*/
 
             // Create xml skin if it exists in specified skinset. ( Funcionality Available on OutputContext.
             String path = AppContext.TheAppContext.Config.GetSkinRootFolder() + "SkinSets" + @"\" + skinSet + @"\xml\output.xsl";
@@ -436,17 +443,6 @@ namespace BBC.Dna.Component
                     reader.Execute();
                 }
             }
-
-
-            //if (bCommentsSite || bMessageboardSite || bBlogSite)
-            //{
-            //    using (IDnaDataReader reader = InputContext.CreateDnaDataReader("updatesiteconfig"))
-            //    {
-            //        reader.AddParameter("siteid", siteId);
-            //        reader.AddParameter("config", siteConfig);
-            //        reader.Execute();
-            //    }
-            //}
 
             return true;
         }

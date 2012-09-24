@@ -479,7 +479,7 @@ namespace BBC.Dna
                 _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
             }
 
-            if (InputContext.DoesParamExist("displaycontactforms", "display the contact forms?"))
+            if (InputContext.DoesParamExist("s_displaycontactforms", "display the contact forms?"))
             {
                 _displayContactForms = true;
             }

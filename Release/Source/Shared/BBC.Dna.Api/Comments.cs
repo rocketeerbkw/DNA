@@ -1416,7 +1416,7 @@ namespace BBC.Dna.Api
                 commentInfo.TweetId = reader.GetLongNullAsZero("tweetid");
             }
 
-            commentInfo.text = CommentInfo.FormatComment(reader.GetString("text"), commentInfo.PostStyle, commentInfo.hidden, commentInfo.User.Editor);
+            commentInfo.text = CommentInfo.FormatComment(reader.GetStringNullAsEmpty("text"), commentInfo.PostStyle, commentInfo.hidden, commentInfo.User.Editor);
 
             if (reader.DoesFieldExist("twitterscreenname"))
             {

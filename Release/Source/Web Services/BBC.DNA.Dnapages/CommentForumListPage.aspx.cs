@@ -39,7 +39,7 @@ public partial class CommentForumListPage : BBC.Dna.Page.DnaWebPage
     {
         get
         {
-            return DnaBasePage.UserTypes.Any;
+            return DnaBasePage.UserTypes.EditorAndAbove;
         }
     }
 }

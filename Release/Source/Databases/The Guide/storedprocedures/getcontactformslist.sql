@@ -1,6 +1,7 @@
 ﻿CREATE PROCEDURE getcontactformslist @skip int = 0, @show int = 20
 AS
 BEGIN
+	EXEC openemailaddresskey;
 	DECLARE @total int
 	
 	SELECT @total = COUNT(*) FROM Forums f WITH(NOLOCK) 
@@ -27,7 +28,7 @@ WITH CTE_COMMENTFORUMLIST AS
 	cf.ForumCloseDate 'ForumCloseDate', 
 	@total 'CommentForumListCount',
 	f.LastPosted 'LastUpdated',
-	ctf.EncryptedContactEmail,
+	dbo.udf_decryptemailaddress(ctf.EncryptedContactEmail, cf.ForumID) 'EncryptedContactEmail',
 	case when fmf.forumid is null then 0 else 1 end 'fastmod'
 	FROM CTE_COMMENTFORUMLIST tmp WITH(NOLOCK) 
 	INNER JOIN CommentForums cf WITH(NOLOCK) on tmp.Uid = cf.Uid

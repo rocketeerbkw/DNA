@@ -252,6 +252,10 @@ namespace BBC.Dna.Api
                     error = new ApiException("Invalid Contact Email Provided", innerException);
                     break;
 
+                case ErrorType.MissingContactEmail:
+                    error = new ApiException("NO Contact Email Provided For Site", innerException);
+                    break;
+
                 default:
                     error = new ApiException("Unknown error has occurred.", innerException);
                     break;
@@ -329,6 +333,7 @@ namespace BBC.Dna.Api
         MissingUserAttributes,
         PostFrequencyTimePeriodNotExpired,
         InvalidEntryId,
-        InvalidContactEmail
+        InvalidContactEmail,
+        MissingContactEmail
     }
 }

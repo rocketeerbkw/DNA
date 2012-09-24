@@ -57,6 +57,7 @@ namespace BBC.Dna.Services
         protected IDnaDiagnostics dnaDiagnostic;
         protected string _languageCode = "en";
         protected bool _internalRequest = false; //if request comes from bbc servers or not
+        protected string emailServerAddress = "";
 
         public baseService(string connectionString, ISiteList siteList, IDnaDiagnostics dnaDiag)
         {
@@ -64,12 +65,21 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MaintenanceMode));
             }
-            
+
             _connectionString = connectionString;
             this.siteList = siteList;
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiag);
             dnaDiagnostic = dnaDiag;
             cacheManager = CacheFactory.GetCacheManager();
+
+            try
+            {
+                emailServerAddress = ConfigurationManager.ConnectionStrings["emailserver"].ConnectionString;
+            }
+            catch
+            {
+                dnaDiagnostic.WriteWarningToLog("BBC.Dna.Services.Application_Start", "Unable to find config email server address - no emails will be sent!");
+            }
 
             if (WebOperationContext.Current == null)
             {
@@ -140,7 +150,12 @@ namespace BBC.Dna.Services
             _internalRequest = (QueryStringHelper.GetQueryParameterAsString("_bbc_", "") == "1");
             debugDnaUserId = "";
 #if DEBUG
-            debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");
+            debugDnaUserId = QueryStringHelper.GetCookieValueAsString("DNADEBUGUSER", "");
+            if (debugDnaUserId.Length > 0)
+            {
+                debugDnaUserId = debugDnaUserId.Replace("ID-","");
+            }
+            //debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");
 #endif
             
         }
@@ -241,7 +256,7 @@ namespace BBC.Dna.Services
         /// <param name="site"></param>
         /// <param name="forum"></param>
         /// <returns></returns>
-        protected CallingUser GetCallingUserOrNotSignedInUser(ISite site, CommentForum forum)
+        protected CallingUser GetCallingUserOrNotSignedInUser(ISite site, Forum forum)
         {
             CallingUser callingUser = null;
             bool userSignedIn = false;
