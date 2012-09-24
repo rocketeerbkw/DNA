@@ -39,23 +39,23 @@ namespace BBC.Dna.Api
         /// <returns>The contact form (either new or existing) which matches to the </returns>
         public ContactForm CreateContactForm(ContactForm newContactForm, ISite site)
         {
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
+
+            if (newContactForm == null)
+            {
+                throw ApiException.GetError(ErrorType.InvalidContactEmail);
+            }
+
             ContactForm contactForm = GetContactFormDetailFromFormID(newContactForm.Id, site);
             if (contactForm == null)
             {
-                if (site == null)
-                {
-                    throw ApiException.GetError(ErrorType.UnknownSite);
-                }
-
                 // Do check for anonymous site option
                 if (CallingUser == null || !CallingUser.IsUserA(UserTypes.Editor))
                 {
                     throw ApiException.GetError(ErrorType.NotAuthorized);
-                }
-
-                if (newContactForm == null)
-                {
-                    throw ApiException.GetError(ErrorType.InvalidContactEmail);
                 }
 
                 if (newContactForm.ContactEmail == null)
