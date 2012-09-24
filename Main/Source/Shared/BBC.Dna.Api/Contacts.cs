@@ -21,6 +21,11 @@ namespace BBC.Dna.Api
         {
         }
 
+        private string failedEmailFileName = "";
+#if DEBUG
+        public void SetFailedEmailFileName(string failName) { failedEmailFileName = failName; }
+#endif
+
         public ContactForm GetContactFormFromFormID(string contactFormId, ISite site)
         {
             return GetContactFormDetailFromFormID(contactFormId, site);
@@ -172,7 +177,7 @@ namespace BBC.Dna.Api
             }
         }
 
-        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string emailServerAddress)
+        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string emailServerAddress, string fileCacheFolder)
         {
             string sender = SiteList.GetSite("h2g2").ContactFormsEmail;
             string subject;
@@ -200,7 +205,7 @@ namespace BBC.Dna.Api
             }
             catch (Exception e)
             {
-                WriteFailedEmailToFile(sender, recipient, subject, body, "ContactDetails-");
+                WriteFailedEmailToFile(sender, recipient, subject, body, "ContactDetails-", fileCacheFolder);
                 DnaDiagnostics.WriteExceptionToLog(e);
             }
         }
@@ -276,20 +281,22 @@ namespace BBC.Dna.Api
             }
         }
 
-        private void WriteFailedEmailToFile(string sender, string recipient, string subject, string body, string filenamePrefix)
+        private void WriteFailedEmailToFile(string sender, string recipient, string subject, string body, string filenamePrefix, string fileCacheFolder)
         {
             string failedFrom = "From: " + sender + "\r\n";
             string failedRecipient = "Recipient: " + recipient + "\r\n";
             string failedEmail = failedFrom + failedRecipient + subject + "\r\n" + body;
 
             //Create filename out of date and random number.
-            string fileName = filenamePrefix + DateTime.Now.ToString("yyyy-MM-dd-h:mm:ssffff");
-            Random random = new Random(body.Length);
-            fileName += "-" + random.Next().ToString() + ".txt";
+            string fileName = failedEmailFileName;
+            if (fileName.Length == 0)
+            {
+                fileName = filenamePrefix + subject + DateTime.Now.ToString("yyyy-MM-dd-h:mm:ssffff");
+                Random random = new Random(body.Length);
+                fileName += "-" + random.Next().ToString() + ".txt";
+            }
 
-            //string cacheFolder = ConfigurationManager.AppSettings["FileCacheFolder"];
-            string cacheFolder = Environment.GetEnvironmentVariable("Temp");
-            FileCaching.PutItem(DnaDiagnostics, cacheFolder, "failedmails", fileName, failedEmail);
+            FileCaching.PutItem(DnaDiagnostics, fileCacheFolder, "failedmails", fileName, failedEmail);
         }
     }
 }

@@ -58,6 +58,7 @@ namespace BBC.Dna.Services
         protected string _languageCode = "en";
         protected bool _internalRequest = false; //if request comes from bbc servers or not
         protected string emailServerAddress = "";
+        protected string fileCacheFolder = "";
 
         public baseService(string connectionString, ISiteList siteList, IDnaDiagnostics dnaDiag)
         {
@@ -79,6 +80,16 @@ namespace BBC.Dna.Services
             catch
             {
                 dnaDiagnostic.WriteWarningToLog("BBC.Dna.Services.Application_Start", "Unable to find config email server address - no emails will be sent!");
+            }
+
+            try
+            {
+                fileCacheFolder = ConfigurationManager.AppSettings["FileCacheFolder"];
+            }
+            catch
+            {
+                fileCacheFolder = Environment.GetEnvironmentVariable("Temp");
+                dnaDiagnostic.WriteWarningToLog("BBC.Dna.Services.Application_Start", "Unable to find config file cache folder - Defaulting to the system temp folder!");
             }
 
             if (WebOperationContext.Current == null)
