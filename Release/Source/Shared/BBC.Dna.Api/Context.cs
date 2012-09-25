@@ -5,6 +5,7 @@ using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
+using System.Net.Mail;
 
 namespace BBC.Dna.Api
 {
@@ -39,6 +40,18 @@ namespace BBC.Dna.Api
         public ICallingUser CallingUser { get; set; }
 
         public string BasePath { get; set; }
+
+        public string EmailServerAddress {get; set;}
+
+        public string FileCacheFolder { get; set; }
+
+#if DEBUG
+        private string failedEmailFileName = "";
+        public void SetFailedEmailFileName(string newFileName)
+        {
+            failedEmailFileName = newFileName;
+        }
+#endif
 
         /// <summary>
         /// 
@@ -298,6 +311,53 @@ namespace BBC.Dna.Api
             }
 
             return user;
+        }
+
+        public bool SendEmail(string sender, string recipient, string subject, string body, string filenamePrefix)
+        {
+            try
+            {
+                MailMessage message = new MailMessage();
+                message.From = new MailAddress(sender);
+
+                foreach (string toAddress in recipient.Split(';'))
+                    message.To.Add(new MailAddress(toAddress));
+
+                message.Subject = subject;
+                message.Body = body;
+                message.Priority = MailPriority.Normal;
+
+                SmtpClient client = new SmtpClient(EmailServerAddress);
+                client.Send(message);
+            }
+            catch (Exception e)
+            {
+                WriteFailedEmailToFile(sender, recipient, subject, body, "ContactDetails-");
+                DnaDiagnostics.WriteExceptionToLog(e);
+                return false;
+            }
+            return true;
+        }
+
+        private void WriteFailedEmailToFile(string sender, string recipient, string subject, string body, string filenamePrefix)
+        {
+            string failedFrom = "From: " + sender + "\r\n";
+            string failedRecipient = "Recipient: " + recipient + "\r\n";
+            string failedEmail = failedFrom + failedRecipient + subject + "\r\n" + body;
+
+            //Create filename out of date and random number.
+            string fileName = "";
+#if DEBUG
+            fileName = failedEmailFileName;
+#endif
+            if (fileName.Length == 0)
+            {
+                fileName = filenamePrefix + subject + DateTime.Now.ToString("yyyy-MM-dd-h:mm:ssffff");
+                Random random = new Random(body.Length);
+                fileName += "-" + random.Next().ToString() + ".txt";
+            }
+
+            FileCaching.PutItem(DnaDiagnostics, FileCacheFolder, "failedmails", fileName, failedEmail);
         }
     }
 }

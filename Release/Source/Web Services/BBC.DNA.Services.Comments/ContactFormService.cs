@@ -20,6 +20,8 @@ namespace BBC.Dna.Services
             : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
             contactFormComments = new Contacts(dnaDiagnostic, readerCreator, cacheManager, Global.siteList);
+            contactFormComments.EmailServerAddress = Global.emailServerAddress;
+            contactFormComments.FileCacheFolder = Global.fileCacheFolder;
             contactFormComments.FilterBy = FilterBy.ContactFormPosts;
             string basePath = ConfigurationManager.AppSettings["ServerBasePath"];
             basePath = basePath.Remove(basePath.LastIndexOf("/")) + "/ContactFormService.svc";
@@ -109,7 +111,7 @@ namespace BBC.Dna.Services
 
                 ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactForm, newContactDetails);
 
-                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail, emailServerAddress);
+                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail);
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
                 return GetOutputStream(contactDetails);
             }
@@ -138,7 +140,7 @@ namespace BBC.Dna.Services
                 {
                     // check if there is a rating to add
                     ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactFormData, (ContactDetails)ContactFormDetails.contactDetailsList.contacts[0]);
-                    contactFormComments.SendDetailstoContactEmail(contactDetails, contactFormData.ContactEmail, emailServerAddress);
+                    contactFormComments.SendDetailstoContactEmail(contactDetails, contactFormData.ContactEmail);
                     return GetOutputStream(contactDetails);
                 }
                 return GetOutputStream(contactFormData);

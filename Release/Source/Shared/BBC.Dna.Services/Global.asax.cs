@@ -19,6 +19,8 @@ namespace BBC.Dna.Services
         public static string connectionString = string.Empty;
         public static IDnaDataReaderCreator readerCreator;
         private DateTime _openTime;
+        public static string emailServerAddress = string.Empty;
+        public static string fileCacheFolder = string.Empty;
 
         protected void Application_Start(object sender, EventArgs e)
         {
@@ -32,6 +34,25 @@ namespace BBC.Dna.Services
             dnaDiagnostics = new DnaDiagnostics(RequestIdGenerator.GetNextRequestId(), DateTime.Now);
             connectionString = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiagnostics);
+            
+            try
+            {
+                emailServerAddress = ConfigurationManager.ConnectionStrings["emailserver"].ConnectionString;
+            }
+            catch
+            {
+                dnaDiagnostics.WriteWarningToLog("BBC.Dna.Services.Application_Start", "Unable to find config email server address - no emails will be sent!");
+            }
+
+            try
+            {
+                fileCacheFolder = ConfigurationManager.AppSettings["FileCacheFolder"];
+            }
+            catch
+            {
+                fileCacheFolder = Environment.GetEnvironmentVariable("Temp");
+                dnaDiagnostics.WriteWarningToLog("BBC.Dna.Services.Application_Start", "Unable to find config file cache folder - Defaulting to the system temp folder!");
+            }
 
             ICacheManager cacheManager = null;
             try

@@ -69,16 +69,34 @@ namespace BBC.Dna.Api.Tests
         [TestMethod]
         public void ShouldSendEmailWhenGivenValidContactDetails()
         {
+            string siteContactEmail = "mark.howitt@bbc.co.uk";
             ISiteList siteList = mocks.DynamicMock<ISiteList>();
-            siteList.Stub(x => x.GetSite("h2g2").EditorsEmail).Return("dna@bbc.co.uk");
+            siteList.Stub(x => x.GetSite("h2g2").ContactFormsEmail).Return(siteContactEmail);
 
             mocks.ReplayAll();
 
             Contacts contacts = new Contacts(null, null, null, siteList);
+            contacts.EmailServerAddress = "";
+            contacts.FileCacheFolder = TestContext.TestDir;
             ContactDetails info = new ContactDetails();
             info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
             info.text = "This is a test email";
-            contacts.SendDetailstoContactEmail(info, "mark.howitt@bbc.co.uk", "ops-fs0.national.core.bbc.co.uk");
+
+            string failedEmailFileName = "ContactDetails-ShouldSendEmailWhenGivenValidContactDetails-TestFailedEmail.txt";
+            contacts.SetFailedEmailFileName(failedEmailFileName);
+
+            // NOTE! Slight lie about sending the mail, it actually fails on sending and saves the email in the FailedEmails folder for the purpose of this test
+            contacts.SendDetailstoContactEmail(info, "");
+
+            Statistics stats = new Statistics();
+            Statistics.InitialiseIfEmpty();
+
+            DateTime expires = new DateTime();
+            string failedEmailContent = "";
+            FileCaching.GetItem(null, TestContext.TestDir, "failedmails", failedEmailFileName, ref expires, ref failedEmailContent);
+
+            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: \r\n" + info.ForumUri + "\r\n" + info.text;
+            Assert.AreEqual(expectedInfo, failedEmailContent);
         }
 
         [TestMethod]

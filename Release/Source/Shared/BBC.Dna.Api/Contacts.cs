@@ -172,37 +172,14 @@ namespace BBC.Dna.Api
             }
         }
 
-        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string emailServerAddress)
+        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient)
         {
             string sender = SiteList.GetSite("h2g2").ContactFormsEmail;
             string subject;
             string body;
 
             CreateEmailSubjectAndbody(contactDetails, out subject, out body);
-
-            try
-            {
-                MailMessage message = new MailMessage();
-                message.From = new MailAddress(sender);
-
-                foreach (string toAddress in recipient.Split(';'))
-                    message.To.Add(new MailAddress(toAddress));
-
-                message.Subject = subject;
-                message.Body = body;
-
-                SmtpClient client = new SmtpClient();
-                client.Host = emailServerAddress;
-                client.Port = 25;
-                //client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
-                //client.SendAsync(message, message);
-                client.Send(message);
-            }
-            catch (Exception e)
-            {
-                WriteFailedEmailToFile(sender, recipient, subject, body, "ContactDetails-");
-                DnaDiagnostics.WriteExceptionToLog(e);
-            }
+            SendEmail(sender, recipient, subject, body, "ContactDetails-");
         }
 
         private static void CreateEmailSubjectAndbody(ContactDetails contactDetails, out string subject, out string body)
@@ -265,31 +242,6 @@ namespace BBC.Dna.Api
                 }
             }
             catch { }
-        }
-
-        private void client_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            MailMessage message = (MailMessage)e.UserState;
-            if (e.Error != null || e.Cancelled)
-            {
-                throw new ApiException("Failed");
-            }
-        }
-
-        private void WriteFailedEmailToFile(string sender, string recipient, string subject, string body, string filenamePrefix)
-        {
-            string failedFrom = "From: " + sender + "\r\n";
-            string failedRecipient = "Recipient: " + recipient + "\r\n";
-            string failedEmail = failedFrom + failedRecipient + subject + "\r\n" + body;
-
-            //Create filename out of date and random number.
-            string fileName = filenamePrefix + DateTime.Now.ToString("yyyy-MM-dd-h:mm:ssffff");
-            Random random = new Random(body.Length);
-            fileName += "-" + random.Next().ToString() + ".txt";
-
-            //string cacheFolder = ConfigurationManager.AppSettings["FileCacheFolder"];
-            string cacheFolder = Environment.GetEnvironmentVariable("Temp");
-            FileCaching.PutItem(DnaDiagnostics, cacheFolder, "failedmails", fileName, failedEmail);
         }
     }
 }

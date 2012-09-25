@@ -157,12 +157,12 @@ set @stage=6
 		-- Check to make sure that the delay between items entring the risk mod queue and leaving the queue is less than a given time in seconds
 		DECLARE @LastProcessTime INT
 		
-		SELECT TOP 1 @LastProcessTime = DATEDIFF(minute, DatePosted, DateAssessed)
+		SELECT TOP 1 @LastProcessTime = DATEDIFF(second, DatePosted, DateAssessed)
 			FROM [GUIDE6-1].TheGuide.dbo.RiskModThreadEntryQueue
-			WHERE dateassessed IS NOT NULL AND dateposted IS NOT NULL
+			WHERE dateassessed IS NOT NULL
 			ORDER BY ThreadEntryID DESC
 
-		IF @LastProcessTime > 20
+		IF @LastProcessTime > 60
 		BEGIN
 			SELECT @problemEmailBody='The latest risk mod item took '+CAST(@LastProcessTime AS varchar)+' seconds to be processed'
 			EXEC msdb.dbo.sp_send_dbmail @recipients=@sendTo,@subject=@problemEmailSubject,@body=@problemEmailBody,@profile_name=@emailProfile
