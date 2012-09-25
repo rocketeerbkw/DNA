@@ -76,6 +76,8 @@ namespace BBC.Dna.Api.Tests
             mocks.ReplayAll();
 
             Contacts contacts = new Contacts(null, null, null, siteList);
+            contacts.EmailServerAddress = "";
+            contacts.FileCacheFolder = TestContext.TestDir;
             ContactDetails info = new ContactDetails();
             info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
             info.text = "This is a test email";
@@ -84,7 +86,7 @@ namespace BBC.Dna.Api.Tests
             contacts.SetFailedEmailFileName(failedEmailFileName);
 
             // NOTE! Slight lie about sending the mail, it actually fails on sending and saves the email in the FailedEmails folder for the purpose of this test
-            contacts.SendDetailstoContactEmail(info, "", "", TestContext.TestDir);
+            contacts.SendDetailstoContactEmail(info, "");
 
             Statistics stats = new Statistics();
             Statistics.InitialiseIfEmpty();
