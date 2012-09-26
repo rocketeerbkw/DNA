@@ -130,9 +130,8 @@ namespace BBC.Dna.Services
             try
             {
                 ContactFormDetails.Id = contactFormId;
-                contactFormComments.CallingUser = GetCallingUserOrNotSignedInUser(site, ContactFormDetails);
-
                 ContactForm contactFormData = contactFormComments.CreateContactForm(ContactFormDetails, site);
+                contactFormComments.CallingUser = GetCallingUserOrNotSignedInUser(site, contactFormData);
 
                 if (ContactFormDetails.contactDetailsList != null &&
                     ContactFormDetails.contactDetailsList.contacts != null &&
