@@ -52,10 +52,12 @@ namespace BBC.Dna.Api
             ContactForm contactForm = GetContactFormDetailFromFormID(newContactForm.Id, site);
             if (contactForm == null)
             {
-                // Do check for anonymous site option
-                if (CallingUser == null || !CallingUser.IsUserA(UserTypes.Editor))
+                if (!newContactForm.allowNotSignedInCommenting || !SiteList.GetSiteOptionValueBool(site.SiteID, "CommentForum", "AllowNotSignedInCommenting"))
                 {
-                    throw ApiException.GetError(ErrorType.NotAuthorized);
+                    if (CallingUser == null || !CallingUser.IsUserA(UserTypes.Editor))
+                    {
+                        throw ApiException.GetError(ErrorType.NotAuthorized);
+                    }
                 }
 
                 if (newContactForm.ContactEmail == null)
@@ -137,6 +139,8 @@ namespace BBC.Dna.Api
                         contactForm.ParentUri = reader.GetString("parenturi");
                         contactForm.Title = reader.GetString("title");
                         contactForm.SiteName = site.SiteName;
+                        contactForm.NotSignedInUserId = reader.GetInt32("NotSignedInUserId");
+                        contactForm.allowNotSignedInCommenting = contactForm.NotSignedInUserId > 0;
                         contactForm.isContactForm = true;
                     }
                 }
