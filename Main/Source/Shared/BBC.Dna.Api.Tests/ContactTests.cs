@@ -325,6 +325,7 @@ namespace BBC.Dna.Api.Tests
             existingContactFormDetails.ModerationServiceGroup = expectedModerationStatus;
             existingContactFormDetails.SiteName = expectedSiteName;
             existingContactFormDetails.ForumID = expectedForumId;
+            existingContactFormDetails.NotSignedInUserId = 0;
 
             IDnaDataReader mockedDataReader1 = MockedGetContactFormDetailFromFormID(existingContactFormDetails, true);
             IDnaDataReaderCreator mockerDataReaderCreator = mocks.StrictMock<IDnaDataReaderCreator>();
@@ -374,6 +375,7 @@ namespace BBC.Dna.Api.Tests
             newContactFormDetails.Id = expectedId;
             newContactFormDetails.ModerationServiceGroup = expectedModerationStatus;
             newContactFormDetails.SiteName = expectedSiteName;
+            newContactFormDetails.NotSignedInUserId = 0;
 
             IDnaDataReader mockedDataReader1 = MockedGetContactFormDetailFromFormID(newContactFormDetails, false);
 
@@ -432,6 +434,7 @@ namespace BBC.Dna.Api.Tests
                 mockedDataReader.Stub(x => x.GetString("contactformuid")).Return(newContactFormDetails.Id);
                 mockedDataReader.Stub(x => x.GetString("parenturi")).Return(newContactFormDetails.ParentUri);
                 mockedDataReader.Stub(x => x.GetString("title")).Return(newContactFormDetails.Title);
+                mockedDataReader.Stub(x => x.GetInt32("NotSignedInUserId")).Return(newContactFormDetails.NotSignedInUserId);
             }
 
             mockedDataReader.Stub(x => x.Dispose());
