@@ -555,6 +555,11 @@ namespace Tests
             set { _secureCookie = HttpUtility.UrlEncode(value); }
         }
 
+        public void ClearCookieContainer()
+        {
+            _cookieList.Clear();
+        }
+
         /// <summary>
         /// Current User ID property
         /// </summary>
@@ -891,7 +896,7 @@ namespace Tests
             if (_cookie.Length >= 66)
             {
                 // Create and add the cookie to the request
-                webRequest.CookieContainer = new CookieContainer();
+                //webRequest.CookieContainer = new CookieContainer();
                 Cookie cookie;
                 if (_useIdentity)
                 {
@@ -1002,7 +1007,7 @@ namespace Tests
                     debugUserParams += "|bannedemail";
                 }
 
-                AddCookie(new Cookie("DNADEBUGUSER","ID-"+_userName));
+                //AddCookie(new Cookie("DNADEBUGUSER","ID-"+_userName));
 
                 pageAndParams += debugUserParams;
             }
