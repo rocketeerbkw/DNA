@@ -146,7 +146,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetEditorUserAccount
         {
-            get { return new UserAccount("DotNetEditor", "789456123", "238011998234330627%7CDotNetEditor%7C%7C1349106123071%7C0%7C471de9474b7b2273d66afee6b36e057aacceeed09485", "07b79f5c58972031e6465a5ffce0012576022420", 1090558353, true); }
+            get { return new UserAccount("DotNetEditor", "789456123", "238011998234330627|DotNetEditor||1349106123071|0|471de9474b7b2273d66afee6b36e057aacceeed09485", "07b79f5c58972031e6465a5ffce0012576022420", 1090558353, true); }
             //get { return new UserAccount("DotNetEditor", "789456123", "6042008|DotNetEditor|DotNetEditor|1278932076599|0|283da2e47ac55c5d41d8c79e8252dba938df6ebf6799", "32ba4f5c31478f5246bfe8bf83b0c07d6268d7d9", 1090558353, true); }
         }
 
