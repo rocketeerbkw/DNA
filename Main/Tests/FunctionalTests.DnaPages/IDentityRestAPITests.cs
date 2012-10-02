@@ -44,6 +44,15 @@ namespace FunctionalTests
         }
 
         [TestMethod]
+        public void LoginAndAuthenticateAsTestEditor()
+        {
+            IDnaIdentityWebServiceProxy proxy = new IdentityRestSignIn();
+            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;http://www-cache.reith.bbc.co.uk:80;logging", "");
+            Assert.IsTrue(proxy.TrySecureSetUserViaCookies(TestUserAccounts.GetEditorUserAccount.Cookie, ""), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
+            Assert.IsTrue(proxy.TrySecureSetUserViaCookies(TestUserAccounts.GetSuperUserAccount.Cookie, ""), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
+        }
+
+        [TestMethod]
         public void LoginAndGetUserDetails()
         {
             HttpWebResponse response = TestUserCreator.CallIdentityRestAPI(string.Format("/users/{0}/attributes", _userName), null, _cookies, TestUserCreator.RequestVerb.GET);

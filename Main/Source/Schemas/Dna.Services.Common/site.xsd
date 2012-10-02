@@ -4,6 +4,7 @@
   <xs:element name="site">
     <xs:complexType>
       <xs:sequence>
+        <xs:element name="contactFormsEmail" type="xs:string" />
         <xs:element name="description" type="xs:string" />
         <xs:element name="editorsEmail" type="xs:string" />
         <xs:element name="feedbackEmail" type="xs:string" />

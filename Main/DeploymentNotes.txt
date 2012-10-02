@@ -798,10 +798,8 @@ Srihari T
 
 Add the following to the configuration files for thr API
 
-    <connectionStrings>
-        <add connectionString="ops-fs0.national.core.bbc.co.uk" name="emailserver" />
-    </connectionStrings>
 	<appSettings>
 		<!-- Path to ripley cache -->
 		<add key="FileCacheFolder" value="D:\LogsAndCaching\ripleycache"/>
+		<add key="EmailServer" value=""/>
 	</appSettings>

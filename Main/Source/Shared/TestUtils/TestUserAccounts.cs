@@ -136,7 +136,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetBannedUserAccount
         {
-            get { return new UserAccount("DotNetUserBanned", "789456123", "238011633464100099|DotNetUserBanned||1349098739648|0|9edd03fb536a1489f578e1093ef09964b6c32b6b0f31", "179aeb1e02a8f3b9fad2a088bba441f56c93770e", 1165333426, true); }
+            get { return new UserAccount("DotNetUserBanned", "789456123", "238011633464100099|DotNetUserBanned||1349174970585|0|1028b8c9bcd3f79beae223dfa03d97fc98737310390b", "705fa323c6853319524273d3492caaee1e5e5bc9", 1165333426, true); }
             //get { return new UserAccount("DotNetUserBanned", "asdfasdf", "6042004|DotNetUserBanned|DotNetUserBanned|1278932355700|0|286f856fcffe2f8464de1221ec745602955b4f529a9f", "28a9ad0e37b02b97ab7dd49dabf0c1212f07030f", 1165333426, true); }
         }
 
@@ -196,7 +196,7 @@ namespace TestUtils
         /// <returns>The user account details for the user</returns>
         public static UserAccount GetTrustedUserAccount
         {
-            get { return new UserAccount("test_trusted", "789456123", "238012916451336706|test_trusted||1349099575001|0|dc4f6c61189a47d38a66a3aed213192bc19318eafe0d", "6597fd0967cf1a3e79ad355b26e048e828a15fe2", 1165333430, true); }
+            get { return new UserAccount("test_trusted", "789456123", "238012916451336706|test_trusted||1349099575001|0|dc4f6c61189a47d38a66a3aed213192bc19318eafe0d", "6597fd0967cf1a3e79ad355b26e048e828a15fe2", 1165333429, true); }
         }
 
         /// <summary>

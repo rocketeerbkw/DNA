@@ -109,6 +109,11 @@ namespace BBC.Dna.Services
                     throw ApiException.GetError(ErrorType.ForumUnknown);
                 }
 
+                if (contactForm.ContactEmail == null || contactForm.ContactEmail.Length == 0)
+                {
+                    throw ApiException.GetError(ErrorType.MissingContactEmail);
+                }
+
                 ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactForm, newContactDetails);
 
                 contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail);
@@ -127,8 +132,18 @@ namespace BBC.Dna.Services
         public Stream CreateCommentContactFormWithContact(string siteName, ContactForm ContactFormDetails, string contactFormId)
         {
             ISite site = GetSite(siteName);
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
+
             try
             {
+                if (contactFormId == null)
+                {
+                    throw ApiException.GetError(ErrorType.ForumUnknown);
+                } 
+                
                 ContactFormDetails.Id = contactFormId;
                 ContactForm contactFormData = contactFormComments.CreateContactForm(ContactFormDetails, site);
                 contactFormComments.CallingUser = GetCallingUserOrNotSignedInUser(site, contactFormData);
