@@ -81,12 +81,13 @@ namespace BBC.Dna.Api.Tests
             ContactDetails info = new ContactDetails();
             info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
             info.text = "This is a test email";
+            string sentTo = "tester@bbc.co.uk";
 
             string failedEmailFileName = "ContactDetails-ShouldSendEmailWhenGivenValidContactDetails-TestFailedEmail.txt";
             contacts.SetFailedEmailFileName(failedEmailFileName);
 
             // NOTE! Slight lie about sending the mail, it actually fails on sending and saves the email in the FailedEmails folder for the purpose of this test
-            contacts.SendDetailstoContactEmail(info, "");
+            contacts.SendDetailstoContactEmail(info, sentTo);
 
             Statistics stats = new Statistics();
             Statistics.InitialiseIfEmpty();
@@ -95,7 +96,8 @@ namespace BBC.Dna.Api.Tests
             string failedEmailContent = "";
             FileCaching.GetItem(null, TestContext.TestDir, "failedmails", failedEmailFileName, ref expires, ref failedEmailContent);
 
-            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: \r\n" + info.ForumUri + "\r\n" + info.text;
+            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n" + info.ForumUri + "\r\n" + info.text;
+            expectedInfo += "\r\nThe SMTP host was not specified.";
             Assert.AreEqual(expectedInfo, failedEmailContent);
         }
 
@@ -325,6 +327,7 @@ namespace BBC.Dna.Api.Tests
             existingContactFormDetails.ModerationServiceGroup = expectedModerationStatus;
             existingContactFormDetails.SiteName = expectedSiteName;
             existingContactFormDetails.ForumID = expectedForumId;
+            existingContactFormDetails.NotSignedInUserId = 0;
 
             IDnaDataReader mockedDataReader1 = MockedGetContactFormDetailFromFormID(existingContactFormDetails, true);
             IDnaDataReaderCreator mockerDataReaderCreator = mocks.StrictMock<IDnaDataReaderCreator>();
@@ -374,6 +377,7 @@ namespace BBC.Dna.Api.Tests
             newContactFormDetails.Id = expectedId;
             newContactFormDetails.ModerationServiceGroup = expectedModerationStatus;
             newContactFormDetails.SiteName = expectedSiteName;
+            newContactFormDetails.NotSignedInUserId = 0;
 
             IDnaDataReader mockedDataReader1 = MockedGetContactFormDetailFromFormID(newContactFormDetails, false);
 
@@ -432,6 +436,7 @@ namespace BBC.Dna.Api.Tests
                 mockedDataReader.Stub(x => x.GetString("contactformuid")).Return(newContactFormDetails.Id);
                 mockedDataReader.Stub(x => x.GetString("parenturi")).Return(newContactFormDetails.ParentUri);
                 mockedDataReader.Stub(x => x.GetString("title")).Return(newContactFormDetails.Title);
+                mockedDataReader.Stub(x => x.GetInt32("NotSignedInUserId")).Return(newContactFormDetails.NotSignedInUserId);
             }
 
             mockedDataReader.Stub(x => x.Dispose());

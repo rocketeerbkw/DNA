@@ -12,7 +12,6 @@ using BBC.Dna.Data;
 using NUnit.Extensions.Asp;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtils;
-using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 
 namespace Tests
@@ -24,7 +23,7 @@ namespace Tests
     {
         // Reference IIsInitialise to ensure test web site is created.
         private static IIsInitialise _iisInitialse = IIsInitialise.GetIIsInitialise();
-        
+
         /// <summary>
         /// Constructor. Takes the name of the service that you are wanting to use.
         /// When this object is created, the default user is set to "ProfileAPITest" along with the correct password and cookie info.
@@ -37,9 +36,9 @@ namespace Tests
         {
             // Set the service
             _serviceName = serviceName.ToLower();
-            
+
             _server = CurrentServer;
-            
+
             _secureServer = SecureServerAddress;
 
             AssertWebRequestFailure = true;
@@ -147,7 +146,6 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -163,7 +161,6 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -179,7 +176,6 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -195,7 +191,6 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -211,7 +206,6 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -227,7 +221,6 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -243,7 +236,6 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -259,24 +251,8 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
-            _cookieList.Clear();
         }
 
-/*        /// <summary>
-        /// Helper function that sets the current user to be a Scout user
-        /// </summary>
-        public void SetCurrentUserScoutUser()
-        {
-            UserAccount user = TestUserAccounts.GetScoutUserAccount;
-            _userName = user.UserName;
-            _password = user.Password;
-            _cookie = user.Cookie;
-            _secureCookie = user.SecureCookie;
-            _userid = user.UserID;
-            _useIdentity = user.UsesIdentity;
-            _useDebugIdentityUser = true;
-        }
-*/
         /// <summary>
         /// Helper function that reset the current user to be a not logged in user
         /// </summary>
@@ -285,11 +261,10 @@ namespace Tests
             UserAccount user = TestUserAccounts.GetNonLoggedInUserAccount;
             _userName = user.UserName;
             _password = user.Password;
-            _cookie = null;
-            _secureCookie = null;
+            _cookie = user.Cookie;
+            _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -304,7 +279,6 @@ namespace Tests
             _secureCookie = user.SecureCookie;
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -320,7 +294,6 @@ namespace Tests
             _userid = user.UserID;
             _useIdentity = user.UsesIdentity;
             _useDebugIdentityUser = true;
-            _cookieList.Clear();
         }
 
         /// <summary>
@@ -338,7 +311,6 @@ namespace Tests
             _cookie = cookie;
             _userid = dnaUserID;
             _useIdentity = useIdentity;
-            _cookieList.Clear();
         }
 
         public bool UseDebugUserSecureCookie
@@ -591,7 +563,7 @@ namespace Tests
         /// <summary>
         /// Propert on whether to automaticall asset web failure
         /// </summary>
-        public bool AssertWebRequestFailure {get; set;}
+        public bool AssertWebRequestFailure { get; set; }
 
         /// <summary>
         /// Adds the given cookie to the request
@@ -599,19 +571,7 @@ namespace Tests
         /// <param name="cookie">The cookie you want to add</param>
         public void AddCookie(Cookie cookie)
         {
-            bool add = true;
-            foreach (Cookie c in _cookieList)
-            {
-                if (c.Name == cookie.Name)
-                {
-                    add = false;
-                }
-            }
-
-            if (add)
-            {
-                _cookieList.Add(cookie);
-            }
+            _cookieList.Add(cookie);
         }
 
         /// <summary>
@@ -621,7 +581,7 @@ namespace Tests
         {
             get
             {
-                if(!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer"]))
+                if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer"]))
                 {//overridden in app.config
                     return ConfigurationManager.AppSettings["testServer"];
                 }
@@ -667,7 +627,7 @@ namespace Tests
         /// </summary>
         /// <param name="relativePath">Allow the relative path to be specified.</param>
         /// <param name="Browser">NUnitASP Browser object</param>
-        public void RequestNUnitASPPage(string relativePath, HttpClient Browser )
+        public void RequestNUnitASPPage(string relativePath, HttpClient Browser)
         {
             string server;
 
@@ -678,7 +638,7 @@ namespace Tests
             relativePath = AddDebugUserParams(relativePath);
 
             //Specifying the actual aspx page can be important so that NUNitASP click events are processed correctly.
-            Uri URL = new Uri("http://" + server + relativePath );
+            Uri URL = new Uri("http://" + server + relativePath);
 
             //Set editor credentials
             if (_useEditorAuthentication)
@@ -704,7 +664,7 @@ namespace Tests
                 {
                     cookie = new Cookie("SSO2-UID", _cookie, "/", server);
                 }
-                
+
                 Browser.Cookies.Add(cookie);
             }
 
@@ -714,16 +674,16 @@ namespace Tests
             }
 
             // Check to see if we require a proxy for the request
-			if (_useProxyPassing)
-			{
+            if (_useProxyPassing)
+            {
                 Console.WriteLine("Using proxy");
                 // Set the proxy
-				Browser.Proxy = _proxy;
-			}
-			else
-			{
-				Browser.Proxy = null;
-			}
+                Browser.Proxy = _proxy;
+            }
+            else
+            {
+                Browser.Proxy = null;
+            }
 
             Console.WriteLine("NunitASP Browser getting page :" + URL.AbsoluteUri);
             Browser.GetPage(URL.AbsoluteUri);
@@ -748,9 +708,9 @@ namespace Tests
             // Check to see if we've got a host already setup
             //if (_hostRequest == null)
             //{
-                // Use dnapages directory as physical dir.
-                //string dnapagesdir = System.Environment.GetEnvironmentVariable("dnapages");
-                _hostRequest = Host.Create(TestConfig.GetConfig().GetDnaPagesDir());
+            // Use dnapages directory as physical dir.
+            //string dnapagesdir = System.Environment.GetEnvironmentVariable("dnapages");
+            _hostRequest = Host.Create(TestConfig.GetConfig().GetDnaPagesDir());
             //}
 
             // Check to see if the query contains the site
@@ -777,7 +737,7 @@ namespace Tests
             _lastRequestWasASPX = true;
         }
 
-       /// <summary>
+        /// <summary>
         /// This function is used to send the request
         /// </summary>
         /// <param name="pageAndParams">The dna page that you want to call and the associated params</param>
@@ -991,7 +951,7 @@ namespace Tests
                 }
 
                 debugUserParams += "d_identityuserid=" + _userName;
-                
+
                 if (!_useDebugUserSecureCookie)
                 {
                     debugUserParams += "|nosecurecookie";
@@ -1001,8 +961,6 @@ namespace Tests
                 {
                     debugUserParams += "|bannedemail";
                 }
-
-                AddCookie(new Cookie("DNADEBUGUSER","ID-"+_userName));
 
                 pageAndParams += debugUserParams;
             }
@@ -1027,10 +985,10 @@ namespace Tests
         public void RequestPageWithFullURL(string fullUrl, string postData, string postDataType, string method)
         {
             RequestPageWithFullURL(fullUrl, postData, postDataType, method, null);
-            
+
         }
 
-        
+
 
         /// <summary>
         /// This function is used to send the request
@@ -1054,7 +1012,7 @@ namespace Tests
 
             //Trust all certificates
             ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
-            
+
             if (!String.IsNullOrEmpty(postDataType))
             {
                 webRequest.ContentType = postDataType;
@@ -1086,12 +1044,12 @@ namespace Tests
             }
 
             // Check to see if we need to add a cookie
-            webRequest.CookieContainer = new CookieContainer();
-            if (_cookie != null && _cookie.Length >= 66)
+            if (_cookie.Length >= 66)
             {
                 Console.WriteLine("Adding cookie: " + _cookie);
 
                 // Create and add the cookie to the request
+                webRequest.CookieContainer = new CookieContainer();
                 Cookie cookie;
                 if (_useIdentity)
                 {
@@ -1198,20 +1156,20 @@ namespace Tests
 
                 throw ex;
             }
-            
+
             GetLastResponseAsString();
 
             // Return the response object
             return; // _response;
         }
 
-        
+
 
         /// <summary>
         /// Uploads a file simulating a multipart/form-data encoded request.
         /// Based on http://www.codeproject.com/csharp/uploadfileex.asp
         /// </summary>
-        public HttpWebResponse UploadFileEx(string uploadfile, string page, string contenttype, Queue< KeyValuePair<string,string> > queryparams, CookieContainer cookies)
+        public HttpWebResponse UploadFileEx(string uploadfile, string page, string contenttype, Queue<KeyValuePair<string, string>> queryparams, CookieContainer cookies)
         {
             // Make sure that we clear the last response objects
             _responseAsString = null;
@@ -1228,7 +1186,7 @@ namespace Tests
 
             // Create the URL and the Request object
             Uri URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + page);
-            HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL+postdata);
+            HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL + postdata);
 
             // Check to see if we require a proxy for the request
             if (_useProxyPassing)
@@ -1322,7 +1280,7 @@ namespace Tests
 
                 // Write out the trailing boundary
                 requestStream.Write(boundaryBytes, 0, boundaryBytes.Length);
-            }           
+            }
 
             try
             {
@@ -1486,7 +1444,7 @@ namespace Tests
 
             return _response;
         }
-        
+
         /// <summary>
         /// This function is used to sign out a given user.
         /// You need to set the current user and password before calling this function. The default is to use the profile api test user
@@ -1547,22 +1505,22 @@ namespace Tests
         public XmlDocument GetLastResponseAsXML()
         {
             // Check to see if we've already got it
-			if (_responseAsXML == null)
-			{
-				string thisResponse = GetLastResponseAsString();
-				// Create the new response
-				_responseAsXML = new XmlDocument();
+            if (_responseAsXML == null)
+            {
+                string thisResponse = GetLastResponseAsString();
+                // Create the new response
+                _responseAsXML = new XmlDocument();
 
-				// Check to see if we requested an aspx or normal page
-				try
-				{
-					_responseAsXML.LoadXml(thisResponse);
-				}
-				catch (Exception e)
-				{
-					throw new Exception("Response wasn't valid xml. Response: \n" + thisResponse, e);
-				}
-			}
+                // Check to see if we requested an aspx or normal page
+                try
+                {
+                    _responseAsXML.LoadXml(thisResponse);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Response wasn't valid xml. Response: \n" + thisResponse, e);
+                }
+            }
 
             // return the new document
             return _responseAsXML;
@@ -1590,9 +1548,9 @@ namespace Tests
                     {
                         _responseAsString = reader.ReadToEnd();
                     }
-					_response.Close();
-					//_response = null;
-					return _responseAsString;
+                    _response.Close();
+                    //_response = null;
+                    return _responseAsString;
                 }
             }
 
@@ -1604,6 +1562,7 @@ namespace Tests
         {
             return _response.StatusCode;
         }
+
 
         public Object GetLastResponseAsJSONObject(Type jsonType)
         {
@@ -1628,6 +1587,11 @@ namespace Tests
             UTF8Encoding encoding = new UTF8Encoding();
             Byte[] byteArray = encoding.GetBytes(pXmlString);
             return byteArray;
+        }
+
+        public void ClearCookieContainer()
+        {
+            _cookieList.Clear();
         }
     }
 }

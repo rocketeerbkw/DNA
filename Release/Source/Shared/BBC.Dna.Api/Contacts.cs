@@ -179,6 +179,10 @@ namespace BBC.Dna.Api
         public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient)
         {
             string sender = SiteList.GetSite("h2g2").ContactFormsEmail;
+            if (sender.Length == 0)
+            {
+                sender = recipient;
+            }
             string subject;
             string body;
 

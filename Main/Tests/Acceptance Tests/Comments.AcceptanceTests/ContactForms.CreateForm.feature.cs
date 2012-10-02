@@ -12,13 +12,14 @@
 namespace Comments.AcceptanceTests
 {
     using TechTalk.SpecFlow;
-    using Tests;
+    
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "1.8.1.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [Microsoft.VisualStudio.TestTools.UnitTesting.TestClassAttribute()]
     public partial class CreatingContactFormsFeature
     {
+        
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
 #line 1 "ContactForms.CreateForm.feature"
@@ -241,6 +242,54 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.When("I call the Create Contact Form API with no title");
 #line 51
  testRunner.Then("I get an Invalid Forum Title Exception");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("New Contact form entry first post")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Creating Contact Forms")]
+        public virtual void NewContactFormEntryFirstPost()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("New Contact form entry first post", ((string[])(null)));
+#line 53
+this.ScenarioSetup(scenarioInfo);
+#line 54
+ testRunner.Given("a user goes to a page with a contact form on it");
+#line 55
+ testRunner.When("the first submission has been done on it");
+#line 56
+ testRunner.Then("the contact form is created without editor involvement");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestMethodAttribute()]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.DescriptionAttribute("Contact Form Created with anonymous posting set as \'<Anon_Post>\'")]
+        [Microsoft.VisualStudio.TestTools.UnitTesting.TestPropertyAttribute("FeatureTitle", "Creating Contact Forms")]
+        public virtual void ContactFormCreatedWithAnonymousPostingSetAsAnon_Post()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Contact Form Created with anonymous posting set as \'<Anon_Post>\'", ((string[])(null)));
+#line 58
+this.ScenarioSetup(scenarioInfo);
+#line 59
+ testRunner.Given("a user goes to a page with a contact form on it");
+#line 60
+ testRunner.And("the contact form has anonymous posting set to \'<Anon_Post>\'");
+#line 61
+ testRunner.When("anonymous user tries to post to it");
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Anon_Post",
+                        "Post_Status"});
+            table1.AddRow(new string[] {
+                        "True",
+                        "accepted"});
+            table1.AddRow(new string[] {
+                        "False",
+                        "rejected"});
+#line 62
+ testRunner.Then("the posts is \'<Post_Status>\'", ((string)(null)), table1);
 #line hidden
             this.ScenarioCleanup();
         }

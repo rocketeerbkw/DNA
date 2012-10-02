@@ -28,12 +28,11 @@
 						<xs:documentation>Site shortname description.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="DESCRIPTION" type="xs:string" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Site description.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-
+        <xs:element name="DESCRIPTION" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>Site description.</xs:documentation>
+          </xs:annotation>
+        </xs:element>
 				<xs:element name="SSOSERVICE" type="xs:string">
 					<xs:annotation>
 						<xs:documentation>The SSO service for the site.</xs:documentation>

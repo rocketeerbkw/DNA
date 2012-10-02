@@ -855,12 +855,25 @@ namespace BBC.Dna.Api
                     throw ApiException.GetError(ErrorType.XmlFailedParse);
                 }
             }
-            //run against profanity filter
-            notes = string.Empty;
-            CheckForProfanities(site, comment.text, out forceModeration, out notes, out terms, commentForum.ForumID);
-            forceModeration = forceModeration ||
-                              (commentForum.ModerationServiceGroup > ModerationStatus.ForumStatus.Reactive);
+
+            if (commentForum.isContactForm)
+            {
+                //We don't want to do any terms filtering on contact forms.
+                ignoreModeration = true;
+                forceModeration = false;
+                notes = string.Empty;
+                terms = null;
+            }
+            else
+            {
+                //run against profanity filter
+                notes = string.Empty;
+
+                CheckForProfanities(site, comment.text, out forceModeration, out notes, out terms, commentForum.ForumID);
+                forceModeration = forceModeration ||
+                                  (commentForum.ModerationServiceGroup > ModerationStatus.ForumStatus.Reactive);
                 //force moderation if anything greater than reactive
+            }
         }
 
         /// <summary>

@@ -9,6 +9,24 @@ using System.Net.Mail;
 
 namespace BBC.Dna.Api
 {
+    public class FailedEmail
+    {
+        public FailedEmail(string from, string to, string subject, string body, string fileprefix)
+        {
+            From = from;
+            To = to;
+            Subject = subject;
+            Body = body;
+            FilePreFix = fileprefix;
+        }
+
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+        public string FilePreFix { get; set; }
+    }
+
     public class Context
     {
         protected const string CacheLastupdated = "|LASTUPDATED";
@@ -315,9 +333,11 @@ namespace BBC.Dna.Api
 
         public bool SendEmail(string sender, string recipient, string subject, string body, string filenamePrefix)
         {
+            bool sentOk = true;
+
+            MailMessage message = new MailMessage();
             try
             {
-                MailMessage message = new MailMessage();
                 message.From = new MailAddress(sender);
 
                 foreach (string toAddress in recipient.Split(';'))
@@ -328,15 +348,29 @@ namespace BBC.Dna.Api
                 message.Priority = MailPriority.Normal;
 
                 SmtpClient client = new SmtpClient(EmailServerAddress);
-                client.Send(message);
+                
+                client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
+                client.SendAsync(message, new FailedEmail(sender, recipient, subject, body, filenamePrefix));
             }
             catch (Exception e)
             {
-                WriteFailedEmailToFile(sender, recipient, subject, body, "ContactDetails-");
+                WriteFailedEmailToFile(sender, recipient, subject, body + "\r\n" + e.Message, filenamePrefix);
                 DnaDiagnostics.WriteExceptionToLog(e);
-                return false;
+                sentOk = false;
+                message.Dispose();
             }
-            return true;
+
+            return sentOk;
+        }
+
+        private void client_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            FailedEmail failedMail = (FailedEmail)e.UserState;
+            if (e.Error != null || e.Cancelled)
+            {
+                WriteFailedEmailToFile(failedMail.To, failedMail.From, failedMail.Subject, failedMail.Body + "\n\n" + e.Error.Message + e.Error.InnerException.Message, failedMail.FilePreFix);
+                DnaDiagnostics.WriteExceptionToLog(e.Error);
+            }
         }
 
         private void WriteFailedEmailToFile(string sender, string recipient, string subject, string body, string filenamePrefix)

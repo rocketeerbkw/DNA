@@ -83,7 +83,7 @@ namespace Comments.AcceptanceTests.StepDefinitions
             string title = "testcontactform";
             string parentUri = "http://local.bbc.co.uk/dna/h2g2";
             string id = "newcontactform" + DateTime.Now.Ticks.ToString();
-            string contactEmail = "tester@bbc.co.uk";
+            string contactEmail = "mark.howitt@bbc.co.uk";
             string postData = ContactFormTestUtils.AddFirstJSONData("id", id);
             postData += ContactFormTestUtils.AddJSONData("parentUri", parentUri);
             postData += ContactFormTestUtils.AddJSONData("title", title);

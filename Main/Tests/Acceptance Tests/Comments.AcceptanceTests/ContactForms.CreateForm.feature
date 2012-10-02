@@ -49,3 +49,18 @@ Scenario: Creating a Contact Form with not title
 	Given I am logged in as an editor
 	When I call the Create Contact Form API with no title
 	Then I get an Invalid Forum Title Exception
+	
+Scenario: New Contact form entry first post
+	Given a user goes to a page with a contact form on it
+	When the first submission has been done on it
+	Then the contact form is created without editor involvement
+
+Scenario: Contact Form Created with anonymous posting set as '<Anon_Post>'
+	Given a user goes to a page with a contact form on it
+	And the contact form has anonymous posting set to '<Anon_Post>'
+	When anonymous user tries to post to it
+	Then the posts is '<Post_Status>'
+
+	|Anon_Post|Post_Status|
+	|True|accepted|
+	|False|rejected|

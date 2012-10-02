@@ -1,6 +1,7 @@
 CREATE PROCEDURE getcontactformdetailfromformid @contactformid nvarchar(255), @sitename varchar(255)
 AS
 SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+EXEC openemailaddresskey;
 SELECT
 	'ForumID' = vcf.ForumID,
 	'ParentURI' = vcf.URL,

@@ -26,9 +26,9 @@ namespace Comments.AcceptanceTests.Support
             return CallAPIRequest(request, requestURL, "", DnaTestURLRequest.usertype.NOTLOGGEDIN, "GET");
         }
 
-        public static string CallCommentForumList(DnaTestURLRequest request, string sitename, string contactFormID, string additionalParams)
+        public static string CallCommentForumList(DnaTestURLRequest request, string additionalParams)
         {
-            string requestURL = "https://" + DnaTestURLRequest.CurrentServer + "/dna/" + sitename + "/commentsforumlist/?s_siteid=1" + additionalParams;
+            string requestURL = "https://" + DnaTestURLRequest.CurrentServer + "/dna/moderation/admin/commentsforumlist/?s_siteid=1" + additionalParams;
             request.SetCurrentUserEditor();
             request.AssertWebRequestFailure = false;
             request.RequestSecurePage(requestURL);

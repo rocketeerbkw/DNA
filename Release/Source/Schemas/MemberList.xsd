@@ -37,7 +37,7 @@
 										<xs:element name="IPADDRESS" minOccurs="0" type="xs:string" />
 										<xs:element name="BBCUID" minOccurs="0" type="xs:string" />
                     <xs:element name="SSOUSERID" type="xs:unsignedInt" />
-                    <xs:element name="IDENTITYUSERID" type="xs:unsignedInt" />
+                    <xs:element name="IDENTITYUSERID" type="xs:string" />
                     <xs:element name="ACTIVE" type="xs:boolean" />
                   </xs:sequence>
 									<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />

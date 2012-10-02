@@ -34,10 +34,10 @@ namespace BBC.Dna.Services
             dnaDiagnostics = new DnaDiagnostics(RequestIdGenerator.GetNextRequestId(), DateTime.Now);
             connectionString = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiagnostics);
-            
+
             try
             {
-                emailServerAddress = ConfigurationManager.ConnectionStrings["emailserver"].ConnectionString;
+                emailServerAddress = ConfigurationManager.AppSettings["EmailServer"];
             }
             catch
             {
