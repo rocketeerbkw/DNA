@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>Quéjese acerca de este <xsl:call-template name="item_name"/></h2>
-            <p>Este formulario está destinado solamente a reclamos sobre comentarios que rompan <a href="{$houserulespopupurl}">las reglas</a>.</p>
+            <p>Este formulario está destinado solamente a reclamos sobre comentarios que rompan <a href="http://www.bbc.co.uk/mundo/institucional/2012/08/000000_ayuda_foros_comentarios.shtml">las reglas</a>.</p>
             <p>Si usted quiere enviar su opinión o alguna pregunta por favor no utilice este formulario. Publique un comentario en la discusión.</p>
-            <p>El comentario por el cual se está quejando será enviado a un moderador, quien decidirá si rompe o no.</p>
+            <p>El comentario por el cual se está quejando será enviado a un moderador, quien decidirá si rompe o no <a href="http://www.bbc.co.uk/mundo/institucional/2012/08/000000_ayuda_foros_comentarios.shtml">las reglas</a>. Se le notificará cuál fue la decisión por correo electrónico.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -95,22 +95,22 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Alertando a los moderadores</h2>
-            	<p>Por favor, selecciones cuál de <a href="{$houserulespopupurl}">las reglas</a> usted cree que este <xsl:call-template name="item_name"/> ha roto. Si considera que rompe más de una regla, por favor seleccione la falta que piense sea más severa.</p>
+            	<p>Por favor, selecciones cuál de <a href="http://www.bbc.co.uk/mundo/institucional/2012/08/000000_ayuda_foros_comentarios.shtml">las reglas</a> usted cree que este <xsl:call-template name="item_name"/> ha roto. Si considera que rompe más de una regla, por favor seleccione la falta que piense sea más severa.</p>
             </div>
             
             <div class="content">
               <h2>Razón de su reclamo</h2>
               <p>
-                IYo considero que este <xsl:call-template name="item_name"/> estaría rompiendo una de <a href="{$houserulespopupurl}">la reglas</a> porque:
+                Yo considero que este <xsl:call-template name="item_name"/> estaría rompiendo una de <a href="http://www.bbc.co.uk/mundo/institucional/2012/08/000000_ayuda_foros_comentarios.shtml">la reglas</a> porque:
               </p>
                
                 <p class="options">
                 	<p class="options">
                 		<input type="radio" id="dnaacs-cq-1" value="es difamatorio" name="s_complaintText"/><label for="dnaacs-cq-1">es difamatorio</label>
-                		<input type="radio" id="dnaacs-cq-2" value="es insultante, obsceno, amenazante o atenta contra las creencias, la raza o la preferencia sexual de un grupo de personas." name="s_complaintText"/><label for="dnaacs-cq-2">es insultante, obsceno, amenazante o atenta contra las creencias, la raza o la preferencia sexual de un grupo de personas.</label>
+                		<input type="radio" id="dnaacs-cq-2" value="es insultante, obsceno, amenazante o atenta contra las creencias, la raza o la preferencia sexual de un grupo de personas" name="s_complaintText"/><label for="dnaacs-cq-2">es insultante, obsceno, amenazante o atenta contra las creencias, la raza o la preferencia sexual de un grupo de personas</label>
                 		<input type="radio" id="dnaacs-cq-3" value="contiene palabras soeces o un lenguaje que puede resultar ofensivo" name="s_complaintText"/><label for="dnaacs-cq-3">contiene palabras soeces o un lenguaje que puede resultar ofensivo</label>
-                		<input type="radio" id="dnaacs-cq-4" value="es ilegal o hace apología del delito en actividades tales como infringir el derecho de autor o desacato a un tribunal de Justicia" name="s_complaintText"/><label for="dnaacs-cq-4">es ilegal o hace apología del delito en actividades tales como  <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">infringir el derecho de autor</a> o desacato a un tribunal de Justicia</label>
-                		<input type="radio" id="dnaacs-cq-5" value="hacer publicidad de productos y servicios para obtener alguna ganancia o beneficio." name="s_complaintText"/><label for="dnaacs-cq-5">hacer publicidad de productos y servicios para obtener alguna ganancia o beneficio.</label>
+                		<input type="radio" id="dnaacs-cq-4" value="es ilegal o hace apología del delito en actividades tales como infringir el derecho de autor o desacato a un tribunal de Justicia" name="s_complaintText"/><label for="dnaacs-cq-4">es ilegal o hace apología del delito en actividades tales como  <a href="http://www.bbc.co.uk/spanish/specials/150_valores/pdf/valores_bbc_todo.pdf">infringir el derecho de autor</a> o desacato a un tribunal de Justicia</label>
+                		<input type="radio" id="dnaacs-cq-5" value="hacer publicidad de productos y servicios para obtener alguna ganancia o beneficio" name="s_complaintText"/><label for="dnaacs-cq-5">hacer publicidad de productos y servicios para obtener alguna ganancia o beneficio</label>
                 		<input type="radio" id="dnaacs-cq-7" value="suplanta la identidad de otra persona" name="s_complaintText"/><label for="dnaacs-cq-7">suplanta la identidad de otra persona</label>
                 		<input type="radio" id="dnaacs-cq-8" value="incluye información privada, tal como números telefónicos, dirección postal o de correo electrónico" name="s_complaintText"/><label for="dnaacs-cq-8">incluye información privada, tal como números telefónicos, dirección postal o de correo electrónico</label>
                 		<xsl:call-template name="library_userstate">
@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="no está en español" name="s_complaintText"/><label for="dnaacs-cq-10">no está en español</label>
-                		<input type="radio" id="dnaacs-cq-11" value="contiene un vínculo a un sitio externo que romper con nuestra línea editorial" name="s_complaintText"/><label for="dnaacs-cq-11">contiene un vínculo a un sitio externo que romper con nuestra <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">línea editorial</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="contiene un vínculo a un sitio externo que romper con nuestra línea editorial" name="s_complaintText"/><label for="dnaacs-cq-11">contiene un vínculo a un sitio externo que romper con nuestra <a href="http://www.bbc.co.uk/spanish/specials/150_valores/pdf/valores_bbc_todo.pdf">línea editorial</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="describe o incita a actividades que pueden dañar a terceros" name="s_complaintText"/><label for="dnaacs-cq-12">describe o incita a actividades que pueden dañar a terceros</label>
                 		<input type="radio" id="dnaacs-cq-13" value="contiene un nombre de usuario no apropiado" name="s_complaintText"/><label for="dnaacs-cq-13">contiene un nombre de usuario no apropiado</label>
                 		<input type="radio" id="dnaacs-cq-14" value="es un correo basura o en serie (spam)" name="s_complaintText"/><label for="dnaacs-cq-14">es un correo basura o en serie (spam)</label>
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Otro'">
-                        <xsl:text>Creo que este </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Otro'">
+                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> por la siguiente razón:</xsl:text>
-                    	</xsl:if> -->
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
+                    	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -299,7 +299,7 @@
     <div class="content">
       <h2>Queja exitosa</h2>
       <p>
-        Su queja ha sido recibida con éxito y enviada al equipo de moderadores. Ellos decidirán si <a href="{$houserulespopupurl}">las reglas</a> han sido rotas y le enviarán una actualización a través de su correo electrónico.
+        Su queja ha sido recibida con éxito y enviada al equipo de moderadores. Ellos decidirán si <a href="http://www.bbc.co.uk/mundo/institucional/2012/08/000000_ayuda_foros_comentarios.shtml">las reglas</a> han sido rotas y le enviarán una actualización a través de su correo electrónico.
       </p>
       <p>
         Su referencia es: <strong>

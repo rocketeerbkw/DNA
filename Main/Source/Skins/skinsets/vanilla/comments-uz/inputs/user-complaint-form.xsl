@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>Изоҳ юзасидан шикоят <xsl:call-template name="item_name"/></h2>
-            <p>Ушбу формадан фақат форум қоидаларини бузаётган изоҳ устидан жиддий шикоят қилиш учун фойдаланилади: <a href="{$houserulespopupurl}">Форум қоидалари</a>.</p>
+            <p>Ушбу формадан фақат форум қоидаларини бузаётган изоҳ устидан жиддий шикоят қилиш учун фойдаланилади: <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидалари</a>.</p>
             <p>Агар сизда умумий изоҳ ёки савол бўлса, бу формадан фойдаланманг. Ё хабар йўлланг ёки қайта алоқа формасидан фойдаланинг.</p>
-            <p>Сизнинг шикоятингиз модераторга етказилади. Модератор изоҳ форум қоидасини бузган-бузмаганини ўрганади <a href="{$houserulespopupurl}">Форум қоидалари</a>. Сиз ўз шикоятингиз борасида қандай қарорга келингани ҳақида электрон мактуб оласиз.</p>
+            <p>Сизнинг шикоятингиз модераторга етказилади. Модератор изоҳ форум қоидасини бузган-бузмаганини ўрганади <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидалари</a>. Сиз ўз шикоятингиз борасида қандай қарорга келингани ҳақида электрон мактуб оласиз.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Модераторларни огоҳ қилиш</h2>
-            	<p>Сизнингча қайси банд <a href="{$houserulespopupurl}">Форум қоидалари</a> зид деб ҳисоблайсиз <xsl:call-template name="item_name"/> Агар сиз бир неча қоида бузилган, деб ҳисобласангиз, улардан энг жиддийсини танланг.</p>
+            	<p>Сизнингча қайси банд <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидалари</a> зид деб ҳисоблайсиз <xsl:call-template name="item_name"/> Агар сиз бир неча қоида бузилган, деб ҳисобласангиз, улардан энг жиддийсини танланг.</p>
             </div>
             
             <div class="content">
               <h2>Шикоят сабаби</h2>
               <p>
-                Менинг фикримча, бу <xsl:call-template name="item_name"/> <a href="{$houserulespopupurl}">Форум қоидалари</a> бузаяпти, чунки унда: 
+                Менинг фикримча, бу <xsl:call-template name="item_name"/> <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидалари</a> бузаяпти, чунки унда: 
               </p>
                
                 <p class="options">
@@ -109,7 +109,7 @@
                 		<input type="radio" id="dnaacs-cq-1" value="бўҳтон мазмун бор" name="s_complaintText"/><label for="dnaacs-cq-1">бўҳтон мазмун бор</label>
                 		<input type="radio" id="dnaacs-cq-2" value="ирқчи, жинсий, очиқдан-очиқ шаҳвоний, зўравонликка асосланган ё таҳқирловчи мазмун бор" name="s_complaintText"/><label for="dnaacs-cq-2">ирқчи, жинсий, очиқдан-очиқ шаҳвоний, зўравонликка асосланган ё таҳқирловчи мазмун бор</label>
                 		<input type="radio" id="dnaacs-cq-3" value="сўкиниш ёки таҳқирлаш мазмунига эга сўзлар бор" name="s_complaintText"/><label for="dnaacs-cq-3">сўкиниш ёки таҳқирлаш мазмунига эга сўзлар бор</label>
-                		<input type="radio" id="dnaacs-cq-4" value="қонунни бузаяпти ёки ноқонуний амалга ундаяпти, хусусан муаллифлик ҳуқуқи, маҳкама тақиқини бузаяпти" name="s_complaintText"/><label for="dnaacs-cq-4">қонунни бузаяпти ёки ноқонуний амалга ундаяпти, хусусан <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">муаллифлик ҳуқуқи,</a> маҳкама тақиқини бузаяпти</label>
+                		<input type="radio" id="dnaacs-cq-4" value="қонунни бузаяпти ёки ноқонуний амалга ундаяпти, хусусан муаллифлик ҳуқуқи, маҳкама тақиқини бузаяпти" name="s_complaintText"/><label for="dnaacs-cq-4">қонунни бузаяпти ёки ноқонуний амалга ундаяпти, хусусан <a href="http://www.bbc.co.uk/uzbek/institutional/2011/12/000001_terms.shtml">муаллифлик ҳуқуқи,</a> маҳкама тақиқини бузаяпти</label>
                 		<input type="radio" id="dnaacs-cq-5" value="фойда олиш мақсадида маҳсулот ёки хизматни реклама қилаяпти" name="s_complaintText"/><label for="dnaacs-cq-5">фойда олиш мақсадида маҳсулот ёки хизматни реклама қилаяпти</label>
                 		<input type="radio" id="dnaacs-cq-7" value="ўзини бошқа одам деб тақдим қилаяпти" name="s_complaintText"/><label for="dnaacs-cq-7">ўзини бошқа одам деб тақдим қилаяпти</label>
                 		<input type="radio" id="dnaacs-cq-8" value="ичида шахсий маълумотлар бор, масалан телефон рақамлари ёки уй манзили" name="s_complaintText"/><label for="dnaacs-cq-8">ичида шахсий маълумотлар бор, масалан телефон рақамлари ёки уй манзили</label>
@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="ўзбек тилида ёзилмаган" name="s_complaintText"/><label for="dnaacs-cq-10">ўзбек тилида ёзилмаган</label>
-                		<input type="radio" id="dnaacs-cq-11" value="бошқа веб-саҳифага линк берилган. У эса Би-би-си Таҳририй сиёсатига зид" name="s_complaintText"/><label for="dnaacs-cq-11">бошқа веб-саҳифага линк берилган. У эса <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Би-би-си Таҳририй сиёсатига зид</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="бошқа веб-саҳифага линк берилган. У эса Би-би-си Таҳририй сиёсатига зид" name="s_complaintText"/><label for="dnaacs-cq-11">бошқа веб-саҳифага линк берилган. У эса <a href="http://www.bbc.co.uk/uzbek/institutional/2012/09/120920_editorial_values.shtml">Би-би-си Таҳририй сиёсатига зид</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="бошқалар хавфсизлигига таъсир кўрсатиши мумкин бўлган хатарли ҳаракатни тасвирлаяпти ёки шунга гижгижлаяпти" name="s_complaintText"/><label for="dnaacs-cq-12">бошқалар хавфсизлигига таъсир кўрсатиши мумкин бўлган хатарли ҳаракатни тасвирлаяпти ёки шунга гижгижлаяпти</label>
                 		<input type="radio" id="dnaacs-cq-13" value="фойдаланувчининг номи номақбул ном" name="s_complaintText"/><label for="dnaacs-cq-13">фойдаланувчининг номи номақбул ном</label>
                 		<input type="radio" id="dnaacs-cq-14" value="бу спам" name="s_complaintText"/><label for="dnaacs-cq-14">бу спам</label>
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Бошқа'">
-                        <xsl:text>менинг фикримча, </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Бошқа'">
+                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> қуйидаги қоидани бузаяпти:</xsl:text>
-                    	</xsl:if> -->
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
+                    	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -299,7 +299,7 @@
     <div class="content">
       <h2>Шикоят қабул қилинди</h2>
       <p>
-        Сизнинг шикоятингиз модераторга юборилди. Модератор изоҳ форум қоидасини бузган-бузмаганини ўрганади: <a href="{$houserulespopupurl}">Форумлар қоидаси</a> сўнг модератор ўз қарори борасида сизни электрон почта орқали хабардор қилади.
+        Сизнинг шикоятингиз модераторга юборилди. Модератор изоҳ форум қоидасини бузган-бузмаганини ўрганади: <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форумлар қоидаси</a> сўнг модератор ўз қарори борасида сизни электрон почта орқали хабардор қилади.
       </p>
       <p>
         Сизнинг шикоятингиз рақами: <strong>
