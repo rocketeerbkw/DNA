@@ -9,6 +9,7 @@ using BBC.Dna.Objects;
 using BBC.Dna.Sites;
 using BBC.Dna;
 using BBC.Dna.Data;
+using TestUtils;
 
 namespace FunctionalTests.Services.Users
 {
@@ -24,9 +25,9 @@ namespace FunctionalTests.Services.Users
         static string test_getcontribution;
 
         static string test_user_idString;
-        static int test_dnauserid = 1090501859;
-        static string test_identityuserid = "6042002"; // mapped to the associated test_dnauserid
-        static string test_username = "U1090501859";
+        static int test_dnauserid = TestUserAccounts.GetNormalUserAccount.UserID;
+        static string test_identityuserid = TestUserAccounts.GetNormalUserAccount.IdentityId; // mapped to the associated test_dnauserid
+        static string test_username = "U" + test_dnauserid;
 
         static int test_blog_siteId = 73; // identity blog
         static string test_blog_url = "identityblogs"; 

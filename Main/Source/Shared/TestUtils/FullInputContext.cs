@@ -16,6 +16,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Moderation.Utils.Tests;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Web;
+using TestUtils;
 
 
 namespace Tests
@@ -240,9 +241,7 @@ namespace Tests
         /// </summary>
         public void InitDefaultUser()
         {
-            //InitUserFromCookie("3420578cf0c5a180d2de517ce172cf15a1d75962e850da37b546589db499466a00");
-            InitUserFromCookie("6042002|DotNetNormalUser|DotNetNormalUser|1273497514775|0|bf78fdd57a1f70faee630c07ba31674eab181a3f6c6f",
-            "1eda650cb28e56156217427336049d0b8e164765");
+            InitUserFromCookie(TestUserAccounts.GetNormalUserAccount.Cookie,TestUserAccounts.GetNormalUserAccount.SecureCookie);
         }
 
         /// <summary>
@@ -250,12 +249,6 @@ namespace Tests
         /// </summary>
         public void InitUserFromCookie(string identity, string identityHttps)
         {
-            /*if (_ssocookie == null)
-            {
-                _ssocookie = new DnaCookie(new System.Web.HttpCookie("SS02-UID"));
-            }
-            _ssocookie.Value = ssouid2;*/
-
             if (_identityCookie == null)
             {
                 _identityCookie = new DnaCookie(new System.Web.HttpCookie("IDENTITY"));

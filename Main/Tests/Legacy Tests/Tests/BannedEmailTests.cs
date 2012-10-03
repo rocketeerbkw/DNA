@@ -11,6 +11,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
 using BBC.Dna.Moderation;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using TestUtils;
 
 namespace Tests
 {
@@ -50,11 +51,11 @@ namespace Tests
             IInputContext mockedInput = mockery.NewMock<IInputContext>();
 
             DnaCookie testCookie = new DnaCookie();
-            testCookie.Value = "6042002|DotNetNormalUser|DotNetNormalUser|1273497514775|0|bf78fdd57a1f70faee630c07ba31674eab181a3f6c6f";
+            testCookie.Value = TestUserAccounts.GetNormalUserAccount.Cookie; //"6042002|DotNetNormalUser|DotNetNormalUser|1273497514775|0|bf78fdd57a1f70faee630c07ba31674eab181a3f6c6f";
             testCookie.Name = "IDENTITY";
              
             DnaCookie testCookie2 = new DnaCookie();
-            testCookie2.Value = "1eda650cb28e56156217427336049d0b8e164765";
+            testCookie2.Value = TestUserAccounts.GetNormalUserAccount.SecureCookie; //"1eda650cb28e56156217427336049d0b8e164765";
             testCookie2.Name = "IDENTITY-HTTPS";
            
             //DnaCookie testCookie = new DnaCookie();
@@ -107,19 +108,19 @@ namespace Tests
             IInputContext mockedInput2 = mockery.NewMock<IInputContext>();
 
             DnaCookie testBannedCookie = new DnaCookie();
-            testBannedCookie.Value = "6042004|DotNetUserBanned|DotNetUserBanned|1273497847257|0|9d9ee980c4b831e419915b452b050f327862bba748ff";
+            testBannedCookie.Value = TestUserAccounts.GetBannedUserAccount.Cookie; //"6042004|DotNetUserBanned|DotNetUserBanned|1273497847257|0|9d9ee980c4b831e419915b452b050f327862bba748ff";
             testBannedCookie.Name = "IDENTITY";
 
             DnaCookie testBannedCookie2 = new DnaCookie();
-            testBannedCookie2.Value = "a684c1a5736f052c4acc1b35908f8dbad2e2ea0b";
+            testBannedCookie2.Value = TestUserAccounts.GetBannedUserAccount.SecureCookie; //"a684c1a5736f052c4acc1b35908f8dbad2e2ea0b";
             testBannedCookie2.Name = "IDENTITY-HTTPS";
 
             DnaCookie testNormalCookie = new DnaCookie();
-            testNormalCookie.Value = "6042002|DotNetNormalUser|DotNetNormalUser|1273497514775|0|bf78fdd57a1f70faee630c07ba31674eab181a3f6c6f";
+            testNormalCookie.Value = TestUserAccounts.GetBannedUserAccount.Cookie; //"6042002|DotNetNormalUser|DotNetNormalUser|1273497514775|0|bf78fdd57a1f70faee630c07ba31674eab181a3f6c6f";
             testNormalCookie.Name = "IDENTITY";
 
             DnaCookie testNormalCookie2 = new DnaCookie();
-            testNormalCookie2.Value = "1eda650cb28e56156217427336049d0b8e164765";
+            testNormalCookie2.Value = TestUserAccounts.GetBannedUserAccount.SecureCookie; // "1eda650cb28e56156217427336049d0b8e164765";
             testNormalCookie2.Name = "IDENTITY-HTTPS";
 
             // Now set the two test cookies. One for each user
