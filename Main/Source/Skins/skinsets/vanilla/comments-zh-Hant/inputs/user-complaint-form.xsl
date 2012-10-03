@@ -188,7 +188,7 @@
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
-                    	<xsl:text> <!-- leave this!! --> </xsl:text
+                    	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
            </div>
