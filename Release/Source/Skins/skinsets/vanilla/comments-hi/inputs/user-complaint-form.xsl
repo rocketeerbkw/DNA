@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>आपकी शिकायत जिस पोस्ट से जुड़ी है वो <xsl:call-template name="item_name"/></h2>
-            <p>ये फ़ॉर्म केवल ऐसे कमेंट के बारे में शिकायत करने के लिए है जो हमारे हाउस रूल्स तोड़ता है. हमारे <a href="{$houserulespopupurl}">हाउस रूल्स</a>.</p>
+            <p>ये फ़ॉर्म केवल ऐसे कमेंट के बारे में शिकायत करने के लिए है जो हमारे हाउस रूल्स तोड़ता है. हमारे <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">हाउस रूल्स</a>.</p>
             <p>अगर आप कोई सवाल पूछना चाहते हैं या टिप्पणी करना चाहते हैं तो अपना कमेंट सामान्य तरीके से पोस्ट करें.</p>
-            <p>आपने जिस कमेंट के बारे में शिकायत की है उसे हमारी टीम के एक सदस्य पढ़ेगा और तय करेंगा कि कमेंट हमारे हाउस रुल्स तोड़ता है या नहीं. हमारे <a href="{$houserulespopupurl}">हाउस रूल्स</a>. हमारे फ़ैसले की सूचना आपको ई-मेल से दी जाएगी.</p>
+            <p>आपने जिस कमेंट के बारे में शिकायत की है उसे हमारी टीम के एक सदस्य पढ़ेगा और तय करेंगा कि कमेंट हमारे हाउस रुल्स तोड़ता है या नहीं. हमारे <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">हाउस रूल्स</a>. हमारे फ़ैसले की सूचना आपको ई-मेल से दी जाएगी.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>हमारी टीम को एलर्ट करें</h2>
-            	<p>आपकी राय में हमारे <a href="{$houserulespopupurl}">हाउस रूल्स</a> में कौन सा रूल तोड़ा गया है. <xsl:call-template name="item_name"/> यदि आपको लगता है कि एक से अधिक रूल तोड़े गए हैं को तो कृपया उस चूक को चुने जो सबसे अधिक गंभीर है</p>
+            	<p>आपकी राय में हमारे <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">हाउस रूल्स</a> में कौन सा रूल तोड़ा गया है. <xsl:call-template name="item_name"/> यदि आपको लगता है कि एक से अधिक रूल तोड़े गए हैं को तो कृपया उस चूक को चुने जो सबसे अधिक गंभीर है</p>
             </div>
             
             <div class="content">
               <h2>आपकी शिकायत की वजह</h2>
               <p>
-				मेरी राय में ये <xsl:call-template name="item_name"/>  कोई नियम टूट सकता है <a href="{$houserulespopupurl}">हाउस रूल्स</a>  के नियमों में से एक को तोड़ रहा है क्योंकि यह
+				मेरी राय में ये <xsl:call-template name="item_name"/>  कोई नियम टूट सकता है <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">हाउस रूल्स</a>  के नियमों में से एक को तोड़ रहा है क्योंकि यह
               </p>
                
                 <p class="options">
@@ -109,7 +109,7 @@
                 		<input type="radio" id="dnaacs-cq-1" value="अपमानसूचक या निंदात्मक है" name="s_complaintText"/><label for="dnaacs-cq-1">अपमानसूचक या निंदात्मक है</label>
                 		<input type="radio" id="dnaacs-cq-2" value="नस्ली, कामुक या किसी और तरह से अपमानजनक है" name="s_complaintText"/><label for="dnaacs-cq-2">नस्ली, कामुक या किसी और तरह से अपमानजनक है</label>
                 		<input type="radio" id="dnaacs-cq-3" value="ऐसी भाषा का इस्तेमाल करता है जो लोगों को बुरी लग सकती है" name="s_complaintText"/><label for="dnaacs-cq-3">ऐसी भाषा का इस्तेमाल करता है जो लोगों को बुरी लग सकती है</label>
-                		<input type="radio" id="dnaacs-cq-4" value="कानून तोड़ता है या गैर कानूनी गतिविधियों को बढ़ावा देता है कॉपीराइट या अदालत की अवमानना" name="s_complaintText"/><label for="dnaacs-cq-4">कानून तोड़ता है या गैर कानूनी गतिविधियों को बढ़ावा देता है <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">कॉपीराइट</a> या अदालत की अवमानना</label>
+                		<input type="radio" id="dnaacs-cq-4" value="कानून तोड़ता है या गैर कानूनी गतिविधियों को बढ़ावा देता है कॉपीराइट या अदालत की अवमानना" name="s_complaintText"/><label for="dnaacs-cq-4">कानून तोड़ता है या गैर कानूनी गतिविधियों को बढ़ावा देता है <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_terms.shtml">कॉपीराइट</a> या अदालत की अवमानना</label>
                 		<input type="radio" id="dnaacs-cq-5" value="उत्पादों या सेवाओं का लाभ या मुनाफे के लिए विज्ञापन करता है" name="s_complaintText"/><label for="dnaacs-cq-5">उत्पादों या सेवाओं का लाभ या मुनाफे के लिए विज्ञापन करता है</label>
                 		<input type="radio" id="dnaacs-cq-7" value="किसी जानेमाने व्यक्ति की राय दिखने की कोशिश करता है" name="s_complaintText"/><label for="dnaacs-cq-7">किसी जानेमाने व्यक्ति की राय दिखने की कोशिश करता है</label>
                 		<input type="radio" id="dnaacs-cq-8" value="इसमें फोन नंबर, पोस्टल या ई-मेल जैसी निजी जानकारी शामिल है" name="s_complaintText"/><label for="dnaacs-cq-8">इसमें फोन नंबर, पोस्टल या ई-मेल जैसी निजी जानकारी शामिल है</label>
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'अन्य'">
-                        <xsl:text>मैं मानता हूं </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'अन्य'">
+                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> इसकी वजह ये है</xsl:text>
-                    	</xsl:if> -->
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
+                    	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -299,7 +299,7 @@
     <div class="content">
       <h2>शिकायत सफलतापूर्वक पहुंच गई</h2>
       <p>
-        आपकी शिकायत हमें मिल गई है और हमारी टीम को भेज दी गई है. वे इस बारे में निर्णय करेंगे. <a href="{$houserulespopupurl}">हाउस रूल्स</a> तोड़े गए हैं और आपको ई-मेल के जरिए सूचित किया जाएगा
+        आपकी शिकायत हमें मिल गई है और हमारी टीम को भेज दी गई है. वे इस बारे में निर्णय करेंगे. <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">हाउस रूल्स</a> तोड़े गए हैं और आपको ई-मेल के जरिए सूचित किया जाएगा
       </p>
       <p>
             आपकी मॉडरेशन रेफ़ेरंस आई-डी है <strong>

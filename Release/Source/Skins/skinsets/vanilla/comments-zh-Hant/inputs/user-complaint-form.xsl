@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>投訴主題：<xsl:call-template name="item_name"/></h2>
-            <p>這個表格只適用於嚴重的投訴，所牽涉内容違反了<a href="{$houserulespopupurl}">編輯原則</a></p>
+            <p>這個表格只適用於嚴重的投訴，所牽涉内容違反了<a href="http://www.bbc.co.uk/zhongwen/trad/institutional/2011/04/111111_moderation_rules.shtml">編輯原則</a></p>
             <p>如果你有一般評論或問題，請勿使用此表格。請在相關討論區發表評論。</p>
-            <p>你所投訴的評論將會送交編輯審核。編輯將決定該評論是否違反了<a href="{$houserulespopupurl}">編輯原則。</a>有關的決定將會通過電子郵件通知你。</p>
+            <p>你所投訴的評論將會送交編輯審核。編輯將決定該評論是否違反了<a href="http://www.bbc.co.uk/zhongwen/trad/institutional/2011/04/111111_moderation_rules.shtml">編輯原則。</a>有關的決定將會通過電子郵件通知你。</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>通知編輯</h2>
-            	<p>請選擇其中一項<a href="{$houserulespopupurl}">編輯原則</a>。你認爲這項原則<xsl:call-template name="item_name"/>被違反了。如果你認為違反了超過一項原則，請選擇最嚴重的違反程度。</p>
+            	<p>請選擇其中一項<a href="http://www.bbc.co.uk/zhongwen/trad/institutional/2011/04/111111_moderation_rules.shtml">編輯原則</a>。你認爲這項原則<xsl:call-template name="item_name"/>被違反了。如果你認為違反了超過一項原則，請選擇最嚴重的違反程度。</p>
             </div>
             
             <div class="content">
               <h2>投訴原因</h2>
               <p>
-                我認爲它<xsl:call-template name="item_name"/>可能違反了<a href="{$houserulespopupurl}">編輯原則</a>，因爲它
+                我認爲它<xsl:call-template name="item_name"/>可能違反了<a href="http://www.bbc.co.uk/zhongwen/trad/institutional/2011/04/111111_moderation_rules.shtml">編輯原則</a>，因爲它
               </p>
                
                 <p class="options">
@@ -109,7 +109,7 @@
                 		<input type="radio" id="dnaacs-cq-1" value="涉及中傷或誹謗他人" name="s_complaintText"/><label for="dnaacs-cq-1">涉及中傷或誹謗他人</label>
                 		<input type="radio" id="dnaacs-cq-2" value="涉及種族歧視、性別歧視、同性戀恐懼、性描寫、淩辱或其他冒犯" name="s_complaintText"/><label for="dnaacs-cq-2">涉及種族歧視、性別歧視、同性戀恐懼、性描寫、淩辱或其他冒犯</label>
                 		<input type="radio" id="dnaacs-cq-3" value="包含咒駡字詞或其他可能冒犯他人的語言" name="s_complaintText"/><label for="dnaacs-cq-3">包含咒駡字詞或其他可能冒犯他人的語言</label>
-                		<input type="radio" id="dnaacs-cq-4" value="違反法律、同情或鼓勵非法行爲，例如違反版權或藐視法庭" name="s_complaintText"/><label for="dnaacs-cq-4">違反法律、同情或鼓勵非法行爲，例如違反<a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">版權</a>或藐視法庭</label>
+                		<input type="radio" id="dnaacs-cq-4" value="違反法律、同情或鼓勵非法行爲，例如違反版權或藐視法庭" name="s_complaintText"/><label for="dnaacs-cq-4">違反法律、同情或鼓勵非法行爲，例如違反<a href="http://www.bbc.co.uk/zhongwen/trad/institutional/2011/04/111111_copyright.shtml">版權</a>或藐視法庭</label>
                 		<input type="radio" id="dnaacs-cq-5" value="為商品做廣告宣傳賺取利潤" name="s_complaintText"/><label for="dnaacs-cq-5">為商品做廣告宣傳賺取利潤</label>
                 		<input type="radio" id="dnaacs-cq-7" value="冒充他人" name="s_complaintText"/><label for="dnaacs-cq-7">冒充他人</label>
                 		<input type="radio" id="dnaacs-cq-8" value="包含個人資料，例如電話號碼、郵遞或電郵地址" name="s_complaintText"/><label for="dnaacs-cq-8">包含個人資料，例如電話號碼、郵遞或電郵地址</label>
@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="不是中文" name="s_complaintText"/><label for="dnaacs-cq-10">不是中文</label>
-                		<input type="radio" id="dnaacs-cq-11" value="含有外界鏈接，違反我們的編輯原則" name="s_complaintText"/><label for="dnaacs-cq-11">含有外界鏈接，違反我們的<a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">編輯原則</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="含有外界鏈接，違反我們的編輯原則" name="s_complaintText"/><label for="dnaacs-cq-11">含有外界鏈接，違反我們的<a href="http://www.bbc.co.uk/zhongwen/trad/institutional/2011/04/111111_help.shtml#Top6">編輯原則</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="形容或鼓勵某些危害其他人安全或福祉的行爲" name="s_complaintText"/><label for="dnaacs-cq-12">形容或鼓勵某些危害其他人安全或福祉的行爲</label>
                 		<input type="radio" id="dnaacs-cq-13" value="含有不適當的用戶名" name="s_complaintText"/><label for="dnaacs-cq-13">含有不適當的用戶名</label>
                 		<input type="radio" id="dnaacs-cq-14" value="是濫發的訊息" name="s_complaintText"/><label for="dnaacs-cq-14">是濫發的訊息</label>
@@ -183,12 +183,12 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != '其他'">
-                        <xsl:text>我認爲</xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != '其他'">
+                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text>因爲下列原因：</xsl:text>
-                    	</xsl:if> -->
-                    	<xsl:text> <!-- leave this!! --> </xsl:text>
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
+                    	</xsl:if>
+                      <xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
            </div>
@@ -299,7 +299,7 @@
     <div class="content">
       <h2>投訴成立</h2>
       <p>
-        你的投訴已經送達編輯團隊。他們將審核<a href="{$houserulespopupurl}">編輯原則</a>給違背了，並將通過你的電郵地址通知你。
+        你的投訴已經送達編輯團隊。他們將審核<a href="http://www.bbc.co.uk/zhongwen/trad/institutional/2011/04/111111_moderation_rules.shtml">編輯原則</a>給違背了，並將通過你的電郵地址通知你。
       </p>
       <p>
         你的編輯參考號碼是：<strong>

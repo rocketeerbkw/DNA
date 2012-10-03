@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>Reclame sobre um <xsl:call-template name="item_name"/></h2>
-            <p>Este formulário deve ser usado apenas nos casos de reclamações sérias sobre um comentário específico que viole as <a href="{$houserulespopupurl}">Regras</a>.</p>
+            <p>Este formulário deve ser usado apenas nos casos de reclamações sérias sobre um comentário específico que viole as <a href="http://www.bbc.co.uk/portuguese/institutional/2012/08/120816_regras_institucional.shtml">Regras</a>.</p>
             <p>Se você tiver alguma dúvida ou um comentário geral a fazer, não use esse formulário. Publique uma mensagem na seção de comentários.</p>
-            <p>A mensagem sobre a qual você postou uma reclamação será enviada a um moderador, que decidirá se houve violação das <a href="{$houserulespopupurl}">Regras</a>. A decisão será informada a você por e-mail.</p>
+            <p>A mensagem sobre a qual você postou uma reclamação será enviada a um moderador, que decidirá se houve violação das <a href="http://www.bbc.co.uk/portuguese/institutional/2012/08/120816_regras_institucional.shtml">Regras</a>. A decisão será informada a você por e-mail.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Alertando aos moderadores</h2>
-            	<p>Por favor, selecione qual das <a href="{$houserulespopupurl}">Regras</a> você acha <xsl:call-template name="item_name"/> que foi violada. Se você acha que mais de uma regra foi violada, por favor, escolha a que considera mais grave.</p>
+            	<p>Por favor, selecione qual das <a href="http://www.bbc.co.uk/portuguese/institutional/2012/08/120816_regras_institucional.shtml">Regras</a> você acha <xsl:call-template name="item_name"/> que foi violada. Se você acha que mais de uma regra foi violada, por favor, escolha a que considera mais grave.</p>
             </div>
             
             <div class="content">
               <h2>Razão para a sua reclamação</h2>
               <p>
-                Eu acho que este <xsl:call-template name="item_name"/> viola uma das <a href="{$houserulespopupurl}">Regras</a> porque:
+                Eu acho que este <xsl:call-template name="item_name"/> viola uma das <a href="http://www.bbc.co.uk/portuguese/institutional/2012/08/120816_regras_institucional.shtml">Regras</a> porque:
               </p>
                
                 <p class="options">
@@ -109,7 +109,7 @@
                 		<input type="radio" id="dnaacs-cq-1" value="é difamatório ou calunioso" name="s_complaintText"/><label for="dnaacs-cq-1">é difamatório ou calunioso</label>
                 		<input type="radio" id="dnaacs-cq-2" value="é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo" name="s_complaintText"/><label for="dnaacs-cq-2">é racista, sexista, homofóbico, sexualmente explícito, abusivo ou de alguma forma ofensivo</label>
                 		<input type="radio" id="dnaacs-cq-3" value="contém xingamentos ou outras palavras que podem ser consideradas ofensivas" name="s_complaintText"/><label for="dnaacs-cq-3">contém xingamentos ou outras palavras que podem ser consideradas ofensivas</label>
-                		<input type="radio" id="dnaacs-cq-4" value="viola a lei ou incentiva ou estimula o delito criminal tal como violação de direitos autorais ou desacato a um tribunal" name="s_complaintText"/><label for="dnaacs-cq-4">viola a lei ou incentiva ou estimula o delito criminal tal como violação de <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">direitos autorais</a> ou desacato a um tribunal</label>
+                		<input type="radio" id="dnaacs-cq-4" value="viola a lei ou incentiva ou estimula o delito criminal tal como violação de direitos autorais ou desacato a um tribunal" name="s_complaintText"/><label for="dnaacs-cq-4">viola a lei ou incentiva ou estimula o delito criminal tal como violação de <a href="http://www.bbc.co.uk/portuguese/institutional/2011/06/000001_termos.shtml">direitos autorais</a> ou desacato a um tribunal</label>
                 		<input type="radio" id="dnaacs-cq-5" value="faz publicidade de produtos ou serviços com fins comerciais ou lucrativos" name="s_complaintText"/><label for="dnaacs-cq-5">faz publicidade de produtos ou serviços com fins comerciais ou lucrativos</label>
                 		<input type="radio" id="dnaacs-cq-7" value="o comentarista está fingindo ser outra pessoa" name="s_complaintText"/><label for="dnaacs-cq-7">o comentarista está fingindo ser outra pessoa</label>
                 		<input type="radio" id="dnaacs-cq-8" value="inclui informações pessoais como números de telefones, endereço postal ou de e-mail" name="s_complaintText"/><label for="dnaacs-cq-8">inclui informações pessoais como números de telefones, endereço postal ou de e-mail</label>
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Outra'">
-                        <xsl:text>Acredito que </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Outra'">
+                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> pelo seguinte motivo:</xsl:text>
-                    	</xsl:if> -->
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
+                    	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -247,11 +247,11 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
       <div class="content">
-        <h2>Informação</h2>
+        <h2>Aviso</h2>
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              Você foi bloqueado e não poderá usar o sistema de reclamações, por favor, escreva para:<br />
+              Você foi bloqueado e não poderá usar o sistema de reclamações. Por favor, escreva para:<br />
               BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
@@ -272,11 +272,11 @@
 
   <xsl:template match="USERCOMPLAINT[@REQUIRESVERIFICATION = '1']" mode="input_user-complaint-form">
     <div class="content">
-      <h2>Confirmação de endereço de e-amil</h2>
+      <h2>Confirmação de endereço de e-mail</h2>
       <p>
-		Sua reclamação foi enviada. Ela não será analisada por um moderador até que você confirme seu endereço de e-mail. Isto é feito para evitar spam ou uso falso de identidade alheia.      </p>
+		Sua reclamação foi enviada. Ela só será analisada por um moderador depois que você confirmar seu endereço de e-mail. Isto é feito para evitar spam ou o uso falso de identidade alheia.</p>
       <p>
-        ^Você receberá m e-mail em breve com um link para que possa ativar sua reclamação. Clique neste link para enviar sua reclamação aos moderadores.
+        Você receberá um e-mail em breve, com um link para ativar sua reclamação. Clique neste link para que a reclamação seja enviada aos moderadores.
       </p>
       
       <p class="action">
@@ -298,7 +298,7 @@
     <div class="content">
       <h2>Siga navegando</h2>
       <p>
-        Sua reclamação foi recebida e enviada à equipe de moderadores. Um moderador decidirá se alguma das <a href="{$houserulespopupurl}">Regras</a> foi violada e irá informá-lo por e-mail.
+        Sua reclamação foi recebida e enviada à equipe de moderadores. Um moderador decidirá se alguma das <a href="http://www.bbc.co.uk/portuguese/institutional/2012/08/120816_regras_institucional.shtml">Regras</a> foi violada e irá informá-lo por e-mail.
       </p>
       <p>
         Seu ID de Referência de Moderação é: <strong>

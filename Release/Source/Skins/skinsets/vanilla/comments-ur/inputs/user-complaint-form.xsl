@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>شکایت کے لیے <xsl:call-template name="item_name"/></h2>
-            <p>یہ فارم صرف ہاؤس رولز کی خلاف ورزی کی شکایات کے لیے ہے <a href="{$houserulespopupurl}">ہاؤس رولز </a></p>
+            <p>یہ فارم صرف ہاؤس رولز کی خلاف ورزی کی شکایات کے لیے ہے:<a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز۔</a></p>
             <p>برائے مہربانی عمومی تبصرے یا کسی سوال کے لیے یہ فارم استعمال نہ کریں بلکہ اپنا پیغام مباحثے میں پوسٹ کریں</p>
-            <p>جس تبصرے کے بارے میں آپ نے شکایت کی ہے اسے موڈریٹر کو بھیجا جائے گا اور وہی یہ فیصلہ کریں گے کہ ہاؤس رولز کی خلاف ورزی ہوئی ہے <a href="{$houserulespopupurl}">ہاؤس رولز </a> ان کے فیصلے کے بارے میں آپ کو بذریعہ ای میل سے مطلع کیا جائے گا</p>
+            <p>جس تبصرے کے بارے میں آپ نے شکایت کی ہے اسے موڈریٹر کو بھیجا جائے گا اور وہی یہ فیصلہ کریں گے کہ ہاؤس رولز کی خلاف ورزی ہوئی ہے <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز۔</a> ان کے فیصلے کے بارے میں آپ کو بذریعہ ای میل سے مطلع کیا جائے گا</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -67,7 +67,7 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text></xsl:text>
+        <xsl:text>تبصرے</xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
         <xsl:text>آرٹیکل</xsl:text>
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>موڈریٹرز کو مطلع کریں</h2>
-            	<p>برائے مہربانی ان <a href="{$houserulespopupurl}">ہاؤز رولز </a> کا انتخاب کریں جن کی آپ کے خیال میں خلاف ورزی کی گئی ہے <xsl:call-template name="item_name"/> اگر آپ کے خیال میں ایک سے زیادہ ہاؤس رولز کی خلاف ورزی کی گئی ہے تو برائے مہربانی سب سے سنگین ترین خلاف ورزی منتخب کریں</p>
+            	<p>برائے مہربانی ان <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز</a> کا انتخاب کریں جن کی آپ کے خیال میں خلاف ورزی کی گئی ہے۔<xsl:call-template name="item_name"/> اگر آپ کے خیال میں ایک سے زیادہ ہاؤس رولز کی خلاف ورزی کی گئی ہے تو برائے مہربانی سب سے سنگین ترین خلاف ورزی منتخب کریں۔</p>
             </div>
             
             <div class="content">
               <h2>آپ کی شکایت کی وجہ</h2>
               <p>
-                میرے خیال میں  <xsl:call-template name="item_name"/> اس میں <a href="{$houserulespopupurl}">ہاؤز رولز </a> کی خلاف ورزی کی نوعیت یہ ہے کہ یہ:
+                میرے خیال میں  <xsl:call-template name="item_name"/> اس تبصرے میں <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز</a> کی خلاف ورزی کی نوعیت یہ ہے کہ یہ:
               </p>
                
                 <p class="options">
@@ -111,7 +111,7 @@
                 		<input type="radio" id="dnaacs-cq-3" value="گالی گلوچ یا ایسی زبان کا استعمال کیا گیا ہے جس سے کسی کی دل آزاری ہو
 " name="s_complaintText"/><label for="dnaacs-cq-3">گالی گلوچ یا ایسی زبان کا استعمال کیا گیا ہے جس سے کسی کی دل آزاری ہو
 </label>
-                		<input type="radio" id="dnaacs-cq-4" value="ایسے قانون کی خلاف ورزی یا اسے توڑنے پر اکساتا ہے جیسا کہ کاپی رائٹ یا توہین عدالت" name="s_complaintText"/><label for="dnaacs-cq-4">ایسے قانون کی خلاف ورزی یا اسے توڑنے پر اکساتا ہے جیسا کہ <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">کاپی رائٹ</a> یا توہین عدالت </label>
+                		<input type="radio" id="dnaacs-cq-4" value="ایسے قانون کی خلاف ورزی یا اسے توڑنے پر اکساتا ہے جیسا کہ کاپی رائٹ یا توہین عدالت" name="s_complaintText"/><label for="dnaacs-cq-4">ایسے قانون کی خلاف ورزی یا اسے توڑنے پر اکساتا ہے جیسا کہ <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_terms_of_use.shtml">کاپی رائٹ</a> یا توہین عدالت </label>
                 		<input type="radio" id="dnaacs-cq-5" value="فائدے یا نفع دے سکنے والی اشیاء یا خدمات کی تشہیر" name="s_complaintText"/><label for="dnaacs-cq-5">فائدے یا نفع دے سکنے والی اشیاء یا خدمات کی تشہیر</label>
                 		<input type="radio" id="dnaacs-cq-7" value="خود کو کوئی اور ظاہر کیا جا رہا ہے" name="s_complaintText"/><label for="dnaacs-cq-7">خود کو کوئی اور ظاہر کیا جا رہا ہے</label>
                 		<input type="radio" id="dnaacs-cq-8" value="ذاتی معلومات مثلاً ٹیلیفون نمبر، پوسٹل یا ای میل پتہ وغیرہ دیے گئے ہیں" name="s_complaintText"/><label for="dnaacs-cq-8">ذاتی معلومات مثلاً ٹیلیفون نمبر، پوسٹل یا ای میل پتہ وغیرہ دیے گئے ہیں</label>
@@ -121,7 +121,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="اردو میں نہیں" name="s_complaintText"/><label for="dnaacs-cq-10">اردو میں نہیں</label>
-                		<input type="radio" id="dnaacs-cq-11" value="کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو ایڈیٹوریل گائیڈ لائنز کے خلاف ہے" name="s_complaintText"/><label for="dnaacs-cq-11">کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو ایڈیٹوریل<a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">گائیڈ لائنز کے خلاف ہے </a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="ایڈیٹوریل گائیڈ لائنز کے خلاف ہے۔ایڈیٹوریل گائیڈ لائنز کے خلاف ہے۔" name="s_complaintText"/><label for="dnaacs-cq-11">کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو ایڈیٹوریل<a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">ایڈیٹوریل گائیڈ لائنز کے خلاف ہے۔ </a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے" name="s_complaintText"/><label for="dnaacs-cq-12">ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے</label>
                 		<input type="radio" id="dnaacs-cq-13" value="یوزر نیم نامناسب ہے" name="s_complaintText"/><label for="dnaacs-cq-13">یوزر نیم نامناسب ہے</label>
                 		<input type="radio" id="dnaacs-cq-14" value="سپیم ہے" name="s_complaintText"/><label for="dnaacs-cq-14">سپیم ہے</label>
@@ -185,11 +185,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'دیگر'">
-                        <xsl:text>میرے خیال میں یہ </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'دیگر'">
+                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> اس وجہ سے:</xsl:text>
-                    	</xsl:if> -->
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
+                    	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -253,7 +253,7 @@
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              آپ کو ان لائن شکایت کا نظام استعمال کرنے سے روک دیا گیا ہے۔ برائے مہربانی آپ:<br />
+              آپ کو آن لائن شکایت کا نظام استعمال کرنے سے روک دیا گیا ہے۔ برائے مہربانی اس پتہ پر لکھیں:<br />
               BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
@@ -276,10 +276,10 @@
     <div class="content">
       <h2>ای میل کی تصدیق</h2>
       <p>
-        آپ کی شکایت جمع ہو گئی ہے۔  جب تک آپ اپنے ای میل کی تصدیق نہیں کریں گے آپ کی شکایت پر غور نہیں کیا جائے گا۔ ای میل کی تصدیق کا مقصد غلط شناخت کے استعمال اور سپیمنگ کو روکنا ہے  
+        آپ کی شکایت جمع ہو گئی ہے۔  جب تک آپ اپنے ای میل کی تصدیق نہیں کریں گے آپ کی شکایت پر غور نہیں کیا جائے گا۔ ای میل کی تصدیق کا مقصد غلط شناخت کے استعمال اور سپیمنگ کو روکنا ہے۔  
       </p>
       <p>
-        آپ کو جلد ہی ایک ای میل موصول ہوگی جس میں موجود لنک سے آپ اپنی شکایت کو اکٹیویٹ کر سکیں گے۔ اس لنک پر کلک کرنے سے آپ کی شکایت موڈریٹر کو موصول ہو جائے گی
+        آپ کو جلد ہی ایک ای میل موصول ہوگی جس میں موجود لنک سے آپ اپنی شکایت کو اکٹیویٹ کر سکیں گے۔ اس لنک پر کلک کرنے سے آپ کی شکایت موڈریٹر کو موصول ہو جائے گی۔
       </p>
       
       <p class="action">
@@ -301,7 +301,7 @@
     <div class="content">
       <h2>شکایت کامیاب</h2>
        <p>
-        آپ کی شکایت موصول ہوگئی ہے اور موڈریشن ٹیم کو بھیج دی گئی ہے۔ وہی اس بات کا فیصلہ کریں گے کہ اس تبصرے میں ہاؤس رولز کی خلاف ورزی ہوئی ہے اور آپ کو ای میل کے ذریعہ مطلع کیا جائے گا <a href="{$houserulespopupurl}">ہاؤس رولز </a> کی خلاف ورزی ہوئی ہے اور آپ کو ای میل کے ذریعے اپ ڈیٹ کیا جائے گا
+        آپ کی شکایت موصول ہوگئی ہے اور موڈریشن ٹیم کو بھیج دی گئی ہے۔ وہی اس بات کا فیصلہ کریں گے کہ اس تبصرے میں ہاؤس رولز کی خلاف ورزی ہوئی ہے اور آپ کو ای میل کے ذریعہ مطلع کیا جائے گا <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز۔</a> کی خلاف ورزی ہوئی ہے اور آپ کو ای میل کے ذریعے اپ ڈیٹ کیا جائے گا
       </p>
       <p>
         آپ کا موڈریشن ریفرنس آئی ڈی: <strong>
