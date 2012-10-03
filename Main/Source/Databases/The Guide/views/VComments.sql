@@ -37,7 +37,7 @@ AS
 					then (select u.loginname from dbo.ThreadEntriesTweetInfo tt
 						inner join dbo.ThreadEntries te on tt.ThreadEntryId = te.EntryID
 						inner join dbo.Users u on te.UserID = u.UserID
-						where tt.TweetId = ThreadEntriesTweetInfo.OriginalTweetId)
+						where tt.TweetId = ThreadEntriesTweetInfo.TweetId)
 					else dbo.users.loginname
 				end
 			else '' 
