@@ -5,17 +5,6 @@ using BBC.Dna.Utils;
 
 namespace BBC.Dna.Api
 {
-    [KnownType(typeof(ContactDetails))]
-    [Serializable]
-    [DataContract(Name = "contact", Namespace = "BBC.Dna.Api")]
-    public partial class ContactDetails : CommentInfo
-    {
-        public ContactDetails()
-        {
-            User = new User();
-        }
-    }
-
     [KnownType(typeof(CommentInfo))]
     [Serializable] [DataContract(Name = "comment", Namespace = "BBC.Dna.Api")]
     public partial class CommentInfo : baseContract

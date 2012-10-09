@@ -11,6 +11,7 @@ using System.Configuration;
 using BBC.Dna.Users;
 using BBC.Dna.Moderation.Utils;
 using System.Xml;
+using BBC.Dna.Api.Contracts;
 
 namespace BBC.Dna.Api
 {
@@ -194,35 +195,40 @@ namespace BBC.Dna.Api
         {
             // Do the default thing
             subject = contactDetails.ForumUri;
-            body = contactDetails.text; 
+            body = contactDetails.text;
             
-            // Now see if we actully got some XML, If so use that instead
-            if (body.StartsWith("<") && body.EndsWith(">"))
+            // See if we have a json message
+            if (TyrParseJSONContactFormMessage(contactDetails, ref subject, ref body))
             {
-                TryParseXMLTextMessage(contactDetails, ref subject, ref body);
+                return;
             }
-            else if (body.StartsWith("{") && body.EndsWith("}"))
+
+            if (TryParseXMLTextMessage(contactDetails, ref subject, ref body))
             {
-                try
-                {
-                    ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetails.text, typeof(ContactFormMessage));
-                    subject = message.Subject;
-                    body = "";
-                    foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
-                    {
-                        string messageLine = content.Key + " : " + content.Value + "\n";
-                        body += messageLine;
-                    }
-                }
-                catch
-                {
-                    subject = contactDetails.ForumUri;
-                    body = contactDetails.text;
-                }
+                return;
             }
         }
 
-        private static void TryParseXMLTextMessage(ContactDetails contactDetails, ref string subject, ref string body)
+        private static bool TyrParseJSONContactFormMessage(ContactDetails contactDetails, ref string subject, ref string body)
+        {
+            try
+            {
+                ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetails.text, typeof(ContactFormMessage));
+                subject = message.Subject;
+                body = "";
+                foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
+                {
+                    string messageLine = content.Key + " : " + content.Value + "\n";
+                    body += messageLine;
+                }
+
+                return true;
+            }
+            catch { }
+            return false;
+        }
+
+        private static bool TryParseXMLTextMessage(ContactDetails contactDetails, ref string subject, ref string body)
         {
             try
             {
@@ -248,8 +254,11 @@ namespace BBC.Dna.Api
                 {
                     body = newBody.ToString();
                 }
+
+                return true;
             }
             catch { }
+            return false;
         }
     }
 }

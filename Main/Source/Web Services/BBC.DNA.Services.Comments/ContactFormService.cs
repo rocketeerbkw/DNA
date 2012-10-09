@@ -7,6 +7,7 @@ using System.ServiceModel.Web;
 using BBC.Dna.Api;
 using BBC.Dna.Sites;
 using Microsoft.ServiceModel.Web;
+using BBC.Dna.Api.Contracts;
 
 namespace BBC.Dna.Services
 {
