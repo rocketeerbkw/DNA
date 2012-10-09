@@ -37,6 +37,13 @@ public partial class CommentsListPage : BBC.Dna.Page.DnaWebPage
         }
     }
 
+    /// <summary> 
+    /// Must Be Secure property
+    /// </summary>
+    public override bool MustBeSecure
+    {
+        get { return true; }
+    }
 }
 
 

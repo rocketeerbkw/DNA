@@ -42,4 +42,12 @@ public partial class CommentForumListPage : BBC.Dna.Page.DnaWebPage
             return DnaBasePage.UserTypes.Any;
         }
     }
+
+    /// <summary> 
+    /// Must Be Secure property
+    /// </summary>
+    public override bool MustBeSecure
+    {
+        get { return true; }
+    }
 }
