@@ -1768,6 +1768,7 @@ namespace FunctionalTests.Services.Comments
             request.UseIdentitySignIn = true;
             request.CurrentCookie = cookie.Value;
             request.CurrentSecureCookie = secureCookie.Value;
+            request.UseDebugUser = false;
 
             string id = "FunctiontestCommentForum-" + Guid.NewGuid(); //have to randomize the string to post
             string title = "Functiontest Title";
@@ -1867,6 +1868,7 @@ namespace FunctionalTests.Services.Comments
                                                              out secureCookie,
                                                              out identityUserID));
 
+            request.UseDebugUser = false;
             request.ClearCookieContainer();
             request.UseIdentitySignIn = true;
 

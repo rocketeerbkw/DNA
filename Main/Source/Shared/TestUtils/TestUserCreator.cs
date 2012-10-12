@@ -295,6 +295,8 @@ namespace TestUtils
                 response.Close();
             }
 
+            Console.WriteLine("Created new Identity User : " + userName + ", " + password + ", " + dateOfBirth + ", " + email + ", " + displayName);
+
             return true;
         }
 

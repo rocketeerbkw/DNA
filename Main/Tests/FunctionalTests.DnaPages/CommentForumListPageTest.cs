@@ -786,7 +786,7 @@ namespace FunctionalTests
             XmlDocument xml = _normalUserRequest.GetLastResponseAsXML();
             XmlNode node;
             node = xml.SelectSingleNode("H2G2/ERROR/ERRORMESSAGE");
-            Assert.IsTrue(node.InnerText.Contains(errorMess), "Wrong error returned");
+            Assert.IsTrue(node.InnerText.ToLower().Contains(errorMess.ToLower()), "Wrong Error - Wanted '" + errorMess + "', but got '" + node.InnerText);
         }
     }
 }
