@@ -296,7 +296,14 @@ namespace BBC.Dna.Component
                             }
                             else
                             {
-                                return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "The following user is not registered in DNA yet, '" + tweetUserScreenName + "' " + isValidUser + "Please follow the link to register a valid twitter user, ", ErrorLinkParameter = tweetUserScreenName };
+                                if (true == InputContext.ViewingUser.IsSuperUser)
+                                {
+                                    return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "The following user is not registered in DNA yet, '" + tweetUserScreenName + "' " + isValidUser + "Please follow the link to register a valid twitter user, ", ErrorLinkParameter = tweetUserScreenName };
+                                }
+                                else
+                                {
+                                    return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "The following user is not registered in DNA yet, '" + tweetUserScreenName + "' " + isValidUser + "Please send an email to the super user with the twitter user screenname to register in DNA" };
+                                }
                             }
                         }
                     }
