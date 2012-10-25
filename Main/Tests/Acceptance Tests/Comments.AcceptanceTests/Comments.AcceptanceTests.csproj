@@ -87,9 +87,9 @@
     <Compile Include="StepDefinitions\CreateForum.cs" />
     <Compile Include="StepDefinitions\CreateContactForm.cs" />
     <Compile Include="StepDefinitions\Global.cs" />
-    <Compile Include="Support\APIRequester.cs" />
-    <Compile Include="Support\CommentForumTestUtils.cs" />
-    <Compile Include="Support\ContactFormTestUtils.cs" />
+    <Compile Include="StepDefinitions\Support\APIRequester.cs" />
+    <Compile Include="StepDefinitions\Support\CommentForumTestUtils.cs" />
+    <Compile Include="StepDefinitions\Support\ContactFormTestUtils.cs" />
     <Compile Include="TwitterAdminConsole.AdminConsoleAuthorization.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
