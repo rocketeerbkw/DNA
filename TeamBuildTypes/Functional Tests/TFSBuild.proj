@@ -230,6 +230,8 @@
       <Output TaskParameter="Id" PropertyName="PostBuildStepId" />
     </BuildStep>
 
+    <!-- Copy WS skin files-->
+    <Exec Command="svn checkout https://repo.dev.bbc.co.uk/applications/modules/comments/trunk/webapp/php/sharedmodules/comments/translations c:\translations" IgnoreExitCode="false" WorkingDirectory="C:\ProgramFiles\Subversion\bin"/>
     <!-- stop website to copy ripley -->
     <Exec Command="iisweb /stop h2g2UnitTesting" Timeout="10000"></Exec>
 
