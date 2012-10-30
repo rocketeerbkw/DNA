@@ -17,7 +17,7 @@ namespace Comments.AcceptanceTests.StepDefinitions
         public static void BeforeTheFeature()
         {
             SnapshotInitialisation.RestoreFromSnapshot();
-            TestRunnerManager.GetTestRunner().FeatureContext.Add("dnarequester", new DnaTestURLRequest(""));
+            TestRunnerManager.GetTestRunner().FeatureContext.Add("dnarequester", new DnaTestURLRequest("moderation"));
         }
 
         [BeforeScenarioBlock]

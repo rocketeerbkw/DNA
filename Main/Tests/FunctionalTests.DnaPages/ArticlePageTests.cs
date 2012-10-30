@@ -31,6 +31,7 @@ namespace FunctionalTests
         /// Test existing c++ code base
         /// </summary>
         [TestMethod]
+        [Ignore] //H2G2 not supported and test failing in build environment
         public void Test01GetH2G2ArticlesAndValidateSchemasUsingRipley()
         {
             string siteName = "h2g2";

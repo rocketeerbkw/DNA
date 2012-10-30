@@ -98,6 +98,8 @@ namespace Tests
         /// </summary>
         /// TODO NEED TO GO THROUGH WITH MARK HOWITT TO FIND OUT WHAT THIS TEST IS TRYING TO DO
         [TestMethod]
+        [Ignore]
+        //See above - work with Mark H to understand what the test is for.
         public void TestNormalUserCanBeCreatedAfterABannedUserIsCaught()
         {
             Console.WriteLine("Before TestNormalUserCanBeCreatedAfterABannedUserIsCaught");

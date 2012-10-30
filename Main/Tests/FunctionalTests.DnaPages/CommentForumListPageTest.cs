@@ -527,7 +527,7 @@ namespace FunctionalTests
 
             _normalUserRequest.RequestPage("CommentForumList?skin=purexml");
 
-            CheckError(_normalUserRequest, "You are not authorised to view this page.");
+            CheckError(_normalUserRequest, "Not Authorised");
         }
 
         

@@ -28,7 +28,7 @@ namespace Comments.AcceptanceTests.Support
 
         public static string CallCommentForumList(DnaTestURLRequest request, string additionalParams)
         {
-            string requestURL = "https://" + DnaTestURLRequest.CurrentServer + "/dna/moderation/admin/commentsforumlist/?s_siteid=1" + additionalParams;
+            string requestURL = "admin/commentsforumlist?s_siteid=1" + additionalParams;
             request.SetCurrentUserEditor();
             request.AssertWebRequestFailure = false;
             request.RequestSecurePage(requestURL);
