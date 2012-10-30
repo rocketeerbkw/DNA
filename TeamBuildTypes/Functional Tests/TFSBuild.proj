@@ -155,10 +155,10 @@
              <Properties>Property1=Value1;Property2=Value2</Properties>
          </SolutionToBuild>
     -->
-    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/UserServices.sln">
+    <!--<SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/UserServices.sln">
       <Targets></Targets>
       <Properties></Properties>
-    </SolutionToBuild>
+    </SolutionToBuild>-->
     <!--<SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/Source/Databases/The Guide/TheGuide.sln">
       <Targets></Targets>
       <Properties></Properties>
