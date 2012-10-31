@@ -3,6 +3,7 @@ In order to be able to have different email address receipients for each contact
 As an editor
 I need to have the ability to specify an email address per form
 
+@ignore
 Scenario: Existing comment forum amend contact email address
 Given an exisiting comment forum
 And a contact email address has already been associated to it
@@ -14,6 +15,7 @@ Then the chosen Forum is updated with the new '<email_address>'
 |email_address|
 |test@bbc.co.uk|
 
+@ignore
 Scenario: A non '@BBC.co.uk' contact email address is not allowed
 Given an exisiting comment forum
 And I am logged in as an editor
@@ -22,6 +24,7 @@ And a non @BBC.co.uk address is entered
 And submit my changes
 Then an invalid contact email exception is thrown
 
+@ignore
 Scenario: Existing comment forum amend contact email address to blank
 Given an exisiting comment forum
 And a contact email address has already been associated to it
