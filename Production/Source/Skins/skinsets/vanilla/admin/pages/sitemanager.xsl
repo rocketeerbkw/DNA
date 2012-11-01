@@ -115,6 +115,12 @@
               </td>
             </tr>
             <tr>
+              <td class="title" >Default Contact Forms Email Address:</td>
+              <td class="value">
+                <input type="text" name="contactformsemail" value="{SITEMANAGER/CONTACTFORMSEMAIL}"/> (Must end with @bbc.co.uk)
+              </td>
+            </tr>
+            <tr>
               <td class="title" >Auto Message User ID:</td>
               <td class="value">
                 <input type="text" name="AutoMessageUserID" value="{SITEMANAGER/AUTOMESSAGEUSERID}"/>

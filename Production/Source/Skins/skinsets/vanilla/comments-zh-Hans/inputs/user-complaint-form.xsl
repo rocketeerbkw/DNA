@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>投诉主题：<xsl:call-template name="item_name"/></h2>
-            <p>这个表格只适用于严重的投诉，所牵涉的内容违反了<a href="{$houserulespopupurl}">编辑原则</a></p>
+            <p>这个表格只适用于严重的投诉，所牵涉的内容违反了<a href="http://www.bbc.co.uk/zhongwen/simp/institutional/2011/04/111111_moderation_rules.shtml">编辑原则</a></p>
             <p>如果你有一般评论或问题，请勿使用此表格。请在相关讨论区发表评论。</p>
-            <p>你所投诉的评论将会送交编辑审核。编辑将决定该评论是否违反了<a href="{$houserulespopupurl}">编辑原则。</a>有关的决定将会通过电子邮件通知你。</p>
+            <p>你所投诉的评论将会送交编辑审核。编辑将决定该评论是否违反了<a href="http://www.bbc.co.uk/zhongwen/simp/institutional/2011/04/111111_moderation_rules.shtml">编辑原则。</a>有关的决定将会通过电子邮件通知你。</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>通知编辑</h2>
-            	<p>请选择其中一项<a href="{$houserulespopupurl}">编辑原则</a>。你认为这项原则<xsl:call-template name="item_name"/>被违反了。如果你认为违反了超过一项原则，请选择最严重的违反程度。</p>
+            	<p>请选择其中一项<a href="http://www.bbc.co.uk/zhongwen/simp/institutional/2011/04/111111_moderation_rules.shtml">编辑原则</a>。你认为这项原则<xsl:call-template name="item_name"/>被违反了。如果你认为违反了超过一项原则，请选择最严重的违反程度。</p>
             </div>
             
             <div class="content">
               <h2>投诉原因</h2>
               <p>
-                我认为它<xsl:call-template name="item_name"/>可能违反了<a href="{$houserulespopupurl}">编辑原则</a>，因为它
+                我认为它<xsl:call-template name="item_name"/>可能违反了<a href="http://www.bbc.co.uk/zhongwen/simp/institutional/2011/04/111111_moderation_rules.shtml">编辑原则</a>，因为它
               </p>
                
                 <p class="options">
@@ -109,7 +109,7 @@
                 		<input type="radio" id="dnaacs-cq-1" value="涉及中伤或诽谤他人" name="s_complaintText"/><label for="dnaacs-cq-1">涉及中伤或诽谤他人</label>
                 		<input type="radio" id="dnaacs-cq-2" value="涉及种族歧视、性别歧视、同性恋恐惧、性描写、淩辱或其他冒犯" name="s_complaintText"/><label for="dnaacs-cq-2">涉及种族歧视、性别歧视、同性恋恐惧、性描写、淩辱或其他冒犯</label>
                 		<input type="radio" id="dnaacs-cq-3" value="包含咒骂字词或其它可能冒犯他人的语言" name="s_complaintText"/><label for="dnaacs-cq-3">包含咒骂字词或其它可能冒犯他人的语言</label>
-                		<input type="radio" id="dnaacs-cq-4" value="违反法律、同情或鼓励非法行为，例如违反版权或藐视法庭" name="s_complaintText"/><label for="dnaacs-cq-4">违反法律、同情或鼓励非法行为，例如违反<a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">版权</a>或藐视法庭</label>
+                		<input type="radio" id="dnaacs-cq-4" value="违反法律、同情或鼓励非法行为，例如违反版权或藐视法庭" name="s_complaintText"/><label for="dnaacs-cq-4">违反法律、同情或鼓励非法行为，例如违反<a href="http://www.bbc.co.uk/zhongwen/simp/institutional/2011/04/111111_copyright.shtml">版权</a>或藐视法庭</label>
                 		<input type="radio" id="dnaacs-cq-5" value="为商品做广告宣传赚取利润" name="s_complaintText"/><label for="dnaacs-cq-5">为商品做广告宣传赚取利润</label>
                 		<input type="radio" id="dnaacs-cq-7" value="冒充他人" name="s_complaintText"/><label for="dnaacs-cq-7">冒充他人</label>
                 		<input type="radio" id="dnaacs-cq-8" value="包含个人资料，例如电话号码、邮递或电邮地址" name="s_complaintText"/><label for="dnaacs-cq-8">包含个人资料，例如电话号码、邮递或电邮地址</label>
@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="不是中文" name="s_complaintText"/><label for="dnaacs-cq-10">不是中文</label>
-                		<input type="radio" id="dnaacs-cq-11" value="含有外界链接，违反我们的编辑原则" name="s_complaintText"/><label for="dnaacs-cq-11">含有外界链接，违反我们的<a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">编辑原则</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="含有外界链接，违反我们的编辑原则" name="s_complaintText"/><label for="dnaacs-cq-11">含有外界链接，违反我们的<a href="http://www.bbc.co.uk/zhongwen/simp/institutional/2011/04/111111_help.shtml#Top6">编辑原则</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="形容或鼓励某些危害其他人安全或福祉的行为" name="s_complaintText"/><label for="dnaacs-cq-12">形容或鼓励某些危害其他人安全或福祉的行为</label>
                 		<input type="radio" id="dnaacs-cq-13" value="含有不适当的用户名" name="s_complaintText"/><label for="dnaacs-cq-13">含有不适当的用户名</label>
                 		<input type="radio" id="dnaacs-cq-14" value="是滥发的讯息" name="s_complaintText"/><label for="dnaacs-cq-14">是滥发的讯息</label>
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != '其他'">
-                        <xsl:text>我认为</xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != '其他'">
+                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text>因为下列原因：</xsl:text>
-                    	</xsl:if> -->
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
+                    	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -237,7 +237,7 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="发送"/>
+                    <input type="hidden" name="action" value="submit"/>
                     <input type="submit" value="发表投诉" name="Submit" class="button"/>
                 </p>
             </div>
@@ -299,7 +299,7 @@
     <div class="content">
       <h2>投诉成立</h2>
       <p>
-        你的投诉已经送达编辑团队。他们将审核<a href="{$houserulespopupurl}">编辑原则</a>给违背了，并将通过你的电邮地址通知你。
+        你的投诉已经送达编辑团队。他们将审核<a href="http://www.bbc.co.uk/zhongwen/simp/institutional/2011/04/111111_moderation_rules.shtml">编辑原则</a>给违背了，并将通过你的电邮地址通知你。
       </p>
       <p>
         你的编辑参考号码是：<strong>

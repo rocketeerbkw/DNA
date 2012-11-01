@@ -35,6 +35,11 @@
 	<xsl:variable name="smileys" select="''"/>
     
 	<xsl:template match="H2G2">
+	<xsl:choose>
+		<xsl:when test="ERROR[@TYPE='Access Denied']">
+			<xsl:apply-templates select="/H2G2[@TYPE != 'ERROR']/ERROR" mode="page"/>
+		</xsl:when>
+		<xsl:otherwise>
 		<html xml:lang="en-GB" lang="en-GB">
 			<head profile="http://dublincore.org/documents/dcq-html/">
 				<title>
@@ -125,6 +130,9 @@
 			
 			</body>
 		</html>
+		</xsl:otherwise>
+	</xsl:choose>
+		
 	</xsl:template>
 	
 	<xsl:template name="emergency-stop">

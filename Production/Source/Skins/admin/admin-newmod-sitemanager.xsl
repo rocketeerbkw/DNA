@@ -135,6 +135,12 @@
           </td>
         </tr>
         <tr>
+          <td class="title" >Default Contact Forms Email Address:</td>
+          <td class="value">
+            <input type="text" name="contactformsemail" value="{CONTACTFORMSEMAIL}"/> (Must end with @bbc.co.uk)
+          </td>
+        </tr>        
+        <tr>
           <td align="right">Auto Message User ID</td>
           <td>
             <input type="text" name="AutoMessageUserID" value="{AUTOMESSAGEUSERID}"/>

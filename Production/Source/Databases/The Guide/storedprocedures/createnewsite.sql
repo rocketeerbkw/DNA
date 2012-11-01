@@ -30,7 +30,8 @@ CREATE PROCEDURE createnewsite	@urlname varchar(50),
 									@bbcdivisionid int =0,
 									@sampleurl varchar(255) = '',
 									@notes varchar(max) ='',
-									@viewinguser int
+									@viewinguser int,
+									@contactformsemail varchar(255) = null
 AS
 
 IF EXISTS (SELECT * FROM Sites WHERE URLName = @urlname)
@@ -53,13 +54,13 @@ BEGIN
 						AutoMessageUserID, Passworded, Unmoderated, ArticleForumStyle, ThreadOrder,
 						ThreadEditTimeLimit, EventEmailSubject, EventAlertMessageUserID, IncludeCrumbtrail, 
 						AllowPostCodesInSearch, SiteEmergencyClosed, SSOService, AllowRemoveVote, QueuePostings,
-						ModClassId, IdentityPolicy, bbcdivisionid, SampleUrl )
+						ModClassId, IdentityPolicy, bbcdivisionid, SampleUrl, ContactFormsEmail )
 		VALUES(@urlname, @shortname, @description, @defaultskin, @skinset, @premoderation, 
 				@noautoswitch, @moderatorsemail, @editorsemail, @feedbackemail,
 				@automessageuserid, @passworded, @unmoderated, @articleforumstyle, @threadorder,
 				@threadedittimelimit, @eventemailsubject, @eventalertmessageuserid, @includecrumbtrail, 
 				@allowpostcodesinsearch, @siteemergencyclosed, ISNULL(@ssoservice,@urlname), @allowremovevote,
-				@queuepostings, @modclassid, @identitypolicy, @bbcdivisionid, @sampleurl )
+				@queuepostings, @modclassid, @identitypolicy, @bbcdivisionid, @sampleurl, @contactformsemail )
 	SELECT @ErrorCode = @@ERROR
 	IF (@ErrorCode <> 0)
 	BEGIN

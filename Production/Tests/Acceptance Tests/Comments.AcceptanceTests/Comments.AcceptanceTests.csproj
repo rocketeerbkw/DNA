@@ -41,6 +41,12 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="TechTalk.SpecFlow, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -48,6 +54,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Comments.AnonymousPosting.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Comments.AnonymousPosting.feature</DependentUpon>
+    </Compile>
     <Compile Include="Comments.CreateForum.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -63,18 +74,31 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>ContactForms.CreateForm.feature</DependentUpon>
     </Compile>
+    <Compile Include="StepDefinitions\AdminConsoleAuthorization.cs" />
+    <Compile Include="StepDefinitions\AnonymousCommentPosting.cs" />
     <Compile Include="StepDefinitions\CreateContactDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepDefinitions\CreateForum.cs" />
     <Compile Include="StepDefinitions\CreateContactForm.cs" />
     <Compile Include="StepDefinitions\Global.cs" />
+    <Compile Include="Support\APIRequester.cs" />
+    <Compile Include="Support\CommentForumTestUtils.cs" />
     <Compile Include="Support\ContactFormTestUtils.cs" />
+    <Compile Include="TwitterAdminConsole.AdminConsoleAuthorization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TwitterAdminConsole.AdminConsoleAuthorization.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="AuthoringTests.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Comments.AnonymousPosting.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Comments.AnonymousPosting.feature.cs</LastGenOutput>
+    </None>
     <None Include="Comments.CreateForum.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Comments.CreateForum.feature.cs</LastGenOutput>
@@ -87,11 +111,19 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ContactForms.CreateForm.feature.cs</LastGenOutput>
     </None>
+    <None Include="TwitterAdminConsole.AdminConsoleAuthorization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TwitterAdminConsole.AdminConsoleAuthorization.feature.cs</LastGenOutput>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Source\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj">
       <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
       <Name>BBC.Dna.Api %28Source\Shared\BBC.Dna.Api\BBC.Dna.Api%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI.csproj">
+      <Project>{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D}</Project>
+      <Name>BBC.Dna.SocialAPI %28Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>

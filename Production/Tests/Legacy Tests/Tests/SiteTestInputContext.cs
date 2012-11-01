@@ -23,7 +23,7 @@ namespace Tests
             {
                 return new Site(1, "h2g2", 0, false, "brunel", true, "H2G2", "h2g2",
                             "a@b.c", "b@b.c", "c@b.c", 1090497224, false,true, true, "", "Alert", 2000, 1090497224, 0,
-                            1, 1, false, false, 16, 255, 1, "h2g2", false, "skinset", "");
+                            1, 1, false, false, 16, 255, 1, "h2g2", false, "skinset", "", "");
             }
         }
     }

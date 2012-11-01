@@ -20,6 +20,8 @@ namespace BBC.Dna.Services
             : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
             contactFormComments = new Contacts(dnaDiagnostic, readerCreator, cacheManager, Global.siteList);
+            contactFormComments.EmailServerAddress = Global.emailServerAddress;
+            contactFormComments.FileCacheFolder = Global.fileCacheFolder;
             contactFormComments.FilterBy = FilterBy.ContactFormPosts;
             string basePath = ConfigurationManager.AppSettings["ServerBasePath"];
             basePath = basePath.Remove(basePath.LastIndexOf("/")) + "/ContactFormService.svc";
@@ -107,11 +109,55 @@ namespace BBC.Dna.Services
                     throw ApiException.GetError(ErrorType.ForumUnknown);
                 }
 
+                if (contactForm.ContactEmail == null || contactForm.ContactEmail.Length == 0)
+                {
+                    throw ApiException.GetError(ErrorType.MissingContactEmail);
+                }
+
                 ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactForm, newContactDetails);
 
                 contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail);
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
                 return GetOutputStream(contactDetails);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+        }
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/contactform/{contactFormId}/")]
+        [WebHelp(Comment = "Creates new Contact Detail, also creates the Contact Form if it doesn't exist")]
+        [OperationContract]
+        public Stream CreateCommentContactFormWithContact(string siteName, ContactForm ContactFormDetails, string contactFormId)
+        {
+            ISite site = GetSite(siteName);
+            if (site == null)
+            {
+                throw ApiException.GetError(ErrorType.UnknownSite);
+            }
+
+            try
+            {
+                if (contactFormId == null)
+                {
+                    throw ApiException.GetError(ErrorType.ForumUnknown);
+                } 
+                
+                ContactFormDetails.Id = contactFormId;
+                ContactForm contactFormData = contactFormComments.CreateContactForm(ContactFormDetails, site);
+                contactFormComments.CallingUser = GetCallingUserOrNotSignedInUser(site, contactFormData);
+
+                if (ContactFormDetails.contactDetailsList != null &&
+                    ContactFormDetails.contactDetailsList.contacts != null &&
+                    ContactFormDetails.contactDetailsList.contacts.Count > 0)
+                {
+                    // check if there is a rating to add
+                    ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactFormData, (ContactDetails)ContactFormDetails.contactDetailsList.contacts[0]);
+                    contactFormComments.SendDetailstoContactEmail(contactDetails, contactFormData.ContactEmail);
+                    return GetOutputStream(contactDetails);
+                }
+                return GetOutputStream(contactFormData);
             }
             catch (ApiException ex)
             {

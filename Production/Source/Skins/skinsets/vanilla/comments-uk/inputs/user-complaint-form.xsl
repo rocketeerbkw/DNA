@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>Скарга на <xsl:call-template name="item_name"/></h2>
-            <p>Цю форму створено лише для серйозних скарг на певний контент, який порушує <a href="{$houserulespopupurl}">Правила форуму</a>.</p>
+            <p>Цю форму створено лише для серйозних скарг на певний контент, який порушує <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правила форуму</a>.</p>
             <p>Якщо Ви маєте коментар або питання на загальну тему, будь ласка, не використовуйте цю форму. Додавайте повідомлення до загальної дискусії.</p>
-            <p>Вашу скаргу буде спрямовано до модератора, і він вирішить, чи порушує коментар, на який ви поскаржилися <a href="{$houserulespopupurl}">Правила форуму</a>. Рішення буде вам повідомлено електронною поштою</p>
+            <p>Вашу скаргу буде спрямовано до модератора, і він вирішить, чи порушує коментар, на який ви поскаржилися <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правила форуму</a>. Рішення буде вам повідомлено електронною поштою.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Повідомити модераторам</h2>
-            	<p>Будь ласка, виберіть який з пунктів <a href="{$houserulespopupurl}">Правил форумів</a> на вашу думку <xsl:call-template name="item_name"/> було порушено. Якщо ви вважаєте, що було порушено більше одного пункту, будь ласка, оберіть найбільш вагоме порушення.</p>
+            	<p>Будь ласка, виберіть який з пунктів <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форумів</a> на вашу думку <xsl:call-template name="item_name"/> було порушено. Якщо ви вважаєте, що було порушено більше одного пункту, будь ласка, оберіть найбільш вагоме порушення.</p>
             </div>
             
             <div class="content">
               <h2>Причина скарги</h2>
               <p>
-                Я вважаю, що це <xsl:call-template name="item_name"/> може порушити одне з <a href="{$houserulespopupurl}">Правил форуму</a> тому що:
+                Я вважаю, що це <xsl:call-template name="item_name"/> може порушити одне з <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форуму</a> тому що:
               </p>
                
                 <p class="options">
@@ -109,7 +109,7 @@
                 		<input type="radio" id="dnaacs-cq-1" value="є наклепницьким чи дискредитуючим" name="s_complaintText"/><label for="dnaacs-cq-1">є наклепницьким чи дискредитуючим</label>
                 		<input type="radio" id="dnaacs-cq-2" value="є расистським, сексистським, гомофобним, таким, що має сексуальний характер, лайливим чи образливим" name="s_complaintText"/><label for="dnaacs-cq-2">є расистським, сексистським, гомофобним, таким, що має сексуальний характер, лайливим чи образливим</label>
                 		<input type="radio" id="dnaacs-cq-3" value="містить ненормативну лексику або інші слова, що можуть бути образливими" name="s_complaintText"/><label for="dnaacs-cq-3">містить ненормативну лексику або інші слова, що можуть бути образливими</label>
-                		<input type="radio" id="dnaacs-cq-4" value="порушує закон чи провокує протизаконні дії, як то порушення авторських прав чи неповага до суду" name="s_complaintText"/><label for="dnaacs-cq-4">порушує закон чи провокує протизаконні дії, як то порушення <a href="http://www.bbc.co.uk/messageboards/newguide/popup_copyright.html">авторських прав</a> чи неповага до суду</label>
+                		<input type="radio" id="dnaacs-cq-4" value="порушує закон чи провокує протизаконні дії, як то порушення авторських прав чи неповага до суду" name="s_complaintText"/><label for="dnaacs-cq-4">порушує закон чи провокує протизаконні дії, як то порушення <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_terms_of_use.shtml">авторських прав</a> чи неповага до суду</label>
                 		<input type="radio" id="dnaacs-cq-5" value="рекламування продукції чи послуг з метою отримання прибутку" name="s_complaintText"/><label for="dnaacs-cq-5">рекламування продукції чи послуг з метою отримання прибутку</label>
                 		<input type="radio" id="dnaacs-cq-7" value="людина видає себе за іншу особу" name="s_complaintText"/><label for="dnaacs-cq-7">людина видає себе за іншу особу</label>
                 		<input type="radio" id="dnaacs-cq-8" value="містить особисту інформацію, як то номери телефонів, поштові чи електронні адреси" name="s_complaintText"/><label for="dnaacs-cq-8">містить особисту інформацію, як то номери телефонів, поштові чи електронні адреси</label>
@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="написаний не мовою сайту" name="s_complaintText"/><label for="dnaacs-cq-10">написаний не мовою сайту</label>
-                		<input type="radio" id="dnaacs-cq-11" value="містить посилання на вебсайт, який порушує Редакційні положення" name="s_complaintText"/><label for="dnaacs-cq-11">містить посилання на вебсайт, який порушує <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Редакційні положення</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="містить посилання на вебсайт, який порушує Редакційні положення" name="s_complaintText"/><label for="dnaacs-cq-11">містить посилання на вебсайт, який порушує <a href="http://www.bbc.co.uk/ukrainian/institutional/2012/09/120920_editorial_guidelines.shtml">Редакційні положення</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="описує чи провокує дії, що можуть зашкодити безпеці чи добробуту інших людей" name="s_complaintText"/><label for="dnaacs-cq-12">описує чи провокує дії, що можуть зашкодити безпеці чи добробуту інших людей</label>
                 		<input type="radio" id="dnaacs-cq-13" value="містить недоречне ім'я користувача" name="s_complaintText"/><label for="dnaacs-cq-13">містить недоречне ім'я користувача</label>
                 		<input type="radio" id="dnaacs-cq-14" value="є спамом" name="s_complaintText"/><label for="dnaacs-cq-14">є спамом</label>
@@ -183,11 +183,11 @@
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
-                    	<!-- <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Інше'">
-                        <xsl:text>Я вважаю, що це </xsl:text><xsl:call-template name="item_name"/>
+                    	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Інше'">
+                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
                         <xsl:text xml:space="preserve"> </xsl:text>
-                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> Тому що:</xsl:text>
-                    	</xsl:if> -->
+                        <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
+                    	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
@@ -237,7 +237,7 @@
                         <input type="hidden" value="{@URL}" name="url"/>
                       </xsl:otherwise>
                     </xsl:choose>
-                    <input type="hidden" name="action" value="Відправити"/>
+                    <input type="hidden" name="action" value="submit"/>
                     <input type="submit" value="Надіслати скаргу" name="Submit" class="button"/>
                 </p>
             </div>
@@ -299,7 +299,7 @@
     <div class="content">
       <h2>Скарга успішно надіслана</h2>
       <p>
-        Вашу скаргу отримано і направлено на розгляд модераторам. Вони вирішать, чи <a href="{$houserulespopupurl}">Правила форумів</a> були порушені, і повідомлять вам своє рішення електронною поштою.
+        Вашу скаргу отримано і направлено на розгляд модераторам. Вони вирішать, чи <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правила форумів</a> були порушені, і повідомлять вам своє рішення електронною поштою.
       </p>
       <p>
         Номер вашої скарги: <strong>

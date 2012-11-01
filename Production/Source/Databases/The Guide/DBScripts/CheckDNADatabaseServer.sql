@@ -1,4 +1,11 @@
-CREATE PROCEDURE [dbo].[CheckDNADatabaseServer]
+USE [Performance]
+GO
+/****** Object:  StoredProcedure [dbo].[CheckDNADatabaseServer]    Script Date: 08/06/2012 11:13:13 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+ALTER PROCEDURE [dbo].[CheckDNADatabaseServer]
 AS
 
 --------------------------------------
@@ -7,6 +14,7 @@ DECLARE @sendTo varchar(100),@emailProfile varchar(100)
 DECLARE @subjectPrefix varchar(100)
 DECLARE @maxWorkerThreads int, @maxRunnableTasks int, @SchedulerInfoAge int
 DECLARE @maxSOSWaitStat int, @maxTokenAndPermUserStoreMem int
+DECLARE @maxMinutesSinceLastRiskModDecision int
 
 DECLARE @stage int -- used in the exception handling code
 
@@ -14,13 +22,14 @@ DECLARE @stage int -- used in the exception handling code
 -- Set up configuration variables
 SET @subjectPrefix = 'DNA Database Server: '
 
-SELECT  @sendTo='mark.neves@bbc.co.uk;mark.howitt@bbc.co.uk',
+SELECT  @sendTo='dna-ops@bbc.co.uk',
 		@emailProfile='GUIDE6-2 DNA Email Profile',
 		@maxWorkerThreads = 300,    -- Number of worker threads the server is using
 		@maxRunnableTasks = 5*8,    -- Total runnable tasks across all 8 CPUs
 		@SchedulerInfoAge = 120,    -- The newest data in the SchedulerInfo table must be <= @SchedulerInfoAge seconds old
 		@maxSOSWaitStat   = 400000, -- If the last SOS_SCHEDULER_YIELD wait is above this value, it sends an email
-		@maxTokenAndPermUserStoreMem = 100 -- If this cache gets too big, we clear it out
+		@maxTokenAndPermUserStoreMem = 100, -- If this cache gets too big, we clear it out
+		@maxMinutesSinceLastRiskModDecision = 10 -- If this many mins pass since a risk mod decision, raise an alert
 
 BEGIN TRY
 	--------------------------------------
@@ -48,9 +57,15 @@ BEGIN TRY
 
 	IF @lastProblemEmail IS NULL OR DATEDIFF(mi,@lastProblemEmail,getdate()) > 10
 	BEGIN
-set @stage=1
-		DECLARE @numRunnableTasks int, @numWorkerThreads int, @latestCapture DATETIME;
 		DECLARE @problemEmailBody varchar(max);
+
+set @stage=1
+/*
+******** Commented out by Mark N 28/9/2011
+******** Currently not running the SQL Agent "Capture Scheduler Info" job
+******** To start monitoring Scheduler Info again, re-enable the above job
+
+		DECLARE @numRunnableTasks int, @numWorkerThreads int, @latestCapture DATETIME;
 		WITH LatestSchedulerInfo AS
 		(
 			SELECT TOP 8 * FROM [GUIDE6-1].Performance.dbo.SchedulerInfo ORDER BY dt DESC
@@ -77,6 +92,7 @@ set @stage=2
 
 		--------------------------------------
 		-- Email if the last captured SOS_SCHEDULER_YIELD signal wait time is high
+
 set @stage=3
 		DECLARE @lastSOSWaitStat int
 		SELECT @lastSOSWaitStat = cc.signal_wait_time-cl.signal_wait_time 
@@ -90,6 +106,7 @@ set @stage=4
 			SELECT @problemEmailBody='Last SOS_SCHEDULER_YIELD wait is '+cast(@lastSOSWaitStat AS varchar)
 			EXEC msdb.dbo.sp_send_dbmail @recipients=@sendTo,@subject=@problemEmailSubject,@body=@problemEmailBody,@profile_name=@emailProfile
 		END
+**********************/
 
 /***********************************************
 Commented out on 1/3/2010, as this check is not really relevent on SQL Server 2005 SP3 64bit
@@ -115,6 +132,42 @@ set @stage=6
 			EXEC msdb.dbo.sp_send_dbmail @recipients=@sendTo,@subject=@problemEmailSubject,@body=@problemEmailBody,@profile_name=@emailProfile
 		END
 *****************************/
+
+	set @stage=7
+
+		--------------------------------------
+		-- If it's been too long since a risk mod decision, send an email
+
+		DECLARE @minsSinceLastRiskModDecision int
+		SELECT @minsSinceLastRiskModDecision=datediff(minute,max(dateassessed),getdate()) FROM [GUIDE6-1].TheGuide.dbo.RiskModDecisionsForThreadEntries
+
+		-- We add 5 mins to the "Last Posted" time, to give the Risk Mod system chance to process the post
+		DECLARE @minsSinceLastPost int
+		SELECT @minsSinceLastPost = datediff(minute,max(DatePosted),getdate())+5 FROM [GUIDE6-1].TheGuide.dbo.ThreadEntries
+
+		IF @minsSinceLastRiskModDecision >= @maxMinutesSinceLastRiskModDecision AND @minsSinceLastRiskModDecision > @minsSinceLastPost
+		BEGIN
+			SELECT @problemEmailBody='It has been '+CAST(@minsSinceLastRiskModDecision AS varchar)+' minutes since a risk mod decision has been made'
+			EXEC msdb.dbo.sp_send_dbmail @recipients=@sendTo,@subject=@problemEmailSubject,@body=@problemEmailBody,@profile_name=@emailProfile
+		END
+
+	set @stage=8
+	
+		--------------------------------------------------------------
+		-- Check to make sure that the delay between items entring the risk mod queue and leaving the queue is less than a given time in seconds
+		DECLARE @LastProcessTime INT
+		
+		SELECT TOP 1 @LastProcessTime = DATEDIFF(second, DatePosted, DateAssessed)
+			FROM [GUIDE6-1].TheGuide.dbo.RiskModThreadEntryQueue
+			WHERE dateassessed IS NOT NULL
+			ORDER BY ThreadEntryID DESC
+
+		IF @LastProcessTime > 60
+		BEGIN
+			SELECT @problemEmailBody='The latest risk mod item took '+CAST(@LastProcessTime AS varchar)+' seconds to be processed'
+			EXEC msdb.dbo.sp_send_dbmail @recipients=@sendTo,@subject=@problemEmailSubject,@body=@problemEmailBody,@profile_name=@emailProfile
+		END
+		
 	END		
 
 END TRY

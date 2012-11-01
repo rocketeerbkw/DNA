@@ -8,6 +8,7 @@ using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna.Api.Tests
 {
@@ -68,16 +69,72 @@ namespace BBC.Dna.Api.Tests
         [TestMethod]
         public void ShouldSendEmailWhenGivenValidContactDetails()
         {
+            string siteContactEmail = "mark.howitt@bbc.co.uk";
             ISiteList siteList = mocks.DynamicMock<ISiteList>();
-            siteList.Stub(x => x.GetSite("h2g2").EditorsEmail).Return("dna@bbc.co.uk");
+            siteList.Stub(x => x.GetSite("h2g2").ContactFormsEmail).Return(siteContactEmail);
 
             mocks.ReplayAll();
 
             Contacts contacts = new Contacts(null, null, null, siteList);
+            contacts.EmailServerAddress = "";
+            contacts.FileCacheFolder = TestContext.TestDir;
             ContactDetails info = new ContactDetails();
             info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
             info.text = "This is a test email";
-            contacts.SendDetailstoContactEmail(info, "mark.howitt@bbc.co.uk");
+            string sentTo = "tester@bbc.co.uk";
+
+            string failedEmailFileName = "ContactDetails-ShouldSendEmailWhenGivenValidContactDetails-TestFailedEmail.txt";
+            contacts.SetFailedEmailFileName(failedEmailFileName);
+
+            // NOTE! Slight lie about sending the mail, it actually fails on sending and saves the email in the FailedEmails folder for the purpose of this test
+            contacts.SendDetailstoContactEmail(info, sentTo);
+
+            Statistics stats = new Statistics();
+            Statistics.InitialiseIfEmpty();
+
+            DateTime expires = new DateTime();
+            string failedEmailContent = "";
+            FileCaching.GetItem(null, TestContext.TestDir, "failedmails", failedEmailFileName, ref expires, ref failedEmailContent);
+
+            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n" + info.ForumUri + "\r\n" + info.text;
+            expectedInfo += "\r\nThe SMTP host was not specified.";
+            Assert.AreEqual(expectedInfo, failedEmailContent);
+        }
+
+        [TestMethod]
+        public void ShouldDeserialiseToContactFormMessageString()
+        {
+            ContactForm contactForm = new ContactForm();
+            contactForm.Id = "FirstContactForm_111";
+            contactForm.ParentUri = "http://local.bbc.co.uk/dna/h2g2";
+            contactForm.Title = "FirstContactForm+1";
+            contactForm.contactDetailsList = new ContactDetailsList();
+            contactForm.contactDetailsList.contacts = new List<ContactDetails>();
+            ContactDetails contactDetail = new ContactDetails();
+            contactForm.contactDetailsList.contacts.Add(contactDetail);
+            
+            ContactFormMessage msg = new ContactFormMessage();
+            msg.Subject = "testing Subject";
+            msg.Body = new Dictionary<string, string>();
+            msg.Body.Add("Your Email","myemail@bbc.co.uk");
+            msg.Body.Add("Your Suggestions","Improve the contact form");
+            msg.Body.Add("Your Favourite Social Network","facebook");
+            msg.Body.Add("Favourite BBC site","sport");
+            msg.Body.Add("Gender","m");
+
+            contactDetail.text = StringUtils.SerializeToJsonReturnAsString(msg);
+
+            string stringContactForm = StringUtils.SerializeToJsonReturnAsString(contactForm);
+
+            string body = "";
+            ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetail.text, typeof(ContactFormMessage));
+            string subject = message.Subject;
+
+            foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
+            {
+                string messageLine = content.Key + " : " + content.Value + "\n";
+                body += messageLine;
+            }
         }
 
         [TestMethod]
@@ -100,12 +157,22 @@ namespace BBC.Dna.Api.Tests
         [ExpectedException(typeof(ApiException))]
         public void ShouldThrowNotAuthorizedExceptionWhenCreatingANullCallingUser()
         {
-            Contacts contacts = new Contacts(null, null, null, null);
+            string sitename = "h2g2";
             ISite mockedSite = mocks.StrictMock<ISite>();
+            mockedSite.Stub(x => x.SiteName).Return(sitename);
+
+            ContactForm form = new ContactForm() { Id = "doesnotexist", SiteName = sitename };
+            IDnaDataReader mockedDataReader = MockedGetContactFormDetailFromFormID(form, false);
+            IDnaDataReaderCreator mockerDataReaderCreator = mocks.StrictMock<IDnaDataReaderCreator>();
+            mockerDataReaderCreator.Expect(x => x.CreateDnaDataReader("getcontactformdetailfromformid")).Return(mockedDataReader);
+
+            Contacts contacts = new Contacts(null, mockerDataReaderCreator, null, null);
+
+            mocks.ReplayAll();
 
             try
             {
-                ContactForm createdContactForm = contacts.CreateContactForm(null, mockedSite);
+                ContactForm createdContactForm = contacts.CreateContactForm(form, mockedSite);
             }
             catch (ApiException ex)
             {
@@ -118,8 +185,16 @@ namespace BBC.Dna.Api.Tests
         [ExpectedException(typeof(ApiException))]
         public void ShouldThrowNotAuthorizedExceptionWhenCreatingANewFormGivenANormalCallingUser()
         {
-            Contacts contacts = new Contacts(null, null, null, null);
+            string sitename = "h2g2";
             ISite mockedSite = mocks.StrictMock<ISite>();
+            mockedSite.Stub(x => x.SiteName).Return(sitename);
+
+            ContactForm form = new ContactForm() { Id = "doesnotexist", SiteName = sitename };
+            IDnaDataReader mockedDataReader = MockedGetContactFormDetailFromFormID(form, false);
+            IDnaDataReaderCreator mockerDataReaderCreator = mocks.StrictMock<IDnaDataReaderCreator>();
+            mockerDataReaderCreator.Expect(x => x.CreateDnaDataReader("getcontactformdetailfromformid")).Return(mockedDataReader);
+
+            Contacts contacts = new Contacts(null, mockerDataReaderCreator, null, null);
             ICallingUser mockedUser = mocks.StrictMock<ICallingUser>();
             mockedUser.Stub(x => x.IsUserA(UserTypes.Editor)).Return(false);
             contacts.CallingUser = mockedUser;
@@ -128,7 +203,7 @@ namespace BBC.Dna.Api.Tests
 
             try
             {
-                ContactForm createdContactForm = contacts.CreateContactForm(null, mockedSite);
+                ContactForm createdContactForm = contacts.CreateContactForm(form, mockedSite);
             }
             catch (ApiException ex)
             {
@@ -141,11 +216,11 @@ namespace BBC.Dna.Api.Tests
         [ExpectedException(typeof(ApiException))]
         public void ShouldThrowInvalidContactEmailExceptionWhenCreatingANewFormGivenNoContactFormDetails()
         {
-            Contacts contacts = new Contacts(null, null, null, null);
+            string sitename = "h2g2";
             ISite mockedSite = mocks.StrictMock<ISite>();
-            ICallingUser mockedUser = mocks.StrictMock<ICallingUser>();
-            mockedUser.Stub(x => x.IsUserA(UserTypes.Editor)).Return(true);
-            contacts.CallingUser = mockedUser;
+            mockedSite.Stub(x => x.SiteName).Return(sitename);
+
+            Contacts contacts = new Contacts(null, null, null, null);
 
             mocks.ReplayAll();
 
@@ -162,25 +237,34 @@ namespace BBC.Dna.Api.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ApiException))]
-        public void ShouldThrowInvalidContactEmailExceptionWhenCreatingANewFormGivenNoContactEmail()
+        public void ShouldThrowMissingContactEmailExceptionWhenCreatingANewFormGivenNoContactEmail()
         {
-            Contacts contacts = new Contacts(null, null, null, null);
+            string sitename = "h2g2";
             ISite mockedSite = mocks.StrictMock<ISite>();
+            mockedSite.Stub(x => x.SiteName).Return(sitename);
+
+            ContactForm form = new ContactForm() { Id = "doesnotexist", SiteName = sitename };
+            IDnaDataReader mockedDataReader = MockedGetContactFormDetailFromFormID(form, false);
+            IDnaDataReaderCreator mockerDataReaderCreator = mocks.StrictMock<IDnaDataReaderCreator>();
+            mockerDataReaderCreator.Expect(x => x.CreateDnaDataReader("getcontactformdetailfromformid")).Return(mockedDataReader);
+
+            Contacts contacts = new Contacts(null, mockerDataReaderCreator, null, null);
+
+            mockedSite.Stub(x => x.ContactFormsEmail).Return("");
+
             ICallingUser mockedUser = mocks.StrictMock<ICallingUser>();
             mockedUser.Stub(x => x.IsUserA(UserTypes.Editor)).Return(true);
             contacts.CallingUser = mockedUser;
-
-            ContactForm newContactFormDetails = new ContactForm();
 
             mocks.ReplayAll();
 
             try
             {
-                ContactForm createdContactForm = contacts.CreateContactForm(newContactFormDetails, mockedSite);
+                ContactForm createdContactForm = contacts.CreateContactForm(form, mockedSite);
             }
             catch (ApiException ex)
             {
-                Assert.AreEqual(ApiException.GetError(ErrorType.InvalidContactEmail).Message, ex.Message);
+                Assert.AreEqual(ApiException.GetError(ErrorType.MissingContactEmail).Message, ex.Message);
                 throw ex;
             }
         }
@@ -189,20 +273,26 @@ namespace BBC.Dna.Api.Tests
         [ExpectedException(typeof(ApiException))]
         public void ShouldThrowInvalidContactEmailExceptionWhenCreatingANewFormGivenAnInvalidContactEmailAddress()
         {
-            Contacts contacts = new Contacts(null, null, null, null);
+            string sitename = "h2g2";
             ISite mockedSite = mocks.StrictMock<ISite>();
+            mockedSite.Stub(x => x.SiteName).Return(sitename);
+
+            ContactForm form = new ContactForm() { Id = "doesnotexist", SiteName = sitename, ContactEmail = "invalid.email@crapemailaddress" };
+            IDnaDataReader mockedDataReader = MockedGetContactFormDetailFromFormID(form, false);
+            IDnaDataReaderCreator mockerDataReaderCreator = mocks.StrictMock<IDnaDataReaderCreator>();
+            mockerDataReaderCreator.Expect(x => x.CreateDnaDataReader("getcontactformdetailfromformid")).Return(mockedDataReader);
+
+            Contacts contacts = new Contacts(null, mockerDataReaderCreator, null, null);
+
             ICallingUser mockedUser = mocks.StrictMock<ICallingUser>();
             mockedUser.Stub(x => x.IsUserA(UserTypes.Editor)).Return(true);
             contacts.CallingUser = mockedUser;
-
-            ContactForm newContactFormDetails = new ContactForm();
-            newContactFormDetails.ContactEmail = "invalid.email@crapemailaddress";
 
             mocks.ReplayAll();
 
             try
             {
-                ContactForm createdContactForm = contacts.CreateContactForm(newContactFormDetails, mockedSite);
+                ContactForm createdContactForm = contacts.CreateContactForm(form, mockedSite);
             }
             catch (ApiException ex)
             {
@@ -237,6 +327,7 @@ namespace BBC.Dna.Api.Tests
             existingContactFormDetails.ModerationServiceGroup = expectedModerationStatus;
             existingContactFormDetails.SiteName = expectedSiteName;
             existingContactFormDetails.ForumID = expectedForumId;
+            existingContactFormDetails.NotSignedInUserId = 0;
 
             IDnaDataReader mockedDataReader1 = MockedGetContactFormDetailFromFormID(existingContactFormDetails, true);
             IDnaDataReaderCreator mockerDataReaderCreator = mocks.StrictMock<IDnaDataReaderCreator>();
@@ -286,6 +377,7 @@ namespace BBC.Dna.Api.Tests
             newContactFormDetails.Id = expectedId;
             newContactFormDetails.ModerationServiceGroup = expectedModerationStatus;
             newContactFormDetails.SiteName = expectedSiteName;
+            newContactFormDetails.NotSignedInUserId = 0;
 
             IDnaDataReader mockedDataReader1 = MockedGetContactFormDetailFromFormID(newContactFormDetails, false);
 
@@ -344,6 +436,7 @@ namespace BBC.Dna.Api.Tests
                 mockedDataReader.Stub(x => x.GetString("contactformuid")).Return(newContactFormDetails.Id);
                 mockedDataReader.Stub(x => x.GetString("parenturi")).Return(newContactFormDetails.ParentUri);
                 mockedDataReader.Stub(x => x.GetString("title")).Return(newContactFormDetails.Title);
+                mockedDataReader.Stub(x => x.GetInt32("NotSignedInUserId")).Return(newContactFormDetails.NotSignedInUserId);
             }
 
             mockedDataReader.Stub(x => x.Dispose());

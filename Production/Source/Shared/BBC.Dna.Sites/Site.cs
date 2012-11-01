@@ -115,7 +115,7 @@ namespace BBC.Dna.Sites
                     int eventAlertMessageUserId, int allowRemoveVote, int includeCrumbtrail,
                     int allowPostCodesInSearch, bool queuePostings, bool emergencyClosed,
                     int minAge, int maxAge, int modClassId, string ssoService, bool useIdentitySignInSystem,
-                    string skinSet, string identityPolicy)
+                    string skinSet, string identityPolicy, string contactFormsEmail)
         {
             OpenCloseTimes = new List<OpenCloseTime>();
             SiteID = id;
@@ -149,6 +149,7 @@ namespace BBC.Dna.Sites
             UseIdentitySignInSystem = useIdentitySignInSystem;
             SkinSet = skinSet;
             this.IdentityPolicy = identityPolicy;
+            ContactFormsEmail = contactFormsEmail;
         }
 
         /// <summary>
@@ -632,6 +633,13 @@ namespace BBC.Dna.Sites
             }
             return new Result("UpdateEveryMessageBoardAdminStatusForSite", "Successful");
         }
+
+
+        /// <summary>
+        /// Default site Contact Forms Email Property
+        /// </summary>
+        [DataMember(Name = ("contactFormsEmail"))]
+        public string ContactFormsEmail { get; set; }
     }
 
     public enum MessageBoardAdminStatus

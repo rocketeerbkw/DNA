@@ -108,6 +108,7 @@ namespace BBC.Dna.Sites.Tests
             bool useIdentitySignInSystem = false;
             string skinSet = string.Empty;
             string IdentityPolicy = string.Empty;
+            string ContactFormsEmail = string.Empty;
             
             string connection = string.Empty;
             var target = new Site(id, name, threadOrder, preModeration, defaultSkin, noAutoSwitch, description,
@@ -115,7 +116,7 @@ namespace BBC.Dna.Sites.Tests
                                   unmoderated, articleGuestBookForums, config, emailAlertSubject, threadEditTimeLimit,
                                   eventAlertMessageUserID, allowRemoveVote, includeCrumbtrail, allowPostCodesInSearch,
                                   queuePostings, emergencyClosed, minAge, maxAge, modClassID, ssoService,
-                                  useIdentitySignInSystem, skinSet, IdentityPolicy);
+                                  useIdentitySignInSystem, skinSet, IdentityPolicy, ContactFormsEmail);
             Assert.AreEqual(id, target.SiteID);
 
 
@@ -156,6 +157,7 @@ namespace BBC.Dna.Sites.Tests
             bool useIdentitySignInSystem = false;
             string skinSet = string.Empty;
             string IdentityPolicy = string.Empty;
+            string ContactFormsEmail = string.Empty;
             
             string connection = string.Empty;
             var target = new Site(id, name, threadOrder, preModeration, defaultSkin, noAutoSwitch, description,
@@ -163,7 +165,7 @@ namespace BBC.Dna.Sites.Tests
                                   unmoderated, articleGuestBookForums, config, emailAlertSubject, threadEditTimeLimit,
                                   eventAlertMessageUserID, allowRemoveVote, includeCrumbtrail, allowPostCodesInSearch,
                                   queuePostings, emergencyClosed, minAge, maxAge, modClassID, ssoService,
-                                  useIdentitySignInSystem, skinSet, IdentityPolicy);
+                                  useIdentitySignInSystem, skinSet, IdentityPolicy, ContactFormsEmail);
             Assert.AreEqual(id, target.SiteID);
 
 
@@ -280,6 +282,7 @@ namespace BBC.Dna.Sites.Tests
             bool useIdentitySignInSystem = false;
             string skinSet = string.Empty;
             string IdentityPolicy = string.Empty;
+            string ContactFormsEmail = string.Empty;
             
             string connection = string.Empty;
             var target = new Site(id, name, threadOrder, preModeration, defaultSkin, noAutoSwitch, description,
@@ -287,7 +290,7 @@ namespace BBC.Dna.Sites.Tests
                                   unmoderated, articleGuestBookForums, config, emailAlertSubject, threadEditTimeLimit,
                                   eventAlertMessageUserID, allowRemoveVote, includeCrumbtrail, allowPostCodesInSearch,
                                   queuePostings, emergencyClosed, minAge, maxAge, modClassID, ssoService,
-                                  useIdentitySignInSystem, skinSet, IdentityPolicy);
+                                  useIdentitySignInSystem, skinSet, IdentityPolicy, ContactFormsEmail);
             Assert.AreEqual(id, target.SiteID);
 
             Assert.AreEqual(emergencyClosed, target.IsSiteClosed());
@@ -539,6 +542,7 @@ namespace BBC.Dna.Sites.Tests
             bool useIdentitySignInSystem = false;
             string skinSet = string.Empty;
             string IdentityPolicy = string.Empty;
+            string ContactFormsEmail = string.Empty;
             
             string connection = string.Empty;
             var target = new Site(id, name, threadOrder, preModeration, defaultSkin, noAutoSwitch, description,
@@ -546,7 +550,7 @@ namespace BBC.Dna.Sites.Tests
                                   unmoderated, articleGuestBookForums, config, emailAlertSubject, threadEditTimeLimit,
                                   eventAlertMessageUserID, allowRemoveVote, includeCrumbtrail, allowPostCodesInSearch,
                                   queuePostings, emergencyClosed, minAge, maxAge, modClassID, ssoService,
-                                  useIdentitySignInSystem, skinSet, IdentityPolicy);
+                                  useIdentitySignInSystem, skinSet, IdentityPolicy, ContactFormsEmail);
             Assert.AreEqual(id, target.SiteID);
 
             return target;

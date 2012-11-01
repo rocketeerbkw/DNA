@@ -64,7 +64,7 @@ namespace BBC.Dna.Services
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.MaintenanceMode));
             }
-            
+
             _connectionString = connectionString;
             this.siteList = siteList;
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiag);
@@ -140,7 +140,11 @@ namespace BBC.Dna.Services
             _internalRequest = (QueryStringHelper.GetQueryParameterAsString("_bbc_", "") == "1");
             debugDnaUserId = "";
 #if DEBUG
-            debugDnaUserId = QueryStringHelper.GetQueryParameterAsString("d_identityuserid", "");
+            debugDnaUserId = QueryStringHelper.GetCookieValueAsString("DNADEBUGUSER", "");
+            if (debugDnaUserId.Length > 0)
+            {
+                debugDnaUserId = debugDnaUserId.Replace("ID-","");
+            }
 #endif
             
         }
@@ -241,7 +245,7 @@ namespace BBC.Dna.Services
         /// <param name="site"></param>
         /// <param name="forum"></param>
         /// <returns></returns>
-        protected CallingUser GetCallingUserOrNotSignedInUser(ISite site, CommentForum forum)
+        protected CallingUser GetCallingUserOrNotSignedInUser(ISite site, Forum forum)
         {
             CallingUser callingUser = null;
             bool userSignedIn = false;

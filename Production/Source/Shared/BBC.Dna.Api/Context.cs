@@ -5,9 +5,28 @@ using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
+using System.Net.Mail;
 
 namespace BBC.Dna.Api
 {
+    public class FailedEmail
+    {
+        public FailedEmail(string from, string to, string subject, string body, string fileprefix)
+        {
+            From = from;
+            To = to;
+            Subject = subject;
+            Body = body;
+            FilePreFix = fileprefix;
+        }
+
+        public string From { get; set; }
+        public string To { get; set; }
+        public string Subject { get; set; }
+        public string Body { get; set; }
+        public string FilePreFix { get; set; }
+    }
+
     public class Context
     {
         protected const string CacheLastupdated = "|LASTUPDATED";
@@ -39,6 +58,18 @@ namespace BBC.Dna.Api
         public ICallingUser CallingUser { get; set; }
 
         public string BasePath { get; set; }
+
+        public string EmailServerAddress {get; set;}
+
+        public string FileCacheFolder { get; set; }
+
+#if DEBUG
+        private string failedEmailFileName = "";
+        public void SetFailedEmailFileName(string newFileName)
+        {
+            failedEmailFileName = newFileName;
+        }
+#endif
 
         /// <summary>
         /// 
@@ -298,6 +329,69 @@ namespace BBC.Dna.Api
             }
 
             return user;
+        }
+
+        public bool SendEmail(string sender, string recipient, string subject, string body, string filenamePrefix)
+        {
+            bool sentOk = true;
+
+            MailMessage message = new MailMessage();
+            try
+            {
+                message.From = new MailAddress(sender);
+
+                foreach (string toAddress in recipient.Split(';'))
+                    message.To.Add(new MailAddress(toAddress));
+
+                message.Subject = subject;
+                message.Body = body;
+                message.Priority = MailPriority.Normal;
+
+                SmtpClient client = new SmtpClient(EmailServerAddress);
+                
+                client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
+                client.SendAsync(message, new FailedEmail(sender, recipient, subject, body, filenamePrefix));
+            }
+            catch (Exception e)
+            {
+                WriteFailedEmailToFile(sender, recipient, subject, body + "\r\n" + e.Message, filenamePrefix);
+                DnaDiagnostics.WriteExceptionToLog(e);
+                sentOk = false;
+                message.Dispose();
+            }
+
+            return sentOk;
+        }
+
+        private void client_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
+        {
+            FailedEmail failedMail = (FailedEmail)e.UserState;
+            if (e.Error != null || e.Cancelled)
+            {
+                WriteFailedEmailToFile(failedMail.To, failedMail.From, failedMail.Subject, failedMail.Body + "\n\n" + e.Error.Message + e.Error.InnerException.Message, failedMail.FilePreFix);
+                DnaDiagnostics.WriteExceptionToLog(e.Error);
+            }
+        }
+
+        private void WriteFailedEmailToFile(string sender, string recipient, string subject, string body, string filenamePrefix)
+        {
+            string failedFrom = "From: " + sender + "\r\n";
+            string failedRecipient = "Recipient: " + recipient + "\r\n";
+            string failedEmail = failedFrom + failedRecipient + subject + "\r\n" + body;
+
+            //Create filename out of date and random number.
+            string fileName = "";
+#if DEBUG
+            fileName = failedEmailFileName;
+#endif
+            if (fileName.Length == 0)
+            {
+                fileName = filenamePrefix + subject + DateTime.Now.ToString("yyyy-MM-dd-h:mm:ssffff");
+                Random random = new Random(body.Length);
+                fileName += "-" + random.Next().ToString() + ".txt";
+            }
+
+            FileCaching.PutItem(DnaDiagnostics, FileCacheFolder, "failedmails", fileName, failedEmail);
         }
     }
 }

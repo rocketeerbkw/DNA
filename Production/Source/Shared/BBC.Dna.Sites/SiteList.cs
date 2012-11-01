@@ -280,6 +280,8 @@ namespace BBC.Dna.Sites
                         minAge = 0;
                     }
 
+                    string contactFormsEmail = dataReader.GetStringNullAsEmpty("ContactFormsEmail");
+
                     Site siteData = new Site(id, urlName, threadOrder, preModeration, defaultSkin,
                                     noAutoSwitch, description, shortName,
                                     moderatorsEmail, editorsEmail,
@@ -289,7 +291,7 @@ namespace BBC.Dna.Sites
                                     eventAlertMessageUserID, allowRemoveVote, includeCrumbtrail,
                                     allowPostCodesInSearch, queuePostings, siteEmergencyClosed,
                                     minAge, maxAge, modClassID, ssoservice, useIdentitySignInSystem,
-                                    skinSet, IdentityPolicy);
+                                    skinSet, IdentityPolicy, contactFormsEmail);
 
 
                     

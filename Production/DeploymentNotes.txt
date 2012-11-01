@@ -793,3 +793,13 @@ Srihari T
         </behavior>
       </endpointBehaviors>
     </behaviors>
+    
+============== v 3.5.94.0 ============
+
+Add the following to the configuration files for thr API
+
+	<appSettings>
+		<!-- Path to ripley cache -->
+		<add key="FileCacheFolder" value="D:\LogsAndCaching\ripleycache"/>
+		<add key="EmailServer" value=""/>
+	</appSettings>

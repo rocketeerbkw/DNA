@@ -38,7 +38,8 @@ AS
 				rq.text,
 				rq.RiskModThreadEntryQueueId,
 				NULL AS ModDecisionStatus,
-				NULL AS IsComplaint
+				NULL AS IsComplaint,
+				1 AS ProcessFirst
 			FROM Events e
 			INNER JOIN dbo.RiskModThreadEntryQueue rq ON rq.RiskModThreadEntryQueueId = e.ItemId
 			INNER JOIN dbo.Sites s ON s.siteid = rq.siteid
@@ -64,12 +65,14 @@ AS
 				te.text,
 				NULL AS RiskModThreadEntryQueueId,
 				NULL AS ModDecisionStatus,
-				NULL AS IsComplaint
+				NULL AS IsComplaint,
+				rms.Ison AS ProcessFirst
 			FROM Events e
 			INNER JOIN dbo.ThreadEntries te ON te.EntryId = e.ItemId2
 			INNER JOIN dbo.Forums f ON f.ForumId = te.ForumId
 			INNER JOIN dbo.Sites s ON s.siteid = f.siteid
-			WHERE e.EventType = 19 -- ET_POSTTOFORUM
+			LEFT JOIN dbo.RiskModerationState rms on rms.id = s.siteid AND rms.idtype='S'
+			WHERE e.EventType = 19 -- ET_POSTTOFORUM	
 	),
 	PostModDecisionEvents AS
 	(
@@ -90,7 +93,8 @@ AS
 				NULL AS text,
 				NULL AS RiskModThreadEntryQueueId,
 				tmh.Status AS ModDecisionStatus,
-				CASE WHEN tm.ComplaintText IS NULL THEN @false ELSE @true END AS IsComplaint
+				CASE WHEN tm.ComplaintText IS NULL THEN @false ELSE @true END AS IsComplaint,
+				0 AS ProcessFirst
 			FROM Events e
 			INNER JOIN dbo.ThreadEntries te ON te.EntryId = e.ItemId2
 			INNER JOIN dbo.ThreadModHistory tmh ON tmh.HistoryModId = e.ItemId
@@ -102,5 +106,4 @@ AS
 	SELECT * FROM NewPostEvents
 	UNION ALL 
 	SELECT * FROM PostModDecisionEvents
-	ORDER BY EventId
-	
+	ORDER BY ProcessFirst desc, EventId
