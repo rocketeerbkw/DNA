@@ -2,17 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BBC.Dna.Utils;
-using BBC.Dna.Data;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using BBC.Dna.Sites;
-using System.Net.Mail;
-using System.Configuration;
-using BBC.Dna.Users;
-using BBC.Dna.Moderation.Utils;
-using System.Xml;
-using BBC.Dna.Api.Contracts;
 using System.Web;
+using System.Xml;
+using BBC.Dna.Data;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Sites;
+using BBC.Dna.Users;
+using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Api
 {
