@@ -66,11 +66,84 @@ namespace BBC.Dna.Api.Tests
         // public void MyTestCleanup() { }
         //
         #endregion
-
+        
         [TestMethod]
-        public void ShouldSendEmailWhenGivenValidContactDetails()
+        public void ShouldWriteFailedJSONMessageEmailWithNoSMPTServerAvailable()
         {
             string siteContactEmail = "mark.howitt@bbc.co.uk";
+            string sentTo = "tester@bbc.co.uk";
+            ContactDetails info = new ContactDetails();
+            info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
+            string[] testValue = { "First Key", "Value Of the First Item In the Message", "JSON string test contact" };
+            info.text = "{\"body\":[{\"Key\":\"" + testValue[0] + "\",\"Value\":\"" + testValue[1] + "\"}],\"subject\":\"" + testValue[2] + "\"}";
+            info.ID = new Random().Next(10000000);
+
+            string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
+
+            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
+            expectedInfo += testValue[2] + "\r\nID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
+            expectedInfo += "\r\nThe SMTP host was not specified.";
+            Assert.AreEqual(expectedInfo, failedEmailContent);
+        }
+
+        [TestMethod]
+        public void ShouldWriteFailedPlainMessageEmailWithNoSMPTServerAvailable()
+        {
+            string siteContactEmail = "mark.howitt@bbc.co.uk";
+            string sentTo = "tester@bbc.co.uk";
+            ContactDetails info = new ContactDetails();
+            info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
+            info.text = "This is a test email";
+            info.ID = new Random().Next(10000000);
+
+            string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
+
+            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
+            expectedInfo += info.ForumUri + "\r\nID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
+            expectedInfo += "\r\nThe SMTP host was not specified.";
+            Assert.AreEqual(expectedInfo, failedEmailContent);
+        }
+
+        [TestMethod]
+        public void ShouldWriteFailedPlainMessageEmailWithNoSMPTServerAvailableAddressedToSiteEmail()
+        {
+            string siteContactEmail = "mark.howitt@bbc.co.uk";
+            string sentTo = "tester@bbc.co.uk";
+            ContactDetails info = new ContactDetails();
+            info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
+            info.text = "This is a test email";
+            info.ID = new Random().Next(10000000);
+
+            string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
+
+            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
+            expectedInfo += info.ForumUri + "\r\nID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
+            expectedInfo += "\r\nThe SMTP host was not specified.";
+            Assert.AreEqual(expectedInfo, failedEmailContent);
+        }
+
+        [TestMethod]
+        public void ShouldWriteFailedXMLMessageEmailWithNoSMPTServerAvailableAddressedToSiteEmail()
+        {
+            string siteContactEmail = "mark.howitt@bbc.co.uk";
+            string sentTo = "tester@bbc.co.uk";
+            string body = "Body Text fro message";
+            string subject = "XML Message Test";
+            ContactDetails info = new ContactDetails();
+            info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
+            info.text = "<message><subject>" + subject + "</subject><body>" + body + "</body></message>";
+            info.ID = new Random().Next(10000000);
+
+            string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
+
+            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
+            expectedInfo += subject + "\r\nID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
+            expectedInfo += "\r\nThe SMTP host was not specified.";
+            Assert.AreEqual(expectedInfo, failedEmailContent);
+        }
+
+        private string SendEmail(ContactDetails info, string siteContactEmail, string sentTo)
+        {
             ISiteList siteList = mocks.DynamicMock<ISiteList>();
             siteList.Stub(x => x.GetSite("h2g2").ContactFormsEmail).Return(siteContactEmail);
 
@@ -79,16 +152,10 @@ namespace BBC.Dna.Api.Tests
             Contacts contacts = new Contacts(null, null, null, siteList);
             contacts.EmailServerAddress = "";
             contacts.FileCacheFolder = TestContext.TestDir;
-            ContactDetails info = new ContactDetails();
-            info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
-            info.text = "This is a test email";
-            string sentTo = "tester@bbc.co.uk";
-
             string failedEmailFileName = "ContactDetails-ShouldSendEmailWhenGivenValidContactDetails-TestFailedEmail.txt";
             contacts.SetFailedEmailFileName(failedEmailFileName);
 
-            // NOTE! Slight lie about sending the mail, it actually fails on sending and saves the email in the FailedEmails folder for the purpose of this test
-            contacts.SendDetailstoContactEmail(info, sentTo);
+            contacts.SendDetailstoContactEmail(info, sentTo, siteContactEmail);
 
             Statistics stats = new Statistics();
             Statistics.InitialiseIfEmpty();
@@ -97,9 +164,7 @@ namespace BBC.Dna.Api.Tests
             string failedEmailContent = "";
             FileCaching.GetItem(null, TestContext.TestDir, "failedmails", failedEmailFileName, ref expires, ref failedEmailContent);
 
-            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n" + info.ForumUri + "\r\n" + info.text;
-            expectedInfo += "\r\nThe SMTP host was not specified.";
-            Assert.AreEqual(expectedInfo, failedEmailContent);
+            return failedEmailContent;
         }
 
         [TestMethod]
@@ -418,6 +483,54 @@ namespace BBC.Dna.Api.Tests
             Assert.AreEqual(expectedSiteName, createdContactForm.SiteName);
 
             mocks.VerifyAll();
+        }
+
+        [TestMethod]
+        public void ShouldReturnFalseWhenSettingContactEmailAddressWithNoEmailValue()
+        {
+            Contacts contact = new Contacts(null, null, null, null);
+            Assert.IsFalse(contact.SetContactFormEmailAddress(0, ""), "Should return false when no email address given!");
+        }
+
+        [TestMethod]
+        public void ShouldReturnFalseWhenSettingContactEmailAddressWithInvalidEmail()
+        {
+            Contacts contact = new Contacts(null, null, null, null);
+            Assert.IsFalse(contact.SetContactFormEmailAddress(0, "this.is_I/nV4!d@@something"), "Should return false when invalid email address given!");
+        }
+
+        [TestMethod]
+        public void ShouldReturnFalseWhenSettingContactEmailAddressWithNonBBCEmail()
+        {
+            Contacts contact = new Contacts(null, null, null, null);
+            Assert.IsFalse(contact.SetContactFormEmailAddress(0, "this.is_not@bbc.com"), "Should return false when non BBC email address given!");
+        }
+
+        [TestMethod]
+        public void ShouldReturnFalseWhenSettingContactEmailAddressWithValidEmailAndInvalidForumID()
+        {
+            Contacts contact = new Contacts(null, null, null, null);
+            Assert.IsFalse(contact.SetContactFormEmailAddress(0, "this@bbc.co.uk"), "Should return false when invalid forumid given!");
+        }
+
+        [TestMethod]
+        public void ShouldReturnTrueWhenSettingContactEmailAddressWithValidForumIDandEmail()
+        {
+            int testForumID = 789456123;
+            string testContactEmail = "this@bbc.co.uk";
+            IDnaDataReader mockedDataReader = mocks.StrictMock<IDnaDataReader>();
+            mockedDataReader.Stub(x => x.AddParameter("forumid", testForumID)).Return(mockedDataReader);
+            mockedDataReader.Stub(x => x.AddParameter("contactemail", testContactEmail)).Return(mockedDataReader);
+            mockedDataReader.Stub(x => x.Execute()).Return(mockedDataReader);
+            mockedDataReader.Stub(x => x.Dispose());
+
+            IDnaDataReaderCreator mockerDataReaderCreator = mocks.StrictMock<IDnaDataReaderCreator>();
+            mockerDataReaderCreator.Expect(x => x.CreateDnaDataReader("setcommentforumascontactform")).Return(mockedDataReader);
+
+            mocks.ReplayAll();
+
+            Contacts contact = new Contacts(null, mockerDataReaderCreator, null, null);
+            Assert.IsTrue(contact.SetContactFormEmailAddress(testForumID, testContactEmail), "Should return false when invalid forumid given!");
         }
 
         private IDnaDataReader MockedGetContactFormDetailFromFormID(ContactForm newContactFormDetails, bool exists)

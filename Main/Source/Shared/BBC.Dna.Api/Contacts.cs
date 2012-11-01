@@ -12,6 +12,7 @@ using BBC.Dna.Users;
 using BBC.Dna.Moderation.Utils;
 using System.Xml;
 using BBC.Dna.Api.Contracts;
+using System.Web;
 
 namespace BBC.Dna.Api
 {
@@ -104,21 +105,21 @@ namespace BBC.Dna.Api
             return false;
         }
 
-        private string GetContactFormEmailAddressForSite(int siteId)
-        {
-            string emailAddress = "";
-            using (IDnaDataReader reader = CreateReader("getcontactformemailaddressforsite"))
-            {
-                reader.AddParameter("siteid", siteId);
-                reader.Execute();
-                if (reader.HasRows && reader.Read())
-                {
-                    emailAddress = reader.GetStringNullAsEmpty("contactemailaddress");
-                }
-            }
+        //private string GetContactFormEmailAddressForSite(int siteId)
+        //{
+        //    string emailAddress = "";
+        //    using (IDnaDataReader reader = CreateReader("getcontactformemailaddressforsite"))
+        //    {
+        //        reader.AddParameter("siteid", siteId);
+        //        reader.Execute();
+        //        if (reader.HasRows && reader.Read())
+        //        {
+        //            emailAddress = reader.GetStringNullAsEmpty("contactemailaddress");
+        //        }
+        //    }
 
-            return emailAddress;
-        }
+        //    return emailAddress;
+        //}
 
         private ContactForm GetContactFormDetailFromFormID(string contactFormID, ISite site)
         {
@@ -177,25 +178,22 @@ namespace BBC.Dna.Api
             }
         }
 
-        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient)
+        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string sender)
         {
-            string sender = SiteList.GetSite("h2g2").ContactFormsEmail;
-            if (sender.Length == 0)
-            {
-                sender = recipient;
-            }
             string subject;
             string body;
+            string failedBody;
 
-            CreateEmailSubjectAndbody(contactDetails, out subject, out body);
-            SendEmail(sender, recipient, subject, body, "ContactDetails-");
+            CreateEmailSubjectAndBodies(contactDetails, out subject, out body, out failedBody);
+            SendEmailAdvanced(sender, recipient, subject, body, "ContactDetails-", failedBody);
         }
 
-        private static void CreateEmailSubjectAndbody(ContactDetails contactDetails, out string subject, out string body)
+        private static void CreateEmailSubjectAndBodies(ContactDetails contactDetails, out string subject, out string body, out string failedBody)
         {
             // Do the default thing
             subject = contactDetails.ForumUri;
             body = contactDetails.text;
+            failedBody = "ID:" + contactDetails.ID + ", FORUM_URI:" + contactDetails.ForumUri;
             
             // See if we have a json message
             if (TyrParseJSONContactFormMessage(contactDetails, ref subject, ref body))
@@ -218,7 +216,7 @@ namespace BBC.Dna.Api
                 body = "";
                 foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
                 {
-                    string messageLine = content.Key + " : " + content.Value + "\n";
+                    string messageLine = HttpUtility.UrlDecode(content.Key) + " : " + HttpUtility.UrlDecode(content.Value) + "\n";
                     body += messageLine;
                 }
 
@@ -236,17 +234,24 @@ namespace BBC.Dna.Api
                 doc.LoadXml(contactDetails.text);
                 StringBuilder newBody = new StringBuilder();
 
-                foreach (XmlNode item in doc.FirstChild.SelectNodes("/"))
+                XmlNode currentNode = doc.FirstChild.SelectSingleNode("/message");
+                if (currentNode != null)
                 {
-                    if (item.Name.ToLower() == "subject")
+                    currentNode = currentNode.FirstChild;
+                    while (currentNode != null)
                     {
-                        subject = item.InnerText;
-                    }
-                    else
-                    {
-                        newBody.AppendLine(item.Name + ":");
-                        newBody.AppendLine(item.InnerText);
-                        newBody.AppendLine();
+                        if (currentNode.Name.ToLower() == "subject")
+                        {
+                            subject = currentNode.InnerText;
+                        }
+                        else
+                        {
+                            newBody.AppendLine(currentNode.Name + ":");
+                            newBody.AppendLine(currentNode.InnerText);
+                            newBody.AppendLine();
+                        }
+
+                        currentNode = currentNode.NextSibling;
                     }
                 }
 
