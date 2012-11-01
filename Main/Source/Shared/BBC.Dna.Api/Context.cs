@@ -6,6 +6,7 @@ using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
 using System.Net.Mail;
+using System.IO;
 
 namespace BBC.Dna.Api
 {
@@ -313,7 +314,7 @@ namespace BBC.Dna.Api
             return user;
         }
         
-        public bool SendEmailAdvanced(string sender, string recipient, string subject, string body, string filenamePrefix, string failedBody)
+        public bool SendEmailWithFailMessageOverride(string sender, string recipient, string subject, string body, string filenamePrefix, string failedBody)
         {
             bool sentOk = true;
 
@@ -355,7 +356,7 @@ namespace BBC.Dna.Api
 
         public bool SendEmail(string sender, string recipient, string subject, string body, string filenamePrefix)
         {
-            return SendEmailAdvanced(sender, recipient, subject, body, filenamePrefix, "");
+            return SendEmailWithFailMessageOverride(sender, recipient, subject, body, filenamePrefix, "");
         }
 
         private void client_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -384,6 +385,11 @@ namespace BBC.Dna.Api
                 fileName = filenamePrefix + "_" + subject + "_" + DateTime.Now.ToString("yyyy-MM-dd-h:mm:ssffff");
                 Random random = new Random(body.Length);
                 fileName += "_" + random.Next().ToString() + ".txt";
+            }
+
+            foreach (char badChar in Path.GetInvalidFileNameChars())
+            {
+                fileName = fileName.Replace(badChar,'-');
             }
 
             FileCaching.PutItem(DnaDiagnostics, FileCacheFolder, "failedmails", fileName, failedEmail);

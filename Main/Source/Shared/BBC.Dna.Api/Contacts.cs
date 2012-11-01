@@ -185,7 +185,7 @@ namespace BBC.Dna.Api
             string failedBody;
 
             CreateEmailSubjectAndBodies(contactDetails, out subject, out body, out failedBody);
-            SendEmailAdvanced(sender, recipient, subject, body, "ContactDetails-", failedBody);
+            SendEmailWithFailMessageOverride(sender, recipient, subject, body, "ContactDetails-", failedBody);
         }
 
         private static void CreateEmailSubjectAndBodies(ContactDetails contactDetails, out string subject, out string body, out string failedBody)
