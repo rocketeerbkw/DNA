@@ -116,7 +116,7 @@ namespace BBC.Dna.Services
 
                 ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactForm, newContactDetails);
 
-                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail);
+                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail, site.ContactFormsEmail);
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
                 return GetOutputStream(contactDetails);
             }
@@ -139,6 +139,7 @@ namespace BBC.Dna.Services
 
             try
             {
+                this.dnaDiagnostic.WriteTimedEventToLog("PUTContact", "Start");
                 if (contactFormId == null)
                 {
                     throw ApiException.GetError(ErrorType.ForumUnknown);
@@ -154,9 +155,11 @@ namespace BBC.Dna.Services
                 {
                     // check if there is a rating to add
                     ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactFormData, (ContactDetails)ContactFormDetails.contactDetailsList.contacts[0]);
-                    contactFormComments.SendDetailstoContactEmail(contactDetails, contactFormData.ContactEmail);
+                    contactFormComments.SendDetailstoContactEmail(contactDetails, contactFormData.ContactEmail, site.ContactFormsEmail);
+                    this.dnaDiagnostic.WriteTimedEventToLog("PUTContact", "Finish");
                     return GetOutputStream(contactDetails);
                 }
+                this.dnaDiagnostic.WriteTimedEventToLog("PUTContact", "Finish");
                 return GetOutputStream(contactFormData);
             }
             catch (ApiException ex)

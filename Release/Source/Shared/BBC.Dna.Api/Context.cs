@@ -6,6 +6,7 @@ using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
 using System.Net.Mail;
+using System.IO;
 
 namespace BBC.Dna.Api
 {
@@ -330,8 +331,8 @@ namespace BBC.Dna.Api
 
             return user;
         }
-
-        public bool SendEmail(string sender, string recipient, string subject, string body, string filenamePrefix)
+        
+        public bool SendEmailWithFailMessageOverride(string sender, string recipient, string subject, string body, string filenamePrefix, string failedBody)
         {
             bool sentOk = true;
 
@@ -348,12 +349,20 @@ namespace BBC.Dna.Api
                 message.Priority = MailPriority.Normal;
 
                 SmtpClient client = new SmtpClient(EmailServerAddress);
-                
+                client.Timeout = 5;
+
                 client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
+
+                this._dnaDiagnostics.WriteTimedEventToLog("Email", "BeforeSend");
                 client.SendAsync(message, new FailedEmail(sender, recipient, subject, body, filenamePrefix));
+                this._dnaDiagnostics.WriteTimedEventToLog("Email", "AfterSend");
             }
             catch (Exception e)
             {
+                if (failedBody.Length > 0)
+                {
+                    body = failedBody;
+                }
                 WriteFailedEmailToFile(sender, recipient, subject, body + "\r\n" + e.Message, filenamePrefix);
                 DnaDiagnostics.WriteExceptionToLog(e);
                 sentOk = false;
@@ -361,6 +370,11 @@ namespace BBC.Dna.Api
             }
 
             return sentOk;
+        }
+
+        public bool SendEmail(string sender, string recipient, string subject, string body, string filenamePrefix)
+        {
+            return SendEmailWithFailMessageOverride(sender, recipient, subject, body, filenamePrefix, "");
         }
 
         private void client_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -386,9 +400,14 @@ namespace BBC.Dna.Api
 #endif
             if (fileName.Length == 0)
             {
-                fileName = filenamePrefix + subject + DateTime.Now.ToString("yyyy-MM-dd-h:mm:ssffff");
+                fileName = filenamePrefix + "_" + subject + "_" + DateTime.Now.ToString("yyyy-MM-dd-h:mm:ssffff");
                 Random random = new Random(body.Length);
-                fileName += "-" + random.Next().ToString() + ".txt";
+                fileName += "_" + random.Next().ToString() + ".txt";
+            }
+
+            foreach (char badChar in Path.GetInvalidFileNameChars())
+            {
+                fileName = fileName.Replace(badChar,'-');
             }
 
             FileCaching.PutItem(DnaDiagnostics, FileCacheFolder, "failedmails", fileName, failedEmail);

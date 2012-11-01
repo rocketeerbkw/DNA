@@ -20,7 +20,31 @@ namespace BBC.Dna.Api.Tests
     [TestClass]
     public class ContextTest
     {
-        public MockRepository mocks = new MockRepository();
+        public ContextTest()
+        {
+            //
+            // TODO: Add constructor logic here
+            //
+        }
+
+        private TestContext testContextInstance;
+        private MockRepository mocks = new MockRepository();
+
+        /// <summary>
+        ///Gets or sets the test context which provides
+        ///information about and functionality for the current test run.
+        ///</summary>
+        public TestContext TestContext
+        {
+            get
+            {
+                return testContextInstance;
+            }
+            set
+            {
+                testContextInstance = value;
+            }
+        }
       
         /// <summary>
         ///A test for CommentInfo Constructor
@@ -82,6 +106,28 @@ namespace BBC.Dna.Api.Tests
                 Assert.AreEqual(ErrorType.InvalidForumUid, ex.type);
             }
             readerCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("commentforumcreate"));
+        }
+
+        [TestMethod]
+        public void ShouldReplaceInvalidCharsFromCacheFileNameWithDash()
+        {
+            Statistics stats = new Statistics();
+            Statistics.InitialiseIfEmpty();
+
+            Context_Accessor testContext = new Context_Accessor(null, null, null, null);
+
+            string originalFileName = "Dodgy/Name<for>a#file.txt";
+            string expectedFileName = "Dodgy-Name-for-a#file.txt";
+
+            testContext.FileCacheFolder = TestContext.TestDir;
+            testContext.SetFailedEmailFileName(originalFileName);
+            testContext.WriteFailedEmailToFile("me@bbc.co.uk", "you@bbc.co.uk", "test subject", "test body", "");
+
+            DateTime expires = new DateTime();
+            string failedEmailContent = "";
+            FileCaching.GetItem(null, TestContext.TestDir, "failedmails", expectedFileName, ref expires, ref failedEmailContent);
+
+            Assert.IsTrue(failedEmailContent.Length > 0);
         }
 
         /// <summary>
