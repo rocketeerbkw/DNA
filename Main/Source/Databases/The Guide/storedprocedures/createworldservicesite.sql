@@ -8,7 +8,7 @@ begin
 	if not exists (select siteid from sites where shortname = @siteslug)
 	begin
 	
-		declare @complainturl  nvarchar(250
+		declare @complainturl  nvarchar(250)
 		set @complainturl = 'http://www.bbc.co.uk/dna/[sitename]/comments-' + 
 						@sitelanguage + '/UserComplaintPage?PostID=[postid]&s_start=1'
 						
