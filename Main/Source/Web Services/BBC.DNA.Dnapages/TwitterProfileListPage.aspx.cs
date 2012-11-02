@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using BBC.Dna.Page;
 using BBC.Dna.Component;
 
