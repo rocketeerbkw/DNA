@@ -209,7 +209,7 @@ namespace BBC.Dna.Api
             try
             {
                 ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetails.text, typeof(ContactFormMessage));
-                subject = message.Subject;
+                subject = HttpUtility.UrlDecode(message.Subject);
                 body = "";
                 foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
                 {
