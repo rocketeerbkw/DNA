@@ -18,7 +18,9 @@
 	<xsl:template match="H2G2[@TYPE = 'COMMENTFORUMLIST']"
 		mode="page">
 		<xsl:call-template name="objects_links_breadcrumb">
-			<xsl:with-param name="pagename">manage your entries/stories </xsl:with-param>
+			<xsl:with-param name="pagename">
+				manage your entries/stories 
+			</xsl:with-param>
 		</xsl:call-template>
 		<div class="dna-mb-intro">
 			<form action="commentforumlist" method="get">
@@ -100,10 +102,20 @@
 				<xsl:otherwise>Comment</xsl:otherwise>
 			</xsl:choose>
 		</xsl:variable>
+		<xsl:variable name="rowspanvalue">
+			<xsl:choose>
+				<xsl:when test="CONTACTEMAIL">2</xsl:when>
+				<xsl:otherwise>1</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<tr>
 			<xsl:call-template name="objects_stripe" />
-			<th>Host Page URL <xsl:value-of select="$pagetype"/>: </th>
-			<td colspan="4">
+			<th>
+				Host Page URL
+				<xsl:value-of select="$pagetype" />
+				:
+			</th>
+			<td colspan="4" >
 				<a target="_blank">
 					<xsl:attribute name="href">
 						<xsl:value-of select="HOSTPAGEURL" />
@@ -128,13 +140,17 @@
 		<tr>
 			<xsl:call-template name="objects_stripe" />
 			<th>Details</th>
+			<xsl:if test="$pagetype != 'Contact'">
 			<th>Mod Status</th>
-			<th>Close Date</th>
-			<th>Open/Close</th>
+			</xsl:if>
+			<th colspan="{$rowspanvalue}">Close Date</th>
+			<th colspan="{$rowspanvalue}">Open/Close</th>
+			<xsl:if test="$pagetype != 'Contact'">
 			<th>
 				Priority Moderation
 				<a href="#prioritymod">*</a>
 			</th>
+			</xsl:if>
 		</tr>
 		<tr>
 			<xsl:call-template name="objects_stripe" />
@@ -161,7 +177,8 @@
 					</li>
 					<li>
 						<strong>
-							<xsl:value-of select="$pagetype" /> count:
+							<xsl:value-of select="$pagetype" />
+							count:
 						</strong>
 						<xsl:value-of select="@FORUMPOSTCOUNT" />
 					</li>
@@ -171,17 +188,24 @@
 						</strong>
 						<xsl:choose>
 							<xsl:when test="CONTACTEMAIL">
-								<a href="{$root-secure-moderation}/admin/commentslist?s_siteid={$siteId}&amp;s_forumid={$forumId}&amp;s_title={$title}&amp;displaycontactformposts=1"
+								<a
+									href="{$root-secure-moderation}/admin/commentslist?s_siteid={$siteId}&amp;s_forumid={$forumId}&amp;s_title={$title}&amp;s_displaycontactformposts=1"
 									target="_blank">Click here</a>
 							</xsl:when>
 							<xsl:otherwise>
-								<a href="{$root-secure-moderation}/admin/commentslist?s_siteid={$siteId}&amp;s_forumid={$forumId}&amp;s_title={$title}"
+								<a
+									href="{$root-secure-moderation}/admin/commentslist?s_siteid={$siteId}&amp;s_forumid={$forumId}&amp;s_title={$title}"
 									target="_blank">Click here</a>
 							</xsl:otherwise>
 						</xsl:choose>
 					</li>
+					<li>
+						<strong>Site Name: </strong>
+						<xsl:value-of select="//H2G2/EDITOR-SITE-LIST/SITE-LIST/SITE[@ID=current()/SITEID]/NAME" />
+					</li>
 				</ul>
 			</td>
+			<xsl:if test="$pagetype != 'Contact'">
 			<td>
 				<form action="commentforumlist" method="get">
 					<fieldset>
@@ -233,7 +257,8 @@
 					</fieldset>
 				</form>
 			</td>
-			<td>
+			</xsl:if>
+			<td colspan="{$rowspanvalue}">
 				<form action="commentforumlist" method="get">
 					<fieldset>
 						<input type="hidden" name="dnauid" value="{@UID}" />
@@ -259,7 +284,7 @@
 					</fieldset>
 				</form>
 			</td>
-			<td>
+			<td colspan="{$rowspanvalue}">
 				<form action="commentforumlist" method="get">
 					<fieldset>
 						<input type="hidden" name="dnauid" value="{@UID}" />
@@ -307,6 +332,7 @@
 					</fieldset>
 				</form>
 			</td>
+			<xsl:if test="$pagetype != 'Contact'">
 			<td>
 				<form action="commentforumlist" method="get">
 					<fieldset>
@@ -345,8 +371,9 @@
 					</fieldset>
 				</form>
 			</td>
+			</xsl:if>
 		</tr>
-
+		<xsl:if test="$pagetype != 'Contact'">
 		<tr>
 			<xsl:call-template name="objects_stripe" />
 			<xsl:variable name="termId"
@@ -502,6 +529,7 @@
 				</div>
 			</td>
 		</tr>
+		</xsl:if>
 		<xsl:if test="CONTACTEMAIL">
 			<tr>
 				<xsl:call-template name="objects_stripe" />
@@ -511,10 +539,11 @@
 				<td colspan="4">
 					<fieldset>
 						<form>
-							<input type="text" name="contactemail" value="{CONTACTEMAIL}"/> (Must end with @bbc.co.uk)
+							<input type="text" name="contactemail" value="{CONTACTEMAIL}" />
+							(Must end with @bbc.co.uk)
 							<input type="hidden" name="forumid" value="{@FORUMID}" />
-							<input type="hidden" name="action" value="updatecontactemail"/>
-							<input type="hidden" name="s_displaycontactforms" value="1"/>
+							<input type="hidden" name="action" value="updatecontactemail" />
+							<input type="hidden" name="s_displaycontactforms" value="1" />
 							<p>
 								<span class="dna-buttons">
 									<input type="submit" name="updatecontactemail" value="Update" />
