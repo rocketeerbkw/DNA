@@ -67,19 +67,25 @@ namespace BBC.Dna.Component
             
             GetQueryParameters();
 
-            var userSiteList = UserGroups.GetObject().GetSitesUserIsMemberOf(InputContext.ViewingUser.UserID, "editor");
-            
             //Get the twitter profiles from buzz
 
             var profileList = GenerateProfileList();
 
-            //Filter user specific twitter profiles
-
-            profileList = GenerateUserSpecificProfileList(profileList, userSiteList);
-
-            if (false == string.IsNullOrEmpty(_activeOnly))
+            if (true == InputContext.ViewingUser.IsEditor)
             {
-                profileList = ProcessCommand(profileList, _siteType);
+
+                var userSiteList = UserGroups.GetObject().GetSitesUserIsMemberOf(InputContext.ViewingUser.UserID, "editor");
+
+                //Filter user - editor specific twitter profiles
+
+                profileList = GenerateUserSpecificProfileList(profileList, userSiteList);
+
+                GenerateTwitterSiteListForUserXml(InputContext.ViewingUser.UserID);
+
+            }
+            else // superuser
+            {
+                GenerateTwitterSiteListXml();
             }
 
             if (profileList == null)
@@ -88,12 +94,13 @@ namespace BBC.Dna.Component
             }
             else
             {
-                //GenerateTwitterSiteListXml();
-
-                GenerateTwitterSiteListForUserXml(InputContext.ViewingUser.UserID);
-
                 GenerateTwitterProfileListPageXml(profileList);
+            }
 
+
+            if (false == string.IsNullOrEmpty(_activeOnly))
+            {
+                profileList = ProcessCommand(profileList, _siteType);
             }
         }
 
