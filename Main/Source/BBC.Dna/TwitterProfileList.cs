@@ -69,9 +69,11 @@ namespace BBC.Dna.Component
 
             var userSiteList = UserGroups.GetObject().GetSitesUserIsMemberOf(InputContext.ViewingUser.UserID, "editor");
             
+            //Get the twitter profiles from buzz
+
             var profileList = GenerateProfileList();
 
-            //Get user specific twitter profiles
+            //Filter user specific twitter profiles
 
             profileList = GenerateUserSpecificProfileList(profileList, userSiteList);
 

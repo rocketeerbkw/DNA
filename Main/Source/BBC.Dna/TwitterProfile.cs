@@ -112,13 +112,31 @@ namespace BBC.Dna.Component
             switch (_cmd.ToUpper())
             {
                 case "CREATEUPDATEPROFILE":
-                    return CreateUpdateProfileOnBuzz(siteName);
-                
+                    {
+                        if (true == InputContext.ViewingUser.IsEditor)
+                        {
+                            var userSiteList = UserGroups.GetObject().GetSitesUserIsMemberOf(InputContext.ViewingUser.UserID, "editor");
+
+                            ISite site = InputContext.TheSiteList.GetSite(siteName);
+
+                            if (userSiteList.Contains(site.SiteID))
+                            {
+                                return CreateUpdateProfileOnBuzz(siteName);
+                            }
+                            else
+                            {
+                                AddErrorXml("UNAUTHORIZED", "Editor is not authorized to create a twitter profile for this site", RootElement);
+                                return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = String.Format("Twitter Profile creation failed") };
+                            }
+                        }
+                        else
+                            return CreateUpdateProfileOnBuzz(siteName);
+
+                    }
                 case "GETPROFILE":
                     return GetProfileFromBuzz(_profileId);
 
                 default:
-
                     break;
             }
             return null;
@@ -149,6 +167,8 @@ namespace BBC.Dna.Component
                 client = new BuzzClient();
                 twitterProfile = new BuzzTwitterProfile();
                 commentForum = new CommentForum();
+
+                //Get the twitter profile from Buzz
 
                 twitterProfile = client.GetProfile(twitterProfileId);
 
