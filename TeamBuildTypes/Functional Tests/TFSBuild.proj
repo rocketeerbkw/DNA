@@ -219,9 +219,10 @@
   </ItemGroup>
 
   <Target Name="BeforeClean">
-    <Exec Command="c:\WINDOWS\system32\iisreset" Timeout="10000" IgnoreExitCode="true"></Exec>
+    <!--<Exec Command="c:\WINDOWS\system32\iisreset" Timeout="10000" IgnoreExitCode="true"></Exec>-->
+    <!-- stop website to copy ripley -->
+    <Exec Command="iisweb /stop h2g2UnitTesting"></Exec>
   </Target>
-  
   
   <Target Name="BeforeTest">
     <!-- Create the build steps which start in mode "Running" -->
