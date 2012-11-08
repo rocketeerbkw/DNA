@@ -221,7 +221,6 @@
   <Target Name="BeforeClean">
     <!--<Exec Command="c:\WINDOWS\system32\iisreset" Timeout="10000" IgnoreExitCode="true"></Exec>-->
     <!-- stop website to copy ripley -->
-    <Exec Command="iisweb /stop h2g2UnitTesting"></Exec>
   </Target>
   
   <Target Name="BeforeTest">
@@ -232,7 +231,7 @@
     </BuildStep>
 
     <!-- stop website to copy ripley -->
-    <Exec Command="iisweb /stop h2g2UnitTesting" Timeout="10000"></Exec>
+    <Exec Command="iisweb /stop h2g2UnitTesting" Timeout="10000" IgnoreExitCode="true"></Exec>
 
     <Exec Command="net stop &quot;memcached server&quot;" Timeout="10000" ContinueOnError="true"></Exec>
 
