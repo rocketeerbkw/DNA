@@ -114,6 +114,8 @@
     <Compile Include="Contracts\ContactFormMessage.Contract.cs" />
     <Compile Include="Contracts\ErrorData.Contract.cs" />
     <Compile Include="Contracts\Forum.Contract.cs" />
+    <Compile Include="Contracts\MostCommentedCommentForum.Contract.cs" />
+    <Compile Include="Contracts\MostCommentedCommentForumList.Contract.cs" />
     <Compile Include="Contracts\RatingInfo.Contract.cs" />
     <Compile Include="Contracts\RatingsList.Contract.cs" />
     <Compile Include="Contracts\RatingsSummary.Contract.cs" />
