@@ -27,10 +27,10 @@ BEGIN
 	SELECT   
 	  cf.Uid  
 	FROM CommentForums cf  
-	INNER JOIN forums WITH(NOLOCK) f ON f.forumid = cf.forumid  
-	INNER JOIN sites  WITH(NOLOCK) s on f.siteid = s.siteid
-	INNER JOIN threads  WITH(NOLOCK) t on t.forumid = f.forumid  
-	INNER JOIN threadentries  WITH(NOLOCK) te on te.threadid = t.threadid  
+	INNER JOIN forums f WITH(NOLOCK) ON f.forumid = cf.forumid  
+	INNER JOIN sites s WITH(NOLOCK) on f.siteid = s.siteid
+	INNER JOIN threads t WITH(NOLOCK) on t.forumid = f.forumid  
+	INNER JOIN threadentries te WITH(NOLOCK) on te.threadid = t.threadid  
 	WHERE s.urlname like 'blog%' AND te.DatePosted > DATEADD(month,-1,getdate())  
 	GROUP BY cf.Uid  
  
@@ -74,8 +74,8 @@ BEGIN
 		'CommentForumListCount' = (select count(*) from @COMMENTFORUMLIST),
 		f.LastPosted
    FROM @COMMENTFORUMLIST tmp   
-   INNER JOIN CommentForums  WITH(NOLOCK) cf on tmp.Uid = cf.Uid  
-   INNER JOIN Forums  WITH(NOLOCK) f on f.ForumID = cf.ForumID 
+   INNER JOIN CommentForums cf WITH(NOLOCK) on tmp.Uid = cf.Uid  
+   INNER JOIN Forums f WITH(NOLOCK) on f.ForumID = cf.ForumID 
    ORDER BY f.LastPosted desc
    
   SELECT @ErrorCode = @@ERROR  
@@ -128,8 +128,8 @@ BEGIN
 		'CommentForumListCount' = (select count(*) from @COMMENTFORUMLIST),
 		f.LastPosted
    FROM @COMMENTFORUMLIST tmp   
-   INNER JOIN CommentForums  WITH(NOLOCK) cf on tmp.Uid = cf.Uid  
-   INNER JOIN Forums  WITH(NOLOCK) f on f.ForumID = cf.ForumID 
+   INNER JOIN CommentForums cf WITH(NOLOCK) on tmp.Uid = cf.Uid  
+   INNER JOIN Forums f WITH(NOLOCK) on f.ForumID = cf.ForumID 
    ORDER BY ForumPostCount desc
    
     SELECT @ErrorCode = @@ERROR  
