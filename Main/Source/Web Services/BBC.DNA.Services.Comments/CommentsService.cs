@@ -58,6 +58,53 @@ namespace BBC.Dna.Services
             return GetOutputStream(commentForumList);
         }*/
 
+        [WebGet(UriTemplate = "V1/site/{siteName}/mostrecentlycommentedcommentforum/{count}/commentforums/{prefix}/")]
+        [WebHelp (Comment = "Get the most recently commented comment forums for a given sitename")]
+        [OperationContract]
+        public Stream GetMostRecentlyCommentedCommentForumsBySitename(string siteName, string count, string prefix)
+        {
+            ISite site = GetSite(siteName);
+            MostCommentedCommentForumList mostRecentlyCommentedCommentForumList;
+            try
+            {
+                int commentForumCount;
+                if(!Int32.TryParse(count, out commentForumCount))
+                {
+                   throw ApiException.GetError(ErrorType.EmptyText);
+                }
+                mostRecentlyCommentedCommentForumList = _commentObj.GetMostRecentlyCommentedCommentForumList(site, prefix, commentForumCount);  
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+            return GetOutputStream(mostRecentlyCommentedCommentForumList);
+        }
+
+
+        [WebGet(UriTemplate = "V1/site/{siteName}/mostcommentedcommentforum/{count}/commentforums/{prefix}/")]
+        [WebHelp(Comment = "Get the most commented comment forums for a given sitename")]
+        [OperationContract]
+        public Stream GetMostCommentedCommentForumBySiteName(string siteName, string count, string prefix)
+        {
+            ISite site = GetSite(siteName);
+            MostCommentedCommentForumList mostCommentedCommentForumList;
+            try
+            {
+                int commentForumCount;
+                if(!Int32.TryParse(count, out commentForumCount))
+                {
+                   throw ApiException.GetError(ErrorType.EmptyText);
+                }
+                mostCommentedCommentForumList = _commentObj.GetMostCommentedCommentForumList(site, prefix, commentForumCount);  
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+            return GetOutputStream(mostCommentedCommentForumList);
+        }
+
         [WebGet(UriTemplate = "V1/site/{sitename}/")]
         [WebHelp(Comment = "Get the comment forums for given sitename")]
         [OperationContract]
