@@ -606,7 +606,6 @@ namespace TestUtils
         /// <returns>True if set ok, false if not</returns>
         public static bool SetIdentityAttribute(string loginName, string cookie, AttributeNames attributeName, string value)
         {
-            Thread.Sleep(1001); 
             List<Cookie> cookies = new List<Cookie>();
             cookies.Add(new Cookie("IDENTITY", cookie, "/", _identityCookieDomain));
             Dictionary<string,string> reqParams = new Dictionary<string,string>();
@@ -662,6 +661,7 @@ namespace TestUtils
                 ok = false;
             }
             response.Close();
+            Thread.Sleep(5000);
             return ok;
         }
 
