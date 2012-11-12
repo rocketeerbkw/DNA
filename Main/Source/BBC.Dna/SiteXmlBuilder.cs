@@ -51,7 +51,7 @@ namespace BBC.Dna
         {
             RootElement.RemoveAll();
 
-            return GenerateXml(siteOptionListXml, site, RootElement);
+            return GenerateXml(siteOptionListXml, site, RootElement, true);
         }
 
 
@@ -61,8 +61,9 @@ namespace BBC.Dna
         /// <param name="siteOptionListXml">an XMLNode representing its site options. Can be null</param>
         /// <param name="site">The site</param>
         /// <param name="element"> The element to add the xml to</param>
+        /// <param name="fullDetails">False means just a few key bits of information, True is all details</param>
         /// <returns>The node representing the site data</returns>
-        public XmlNode GenerateXml(XmlNode siteOptionListXml, ISite site, XmlElement element)
+        public XmlNode GenerateXml(XmlNode siteOptionListXml, ISite site, XmlElement element, bool fullDetails)
         {
             //RootElement.RemoveAll();
 
@@ -73,82 +74,85 @@ namespace BBC.Dna
             AddTextTag(siteXML, "URLNAME", site.SiteName);
             AddTextTag(siteXML, "SHORTNAME", site.ShortName);
             AddTextTag(siteXML, "DESCRIPTION", site.Description);
-            AddTextTag(siteXML, "SSOSERVICE", site.SSOService);
-            AddTextTag(siteXML, "IDENTITYSIGNIN", site.UseIdentitySignInSystem ? "1" : "0");
-            AddTextTag(siteXML, "IDENTITYPOLICY", site.IdentityPolicy);
-            AddTextTag(siteXML, "MINAGE", site.MinAge);
-            AddTextTag(siteXML, "MAXAGE", site.MaxAge);
-            AddTextTag(siteXML, "MODERATIONSTATUS", ((int)site.ModerationStatus).ToString());
-            AddIntElement(siteXML, "CLASSID", site.ModClassID);
-
-            // Now add the open closing times to the xml
-            Dictionary<string, XmlNode> dailySchedules = new Dictionary<string, XmlNode>();
-            XmlNode openCloseTimes = AddElementTag(siteXML, "OPENCLOSETIMES");
-            foreach (OpenCloseTime openCloseTime in site.OpenCloseTimes)
+            if (fullDetails)
             {
-                // Check to see if we hve already got a node for this day of the week
-                XmlNode dayOfWeek = null;
-                if (dailySchedules.ContainsKey(openCloseTime.DayOfWeek.ToString()))
+                AddTextTag(siteXML, "SSOSERVICE", site.SSOService);
+                AddTextTag(siteXML, "IDENTITYSIGNIN", site.UseIdentitySignInSystem ? "1" : "0");
+                AddTextTag(siteXML, "IDENTITYPOLICY", site.IdentityPolicy);
+                AddTextTag(siteXML, "MINAGE", site.MinAge);
+                AddTextTag(siteXML, "MAXAGE", site.MaxAge);
+                AddTextTag(siteXML, "MODERATIONSTATUS", ((int)site.ModerationStatus).ToString());
+                AddIntElement(siteXML, "CLASSID", site.ModClassID);
+
+                // Now add the open closing times to the xml
+                Dictionary<string, XmlNode> dailySchedules = new Dictionary<string, XmlNode>();
+                XmlNode openCloseTimes = AddElementTag(siteXML, "OPENCLOSETIMES");
+                foreach (OpenCloseTime openCloseTime in site.OpenCloseTimes)
                 {
-                    // Just get the node
-                    dayOfWeek = dailySchedules[openCloseTime.DayOfWeek.ToString()];
+                    // Check to see if we hve already got a node for this day of the week
+                    XmlNode dayOfWeek = null;
+                    if (dailySchedules.ContainsKey(openCloseTime.DayOfWeek.ToString()))
+                    {
+                        // Just get the node
+                        dayOfWeek = dailySchedules[openCloseTime.DayOfWeek.ToString()];
+                    }
+                    else
+                    {
+                        // We need to create it, and then add it to the list
+                        dayOfWeek = AddElementTag(openCloseTimes, "OPENCLOSETIME");
+                        AddAttribute(dayOfWeek, "DAYOFWEEK", openCloseTime.DayOfWeek.ToString());
+                        dailySchedules.Add(openCloseTime.DayOfWeek.ToString(), dayOfWeek);
+                    }
+
+                    // Now check to see if it's an open or closing time
+                    XmlNode newTime = null;
+                    if (openCloseTime.Closed == 0)
+                    {
+                        // Create an open time
+                        newTime = AddElementTag(dayOfWeek, "OPENTIME");
+                    }
+                    else
+                    {
+                        // Create a closing time
+                        newTime = AddElementTag(dayOfWeek, "CLOSETIME");
+                    }
+
+                    // Now add the times to the new time
+                    AddTextTag(newTime, "HOUR", openCloseTime.Hour.ToString());
+                    AddTextTag(newTime, "MINUTE", openCloseTime.Minute.ToString());
+                }
+
+                XmlNode siteXMLClosed = AddElementTag(siteXML, "SITECLOSED");
+                if (site.IsEmergencyClosed)
+                {
+                    AddAttribute(siteXMLClosed, "EMERGENCYCLOSED", "1");
                 }
                 else
                 {
-                    // We need to create it, and then add it to the list
-                    dayOfWeek = AddElementTag(openCloseTimes, "OPENCLOSETIME");
-                    AddAttribute(dayOfWeek, "DAYOFWEEK", openCloseTime.DayOfWeek.ToString());
-                    dailySchedules.Add(openCloseTime.DayOfWeek.ToString(), dayOfWeek);
+                    AddAttribute(siteXMLClosed, "EMERGENCYCLOSED", "0");
                 }
-
-                // Now check to see if it's an open or closing time
-                XmlNode newTime = null;
-                if (openCloseTime.Closed == 0)
+                bool IsScheduledClosedNow = site.IsSiteScheduledClosed(DateTime.Now);
+                if (IsScheduledClosedNow)
                 {
-                    // Create an open time
-                    newTime = AddElementTag(dayOfWeek, "OPENTIME");
+                    AddAttribute(siteXMLClosed, "SCHEDULEDCLOSED", "1");
                 }
                 else
                 {
-                    // Create a closing time
-                    newTime = AddElementTag(dayOfWeek, "CLOSETIME");
+                    AddAttribute(siteXMLClosed, "SCHEDULEDCLOSED", "0");
+                }
+                if (site.IsEmergencyClosed || IsScheduledClosedNow)
+                {
+                    siteXMLClosed.InnerText = "1";
+                }
+                else
+                {
+                    siteXMLClosed.InnerText = "0";
                 }
 
-                // Now add the times to the new time
-                AddTextTag(newTime, "HOUR", openCloseTime.Hour.ToString());
-                AddTextTag(newTime, "MINUTE", openCloseTime.Minute.ToString());
-            }
-
-            XmlNode siteXMLClosed = AddElementTag(siteXML, "SITECLOSED");
-            if (site.IsEmergencyClosed)
-            {
-                AddAttribute(siteXMLClosed, "EMERGENCYCLOSED", "1");
-            }
-            else
-            {
-                AddAttribute(siteXMLClosed, "EMERGENCYCLOSED", "0");
-            }
-            bool IsScheduledClosedNow = site.IsSiteScheduledClosed(DateTime.Now);
-            if (IsScheduledClosedNow)
-            {
-                AddAttribute(siteXMLClosed, "SCHEDULEDCLOSED", "1");
-            }
-            else
-            {
-                AddAttribute(siteXMLClosed, "SCHEDULEDCLOSED", "0");
-            }
-            if (site.IsEmergencyClosed || IsScheduledClosedNow)
-            {
-                siteXMLClosed.InnerText = "1";
-            }
-            else
-            {
-                siteXMLClosed.InnerText = "0";
-            }
-
-            if (siteOptionListXml != null)
-            {
-                siteXML.AppendChild(ImportNode(siteOptionListXml));
+                if (siteOptionListXml != null)
+                {
+                    siteXML.AppendChild(ImportNode(siteOptionListXml));
+                }
             }
 
             return siteXML;
@@ -181,7 +185,7 @@ namespace BBC.Dna
                 XmlElement root = AddElementTag(RootElement, "SITE-LIST");
                 foreach (var id in sites.Ids.Values)
                 {
-                    GenerateXml(null, id, root);
+                    GenerateXml(null, id, root, true);
                 }
             }
             return RootElement;
@@ -194,15 +198,27 @@ namespace BBC.Dna
         /// <returns></returns>
         public XmlNode GenerateSitesForUserAsEditorXml(ISiteList sites)
         {
+            return GenerateSitesForUserAsEditorXml(sites, true, "SITE-LIST");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sites"></param>
+        /// <param name="fullSiteDetails"></param>
+        /// <param name="rootTagName"></param>
+        /// <returns></returns>
+        public XmlNode GenerateSitesForUserAsEditorXml(ISiteList sites, bool fullSiteDetails, string rootTagName)
+        {
             if (IsEmpty)
             {
-                
-                XmlElement root = AddElementTag(RootElement, "SITE-LIST");
+
+                XmlElement root = AddElementTag(RootElement, rootTagName);
                 foreach (var id in sites.Ids.Values)
                 {
-                    if(InputContext.ViewingUser.IsSuperUser || UserGroupsHelper.IsUserEditorForSite(InputContext.ViewingUser.UserID, id.SiteID, InputContext))
+                    if (InputContext.ViewingUser.IsSuperUser || UserGroupsHelper.IsUserEditorForSite(InputContext.ViewingUser.UserID, id.SiteID, InputContext))
                     {
-                        GenerateXml(null, id, root);
+                        GenerateXml(null, id, root, fullSiteDetails);
                     }
                 }
             }
@@ -283,14 +299,13 @@ namespace BBC.Dna
         }
 
         /// <summary>
-        /// Returns a list of SiteOptions for the given site.
-        /// If a site option is not defined for the given site, a SiteOption with site id of 0 is
-        /// given in it's place
+        /// 
         /// </summary>
-        /// <param name="siteId">A site id</param>
-        /// <param name="sites">The site list</param>
-        /// <returns>List of site options for the given site</returns>
-        public XmlNode GetSiteOptionListForSiteXml(int siteId, ISiteList sites)
+        /// <param name="siteId"></param>
+        /// <param name="sites"></param>
+        /// <param name="includeGlobal"></param>
+        /// <returns></returns>
+        public XmlNode GetSiteOptionListForSiteXml(int siteId, ISiteList sites, bool includeGlobal)
         {
             List<SiteOption> list = sites.GetSiteOptionListForSite(siteId);
 
@@ -301,6 +316,15 @@ namespace BBC.Dna
 
             XmlNode siteOptionsNode = AddElementTag(RootElement, "SITEOPTIONS");
 
+            if (siteId > 0)
+            {
+                AddAttribute(siteOptionsNode, "SITEID", siteId);
+            }
+            else
+            {
+                AddAttribute(siteOptionsNode, "DEFAULTS", 1);
+            }
+
             foreach (SiteOption so in list)
             {
                 int global = 0;
@@ -309,16 +333,40 @@ namespace BBC.Dna
                     global = 1;
                 }
 
-                XmlNode siteOptionXml = AddElementTag(siteOptionsNode, "SITEOPTION");
-                AddAttribute(siteOptionXml, "GLOBAL", global);
-                AddTextTag(siteOptionXml, "SECTION", so.Section);
-                AddTextTag(siteOptionXml, "NAME", so.Name);
-                AddTextTag(siteOptionXml, "VALUE", so.GetRawValue());
-                AddTextTag(siteOptionXml, "TYPE", ((int)so.OptionType).ToString());
-                AddTextTag(siteOptionXml, "DESCRIPTION", so.Description);
+                if (includeGlobal || global == 0)
+                {
+                    XmlNode siteOptionXml = AddElementTag(siteOptionsNode, "SITEOPTION");
+                    AddAttribute(siteOptionXml, "GLOBAL", global);
+                    if (siteId > 0)
+                    {
+                        AddTextTag(siteOptionXml, "SITEID", siteId);
+                    }
+                    else
+                    {
+                        AddTextTag(siteOptionXml, "DEFINITION", 1);
+                    }
+                    AddTextTag(siteOptionXml, "SECTION", so.Section);
+                    AddTextTag(siteOptionXml, "NAME", so.Name);
+                    AddTextTag(siteOptionXml, "VALUE", so.GetRawValue());
+                    AddTextTag(siteOptionXml, "TYPE", ((int)so.OptionType).ToString());
+                    AddTextTag(siteOptionXml, "DESCRIPTION", so.Description);
+                }
             }
 
             return siteOptionsNode;
+        }
+
+        /// <summary>
+        /// Returns a list of SiteOptions for the given site.
+        /// If a site option is not defined for the given site, a SiteOption with site id of 0 is
+        /// given in it's place
+        /// </summary>
+        /// <param name="siteId">A site id</param>
+        /// <param name="sites">The site list</param>
+        /// <returns>List of site options for the given site</returns>
+        public XmlNode GetSiteOptionListForSiteXml(int siteId, ISiteList sites)
+        {
+            return GetSiteOptionListForSiteXml(siteId, sites, true);
         }
     }
 }

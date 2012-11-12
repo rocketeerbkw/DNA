@@ -127,6 +127,7 @@
     <Compile Include="ContentSignifAdminBuilder.cs" />
     <Compile Include="ContentSignifSettings.cs" />
     <Compile Include="ContentSignifSettingsParameters.cs" />
+    <Compile Include="SiteOptionsPageBuilder.cs" />
     <Compile Include="TwitterProfile.cs" />
     <Compile Include="TwitterProfileList.cs" />
     <Compile Include="UserReputationReportBuilder.cs" />

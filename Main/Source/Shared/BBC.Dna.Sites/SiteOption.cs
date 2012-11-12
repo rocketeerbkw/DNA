@@ -1,5 +1,7 @@
 using System;
 using System.Runtime.Serialization;
+using BBC.Dna.Data;
+using System.Collections.Generic;
 namespace BBC.Dna.Sites
 {
     /// <summary>
@@ -304,6 +306,32 @@ namespace BBC.Dna.Sites
                 defaultSiteOption.Description);
 
             return newSiteOption;
+        }
+
+        public static void UpdateSiteOptions(List<SiteOption> updatedOptions, IDnaDataReaderCreator readerCreator)
+        {
+            foreach (SiteOption option in updatedOptions)
+            {
+                using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("setsiteoption"))
+                {
+                    reader.AddParameter("siteid", option.SiteId);
+                    reader.AddParameter("section", option.Section);
+                    reader.AddParameter("name", option.Name);
+                    reader.AddParameter("value", option.Value);
+                    reader.Execute();
+                }
+            }
+        }
+
+        public static void RemoveSiteOptionFromSite(SiteOption so, int siteID, IDnaDataReaderCreator readerCreator)
+        {
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("deletesiteoption"))
+            {
+                reader.AddParameter("siteid", siteID);
+                reader.AddParameter("section", so.Section);
+                reader.AddParameter("name", so.Name);
+                reader.Execute();
+            }
         }
     }
 }
