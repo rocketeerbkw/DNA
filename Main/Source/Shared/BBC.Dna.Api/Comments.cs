@@ -59,7 +59,10 @@ namespace BBC.Dna.Api
             {
                 using (var reader = CreateReader("getcommentforumlistmostrecentlycommented"))
                 {
-                    reader.AddParameter("prefix", prefix + "%");
+                    if (!String.IsNullOrEmpty(prefix))
+                    {
+                        reader.AddParameter("prefix", prefix + "%");
+                    }
                     reader.AddParameter("count", count);
                     reader.AddParameter("siteid", site.SiteID);
                     reader.Execute();
@@ -103,7 +106,10 @@ namespace BBC.Dna.Api
             {
                 using (var reader = CreateReader("getmostcommentedcommentforumlist"))
                 {
-                    reader.AddParameter("prefix", prefix + "%");
+                    if (!String.IsNullOrEmpty(prefix))
+                    {
+                        reader.AddParameter("prefix", prefix + "%");
+                    }
                     reader.AddParameter("count", count);
                     reader.AddParameter("siteid", site.SiteID);
                     reader.Execute();

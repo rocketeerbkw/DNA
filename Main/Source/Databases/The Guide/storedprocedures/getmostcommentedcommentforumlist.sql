@@ -1,4 +1,4 @@
-create procedure getmostcommentedcommentforumlist @prefix varchar(255), @count int, @siteid int = null  
+create procedure getmostcommentedcommentforumlist @prefix varchar(255) = null, @count int, @siteid int = null  
 as  
 begin  
  -- @prefix must include the the '%' wildcard for the like clause appended to prefix  
