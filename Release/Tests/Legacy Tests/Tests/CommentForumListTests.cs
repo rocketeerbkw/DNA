@@ -65,6 +65,12 @@ namespace Tests
         /// Unit tests the GetParams() private method in the CommentForumListBuilder class
         /// </summary>
         [TestMethod]
+        [Ignore]
+        //TODO: why are we doing a Functional Test for a private method?
+        //why are we testing a private method at all?
+        //What are we really trying to test here?
+        //Can we express this a GIVEN/WHEN/THEN - if so is the test meaningful? 
+        //What behaviour of a feature are we looking to validate?
         public void ShouldParseGiveninputParams()
         {
             Mockery mock = new Mockery();

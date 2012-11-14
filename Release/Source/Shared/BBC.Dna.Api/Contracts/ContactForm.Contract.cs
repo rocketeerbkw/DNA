@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.Serialization;
+using BBC.Dna.Api.Contracts;
 
 namespace BBC.Dna.Api
 {

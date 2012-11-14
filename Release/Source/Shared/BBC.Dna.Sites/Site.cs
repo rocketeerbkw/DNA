@@ -640,6 +640,25 @@ namespace BBC.Dna.Sites
         /// </summary>
         [DataMember(Name = ("contactFormsEmail"))]
         public string ContactFormsEmail { get; set; }
+
+        /// <summary>
+        /// Creates site notes for admin changes
+        /// </summary>
+        /// <param name="updateSiteID">The id of the site that is being updated</param>
+        /// <param name="notes">The notes for the changes</param>
+        /// <param name="userID">The ID of the user doing the changes</param>
+        /// <param name="readerCreator">Database reader creator object</param>
+        public static void CreateSiteNotes(int updateSiteID, string notes, int userID, IDnaDataReaderCreator readerCreator)
+        {
+            notes += "\n" + DateTime.Now.ToFileTime();
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("createsitenotes"))
+            {
+                reader.AddParameter("userid", userID);
+                reader.AddParameter("siteid", updateSiteID);
+                reader.AddParameter("notes", notes);
+                reader.Execute();
+            }
+        }
     }
 
     public enum MessageBoardAdminStatus

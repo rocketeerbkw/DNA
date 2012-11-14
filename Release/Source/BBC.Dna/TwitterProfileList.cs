@@ -10,6 +10,7 @@ using BBC.Dna.Moderation.Utils;
 using BBC.Dna.SocialAPI;
 using BBC.Dna.Users;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Sites;
 
 
 namespace BBC.Dna.Component
@@ -57,7 +58,7 @@ namespace BBC.Dna.Component
 
             //Clean any existing XML.
             RootElement.RemoveAll();
-            
+
             if (InputContext.ViewingUser == null || ((false == InputContext.ViewingUser.IsEditor) && (false == InputContext.ViewingUser.IsSuperUser)))
             {
                 AddErrorXml("UNAUTHORIZED", "Editor permissions required", RootElement);
@@ -66,11 +67,25 @@ namespace BBC.Dna.Component
             
             GetQueryParameters();
 
+            //Get the twitter profiles from buzz
+
             var profileList = GenerateProfileList();
 
-            if (false == string.IsNullOrEmpty(_activeOnly))
+            if (true == InputContext.ViewingUser.IsEditor)
             {
-                profileList = ProcessCommand(profileList, _siteType);
+
+                var userSiteList = UserGroups.GetObject().GetSitesUserIsMemberOf(InputContext.ViewingUser.UserID, "editor");
+
+                //Filter user - editor specific twitter profiles
+
+                profileList = GenerateUserSpecificProfileList(profileList, userSiteList);
+
+                GenerateTwitterSiteListForUserXml(InputContext.ViewingUser.UserID);
+
+            }
+            else // superuser
+            {
+                GenerateTwitterSiteListXml();
             }
 
             if (profileList == null)
@@ -80,8 +95,12 @@ namespace BBC.Dna.Component
             else
             {
                 GenerateTwitterProfileListPageXml(profileList);
+            }
 
-                GenerateTwitterSiteListXml();
+
+            if (false == string.IsNullOrEmpty(_activeOnly))
+            {
+                profileList = ProcessCommand(profileList, _siteType);
             }
         }
 
@@ -144,6 +163,75 @@ namespace BBC.Dna.Component
 
             return filteredProfileList;
         }
+
+        /// <summary>
+        /// Filter twitter profiles based on the site list
+        /// </summary>
+        /// <param name="profileList"></param>
+        /// <param name="siteIdList"></param>
+        /// <returns></returns>
+        private BuzzTwitterProfiles GenerateUserSpecificProfileList(BuzzTwitterProfiles profileList, List<int> siteIdList)
+        {
+            BuzzTwitterProfiles filteredProfileList = new BuzzTwitterProfiles();
+
+            foreach (int siteId in siteIdList)
+            {
+                foreach (BuzzTwitterProfile profile in profileList)
+                {
+                    if(profile.SiteURL.Equals(InputContext.TheSiteList.GetSite(siteId).SiteName))
+                    {
+                        filteredProfileList.Add(profile);
+                    }
+                }
+            }
+
+            return filteredProfileList;
+        }
+
+        /// <summary>
+        /// Twitter sites for a specific user with the site type 5
+        /// </summary>
+        /// <param name="userId"></param>
+        private void GenerateTwitterSiteListForUserXml(int userId)
+        {
+            var userSiteList = UserGroups.GetObject().GetSitesUserIsMemberOf(userId, "editor");
+
+            Dictionary<int, ISite> siteList = null;
+            try
+            {
+                siteList = new Dictionary<int, ISite>();
+                foreach (int siteId in userSiteList)
+                {
+                    int twitterSiteType = InputContext.GetSiteOptionValueInt(siteId, "General", "SiteType");
+                    if (twitterSiteType == 5) // Site type value for twitter site is 5
+                    {
+                        ISite site = InputContext.TheSiteList.GetSite(siteId);
+                        siteList.Add(siteId, site);
+                    }
+                }
+
+                XmlNode sitesxml = AddElementTag(RootElement, "TWITTER-SITE-LIST");
+                AddAttribute(sitesxml, "COUNT", siteList.Values.Count);
+                foreach (BBC.Dna.Sites.Site site in siteList.Values)
+                {
+                    XmlNode sitexml = AddElementTag(sitesxml, "SITE");
+                    AddAttribute(sitexml, "ID", site.SiteID);
+                    AddTextTag(sitexml, "NAME", site.SiteName);
+                    AddTextTag(sitexml, "DESCRIPTION", site.Description);
+                    AddTextTag(sitexml, "SHORTNAME", site.ShortName);
+                    AddTextTag(sitexml, "SSOSERVICE", site.SSOService);
+                    AddTextTag(sitexml, "MODERATIONSTATUS", ((int)site.ModerationStatus).ToString());
+                }
+            }
+            finally
+            {
+                userSiteList.Clear();
+                userSiteList = null;
+                siteList.Clear();
+                siteList = null;
+            }
+        }
+
 
         /// <summary>
         /// Twitter Sites filtered by the SiteType value 5

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Xml;
+using BBC.Dna.Api.Contracts;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
@@ -191,7 +192,11 @@ namespace BBC.Dna.Api
             subject = contactDetails.ForumUri;
             body = contactDetails.text;
             failedBody = "ID:" + contactDetails.ID + ", FORUM_URI:" + contactDetails.ForumUri;
-            
+            TryParseContactFormMessage(contactDetails.text, ref subject, ref body);
+        }
+
+        public static void TryParseContactFormMessage(string contactDetails, ref string subject, ref string body)
+        {
             // See if we have a json message
             if (TyrParseJSONContactFormMessage(contactDetails, ref subject, ref body))
             {
@@ -204,11 +209,11 @@ namespace BBC.Dna.Api
             }
         }
 
-        private static bool TyrParseJSONContactFormMessage(ContactDetails contactDetails, ref string subject, ref string body)
+        private static bool TyrParseJSONContactFormMessage(string contactDetails, ref string subject, ref string body)
         {
             try
             {
-                ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetails.text, typeof(ContactFormMessage));
+                ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetails, typeof(ContactFormMessage));
                 subject = HttpUtility.UrlDecode(message.Subject);
                 body = "";
                 foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
@@ -223,12 +228,12 @@ namespace BBC.Dna.Api
             return false;
         }
 
-        private static bool TryParseXMLTextMessage(ContactDetails contactDetails, ref string subject, ref string body)
+        private static bool TryParseXMLTextMessage(string contactDetails, ref string subject, ref string body)
         {
             try
             {
                 XmlDocument doc = new XmlDocument();
-                doc.LoadXml(contactDetails.text);
+                doc.LoadXml(contactDetails);
                 StringBuilder newBody = new StringBuilder();
 
                 XmlNode currentNode = doc.FirstChild.SelectSingleNode("/message");

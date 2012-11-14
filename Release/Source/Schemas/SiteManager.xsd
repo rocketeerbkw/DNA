@@ -31,6 +31,7 @@
         <xs:element name="MODERATIONCLASSID" type="xs:unsignedByte" />
         <xs:element name="CURRENTIDENTITYPOLICY" type="xs:string" />
         <xs:element name="BBCDIVISION" type="xs:int" />
+        <xs:element name="CONTACTFORMSEMAIL" type="xs:string" />
         <xs:element name="RISKMODONOFF" type="xs:boolean" />
         <xs:element name="RISKMODPUBLISHMETHOD">
           <xs:simpleType>
