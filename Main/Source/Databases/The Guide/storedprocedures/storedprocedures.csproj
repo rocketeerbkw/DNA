@@ -1290,7 +1290,6 @@
     <None Include="createsitenotes.sql" />
     <None Include="CreateTweetInfoForComment.sql" />
     <None Include="CreateTweetInfoForPremodPostings.sql" />
-    <None Include="createworldservicesite.sql" />
     <None Include="doestwitteruserexists.sql" />
     <None Include="getcommentforumlistmostrecentlycommented.sql" />
     <None Include="getcontactformdetailfromformid.sql" />

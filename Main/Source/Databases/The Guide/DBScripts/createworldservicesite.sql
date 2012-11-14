@@ -1,4 +1,4 @@
-﻿alter procedure createworldservicesite
+﻿create procedure createworldservicesite
 	@siteslug nvarchar(50),
 	@sitedescription nvarchar(50),
 	@sitelanguage nvarchar(10),
