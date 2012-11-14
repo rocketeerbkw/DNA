@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using BBC.Dna.Utils;
-using BBC.Dna.Data;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using BBC.Dna.Sites;
-using System.Net.Mail;
-using System.Configuration;
-using BBC.Dna.Users;
-using BBC.Dna.Moderation.Utils;
+using System.Web;
 using System.Xml;
+using BBC.Dna.Data;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Sites;
+using BBC.Dna.Users;
+using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 namespace BBC.Dna.Api
 {
@@ -103,21 +102,21 @@ namespace BBC.Dna.Api
             return false;
         }
 
-        private string GetContactFormEmailAddressForSite(int siteId)
-        {
-            string emailAddress = "";
-            using (IDnaDataReader reader = CreateReader("getcontactformemailaddressforsite"))
-            {
-                reader.AddParameter("siteid", siteId);
-                reader.Execute();
-                if (reader.HasRows && reader.Read())
-                {
-                    emailAddress = reader.GetStringNullAsEmpty("contactemailaddress");
-                }
-            }
+        //private string GetContactFormEmailAddressForSite(int siteId)
+        //{
+        //    string emailAddress = "";
+        //    using (IDnaDataReader reader = CreateReader("getcontactformemailaddressforsite"))
+        //    {
+        //        reader.AddParameter("siteid", siteId);
+        //        reader.Execute();
+        //        if (reader.HasRows && reader.Read())
+        //        {
+        //            emailAddress = reader.GetStringNullAsEmpty("contactemailaddress");
+        //        }
+        //    }
 
-            return emailAddress;
-        }
+        //    return emailAddress;
+        //}
 
         private ContactForm GetContactFormDetailFromFormID(string contactFormID, ISite site)
         {
@@ -176,53 +175,55 @@ namespace BBC.Dna.Api
             }
         }
 
-        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient)
+        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string sender)
         {
-            string sender = SiteList.GetSite("h2g2").ContactFormsEmail;
-            if (sender.Length == 0)
-            {
-                sender = recipient;
-            }
             string subject;
             string body;
+            string failedBody;
 
-            CreateEmailSubjectAndbody(contactDetails, out subject, out body);
-            SendEmail(sender, recipient, subject, body, "ContactDetails-");
+            CreateEmailSubjectAndBodies(contactDetails, out subject, out body, out failedBody);
+            SendEmailWithFailMessageOverride(sender, recipient, subject, body, "ContactDetails-", failedBody);
         }
 
-        private static void CreateEmailSubjectAndbody(ContactDetails contactDetails, out string subject, out string body)
+        private static void CreateEmailSubjectAndBodies(ContactDetails contactDetails, out string subject, out string body, out string failedBody)
         {
             // Do the default thing
             subject = contactDetails.ForumUri;
-            body = contactDetails.text; 
+            body = contactDetails.text;
+            failedBody = "ID:" + contactDetails.ID + ", FORUM_URI:" + contactDetails.ForumUri;
             
-            // Now see if we actully got some XML, If so use that instead
-            if (body.StartsWith("<") && body.EndsWith(">"))
+            // See if we have a json message
+            if (TyrParseJSONContactFormMessage(contactDetails, ref subject, ref body))
             {
-                TryParseXMLTextMessage(contactDetails, ref subject, ref body);
+                return;
             }
-            else if (body.StartsWith("{") && body.EndsWith("}"))
+
+            if (TryParseXMLTextMessage(contactDetails, ref subject, ref body))
             {
-                try
-                {
-                    ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetails.text, typeof(ContactFormMessage));
-                    subject = message.Subject;
-                    body = "";
-                    foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
-                    {
-                        string messageLine = content.Key + " : " + content.Value + "\n";
-                        body += messageLine;
-                    }
-                }
-                catch
-                {
-                    subject = contactDetails.ForumUri;
-                    body = contactDetails.text;
-                }
+                return;
             }
         }
 
-        private static void TryParseXMLTextMessage(ContactDetails contactDetails, ref string subject, ref string body)
+        private static bool TyrParseJSONContactFormMessage(ContactDetails contactDetails, ref string subject, ref string body)
+        {
+            try
+            {
+                ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetails.text, typeof(ContactFormMessage));
+                subject = HttpUtility.UrlDecode(message.Subject);
+                body = "";
+                foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
+                {
+                    string messageLine = HttpUtility.UrlDecode(content.Key) + " : " + HttpUtility.UrlDecode(content.Value) + "\n";
+                    body += messageLine;
+                }
+
+                return true;
+            }
+            catch { }
+            return false;
+        }
+
+        private static bool TryParseXMLTextMessage(ContactDetails contactDetails, ref string subject, ref string body)
         {
             try
             {
@@ -230,17 +231,24 @@ namespace BBC.Dna.Api
                 doc.LoadXml(contactDetails.text);
                 StringBuilder newBody = new StringBuilder();
 
-                foreach (XmlNode item in doc.FirstChild.SelectNodes("/"))
+                XmlNode currentNode = doc.FirstChild.SelectSingleNode("/message");
+                if (currentNode != null)
                 {
-                    if (item.Name.ToLower() == "subject")
+                    currentNode = currentNode.FirstChild;
+                    while (currentNode != null)
                     {
-                        subject = item.InnerText;
-                    }
-                    else
-                    {
-                        newBody.AppendLine(item.Name + ":");
-                        newBody.AppendLine(item.InnerText);
-                        newBody.AppendLine();
+                        if (currentNode.Name.ToLower() == "subject")
+                        {
+                            subject = currentNode.InnerText;
+                        }
+                        else
+                        {
+                            newBody.AppendLine(currentNode.Name + ":");
+                            newBody.AppendLine(currentNode.InnerText);
+                            newBody.AppendLine();
+                        }
+
+                        currentNode = currentNode.NextSibling;
                     }
                 }
 
@@ -248,8 +256,11 @@ namespace BBC.Dna.Api
                 {
                     body = newBody.ToString();
                 }
+
+                return true;
             }
             catch { }
+            return false;
         }
     }
 }
