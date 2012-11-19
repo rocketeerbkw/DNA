@@ -69,17 +69,28 @@ namespace BBC.Dna.Component
 
         private bool UpdateSiteOptions()
         {
-            List<SiteOption> updateOptions = GetUpdateOptionsList();
-            if (updateOptions.Count > 0)
+            int updatedSiteID = 0;
+            string siteNotes = "";
+            bool optionsChanged = false;
+            List<SiteOption> updateOptions = GetUpdateOptionsList(out updatedSiteID, out siteNotes, out optionsChanged);
+            if (optionsChanged)
             {
-                SiteOption.UpdateSiteOptions(updateOptions, InputContext.CreateDnaDataReaderCreator());
+                if (updateOptions.Count > 0)
+                {
+                    SiteOption.UpdateSiteOptions(updateOptions, InputContext.CreateDnaDataReaderCreator());
+                }
+                Site.CreateSiteNotes(updatedSiteID, siteNotes, InputContext.ViewingUser.UserID, InputContext.CreateDnaDataReaderCreator());
+                InputContext.TheSiteList.SendSignal(updatedSiteID);
+                InputContext.TheSiteList.ReInitialise();
             }
             return true;
         }
 
-        private List<SiteOption> GetUpdateOptionsList()
+        private List<SiteOption> GetUpdateOptionsList(out int updateSiteID, out string siteNotes, out bool optionsChanged)
         {
-            int updateSiteID = 0;
+            optionsChanged = false;
+            updateSiteID = 0;
+            siteNotes = "";
 
             Dictionary<string, string[]> onOffs = new Dictionary<string, string[]>();
             NameValueCollection siteoptionOnOff = InputContext.GetAllParamsWithPrefix("so_");
@@ -95,8 +106,7 @@ namespace BBC.Dna.Component
             if (values.Count > 0 && updateSiteID > 0)
             {
                 StringBuilder itemsUpdated = new StringBuilder();
-                List<SiteOption> currentSiteOptions = InputContext.TheSiteList.GetSiteOptionListForSite(updateSiteID);
-                foreach (SiteOption so in currentSiteOptions)
+                foreach (SiteOption so in siteOptions)
                 {
                     bool optionChanged = false;
                     bool optionRemoved = false;
@@ -114,15 +124,16 @@ namespace BBC.Dna.Component
                     if (optionChanged)
                     {
                         itemsUpdated.AppendLine("Option Updated : " + key);
+                        optionsChanged = true;
                     }
 
                     if (optionRemoved)
                     {
                         itemsUpdated.AppendLine("Option Removed : " + key);
+                        optionsChanged = true;
                     }
                 }
-                InputContext.TheSiteList.SendSignal(selectedSite.SiteID);
-                Site.CreateSiteNotes(updateSiteID, itemsUpdated.ToString(), InputContext.ViewingUser.UserID, InputContext.CreateDnaDataReaderCreator());
+                siteNotes = itemsUpdated.ToString();
             }
 
             return updatedOptions;
@@ -134,36 +145,54 @@ namespace BBC.Dna.Component
             SiteOption update = SiteOption.CreateFromDefault(so, selectedSite.SiteID);
             if (update.IsTypeBool())
             {
-                bool newValue = (String)values[key].GetValue(0) == "1";
-                if (update.GetValueBool() != newValue)
-                {
-                    update.SetValueBool(newValue);
-                    updatedOptions.Add(update);
-                    optionChanged = true;
-                }
+                optionChanged = CheckBoolSiteOptionChanged(updatedOptions, values, so, key, optionChanged, update);
             }
             else if (update.IsTypeInt())
             {
-                int newValue = 0;
-                if (Int32.TryParse((String)values[key].GetValue(0), out newValue))
-                {
-                    if (update.GetValueInt() != newValue)
-                    {
-                        update.SetValueInt(newValue);
-                        updatedOptions.Add(update);
-                        optionChanged = true;
-                    }
-                }
+                optionChanged = CheckIntSiteOptionChanged(updatedOptions, values, so, key, optionChanged, update);
             }
             else if (update.IsTypeString())
             {
-                String newValue = (String)values[key].GetValue(0);
-                if (update.GetValueString() != newValue)
+                optionChanged = CheckStringSiteOptionChanged(updatedOptions, values, so, key, optionChanged, update);
+            }
+            return optionChanged;
+        }
+
+        private static bool CheckStringSiteOptionChanged(List<SiteOption> updatedOptions, Dictionary<string, string[]> values, SiteOption so, string key, bool optionChanged, SiteOption update)
+        {
+            String newValue = (String)values[key].GetValue(0);
+            if (update.GetValueString() != newValue)
+            {
+                update.SetValueString(newValue);
+                updatedOptions.Add(update);
+                optionChanged = true;
+            }
+            return optionChanged;
+        }
+
+        private static bool CheckIntSiteOptionChanged(List<SiteOption> updatedOptions, Dictionary<string, string[]> values, SiteOption so, string key, bool optionChanged, SiteOption update)
+        {
+            int newValue = 0;
+            if (Int32.TryParse((String)values[key].GetValue(0), out newValue))
+            {
+                if (update.GetValueInt() != newValue)
                 {
-                    update.SetValueString(newValue);
+                    update.SetValueInt(newValue);
                     updatedOptions.Add(update);
                     optionChanged = true;
                 }
+            }
+            return optionChanged;
+        }
+
+        private static bool CheckBoolSiteOptionChanged(List<SiteOption> updatedOptions, Dictionary<string, string[]> values, SiteOption so, string key, bool optionChanged, SiteOption update)
+        {
+            bool newValue = (String)values[key].GetValue(0) == "1";
+            if (update.GetValueBool() != newValue)
+            {
+                update.SetValueBool(newValue);
+                updatedOptions.Add(update);
+                optionChanged = true;
             }
             return optionChanged;
         }
