@@ -190,6 +190,25 @@ namespace BBC.Dna.SocialAPI
             {
                 response = (HttpWebResponse)webRequest.GetResponse();
                 resStatus = response.StatusDescription;
+
+                if (resStatus.ToUpper().Equals("OK"))
+                {
+                    uri = ConfigurationSettings.AppSettings["BuzzProfileRestartIngest"].ToString();
+
+                    response = null;
+
+                    webRequest = GetWebRequestWithCertificateDetails(uri);
+
+                    try
+                    {
+                        response = (HttpWebResponse)webRequest.GetResponse();
+                        resStatus = response.StatusDescription;
+                    }
+                    catch (Exception ex)
+                    {
+                        resStatus = ex.Message;
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -203,7 +222,7 @@ namespace BBC.Dna.SocialAPI
                 }
             }
 
-            return resStatus;
+            return resStatus.ToUpper();
         }
 
         #endregion
