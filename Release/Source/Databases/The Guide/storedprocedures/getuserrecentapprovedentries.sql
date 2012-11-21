@@ -4,6 +4,9 @@ as building the entire query as a string. For the time being always return TOP 1
 */
 CREATE Procedure getuserrecentapprovedentries @userid int, @siteid int = 0, @currentsiteid int=0
 As
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
 IF (@siteid = 0)
 BEGIN
 SELECT
@@ -33,8 +36,8 @@ FROM GuideEntries g WITH(NOLOCK)
 INNER JOIN Forums f WITH(NOLOCK) on f.ForumID = g.ForumID
 INNER JOIN Users u WITH(NOLOCK) ON u.UserID = @userid
 left join Preferences P WITH(NOLOCK) on (u.UserID = P.UserID) AND (P.SiteID = g.siteid)
-inner join Users Editor on Editor.UserID = g.Editor
-left join Preferences EditorPreferences on EditorPreferences.UserID = Editor.UserID AND EditorPreferences.SiteID = @currentsiteid
+inner join Users Editor WITH(NOLOCK) on Editor.UserID = g.Editor
+left join Preferences EditorPreferences WITH(NOLOCK) on EditorPreferences.UserID = Editor.UserID AND EditorPreferences.SiteID = @currentsiteid
 INNER JOIN Journals J WITH(NOLOCK) on J.UserID = U.UserID and J.SiteID = @currentsiteid
 INNER JOIN Journals J2 WITH(NOLOCK) on J2.UserID = Editor.UserID and J2.SiteID = @currentsiteid
 LEFT JOIN ArticleDateRange AR WITH(NOLOCK) on AR.EntryID = G.EntryID
@@ -73,8 +76,8 @@ FROM GuideEntries g WITH(NOLOCK)
 INNER JOIN Forums f WITH(NOLOCK) on f.ForumID = g.ForumID
 INNER JOIN Users u WITH(NOLOCK) ON u.UserID = @userid
 left join Preferences P WITH(NOLOCK) on (u.UserID = P.UserID) AND (P.SiteID = g.siteid)
-inner join Users Editor on Editor.UserID = g.Editor
-left join Preferences EditorPreferences on EditorPreferences.UserID = Editor.UserID AND EditorPreferences.SiteID = @currentsiteid
+inner join Users Editor WITH(NOLOCK) on Editor.UserID = g.Editor
+left join Preferences EditorPreferences WITH(NOLOCK) on EditorPreferences.UserID = Editor.UserID AND EditorPreferences.SiteID = @currentsiteid
 INNER JOIN Journals J WITH(NOLOCK) on J.UserID = U.UserID and J.SiteID = @currentsiteid
 INNER JOIN Journals J2 WITH(NOLOCK) on J2.UserID = Editor.UserID and J2.SiteID = @currentsiteid
 LEFT JOIN ArticleDateRange AR WITH(NOLOCK) on AR.EntryID = G.EntryID

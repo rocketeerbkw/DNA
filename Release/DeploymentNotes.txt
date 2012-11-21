@@ -803,3 +803,8 @@ Add the following to the configuration files for thr API
 		<add key="FileCacheFolder" value="D:\LogsAndCaching\ripleycache"/>
 		<add key="EmailServer" value=""/>
 	</appSettings>
+	
+Srihari T
+
+<!-- Buzz Profile Ingest Restart -->
+<add key="BuzzProfileRestartIngest" value="https://admin.test.bbc.co.uk/buzz/admin/ingest/restart" />	

@@ -5,6 +5,7 @@ using System.Xml;
 using BBC.Dna.Data;
 using BBC.Dna.Api;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using BBC.Dna.Sites;
 
 namespace BBC.Dna.Component
 {
@@ -97,6 +98,21 @@ namespace BBC.Dna.Component
                         //Cannot continue.
                         return AddErrorXml("invalidparameters", "No title provided", null);
                     }
+
+                    ISite siteForForum = InputContext.CurrentSite;
+                    if (InputContext.DoesParamExist("dnasitename", "The name of the dna site you want to use"))
+                    {
+                        string siteURLName = "";
+                        if (InputContext.TryGetParamString("dnasitename", ref siteURLName, "The name of the dna site you want to use"))
+                        {
+                            siteForForum = InputContext.TheSiteList.GetSite(siteURLName);
+                            if (siteForForum == null)
+                            {
+                                return AddErrorXml("invalidparameters", "invalid dna site name", null);
+                            }
+                        }
+                    }
+
                     CommentForum forum = new CommentForum()
                     {
                         Id = uid,
@@ -107,7 +123,7 @@ namespace BBC.Dna.Component
                     Comments comments = new Comments(AppContext.TheAppContext.Diagnostics, AppContext.ReaderCreator, CacheFactory.GetCacheManager(), InputContext.TheSiteList);
                     try
                     {
-                        comments.CreateCommentForum(forum, InputContext.CurrentSite);
+                        comments.CreateCommentForum(forum, siteForForum);
                     }
                     catch(ApiException e) 
                     {

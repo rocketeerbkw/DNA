@@ -86,15 +86,30 @@ namespace BBC.Dna.Services
         /// <returns></returns>
         private Stream HandleRetweet(ISite site, CommentForum commentForumData, Tweet tweet)
         {
-            var callingOriginalTweetuser = GetCallingTwitterUser(site, tweet.RetweetedStatus);
-
-            if (callingOriginalTweetuser.IsTrustedUser())
+            if (false == string.IsNullOrEmpty(tweet.Text))
             {
-                return HandleRetweetOriginalTweetByTrustedUsers(site, commentForumData, tweet);
+                // Retweets starting with @ are not supported for now
+                if (false == tweet.Text.Trim().StartsWith("@"))
+                {
+                    var callingOriginalTweetuser = GetCallingTwitterUser(site, tweet.RetweetedStatus);
+
+                    if (callingOriginalTweetuser.IsTrustedUser())
+                    {
+                        return HandleRetweetOriginalTweetByTrustedUsers(site, commentForumData, tweet);
+                    }
+                    else
+                    {
+                        return HandleRetweetOriginalTweetByPublicUsers(site, commentForumData, tweet);
+                    }
+                }
+                else
+                {
+                    return GetOutputStream(new CommentInfo()); //empty commentinfo object
+                }
             }
             else
             {
-                return HandleRetweetOriginalTweetByPublicUsers(site, commentForumData, tweet);
+                throw ApiException.GetError(ErrorType.EmptyText);
             }
         }
 

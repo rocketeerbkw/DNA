@@ -5,6 +5,9 @@ as building the entire query as a string. For the time being always return TOP 1
 
 CREATE Procedure getuserrecentposts @userid int, @maxnumber int
 As
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
 SELECT TOP 10
 	'ForumID' = t.ForumID, 
 	'ThreadID' = c.ThreadID, 
