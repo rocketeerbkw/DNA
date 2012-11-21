@@ -4,6 +4,14 @@ as building the entire query as a string. For the time being always return TOP 1
 */
 CREATE Procedure getuserrecententries @userid int, @siteid int = 0, @currentsiteid int=0
 As
+
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
+if @currentsiteid = 67
+begin
+	return 0
+end
+
 IF @siteid = 0
 BEGIN
 SELECT
