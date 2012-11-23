@@ -13,6 +13,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using System.Runtime.Serialization.Json;
 using System.Web.Configuration;
+using System.Diagnostics;
 
 namespace BBC.Dna.SocialAPI
 {
@@ -63,6 +64,19 @@ namespace BBC.Dna.SocialAPI
         }
         */
 
+        private bool _traceOutput = true;
+        private StringBuilder _callInfo = new StringBuilder();
+
+        private void AddTimingInfoLine(string info)
+        {
+            if (_traceOutput)
+            {
+                _callInfo.AppendLine(info);
+            }
+            Trace.WriteLineIf(_traceOutput, info);
+        }
+
+
         /// <summary>
         /// Request object formed with the certificate details
         /// </summary>
@@ -76,24 +90,37 @@ namespace BBC.Dna.SocialAPI
             Uri URL = new Uri(uri);
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
 
-            webRequest.Timeout = 30000;
-
-            webRequest.Proxy = new WebProxy(proxyServer);
-
-            string[] details = connectionDetails.Split(';');
-            var certificateName = details[1];
-
-            X509Store store = new X509Store(StoreName.My.ToString(), StoreLocation.LocalMachine);
-            store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-            X509Certificate certificate = null;
-            bool gotDevCert = false;
-            for (int i = 0; i <= 1 && !gotDevCert; i++)
+            try
             {
-                certificate = store.Certificates.Find(X509FindType.FindBySubjectName, certificateName, false)[i];
-                gotDevCert = certificate.Subject.ToLower().Contains("cn=" + certificateName + ",");
-            }
+                webRequest.Timeout = 30000;
 
-            webRequest.ClientCertificates.Add(certificate);
+                webRequest.Proxy = new WebProxy(proxyServer);
+
+                AddTimingInfoLine("<* BUZZ CLIENT CERTIFICATE START *>");
+                AddTimingInfoLine("Base URL           - " + uri);
+                AddTimingInfoLine("Certificate details   - " + connectionDetails);
+                AddTimingInfoLine("Proxy server       - " + proxyServer);
+
+                string[] details = connectionDetails.Split(';');
+                var certificateName = details[1];
+
+                X509Store store = new X509Store(StoreName.My.ToString(), StoreLocation.LocalMachine);
+                store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
+                X509Certificate certificate = null;
+                bool gotDevCert = false;
+                for (int i = 0; i <= 1 && !gotDevCert; i++)
+                {
+                    certificate = store.Certificates.Find(X509FindType.FindBySubjectName, certificateName, false)[i];
+                    gotDevCert = certificate.Subject.ToLower().Contains("cn=" + certificateName + ",");
+                }
+
+                webRequest.ClientCertificates.Add(certificate);
+            }
+            catch (Exception e)
+            {
+                AddTimingInfoLine("ERROR!!! - " + e.Message);
+            }
+            AddTimingInfoLine("<* BUZZ CLIENT CERTIFICATE END *>");
 
             return webRequest;
         }
@@ -106,6 +133,9 @@ namespace BBC.Dna.SocialAPI
         {
             var uri = ConfigurationSettings.AppSettings["BuzzProfileListAPI"].ToString();
 
+            AddTimingInfoLine("<* BUZZ API CALL GET PROFILES START *>");
+            AddTimingInfoLine("Base URL           - " + uri);
+
             HttpWebResponse response = null;
 
             HttpWebRequest webRequest = GetWebRequestWithCertificateDetails(uri);
@@ -116,9 +146,12 @@ namespace BBC.Dna.SocialAPI
             }
             catch (Exception ex)
             {
-                throw ex;
+                AddTimingInfoLine("BUZZ API CALL GET PROFILES ERROR!!! - " + ex.Message);
             }
             Stream stream = response.GetResponseStream();
+
+            AddTimingInfoLine("BUZZ API CALL GET PROFILES END");
+
             DataContractJsonSerializer obj = new DataContractJsonSerializer(typeof(BuzzTwitterProfiles));
 
             BuzzTwitterProfiles profilesObject = obj.ReadObject(stream) as BuzzTwitterProfiles;
@@ -137,6 +170,10 @@ namespace BBC.Dna.SocialAPI
 
             uri += twitterProfileId;
 
+            AddTimingInfoLine("<* BUZZ API CALL GET PROFILE START *>");
+            AddTimingInfoLine("Base URL           - " + uri);
+
+
             HttpWebResponse response = null;
 
             HttpWebRequest webRequest = GetWebRequestWithCertificateDetails(uri);
@@ -147,9 +184,12 @@ namespace BBC.Dna.SocialAPI
             }
             catch (Exception ex)
             {
-                throw ex;
+                AddTimingInfoLine("BUZZ API CALL GET PROFILE ERROR!!! - " + ex.Message);
             }
             Stream stream = response.GetResponseStream();
+
+            AddTimingInfoLine("BUZZ API CALL GET PROFILE END");
+
             DataContractJsonSerializer obj = new DataContractJsonSerializer(typeof(BuzzTwitterProfile));
 
             BuzzTwitterProfile profileObject = obj.ReadObject(stream) as BuzzTwitterProfile;
@@ -166,6 +206,9 @@ namespace BBC.Dna.SocialAPI
         {
             var resStatus = string.Empty;
             var uri = ConfigurationSettings.AppSettings["BuzzProfileAPI"].ToString();
+
+            AddTimingInfoLine("<* BUZZ API CALL CREATE/UPDATE PROFILE START *>");
+            AddTimingInfoLine("Base URL           - " + uri);
 
             HttpWebResponse response = null;
 
@@ -195,6 +238,9 @@ namespace BBC.Dna.SocialAPI
                 {
                     uri = ConfigurationSettings.AppSettings["BuzzProfileRestartIngest"].ToString();
 
+                    AddTimingInfoLine("<* BUZZ API CALL RESTART INGEST START *>");
+                    AddTimingInfoLine("Base URL           - " + uri);
+
                     response = null;
 
                     webRequest = GetWebRequestWithCertificateDetails(uri);
@@ -207,7 +253,9 @@ namespace BBC.Dna.SocialAPI
                     catch (Exception ex)
                     {
                         resStatus = ex.Message;
+                        AddTimingInfoLine("BUZZ API CALL RESTART INGEST ERROR!!! - " + resStatus);
                     }
+                    AddTimingInfoLine("<* BUZZ API CALL RESTART INGEST END *>");
                 }
             }
             catch (Exception ex)
@@ -215,12 +263,17 @@ namespace BBC.Dna.SocialAPI
                 if(ex.Message.Contains("400"))
                 {
                     resStatus = ex.Message + " Please check the profile request details.";
+
                 }
                 else if (ex.Message.Contains("500"))
                 {
                     resStatus = ex.Message + " Problem with the gateway connection.";
                 }
+
+                AddTimingInfoLine("BUZZ API CALL CREATE/UPDATE PROFILE ERROR!!! - " + resStatus);
             }
+
+            AddTimingInfoLine("<* BUZZ API CALL CREATE/UPDATE PROFILE END *>");
 
             return resStatus.ToUpper();
         }
