@@ -71,7 +71,11 @@ namespace BBC.Dna.Component
 
             var profileList = GenerateProfileList();
 
-            if (true == InputContext.ViewingUser.IsEditor)
+            if (true == InputContext.ViewingUser.IsSuperUser)
+            {
+                GenerateTwitterSiteListXml();
+            }
+            else if (true == InputContext.ViewingUser.IsEditor)
             {
 
                 var userSiteList = UserGroups.GetObject().GetSitesUserIsMemberOf(InputContext.ViewingUser.UserID, "editor");
@@ -83,10 +87,6 @@ namespace BBC.Dna.Component
                 GenerateTwitterSiteListForUserXml(InputContext.ViewingUser.UserID);
 
             }
-            else // superuser
-            {
-                GenerateTwitterSiteListXml();
-            }
 
             if (profileList == null)
             {
@@ -94,13 +94,12 @@ namespace BBC.Dna.Component
             }
             else
             {
+                if (false == string.IsNullOrEmpty(_activeOnly))
+                {
+                    profileList = ProcessCommand(profileList, _siteType);
+                }
+                
                 GenerateTwitterProfileListPageXml(profileList);
-            }
-
-
-            if (false == string.IsNullOrEmpty(_activeOnly))
-            {
-                profileList = ProcessCommand(profileList, _siteType);
             }
         }
 
@@ -178,7 +177,7 @@ namespace BBC.Dna.Component
             {
                 foreach (BuzzTwitterProfile profile in profileList)
                 {
-                    if(profile.SiteURL.Equals(InputContext.TheSiteList.GetSite(siteId).SiteName))
+                    if(false == string.IsNullOrEmpty(profile.SiteURL) && profile.SiteURL.Equals(InputContext.TheSiteList.GetSite(siteId).SiteName))
                     {
                         filteredProfileList.Add(profile);
                     }
