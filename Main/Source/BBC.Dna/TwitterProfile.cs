@@ -90,6 +90,11 @@ namespace BBC.Dna.Component
             {
                 siteName = _siteName;
             }
+            else
+            {
+                AddErrorXml("SITENOTAVAILABLE", "Site name not available", RootElement);
+                return;
+            }
            
             GenerateTwitterProfilePageXml(siteName);
 
@@ -339,9 +344,8 @@ namespace BBC.Dna.Component
                         twitterUser = null;
                     }
                 }
-                
 
-                if (string.IsNullOrEmpty(_profileId) || string.IsNullOrEmpty(_title) || string.IsNullOrEmpty(_commentForumURI))
+                if (string.IsNullOrEmpty(_profileId) || string.IsNullOrEmpty(_title) || string.IsNullOrEmpty(_commentForumURI) || twitterUserIds.Count < 1)
                 {
                     return new Error { Type = "TWITTERPROFILEMANDATORYFIELDSMISSING", ErrorMessage = "Please fill in the mandatory fields for creating/updating a profile" };
                 }
