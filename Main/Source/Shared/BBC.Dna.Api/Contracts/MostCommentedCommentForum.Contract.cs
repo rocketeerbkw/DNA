@@ -7,45 +7,43 @@ using System.Runtime.Serialization;
 namespace BBC.Dna.Api
 {
     [Serializable]
-    [DataContract(Name = "mostCommentedCommentForum", Namespace = "BBC.Dna.Api")]
+    [DataContract(Name = "commentForum", Namespace = "BBC.Dna.Api")]
     public partial class MostCommentedCommentForum
     {
-        [DataMember(Name = "id", Order = 1)]
         public int Id
         {
             get;
             set;
         }
 
-        [DataMember(Name = ("uid"), Order = 2)]
+        [DataMember(Name = ("commentforumuid"), Order = 1)]
         public string UID
         {
             get;
             set;
         }
 
-        [DataMember(Name = ("siteid"), Order = 3)]
-        public int SiteId
+        [DataMember(Name = ("sitename"), Order = 2)]
+        public string SiteName
         {
             get;
             set;
         }
 
-        [DataMember(Name = ("forumid"), Order = 4)]
         public int ForumId
         {
             get;
             set;
         }
 
-        [DataMember(Name = ("title"), Order = 5)]
+        [DataMember(Name = ("title"), Order = 3)]
         public string Title
         {
             get;
             set;
         }
 
-        [DataMember(Name = ("url"), Order = 6)]
+        [DataMember(Name = ("parenturl"), Order = 4)]
         public string Url
         {
             get;
@@ -59,35 +57,35 @@ namespace BBC.Dna.Api
             set;
         }
 
-        [DataMember(Name = ("forumpostcount"), Order = 7)]
+        [DataMember(Name = ("forumpostcount"), Order = 5)]
         public int ForumPostCount
         {
             get;
             set;
         }
 
-        [DataMember(Name = ("datecreated"), Order = 8)]
+        [DataMember(Name = ("datecreated"), Order = 6)]
         public DateTime DateCreated
         {
             get;
             set;
         }
 
-        [DataMember(Name = ("forumclosedate"), Order = 9)]
+        [DataMember(Name = ("forumclosedate"), Order = 7)]
         public DateTime ForumCloseDate
         {
             get;
             set;
         }
 
-        [DataMember(Name = ("commentforumnlistcount"), Order = 10)]
+        [DataMember(Name = ("commentforumnlistcount"), Order = 8)]
         public int CommentForumListCount
         {
             get;
             set;
         }
 
-        [DataMember(Name = ("lastposted"), Order = 11) ]
+        [DataMember(Name = ("lastupdateddatetime"), Order = 9) ]
         public DateTime LastPosted
         {
             get;
