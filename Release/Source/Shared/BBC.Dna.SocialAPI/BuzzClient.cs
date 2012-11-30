@@ -147,6 +147,7 @@ namespace BBC.Dna.SocialAPI
             catch (Exception ex)
             {
                 AddTimingInfoLine("BUZZ API CALL GET PROFILES ERROR!!! - " + ex.Message);
+                throw ex;
             }
             Stream stream = response.GetResponseStream();
 
@@ -185,6 +186,7 @@ namespace BBC.Dna.SocialAPI
             catch (Exception ex)
             {
                 AddTimingInfoLine("BUZZ API CALL GET PROFILE ERROR!!! - " + ex.Message);
+                throw ex;
             }
             Stream stream = response.GetResponseStream();
 
@@ -244,7 +246,7 @@ namespace BBC.Dna.SocialAPI
                     response = null;
 
                     webRequest = GetWebRequestWithCertificateDetails(uri);
-
+                    webRequest.Method = "GET";
                     try
                     {
                         response = (HttpWebResponse)webRequest.GetResponse();

@@ -22,7 +22,7 @@ namespace BBC.Dna.Component
     {
         private string _siteType = string.Empty;
         private string _cmd = string.Empty;
-        private string _activeOnly = string.Empty;
+        private string _activeOnly = "OFF";
 
         IDnaDataReaderCreator readerCreator;
         IDnaDiagnostics dnaDiagnostic;
@@ -124,7 +124,7 @@ namespace BBC.Dna.Component
                         filteredProfileList.Add(profile);
                     }
                 }
-                if (_cmd.ToUpper().Equals("SITESPECIFICPROFILES"))
+                if (false == string.IsNullOrEmpty(siteType))
                 {
                     filteredProfileList = GetSiteSpecificProfileList(filteredProfileList, siteType);
                 }
@@ -133,7 +133,7 @@ namespace BBC.Dna.Component
             {
                 filteredProfileList = profileList;
 
-                if (_cmd.ToUpper().Equals("SITESPECIFICPROFILES"))
+                if (false == string.IsNullOrEmpty(_siteType))
                 {
                     filteredProfileList = GetSiteSpecificProfileList(filteredProfileList, siteType);
                 }
@@ -154,7 +154,7 @@ namespace BBC.Dna.Component
 
             foreach (BuzzTwitterProfile profile in profileList)
             {
-                if (profile.SiteURL.Equals(siteType))
+                if (false == string.IsNullOrEmpty(profile.SiteURL) && profile.SiteURL.Equals(siteType))
                 {
                     filteredProfileList.Add(profile);
                 }
@@ -263,14 +263,6 @@ namespace BBC.Dna.Component
                 AddTextTag(sitexml, "SSOSERVICE", site.SSOService);
                 AddTextTag(sitexml, "MODERATIONSTATUS", ((int)site.ModerationStatus).ToString());
             }
-            //RootElement.AppendChild(ImportNode(sitesxml.FirstChild));
-
-            ////get sitelist
-            //SiteXmlBuilder siteXml = new SiteXmlBuilder(InputContext);
-            //siteXml.CreateXmlSiteList(InputContext.TheSiteList);
-            //RootElement.AppendChild(ImportNode(siteXml.RootElement.FirstChild));
-
-            //SerialiseAndAppend(BBC.Dna.Sites.SiteTypeEnumList.GetSiteTypes(), "");
         }
 
        
@@ -292,10 +284,10 @@ namespace BBC.Dna.Component
             catch (Exception ex)
             {
                 InputContext.Diagnostics.WriteExceptionToLog(ex);
+                BaseResult result = new Error { Type = "PROFILELISTFILTERACTION", ErrorMessage = "Buzz returns an error. Please try again." + ex.Message };
             }
             return tweetProfiles;
         }
-
 
        
         /// <summary>

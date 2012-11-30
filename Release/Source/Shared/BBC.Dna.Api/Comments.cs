@@ -71,6 +71,9 @@ namespace BBC.Dna.Api
                         while (reader.Read())
                         {
                             MostCommentedCommentForum mostCommentedCommentForum = MostCommentedCommentForumCreateFromReader(reader);
+                            mostRecentlyCommentedList.SiteName = site.SiteName;
+                            mostRecentlyCommentedList.Description = site.Description;
+                            mostRecentlyCommentedList.CommentForumUID = prefix;
                             mostRecentlyCommentedList.MostCommentedCommentForums.Add(mostCommentedCommentForum);
                         }
                     }
@@ -118,6 +121,9 @@ namespace BBC.Dna.Api
                         while (reader.Read())
                         {
                             MostCommentedCommentForum mostCommentedCommentForum = MostCommentedCommentForumCreateFromReader(reader);
+                            mostCommentedList.SiteName = site.SiteName;
+                            mostCommentedList.Description = site.Description;
+                            mostCommentedList.CommentForumUID = prefix;
                             mostCommentedList.MostCommentedCommentForums.Add(mostCommentedCommentForum);
                         }
                     }
@@ -1368,7 +1374,10 @@ namespace BBC.Dna.Api
         {
             var mostCommentedCommentForum = new MostCommentedCommentForum();
             mostCommentedCommentForum.UID = reader.GetStringNullAsEmpty("Uid");
-            mostCommentedCommentForum.SiteId = reader.GetInt32NullAsZero("SiteID");
+
+            var site = SiteList.GetSite(reader.GetInt32NullAsZero("SiteID"));
+            mostCommentedCommentForum.SiteName = (site != null) && (false == string.IsNullOrEmpty(site.SiteName)) ? site.SiteName : string.Empty;
+            
             mostCommentedCommentForum.ForumId = reader.GetInt32NullAsZero("ForumID");
             mostCommentedCommentForum.Url = reader.GetStringNullAsEmpty("Url");
             mostCommentedCommentForum.Title = reader.GetStringNullAsEmpty("Title");
