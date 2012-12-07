@@ -238,26 +238,27 @@ namespace BBC.Dna.SocialAPI
 
                 if (resStatus.ToUpper().Equals("OK"))
                 {
-                    uri = ConfigurationSettings.AppSettings["BuzzProfileRestartIngest"].ToString();
+                    resStatus = "your profile has been created, now please contact the DNA team to activate it.";
+                    //uri = ConfigurationSettings.AppSettings["BuzzProfileRestartIngest"].ToString();
 
-                    AddTimingInfoLine("<* BUZZ API CALL RESTART INGEST START *>");
-                    AddTimingInfoLine("Base URL           - " + uri);
+                    //AddTimingInfoLine("<* BUZZ API CALL RESTART INGEST START *>");
+                    //AddTimingInfoLine("Base URL           - " + uri);
 
-                    response = null;
+                    //response = null;
 
-                    webRequest = GetWebRequestWithCertificateDetails(uri);
-                    webRequest.Method = "GET";
-                    try
-                    {
-                        response = (HttpWebResponse)webRequest.GetResponse();
-                        resStatus = response.StatusDescription;
-                    }
-                    catch (Exception ex)
-                    {
-                        resStatus = ex.Message;
-                        AddTimingInfoLine("BUZZ API CALL RESTART INGEST ERROR!!! - " + resStatus);
-                    }
-                    AddTimingInfoLine("<* BUZZ API CALL RESTART INGEST END *>");
+                    //webRequest = GetWebRequestWithCertificateDetails(uri);
+                    //webRequest.Method = "GET";
+                    //try
+                    //{
+                    //    response = (HttpWebResponse)webRequest.GetResponse();
+                    //    resStatus = response.StatusDescription;
+                    //}
+                    //catch (Exception ex)
+                    //{
+                    //    resStatus = ex.Message;
+                    //    AddTimingInfoLine("BUZZ API CALL RESTART INGEST ERROR!!! - " + resStatus);
+                    //}
+                    //AddTimingInfoLine("<* BUZZ API CALL RESTART INGEST END *>");
                 }
             }
             catch (Exception ex)
