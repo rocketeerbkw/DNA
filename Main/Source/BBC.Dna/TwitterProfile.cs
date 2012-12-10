@@ -389,15 +389,21 @@ namespace BBC.Dna.Component
                 try
                 {
                     ISite site = InputContext.TheSiteList.GetSite(siteName);
-
+                    BaseResult result;
                     if ((string.IsNullOrEmpty(_pageAction)) || (false == _pageAction.ToLower().Equals("updateprofile")))
                     {
-                        return CreateCommentForum(siteName, commentObj, commentForum, site);
+                        result = CreateCommentForum(siteName, commentObj, commentForum, site);
                     }
                     else
                     {
-                        return UpdateCommentForum(siteName, commentObj, site, commentForum);
+                        result = UpdateCommentForum(siteName, commentObj, site, commentForum);
                     }
+
+                    if (!result.IsError())
+                    {
+                        ((Result)result).Message += " Your profile has been created, now please contact the DNA team to activate it.";
+                    }
+                    return result;
                 }
                 catch (Exception e)
                 {

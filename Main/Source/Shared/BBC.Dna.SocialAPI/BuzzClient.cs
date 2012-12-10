@@ -238,7 +238,7 @@ namespace BBC.Dna.SocialAPI
 
                 if (resStatus.ToUpper().Equals("OK"))
                 {
-                    resStatus = "your profile has been created, now please contact the DNA team to activate it.";
+                    resStatus = "OK";
                     //uri = ConfigurationSettings.AppSettings["BuzzProfileRestartIngest"].ToString();
 
                     //AddTimingInfoLine("<* BUZZ API CALL RESTART INGEST START *>");
