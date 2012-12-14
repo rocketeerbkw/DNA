@@ -333,10 +333,11 @@ namespace BBC.Dna.Api
                 SmtpClient client = new SmtpClient(EmailServerAddress);
                 client.Timeout = 5;
 
-                client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
+                //client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
 
                 this._dnaDiagnostics.WriteTimedEventToLog("Email", "BeforeSend");
-                client.SendAsync(message, new FailedEmail(sender, recipient, subject, body, filenamePrefix));
+                //client.SendAsync(message, new FailedEmail(sender, recipient, subject, body, filenamePrefix));
+                client.Send(message);
                 this._dnaDiagnostics.WriteTimedEventToLog("Email", "AfterSend");
             }
             catch (Exception e)
@@ -364,7 +365,10 @@ namespace BBC.Dna.Api
             FailedEmail failedMail = (FailedEmail)e.UserState;
             if (e.Error != null || e.Cancelled)
             {
-                WriteFailedEmailToFile(failedMail.To, failedMail.From, failedMail.Subject, failedMail.Body + "\n\n" + e.Error.Message + e.Error.InnerException.Message, failedMail.FilePreFix);
+                if (failedMail != null)
+                {
+                    WriteFailedEmailToFile(failedMail.To, failedMail.From, failedMail.Subject, failedMail.Body + "\n\n" + e.Error.Message + e.Error.InnerException.Message, failedMail.FilePreFix);
+                }
                 DnaDiagnostics.WriteExceptionToLog(e.Error);
             }
         }
