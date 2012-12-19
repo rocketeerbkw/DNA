@@ -317,8 +317,8 @@ namespace BBC.Dna.Sites
                     reader.AddParameter("siteid", option.SiteId);
                     reader.AddParameter("section", option.Section);
                     reader.AddParameter("name", option.Name);
-                    reader.AddParameter("value", option.Value);
-                    reader.Execute();
+                    reader.AddParameter("value", option.GetRawValue());
+                    reader.Execute2();
                 }
             }
         }
@@ -330,7 +330,7 @@ namespace BBC.Dna.Sites
                 reader.AddParameter("siteid", siteID);
                 reader.AddParameter("section", so.Section);
                 reader.AddParameter("name", so.Name);
-                reader.Execute();
+                reader.Execute2();
             }
         }
     }

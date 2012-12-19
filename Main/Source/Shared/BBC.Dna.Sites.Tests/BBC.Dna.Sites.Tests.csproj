@@ -91,6 +91,10 @@
     <Compile Include="TopicTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Tests\Legacy Tests\Tests\Tests.csproj">
+      <Project>{6049CBC4-1622-46D4-AA01-E528106493EC}</Project>
+      <Name>Tests %28Tests\Legacy Tests\Tests%29</Name>
+    </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
       <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
       <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
@@ -110,6 +114,10 @@
     <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
       <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestUtils\TestUtils.csproj">
+      <Project>{E09BF891-7D4F-403E-B830-B9E2606D2C22}</Project>
+      <Name>TestUtils %28Source\Shared\TestUtils\TestUtils%29</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

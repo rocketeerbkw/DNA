@@ -125,6 +125,7 @@
     <Compile Include="DnaException.cs" />
     <Compile Include="DnaHasher.cs" />
     <Compile Include="DnaStringParser.cs" />
+    <Compile Include="DnaTracer.cs" />
     <Compile Include="EmailAddressFilter.cs" />
     <Compile Include="Entities.cs" />
     <Compile Include="Error.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="IDnaCache.cs" />
     <Compile Include="IDnaDiagnostics.cs" />
     <Compile Include="IRequest.cs" />
+    <Compile Include="IDnaTracer.cs" />
     <Compile Include="LinkTranslator.cs" />
     <Compile Include="Locking.cs">
       <SubType>

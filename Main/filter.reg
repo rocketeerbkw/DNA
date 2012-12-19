@@ -102,8 +102,8 @@ REGEDIT4
 "/NamedArticles"="/ripleyserver.dll?NamedArticles?"
 "/TopFiveEditor"="/ripleyserver.dll?TopFiveEditor?"
 "/SiteAdmin"="/ripleyserver.dll?SiteAdmin?"
-"/SiteOptions"="/ripleyserver.dll?SiteOptions?"
-"/SiteOptions-n"="/dna/dnapages/SiteOptions.aspx?"
+"/SiteOptions-o"="/ripleyserver.dll?SiteOptions?"
+"/SiteOptions"="/dna/dnapages/SiteOptions.aspx?"
 "/SiteConfig"="/ripleyserver.dll?SiteConfig?"
 "/PreviewSiteConfig"="/ripleyserver.dll?PreviewSiteConfig?"
 "/RegProcess"="/ripleyserver.dll?NewRegister?"
@@ -360,3 +360,5 @@ REGEDIT4
 
 "/OldEditPost"="/ripleyserver.dll?EditPost?"
 "/EditPost"="/dna/dnapages/editpost.aspx?"
+"/Welcome"="/dna/dnapages/WelcomePage.aspx?"
+

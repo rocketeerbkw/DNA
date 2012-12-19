@@ -1,25 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Xml;
-using BBC.Dna;
-using BBC.Dna.Api;
 using BBC.Dna.Data;
-using DnaIdentityWebServiceProxy;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using TestUtils;
-using System.Text;
-
-
-
-
 
 namespace FunctionalTests
 {
-    [TestClass, Ignore]
+    [TestClass]
     public class UserSynchronisationTests
     {
         private string _userName = "testers";
