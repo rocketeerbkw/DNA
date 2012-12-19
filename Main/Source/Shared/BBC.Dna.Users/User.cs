@@ -263,6 +263,20 @@ namespace BBC.Dna.Users
             _userGroupsManager = UserGroups.GetObject();
         }
 
+        public User(IDnaDataReaderCreator dnaDataReaderCreator, IDnaDiagnostics dnaDiagnostics, ICacheManager caching, UserGroups userGroups)
+        {
+            _dnaDataReaderCreator = dnaDataReaderCreator;
+            _dnaDiagnostics = dnaDiagnostics;
+            if (_dnaDataReaderCreator == null)
+            {
+                _databaseConnectionDetails = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
+            }
+
+            Trace.WriteLine("User() - connection details = " + _databaseConnectionDetails);
+            _cachingObject = caching;
+            _userGroupsManager = userGroups;
+        }
+
         /// <summary>
         /// Creates a user using their DNA User ID
         /// </summary>
@@ -597,6 +611,8 @@ namespace BBC.Dna.Users
             {
                 IsAutoSinBin = reader.GetInt32NullAsZero("SinBin");
             }
+
+            PrimarySiteId = reader.GetInt32NullAsZero("PrimarySiteId");
         }
 
         /// <summary>
@@ -606,8 +622,12 @@ namespace BBC.Dna.Users
         public List<UserGroup> GetUsersGroupsForSite()
         {
             // Call the groups service
-            UsersListOfGroups = _userGroupsManager.GetUsersGroupsForSite(UserID, SiteID);
-            return UsersListOfGroups;
+            if (_userGroupsManager != null)
+            {
+                UsersListOfGroups = _userGroupsManager.GetUsersGroupsForSite(UserID, SiteID);
+                return UsersListOfGroups;
+            }
+            return new List<UserGroup>();
         }
 
         /// <summary>
@@ -719,6 +739,8 @@ namespace BBC.Dna.Users
 
             return false;
         }
+
+        public int PrimarySiteId { get; private set; }
 
         public bool IsTrustedUser()
         {

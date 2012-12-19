@@ -86,10 +86,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepDefinitions\CreateForum.cs" />
     <Compile Include="StepDefinitions\CreateContactForm.cs" />
+    <Compile Include="StepDefinitions\CreateTwitterUser.cs" />
     <Compile Include="StepDefinitions\Global.cs" />
     <Compile Include="StepDefinitions\Support\APIRequester.cs" />
     <Compile Include="StepDefinitions\Support\CommentForumTestUtils.cs" />
     <Compile Include="StepDefinitions\Support\ContactFormTestUtils.cs" />
+    <Compile Include="Twitter.CreateUser.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Twitter.CreateUser.feature</DependentUpon>
+    </Compile>
     <Compile Include="TwitterAdminConsole.AdminConsoleAuthorization.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -121,6 +127,10 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>ContactForms.CreateForm.feature.cs</LastGenOutput>
     </None>
+    <None Include="Twitter.CreateUser.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Twitter.CreateUser.feature.cs</LastGenOutput>
+    </None>
     <None Include="TwitterAdminConsole.AdminConsoleAuthorization.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TwitterAdminConsole.AdminConsoleAuthorization.feature.cs</LastGenOutput>
@@ -134,6 +144,10 @@
     <ProjectReference Include="..\..\..\Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI.csproj">
       <Project>{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D}</Project>
       <Name>BBC.Dna.SocialAPI %28Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Source\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj">
+      <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
+      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>

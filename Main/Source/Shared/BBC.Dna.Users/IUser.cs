@@ -14,5 +14,9 @@ namespace BBC.Dna.Users
         /// <returns>True if they are of the given type, false if not</returns>
         bool IsUserA(UserTypes type);
 
+        /// <summary>
+        /// Site ID of the first site user visited
+        /// </summary>
+        int PrimarySiteId { get; }
     }
 }
