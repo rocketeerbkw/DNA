@@ -612,7 +612,7 @@ namespace BBC.Dna.Users
                 IsAutoSinBin = reader.GetInt32NullAsZero("SinBin");
             }
 
-            PrimarySiteId = reader.GetInt32NullAsZero("PrimarySiteId");
+            //PrimarySiteId = reader.GetInt32NullAsZero("PrimarySiteId");
         }
 
         /// <summary>
