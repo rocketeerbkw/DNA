@@ -383,7 +383,7 @@ namespace BBC.Dna.Data
         {
             using (new Tracer(this.GetType().Namespace))
             {
-                _dnaDiagnostics.WriteToLog(this.GetType().Namespace, "Executing " + _name);
+//                _dnaDiagnostics.WriteToLog(this.GetType().Namespace, "Executing " + _name);
                 Logger.Write("Executing " + _name, this.GetType().Namespace);
                 WriteTimedEventToLog("Executing " + _name);
                 _connection = new SqlConnection(_connectionString);
