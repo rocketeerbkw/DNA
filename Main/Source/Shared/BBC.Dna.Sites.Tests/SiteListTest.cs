@@ -610,8 +610,8 @@ namespace BBC.Dna.Sites.Tests
             Assert.AreEqual(1, actual.Ids.Count);
 
             siteList.SendSignal();
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/signal?action=recache-site", url)));
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/dnasignal?action=recache-site", url)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/signal?action=recache-site", url)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/dnasignal?action=recache-site", url)));
         }
 
         [TestMethod]
@@ -640,8 +640,8 @@ namespace BBC.Dna.Sites.Tests
 
             var siteId = 1;
             siteList.SendSignal(siteId);
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/signal?action=recache-site&siteid={1}", url, siteId)));
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/dnasignal?action=recache-site&siteid={1}", url, siteId)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/signal?action=recache-site&siteid={1}", url, siteId)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/dnasignal?action=recache-site&siteid={1}", url, siteId)));
         }
 
         [TestMethod]
