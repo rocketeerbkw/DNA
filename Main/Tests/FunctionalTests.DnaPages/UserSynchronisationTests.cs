@@ -10,7 +10,7 @@ using TestUtils;
 
 namespace FunctionalTests
 {
-    [TestClass]
+    [TestClass, Ignore]
     public class UserSynchronisationTests
     {
         private string _userName = "testers";
