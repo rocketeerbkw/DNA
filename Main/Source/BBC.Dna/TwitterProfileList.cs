@@ -73,7 +73,7 @@ namespace BBC.Dna.Component
 
             if (true == InputContext.ViewingUser.IsSuperUser)
             {
-                GenerateTwitterSiteListXml();
+                GenerateTwitterSiteList();
             }
             else if (true == InputContext.ViewingUser.IsEditor)
             {
@@ -84,7 +84,7 @@ namespace BBC.Dna.Component
 
                 profileList = GenerateUserSpecificProfileList(profileList, userSiteList);
 
-                GenerateTwitterSiteListForUserXml(InputContext.ViewingUser.UserID);
+                GenerateTwitterSiteListForUser(InputContext.ViewingUser.UserID);
 
             }
 
@@ -97,6 +97,7 @@ namespace BBC.Dna.Component
                 if (false == string.IsNullOrEmpty(_activeOnly))
                 {
                     profileList = ProcessCommand(profileList, _siteType);
+                    AddProcessingSiteXML();
                 }
                 
                 GenerateTwitterProfileListPageXml(profileList);
@@ -191,36 +192,25 @@ namespace BBC.Dna.Component
         /// Twitter sites for a specific user with the site type 5
         /// </summary>
         /// <param name="userId"></param>
-        private void GenerateTwitterSiteListForUserXml(int userId)
+        private void GenerateTwitterSiteListForUser(int userId)
         {
             var userSiteList = UserGroups.GetObject().GetSitesUserIsMemberOf(userId, "editor");
 
-            Dictionary<int, ISite> siteList = null;
+            Dictionary<int, Site> siteList = null;
             try
             {
-                siteList = new Dictionary<int, ISite>();
+                siteList = new Dictionary<int, Site>();
                 foreach (int siteId in userSiteList)
                 {
                     int twitterSiteType = InputContext.GetSiteOptionValueInt(siteId, "General", "SiteType");
                     if (twitterSiteType == 5) // Site type value for twitter site is 5
                     {
                         ISite site = InputContext.TheSiteList.GetSite(siteId);
-                        siteList.Add(siteId, site);
+                        siteList.Add(siteId, site as Site);
                     }
                 }
 
-                XmlNode sitesxml = AddElementTag(RootElement, "TWITTER-SITE-LIST");
-                AddAttribute(sitesxml, "COUNT", siteList.Values.Count);
-                foreach (BBC.Dna.Sites.Site site in siteList.Values)
-                {
-                    XmlNode sitexml = AddElementTag(sitesxml, "SITE");
-                    AddAttribute(sitexml, "ID", site.SiteID);
-                    AddTextTag(sitexml, "NAME", site.SiteName);
-                    AddTextTag(sitexml, "DESCRIPTION", site.Description);
-                    AddTextTag(sitexml, "SHORTNAME", site.ShortName);
-                    AddTextTag(sitexml, "SSOSERVICE", site.SSOService);
-                    AddTextTag(sitexml, "MODERATIONSTATUS", ((int)site.ModerationStatus).ToString());
-                }
+                AddTwitterSiteListXML(siteList);
             }
             finally
             {
@@ -235,7 +225,7 @@ namespace BBC.Dna.Component
         /// <summary>
         /// Twitter Sites filtered by the SiteType value 5
         /// </summary>
-        private void GenerateTwitterSiteListXml()
+        private void GenerateTwitterSiteList()
         {
             Dictionary<int, BBC.Dna.Sites.Site> siteList = new Dictionary<int, BBC.Dna.Sites.Site>();
 
@@ -251,9 +241,18 @@ namespace BBC.Dna.Component
                 }
             }
 
+            AddTwitterSiteListXML(siteList);
+        }
+
+        /// <summary>
+        /// Generating twitter site list xml
+        /// </summary>
+        /// <param name="siteList"></param>
+        private void AddTwitterSiteListXML(Dictionary<int, Site> siteList)
+        {
             XmlNode sitesxml = AddElementTag(RootElement, "TWITTER-SITE-LIST");
             AddAttribute(sitesxml, "COUNT", siteList.Values.Count);
-            foreach (BBC.Dna.Sites.Site site in siteList.Values)
+            foreach (Site site in siteList.Values)
             {
                 XmlNode sitexml = AddElementTag(sitesxml, "SITE");
                 AddAttribute(sitexml, "ID", site.SiteID);
@@ -265,6 +264,20 @@ namespace BBC.Dna.Component
             }
         }
 
+        /// <summary>
+        /// Generating processing site xml
+        /// </summary>
+        private void AddProcessingSiteXML()
+        {
+            var selectedSite = InputContext.TheSiteList.GetSite(_siteType);
+
+            XmlElement processXml = AddElementTag(RootElement, "PROCESSINGSITE");
+            XmlElement processedSiteXML = AddElementTag(processXml, "SITE");
+            AddAttribute(processedSiteXML, "ID", selectedSite.SiteID);
+            AddTextElement(processedSiteXML, "NAME", selectedSite.SiteName);
+            AddTextElement(processedSiteXML, "DESCRIPTION", selectedSite.Description);
+            AddTextElement(processedSiteXML, "SHORTNAME", selectedSite.ShortName);
+        }
        
         /// <summary>
         /// Integration with the BuzzApi and retrieves twitter profiles

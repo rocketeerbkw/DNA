@@ -48,19 +48,20 @@
 				<div class="dna-fr">
 				  <span>* denotes required field</span>
 				</div>
-				<form method="post" action="twitterprofile" class="twitterprofile"> 
-					<input type="hidden" name="sitename" id="sitename">
-						<xsl:attribute name="value">
-							<xsl:choose>
-								<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE">
-									<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE" />
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="/H2G2/TWITTER-SITE-LIST/SITE/NAME" />
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-					</input>
+				<form method="post" action="twitterprofile" class="twitterprofile">
+          
+          <input type="hidden" name="sitename" id="sitename">
+            <xsl:attribute name="value">
+              <xsl:value-of select="/H2G2/TWITTER-SITE-LIST/SITE/NAME" />
+            </xsl:attribute>
+          </input>
+
+          <input type="hidden" name="s_sitename" id="s_sitename">
+            <xsl:attribute name="value">
+              <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE" />
+            </xsl:attribute>
+          </input>
+          
 					<fieldset>
 						<ul class="twitter-profile">
 							<li>

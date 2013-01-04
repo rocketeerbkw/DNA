@@ -6,14 +6,16 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="doc">
 
-	<xsl:template match="SITE" mode="objects_sites_twittersites">
-		<xsl:variable name="twittersiteid" select="@ID" />
-		<xsl:variable name="twittersitename" select="NAME" />
-		
-		<option value="{$twittersitename}">
-			<xsl:value-of select="$twittersitename" />
-		</option> 
-		
-	</xsl:template>
+  <xsl:template match="/H2G2/TWITTER-SITE-LIST/SITE" mode="objects_sites_twittersites">
+
+    <xsl:variable name="twittersitename" select="NAME" />
+
+    <option value="{$twittersitename}">
+      <xsl:if test="$twittersitename = /H2G2/PROCESSINGSITE/SITE/NAME">
+        <xsl:attribute name="selected">selected</xsl:attribute>
+      </xsl:if>
+      <xsl:value-of select="$twittersitename"/>
+    </option>
+  </xsl:template>
 	
 </xsl:stylesheet>

@@ -32,7 +32,7 @@
 					    	<fieldset>
 						    	<label for="sites">Site:</label>
 								  <select name="sitename" id="sites">
-						    		<xsl:apply-templates select="/H2G2/TWITTER-SITE-LIST/SITE" mode="objects_sites_twittersites" />
+						    		<xsl:apply-templates select="/H2G2/TWITTER-SITE-LIST" mode="objects_sites_twittersites" />
 						    	</select>
 						    	<div class="dna-buttons sites">
 						    		<input type="submit" value="Change site" class="change-site"/>
@@ -133,14 +133,14 @@
   
 	<xsl:template name="newprofilelink">
 		<xsl:variable name="sitetype">
-			<xsl:choose>
-				<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE">
-					<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE" />
-				</xsl:when>
-				<xsl:otherwise>
-					<xsl:value-of select="/H2G2/TWITTER-SITE-LIST/SITE/NAME" />
-				</xsl:otherwise>
-			</xsl:choose>
+      <xsl:choose>
+        <xsl:when test="/H2G2/PROCESSINGSITE/SITE/NAME != ''">
+          <xsl:value-of select="/H2G2/PROCESSINGSITE/SITE/NAME" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="/H2G2/TWITTER-SITE-LIST/SITE/NAME" />
+        </xsl:otherwise>
+      </xsl:choose>
 		</xsl:variable>	
 		<div class="blq-clearfix dna-fr">
 			<ul class="dna-buttons">

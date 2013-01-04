@@ -208,23 +208,9 @@ namespace BBC.Dna.Component
                         InputContext.Diagnostics.WriteExceptionToLog(ex);
                     }
 
-                    string str = StringUtils.SerializeToXmlReturnAsString(twitterProfile);
-
-                    var actualXml = str.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
-                    actualXml = actualXml.Replace("xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"BBC.Dna.SocialAPI\"", "").Trim();
-                    actualXml = actualXml.Replace("xmlns:d2p1=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\"", "").Trim();
-                    actualXml = actualXml.Replace("d2p1:string", "item");
-
-                    actualXml = actualXml.Replace("</profile>", "<commentforumparenturi>" + _commentForumURI + "</commentforumparenturi></profile>");
-
-                    //Making all the XML Nodes uppercase
-                    actualXml = StringUtils.ConvertXmlTagsToUppercase(actualXml);
-
-                    XmlDocument doc = new XmlDocument();
-                    doc.LoadXml(actualXml);
-                    XmlNode appendNode = doc.DocumentElement;
-
-                    ImportAndAppend(appendNode, "");
+                    //seperate method to fill up the twitter profile xml
+                    CreateTwitterProfileXML(twitterProfile, _commentForumURI);
+                   
                     string[] str1 = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
 
                     var commentforumlistURI = string.Empty;
@@ -249,6 +235,32 @@ namespace BBC.Dna.Component
                 InputContext.Diagnostics.WriteExceptionToLog(ex);
                 return new Error { Type = "GETTWITTERPROFILEINVALIDACTION", ErrorMessage = "Twitter Profile retrieval failed" };
             }
+        }
+
+        /// <summary>
+        /// Method to create the fill up the twitter profile with values
+        /// </summary>
+        /// <param name="twitterProfile"></param>
+        /// <param name="commentForumParentURI"></param>
+        private void CreateTwitterProfileXML(BuzzTwitterProfile twitterProfile, string commentForumParentURI)
+        {
+            string str = StringUtils.SerializeToXmlReturnAsString(twitterProfile);
+
+            var actualXml = str.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
+            actualXml = actualXml.Replace("xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"BBC.Dna.SocialAPI\"", "").Trim();
+            actualXml = actualXml.Replace("xmlns:d2p1=\"http://schemas.microsoft.com/2003/10/Serialization/Arrays\"", "").Trim();
+            actualXml = actualXml.Replace("d2p1:string", "item");
+
+            actualXml = actualXml.Replace("</profile>", "<commentforumparenturi>" + commentForumParentURI + "</commentforumparenturi></profile>");
+
+            //Making all the XML Nodes uppercase
+            actualXml = StringUtils.ConvertXmlTagsToUppercase(actualXml);
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(actualXml);
+            XmlNode appendNode = doc.DocumentElement;
+
+            ImportAndAppend(appendNode, "");
         }
 
         /// <summary>
@@ -300,7 +312,24 @@ namespace BBC.Dna.Component
                 client = new BuzzClient();
                 twitterProfile = new BuzzTwitterProfile();
 
-                twitterProfile.SiteURL = siteName;
+                try
+                {
+                    ISite site = InputContext.TheSiteList.GetSite(siteName);
+
+                    if (site != null)
+                    {
+                        twitterProfile.SiteURL = site.SiteName;
+                    }
+                    else
+                    {
+                        return new Error { Type = "SITEINVALIDACTION", ErrorMessage = String.Format("Site, '{0}' doesn't exist", siteName) };
+                    }
+                }
+                catch (Exception exc)
+                {
+                    InputContext.Diagnostics.WriteExceptionToLog(exc);
+                    return new Error { Type = "SITEINVALIDACTION", ErrorMessage = String.Format("Site, '{0}' doesn't exist", siteName) };
+                }
 
                 List<string> twitterUserIds = new List<string>();
                 var isValidUser = string.Empty;
@@ -361,12 +390,18 @@ namespace BBC.Dna.Component
                 twitterProfile.TrustedUsersEnabled = _isTrustedUsersEnabled;
 
                 twitterProfile.Active = _isActive;
-
+               
                 isProfileCreated = client.CreateUpdateProfile(twitterProfile);
+
+                twitterProfile.Users = twitterUserScreenNameList; //Filling the xml with the screennames entered
 
             }
             catch (Exception ex)
             {
+                twitterProfile.Users = twitterUserScreenNameList;
+
+                CreateTwitterProfileXML(twitterProfile, _commentForumURI);
+
                 InputContext.Diagnostics.WriteExceptionToLog(ex);
             }
 
@@ -403,11 +438,17 @@ namespace BBC.Dna.Component
                     {
                         ((Result)result).Message += " Your profile has been created, now please contact the DNA team to activate it.";
                     }
+
+                    CreateTwitterProfileXML(twitterProfile, commentForum.ParentUri);
+
                     return result;
                 }
                 catch (Exception e)
                 {
+                    CreateTwitterProfileXML(twitterProfile, commentForum.ParentUri);
+
                     InputContext.Diagnostics.WriteExceptionToLog(e);
+
                     return new Error { Type = "SITEINVALIDACTION", ErrorMessage = String.Format("Site, '{0}' doesn't exist", siteName) };
                 }
             }
@@ -634,6 +675,15 @@ namespace BBC.Dna.Component
             if (InputContext.DoesParamExist("sitename", "sitename"))
             {
                 _siteName = InputContext.GetParamStringOrEmpty("sitename", "sitename");
+
+                if (true == string.IsNullOrEmpty(_siteName))
+                {
+                    if (InputContext.DoesParamExist("s_sitename", "sitename"))
+                    {
+                        _siteName = InputContext.GetParamStringOrEmpty("s_sitename", "sitename");
+                    }
+                } 
+
             }
 
             if(InputContext.DoesParamExist("action", "Command string for flow"))

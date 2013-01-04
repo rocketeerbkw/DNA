@@ -81,17 +81,22 @@
         <xsl:when test="@TYPE = 'ImageNameMissing'"><a href="#dna-preview-topic-edit-{$topicId}">Add a topic promo image</a></xsl:when>
         <xsl:when test="@TYPE = 'AltTextMissing'"><a href="#dna-preview-topic-edit-{$topicId}">Provide an alt text</a></xsl:when>
         <xsl:when test="@CODE = 'UserNotLoggedIn'">You are not logged in</xsl:when>
-		<xsl:when test="@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTION'">
-			<xsl:variable name="tweetusername" select="ERRORLINKPARAMETER"/>
-			<xsl:value-of select="ERRORMESSAGE"/>
-			<xsl:choose>
-				<xsl:when test="$tweetusername = ''">
-				</xsl:when>
-				<xsl:otherwise>
-					<a href="UserList?searchText={$tweetusername}&amp;usersearchtype=6">User List</a>
-				</xsl:otherwise>				
-			</xsl:choose>
-		</xsl:when>
+		    <xsl:when test="@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTION'">
+			    <xsl:variable name="tweetusername" select="ERRORLINKPARAMETER"/>
+			    <xsl:value-of select="ERRORMESSAGE"/>
+			    <xsl:choose>
+				    <xsl:when test="$tweetusername = ''">
+				    </xsl:when>
+				    <xsl:otherwise>
+					    <a href="UserList?searchText={$tweetusername}&amp;usersearchtype=6">User List</a>
+				    </xsl:otherwise>				
+			    </xsl:choose>
+		    </xsl:when>
+
+        <xsl:when test="@TYPE = 'SITEINVALIDACTION'">
+          <xsl:value-of select="ERRORMESSAGE"/> Please return to the Twitter Profile List page by following the link, <a href="twitterprofilelist">Twitter Profile List</a>.
+        </xsl:when>
+        
         <xsl:otherwise><xsl:value-of select="ERRORMESSAGE"/></xsl:otherwise>
       </xsl:choose>
     </p>
