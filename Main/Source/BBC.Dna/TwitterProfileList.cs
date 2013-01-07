@@ -125,7 +125,7 @@ namespace BBC.Dna.Component
                         filteredProfileList.Add(profile);
                     }
                 }
-                if (false == string.IsNullOrEmpty(siteType))
+                if (false == string.IsNullOrEmpty(siteType) && false == siteType.ToUpper().Equals("ALL"))
                 {
                     filteredProfileList = GetSiteSpecificProfileList(filteredProfileList, siteType);
                 }
@@ -134,7 +134,7 @@ namespace BBC.Dna.Component
             {
                 filteredProfileList = profileList;
 
-                if (false == string.IsNullOrEmpty(_siteType))
+                if (false == string.IsNullOrEmpty(_siteType) && false == siteType.ToUpper().Equals("ALL"))
                 {
                     filteredProfileList = GetSiteSpecificProfileList(filteredProfileList, siteType);
                 }
@@ -262,6 +262,9 @@ namespace BBC.Dna.Component
                 AddTextTag(sitexml, "SSOSERVICE", site.SSOService);
                 AddTextTag(sitexml, "MODERATIONSTATUS", ((int)site.ModerationStatus).ToString());
             }
+
+            XmlNode defaultEntry = AddElementTag(sitesxml, "SITE");
+            AddTextTag(defaultEntry, "NAME", "All");
         }
 
         /// <summary>
@@ -269,14 +272,23 @@ namespace BBC.Dna.Component
         /// </summary>
         private void AddProcessingSiteXML()
         {
-            var selectedSite = InputContext.TheSiteList.GetSite(_siteType);
+            if (_siteType.ToUpper().Equals("ALL") || true == string.IsNullOrEmpty(_siteType))
+            {
+                XmlElement processXml = AddElementTag(RootElement, "PROCESSINGSITE");
+                XmlElement processedSiteXML = AddElementTag(processXml, "SITE");
+                AddTextElement(processedSiteXML, "NAME", "All");
+            }
+            else
+            {
+                var selectedSite = InputContext.TheSiteList.GetSite(_siteType);
 
-            XmlElement processXml = AddElementTag(RootElement, "PROCESSINGSITE");
-            XmlElement processedSiteXML = AddElementTag(processXml, "SITE");
-            AddAttribute(processedSiteXML, "ID", selectedSite.SiteID);
-            AddTextElement(processedSiteXML, "NAME", selectedSite.SiteName);
-            AddTextElement(processedSiteXML, "DESCRIPTION", selectedSite.Description);
-            AddTextElement(processedSiteXML, "SHORTNAME", selectedSite.ShortName);
+                XmlElement processXml = AddElementTag(RootElement, "PROCESSINGSITE");
+                XmlElement processedSiteXML = AddElementTag(processXml, "SITE");
+                AddAttribute(processedSiteXML, "ID", selectedSite.SiteID);
+                AddTextElement(processedSiteXML, "NAME", selectedSite.SiteName);
+                AddTextElement(processedSiteXML, "DESCRIPTION", selectedSite.Description);
+                AddTextElement(processedSiteXML, "SHORTNAME", selectedSite.ShortName);
+            }
         }
        
         /// <summary>

@@ -55,7 +55,7 @@
 			    				  </xsl:choose>
 			    			  </xsl:attribute>
 			    		  </input>
-			    		  					
+              
 						    <label for="activeonly">
 							    <xsl:choose>
 								    <xsl:when test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = 'on' or /H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_activeonly']/VALUE = ''">
@@ -64,7 +64,13 @@
 								    <xsl:otherwise>Show active profiles only:</xsl:otherwise>
 							    </xsl:choose>
 						    </label>
-						    
+
+                <input type="hidden" name="sitename" class="sitename">
+                  <xsl:attribute name="value">
+                    <xsl:value-of select="/H2G2/PROCESSINGSITE/SITE/NAME"/>
+                  </xsl:attribute>
+                </input>
+              
 						  <div class="dna-buttons">
 							  <input type="submit">
 								  <xsl:attribute name="value">
@@ -134,6 +140,7 @@
 	<xsl:template name="newprofilelink">
 		<xsl:variable name="sitetype">
       <xsl:choose>
+        <xsl:when test="/H2G2/PROCESSINGSITE/SITE/NAME = 'All'">All</xsl:when>
         <xsl:when test="/H2G2/PROCESSINGSITE/SITE/NAME != ''">
           <xsl:value-of select="/H2G2/PROCESSINGSITE/SITE/NAME" />
         </xsl:when>
@@ -144,7 +151,16 @@
 		</xsl:variable>	
 		<div class="blq-clearfix dna-fr">
 			<ul class="dna-buttons">
-				<li><a href="twitterprofile?s_sitename={$sitetype}&amp;sitename={$sitetype}" class="create-new-profile">New Profile</a></li>
+				<li>
+          <xsl:choose>
+            <xsl:when test="$sitetype = 'All'">
+              Please select a specific site to create a new profile
+            </xsl:when>
+            <xsl:otherwise>
+              <a href="twitterprofile?s_sitename={$sitetype}&amp;sitename={$sitetype}" class="create-new-profile">New Profile</a>
+            </xsl:otherwise>
+          </xsl:choose>
+        </li>
 			</ul>  
 		</div>
 	</xsl:template>
