@@ -109,7 +109,17 @@ namespace BBC.Dna
             {
                 XmlNode text = detail.FirstChild.NextSibling;
                 Contacts.TryParseContactFormMessage(text.InnerText, ref subject, ref body);
-                text.InnerText = body;
+                body = HtmlUtils.HtmlEncode(body);
+                try
+                {
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml("<TEXT>" + body.Trim().Replace("\n", "<br/>") + "</TEXT>");
+                    text.InnerXml = doc.FirstChild.InnerXml;
+                 }
+                catch
+                {
+                    text.InnerText = body;
+                }
             }
         }
 

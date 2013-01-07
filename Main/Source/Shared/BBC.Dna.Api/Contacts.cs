@@ -218,7 +218,8 @@ namespace BBC.Dna.Api
                 body = "";
                 foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
                 {
-                    string messageLine = HttpUtility.UrlDecode(content.Key) + " : " + HttpUtility.UrlDecode(content.Value) + "\n";
+                    //string messageLine = HttpUtility.UrlDecode(content.Key) + " : " + HttpUtility.UrlDecode(content.Value) + "\n";
+                    string messageLine = HttpUtility.UrlDecode(content.Key) + "\n" + HttpUtility.UrlDecode(content.Value) + "\n\n";
                     body += messageLine;
                 }
 

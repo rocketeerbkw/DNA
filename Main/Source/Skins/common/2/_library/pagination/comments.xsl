@@ -30,7 +30,8 @@
       <xsl:variable name="userid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_user']/VALUE">&amp;s_user=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_user']/VALUE" /></xsl:if></xsl:variable>
 	  <xsl:variable name="title"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_title']/VALUE">&amp;s_title=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_title']/VALUE" /></xsl:if></xsl:variable>
 	  <xsl:variable name="forumid"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_forumid']/VALUE">&amp;s_forumid=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_forumid']/VALUE" /></xsl:if></xsl:variable>
-      <xsl:variable name="querystring"><xsl:value-of select="$typeid"/><xsl:value-of select="$siteid"/><xsl:value-of select="$userid"/><xsl:value-of select="$forumid"/><xsl:value-of select="$title"/></xsl:variable>
+	  <xsl:variable name="displaycontactformposts"><xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_displaycontactformposts']/VALUE">&amp;s_displaycontactformposts=<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_displaycontactformposts']/VALUE" /></xsl:if></xsl:variable>
+      <xsl:variable name="querystring"><xsl:value-of select="$typeid"/><xsl:value-of select="$siteid"/><xsl:value-of select="$userid"/><xsl:value-of select="$forumid"/><xsl:value-of select="$title"/><xsl:value-of select="$displaycontactformposts"/></xsl:variable>
 	  <xsl:variable name="STARTINDEX" select="/H2G2/COMMENTSLIST/STARTINDEX" />
 	  <xsl:variable name="TOTALCOUNT" select="/H2G2/COMMENTSLIST/TOTALCOUNT" />
 	  <xsl:variable name="ITEMSPERPAGE" select="/H2G2/COMMENTSLIST/ITEMSPERPAGE" />
@@ -145,6 +146,7 @@
 			  <xsl:param name="ITEMSPERPAGE" select="/H2G2/COMMENTSLIST/ITEMSPERPAGE" />
 			  <xsl:param name="title" select="/H2G2/PARAMS/PARAM[NAME = 's_title']/VALUE" />
 			  <xsl:param name="forumid" select="/H2G2/PARAMS/PARAM[NAME = 's_forumid']/VALUE" />
+			  <xsl:param name="displaycontactformposts" select="/H2G2/PARAMS/PARAM[NAME = 's_displaycontactformposts']/VALUE" />
 			  <xsl:param name="totalPages">
 				<!--ceil by floor() + 1-->
 				<xsl:choose>
