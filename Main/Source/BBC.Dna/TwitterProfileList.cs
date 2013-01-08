@@ -252,6 +252,10 @@ namespace BBC.Dna.Component
         {
             XmlNode sitesxml = AddElementTag(RootElement, "TWITTER-SITE-LIST");
             AddAttribute(sitesxml, "COUNT", siteList.Values.Count);
+
+            XmlNode defaultEntry = AddElementTag(sitesxml, "SITE");
+            AddTextTag(defaultEntry, "NAME", "All");
+
             foreach (Site site in siteList.Values)
             {
                 XmlNode sitexml = AddElementTag(sitesxml, "SITE");
@@ -262,9 +266,6 @@ namespace BBC.Dna.Component
                 AddTextTag(sitexml, "SSOSERVICE", site.SSOService);
                 AddTextTag(sitexml, "MODERATIONSTATUS", ((int)site.ModerationStatus).ToString());
             }
-
-            XmlNode defaultEntry = AddElementTag(sitesxml, "SITE");
-            AddTextTag(defaultEntry, "NAME", "All");
         }
 
         /// <summary>
