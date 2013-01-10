@@ -331,7 +331,7 @@ namespace BBC.Dna.Api
                 message.Priority = MailPriority.Normal;
 
                 SmtpClient client = new SmtpClient(EmailServerAddress);
-                client.Timeout = 5;
+                client.Timeout = 5000;
 
                 //client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
 
