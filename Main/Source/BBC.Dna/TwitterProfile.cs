@@ -311,10 +311,11 @@ namespace BBC.Dna.Component
             {
                 client = new BuzzClient();
                 twitterProfile = new BuzzTwitterProfile();
+                ISite site;
 
                 try
                 {
-                    ISite site = InputContext.TheSiteList.GetSite(siteName);
+                    site = InputContext.TheSiteList.GetSite(siteName);
 
                     if (site != null)
                     {
@@ -354,7 +355,7 @@ namespace BBC.Dna.Component
                             {
                                 //Checks if the username entered is a valid twitter user name
                                 //registers the valid twitter user and retrieves the user id
-                                var twitterUserData = IsValidTwitterUser(tweetUserScreenName);
+                                var twitterUserData = IsValidTwitterUser(tweetUserScreenName, site.SiteID);
 
                                 if (false == string.IsNullOrEmpty(twitterUserData) && false == twitterUserData.Contains("Twitter"))
                                 {
@@ -559,8 +560,9 @@ namespace BBC.Dna.Component
         /// If Exists, returns the user details else returns exception
         /// </summary>
         /// <param name="twitterUserScreenName"></param>
+        /// <param name="siteId"></param>
         /// <returns></returns>
-        private string IsValidTwitterUser(string twitterUserScreenName)
+        private string IsValidTwitterUser(string twitterUserScreenName, int siteId)
         {
             MemberList memberList = null;
             var twitterException = string.Empty;
@@ -606,8 +608,8 @@ namespace BBC.Dna.Component
 
                     var callingUser = new CallingTwitterUser(this.readerCreator, this.dnaDiagnostic, cacheManager);
 
-                    //Create the twitter user and map it to DNA with site id 1
-                    callingUser.CreateUserFromTwitterUser(1, tweetUser);
+                    //Create the twitter user and map it to DNA with the site the profile and the forum is created
+                    callingUser.CreateUserFromTwitterUser(siteId, tweetUser);
                     callingUser.SynchroniseSiteSuffix(tweetUser.ProfileImageUrl);
                 }
            
