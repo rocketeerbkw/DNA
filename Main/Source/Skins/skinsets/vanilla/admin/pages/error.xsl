@@ -126,10 +126,10 @@
 			    			</xsl:otherwise>
 			    		</xsl:choose>
 			    	</xsl:variable>
-			    	<p class="dna-no-error">Your Twitter profile has been <xsl:value-of select="$profiletype" /> and will be activated in 24 hours. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
+			    	<p class="dna-no-error">Your Twitter profile has been <xsl:value-of select="$profiletype" /> and will be activated within 24 hours. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
 			    </xsl:when>
 			    <xsl:otherwise>
-					<p class="dna-no-error">Your Twitter profile has been updated and the changes will be reflected in 24 hours. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
+					<p class="dna-no-error">Your Twitter profile has been updated and the changes will be reflected within 24 hours. Return to the <a href="twitterprofilelist?type={$sitetype}">Twitter Profile List</a>.</p>
 			    </xsl:otherwise>
 		    </xsl:choose>		
 		</xsl:otherwise>    
