@@ -206,7 +206,7 @@ namespace BBC.Dna.Services
                 }
 
 
-                commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
+                commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site, true);
 
                 //if null then send back 404
                 if (commentForumData == null)
@@ -386,7 +386,7 @@ namespace BBC.Dna.Services
                         throw e;
                     }
                 }
-                commentForum = _commentObj.GetCommentForumByUid(commentForumId, site);
+                commentForum = _commentObj.GetCommentForumByUid(commentForumId, site, true);
 
                 //if null then send back 404
                 if (commentForum == null)
@@ -432,7 +432,7 @@ namespace BBC.Dna.Services
                         throw e;
                     }
                 }
-                commentForum = _commentObj.GetCommentForumByUid(commentForumId, site);
+                commentForum = _commentObj.GetCommentForumByUid(commentForumId, site, true);
                 //if null then send back 404
                 if (commentForum == null)
                 {
@@ -532,7 +532,7 @@ namespace BBC.Dna.Services
             CommentInfo commentInfo;
             try
             {
-                CommentForum commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
+                CommentForum commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site, true);
                 _commentObj.CallingUser = GetCallingUser(site);
                 if (commentForumData == null)
                 {
@@ -772,7 +772,7 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.CommentNotFound));
             }
 
-            var commentForumData = _commentObj.GetCommentForumByUid(commentForumUid, site);
+            var commentForumData = _commentObj.GetCommentForumByUid(commentForumUid, site, true);
             if (commentForumData == null)
             {
                 throw ApiException.GetError(ErrorType.ForumUnknown);

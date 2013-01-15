@@ -53,6 +53,21 @@ namespace BBC.Dna
             if (subject != String.Empty && body != String.Empty)
             {
                 f.PostToForum(userId, forumId, ref threadId, postId, subject, body, 0, true, out newPostId, out isQueued, out isPreModPosting, out isPreModerated);
+                using (var reader = InputContext.CreateDnaDataReader("insertdistressmessage"))
+                {
+                    reader.AddParameter("parentid", postId);
+                    reader.AddParameter("distressmessageid", newPostId);
+
+                    try
+                    {
+                        reader.Execute();
+                    }
+                    catch (Exception ex)
+                    {
+                        var blah = ex.Message;
+                    }
+                }
+
             }
 
             return newPostId != 0;
