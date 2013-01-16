@@ -433,13 +433,13 @@
 
            	// Make sure that both users and search terms text areas are not empty
            	//if (($("#users").val() == " " || $("#users").val() == "") && ($("#searchterms").val() == " " || $("#searchterms").val() == "")) {
-           	//	glow.dom.create('<span class="dna-error-text text">Please enter a user or a search term</span>').insertBefore("#users");
+           	//	glow.dom.create('<span class="dna-error-text text">Please enter a user or a search term</span>').insertAfter("#users");
            	//	isFormValidToSubmit = false;
            	//}
 			
 			// Make sure that the users text area is not empty
            	if (($("#users").val() == " " || $("#users").val() == "") {
-           		glow.dom.create('<span class="dna-error-text text">Please enter a user</span>').insertBefore("#users");
+           		glow.dom.create('<span class="dna-error-text text">Please enter a user</span>').insertAfter("#users");
            		isFormValidToSubmit = false;
            	}
 
