@@ -92,7 +92,8 @@ namespace BBC.Dna.Component
             }
             else
             {
-                siteName = "Test Site";
+                AddErrorXml("SITENOTAVAILABLE", "Site name not available", RootElement);
+                return;
             }
            
             GenerateTwitterProfilePageXml(siteName);
@@ -112,13 +113,37 @@ namespace BBC.Dna.Component
             switch (_cmd.ToUpper())
             {
                 case "CREATEUPDATEPROFILE":
-                    return CreateUpdateProfileOnBuzz(siteName);
-                
+                    {
+                        if (true == InputContext.ViewingUser.IsSuperUser)
+                        {
+                            return CreateUpdateProfileOnBuzz(siteName);
+                        }
+                        else if (true == InputContext.ViewingUser.IsEditor)
+                        {
+                            var userSiteList = UserGroups.GetObject().GetSitesUserIsMemberOf(InputContext.ViewingUser.UserID, "editor");
+
+                            ISite site = InputContext.TheSiteList.GetSite(siteName);
+
+                            if (userSiteList.Contains(site.SiteID))
+                            {
+                                return CreateUpdateProfileOnBuzz(siteName);
+                            }
+                            else
+                            {
+                                AddErrorXml("UNAUTHORIZED", "Editor is not authorized to create a twitter profile for this site", RootElement);
+                                return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = String.Format("Twitter Profile creation failed") };
+                            }
+                        }
+                        else
+                        {
+                            return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = "User is not authorized to create or update a profile" };
+                        }
+
+                    }
                 case "GETPROFILE":
                     return GetProfileFromBuzz(_profileId);
 
                 default:
-
                     break;
             }
             return null;
@@ -149,6 +174,8 @@ namespace BBC.Dna.Component
                 client = new BuzzClient();
                 twitterProfile = new BuzzTwitterProfile();
                 commentForum = new CommentForum();
+
+                //Get the twitter profile from Buzz
 
                 twitterProfile = client.GetProfile(twitterProfileId);
 
@@ -296,7 +323,18 @@ namespace BBC.Dna.Component
                             }
                             else
                             {
-                                return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "The following user is not registered in DNA yet, '" + tweetUserScreenName + "' " + isValidUser + "Please follow the link to register a valid twitter user, ", ErrorLinkParameter = tweetUserScreenName };
+                                //Checks if the username entered is a valid twitter user name
+                                //registers the valid twitter user and retrieves the user id
+                                var twitterUserData = IsValidTwitterUser(tweetUserScreenName);
+
+                                if (false == string.IsNullOrEmpty(twitterUserData) && false == twitterUserData.Contains("Twitter"))
+                                {
+                                    twitterUserIds.Add(twitterUserData);
+                                }
+                                else
+                                {
+                                    return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "Error while retrieving the twitter user, '" + tweetUserScreenName + "'. Check if the twitter screen name entered is valid" };
+                                }
                             }
                         }
                     }
@@ -306,16 +344,13 @@ namespace BBC.Dna.Component
                         twitterUser = null;
                     }
                 }
-                
 
-                if (string.IsNullOrEmpty(_profileId) || string.IsNullOrEmpty(_title) || string.IsNullOrEmpty(_commentForumURI))
+                if (string.IsNullOrEmpty(_profileId) || string.IsNullOrEmpty(_title) || string.IsNullOrEmpty(_commentForumURI) || twitterUserIds.Count < 1)
                 {
                     return new Error { Type = "TWITTERPROFILEMANDATORYFIELDSMISSING", ErrorMessage = "Please fill in the mandatory fields for creating/updating a profile" };
                 }
 
                 twitterProfile.Users = twitterUserIds;
-
-                //twitterProfile.Users = twitterUserScreenNameList;
                 twitterProfile.ProfileId = _profileId;
                 twitterProfile.Title = _title;
                 twitterProfile.SearchKeywords = _searchterms.Split(',').Where(x => x != " " && !string.IsNullOrEmpty(x)).Distinct().Select(p => p.Trim()).ToList();
@@ -354,15 +389,21 @@ namespace BBC.Dna.Component
                 try
                 {
                     ISite site = InputContext.TheSiteList.GetSite(siteName);
-
+                    BaseResult result;
                     if ((string.IsNullOrEmpty(_pageAction)) || (false == _pageAction.ToLower().Equals("updateprofile")))
                     {
-                        return CreateCommentForum(siteName, commentObj, commentForum, site);
+                        result = CreateCommentForum(siteName, commentObj, commentForum, site);
                     }
                     else
                     {
-                        return UpdateCommentForum(siteName, commentObj, site, commentForum);
+                        result = UpdateCommentForum(siteName, commentObj, site, commentForum);
                     }
+
+                    if (!result.IsError())
+                    {
+                        ((Result)result).Message += " Your profile has been created, now please contact the DNA team to activate it.";
+                    }
+                    return result;
                 }
                 catch (Exception e)
                 {
@@ -491,20 +532,20 @@ namespace BBC.Dna.Component
                 
                 if (tweetUser.TwitterResponseException != null)
                 {
-                    var twitterRateLimitException = "Rate limit exceeded.";
-                    var twitterErrorNotFound = "The remote server returned an error: (404) Not Found.";
-                    var twitterUnexpectedResponseException = "The remote server returned an unexpected response: (400) Bad Request.";
+                    var twitterRateLimitException = "rate limit exceeded.";
+                    var twitterErrorNotFound = "the remote server returned an error: (404) not found.";
+                    var twitterUnexpectedResponseException = "the remote server returned an unexpected response: (400) bad request.";
 
-                    if (tweetUser.TwitterResponseException.Message.Contains(twitterRateLimitException))
+                    if (tweetUser.TwitterResponseException.Message.ToLower().Contains(twitterRateLimitException))
                     {
                         twitterException = "Twitter Exception: Twitter API has reached its rate limit. Please try again later.";
                     }
-                    else if (tweetUser.TwitterResponseException.Message.Equals(twitterErrorNotFound) ||
-                        tweetUser.TwitterResponseException.InnerException.Message.Equals(twitterErrorNotFound))
+                    else if (tweetUser.TwitterResponseException.Message.ToLower().Equals(twitterErrorNotFound) ||
+                        tweetUser.TwitterResponseException.InnerException.Message.ToLower().Equals(twitterErrorNotFound))
                     {
                         twitterException = "Twitter Error: Searched user not found in Twitter";
                     }
-                    else if (tweetUser.TwitterResponseException.Message.Equals(twitterUnexpectedResponseException))
+                    else if (tweetUser.TwitterResponseException.Message.ToLower().Equals(twitterUnexpectedResponseException))
                     {
                         twitterException = "Twitter Exception: " + tweetUser.TwitterResponseException.Message + " Please try again in few minutes.";
                     }

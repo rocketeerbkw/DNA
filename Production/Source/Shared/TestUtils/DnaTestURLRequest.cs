@@ -440,6 +440,7 @@ namespace Tests
                 {
                     return false;
                 }
+                _useDebugIdentityUser = false;
             }
             else
             {

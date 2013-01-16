@@ -79,6 +79,7 @@ namespace FunctionalTests
         
         /// </summary>
         [TestMethod]
+        [Ignore] //h2g2 no longer supported test irrelevant
         public void ForumPageBuilder_04GetH2G2ForumThreadAndValidateSchemas()
         {
             string siteName = "h2g2";

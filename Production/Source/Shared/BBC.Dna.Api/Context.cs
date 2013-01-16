@@ -10,24 +10,6 @@ using System.IO;
 
 namespace BBC.Dna.Api
 {
-    public class FailedEmail
-    {
-        public FailedEmail(string from, string to, string subject, string body, string fileprefix)
-        {
-            From = from;
-            To = to;
-            Subject = subject;
-            Body = body;
-            FilePreFix = fileprefix;
-        }
-
-        public string From { get; set; }
-        public string To { get; set; }
-        public string Subject { get; set; }
-        public string Body { get; set; }
-        public string FilePreFix { get; set; }
-    }
-
     public class Context
     {
         protected const string CacheLastupdated = "|LASTUPDATED";
@@ -349,12 +331,13 @@ namespace BBC.Dna.Api
                 message.Priority = MailPriority.Normal;
 
                 SmtpClient client = new SmtpClient(EmailServerAddress);
-                client.Timeout = 5;
+                client.Timeout = 5000;
 
-                client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
+                //client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
 
                 this._dnaDiagnostics.WriteTimedEventToLog("Email", "BeforeSend");
-                client.SendAsync(message, new FailedEmail(sender, recipient, subject, body, filenamePrefix));
+                //client.SendAsync(message, new FailedEmail(sender, recipient, subject, body, filenamePrefix));
+                client.Send(message);
                 this._dnaDiagnostics.WriteTimedEventToLog("Email", "AfterSend");
             }
             catch (Exception e)
@@ -382,7 +365,10 @@ namespace BBC.Dna.Api
             FailedEmail failedMail = (FailedEmail)e.UserState;
             if (e.Error != null || e.Cancelled)
             {
-                WriteFailedEmailToFile(failedMail.To, failedMail.From, failedMail.Subject, failedMail.Body + "\n\n" + e.Error.Message + e.Error.InnerException.Message, failedMail.FilePreFix);
+                if (failedMail != null)
+                {
+                    WriteFailedEmailToFile(failedMail.To, failedMail.From, failedMail.Subject, failedMail.Body + "\n\n" + e.Error.Message + e.Error.InnerException.Message, failedMail.FilePreFix);
+                }
                 DnaDiagnostics.WriteExceptionToLog(e.Error);
             }
         }

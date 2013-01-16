@@ -17,7 +17,7 @@
 		<xsl:apply-templates mode="header" select=".">
 			<xsl:with-param name="title">
 				<xsl:value-of select="$m_pagetitlestart"/>
-				DNA Administration - Site Options - <xsl:value-of select="$CURRENTSITEURLNAME"/>
+				DNA Administration - Site Options For : <xsl:value-of select="$CURRENTSITEURLNAME"/>
 			</xsl:with-param>
 		</xsl:apply-templates>
 	</xsl:template>
@@ -38,7 +38,7 @@
 
   <xsl:if test="$test_IsEditor">
     <form method="post" action="siteoptions">
-    	<xsl:if test="CURRENTSITEURLNAME = 'moderation'">
+    	<xsl:if test="CURRENTSITEURLNAME = 'moderation' or SITE/URLNAME = 'moderation'">
 	    	<xsl:apply-templates select="EDITABLESITES" mode="editsiteoptions"/>
     	</xsl:if>
     	
@@ -46,16 +46,20 @@
         <xsl:variable name="section" select="./SECTION"/>
         <table cellpadding="0" cellspacing="0" border="0" class="adminMenu" style="width:720px;">
         <tr class="adminSecondHeader">
-        <td width="10%" class="adminMenuTime">STATUS</td>
-        
-        
+        <td width="10%" class="adminMenuTime"></td>        
         <td width="35%"><xsl:value-of select="translate($CURRENTSITEURLNAME, $lowercase, $uppercase)"/>&nbsp;<xsl:value-of select="translate($section, $lowercase, $uppercase)"/>&nbsp;OPTIONS</td>
         <td width="55%" class="adminMenuTime">DESCRIPTION</td>
         </tr>
 
-
-        <xsl:apply-templates select="parent::*/SITEOPTION[SECTION = $section and SITEID = $CURRENTSITE]" mode="definedforsite"/>
-        <xsl:apply-templates select="parent::*/SITEOPTION[SECTION = $section and DEFINITION = 1]" mode="undefinedforsite"/>
+        <xsl:apply-templates select="parent::*/SITEOPTION[SECTION = $section and SITEID = $CURRENTSITE and @GLOBAL = '0']" mode="definedforsite"/>
+        <xsl:choose>
+	        <xsl:when test="../../PAGEUI">
+		        <xsl:apply-templates select="parent::*/SITEOPTION[SECTION = $section and DEFINITION = 1]" mode="undefinedforsite"/>
+	        </xsl:when>
+	        <xsl:otherwise>
+		        <xsl:apply-templates select="parent::*/SITEOPTION[SECTION = $section and SITEID = $CURRENTSITE and @GLOBAL = '1']" mode="undefinedforsite"/>
+	        </xsl:otherwise>
+        </xsl:choose>
         </table>
       </xsl:for-each>
       <br/>
@@ -294,7 +298,7 @@
 		<xsl:if test="@ID = /H2G2/PROCESSINGSITE/SITE/@ID">
 			<xsl:attribute name="selected">selected</xsl:attribute>
 		</xsl:if>
-		<xsl:value-of select="SHORTNAME"/>
+		<xsl:value-of select="SHORTNAME"/> (<xsl:value-of select="URLNAME"/>)
 	</option>
 </xsl:template>
 

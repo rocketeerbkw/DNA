@@ -72,7 +72,7 @@ BEGIN
 		vu.*,
 		case 
 			when ISNULL(tet.OriginalTweetId, 0) <> 0
-			then tet.TweetId
+			then tet.OriginalTweetId
 			else 0
 		end as 'RetweetId',
 		case 
@@ -92,7 +92,7 @@ BEGIN
 		case when crv.value is null then 0 else crv.value end as nerovalue
 	from cte_usersposts
 	inner join dbo.VComments vu on vu.Id = cte_usersposts.EntryID
-	left join dbo.ThreadEntriesTweetInfo tet on vu.Id = tet.ThreadEntryId and tet.IsOriginalTweetForRetweet <> 1
+	left join dbo.ThreadEntriesTweetInfo tet on vu.Id = tet.ThreadEntryId 
 	left join dbo.VCommentsRatingValue crv with(noexpand)  on crv.entryid = cte_usersposts.EntryID
 	where n > @startindex and n <= @startindex + @itemsPerPage
 	order by n
@@ -133,7 +133,7 @@ BEGIN
 		vu.*,
 		case 
 			when ISNULL(tet.OriginalTweetId, 0) <> 0
-			then tet.TweetId
+			then tet.OriginalTweetId
 			else 0
 		end as 'RetweetId',
 		case 
@@ -153,7 +153,7 @@ BEGIN
 		case when crv.value is null then 0 else crv.value end as nerovalue
 	from cte_usersposts
 	inner join dbo.VComments vu on vu.Id = cte_usersposts.EntryID
-	left join dbo.ThreadEntriesTweetInfo tet on vu.Id = tet.ThreadEntryId and tet.IsOriginalTweetForRetweet <> 1
+	left join dbo.ThreadEntriesTweetInfo tet on vu.Id = tet.ThreadEntryId 
 	left join dbo.VCommentsRatingValue crv with(noexpand)  on crv.entryid = cte_usersposts.EntryID
 	where n > @startindex and n <= @startindex + @itemsPerPage
 	order by n

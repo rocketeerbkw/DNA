@@ -48,8 +48,19 @@ namespace FunctionalTests
         {
             IDnaIdentityWebServiceProxy proxy = new IdentityRestSignIn();
             proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;http://www-cache.reith.bbc.co.uk:80;logging", "");
-            Assert.IsTrue(proxy.TrySecureSetUserViaCookies(TestUserAccounts.GetEditorUserAccount.Cookie, ""), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
-            Assert.IsTrue(proxy.TrySecureSetUserViaCookies(TestUserAccounts.GetSuperUserAccount.Cookie, ""), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
+            Assert.IsTrue(proxy.TrySecureSetUserViaCookies(TestUserAccounts.GetEditorUserAccount.Cookie, TestUserAccounts.GetEditorUserAccount.SecureCookie), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
+            Assert.IsTrue(proxy.TrySecureSetUserViaCookies(TestUserAccounts.GetSuperUserAccount.Cookie, TestUserAccounts.GetSuperUserAccount.SecureCookie), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
+        }
+
+        [TestMethod]
+        public void LoginWithUserNameAndPassword()
+        {
+            IDnaIdentityWebServiceProxy proxy = new IdentityRestSignIn();
+            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;http://www-cache.reith.bbc.co.uk:80;logging", "");
+            Assert.IsTrue(proxy.TrySetUserViaUserNamePassword(TestUserAccounts.GetEditorUserAccount.UserName, TestUserAccounts.GetEditorUserAccount.Password), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
+            string cookie = proxy.GetCookieValue;
+            string secureCookie = proxy.GetSecureCookieValue;
+            Assert.IsTrue(proxy.TrySecureSetUserViaCookies(cookie, secureCookie), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
         }
 
         [TestMethod]

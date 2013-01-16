@@ -71,11 +71,20 @@
                   <th class="date">Date</th>
                   <th>Post</th>
                   <th>Posted By</th>
+                  <xsl:if test="not /H2G2/PARAMS/PARAM/NAME = 's_displaycontactformposts'">
                   <th>ComplaintUri</th>
+                  </xsl:if>
                 </tr>
               </thead>
               <tbody>
-                <xsl:apply-templates select="/H2G2/COMMENTSLIST/COMMENTS/COMMENT" mode="object_comments_comment" />
+              	<xsl:choose>
+	              	<xsl:when test="/H2G2/PARAMS/PARAM/NAME = 's_displaycontactformposts'">
+	              		<xsl:apply-templates select="/H2G2/COMMENTSLIST/COMMENTS/COMMENT" mode="object_contacts_contact" />
+	              	</xsl:when>
+	              	<xsl:otherwise>
+	              		<xsl:apply-templates select="/H2G2/COMMENTSLIST/COMMENTS/COMMENT" mode="object_comments_comment" />
+	              	</xsl:otherwise>
+              	</xsl:choose>
               </tbody>
             </table>
           </div>

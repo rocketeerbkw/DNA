@@ -1287,9 +1287,11 @@
     <None Include="contactformpostsreadbyforumid.sql" />
     <None Include="createretweetinfoforcomment.sql" />
     <None Include="createretweetinfoforpremodpostings.sql" />
+    <None Include="createsitenotes.sql" />
     <None Include="CreateTweetInfoForComment.sql" />
     <None Include="CreateTweetInfoForPremodPostings.sql" />
     <None Include="doestwitteruserexists.sql" />
+    <None Include="getcommentforumlistmostrecentlycommented.sql" />
     <None Include="getcontactformdetailfromformid.sql" />
     <None Include="getcontactformslist.sql" />
     <None Include="GetCommentIdFromTweetId.sql" />
@@ -1302,6 +1304,7 @@
     <None Include="ApplyUserReputation.sql" />
     <None Include="ApplyUserReputations.sql" />
     <None Include="getcommentforumdetailsbyforumid.sql" />
+    <None Include="getmostcommentedcommentforumlist.sql" />
     <None Include="getnewssitestats.sql" />
     <None Include="gettermsbyforumid.sql" />
     <None Include="gettermsbyforumidfromforums.sql" />
@@ -1313,6 +1316,7 @@
     <None Include="processexpiredpremodpostings.sql" />
     <None Include="SearchForTwitterUserViaScreenName.sql" />
     <None Include="setcommentforumascontactform.sql" />
+    <None Include="updatemostcommentedforums.sql" />
     <None Include="updatetrackedmemberformodclass.sql" />
     <None Include="GetUserReputation.sql" />
     <None Include="updatetrackedmemberlistinternal.sql" />

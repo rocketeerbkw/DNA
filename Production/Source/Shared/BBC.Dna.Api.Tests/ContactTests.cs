@@ -9,6 +9,7 @@ using BBC.Dna.Users;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
+using BBC.Dna.Api.Contracts;
 
 namespace BBC.Dna.Api.Tests
 {

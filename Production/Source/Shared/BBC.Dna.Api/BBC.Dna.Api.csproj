@@ -109,9 +109,13 @@
     <Compile Include="Contracts\CommentsList.Contract.cs" />
     <Compile Include="Contracts\CommentsSummary.Contract.cs" />
     <Compile Include="Contracts\ContactForm.Contract.cs" />
+    <Compile Include="Contracts\ContactFormContactDetailList.Contract.cs" />
+    <Compile Include="Contracts\ContactFormContactDetails.Contract.cs" />
     <Compile Include="Contracts\ContactFormMessage.Contract.cs" />
     <Compile Include="Contracts\ErrorData.Contract.cs" />
     <Compile Include="Contracts\Forum.Contract.cs" />
+    <Compile Include="Contracts\MostCommentedCommentForum.Contract.cs" />
+    <Compile Include="Contracts\MostCommentedCommentForumList.Contract.cs" />
     <Compile Include="Contracts\RatingInfo.Contract.cs" />
     <Compile Include="Contracts\RatingsList.Contract.cs" />
     <Compile Include="Contracts\RatingsSummary.Contract.cs" />
@@ -135,6 +139,7 @@
     <Compile Include="Comments.cs" />
     <Compile Include="ApiException.cs" />
     <Compile Include="EditorPicks.cs" />
+    <Compile Include="FailedEmail.cs" />
     <Compile Include="filterByEnum.cs" />
     <Compile Include="Reviews.cs" />
     <Compile Include="PostStyle.cs" />

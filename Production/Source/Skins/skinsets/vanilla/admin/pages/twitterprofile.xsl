@@ -82,14 +82,14 @@
 								</input>
 							</li>
 							<li>
-								<label for="users">Users: <br /><em>You must enter at least one twitter user screen name or search term</em></label>
+								<label for="users">Users: <br /><em>You must enter at least one twitter user screen name</em></label>
 								<textarea name="users" id="users">
 									<xsl:text> </xsl:text>
 									<xsl:apply-templates select="/H2G2/PROFILE/USERS/ITEM" mode="items" />
 								</textarea>
 							</li>
 							<li>
-								<label for="searchterms">Search Terms:<br /><em>You must enter at least one twitter user screen name or search term</em></label>
+								<label for="searchterms">Search Terms:<br /></label>
 								<textarea name="searchterms" id="searchterms">
 									<xsl:text> </xsl:text>
 									<xsl:apply-templates select="/H2G2/PROFILE/KEYWORDS/ITEM" mode="items" />

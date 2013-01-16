@@ -1768,6 +1768,7 @@ namespace FunctionalTests.Services.Comments
             request.UseIdentitySignIn = true;
             request.CurrentCookie = cookie.Value;
             request.CurrentSecureCookie = secureCookie.Value;
+            request.UseDebugUser = false;
 
             string id = "FunctiontestCommentForum-" + Guid.NewGuid(); //have to randomize the string to post
             string title = "Functiontest Title";
@@ -1820,12 +1821,14 @@ namespace FunctionalTests.Services.Comments
 
             string userName = "CommentForumCreateUser" + DateTime.Now.Ticks;
             string userEmail = userName + "@bbc.co.uk";
+            request.SetCurrentUserSuperUser();
+            /*
             Assert.IsTrue(
                 request.SetCurrentUserAsNewIdentityUser(userName, "password", "Comment User", userEmail, "1989-12-31",
                                                         TestUserCreator.IdentityPolicies.Adult, "identity606",
                                                         TestUserCreator.UserType.SuperUser),
                 "Failed to create a test identity user");
-
+            */
             string id = "FunctiontestCommentForum-" + Guid.NewGuid(); //have to randomize the string to post
             string title = "Functiontest Title";
             string parentUri = "http://www.bbc.co.uk/dna/h2g2/";
@@ -1864,6 +1867,9 @@ namespace FunctionalTests.Services.Comments
                                                              out cookie,
                                                              out secureCookie,
                                                              out identityUserID));
+
+            request.UseDebugUser = false;
+            request.ClearCookieContainer();
             request.UseIdentitySignIn = true;
 
             request.CurrentCookie = cookie.Value;

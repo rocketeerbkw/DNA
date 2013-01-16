@@ -214,6 +214,9 @@ namespace FunctionalTests.Services.Comments
         }
 
         [TestMethod]
+        [Ignore]
+        //These tests should be closely examined. Too much is going on and clearly this test and the one above are running into synchronisation issues on the build/test server.
+        //I find it hard to follow the intent of the tests, perhaps use this an example of using SpecFlow.
         public void CreateTweet_TestApplyExpiryTime_ProcessPremodOn()
         {
             CreateTweet_TestApplyExpiryTime("Whammy Kiss", "On");
@@ -505,6 +508,10 @@ namespace FunctionalTests.Services.Comments
         /// Created retweet and retrieves the comment forum with the tweet and retweet information
         /// </summary>
         [TestMethod]
+        [Ignore]
+        //TODO: These tests should be closely examined. Too much is going on and clearly this test and the one above are running into synchronisation issues on the build/test server.
+        //I find it hard to follow the intent of the tests, perhaps use this an example of using SpecFlow.
+        //Similar to CreateTweet_TestApplyExpiryTime_ProcessPreModOn
         public void RetrieveRetweetInfo_CommentForum()
         {
             // Create a original tweet of the original tweet and post it

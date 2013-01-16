@@ -39,6 +39,106 @@ namespace BBC.Dna.Api
         }
 
         /// <summary>
+        /// Retrieves most recently commented forums for a given site name
+        /// </summary>
+        /// <param name="site">short name of the site</param>
+        /// <param name="prefix">The uid of the site to return</param>
+        /// <param name="count">No of comment forums</param>
+        /// <returns>A list of Comment forums</returns>
+        public MostCommentedCommentForumList GetMostRecentlyCommentedCommentForumList(ISite site, string prefix, int count)
+        {
+            if (site == null)
+            {
+                return null;
+            }
+
+            var mostRecentlyCommentedList = new MostCommentedCommentForumList();
+            mostRecentlyCommentedList.MostCommentedCommentForums = new List<MostCommentedCommentForum>();
+
+            try
+            {
+                using (var reader = CreateReader("getcommentforumlistmostrecentlycommented"))
+                {
+                    if (!String.IsNullOrEmpty(prefix))
+                    {
+                        reader.AddParameter("prefix", prefix + "%");
+                    }
+                    reader.AddParameter("count", count);
+                    reader.AddParameter("siteid", site.SiteID);
+                    reader.Execute();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            MostCommentedCommentForum mostCommentedCommentForum = MostCommentedCommentForumCreateFromReader(reader);
+                            mostRecentlyCommentedList.SiteName = site.SiteName;
+                            mostRecentlyCommentedList.Description = site.Description;
+                            mostRecentlyCommentedList.CommentForumUID = prefix;
+                            mostRecentlyCommentedList.MostCommentedCommentForums.Add(mostCommentedCommentForum);
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message, ex.InnerException);
+            }
+
+            return mostRecentlyCommentedList;
+        }
+
+        /// <summary>
+        /// Retrieves the most commented comment forum for a given site name
+        /// </summary>
+        /// <param name="site">short name of the site</param>
+        /// <param name="prefix">The uid of the site to return</param>
+        /// <param name="count">No of comment forums</param>
+        /// <returns>A list of comment forums</returns>
+        public MostCommentedCommentForumList GetMostCommentedCommentForumList(ISite site, string prefix, int count)
+        {
+            if (site == null)
+            {
+                return null;
+            }
+
+            var mostCommentedList = new MostCommentedCommentForumList();
+            mostCommentedList.MostCommentedCommentForums = new List<MostCommentedCommentForum>();
+
+            try
+            {
+                using (var reader = CreateReader("getmostcommentedcommentforumlist"))
+                {
+                    if (!String.IsNullOrEmpty(prefix))
+                    {
+                        reader.AddParameter("prefix", prefix + "%");
+                    }
+                    reader.AddParameter("count", count);
+                    reader.AddParameter("siteid", site.SiteID);
+                    reader.Execute();
+                    if (reader.HasRows)
+                    {
+                        while (reader.Read())
+                        {
+                            MostCommentedCommentForum mostCommentedCommentForum = MostCommentedCommentForumCreateFromReader(reader);
+                            mostCommentedList.SiteName = site.SiteName;
+                            mostCommentedList.Description = site.Description;
+                            mostCommentedList.CommentForumUID = prefix;
+                            mostCommentedList.MostCommentedCommentForums.Add(mostCommentedCommentForum);
+                        }
+                    }
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw new ApiException(ex.Message, ex.InnerException);
+            }
+
+            return mostCommentedList;
+        }
+
+        /// <summary>
         /// Reads all comment forum by sitename and uid prefix
         /// </summary>
         /// <param name="sitename">The shortname of the site</param>
@@ -1269,6 +1369,26 @@ namespace BBC.Dna.Api
         }
 
         #region Private Functions
+
+        private MostCommentedCommentForum MostCommentedCommentForumCreateFromReader(IDnaDataReader reader)
+        {
+            var mostCommentedCommentForum = new MostCommentedCommentForum();
+            mostCommentedCommentForum.UID = reader.GetStringNullAsEmpty("Uid");
+
+            var site = SiteList.GetSite(reader.GetInt32NullAsZero("SiteID"));
+            mostCommentedCommentForum.SiteName = (site != null) && (false == string.IsNullOrEmpty(site.SiteName)) ? site.SiteName : string.Empty;
+            
+            mostCommentedCommentForum.ForumId = reader.GetInt32NullAsZero("ForumID");
+            mostCommentedCommentForum.Url = reader.GetStringNullAsEmpty("Url");
+            mostCommentedCommentForum.Title = reader.GetStringNullAsEmpty("Title");
+            mostCommentedCommentForum.CanWrite = reader.GetByteNullAsZero("CanWrite") == 1;
+            mostCommentedCommentForum.ForumPostCount = reader.GetInt32NullAsZero("ForumPostCount");
+            mostCommentedCommentForum.DateCreated = reader.GetDateTime("DateCreated");
+            mostCommentedCommentForum.ForumCloseDate = reader.GetDateTime("ForumCloseDate");
+            mostCommentedCommentForum.CommentForumListCount = reader.GetInt32NullAsZero("CommentForumListCount");
+            mostCommentedCommentForum.LastPosted = reader.GetDateTime("LastPosted");
+            return mostCommentedCommentForum;
+        }
 
         /// <summary>
         /// Creates the commentforumdata from a given reader

@@ -119,6 +119,17 @@ namespace DnaIdentityWebServiceProxy
         /// <returns>The response from the request</returns>
         private HttpWebResponse CallRestAPI(string identityRestCall)
         {
+            return CallRestAPIWithMethod(identityRestCall, "GET");
+        }
+
+        /// <summary>
+        /// Create a request object to call the identity rest interface
+        /// </summary>
+        /// <param name="identityRestCall">The Uri to request</param>
+        /// <param name="method">The post method type - GET, PUT, POST</param>
+        /// <returns>The response from the request</returns>
+        private HttpWebResponse CallRestAPIWithMethod(string identityRestCall, string method)
+        {
             HttpWebResponse response = null;
             try
             {
@@ -145,6 +156,8 @@ namespace DnaIdentityWebServiceProxy
                 }
                 //X509Certificate certificate = store.Certificates.Find(X509FindType.FindBySubjectName, _certificateName, false)[0];
                 webRequest.ClientCertificates.Add(certificate);
+
+                webRequest.Method = method;
                 response = (HttpWebResponse)webRequest.GetResponse();
             }
             catch (WebException ex)
@@ -336,6 +349,43 @@ namespace DnaIdentityWebServiceProxy
         public bool TrySetUserViaUserNamePassword(string userName, string password)
         {
             bool userSet = false;
+            _cookieValue = "";
+            _secureCookieValue = "";
+            AddTimingInfoLine("<* IDENTITY START *>");
+            try
+            {
+                HttpWebResponse response = CallRestAPIWithMethod(string.Format("{0}/idservices/tokens?username={1}&password={2}", _identityBaseURL, userName, password), "POST");
+                if (response == null || response.StatusCode != HttpStatusCode.Created)
+                {
+                    if (response == null)
+                    {
+                        AddTimingInfoLine("Failed to authorize user because of no response.");
+                    }
+                    else
+                    {
+                        AddTimingInfoLine("Failed to authorize user because status code = " + response.StatusCode.ToString());
+                        response.Close();
+                    }
+                }
+                else
+                {
+                    userSet = true;
+                    _cookieValue = response.Cookies["IDENTITY"].Value;
+                    _secureCookieValue = response.Cookies["IDENTITY-HTTPS"].Value;
+                    response.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                string error = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    error += " : " + ex.InnerException.Message;
+                }
+                AddTimingInfoLine("Error!!! : " + error);
+            }
+            AddTimingInfoLine("<* IDENTITY END *>");
+
             return userSet;
         }
 

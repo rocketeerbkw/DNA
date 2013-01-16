@@ -83,7 +83,14 @@
         <xsl:when test="@CODE = 'UserNotLoggedIn'">You are not logged in</xsl:when>
 		<xsl:when test="@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTION'">
 			<xsl:variable name="tweetusername" select="ERRORLINKPARAMETER"/>
-			<xsl:value-of select="ERRORMESSAGE"/><a href="UserList?searchText={$tweetusername}&amp;usersearchtype=6">User List</a>
+			<xsl:value-of select="ERRORMESSAGE"/>
+			<xsl:choose>
+				<xsl:when test="$tweetusername = ''">
+				</xsl:when>
+				<xsl:otherwise>
+					<a href="UserList?searchText={$tweetusername}&amp;usersearchtype=6">User List</a>
+				</xsl:otherwise>				
+			</xsl:choose>
 		</xsl:when>
         <xsl:otherwise><xsl:value-of select="ERRORMESSAGE"/></xsl:otherwise>
       </xsl:choose>

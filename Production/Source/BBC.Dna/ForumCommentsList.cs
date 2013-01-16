@@ -63,6 +63,7 @@ namespace BBC.Dna
             if (_displayContactFormPosts)
             {
                 commentsListObj.FilterBy = FilterBy.ContactFormPosts;
+                commentsListObj.SortDirection = SortDirection.Descending;
             }
 
             var CommentsList = commentsListObj.GetCommentsListByForumId(_forumId, InputContext.CurrentSite);
@@ -79,6 +80,11 @@ namespace BBC.Dna
             doc.LoadXml(actualXml);
             XmlNode appendNode = doc.DocumentElement;
 
+            if (_displayContactFormPosts)
+            {
+                RenderContactDetails(appendNode);
+            }
+
             XmlAttribute newForumIdAttr = doc.CreateAttribute("FORUMID");
             newForumIdAttr.Value = _forumId.ToString();
             appendNode.Attributes.Append(newForumIdAttr);
@@ -94,7 +100,28 @@ namespace BBC.Dna
             ImportAndAppend(appendNode, "");
         }
 
-       
+        private void RenderContactDetails(XmlNode contactList)
+        {
+            string body = "";
+            string subject = "";
+            XmlNodeList details = contactList.SelectNodes("/COMMENTSLIST/COMMENTS/COMMENT");
+            foreach (XmlNode detail in details)
+            {
+                XmlNode text = detail.FirstChild.NextSibling;
+                Contacts.TryParseContactFormMessage(text.InnerText, ref subject, ref body);
+                body = HtmlUtils.HtmlEncode(body);
+                try
+                {
+                    XmlDocument doc = new XmlDocument();
+                    doc.LoadXml("<TEXT>" + body.Trim().Replace("\n", "<br/>") + "</TEXT>");
+                    text.InnerXml = doc.FirstChild.InnerXml;
+                 }
+                catch
+                {
+                    text.InnerText = body;
+                }
+            }
+        }
 
         /// <summary>
         /// Fills private members with querystring variables
@@ -118,7 +145,7 @@ namespace BBC.Dna
                 _startIndex = InputContext.GetParamIntOrZero("s_startindex", "s_startindex");
             }
 
-            if (InputContext.DoesParamExist("displaycontactformposts", "Display contact form posts?"))
+            if (InputContext.DoesParamExist("s_displaycontactformposts", "Display contact form posts?"))
             {
                 _displayContactFormPosts = true;
             }

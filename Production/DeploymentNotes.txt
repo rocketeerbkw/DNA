@@ -803,3 +803,23 @@ Add the following to the configuration files for thr API
 		<add key="FileCacheFolder" value="D:\LogsAndCaching\ripleycache"/>
 		<add key="EmailServer" value=""/>
 	</appSettings>
+======================================
+	
+Srihari T
+
+<!-- Buzz Profile Ingest Restart -->
+<add key="BuzzProfileRestartIngest" value="https://admin.test.bbc.co.uk/buzz/admin/ingest/restart" />	
+
+======Most Commented Forums===========
+
+Srihari T
+
+After TopNMostCommentedForums table has been created through DBScript, 
+
+Sql job needs to be created and scheduled for one hour time interval (can be changed after analysing few initial runs)
+'updatemostcommentedforums' stored procedure needs to be added as the task in this job.
+
+This job updates the TopNMostCommentedForums table with the most recently commented 
+and most commented comment forums for blogs
+ 
+=======================================

@@ -70,6 +70,10 @@ namespace Tests
         /// 
         /// </summary>
         [TestMethod]
+        [Ignore]
+        //TODO: Talk with Mark H to understand the purpose of this test.
+        //Why is this relevent specifically to ContactFormListBuilder for example?
+        //Is it not a more generic unit test for base functionality?
         public void GivenCallingProcessInputParametersShouldSetSkipAndShowVariables()
         {
             Mockery mock = new Mockery();

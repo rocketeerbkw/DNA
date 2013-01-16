@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using BBC.Dna.Page;
 using BBC.Dna.Component;
 
@@ -40,7 +40,7 @@ public partial class TwitterProfileListPage : BBC.Dna.Page.DnaWebPage
     {
         get
         {
-            return DnaBasePage.UserTypes.ModeratorAndAbove;
+            return DnaBasePage.UserTypes.EditorAndAbove;
         }
     }
 }

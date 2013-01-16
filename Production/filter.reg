@@ -103,6 +103,7 @@ REGEDIT4
 "/TopFiveEditor"="/ripleyserver.dll?TopFiveEditor?"
 "/SiteAdmin"="/ripleyserver.dll?SiteAdmin?"
 "/SiteOptions"="/ripleyserver.dll?SiteOptions?"
+"/SiteOptions-n"="/dna/dnapages/SiteOptions.aspx?"
 "/SiteConfig"="/ripleyserver.dll?SiteConfig?"
 "/PreviewSiteConfig"="/ripleyserver.dll?PreviewSiteConfig?"
 "/RegProcess"="/ripleyserver.dll?NewRegister?"

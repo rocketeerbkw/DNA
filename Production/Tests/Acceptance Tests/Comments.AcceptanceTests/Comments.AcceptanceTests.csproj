@@ -48,12 +48,17 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Xml" />
-    <Reference Include="TechTalk.SpecFlow, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
+    <Reference Include="TechTalk.SpecFlow, Version=1.9.0.77, Culture=neutral, PublicKeyToken=0778194805d6db41, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Source\Reference DLLs\SpecFlow\TechTalk.SpecFlow.dll</HintPath>
+      <HintPath>..\..\..\Source\Reference DLLs\TechTalk\SpecFlow\TechTalk.SpecFlow.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentForumListPage.ContactForms.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CommentForumListPage.ContactForms.feature</DependentUpon>
+    </Compile>
     <Compile Include="Comments.AnonymousPosting.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -76,14 +81,15 @@
     </Compile>
     <Compile Include="StepDefinitions\AdminConsoleAuthorization.cs" />
     <Compile Include="StepDefinitions\AnonymousCommentPosting.cs" />
+    <Compile Include="StepDefinitions\CommentForumListPage.cs" />
     <Compile Include="StepDefinitions\CreateContactDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StepDefinitions\CreateForum.cs" />
     <Compile Include="StepDefinitions\CreateContactForm.cs" />
     <Compile Include="StepDefinitions\Global.cs" />
-    <Compile Include="Support\APIRequester.cs" />
-    <Compile Include="Support\CommentForumTestUtils.cs" />
-    <Compile Include="Support\ContactFormTestUtils.cs" />
+    <Compile Include="StepDefinitions\Support\APIRequester.cs" />
+    <Compile Include="StepDefinitions\Support\CommentForumTestUtils.cs" />
+    <Compile Include="StepDefinitions\Support\ContactFormTestUtils.cs" />
     <Compile Include="TwitterAdminConsole.AdminConsoleAuthorization.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -95,6 +101,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="CommentForumListPage.ContactForms.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>CommentForumListPage.ContactForms.feature.cs</LastGenOutput>
+    </None>
     <None Include="Comments.AnonymousPosting.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Comments.AnonymousPosting.feature.cs</LastGenOutput>
