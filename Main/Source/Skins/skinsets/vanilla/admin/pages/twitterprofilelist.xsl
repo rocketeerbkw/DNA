@@ -34,7 +34,7 @@
 								  <select name="sitename" id="sites">
 						    		<xsl:apply-templates select="/H2G2/TWITTER-SITE-LIST" mode="objects_sites_twittersites" />
 						    	</select>
-						    	<div class="dna-buttons sites">
+						    	<div class="dna-buttons">
 						    		<input type="submit" value="Change site" class="change-site"/>
 						    	</div>
 					    	</fieldset>
