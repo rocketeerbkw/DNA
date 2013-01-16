@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
 using System.Collections;
-using System.Text;
-using System.Configuration;
 
 namespace BBC.Dna.Utils
 {
@@ -251,6 +248,16 @@ namespace BBC.Dna.Utils
 				return (int)((DateTime.Now.Ticks - _requestStartTime.Ticks) / 10000);
 			}
 		}
+
+        /// <summary>
+        /// Create Tracer for trace output
+        /// </summary>
+        /// <param name="traceNameSpace">The name space in which yo want the trace to appear</param>
+        /// <returns>New instance of a tracer object</returns>
+        public IDnaTracer CreateTracer(string traceNameSpace)
+        {
+            return new DnaTracer(traceNameSpace);
+        }
 
         #region Tagging implementation
 

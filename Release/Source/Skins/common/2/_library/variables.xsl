@@ -24,7 +24,7 @@
                 <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_host']/VALUE" />
             </xsl:when>
             <xsl:otherwise>
-                <xsl:text>http://www.bbc.co.uk</xsl:text>
+                <xsl:text>http://local.bbc.co.uk</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>
@@ -33,7 +33,7 @@
         <xsl:choose>
             <xsl:when test="$configuration/host/sslurl and not($configuration/host/sslurl = '')"><xsl:value-of select="$configuration/host/sslurl"/></xsl:when>
             <xsl:otherwise>
-                <xsl:text>https://ssl.bbc.co.uk</xsl:text>
+                <xsl:text>https://local.bbc.co.uk</xsl:text>
             </xsl:otherwise>
         </xsl:choose>
     </xsl:variable>    

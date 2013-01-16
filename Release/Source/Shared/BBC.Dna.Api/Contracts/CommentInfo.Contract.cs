@@ -125,6 +125,13 @@ namespace BBC.Dna.Api
             get;
             set;
         }
+        [DataMember(Name = ("distressMessage"), Order = 17)]
+        public CommentInfo DistressMessage
+        {
+            get;
+            set;
+        }
+
 
         /// <summary>
         /// When true, this comment should go into the premodpostings table (if it requires moderation)

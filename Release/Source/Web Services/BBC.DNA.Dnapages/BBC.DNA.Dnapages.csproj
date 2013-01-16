@@ -821,6 +821,13 @@
     <Compile Include="CommentsListPage.aspx.designer.cs">
       <DependentUpon>CommentsListPage.aspx</DependentUpon>
     </Compile>
+    <Compile Include="WelcomePage.aspx.cs">
+      <DependentUpon>WelcomePage.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WelcomePage.aspx.designer.cs">
+      <DependentUpon>WelcomePage.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BBC.Dna\BBC.DNA.csproj">
@@ -991,6 +998,7 @@
     <Content Include="TermsFilterImport.aspx" />
     <Content Include="TermsFilterAdmin.aspx" />
     <Content Include="CommentsListPage.aspx" />
+    <Content Include="WelcomePage.aspx" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />

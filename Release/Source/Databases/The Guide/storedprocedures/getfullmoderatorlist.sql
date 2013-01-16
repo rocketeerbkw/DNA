@@ -6,6 +6,8 @@ as
 	field are both not null
 */
 
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
+
 DECLARE @groupid INT
 SELECT @groupid = groupid FROM Groups WHERE name = @groupname
 

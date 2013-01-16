@@ -336,7 +336,7 @@ namespace BBC.Dna.Common
         /// <param name="queryStringData"></param>
         private void SendSignal(string serverName, string pageName, NameValueCollection queryStringData, bool sendSync)
         {
-            string request = string.Format("http://{0}/dna/h2g2/{1}?action={2}", serverName, pageName, SignalKey);
+            string request = string.Format("http://{0}/dna/moderation/{1}?action={2}", serverName, pageName, SignalKey);
 
             if (queryStringData != null)
             {

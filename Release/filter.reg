@@ -360,3 +360,5 @@ REGEDIT4
 
 "/OldEditPost"="/ripleyserver.dll?EditPost?"
 "/EditPost"="/dna/dnapages/editpost.aspx?"
+"/Welcome"="/dna/dnapages/WelcomePage.aspx?"
+

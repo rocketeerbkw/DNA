@@ -1,6 +1,13 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBC.Dna.Sites;
+using BBC.Dna.Utils;
+using System.Configuration;
+using BBC.Dna.Data;
+using System.Collections.Generic;
+using Rhino.Mocks;
+using TestUtils;
+using Tests;
 
 namespace BBC.Dna.Sites.Tests
 {
@@ -11,6 +18,14 @@ namespace BBC.Dna.Sites.Tests
     [TestClass]
     public class SiteOptionTest
     {
+        private readonly MockRepository _mocks = new MockRepository();
+
+        [TestInitialize]
+        public void TestStartup()
+        {
+            SnapshotInitialisation.ForceRestore();
+        }
+
         /// <summary>
         ///A test for CreateFromDefault
         ///</summary>
@@ -346,6 +361,88 @@ namespace BBC.Dna.Sites.Tests
             {
             }
         }
-        
+
+        [TestMethod]
+        public void ShouldUpdateSiteOptionsWithValidUpdateOption()
+        {
+            IDnaDataReaderCreator readerCreator;
+            SetupDataBaseMockedDataReaderCreator(out readerCreator);
+
+            string section = "General";
+            string name = "SiteIsPrivate";
+            string description = "If true, this site's content won't get pulled out on lists in any other site";
+            int siteID = 1;
+            int changeToValue = GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, true) == 1 ? 0 : 1;
+
+            SiteOption siteOption = new SiteOption(siteID, section, name, changeToValue.ToString(), SiteOption.SiteOptionType.Bool, description);
+            List<SiteOption> updatedSiteoptions = new List<SiteOption>();
+            updatedSiteoptions.Add(siteOption);
+
+            SiteOption.UpdateSiteOptions(updatedSiteoptions, readerCreator);
+            int storedValue = GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, true);
+
+            Assert.AreEqual(changeToValue, storedValue);
+        }
+
+        [TestMethod]
+        public void ShouldRemoveSiteOptionForSite()
+        {
+            IDnaDataReaderCreator readerCreator;
+            SetupDataBaseMockedDataReaderCreator(out readerCreator);
+
+            string section = "General";
+            string name = "IsURLFiltered";
+            string description = "Set if this site is to be url filtered";
+            int siteID = 1;
+            
+            // Check the option exists first
+            GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, true);
+
+            SiteOption siteOption = new SiteOption(siteID, section, name, "0", SiteOption.SiteOptionType.Bool, description);
+            SiteOption.RemoveSiteOptionFromSite(siteOption, siteID, readerCreator);
+            GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, false);
+        }
+
+        private static int GetValueForGivenSiteOptionAssertFail(IDnaDataReaderCreator readerCreator, string section, string name, int siteID, bool expectResults)
+        {
+            int value = -1;
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader(""))
+            {
+                string sql = "SELECT * FROM SiteOptions WHERE Section='" + section + "' AND Name='" + name + "' AND SiteID=" + siteID;
+                reader.ExecuteDEBUGONLY(sql);
+                if (expectResults)
+                {
+                    Assert.IsTrue(reader.HasRows, "Failed to find site option");
+                    Assert.IsTrue(reader.Read(), "Failed to read data from database query");
+                    value = reader.GetTinyIntAsInt("value");
+                }
+                else
+                {
+                    Assert.IsFalse(reader.HasRows, "Should not have any rows!");
+                }
+            }
+            return value;
+        }
+
+        private static int GetValueForGivenSiteOption(IDnaDataReaderCreator readerCreator, string section, string name, int siteID)
+        {
+            int value = -1;
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader(""))
+            {
+                string sql = "SELECT * FROM SiteOptions WHERE Section='" + section + "' AND Name='" + name + "' AND SiteID=" + siteID;
+                reader.ExecuteDEBUGONLY(sql);
+                Assert.IsTrue(reader.HasRows, "Failed to find site option");
+                Assert.IsTrue(reader.Read(), "Failed to read data from database query");
+                value = reader.GetTinyIntAsInt("value");
+            }
+            return value;
+        }
+
+        private void SetupDataBaseMockedDataReaderCreator(out IDnaDataReaderCreator readerCreator)
+        {
+            IDnaDiagnostics mockedDiagnostics = _mocks.DynamicMock<IDnaDiagnostics>();
+            string connectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
+            readerCreator = new DnaDataReaderCreator(connectionString, mockedDiagnostics);
+        }
     }
 }
