@@ -104,7 +104,7 @@ namespace BBC.Dna
             }
             else if (recipient != String.Empty)
             {
-                SendEmail(subject, body, sender, recipient);
+                SendEmail(subject, body, sender, recipient, siteId);
             }
         }
 
@@ -116,11 +116,20 @@ namespace BBC.Dna
         /// <param name="body"></param>
         /// <param name="sender"></param>
         /// <param name="recipient"></param>
+        /// <param name="siteId"></param>
         /// <exception cref="DnaEmailException">If there is an error sending email.</exception>
-        public void SendEmail(string subject, string body, string sender, string recipient)
+        public void SendEmail(string subject, string body, string sender, string recipient, int siteId)
         {
             string errorMessage = string.Empty;
             bool bEmailFailed = false;
+
+            var isRtlSite = InputContext.TheSiteList.GetSiteOptionValueBool(siteId, "General", "RTLSite");
+            if (isRtlSite)
+            {
+                body = "<html dir='rtl'><body>" + body + "</body></html>";
+                //subject = "<html dir='rtl'>" + subject + "</html>";
+            }
+
             try
             {
                 System.Net.Mail.MailMessage message = new System.Net.Mail.MailMessage();
@@ -132,6 +141,11 @@ namespace BBC.Dna
                 message.CC.Add(new System.Net.Mail.MailAddress(sender));
                 message.Subject = subject;
                 message.Body = AddLineBreaks(body);
+                if (isRtlSite)
+                {
+                    message.IsBodyHtml = true;
+                    message.BodyEncoding = System.Text.Encoding.UTF8;
+                }
 
                 System.Net.Mail.SmtpClient client = new System.Net.Mail.SmtpClient();
                 client.Send(message);
