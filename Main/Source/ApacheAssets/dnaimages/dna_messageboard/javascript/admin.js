@@ -438,7 +438,7 @@
            	//}
 			
 			// Make sure that the users text area is not empty
-           	if (($("#users").val() == " " || $("#users").val() == "") {
+           	if (($("#users").val() == " " || $("#users").val() == "")) {
            		glow.dom.create('<span class="dna-error-text text">Please enter a user</span>').insertAfter("#users");
            		isFormValidToSubmit = false;
            	}
