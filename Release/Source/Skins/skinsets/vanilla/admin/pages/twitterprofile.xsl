@@ -77,13 +77,13 @@
 								</input>
 							</li>
 							<li>
-								<label for="commentforumparenturl">Commentforum ParentURI<span>*</span>:</label>
+								<label for="commentforumparenturl">Commentforum ParentURI <span>*</span>:</label>
 								<input type="text" name="commentforumparenturl" id="commentforumparenturl">
 									<xsl:attribute name="value"><xsl:value-of select="/H2G2/PROFILE/COMMENTFORUMPARENTURI" /></xsl:attribute>
 								</input>
 							</li>
 							<li>
-								<label for="users">Users: <br /><em>You must enter at least one twitter user screen name</em></label>
+								<label for="users">Users <span>*</span>: <br /><em>You must enter at least one twitter user screen name</em></label>
 								<textarea name="users" id="users">
 									<xsl:text> </xsl:text>
 									<xsl:apply-templates select="/H2G2/PROFILE/USERS/ITEM" mode="items" />
