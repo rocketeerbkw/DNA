@@ -73,7 +73,7 @@
         <xsl:text>文章</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>内容項目</xsl:text>
+        <xsl:text>藏此</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -184,11 +184,11 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != '其他'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
-                    	<xsl:text> <!-- leave this!! --> </xsl:text>
+                      <xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
            </div>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost">隱藏這個<xsl:call-template name="item_name"/>立刻</label>.
+                        <label for="hidePost">立刻隱<xsl:call-template name="item_name"/>内容</label>.
                     </p>
                 </xsl:if>
                 
@@ -245,14 +245,13 @@
         </form>
     </xsl:template>
     
-    <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
+	<xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
       <div class="content">
         <h2>資料</h2>
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
               你已經被拒絕使用在綫投訴系統，請致函：<br />
-              BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -260,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+              不能成功登記投訴
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              無效的電郵地址
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              找不到評論
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              驗證碼無效
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              此評論已經過審閲並已被刪除。
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              沒有投訴内容 
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+              沒有投訴原因
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              不能隱藏評論
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+              網址無效
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>

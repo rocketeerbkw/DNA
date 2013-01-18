@@ -185,7 +185,8 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Other'">
-                    	<xsl:text>أعتقد بأن هذه المشاركة </xsl:text><xsl:call-template name="item_name"/><xsl:text> فيها إخلال لشروط المشاركة لأنها </xsl:text><xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> .</xsl:text>
+                    	<xsl:text>أعتقد بأن هذه المشاركة </xsl:text><xsl:call-template name="item_name"/>
+						<xsl:text> فيها إخلال لشروط المشاركة لأنها </xsl:text><xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> .</xsl:text>
                     	</xsl:if>
                     	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
@@ -250,8 +251,7 @@
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              تم منعك من إرسال شكاوى عن طريق نظام الشكوى الالكتروني. يرجى توجيه رسالة لـ:<br />
-              BBC Central Communities Team<br />
+              :لقد حظر استخدامك لنظام تسجيل الشكاوى عبر الإنترنت، يرجى الكتابة إلى<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -259,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+              من غير الممكن تسجيل الشكوى
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              عنوان البريد الالكتروني غير صحيح
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              لم يعثر على مشاركتك
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              رمز التحقق غير صالح
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              هذه المشاركة تمت مراجعتها وإزالتها.
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              لا يوجد نص مكتوب في هذه الشكوى
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+              لا يوجد سبب للشكوى
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              لقد تعذر إخفاء المشاركة
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+              العنوان المحدد غير صالح
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>
@@ -318,7 +359,7 @@
                     <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE" />
                   </xsl:when>
                   <xsl:otherwise>
-                    <xsl:text>http://www.bbc.co.uk/</xsl:text>
+                    <xsl:text>http://www.bbc.co.uk/arabic</xsl:text>
                   </xsl:otherwise>
                 </xsl:choose>
 

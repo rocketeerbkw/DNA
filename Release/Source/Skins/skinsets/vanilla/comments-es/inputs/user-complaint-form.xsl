@@ -95,7 +95,7 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Alertando a los moderadores</h2>
-            	<p>Por favor, selecciones cuál de <a href="http://www.bbc.co.uk/mundo/institucional/2012/08/000000_ayuda_foros_comentarios.shtml">las reglas</a> usted cree que este <xsl:call-template name="item_name"/> ha roto. Si considera que rompe más de una regla, por favor seleccione la falta que piense sea más severa.</p>
+            	<p>Por favor seleccione <a href="http://www.bbc.co.uk/mundo/institucional/2012/08/000000_ayuda_foros_comentarios.shtml">las reglas</a> que, desde su punto de vista, este <xsl:call-template name="item_name"/> no respetó. Si considera que el comentario rompe más de una regla, por favor seleccione la que considera más grave.</p>
             </div>
             
             <div class="content">
@@ -110,7 +110,7 @@
                 		<input type="radio" id="dnaacs-cq-2" value="es insultante, obsceno, amenazante o atenta contra las creencias, la raza o la preferencia sexual de un grupo de personas" name="s_complaintText"/><label for="dnaacs-cq-2">es insultante, obsceno, amenazante o atenta contra las creencias, la raza o la preferencia sexual de un grupo de personas</label>
                 		<input type="radio" id="dnaacs-cq-3" value="contiene palabras soeces o un lenguaje que puede resultar ofensivo" name="s_complaintText"/><label for="dnaacs-cq-3">contiene palabras soeces o un lenguaje que puede resultar ofensivo</label>
                 		<input type="radio" id="dnaacs-cq-4" value="es ilegal o hace apología del delito en actividades tales como infringir el derecho de autor o desacato a un tribunal de Justicia" name="s_complaintText"/><label for="dnaacs-cq-4">es ilegal o hace apología del delito en actividades tales como  <a href="http://www.bbc.co.uk/spanish/specials/150_valores/pdf/valores_bbc_todo.pdf">infringir el derecho de autor</a> o desacato a un tribunal de Justicia</label>
-                		<input type="radio" id="dnaacs-cq-5" value="hacer publicidad de productos y servicios para obtener alguna ganancia o beneficio" name="s_complaintText"/><label for="dnaacs-cq-5">hacer publicidad de productos y servicios para obtener alguna ganancia o beneficio</label>
+                		<input type="radio" id="dnaacs-cq-5" value="hace publicidad de productos y servicios para obtener alguna ganancia o beneficio" name="s_complaintText"/><label for="dnaacs-cq-5">hace publicidad de productos y servicios para obtener alguna ganancia o beneficio</label>
                 		<input type="radio" id="dnaacs-cq-7" value="suplanta la identidad de otra persona" name="s_complaintText"/><label for="dnaacs-cq-7">suplanta la identidad de otra persona</label>
                 		<input type="radio" id="dnaacs-cq-8" value="incluye información privada, tal como números telefónicos, dirección postal o de correo electrónico" name="s_complaintText"/><label for="dnaacs-cq-8">incluye información privada, tal como números telefónicos, dirección postal o de correo electrónico</label>
                 		<xsl:call-template name="library_userstate">
@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="no está en español" name="s_complaintText"/><label for="dnaacs-cq-10">no está en español</label>
-                		<input type="radio" id="dnaacs-cq-11" value="contiene un vínculo a un sitio externo que romper con nuestra línea editorial" name="s_complaintText"/><label for="dnaacs-cq-11">contiene un vínculo a un sitio externo que romper con nuestra <a href="http://www.bbc.co.uk/spanish/specials/150_valores/pdf/valores_bbc_todo.pdf">línea editorial</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="contiene un vínculo a un sitio externo que rompe con nuestra línea editorial" name="s_complaintText"/><label for="dnaacs-cq-11">contiene un vínculo a un sitio externo que rompe con nuestra <a href="http://www.bbc.co.uk/spanish/specials/150_valores/pdf/valores_bbc_todo.pdf">línea editorial</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="describe o incita a actividades que pueden dañar a terceros" name="s_complaintText"/><label for="dnaacs-cq-12">describe o incita a actividades que pueden dañar a terceros</label>
                 		<input type="radio" id="dnaacs-cq-13" value="contiene un nombre de usuario no apropiado" name="s_complaintText"/><label for="dnaacs-cq-13">contiene un nombre de usuario no apropiado</label>
                 		<input type="radio" id="dnaacs-cq-14" value="es un correo basura o en serie (spam)" name="s_complaintText"/><label for="dnaacs-cq-14">es un correo basura o en serie (spam)</label>
@@ -174,7 +174,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Por favor rellene la caja de abajo para decirnos el motivo por el cual usted piensa que este <xsl:call-template name="item_name"/> rompe las reglas. Cuando termine, haga clic en "Enviar su queja" para que pueda ser revisada por uno de los moderadores.</p>
+           	<p>Por favor escriba en la caja de abajo el motivo por el cual usted piensa que este <xsl:call-template name="item_name"/> rompe las reglas. Cuando termine, haga clic en "Enviar su queja" para que pueda ser revisada por uno de los moderadores.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Otro'">
                     Deseo quejarme acerca de este <xsl:call-template name="item_name"/> por la siguiente razón:
@@ -184,7 +184,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Otro'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Esconder <xsl:call-template name="item_name"/> instantáneamente</label>.
+                        <label for="hidePost"> Ocultar este <xsl:call-template name="item_name"/> inmediatamente</label>.
                     </p>
                 </xsl:if>
                 
@@ -252,7 +252,6 @@
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
               Usted ha sido bloqueado de usar el sistema de quejas, por favor escriba a:<br />
-              BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -260,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+             No fue posible guardar su queja
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              Dirección de correo electrónico no válida
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              No se encontró el comentario
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              El código de verificación no es válido
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              Este comentario ya fue moderado y eliminado.
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              La queja carece de texto
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+              La queja carece de motivo
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              No se puede desaparecer el comentario
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+             Dirección de URL no válida
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>
