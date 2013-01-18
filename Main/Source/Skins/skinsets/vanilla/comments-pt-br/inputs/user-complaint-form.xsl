@@ -73,7 +73,7 @@
         <xsl:text>artigo</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>conteúdo</xsl:text>
+        <xsl:text>comentário</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -95,7 +95,7 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Alertando aos moderadores</h2>
-            	<p>Por favor, selecione qual das <a href="http://www.bbc.co.uk/portuguese/institutional/2012/08/120816_regras_institucional.shtml">Regras</a> você acha <xsl:call-template name="item_name"/> que foi violada. Se você acha que mais de uma regra foi violada, por favor, escolha a que considera mais grave.</p>
+            	<p>Por favor, selecione qual das <a href="http://www.bbc.co.uk/portuguese/institutional/2012/08/120816_regras_institucional.shtml">Regras</a> você acha que este <xsl:call-template name="item_name"/> violou. Se você acha que mais de uma regra foi violada, por favor escolha a que considera mais grave.</p>
             </div>
             
             <div class="content">
@@ -174,7 +174,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Por favor, preencha os campos abaixo com o motivo pelo qual, na sua opinião, <xsl:call-template name="item_name"/> esta regra foi violada. Quando tiver terminado, clique em Enviar reclamação para que sua reclamação seja analisada por um moderador.</p>
+           	<p>Por favor, preencha os campos abaixo com o motivo pelo qual, na sua opinião, o <xsl:call-template name="item_name"/> infrigiu a regra. Quando tiver terminado, clique em "Enviar reclamação" para que sua reclamação seja analisada por um moderador.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Outra'">
                     Gostaria de reclamar deste <xsl:call-template name="item_name"/> pelo seguinte motivo:
@@ -184,7 +184,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Outra'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
@@ -209,7 +209,7 @@
                       <em>Precisamos de seu endereço de e-mail para processar sua reclamação e informá-lo da decisão do moderador. Pode ser que precisemos contatá-lo diretamente caso necessitemos maiores informações sobre sua reclamação.</em>
                     </p>
                     <p>
-                        <label for="emailaddress">endeço de e-mail</label>
+                        <label for="emailaddress">Endeço de e-mail</label>
                         <input type="text" name="email" id="emailaddress" value="" class="textbox"/>
                     </p>
                 </xsl:otherwise>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Esconder <xsl:call-template name="item_name"/> instantaneamente</label>.
+                        <label for="hidePost"> Esconder este <xsl:call-template name="item_name"/> imediatamente</label>.
                     </p>
                 </xsl:if>
                 
@@ -252,7 +252,6 @@
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
               Você foi bloqueado e não poderá usar o sistema de reclamações. Por favor, escreva para:<br />
-              BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -260,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+             Não foi possível registrar sua reclamação
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              Endereço de e-mail inválido
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              Comentário não encontrado
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              O código de verificação não é válido
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              Este comentário já foi moderado e removido.
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              Não há mensagem de reclamação
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+              Não há motivo para a reclamação
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              Não é possível esconder o comentário
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+              A URL não é válida
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>

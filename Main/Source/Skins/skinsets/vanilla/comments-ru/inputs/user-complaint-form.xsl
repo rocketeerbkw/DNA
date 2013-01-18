@@ -73,7 +73,7 @@
         <xsl:text>статья</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>содержание</xsl:text>
+        <xsl:text>комментарий</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -184,7 +184,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Другое'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
@@ -251,8 +251,7 @@
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              Вы не можете использовать систему жалоб, так как вы были заблокированы. Пожалуйста, напишите сюда: <br />
-              BBC Central Communities Team<br />
+              Вы не можете использовать систему жалоб, так как вы были заблокированы. Пожалуйста, напишите сюда:<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -260,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+              Ошибка регистрации жалобы
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              Неправильный адрес электронной почты
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              Комментарий не найден
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              Код не действителен
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              Этот комментарий уже прошел модерацию и был удален.
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              Отсутствует текст жалобы 
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+              Отсутствует причина жалобы
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              Невозможно скрыть комментарий
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+              Данная ссылка не существует
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>

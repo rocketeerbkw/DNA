@@ -15,8 +15,8 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>hakkında şikayette bulunun <xsl:call-template name="item_name"/></h2>
-            <p>Bu form, sadece kullanım koşullarını ihlal ettiği düşünülen içeriğe ilişkin şikayetlerle ilgili olarak kullanılabilir.<a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">Kullanım koşulları için tıklayın</a>.</p>
+            <h2>Mesaj hakkında şikayette bulunun <!-- <xsl:call-template name="item_name"/></h2> -->
+            <p>Bu form, sadece kullanım koşullarını ihlal ettiği düşünülen içerik için kullanılabilir. <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">Kullanım koşulları için tıklayın</a>.</p>
             <p>Eğer genel bir yorum yapmak ya da soru yöneltmek isterseniz, bu formu kullanmak yerine bir mesajla tartışmaya katılın.</p>
             <p>Hakkında şikayetçi olduğunuz mesaj, kullanım koşullarının ihlal edilip edilmediğine karar verecek olan moderatöre iletilecek.<a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml"> Kullanım koşulları için tıklayın</a>. Karar hakkında elektronik posta mesajı aracılığıyla bilgilendirileceksiniz.</p>
             <p class="action">
@@ -73,7 +73,7 @@
         <xsl:text>haber</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>içerik</xsl:text>
+        <xsl:text>hemen</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -95,21 +95,21 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Moderatörleri uyarmak</h2>
-            	<p>Bu yorumun ihlal ettiğini düşündüğünüz <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">kullanım koşulunu</a> seçin.<xsl:call-template name="item_name"/> Eğer birden fazla kuralın ihlal edildiğini düşünüyorsanız en ciddi ihlali seçin.</p>
+            	<p>Bu yorumun ihlal ettiğini düşündüğünüz <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">kullanım koşulunu</a> seçin.<!-- <xsl:call-template name="item_name"/> --> Eğer birden fazla kuralın ihlal edildiğini düşünüyorsanız en ciddi ihlali seçin.</p>
             </div>
             
             <div class="content">
               <h2>Şikayetinizin nedeni:</h2>
               <p>
-                Bu mesajın <xsl:call-template name="item_name"/> ihlal etmiş olabileceğini düşünüyorum <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">kullanım koşullarını </a> çünkü:
+                Bu mesajın <!-- <xsl:call-template name="item_name"/> --><a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">kullanım koşullarını</a> ihlal etmiş olabileceğini düşünüyorum  çünkü:
               </p>
                
                 <p class="options">
                 	<p class="options">
                 		<input type="radio" id="dnaacs-cq-1" value="iftira ve hakaret içeriyor" name="s_complaintText"/><label for="dnaacs-cq-1">iftira ve hakaret içeriyor</label>
-                		<input type="radio" id="dnaacs-cq-2" value="ırkçı, cinsiyet ayrımcısı, homofobik, taciz eden, küçük düşüren ve hakaret ifadeleri içeriyor" name="s_complaintText"/><label for="dnaacs-cq-2">ırkçı, cinsiyet ayrımcısı, homofobik, taciz eden, küçük düşüren ve hakaret ifadeleri içeriyor</label>
+                		<input type="radio" id="dnaacs-cq-2" value="ırkçı, cinsiyet ayrımcısı, homofobik ya da taciz, aşağılama, hakaret ifadeleri içeriyor" name="s_complaintText"/><label for="dnaacs-cq-2">ırkçı, cinsiyet ayrımcısı, homofobik ya da taciz, aşağılama, hakaret ifadeleri içeriyor</label>
                 		<input type="radio" id="dnaacs-cq-3" value="küfür ve hakaret olarak görülebilecek ifadeler içeriyor" name="s_complaintText"/><label for="dnaacs-cq-3">küfür ve hakaret olarak görülebilecek ifadeler içeriyor</label>
-                		<input type="radio" id="dnaacs-cq-4" value="yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor fikri mülkiyet hakkı ihlali, mahkemeye itaatsizlik gibi" name="s_complaintText"/><label for="dnaacs-cq-4">yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_kullanim.shtml">fikri mülkiyet hakkı ihlali,</a> mahkemeye itaatsizlik gibi</label>
+                		<input type="radio" id="dnaacs-cq-4" value="yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor; fikri mülkiyet hakkı ihlali, mahkemeye itaatsizlik gibi" name="s_complaintText"/><label for="dnaacs-cq-4">yasaya aykırı ya da yasadışı faaliyetlere teşvik ediyor; <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_kullanim.shtml">fikri mülkiyet hakkı ihlali,</a> mahkemeye itaatsizlik gibi</label>
                 		<input type="radio" id="dnaacs-cq-5" value="kâr ve gelir amaçlı hizmet ve ürün reklamı yapılıyor" name="s_complaintText"/><label for="dnaacs-cq-5">kâr ve gelir amaçlı hizmet ve ürün reklamı yapılıyor</label>
                 		<input type="radio" id="dnaacs-cq-7" value="birilerinin taklidi yapılıyor" name="s_complaintText"/><label for="dnaacs-cq-7">birilerinin taklidi yapılıyor</label>
                 		<input type="radio" id="dnaacs-cq-8" value="telefon numarası, ev ya da elektronik posta adresi gibi kişisel bilgiler içeriyor" name="s_complaintText"/><label for="dnaacs-cq-8">telefon numarası, ev ya da elektronik posta adresi gibi kişisel bilgiler içeriyor</label>
@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="Türkçe değil" name="s_complaintText"/><label for="dnaacs-cq-10">Türkçe değil</label>
-                		<input type="radio" id="dnaacs-cq-11" value="aykırı içeriğe sahip olan bir internet sitesine link içeriyor. BBC Yayın İlkeleri'ne" name="s_complaintText"/><label for="dnaacs-cq-11">aykırı içeriğe sahip olan bir internet sitesine link içeriyor. <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_yayin_ilkeleri.shtml">BBC Yayın İlkeleri'ne</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="aykırı içeriğe sahip olan bir internet sitesine link içeriyor. BBC Yayın İlkeleri'ne" name="s_complaintText"/><label for="dnaacs-cq-11"><a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_yayin_ilkeleri.shtml">BBC Yayın İlkeleri'ne</a> aykırı içeriğe sahip olan bir internet sitesine link içeriyor. </label>
                 		<input type="radio" id="dnaacs-cq-12" value="başkalarının güvenliğini tehlikeye atabilecek faaliyetlere ilişkin tarif ve teşvik edici ifadeler içeriyor" name="s_complaintText"/><label for="dnaacs-cq-12">başkalarının güvenliğini tehlikeye atabilecek faaliyetlere ilişkin tarif ve teşvik edici ifadeler içeriyor</label>
                 		<input type="radio" id="dnaacs-cq-13" value="uygun olmayan bir kullanıcı adı içeriyor" name="s_complaintText"/><label for="dnaacs-cq-13">uygun olmayan bir kullanıcı adı içeriyor</label>
                 		<input type="radio" id="dnaacs-cq-14" value="istenmeyen elekronik posta mesajı" name="s_complaintText"/><label for="dnaacs-cq-14">istenmeyen elekronik posta mesajı</label>
@@ -174,7 +174,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Lütfen aşağıdaki kutuya hangi nedenle kural ihlali olduğunu düşündüğünüzü yazın. <xsl:call-template name="item_name"/> Formu doldurduktan sonra da moderatör tarafından incelenmek üzere Şikayeti Gönder'e tıklayın.</p>
+           	<p>Lütfen aşağıdaki kutuya hangi nedenle kural ihlali olduğunu düşündüğünüzü yazın. <!-- <xsl:call-template name="item_name"/> --> Formu doldurduktan sonra da moderatör tarafından incelenmek üzere Şikayet Et'e tıklayın.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Diğer'">
                     bu konuda şikayette bulunmak istiyorum: <xsl:call-template name="item_name"/> Aşağıdaki nedenle 
@@ -184,7 +184,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Diğer'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Gizleyin <xsl:call-template name="item_name"/> anında</label>.
+                        <label for="hidePost"> Bu mesajı <xsl:call-template name="item_name"/> gizleyin</label>.
                     </p>
                 </xsl:if>
                 
@@ -252,7 +252,6 @@
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
               Site üzerinden şikayet göndermeniz engellendi, lütfen şu adrese yazın:<br />
-              BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -260,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+             Şikayetinizi kaydedemiyoruz
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              Geçersiz e-posta adresi
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              Mesaj bulunamadı
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              Doğrulama şifresi geçersiz
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              Bu mesaj incelendi ve siteden kaldırıldı.
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              Şikayet kutusunda metin yok
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+              Şikayet sebebi verilmemiş
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              Mesajı gizleyemiyoruz
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+              Verilen internet adresi geçerli değil
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>
@@ -299,7 +339,7 @@
     <div class="content">
       <h2>Sitede gezinmeye devam edin</h2>
       <p>
-        Şikayetiniz başarıyla ulaştı ve moderatör ekibine iletildi.  <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">Kullanım koşullarına</a> uygun olup olmadığı incelendikten sonra elektronik posta adresinize gönderilecek bir mesajla bilgilendirileceksiniz.
+        Şikayetiniz elimize ulaştı ve moderatör ekibine iletildi. <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">Kullanım koşullarına</a> uygun olup olmadığı incelendikten sonra elektronik posta adresinize gönderilecek bir mesajla bilgilendirileceksiniz.
       </p>
       <p>
         Moderasyon referans numaranız: <strong>

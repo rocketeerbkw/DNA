@@ -15,10 +15,10 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>شکایت کے لیے <xsl:call-template name="item_name"/></h2>
-            <p>یہ فارم صرف ہاؤس رولز کی خلاف ورزی کی شکایات کے لیے ہے:<a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز۔</a></p>
-            <p>برائے مہربانی عمومی تبصرے یا کسی سوال کے لیے یہ فارم استعمال نہ کریں بلکہ اپنا پیغام مباحثے میں پوسٹ کریں</p>
-            <p>جس تبصرے کے بارے میں آپ نے شکایت کی ہے اسے موڈریٹر کو بھیجا جائے گا اور وہی یہ فیصلہ کریں گے کہ ہاؤس رولز کی خلاف ورزی ہوئی ہے <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز۔</a> ان کے فیصلے کے بارے میں آپ کو بذریعہ ای میل سے مطلع کیا جائے گا</p>
+            <h2>تبصرے سے متعلق شکایت <!-- <xsl:call-template name="item_name"/> --></h2>
+            <p>یہ فارم صرف <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز</a> کی خلاف ورزی کی شکایات کے لیے ہے۔</p>
+            <p>برائے مہربانی عمومی تبصرے یا کسی سوال کے لیے یہ فارم استعمال نہ کریں بلکہ اپنا پیغام مباحثے میں پوسٹ کریں۔</p>
+            <p>جس تبصرے کے بارے میں آپ نے شکایت کی ہے اسے موڈریٹر کو بھیجا جائے گا اور وہی یہ فیصلہ کریں گے کہ <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز</a> کی خلاف ورزی ہوئی ہے۔</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -67,13 +67,13 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>تبصرے</xsl:text>
+        <xsl:text><!-- تبصرے --></xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
         <xsl:text>آرٹیکل</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>کانٹینٹ آئٹم</xsl:text>
+        <xsl:text>کو فوراً</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>موڈریٹرز کو مطلع کریں</h2>
-            	<p>برائے مہربانی ان <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز</a> کا انتخاب کریں جن کی آپ کے خیال میں خلاف ورزی کی گئی ہے۔<xsl:call-template name="item_name"/> اگر آپ کے خیال میں ایک سے زیادہ ہاؤس رولز کی خلاف ورزی کی گئی ہے تو برائے مہربانی سب سے سنگین ترین خلاف ورزی منتخب کریں۔</p>
+            	<p>برائے مہربانی ان <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز</a> کا انتخاب کریں جن کی آپ کے خیال میں خلاف ورزی کی گئی ہے۔<!-- <xsl:call-template name="item_name"/> --> اگر آپ کے خیال میں ایک سے زیادہ ہاؤس رولز کی خلاف ورزی کی گئی ہے تو برائے مہربانی سب سے سنگین ترین خلاف ورزی منتخب کریں۔</p>
             </div>
             
             <div class="content">
               <h2>آپ کی شکایت کی وجہ</h2>
               <p>
-                میرے خیال میں  <xsl:call-template name="item_name"/> اس تبصرے میں <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز</a> کی خلاف ورزی کی نوعیت یہ ہے کہ یہ:
+                میرے خیال میں <!-- <xsl:call-template name="item_name"/> --> اس تبصرے میں <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز</a> کی خلاف ورزی کی نوعیت یہ ہے کہ یہ:
               </p>
                
                 <p class="options">
@@ -121,7 +121,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="اردو میں نہیں" name="s_complaintText"/><label for="dnaacs-cq-10">اردو میں نہیں</label>
-                		<input type="radio" id="dnaacs-cq-11" value="ایڈیٹوریل گائیڈ لائنز کے خلاف ہے۔ایڈیٹوریل گائیڈ لائنز کے خلاف ہے۔" name="s_complaintText"/><label for="dnaacs-cq-11">کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو ایڈیٹوریل<a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">ایڈیٹوریل گائیڈ لائنز کے خلاف ہے۔ </a></label>
+                		<label for="dnaacs-cq-11">کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">ایڈیٹوریل گائیڈ لائنز</a> کے خلاف ہے </label>
                 		<input type="radio" id="dnaacs-cq-12" value="ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے" name="s_complaintText"/><label for="dnaacs-cq-12">ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے</label>
                 		<input type="radio" id="dnaacs-cq-13" value="یوزر نیم نامناسب ہے" name="s_complaintText"/><label for="dnaacs-cq-13">یوزر نیم نامناسب ہے</label>
                 		<input type="radio" id="dnaacs-cq-14" value="سپیم ہے" name="s_complaintText"/><label for="dnaacs-cq-14">سپیم ہے</label>
@@ -176,7 +176,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>برائے مہربانی نیچے دیے گئے خانے میں وہ وجہ درج کریں جس کی وجہ سے آپ کے خیال میں <xsl:call-template name="item_name"/> ضابطے کی خلاف ورزی ہوئی ہے۔ لکھنے کے بعد ’شکایت بھیجیں‘ کے بٹن پر کلک کریں تاکہ موڈریٹر اس کا جائزہ لے سکیں </p>
+           	<p>برائے مہربانی نیچے دیے گئے خانے میں وہ وجہ درج کریں جس کی وجہ سے آپ کے خیال میں <!-- <xsl:call-template name="item_name"/> --> ضابطے کی خلاف ورزی ہوئی ہے۔ لکھنے کے بعد ’شکایت بھیجیں‘ کے بٹن پر کلک کریں تاکہ موڈریٹر اس کا جائزہ لے سکیں۔</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'دیگر'">
                     مجھے مندرجہ ذیل <xsl:call-template name="item_name"/> اسباب کی بنا پر شکایت ہے:
@@ -186,7 +186,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'دیگر'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
@@ -208,7 +208,7 @@
                 <xsl:otherwise>
                     <h3>آپ کا ای میل ایڈریس</h3>
                     <p>
-                      <em>ہمیں آپ کی شکایت کا جائزہ لینے اور موڈریٹر کے فیصلے سے آپ کو آگاہ کرنے کے لیے آپ کا ای میل ایڈریس درکار ہے۔ اگر ضرورت ہوگی تو ہم شکایت سے متعلق مزید معلومات کے لیے آپ سے براہ راست  رابطہ کر سکتے ہیں</em>
+                      <em>ہمیں آپ کی شکایت کا جائزہ لینے اور موڈریٹر کے فیصلے سے آپ کو آگاہ کرنے کے لیے آپ کا ای میل ایڈریس درکار ہے۔ اگر ضرورت ہوگی تو ہم شکایت سے متعلق مزید معلومات کے لیے آپ سے براہ راست  رابطہ کر سکتے ہیں۔</em>
                     </p>
                     <p>
                         <label for="emailaddress">ای میل ایڈریس</label>
@@ -220,7 +220,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> اسے چھپائیں <xsl:call-template name="item_name"/> فوراً</label>.
+                        <label for="hidePost"> اس تبصرے <xsl:call-template name="item_name"/> چھپائیں</label>.
                     </p>
                 </xsl:if>
                 
@@ -253,8 +253,7 @@
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              آپ کو آن لائن شکایت کا نظام استعمال کرنے سے روک دیا گیا ہے۔ برائے مہربانی اس پتہ پر لکھیں:<br />
-              BBC Central Communities Team<br />
+              :آپ کو آن لائن شکایت کا نظام استعمال کرنے سے روک دیا گیا ہے۔ برائے مہربانی اس پتہ پر لکھیں<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -262,11 +261,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+             یہ شکایت رجسٹر نہیں ہو سکی
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              یہ ای میل ایڈریس درست نہیں
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              پ کی شکایت موصول نہیں ہوئی
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              تصدیق کا کوڈ درست نہیں ہے
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              اس پوسٹ کو دیکھ کر ہٹا دیا گیا ہے
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              آپ نے شکایت کے خانے میں کچھ نہیں لکھا
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+             شکایت کی کوئی وجہ بیان نہیں کی گئی
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              آپ کی تحریر کو ہٹایا نہیں جا سکتا
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+             غلط یو آر ایل کی نشاندہی
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>
@@ -301,7 +341,7 @@
     <div class="content">
       <h2>شکایت کامیاب</h2>
        <p>
-        آپ کی شکایت موصول ہوگئی ہے اور موڈریشن ٹیم کو بھیج دی گئی ہے۔ وہی اس بات کا فیصلہ کریں گے کہ اس تبصرے میں ہاؤس رولز کی خلاف ورزی ہوئی ہے اور آپ کو ای میل کے ذریعہ مطلع کیا جائے گا <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز۔</a> کی خلاف ورزی ہوئی ہے اور آپ کو ای میل کے ذریعے اپ ڈیٹ کیا جائے گا
+        آپ کی شکایت موصول ہوگئی ہے اور موڈریشن ٹیم کو بھیج دی گئی ہے۔ وہی اس بات کا فیصلہ کریں گے کہ آیا اس تبصرے میں <a href="http://www.bbc.co.uk/urdu/institutional/2011/10/000001_jive_house_rules.shtml">ہاؤس رولز۔</a> کی خلاف ورزی ہوئی ہے یا نہیں۔ آپ کو ای میل کے ذریعہ مطلع کیا جائے گا۔
       </p>
       <p>
         آپ کا موڈریشن ریفرنس آئی ڈی: <strong>
