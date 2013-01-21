@@ -1,4 +1,4 @@
-﻿create procedure [dbo].[commentsreadbyforumid_xdm] 
+﻿create procedure commentsreadbyforumid_xdm
 	@forumid int, 
 	@startindex int = null, 
 	@itemsperpage int = null, 
