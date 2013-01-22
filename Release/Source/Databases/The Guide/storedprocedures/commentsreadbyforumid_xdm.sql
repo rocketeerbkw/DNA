@@ -1,4 +1,4 @@
-﻿CREATE procedure commentsreadbyforumid_xdm 
+﻿create procedure commentsreadbyforumid_xdm
 	@forumid int, 
 	@startindex int = null, 
 	@itemsperpage int = null, 
@@ -6,18 +6,6 @@
 	@sortdirection varchar(20) = 'descending'
 as
 	SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED;
-	
-/*
-xdm = exclude distress message
---Test cases
-exec commentsreadbyforumid 23073226, 20, 20 --Should show @ comments
-exec commentsreadbyforumid 24353385, 0, 15 --Should NOT show @ comments
-exec commentsreadbyforumid 24353385, 0, 5 --Should NOT show @ comments
-exec commentsreadbyforumid 24353385, 5, 5 --Should NOT show @ comments
-exec commentsreadbyforumid 24353385, 15, 5 --Should NOT show @ comments
-
---http://www.bbc.co.uk/sport/0/olympics/2012/
-*/
 
 declare @totalresults int 
 if (@startindex is null) set @startindex = 0
@@ -26,9 +14,13 @@ if (@itemsPerPage > 500) set @itemsPerPage = 500
 if (@sortBy is null or @sortBy ='') set @sortBy = 'created'
 if (@sortDirection is null or @sortDirection ='') set @sortDirection = 'descending'
 
+-- TODO: what do we want @totalresults to reflect?
 select @totalresults = count(*) 
 from dbo.ThreadEntries te 
 where te.forumid = @forumid
+
+DECLARE @SiteID int
+SELECT @SiteID = SiteID from dbo.Forums WHERE ForumID = @forumid
 
 BEGIN
 	;with cte_usersposts as
@@ -82,15 +74,35 @@ BEGIN
 			else NULL
 		end as 'Retweet',
 		@totalresults as totalresults,
-		case when crv.value is null then 0 else crv.value end as nerovalue
+		case when crv.value is null then 0 else crv.value end as nerovalue,
+		te2.EntryID as 'DmId',
+		te2.DatePosted as 'DmCreated',
+		te2.UserId as 'DmUserId',
+		te2.Text as 'DmText',
+		te2.Hidden as 'DmHidden',
+		te2.PostStyle as 'DmPostStyle',
+		u.UserName as 'DmUserName',
+		u.Status as 'DmStatus',
+		te2.LastUpdated as 'DmLastUpdated',
+		s.IdentityUserId as 'DmIdentityUserId',
+		u.LoginName as 'DmIdentityUserName',
+		p.SiteSuffix as 'DmSiteSpecificDisplayName',
+		te2.UserName as 'DmAnonymousUserName',
+		te2.PostIndex as 'DmPostIndex',
+		dbo.udf_isusermemberofgroup(te2.UserId, 
+            @SiteID, 'EDITOR') AS 'DmUserIsEditor'
+		
 	from cte_usersposts
 	inner join dbo.VComments vu on vu.Id = cte_usersposts.EntryID
 	left join dbo.ThreadEntriesTweetInfo tet on vu.Id = tet.ThreadEntryId 
 	left join dbo.VCommentsRatingValue crv with(noexpand)  on crv.entryid = cte_usersposts.EntryID
 	-- get related distress message entryid if exists
-  	left join ThreadEntryDistressMessage dm on vu.Id = dm.ParentEntryId
-	left join threadentries te2 on dm.DistressMessageId = te2.EntryId
-	-- make sure we filter out distress messages from this list so paging etc. not affected.
+  	left join dbo.ThreadEntryDistressMessage dm on vu.Id = dm.ParentEntryId
+	left join dbo.ThreadEntries te2 on dm.DistressMessageId = te2.EntryId
+	left join dbo.Users u on te2.UserId = u.UserId
+	left join dbo.Preferences p on p.UserID = u.UserId and p.SiteId = @SiteID
+	left join dbo.SignInUserIDMapping s on s.DnaUserID = u.UserID
+	-- filter out distress messages from this list so paging etc. not affected.
   	where n > @startindex and n <= @startindex + @itemsPerPage and vu.Id not in (
   		select dm.DistressMessageId
 		from threadentries te
