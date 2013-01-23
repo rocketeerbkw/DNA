@@ -71,7 +71,7 @@ namespace BBC.Dna
             string str = StringUtils.SerializeToXmlReturnAsString(CommentsList);
 
             var actualXml = str.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
-            actualXml = actualXml.Replace("xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"BBC.Dna.Api\"","").Trim();
+            actualXml = actualXml.Replace(" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"BBC.Dna.Api\"","").Trim();
 
             //Making all the XML Nodes uppercase
             actualXml = StringUtils.ConvertXmlTagsToUppercase(actualXml);
