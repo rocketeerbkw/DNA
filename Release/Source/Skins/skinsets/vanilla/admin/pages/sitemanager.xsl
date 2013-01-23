@@ -426,6 +426,12 @@
         </xsl:if>
         IDv4 Comments
       </option>
+      <option value="u16comment">
+        <xsl:if test="$currentidentitypolicy = 'u16comment'">
+          <xsl:attribute name="selected"></xsl:attribute>
+        </xsl:if>
+        IDv4 Under 16s Comments
+      </option>
       <xsl:for-each select="POLICY">
         <option value="{.}">
           <xsl:if test=". = $currentidentitypolicy">
