@@ -125,7 +125,8 @@ namespace BBC.Dna.Api
             get;
             set;
         }
-        [DataMember(Name = ("distressMessage"), Order = 17)]
+
+        [DataMember(Name = ("distressMessage"), Order = 17, EmitDefaultValue=false)]
         public CommentInfo DistressMessage
         {
             get;
