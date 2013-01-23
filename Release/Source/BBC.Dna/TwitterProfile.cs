@@ -332,55 +332,11 @@ namespace BBC.Dna.Component
                     return new Error { Type = "SITEINVALIDACTION", ErrorMessage = String.Format("Site, '{0}' doesn't exist", siteName) };
                 }
 
-                List<string> twitterUserIds = new List<string>();
-                var isValidUser = string.Empty;
-                
-                var userExists = false;
-
-                foreach (string tweetUserScreenName in twitterUserScreenNameList)
-                {
-                    Dictionary<bool, string> twitterUser = new Dictionary<bool,string>();
-                    try
-                    {
-                        twitterUser = CheckUserExists(tweetUserScreenName);
-
-                        foreach (var item in twitterUser)
-                        {
-                            userExists = Convert.ToBoolean(item.Key.ToString());
-                            if (true == userExists)
-                            {
-                                twitterUserIds.Add(item.Value.ToString());
-                            }
-                            else
-                            {
-                                //Checks if the username entered is a valid twitter user name
-                                //registers the valid twitter user and retrieves the user id
-                                var twitterUserData = IsValidTwitterUser(tweetUserScreenName, site.SiteID);
-
-                                if (false == string.IsNullOrEmpty(twitterUserData) && false == twitterUserData.Contains("Twitter"))
-                                {
-                                    twitterUserIds.Add(twitterUserData);
-                                }
-                                else
-                                {
-                                    return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "Error while retrieving the twitter user, '" + tweetUserScreenName + "'. Check if the twitter screen name entered is valid" };
-                                }
-                            }
-                        }
-                    }
-                    finally
-                    {
-                        twitterUser.Clear();
-                        twitterUser = null;
-                    }
-                }
-
-                if (string.IsNullOrEmpty(_profileId) || string.IsNullOrEmpty(_title) || string.IsNullOrEmpty(_commentForumURI) || twitterUserIds.Count < 1)
+                if (string.IsNullOrEmpty(_profileId) || string.IsNullOrEmpty(_title) || string.IsNullOrEmpty(_commentForumURI) || twitterUserScreenNameList.Count < 1)
                 {
                     return new Error { Type = "TWITTERPROFILEMANDATORYFIELDSMISSING", ErrorMessage = "Please fill in the mandatory fields for creating/updating a profile" };
                 }
 
-                twitterProfile.Users = twitterUserIds;
                 twitterProfile.ProfileId = _profileId;
                 twitterProfile.Title = _title;
                 twitterProfile.SearchKeywords = _searchterms.Split(',').Where(x => x != " " && !string.IsNullOrEmpty(x)).Distinct().Select(p => p.Trim()).ToList();
@@ -391,7 +347,22 @@ namespace BBC.Dna.Component
                 twitterProfile.TrustedUsersEnabled = _isTrustedUsersEnabled;
 
                 twitterProfile.Active = _isActive;
-               
+
+                var invalidTwitterName = string.Empty;
+
+                List<string> twitterUserIds = AddValidUserToTheList(twitterUserScreenNameList, site, out invalidTwitterName);
+
+                if (twitterUserIds != null && twitterUserIds.Count > 0)
+                {
+                    twitterProfile.Users = twitterUserIds;
+                }
+                else
+                {
+                    twitterProfile.Users = twitterUserScreenNameList;
+                    CreateTwitterProfileXML(twitterProfile, _commentForumURI);
+                    return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "Error while retrieving the twitter user, '" + invalidTwitterName + "'. Check if the twitter screen name entered is valid" };
+                }
+
                 isProfileCreated = client.CreateUpdateProfile(twitterProfile);
 
                 twitterProfile.Users = twitterUserScreenNameList; //Filling the xml with the screennames entered
@@ -457,6 +428,64 @@ namespace BBC.Dna.Component
             {
                 return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = String.Format("Twitter Profile, '{0}' creation failed", isProfileCreated) };
             }
+        }
+
+        /// <summary>
+        /// Adds twitteruserids to the list
+        /// </summary>
+        /// <param name="twitterUserScreenNameList"></param>
+        /// <param name="site"></param>
+        /// <param name="invalidTwitterUser"></param>
+        /// <returns></returns>
+        private List<string> AddValidUserToTheList(List<string> twitterUserScreenNameList, ISite site, out string invalidTwitterUser )
+        {
+            List<string> twitterUserIds = new List<string>();
+            var isValidUser = string.Empty;
+            
+            invalidTwitterUser = string.Empty;
+
+            var userExists = false;
+
+            foreach (string tweetUserScreenName in twitterUserScreenNameList)
+            {
+                Dictionary<bool, string> twitterUser = new Dictionary<bool, string>();
+                try
+                {
+                    twitterUser = CheckUserExists(tweetUserScreenName);
+
+                    foreach (var item in twitterUser)
+                    {
+                        userExists = Convert.ToBoolean(item.Key.ToString());
+                        if (true == userExists)
+                        {
+                            twitterUserIds.Add(item.Value);
+                        }
+                        else
+                        {
+                            //Checks if the username entered is a valid twitter user name
+                            //registers the valid twitter user and retrieves the user id
+                            var twitterUserData = IsValidTwitterUser(tweetUserScreenName, site.SiteID);
+
+                            if (false == string.IsNullOrEmpty(twitterUserData) && false == twitterUserData.Contains("Twitter"))
+                            {
+                                twitterUserIds.Add(twitterUserData);
+                            }
+                            else
+                            {
+                                invalidTwitterUser = tweetUserScreenName;
+                                return null;
+                            }
+                        }
+                    }
+                }
+                finally
+                {
+                    twitterUser.Clear();
+                    twitterUser = null;
+                }
+            }
+
+            return twitterUserIds;
         }
 
         /// <summary>

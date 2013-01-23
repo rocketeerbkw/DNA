@@ -64,12 +64,20 @@
           
 					<fieldset>
 						<ul class="twitter-profile">
-							<li>
-								<label for="profileid">Profile Id <span>*</span>:</label>
-								<input type="text" name="profileid" id="profileid">
-									<xsl:attribute name="value"><xsl:value-of select="/H2G2/PROFILE/PROFILEID" /></xsl:attribute> 
-								</input>
-							</li>
+              <li>
+                <label for="profileid">Profile Id <span>*</span>:</label>
+                <input type="text" name="profileid" id="profileid">
+                  <xsl:attribute name="value">
+                    <xsl:value-of select="/H2G2/PROFILE/PROFILEID" />
+                  </xsl:attribute>
+                  <xsl:choose>
+                    <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_action']/VALUE = 'getprofile' or /H2G2/RESULT/@TYPE = 'TwitterProfileUpdated'
+                              or /H2G2/RESULT/@TYPE = 'TwitterProfileCreated' or /H2G2/ERROR/@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTION'">
+                      <xsl:attribute name="readonly">true</xsl:attribute>
+                    </xsl:when>
+                  </xsl:choose>
+                </input>
+              </li>
 							<li>
 								<label for="title">Title <span>*</span>:</label>
 								<input type="text" name="title" id="title">
