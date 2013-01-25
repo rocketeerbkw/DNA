@@ -3,7 +3,7 @@
   <xs:include schemaLocation="dateTimeHelper.xsd"/>
   <xs:include schemaLocation="user.xsd"/>
   <xs:include schemaLocation="poststyle.xsd"/>
-  <xs:element name="distressMessage" nillable="true">
+  <xs:element name="distressMessage">
     <xs:complexType>
       <xs:sequence>
         <xs:element name="uri" nillable="true" type="xs:string"/>
