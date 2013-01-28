@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Повідомити модераторам</h2>
-            	<p>Будь ласка, виберіть який з пунктів <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форумів</a> це <xsl:call-template name="item_name"/> порушує. Якщо ви вважаєте, що було порушено більше одного пункту, будь ласка, оберіть найбільш вагоме порушення</p>
+            	<p>Будь ласка, виберіть який з пунктів <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форумів</a> це <xsl:call-template name="item_name"/> порушує. Якщо ви вважаєте, що було порушено більше одного пункту, будь ласка, оберіть найбільш вагоме порушення.</p>
             </div>
             
             <div class="content">
               <h2>Причина скарги</h2>
               <p>
-                Я вважаю, що це <xsl:call-template name="item_name"/> може порушити одне з <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форуму</a> , тому що:
+                Я вважаю, що це <xsl:call-template name="item_name"/> може порушити одне з <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форуму</a>, тому що:
               </p>
                
                 <p class="options">

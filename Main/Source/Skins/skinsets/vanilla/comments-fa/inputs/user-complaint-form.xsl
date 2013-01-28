@@ -15,7 +15,7 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>شکایت درباره <xsl:call-template name="item_name"/></h2>
+            <h2>شکایت درباره اظهارنظر <xsl:call-template name="item_name"/></h2>
             <p>این فرم فقط برای  شکایت های جدی درباره محتوای خاصی است که ناقض مقررات است: <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات صفحه</a>.</p>
             <p>اگر نظری کلی یا پرسشی دارید، لطفا از این فرم استفاده نکنید و پیام خود را به صورت اظهار نظر درباره بحث ارسال کنید.</p>
             <p>پیامی که از آن شکایت می کنید به یکی از مسئولان صفحه ارسال می شود تا احتمال نقض  مقررات را بررسی کند: <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات صفحه</a>. تصمیم نهایی در این باره با ایمیل به اطلاع شما خواهد رسید.</p>
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>آگاه ساختن مسئولان</h2>
-            	<p>لطفا انتخاب کنید کدامیک از <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات سایت</a> به نظر شما <xsl:call-template name="item_name"/> نقض شده است.اگر فکر می کنید این نظر بیش از یکی از مقررات را نقض کرده است لطفا  موردی را که بیشتر نقض شده انتخاب کنید.</p>
+            	<p>لطفا انتخاب کنید کدامیک از <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات سایت</a> به نظر شما نقض شده است.اگر فکر می کنید این نظر بیش از یکی از مقررات را نقض کرده است لطفا  موردی را که بیشتر نقض شده انتخاب کنید.</p>
             </div>
             
             <div class="content">
               <h2>دلیل شکایت شما</h2>
               <p>
-                به عقیده من <xsl:call-template name="item_name"/> یکی از  مقررات را ممکن است نقض کرده باشد: <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات صفحه</a> زیرا:
+                به عقیده من <xsl:call-template name="item_name"/> یکی از  مقررات را ممکن است نقض کرده باشد، <a href="{$houserulespopupurl}">مقررات صفحه</a> 
               </p>
                
                 <p class="options">
@@ -174,7 +174,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>لطفا با استفاده از پنجره زیر،  دلیلی را که فکر می کنید <xsl:call-template name="item_name"/> این نظر، مقررات را نقض کرده  بنویسید و روی ارسال شکایت کلیک کنید.</p>
+           	<p>لطفا در پنجره زیر دلیلی را که فکر می کنید <xsl:call-template name="item_name"/> این نظر، مقررات را نقض کرده  بنویسید و روی ارسال شکایت کلیک کنید.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'دلایل دیگر'">
                     می خواهم در این باره شکایت کنم <xsl:call-template name="item_name"/> به دلیل زیر:

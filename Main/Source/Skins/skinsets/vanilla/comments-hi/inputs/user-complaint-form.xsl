@@ -16,9 +16,9 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>आपकी शिकायत जिस पोस्ट से जुड़ी है वो <xsl:call-template name="item_name"/></h2>
-            <p>ये फ़ॉर्म केवल ऐसे कमेंट के बारे में शिकायत करने के लिए है जो हमारे हाउस रूल्स तोड़ता है. हमारे <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">हाउस रूल्स</a>.</p>
+            <p>ये फ़ॉर्म केवल ऐसे कमेंट के बारे में शिकायत करने के लिए है जो हमारे <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">हाउस रूल्स</a> तोड़ता है.</p>
             <p>अगर आप कोई सवाल पूछना चाहते हैं या टिप्पणी करना चाहते हैं तो अपना कमेंट सामान्य तरीके से पोस्ट करें.</p>
-            <p>आपने जिस कमेंट के बारे में शिकायत की है उसे हमारी टीम का एक सदस्य पढ़ेगा और तय करेंगा कि कमेंट हमारे हाउस रुल्स तोड़ता है या नहीं. हमारे <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">हाउस रूल्स</a>. हमारे फ़ैसले की सूचना आपको ई-मेल से दी जाएगी.</p>
+            <p>आपने जिस कमेंट के बारे में शिकायत की है उसे हमारी टीम का एक सदस्य पढ़ेगा और तय करेंगा कि कमेंट हमारे हाउस <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">रुल्स तोड़ता</a> है या नहीं. हमारे फ़ैसले की सूचना आपको ई-मेल से दी जाएगी.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -101,7 +101,7 @@
             <div class="content">
               <h2>आपकी शिकायत की वजह</h2>
               <p>
-				मेरी राय में ये <xsl:call-template name="item_name"/> <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml">हाउस रूल्स</a>  को तोड़ रहा है क्योंकि यह:
+				मेरी राय में ये <xsl:call-template name="item_name"/> <a href="http://www.bbc.co.uk/hindi/institutional/2011/09/000001_forum_rules.shtml"> हाउस रूल्स</a>  को तोड़ रहा है क्योंकि यह:
               </p>
                
                 <p class="options">
@@ -119,7 +119,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="ये चर्चा के विषय की भाषा में नहीं है" name="s_complaintText"/><label for="dnaacs-cq-10">ये चर्चा के विषय की भाषा में नहीं है</label>
-                		<input type="radio" id="dnaacs-cq-11" value="इसमें एक बाहरी वेबसाइट का लिंक है जो नियम तोड़ता है और एडिटोरियल गाईडलाइन्स का उल्लंघन करता" name="s_complaintText"/><label for="dnaacs-cq-11">इसमें एक इसमें एक बाहरी वेबसाइट का लिंक है जो नियम तोड़ता है और <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">एडिटोरियल गाईडलाइन्स</a> का उल्लंघन करता</label>
+                		<input type="radio" id="dnaacs-cq-11" value="इसमें एक बाहरी वेबसाइट का लिंक है जो नियम तोड़ता है और एडिटोरियल गाईडलाइन्स का उल्लंघन करता" name="s_complaintText"/><label for="dnaacs-cq-11">इसमें एक इसमें एक बाहरी वेबसाइट का लिंक है जो नियम तोड़ता है और <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">एडिटोरियल गाईडलाइन्स</a> का उल्लंघन करता है</label>
                 		<input type="radio" id="dnaacs-cq-12" value="ये ऐसी गतिविधियों को बताता या बढ़ावा देता है जो सुरक्षा के लिए खतरा है या दूसरों को नुकसान पहुंचा सकता है" name="s_complaintText"/><label for="dnaacs-cq-12">ये ऐसी गतिविधियों को बताता या बढ़ावा देता है जो सुरक्षा के लिए खतरा है या दूसरों को नुकसान पहुंचा सकता है</label>
                 		<input type="radio" id="dnaacs-cq-13" value="इसमें एक अनुचित यूज़रनेम है" name="s_complaintText"/><label for="dnaacs-cq-13">इसमें एक अनुचित यूज़रनेम है</label>
                 		<input type="radio" id="dnaacs-cq-14" value="ये स्पैम है" name="s_complaintText"/><label for="dnaacs-cq-14">ये स्पैम है</label>
