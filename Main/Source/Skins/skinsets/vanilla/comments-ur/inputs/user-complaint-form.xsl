@@ -121,8 +121,8 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="اردو میں نہیں" name="s_complaintText"/><label for="dnaacs-cq-10">اردو میں نہیں</label>
-                		<input type="radio" label for="dnaacs-cq-11">کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">ایڈیٹوریل گائیڈ لائنز</a> کے خلاف ہے </label>
-                		<input type="radio" id="dnaacs-cq-12" value="ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے" name="s_complaintText"/><label for="dnaacs-cq-12">ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے</label>
+						<input type="radio" id="dnaacs-cq-11" value="کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو ایڈیٹوریل گائیڈ لائنز کے خلاف ہے" name="s_complaintText"/><label for="dnaacs-cq-11">کسی ایسی بیرونی ویب سائٹ کا لنک شامل ہے جو <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">ایڈیٹوریل گائیڈ لائنز</a> کے خلاف ہے </label>
+						<input type="radio" id="dnaacs-cq-12" value="ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے" name="s_complaintText"/><label for="dnaacs-cq-12">ایسی بات کہی گئی ہے جس سے دوسروں کی حفاظت اور بہبود کو خطرہ ہو سکتا ہے</label>
                 		<input type="radio" id="dnaacs-cq-13" value="یوزر نیم نامناسب ہے" name="s_complaintText"/><label for="dnaacs-cq-13">یوزر نیم نامناسب ہے</label>
                 		<input type="radio" id="dnaacs-cq-14" value="سپیم ہے" name="s_complaintText"/><label for="dnaacs-cq-14">سپیم ہے</label>
                 		<input type="radio" id="dnaacs-cq-6" value="دیگر" name="s_complaintText"/><label for="dnaacs-cq-6">کسی ایسے قانون کی خلاف ورزی جو اوپر درج نہیں ہے</label>
