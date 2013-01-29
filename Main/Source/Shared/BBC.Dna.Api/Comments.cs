@@ -395,16 +395,14 @@ namespace BBC.Dna.Api
             {
                 spName = "commentsreadbyforumid_xdm";
             }
-            else
+            
+            if (FilterBy == FilterBy.EditorPicks)
             {
-                if (FilterBy == FilterBy.EditorPicks)
-                {
-                    spName = "commentsreadbyforumideditorpicksfilter";
-                }
-                else if (FilterBy == FilterBy.ContactFormPosts)
-                {
-                    spName = "contactformpostsreadbyforumid";
-                }
+                spName = "commentsreadbyforumideditorpicksfilter";
+            }
+            else if (FilterBy == FilterBy.ContactFormPosts)
+            {
+                spName = "contactformpostsreadbyforumid";
             }
 
             using (var reader = CreateReader(spName))
