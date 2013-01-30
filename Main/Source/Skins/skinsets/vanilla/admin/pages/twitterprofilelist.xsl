@@ -28,7 +28,7 @@
 	    		
 	    		<xsl:choose>
 		    		<xsl:when test="/H2G2/TWITTER-SITE-LIST/@COUNT != 0">
-					    <form method="get" action="twitterprofilelist" class="blq-clearfix dna-fl"> 
+					    <form method="get" action="twitterprofilelist" class="blq-clearfix dna-fl" style="width:45%"> 
 					    	<fieldset>
 						    	<label for="sites">Site:</label>
 								  <select name="sitename" id="sites">
