@@ -1298,6 +1298,7 @@
     <None Include="GetCommentIdFromTweetId.sql" />
     <None Include="getcommentratingstats.sql" />
     <None Include="getcontactformthreads.sql" />
+    <None Include="getemailbatchtosend.sql" />
     <None Include="getmoderatingclassbyuser.sql" />
     <None Include="createnewuserfromtwitteruserid.sql" />
     <None Include="getalluserpostingstats4.sql" />
@@ -1316,6 +1317,7 @@
     <None Include="GetUserReputationList.sql" />
     <None Include="insertdistressmessage.sql" />
     <None Include="processexpiredpremodpostings.sql" />
+    <None Include="queueemail.sql" />
     <None Include="SearchForTwitterUserViaScreenName.sql" />
     <None Include="setcommentforumascontactform.sql" />
     <None Include="updatemostcommentedforums.sql" />

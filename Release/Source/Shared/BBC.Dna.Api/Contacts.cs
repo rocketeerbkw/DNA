@@ -176,29 +176,39 @@ namespace BBC.Dna.Api
             }
         }
 
-        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string sender)
+        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string sender, ISite site)
         {
             string subject;
             string body;
-            string failedBody;
+            string notes;
 
-            CreateEmailSubjectAndBodies(contactDetails, out subject, out body, out failedBody);
-            SendEmailWithFailMessageOverride(sender, recipient, subject, body, "ContactDetails-", failedBody);
+            bool sendAsRawDetails = SiteList.GetSiteOptionValueBool(site.SiteID, "General", "UseAtosEmailIngester");
+
+            CreateEmailSubjectAndBodies(contactDetails, sendAsRawDetails, out subject, out body, out notes);
+
+            if (SiteList.GetSiteOptionValueBool(site.SiteID, "General", "SendEmailsViaDatabaseQueue"))
+            {
+                SendEmailViaDatabase(sender, recipient, subject, body, notes, DatabaseEmailQueue.EmailPriority.Medium);
+            }
+            else
+            {
+                SendEmailWithFailMessageOverride(sender, recipient, subject, body, "ContactDetails-", notes);
+            }
         }
 
-        private static void CreateEmailSubjectAndBodies(ContactDetails contactDetails, out string subject, out string body, out string failedBody)
+        private static void CreateEmailSubjectAndBodies(ContactDetails contactDetails, bool sendAsRawDetails, out string subject, out string body, out string notes)
         {
             // Do the default thing
             subject = contactDetails.ForumUri;
             body = contactDetails.text;
-            failedBody = "ID:" + contactDetails.ID + ", FORUM_URI:" + contactDetails.ForumUri;
-            TryParseContactFormMessage(contactDetails.text, ref subject, ref body);
+            notes = "ContactDetail - ID:" + contactDetails.ID + ", FORUM_URI:" + contactDetails.ForumUri;
+            TryParseContactFormMessage(contactDetails.text, sendAsRawDetails, ref subject, ref body);
         }
 
-        public static void TryParseContactFormMessage(string contactDetails, ref string subject, ref string body)
+        public static void TryParseContactFormMessage(string contactDetails, bool sendAsRawDetails, ref string subject, ref string body)
         {
             // See if we have a json message
-            if (TyrParseJSONContactFormMessage(contactDetails, ref subject, ref body))
+            if (TyrParseJSONContactFormMessage(contactDetails, sendAsRawDetails, ref subject, ref body))
             {
                 return;
             }
@@ -209,20 +219,26 @@ namespace BBC.Dna.Api
             }
         }
 
-        private static bool TyrParseJSONContactFormMessage(string contactDetails, ref string subject, ref string body)
+        private static bool TyrParseJSONContactFormMessage(string contactDetails, bool sendAsRawDetails, ref string subject, ref string body)
         {
             try
             {
                 ContactFormMessage message = (ContactFormMessage)StringUtils.DeserializeJSONObject(contactDetails, typeof(ContactFormMessage));
                 subject = HttpUtility.UrlDecode(message.Subject);
-                body = "";
-                foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
+                if (sendAsRawDetails)
                 {
-                    //string messageLine = HttpUtility.UrlDecode(content.Key) + " : " + HttpUtility.UrlDecode(content.Value) + "\n";
-                    string messageLine = HttpUtility.UrlDecode(content.Key) + "\n" + HttpUtility.UrlDecode(content.Value) + "\n\n";
-                    body += messageLine;
+                    body = HttpUtility.UrlDecode(contactDetails);
                 }
-
+                else
+                {
+                    body = "";
+                    foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
+                    {
+                        string messageLine = HttpUtility.UrlDecode(content.Key) + "\n" + HttpUtility.UrlDecode(content.Value) + "\n\n";
+                        body += messageLine;
+                    }
+                }
+                
                 return true;
             }
             catch { }
