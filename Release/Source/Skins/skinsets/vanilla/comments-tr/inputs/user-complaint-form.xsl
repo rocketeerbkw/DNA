@@ -16,7 +16,7 @@
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
             <h2>Mesaj hakkında şikayette bulunun <!-- <xsl:call-template name="item_name"/> -->
-            </h2>
+      </h2>
             <p>Bu form, sadece kullanım koşullarını ihlal ettiği düşünülen içerik için kullanılabilir. <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">Kullanım koşulları için tıklayın</a>.</p>
             <p>Eğer genel bir yorum yapmak ya da soru yöneltmek isterseniz, bu formu kullanmak yerine bir mesajla tartışmaya katılın.</p>
             <p>Hakkında şikayetçi olduğunuz mesaj, kullanım koşullarının ihlal edilip edilmediğine karar verecek olan moderatöre iletilecek.<a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml"> Kullanım koşulları için tıklayın</a>. Karar hakkında elektronik posta mesajı aracılığıyla bilgilendirileceksiniz.</p>
@@ -120,7 +120,7 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="Türkçe değil" name="s_complaintText"/><label for="dnaacs-cq-10">Türkçe değil</label>
-                		<input type="radio" id="dnaacs-cq-11" value="aykırı içeriğe sahip olan bir internet sitesine link içeriyor. BBC Yayın İlkeleri'ne" name="s_complaintText"/><label for="dnaacs-cq-11"><a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_yayin_ilkeleri.shtml">BBC Yayın İlkeleri'ne</a> aykırı içeriğe sahip olan bir internet sitesine link içeriyor. </label>
+                		<input type="radio" id="dnaacs-cq-11" value="aykırı içeriğe sahip olan bir internet sitesine link içeriyor. BBC Yayın İlkeleri'ne" name="s_complaintText"/><label for="dnaacs-cq-11"><a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_yayin_ilkeleri.shtml">BBC Yayın İlkeleri'ne</a> aykırı içeriğe sahip olan bir internet sitesine link içeriyor</label>
                 		<input type="radio" id="dnaacs-cq-12" value="başkalarının güvenliğini tehlikeye atabilecek faaliyetlere ilişkin tarif ve teşvik edici ifadeler içeriyor" name="s_complaintText"/><label for="dnaacs-cq-12">başkalarının güvenliğini tehlikeye atabilecek faaliyetlere ilişkin tarif ve teşvik edici ifadeler içeriyor</label>
                 		<input type="radio" id="dnaacs-cq-13" value="uygun olmayan bir kullanıcı adı içeriyor" name="s_complaintText"/><label for="dnaacs-cq-13">uygun olmayan bir kullanıcı adı içeriyor</label>
                 		<input type="radio" id="dnaacs-cq-14" value="istenmeyen elekronik posta mesajı" name="s_complaintText"/><label for="dnaacs-cq-14">istenmeyen elekronik posta mesajı</label>
