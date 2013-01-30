@@ -7,6 +7,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
 using System.Net.Mail;
 using System.IO;
+using System.Text;
 
 namespace BBC.Dna.Api
 {
@@ -327,16 +328,15 @@ namespace BBC.Dna.Api
                     message.To.Add(new MailAddress(toAddress));
 
                 message.Subject = subject;
+                message.SubjectEncoding = Encoding.UTF8;
                 message.Body = body;
                 message.Priority = MailPriority.Normal;
+                message.BodyEncoding = Encoding.UTF8;
 
                 SmtpClient client = new SmtpClient(EmailServerAddress);
                 client.Timeout = 5000;
 
-                //client.SendCompleted += new SendCompletedEventHandler(client_SendCompleted);
-
                 this._dnaDiagnostics.WriteTimedEventToLog("Email", "BeforeSend");
-                //client.SendAsync(message, new FailedEmail(sender, recipient, subject, body, filenamePrefix));
                 client.Send(message);
                 this._dnaDiagnostics.WriteTimedEventToLog("Email", "AfterSend");
             }
@@ -353,6 +353,12 @@ namespace BBC.Dna.Api
             }
 
             return sentOk;
+        }
+
+        public void SendEmailViaDatabase(string sender, string recipient, string subject, string body, string notes, DatabaseEmailQueue.EmailPriority priority)
+        {
+            DatabaseEmailQueue emailQueue = new DatabaseEmailQueue();
+            emailQueue.QueueEmail(DnaDataReaderCreator, recipient, sender, subject, body, notes, priority);
         }
 
         public bool SendEmail(string sender, string recipient, string subject, string body, string filenamePrefix)

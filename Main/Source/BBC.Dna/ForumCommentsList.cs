@@ -108,7 +108,7 @@ namespace BBC.Dna
             foreach (XmlNode detail in details)
             {
                 XmlNode text = detail.FirstChild.NextSibling;
-                Contacts.TryParseContactFormMessage(text.InnerText, ref subject, ref body);
+                Contacts.TryParseContactFormMessage(text.InnerText, false, ref subject, ref body);
                 body = HtmlUtils.HtmlEncode(body);
                 try
                 {
