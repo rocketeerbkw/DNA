@@ -81,7 +81,7 @@
         <xsl:when test="@TYPE = 'ImageNameMissing'"><a href="#dna-preview-topic-edit-{$topicId}">Add a topic promo image</a></xsl:when>
         <xsl:when test="@TYPE = 'AltTextMissing'"><a href="#dna-preview-topic-edit-{$topicId}">Provide an alt text</a></xsl:when>
         <xsl:when test="@CODE = 'UserNotLoggedIn'">You are not logged in</xsl:when>
-		    <xsl:when test="@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTION'">
+		    <xsl:when test="@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTIONONCREATION' or @TYPE = 'TWITTERRETRIEVEUSERINVALIDACTIONONUPDATE'">
 			    <xsl:variable name="tweetusername" select="ERRORLINKPARAMETER"/>
 			    <xsl:value-of select="ERRORMESSAGE"/>
 			    <xsl:choose>

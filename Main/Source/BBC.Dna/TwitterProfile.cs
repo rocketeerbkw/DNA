@@ -360,7 +360,14 @@ namespace BBC.Dna.Component
                 {
                     twitterProfile.Users = twitterUserScreenNameList;
                     CreateTwitterProfileXML(twitterProfile, _commentForumURI);
-                    return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTION", ErrorMessage = "Error while retrieving the twitter user, '" + invalidTwitterName + "'. Check if the twitter screen name entered is valid" };
+                    if (false == string.IsNullOrEmpty(_pageAction) && _pageAction.ToUpper().Equals("UPDATEPROFILE"))
+                    {
+                        return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTIONONUPDATE", ErrorMessage = "Error while retrieving the twitter user, '" + invalidTwitterName + "'. Check if the twitter screen name entered is valid on update" };
+                    }
+                    else
+                    {
+                        return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTIONONCREATION", ErrorMessage = "Error while retrieving the twitter user, '" + invalidTwitterName + "'. Check if the twitter screen name entered is valid" };
+                    }
                 }
 
                 isProfileCreated = client.CreateUpdateProfile(twitterProfile);
@@ -375,6 +382,8 @@ namespace BBC.Dna.Component
                 CreateTwitterProfileXML(twitterProfile, _commentForumURI);
 
                 InputContext.Diagnostics.WriteExceptionToLog(ex);
+
+                return new Error { Type = "TWITTERPROFILECREATIONINVALIDACTION", ErrorMessage = String.Format("Twitter Profile, '{0}' creation failed", isProfileCreated) };
             }
 
             if (isProfileCreated.Equals("OK"))

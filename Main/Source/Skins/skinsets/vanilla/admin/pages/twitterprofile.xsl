@@ -72,7 +72,7 @@
                   </xsl:attribute>
                   <xsl:choose>
                     <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_action']/VALUE = 'getprofile' or /H2G2/RESULT/@TYPE = 'TwitterProfileUpdated'
-                              or /H2G2/RESULT/@TYPE = 'TwitterProfileCreated' or /H2G2/ERROR/@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTION'">
+                              or /H2G2/RESULT/@TYPE = 'TwitterProfileCreated' or /H2G2/ERROR/@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTIONONUPDATE'">
                       <xsl:attribute name="readonly">true</xsl:attribute>
                     </xsl:when>
                   </xsl:choose>
@@ -112,12 +112,12 @@
 									</xsl:if>
 								</input>
 							
-								<label for="trustedusers">Trusted Users:</label>
+								<!--<label for="trustedusers">Trusted Users:</label>
 								<input type="checkbox" name="trustedusers" id="trustedusers" value="true">
 									<xsl:if test="/H2G2/PROFILE/TRUSTEDUSERSENABLED = 'true'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
-								</input>
+								</input>-->
 							
 								<label for="countsonly">Counts Only:</label>
 								<input type="checkbox" name="countsonly" id="countsonly" value="true">
@@ -133,14 +133,14 @@
 									</xsl:if>
 								</input>
     							
-								<label for="moderated">Moderated:</label>
+								<!--<label for="moderated">Moderated:</label>
 								<input type="checkbox" name="moderated" id="moderated" value="true">
 									<xsl:if test="/H2G2/PROFILE/MODERATIONENABLED = 'true'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
-								</input>				
+								</input>-->				
 							</li>
-						</ul>
+            </ul>
 						<ul class="dna-buttons profile">
 							<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILE/@SITENAME" />
 							
