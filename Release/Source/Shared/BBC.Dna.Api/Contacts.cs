@@ -227,7 +227,7 @@ namespace BBC.Dna.Api
                 subject = HttpUtility.UrlDecode(message.Subject);
                 if (sendAsRawDetails)
                 {
-                    body = HttpUtility.UrlDecode(contactDetails);
+                    body = contactDetails;
                 }
                 else
                 {
