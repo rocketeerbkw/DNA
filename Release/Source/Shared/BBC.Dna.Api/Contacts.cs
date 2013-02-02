@@ -176,17 +176,23 @@ namespace BBC.Dna.Api
             }
         }
 
-        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string sender, ISite site)
+        public void SendDetailstoContactEmail(ContactDetails contactDetails, string recipient, string sender, int siteID)
         {
             string subject;
             string body;
             string notes;
 
-            bool sendAsRawDetails = SiteList.GetSiteOptionValueBool(site.SiteID, "General", "UseAtosEmailIngester");
+            bool sendAsRawDetails = SiteList.GetSiteOptionValueBool(siteID, "General", "UseAtosEmailIngester");
+
+            // BODGE FIX
+            // As there is only one contact form that needs the send raw functionality, WatchDog, we need to bodge it so that the siteoption
+            // only gets applied to emails being sent to WatchDog
+            sendAsRawDetails &= recipient.ToLower().Contains("watchdog");
+            // BODGE FIX
 
             CreateEmailSubjectAndBodies(contactDetails, sendAsRawDetails, out subject, out body, out notes);
 
-            if (SiteList.GetSiteOptionValueBool(site.SiteID, "General", "SendEmailsViaDatabaseQueue"))
+            if (SiteList.GetSiteOptionValueBool(siteID, "General", "SendEmailsViaDatabaseQueue"))
             {
                 SendEmailViaDatabase(sender, recipient, subject, body, notes, DatabaseEmailQueue.EmailPriority.Medium);
             }

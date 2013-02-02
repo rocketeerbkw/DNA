@@ -117,7 +117,7 @@ namespace BBC.Dna.Services
 
                 ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactForm, newContactDetails);
 
-                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail, site.ContactFormsEmail, site);
+                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail, site.ContactFormsEmail, site.SiteID);
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
                 return GetOutputStream(contactDetails);
             }
@@ -156,7 +156,7 @@ namespace BBC.Dna.Services
                 {
                     // check if there is a rating to add
                     ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactFormData, (ContactDetails)ContactFormDetails.contactDetailsList.contacts[0]);
-                    contactFormComments.SendDetailstoContactEmail(contactDetails, contactFormData.ContactEmail, site.ContactFormsEmail, site);
+                    contactFormComments.SendDetailstoContactEmail(contactDetails, contactFormData.ContactEmail, site.ContactFormsEmail, site.SiteID);
                     this.dnaDiagnostic.WriteTimedEventToLog("PUTContact", "Finish");
                     return GetOutputStream(contactDetails);
                 }

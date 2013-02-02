@@ -144,9 +144,6 @@ namespace BBC.Dna.Api.Tests
 
         private string SendEmail(ContactDetails info, string siteContactEmail, string sentTo)
         {
-            ISite site = mocks.DynamicMock<ISite>();
-            site.Stub(x => x.SiteID).Return(1);
-
             ISiteList siteList = mocks.DynamicMock<ISiteList>();
             siteList.Stub(x => x.GetSite("h2g2").ContactFormsEmail).Return(siteContactEmail);
             siteList.Stub(x => x.GetSiteOptionValueBool(1, "General", "UseAtosEmailIngester")).Return(true);
@@ -158,7 +155,7 @@ namespace BBC.Dna.Api.Tests
             string failedEmailFileName = "ContactDetails-ShouldSendEmailWhenGivenValidContactDetails-TestFailedEmail.txt";
             contacts.SetFailedEmailFileName(failedEmailFileName);
 
-            contacts.SendDetailstoContactEmail(info, sentTo, siteContactEmail, site);
+            contacts.SendDetailstoContactEmail(info, sentTo, siteContactEmail, 1);
 
             Statistics stats = new Statistics();
             Statistics.InitialiseIfEmpty();
