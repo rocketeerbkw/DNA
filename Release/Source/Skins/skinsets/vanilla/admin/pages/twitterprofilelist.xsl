@@ -108,10 +108,10 @@
 							  <tr>
 								  <th class="profileid">Profile Id</th>
 								  <th>Active</th>
-								  <th>Trusted Users</th>
+								  <!--<th>Trusted Users</th>-->
 								  <th>Counts Only</th>
 								  <th>Keyword Counts</th>
-								  <th>Moderated Tweets</th>
+								  <!--<th>Moderated Tweets</th>-->
 								  <th></th>
 							  </tr>
 						  </thead>
@@ -119,7 +119,7 @@
 							  <xsl:choose>
 								<xsl:when test="/H2G2/TWITTERPROFILELIST/@COUNT = 0">
 								  <tr>
-									<td colspan="7" class="no-twitter-profiles">There are no Twitter profiles for this site</td>
+									<td colspan="5" class="no-twitter-profiles">There are no Twitter profiles for this site</td>
 								  </tr>
 								</xsl:when>
 								<xsl:otherwise>
@@ -172,10 +172,10 @@
 		<tr>
 			<td class="profileid"><xsl:value-of select="PROFILEID" /></td>
 			<td><xsl:value-of select="ACTIVESTATUS" /></td>
-			<td><xsl:value-of select="TRUSTEDUSERSTATUS" /></td>
+			<!--<td><xsl:value-of select="TRUSTEDUSERSTATUS" /></td>-->
 			<td><xsl:value-of select="PROFILECOUNTSTATUS" /></td>
 			<td><xsl:value-of select="PROFILEKEYWORDCOUNTSTATUS" /></td>
-			<td><xsl:value-of select="MODERATIONSTATUS" /></td>
+			<!--<td><xsl:value-of select="MODERATIONSTATUS" /></td>-->
 			<td><a href="twitterprofile?s_sitename={$sitetype}&amp;sitename={$sitetype}&amp;profileId={$profileid}&amp;action=getprofile&amp;s_action=getprofile" class="edit-profile">Edit</a></td>
 		</tr>  
 	</xsl:template>
