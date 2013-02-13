@@ -132,6 +132,8 @@
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
 								</input>
+
+                <input type="hidden" name="moderated" value="true"/>
     							
 								<!--<label for="moderated">Moderated:</label>
 								<input type="checkbox" name="moderated" id="moderated" value="true">
