@@ -656,7 +656,7 @@ namespace BBC.Dna.Sites
                 reader.AddParameter("userid", userID);
                 reader.AddParameter("siteid", updateSiteID);
                 reader.AddParameter("notes", notes);
-                reader.Execute();
+                reader.Execute2();
             }
         }
     }

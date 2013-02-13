@@ -71,7 +71,7 @@ namespace BBC.Dna
             string str = StringUtils.SerializeToXmlReturnAsString(CommentsList);
 
             var actualXml = str.Replace("<?xml version=\"1.0\" encoding=\"utf-8\"?>", "");
-            actualXml = actualXml.Replace("xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"BBC.Dna.Api\"","").Trim();
+            actualXml = actualXml.Replace(" xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"BBC.Dna.Api\"","").Trim();
 
             //Making all the XML Nodes uppercase
             actualXml = StringUtils.ConvertXmlTagsToUppercase(actualXml);
@@ -108,7 +108,7 @@ namespace BBC.Dna
             foreach (XmlNode detail in details)
             {
                 XmlNode text = detail.FirstChild.NextSibling;
-                Contacts.TryParseContactFormMessage(text.InnerText, ref subject, ref body);
+                Contacts.TryParseContactFormMessage(text.InnerText, false, ref subject, ref body);
                 body = HtmlUtils.HtmlEncode(body);
                 try
                 {

@@ -48,27 +48,36 @@
 				<div class="dna-fr">
 				  <span>* denotes required field</span>
 				</div>
-				<form method="post" action="twitterprofile" class="twitterprofile"> 
-					<input type="hidden" name="sitename" id="sitename">
-						<xsl:attribute name="value">
-							<xsl:choose>
-								<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE">
-									<xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE" />
-								</xsl:when>
-								<xsl:otherwise>
-									<xsl:value-of select="/H2G2/TWITTER-SITE-LIST/SITE/NAME" />
-								</xsl:otherwise>
-							</xsl:choose>
-						</xsl:attribute>
-					</input>
+				<form method="post" action="twitterprofile" class="twitterprofile">
+          
+          <input type="hidden" name="sitename" id="sitename">
+            <xsl:attribute name="value">
+              <xsl:value-of select="/H2G2/TWITTER-SITE-LIST/SITE/NAME" />
+            </xsl:attribute>
+          </input>
+
+          <input type="hidden" name="s_sitename" id="s_sitename">
+            <xsl:attribute name="value">
+              <xsl:value-of select="/H2G2/PARAMS/PARAM[NAME = 's_sitename']/VALUE" />
+            </xsl:attribute>
+          </input>
+          
 					<fieldset>
 						<ul class="twitter-profile">
-							<li>
-								<label for="profileid">Profile Id <span>*</span>:</label>
-								<input type="text" name="profileid" id="profileid">
-									<xsl:attribute name="value"><xsl:value-of select="/H2G2/PROFILE/PROFILEID" /></xsl:attribute> 
-								</input>
-							</li>
+              <li>
+                <label for="profileid">Profile Id <span>*</span>:</label>
+                <input type="text" name="profileid" id="profileid">
+                  <xsl:attribute name="value">
+                    <xsl:value-of select="/H2G2/PROFILE/PROFILEID" />
+                  </xsl:attribute>
+                  <xsl:choose>
+                    <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_action']/VALUE = 'getprofile' or /H2G2/RESULT/@TYPE = 'TwitterProfileUpdated'
+                              or /H2G2/RESULT/@TYPE = 'TwitterProfileCreated' or /H2G2/ERROR/@TYPE = 'TWITTERRETRIEVEUSERINVALIDACTIONONUPDATE'">
+                      <xsl:attribute name="readonly">true</xsl:attribute>
+                    </xsl:when>
+                  </xsl:choose>
+                </input>
+              </li>
 							<li>
 								<label for="title">Title <span>*</span>:</label>
 								<input type="text" name="title" id="title">
@@ -76,13 +85,13 @@
 								</input>
 							</li>
 							<li>
-								<label for="commentforumparenturl">Commentforum ParentURI<span>*</span>:</label>
+								<label for="commentforumparenturl">Commentforum ParentURI <span>*</span>:</label>
 								<input type="text" name="commentforumparenturl" id="commentforumparenturl">
 									<xsl:attribute name="value"><xsl:value-of select="/H2G2/PROFILE/COMMENTFORUMPARENTURI" /></xsl:attribute>
 								</input>
 							</li>
 							<li>
-								<label for="users">Users: <br /><em>You must enter at least one twitter user screen name</em></label>
+								<label for="users">Users <span>*</span>: <br /><em>You must enter at least one twitter user screen name</em></label>
 								<textarea name="users" id="users">
 									<xsl:text> </xsl:text>
 									<xsl:apply-templates select="/H2G2/PROFILE/USERS/ITEM" mode="items" />
@@ -103,12 +112,12 @@
 									</xsl:if>
 								</input>
 							
-								<label for="trustedusers">Trusted Users:</label>
+								<!--<label for="trustedusers">Trusted Users:</label>
 								<input type="checkbox" name="trustedusers" id="trustedusers" value="true">
 									<xsl:if test="/H2G2/PROFILE/TRUSTEDUSERSENABLED = 'true'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
-								</input>
+								</input>-->
 							
 								<label for="countsonly">Counts Only:</label>
 								<input type="checkbox" name="countsonly" id="countsonly" value="true">
@@ -124,14 +133,14 @@
 									</xsl:if>
 								</input>
     							
-								<label for="moderated">Moderated:</label>
+								<!--<label for="moderated">Moderated:</label>
 								<input type="checkbox" name="moderated" id="moderated" value="true">
 									<xsl:if test="/H2G2/PROFILE/MODERATIONENABLED = 'true'">
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
-								</input>				
+								</input>-->				
 							</li>
-						</ul>
+            </ul>
 						<ul class="dna-buttons profile">
 							<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILE/@SITENAME" />
 							

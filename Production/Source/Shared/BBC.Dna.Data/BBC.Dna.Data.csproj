@@ -101,6 +101,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseEmailQueue.cs" />
     <Compile Include="DnaDataReaderCreator.cs" />
     <Compile Include="EventItemTypes.cs" />
     <Compile Include="EventTypes.cs" />

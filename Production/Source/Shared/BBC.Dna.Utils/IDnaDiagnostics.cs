@@ -1,4 +1,5 @@
 using System;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace BBC.Dna.Utils
 {
@@ -87,5 +88,12 @@ namespace BBC.Dna.Utils
 		{
 			get;
 		}
+
+        /// <summary>
+        /// The create Tracer Method. Used for tracing output
+        /// </summary>
+        /// <param name="traceNameSpace">The namespace you want the tracing to appear as</param>
+        /// <returns>New Tracer object</returns>
+        IDnaTracer CreateTracer(string traceNameSpace);
     }
 }

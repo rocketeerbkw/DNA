@@ -18,7 +18,7 @@
             <h2>Скарга на <xsl:call-template name="item_name"/></h2>
             <p>Цю форму створено лише для серйозних скарг на певний контент, який порушує <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правила форуму</a>.</p>
             <p>Якщо Ви маєте коментар або питання на загальну тему, будь ласка, не використовуйте цю форму. Додавайте повідомлення до загальної дискусії.</p>
-            <p>Вашу скаргу буде спрямовано до модератора, і він вирішить, чи порушує коментар, на який ви поскаржилися <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правила форуму</a>. Рішення буде вам повідомлено електронною поштою.</p>
+            <p>Вашу скаргу направлять модератору, і він вирішить, чи порушує коментар, на який ви поскаржилися, <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правила форуму</a>. Рішення вам повідомлять електронною поштою.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -73,7 +73,7 @@
         <xsl:text>стаття</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>зміст</xsl:text>
+        <xsl:text>коментар</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Повідомити модераторам</h2>
-            	<p>Будь ласка, виберіть який з пунктів <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форумів</a> на вашу думку <xsl:call-template name="item_name"/> було порушено. Якщо ви вважаєте, що було порушено більше одного пункту, будь ласка, оберіть найбільш вагоме порушення.</p>
+            	<p>Будь ласка, виберіть який з пунктів <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форумів</a> це <xsl:call-template name="item_name"/> порушує. Якщо ви вважаєте, що було порушено більше одного пункту, будь ласка, оберіть найбільш вагоме порушення.</p>
             </div>
             
             <div class="content">
               <h2>Причина скарги</h2>
               <p>
-                Я вважаю, що це <xsl:call-template name="item_name"/> може порушити одне з <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форуму</a> тому що:
+                Я вважаю, що це <xsl:call-template name="item_name"/> може порушити одне з <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_js_rules.shtml">Правил форуму</a>, тому що:
               </p>
                
                 <p class="options">
@@ -109,7 +109,7 @@
                 		<input type="radio" id="dnaacs-cq-1" value="є наклепницьким чи дискредитуючим" name="s_complaintText"/><label for="dnaacs-cq-1">є наклепницьким чи дискредитуючим</label>
                 		<input type="radio" id="dnaacs-cq-2" value="є расистським, сексистським, гомофобним, таким, що має сексуальний характер, лайливим чи образливим" name="s_complaintText"/><label for="dnaacs-cq-2">є расистським, сексистським, гомофобним, таким, що має сексуальний характер, лайливим чи образливим</label>
                 		<input type="radio" id="dnaacs-cq-3" value="містить ненормативну лексику або інші слова, що можуть бути образливими" name="s_complaintText"/><label for="dnaacs-cq-3">містить ненормативну лексику або інші слова, що можуть бути образливими</label>
-                		<input type="radio" id="dnaacs-cq-4" value="порушує закон чи провокує протизаконні дії, як то порушення авторських прав чи неповага до суду" name="s_complaintText"/><label for="dnaacs-cq-4">порушує закон чи провокує протизаконні дії, як то порушення <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_terms_of_use.shtml">авторських прав</a> чи неповага до суду</label>
+                		<input type="radio" id="dnaacs-cq-4" value="порушує закон чи провокує протизаконні дії, як-то порушення авторських прав чи неповага до суду" name="s_complaintText"/><label for="dnaacs-cq-4">порушує закон чи провокує протизаконні дії, як-то порушення <a href="http://www.bbc.co.uk/ukrainian/institutional/2011/09/000001_terms_of_use.shtml">авторських прав</a> чи неповага до суду</label>
                 		<input type="radio" id="dnaacs-cq-5" value="рекламування продукції чи послуг з метою отримання прибутку" name="s_complaintText"/><label for="dnaacs-cq-5">рекламування продукції чи послуг з метою отримання прибутку</label>
                 		<input type="radio" id="dnaacs-cq-7" value="людина видає себе за іншу особу" name="s_complaintText"/><label for="dnaacs-cq-7">людина видає себе за іншу особу</label>
                 		<input type="radio" id="dnaacs-cq-8" value="містить особисту інформацію, як то номери телефонів, поштові чи електронні адреси" name="s_complaintText"/><label for="dnaacs-cq-8">містить особисту інформацію, як то номери телефонів, поштові чи електронні адреси</label>
@@ -174,17 +174,17 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Будь ласка, заповніть цю форму, зазначивши причину, з якої ви вважаєте, що <xsl:call-template name="item_name"/> порушує це правило. По закінченні натисніть "Надіслати скаргу", і вона буде відправлена на розгляд модератору.</p>
+           	<p>Будь ласка, заповніть цю форму, зазначивши причину, з якої ви вважаєте, що <xsl:call-template name="item_name"/> порушує це правило. Після закінченні натисніть "Надіслати скаргу", і вона буде відправлена на розгляд модератору.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Інше'">
-                    Я хочу поскаржитись на це <xsl:call-template name="item_name"/> тому що:
+                    Я хочу поскаржитись на це <xsl:call-template name="item_name"/> , тому що:
                   </xsl:if>
                    
                </p>
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Інше'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
@@ -206,7 +206,7 @@
                 <xsl:otherwise>
                     <h3>Ваша адреса електронної пошти</h3>
                     <p>
-                      <em>Нам потрібна ваша адреса електронної пошти для того, щоб розгланути вашу скаргу і повідомити вам рішення модератора. Іноді ми можемо написати вам безпосередньо, якщо ми потребуватимемо додаткову інформацію стосовно вашої скарги.</em>
+                      <em>Нам потрібна ваша адреса електронної пошти для того, щоб розглянути вашу скаргу і повідомити вам рішення модератора. В деяких випадках ми можемо написати вам безпосередньо, якщо потребуватимемо додаткової інформації стосовно вашої скарги.</em>
                     </p>
                     <p>
                         <label for="emailaddress">Адреса електронної пошти</label>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Сховати це <xsl:call-template name="item_name"/> негайно</label>.
+                        <label for="hidePost"> Прибрати цей <xsl:call-template name="item_name"/> негайно</label>.
                     </p>
                 </xsl:if>
                 
@@ -245,14 +245,13 @@
         </form>
     </xsl:template>
     
-    <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
+	<xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
       <div class="content">
-        <h2>Інформація</h2>
+        <h2>Iнформація</h2>
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
               Вам відмовлено у доступі до системи скарг, будь ласка, напишіть сюди:<br />
-              BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -260,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+              Неможливо зареєструвати скаргу
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              Неправильна адреса електронної пошти
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              Повідомлення не знайдене
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              Код перевірки не правильний
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              Це повідомлення вже було промодероване та видалене.
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              Відсутній текст скарги
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+              Відсутня причина скарги
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              Неможливо сховати повідомлення
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+              Виявлено недійсний URL
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>

@@ -7,6 +7,8 @@ using Rhino.Mocks;
 using Rhino.Mocks.Constraints;
 using System;
 using BBC.Dna.Utils;
+using System.Configuration;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 
 namespace BBC.Dna.Sites.Tests
 {
@@ -566,6 +568,33 @@ namespace BBC.Dna.Sites.Tests
             reader.Stub(x => x.GetInt32NullAsZero("SiteID")).Return(1);
 
             return reader;
+        }
+
+        [TestMethod]
+        public void ShouldStoreSiteNotes()
+        {
+            int expectedSiteID = 60;
+            string notes = "Sample site notes, random value = " + DateTime.Now.Ticks + ".";
+            int expectedUserID = 123456789;
+            IDnaDiagnostics mockedDiagnostics = _mocks.DynamicMock<IDnaDiagnostics>();
+            string connectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
+            IDnaDataReaderCreator readerCreator = new DnaDataReaderCreator(connectionString, mockedDiagnostics);
+            Site.CreateSiteNotes(expectedSiteID, notes, expectedUserID, readerCreator);
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader(""))
+            {
+                string sql = "SELECT TOP 1 * FROM SiteUpdate ORDER BY UpdateID DESC";
+                reader.ExecuteDEBUGONLY(sql);
+                Assert.IsTrue(reader.HasRows, "Failed to find site note just created");
+                Assert.IsTrue(reader.Read(), "Failed to read data from database query");
+                string siteNotes = reader.GetString("notes");
+                int siteID = reader.GetInt32("siteid");
+                int userID = reader.GetInt32("userid");
+
+                Assert.AreEqual(expectedSiteID, siteID);
+                Assert.AreEqual(expectedUserID, userID);
+                Assert.IsTrue(siteNotes.StartsWith(notes));
+            }
         }
     }
 }

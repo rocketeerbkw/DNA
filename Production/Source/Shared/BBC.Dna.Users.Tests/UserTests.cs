@@ -123,5 +123,33 @@ namespace BBC.Dna.Users.Tests
 
             Assert.Fail("Shouldn't get this far");
         }
+
+
+        [Ignore,TestMethod]
+        public void UserHasPrimarySiteHavingVisitedMultipleSites()
+        {
+            UserGroup g = new UserGroup();
+            int primarySiteId = 60;
+            var cache = _mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
+
+            var readerMembers = _mocks.DynamicMock<IDnaDataReader>();
+            readerMembers.Stub(x => x.Read()).Return(true);
+            readerMembers.Stub(x => x.HasRows).Return(true);
+            readerMembers.Stub(x => x.GetInt32NullAsZero("PrimarySiteId")).Return(60);
+
+            var creator = _mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("finduserfromid")).Return(readerMembers);
+
+            var diag = _mocks.DynamicMock<IDnaDiagnostics>();
+            _mocks.ReplayAll();
+
+            var user = new User(creator, diag, cache, null);
+            user.CreateUserFromDnaUserID(1090501859, 60);
+
+            
+
+            Assert.AreEqual(primarySiteId, user.PrimarySiteId);
+        }
     }
 }

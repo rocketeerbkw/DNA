@@ -15,9 +15,9 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>شکایت درباره <xsl:call-template name="item_name"/></h2>
+            <h2>شکایت درباره اظهارنظر <xsl:call-template name="item_name"/></h2>
             <p>این فرم فقط برای  شکایت های جدی درباره محتوای خاصی است که ناقض مقررات است: <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات صفحه</a>.</p>
-            <p>اگر نظری کلی یا پرسشی دارید، لطفا از این فرم استفاده نکنید و پیام خود را به صورت اظهار نظر درباره بحث ارسال کنید</p>
+            <p>اگر نظری کلی یا پرسشی دارید، لطفا از این فرم استفاده نکنید و پیام خود را به صورت اظهار نظر درباره بحث ارسال کنید.</p>
             <p>پیامی که از آن شکایت می کنید به یکی از مسئولان صفحه ارسال می شود تا احتمال نقض  مقررات را بررسی کند: <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات صفحه</a>. تصمیم نهایی در این باره با ایمیل به اطلاع شما خواهد رسید.</p>
             <p class="action">
               <xsl:choose>
@@ -73,7 +73,7 @@
         <xsl:text>مقاله</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>محتوای</xsl:text>
+        <xsl:text>فوری این</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>آگاه ساختن مسئولان</h2>
-            	<p>لطفا انتخاب کنید کدامیک از <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات سایت</a> به نظر شما <xsl:call-template name="item_name"/> نقض شده است.اگر فکر می کنید این نظر بیش از یکی از مقررات را نقض کرده است لطفا  موردی را که بیشتر نقض شده انتخاب کنید.</p>
+            	<p>لطفا انتخاب کنید کدامیک از <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات سایت</a> به نظر شما نقض شده است.اگر فکر می کنید این نظر بیش از یکی از مقررات را نقض کرده است لطفا  موردی را که بیشتر نقض شده انتخاب کنید.</p>
             </div>
             
             <div class="content">
               <h2>دلیل شکایت شما</h2>
               <p>
-                به عقیده من <xsl:call-template name="item_name"/> یکی از  مقررات را ممکن است نقض کرده باشد: <a href="http://www.bbc.co.uk/persian/institutional/2012/08/000000_ugc_rules_gel.shtml">مقررات صفحه</a> زیرا:
+                به عقیده من <xsl:call-template name="item_name"/> یکی از  مقررات را ممکن است نقض کرده باشد، <a href="{$houserulespopupurl}">مقررات صفحه</a> 
               </p>
                
                 <p class="options">
@@ -110,7 +110,7 @@
                 		<input type="radio" id="dnaacs-cq-2" value="نژاد پرستانه، حاوی تبعیض جنسی، ضد همجنسگرایی، حاوی اشاره های آشکار جنسی، توهین آمیز و یا به هر حال اهانت آمیز است" name="s_complaintText"/><label for="dnaacs-cq-2">نژاد پرستانه، حاوی تبعیض جنسی، ضد همجنسگرایی، حاوی اشاره های آشکار جنسی، توهین آمیز و یا به هر حال اهانت آمیز است</label>
                 		<input type="radio" id="dnaacs-cq-3" value="دارای فحش یا لحنی است که ممکن است توهین آمیز باشد" name="s_complaintText"/><label for="dnaacs-cq-3">دارای فحش یا لحنی است که ممکن است توهین آمیز باشد</label>
                 		<input type="radio" id="dnaacs-cq-4" value="قانون را می شکند یا  اقدامی غیرقانونی را ترغیب یا از آن چشم پوشی می کند، مانند نقض حقوق انحصاری آثار یا اهانت به دادگاه" name="s_complaintText"/><label for="dnaacs-cq-4">قانون را می شکند یا  اقدامی غیرقانونی را ترغیب یا از آن چشم پوشی می کند، مانند نقض <a href="http://www.bbc.co.uk/persian/institutional/2011/04/000001_terms.shtml">حقوق انحصاری آثار</a> یا اهانت به دادگاه</label>
-                		<input type="radio" id="dnaacs-cq-5" value="خدمات و کالاهایی را برای کسب سود تبلیغ می کند" name="s_complaintText"/><label for="dnaacs-cq-5">aخدمات و کالاهایی را برای کسب سود تبلیغ می کند</label>
+                		<input type="radio" id="dnaacs-cq-5" value="خدمات و کالاهایی را برای کسب سود تبلیغ می کند" name="s_complaintText"/><label for="dnaacs-cq-5">خدمات و کالاهایی را برای کسب سود تبلیغ می کند</label>
                 		<input type="radio" id="dnaacs-cq-7" value="با این نظر، کسی خود را جای کس دیگری جا می  زند" name="s_complaintText"/><label for="dnaacs-cq-7">با این نظر، کسی خود را جای کس دیگری جا می  زند</label>
                 		<input type="radio" id="dnaacs-cq-8" value="شامل اطلاعات شخصی است مانند شماره تلفن، نشانی پستی یا ایمیل" name="s_complaintText"/><label for="dnaacs-cq-8">شامل اطلاعات شخصی است مانند شماره تلفن، نشانی پستی یا ایمیل</label>
                 		<xsl:call-template name="library_userstate">
@@ -174,7 +174,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>لطفا با استفاده از پنجره زیر،  دلیلی را که فکر می کنید <xsl:call-template name="item_name"/> این نظر، مقررات را نقض کرده  بنویسید و روی ارسال شکایت کلیک کنید.</p>
+           	<p>لطفا در پنجره زیر دلیلی را که فکر می کنید <xsl:call-template name="item_name"/> این نظر، مقررات را نقض کرده  بنویسید و روی ارسال شکایت کلیک کنید.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'دلایل دیگر'">
                     می خواهم در این باره شکایت کنم <xsl:call-template name="item_name"/> به دلیل زیر:
@@ -184,7 +184,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'دلایل دیگر'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> پنهان کردن <xsl:call-template name="item_name"/> فورا</label>.
+                        <label for="hidePost"> پنهان کردن <xsl:call-template name="item_name"/> اظهارنظر</label>.
                     </p>
                 </xsl:if>
                 
@@ -251,8 +251,7 @@
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
-              شما امکان استفاده از سیستم ارسال شکایت اینترنتی را ندارید. لطفا به این نشانی نامه بنویسید.<br />
-              BBC Central Communities Team<br />
+              شما امکان استفاده از سیستم ارسال شکایت اینترنتی را ندارید. لطفا به این نشانی نامه بنویسید<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -260,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+             ثبت شکایت امکانپذیر نیست
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              نشانی ایمیل معتبر نیست
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              مطلب پیدا نشد
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              رمز شناسایی معتبر نیست
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              نظرهای این مطلب بررسی شد و مطلب حذف شد
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              شکایتی وجود ندارد
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+             دلیل شکایت ذکر نشده
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              پنهان شدن مطلب ممکن نیست
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+             آدرس سایت اشتباه ذکر شده
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>
@@ -274,7 +314,7 @@
     <div class="content">
       <h2>تایید ایمیل</h2>
       <p>
-        شکایت شما ارسال شد. تا زمانی که شما نشانی ایمیلتان را تایید نکنید، شکایت شما توسط مسئولان خوانده نخواهد شد. این کار برای پیشگیری از ارسال هرزنامه یا جا زدن خود به عنوان شخصی دیگر انجام می شود..
+        شکایت شما ارسال شد. تا زمانی که شما نشانی ایمیلتان را تایید نکنید، شکایت شما توسط مسئولان خوانده نخواهد شد. این کار برای پیشگیری از ارسال هرزنامه یا جا زدن خود به عنوان شخصی دیگر انجام می شود.
       </p>
       <p>
         شما بزودی ایمیلی دریافت می کنید که حاوی یک لینک برای فعال سازی شکایت شماست. با کلیک کردن روی این لینک شکایت شما به مسئولان ارسال خواهد شد. 

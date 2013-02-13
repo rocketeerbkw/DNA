@@ -15,10 +15,10 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>Изоҳ юзасидан шикоят <xsl:call-template name="item_name"/></h2>
-            <p>Ушбу формадан фақат форум қоидаларини бузаётган изоҳ устидан жиддий шикоят қилиш учун фойдаланилади: <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидалари</a>.</p>
+            <h2>Изоҳ юзасидан шикоят <!-- <xsl:call-template name="item_name"/> --></h2>
+            <p>Ушбу формадан фақат форум қоидаларини бузаётган изоҳ устидан жиддий шикоят қилиш учун фойдаланилади: <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидаларига</a>.</p>
             <p>Агар сизда умумий изоҳ ёки савол бўлса, бу формадан фойдаланманг. Ё хабар йўлланг ёки қайта алоқа формасидан фойдаланинг.</p>
-            <p>Сизнинг шикоятингиз модераторга етказилади. Модератор изоҳ форум қоидасини бузган-бузмаганини ўрганади <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидалари</a>. Сиз ўз шикоятингиз борасида қандай қарорга келингани ҳақида электрон мактуб оласиз.</p>
+            <p>Вашу скаргу направлять модератору, і він вирішить, чи порушує коментар, на який ви поскаржилися, <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидаларига</a>. Рішення вам повідомлять електронною поштою.</p>
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
@@ -73,7 +73,7 @@
         <xsl:text>мақола</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>контент</xsl:text>
+        <xsl:text>дарров</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -95,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Модераторларни огоҳ қилиш</h2>
-            	<p>Сизнингча қайси банд <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидалари</a> зид деб ҳисоблайсиз <xsl:call-template name="item_name"/> Агар сиз бир неча қоида бузилган, деб ҳисобласангиз, улардан энг жиддийсини танланг.</p>
+            	<p>Сизнингча қайси банд <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидаларига</a> зид деб ҳисоблайсиз? <!-- <xsl:call-template name="item_name"/> --> Агар сиз бир неча қоида бузилган, деб ҳисобласангиз, улардан энг жиддийсини танланг.</p>
             </div>
             
             <div class="content">
               <h2>Шикоят сабаби</h2>
               <p>
-                Менинг фикримча, бу <xsl:call-template name="item_name"/> <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидалари</a> бузаяпти, чунки унда: 
+                Менинг фикримча, бу <xsl:call-template name="item_name"/> <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml"> Форум қоидаларига</a> бузаяпти, чунки унда: 
               </p>
                
                 <p class="options">
@@ -184,7 +184,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Бошқа'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Буни яшир <xsl:call-template name="item_name"/> зудлик билан</label>.
+                        <label for="hidePost"> Ушбу матнни <xsl:call-template name="item_name"/> яшир</label>.
                     </p>
                 </xsl:if>
                 
@@ -238,7 +238,7 @@
                       </xsl:otherwise>
                     </xsl:choose>
                     <input type="hidden" name="action" value="submit"/>
-                    <input type="submit" value="Шикоятни жўнатинг" name="Submit" class="button"/>
+                    <input type="submit" value="Шикоят юбориш" name="Submit" class="button"/>
                 </p>
             </div>
             
@@ -247,12 +247,11 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[ERROR] | ERROR" mode="input_user-complaint-form">
       <div class="content">
-        <h2>Ахборот</h2>
+        <h2>Маълумот</h2>
         <xsl:choose>
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
               Сиз шикоят қилиш тизимидан фойдалана олмайсиз, чунки бунга тўсиқ қўйилган. Марҳамат қилиб мана бу ерга ёзинг:<br />
-              BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -260,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+             Шикоятни рўйхатдан ўтказиш имконсиз
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              Нотўғри электрон почта манзили
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              Изоҳ топилмади
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              Тасдиқловчи код нотўғри
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              Бу изоҳ муҳаррир назаридан ўтказилиб, олиб ташланди.
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              Шикоят матни йўқ
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+              Шикоят асоси йўқ
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              Изоҳни яширишнинг имкони йўқ. 
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+              Нотўғри URL тақдим этилган
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>
@@ -299,7 +339,7 @@
     <div class="content">
       <h2>Шикоят қабул қилинди</h2>
       <p>
-        Сизнинг шикоятингиз модераторга юборилди. Модератор изоҳ форум қоидасини бузган-бузмаганини ўрганади: <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форумлар қоидаси</a> сўнг модератор ўз қарори борасида сизни электрон почта орқали хабардор қилади.
+        Сизнинг шикоятингиз модераторга юборилди. Модератор изоҳ форум қоидасини бузган-бузмаганини ўрганади: <a href="http://www.bbc.co.uk/uzbek/institutional/2012/08/120808_house_rules.shtml">Форум қоидаларига</a> сўнг модератор ўз қарори борасида сизни электрон почта орқали хабардор қилади.
       </p>
       <p>
         Сизнинг шикоятингиз рақами: <strong>

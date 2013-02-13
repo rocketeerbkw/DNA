@@ -383,6 +383,7 @@ namespace BBC.Dna.Data
         {
             using (new Tracer(this.GetType().Namespace))
             {
+//                _dnaDiagnostics.WriteToLog(this.GetType().Namespace, "Executing " + _name);
                 Logger.Write("Executing " + _name, this.GetType().Namespace);
                 WriteTimedEventToLog("Executing " + _name);
                 _connection = new SqlConnection(_connectionString);
@@ -441,6 +442,75 @@ namespace BBC.Dna.Data
                 Logger.Write("Executed After " + _name, this.GetType().Namespace);
                 WriteTimedEventToLog("Executed " + _name);
 
+            }
+
+            return this;
+        }
+
+        /// <summary>
+        /// Execute the stored procedure. Uses the tracer from the diagnostics instead of global
+        /// </summary>
+        /// <returns>The instance of the StoredProcedureReader.</returns>
+        public IDnaDataReader Execute2()
+        {
+            using (IDnaTracer tracer = _dnaDiagnostics.CreateTracer(this.GetType().Namespace))
+            {
+                tracer.Write("Executing " + _name, this.GetType().Namespace);
+                WriteTimedEventToLog("Executing " + _name);
+                _connection = new SqlConnection(_connectionString);
+                _connection.Open();
+                _cmd = _connection.CreateCommand();
+                _cmd.CommandTimeout = 0;
+                _cmd.CommandType = CommandType.StoredProcedure;
+                _cmd.CommandText = _name;
+
+                foreach (KeyValuePair<string, object> param in _parameters)
+                {
+                    tracer.Write(new LogEntry() { Message = String.Format("Adding Parameter:{0} Value:{1}", param.Key, param.Value), Severity = TraceEventType.Verbose });
+                    var sqlParam = new SqlParameter(param.Key, param.Value);
+
+                    if (param.Value == null)
+                    {
+                        sqlParam.Value = DBNull.Value;
+                    }
+
+                    _cmd.Parameters.Add(sqlParam);
+                }
+
+                foreach (KeyValuePair<string, KeyValuePair<SqlDbType, object>> outParam in _outputParams)
+                {
+                    tracer.Write(new LogEntry() { Message = String.Format("Adding Out Parameter:{0} Value:{1}", outParam.Key, outParam.Value), Severity = TraceEventType.Verbose });
+                    SqlParameter param = new SqlParameter(outParam.Key, outParam.Value.Value);
+                    param.Direction = ParameterDirection.Output;
+                    param.SqlDbType = outParam.Value.Key;
+                    _cmd.Parameters.Add(param);
+                }
+
+                if (_returnValue != null)
+                {
+                    _cmd.Parameters.Add(_returnValue);
+                }
+
+                if (_canCache)
+                {
+                    if (!_dependencyStarted)
+                    {
+                        lock (_dependencyLock)
+                        {
+                            if (!_dependencyStarted)
+                            {
+                                SqlDependency.Start(_connectionString);
+                            }
+                            _dependencyStarted = true;
+                        }
+                    }
+                    _dependency = new SqlCacheDependency(_cmd);
+                }
+
+                tracer.Write("Executed before " + _name, this.GetType().Namespace);
+                _dataReader = _cmd.ExecuteReader();
+                tracer.Write("Executed After " + _name, this.GetType().Namespace);
+                WriteTimedEventToLog("Executed " + _name);
             }
 
             return this;

@@ -81,7 +81,7 @@ namespace BBC.Dna.Api.Tests
             string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
 
             string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
-            expectedInfo += testValue[2] + "\r\nID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
+            expectedInfo += testValue[2] + "\r\nContactDetail - ID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
             expectedInfo += "\r\nThe SMTP host was not specified.";
             Assert.AreEqual(expectedInfo, failedEmailContent);
         }
@@ -99,7 +99,7 @@ namespace BBC.Dna.Api.Tests
             string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
 
             string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
-            expectedInfo += info.ForumUri + "\r\nID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
+            expectedInfo += info.ForumUri + "\r\nContactDetail - ID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
             expectedInfo += "\r\nThe SMTP host was not specified.";
             Assert.AreEqual(expectedInfo, failedEmailContent);
         }
@@ -117,7 +117,7 @@ namespace BBC.Dna.Api.Tests
             string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
 
             string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
-            expectedInfo += info.ForumUri + "\r\nID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
+            expectedInfo += info.ForumUri + "\r\nContactDetail - ID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
             expectedInfo += "\r\nThe SMTP host was not specified.";
             Assert.AreEqual(expectedInfo, failedEmailContent);
         }
@@ -137,7 +137,7 @@ namespace BBC.Dna.Api.Tests
             string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
 
             string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
-            expectedInfo += subject + "\r\nID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
+            expectedInfo += subject + "\r\nContactDetail - ID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
             expectedInfo += "\r\nThe SMTP host was not specified.";
             Assert.AreEqual(expectedInfo, failedEmailContent);
         }
@@ -146,7 +146,7 @@ namespace BBC.Dna.Api.Tests
         {
             ISiteList siteList = mocks.DynamicMock<ISiteList>();
             siteList.Stub(x => x.GetSite("h2g2").ContactFormsEmail).Return(siteContactEmail);
-
+            siteList.Stub(x => x.GetSiteOptionValueBool(1, "General", "UseAtosEmailIngester")).Return(true);
             mocks.ReplayAll();
 
             Contacts contacts = new Contacts(null, null, null, siteList);
@@ -155,7 +155,7 @@ namespace BBC.Dna.Api.Tests
             string failedEmailFileName = "ContactDetails-ShouldSendEmailWhenGivenValidContactDetails-TestFailedEmail.txt";
             contacts.SetFailedEmailFileName(failedEmailFileName);
 
-            contacts.SendDetailstoContactEmail(info, sentTo, siteContactEmail);
+            contacts.SendDetailstoContactEmail(info, sentTo, siteContactEmail, 1);
 
             Statistics stats = new Statistics();
             Statistics.InitialiseIfEmpty();

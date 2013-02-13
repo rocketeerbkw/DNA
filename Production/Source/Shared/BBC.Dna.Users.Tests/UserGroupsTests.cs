@@ -699,8 +699,8 @@ namespace BBC.Dna.Users.Tests
             var obj = new UserGroups(creator, diag, cache, servers, servers);
 
             obj.SendSignal();
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/signal?action={1}", url, obj.SignalKey)));
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/dnasignal?action={1}", url, obj.SignalKey)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/signal?action={1}", url, obj.SignalKey)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/dnasignal?action={1}", url, obj.SignalKey)));
 
         }
 
@@ -726,8 +726,8 @@ namespace BBC.Dna.Users.Tests
             Assert.IsNotNull(groupsList);
             Assert.AreEqual(0, groupsList.Count);
             obj.SendSignal(userId);
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/signal?action={1}&userid={2}", url, obj.SignalKey, userId)));
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/dnasignal?action={1}&userid={2}", url, obj.SignalKey, userId)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/signal?action={1}&userid={2}", url, obj.SignalKey, userId)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/dnasignal?action={1}&userid={2}", url, obj.SignalKey, userId)));
 
         }
 
@@ -746,9 +746,8 @@ namespace BBC.Dna.Users.Tests
             var obj = new UserGroups(creator, diag, cache, servers, servers);
 
             obj.SendSignal(userId);
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/signal?action={1}&userid={2}", url, obj.SignalKey, userId)));
-            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/h2g2/dnasignal?action={1}&userid={2}", url, obj.SignalKey, userId)));
-
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/signal?action={1}&userid={2}", url, obj.SignalKey, userId)));
+            diag.AssertWasCalled(x => x.WriteToLog("SendingSignal", string.Format("http://{0}/dna/moderation/dnasignal?action={1}&userid={2}", url, obj.SignalKey, userId)));
         }
 
         [TestMethod]

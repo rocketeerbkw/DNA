@@ -425,15 +425,21 @@
            		isFormValidToSubmit = false;
            	}
 
+            // Check the commentforumparenturl is not empty
+            if ($("#commentforumparenturl").val() == ""){
+                glow.dom.create('<span class="dna-error-text">Please enter a commentforum parent uri</span>').insertAfter("#commentforumparenturl");
+           		isFormValidToSubmit = false;
+            }
+
            	// Make sure that both users and search terms text areas are not empty
            	//if (($("#users").val() == " " || $("#users").val() == "") && ($("#searchterms").val() == " " || $("#searchterms").val() == "")) {
-           	//	glow.dom.create('<span class="dna-error-text text">Please enter a user or a search term</span>').insertBefore("#users");
+           	//	glow.dom.create('<span class="dna-error-text text">Please enter a user or a search term</span>').insertAfter("#users");
            	//	isFormValidToSubmit = false;
            	//}
 			
 			// Make sure that the users text area is not empty
-           	if (($("#users").val() == " " || $("#users").val() == "") {
-           		glow.dom.create('<span class="dna-error-text text">Please enter a user</span>').insertBefore("#users");
+           	if (($("#users").val() == " " || $("#users").val() == "")) {
+           		glow.dom.create('<span class="dna-error-text text">Please enter a user</span>').insertAfter("#users");
            		isFormValidToSubmit = false;
            	}
 

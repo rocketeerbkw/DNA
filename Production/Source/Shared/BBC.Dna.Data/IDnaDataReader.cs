@@ -334,5 +334,10 @@ namespace BBC.Dna.Data
 		/// get the cache dependency object created for this query
 		/// </summary>
 		SqlCacheDependency Dependency { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        IDnaDataReader Execute2();
     }
 }

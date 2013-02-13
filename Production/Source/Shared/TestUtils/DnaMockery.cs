@@ -54,7 +54,11 @@ namespace Tests
         /// <returns>The new mocked Diagnostics object</returns>
         public static IDnaDiagnostics SetDefaultDiagnostics(IInputContext mockedInput)
         {
+            IDnaTracer mockedTracer = _mockery.NewMock<IDnaTracer>();
+            Stub.On(mockedTracer).Method("Write").Will(Return.Value(null));
+            Stub.On(mockedTracer).Method("Dispose").Will(Return.Value(null));
             IDnaDiagnostics mockedDiag = _mockery.NewMock<IDnaDiagnostics>();
+            Stub.On(mockedDiag).Method("CreateTracer").Will(Return.Value(mockedTracer));
             Stub.On(mockedDiag).Method("WriteTimedSignInEventToLog").Will(Return.Value(null));
             Stub.On(mockedDiag).Method("WriteTimedEventToLog").Will(Return.Value(null));
             Stub.On(mockedDiag).Method("WriteWarningToLog").Will(Return.Value(null));

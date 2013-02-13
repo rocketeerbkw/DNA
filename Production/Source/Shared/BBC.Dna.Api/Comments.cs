@@ -286,7 +286,21 @@ namespace BBC.Dna.Api
         /// <param name="uid">The specific form uid</param>
         /// <param name="site"></param>
         /// <returns>The specified forum including comment data</returns>
+        /// Preserve the orginal signature and behavious as this is used for messageboard style forums.
         public CommentForum GetCommentForumByUid(string uid, ISite site)
+        {
+            return GetCommentForumByUid(uid, site, false);
+        }
+
+        /// <summary>
+        /// Reads a specific forum by the UID
+        /// </summary>
+        /// <param name="uid">Site wide forum unique identifier</param>
+        /// <param name="site">the site</param>
+        /// <param name="excludeDistressMessages">Set to false to preserve current behaviour, true to filter out distress messages and include the comment info with the parent post.
+        /// This is to allow the comments module with all the various filtering options to have the distress message alongside the alerted message</param>
+        /// <returns>The specified forum including comment data</returns>
+        public CommentForum GetCommentForumByUid(string uid, ISite site, bool excludeDistressMessages)
         {
             CommentForum commentForum = null;
 
@@ -306,7 +320,7 @@ namespace BBC.Dna.Api
                     if (reader.HasRows && reader.Read())
                     {
                         commentForum = CommentForumCreateFromReader(reader);
-                        commentForum.commentList = GetCommentsListByForumId(commentForum.ForumID, site);
+                        commentForum.commentList = GetCommentsListByForumId(commentForum.ForumID, site, excludeDistressMessages);
                         commentForum.identityPolicy = site.IdentityPolicy;
                         AddCommentForumToCache(commentForum, site);
                     }
@@ -361,6 +375,11 @@ namespace BBC.Dna.Api
         /// <returns>The list of comments</returns>
         public CommentsList GetCommentsListByForumId(int forumid, ISite site)
         {
+            return GetCommentsListByForumId(forumid, site, false);
+        }
+
+        public CommentsList GetCommentsListByForumId(int forumid, ISite site, bool excludeDistressMessages)
+        {
             var commentList = new CommentsList();
 
             commentList.comments = new List<CommentInfo>();
@@ -371,7 +390,12 @@ namespace BBC.Dna.Api
             commentList.SortDirection = SortDirection;
             commentList.FilterBy = FilterBy;
 
-            String spName = "commentsreadbyforumid";
+            string spName = "commentsreadbyforumid";
+            if (excludeDistressMessages)
+            {
+                spName = "commentsreadbyforumid_xdm";
+            }
+            
             if (FilterBy == FilterBy.EditorPicks)
             {
                 spName = "commentsreadbyforumideditorpicksfilter";
@@ -381,7 +405,7 @@ namespace BBC.Dna.Api
                 spName = "contactformpostsreadbyforumid";
             }
 
-            using (IDnaDataReader reader = CreateReader(spName))
+            using (var reader = CreateReader(spName))
             {
                 try
                 {
@@ -390,7 +414,6 @@ namespace BBC.Dna.Api
                     reader.AddParameter("itemsperpage", ItemsPerPage);
                     reader.AddParameter("SortBy", SortBy.ToString());
                     reader.AddParameter("SortDirection", SortDirection.ToString());
-
                     reader.Execute();
 
                     if (reader.HasRows)
@@ -401,7 +424,7 @@ namespace BBC.Dna.Api
                             commentList.TotalCount = reader.GetInt32NullAsZero("totalresults");
                         }
                     }
-                } 
+                }
                 catch (Exception ex)
                 {
                     throw new ApiException(ex.Message, ex.InnerException);
@@ -410,7 +433,6 @@ namespace BBC.Dna.Api
             }
             return commentList;
         }
-
 
         /// <summary>
         /// Reads a forum comments by the IDs and siteid
@@ -1566,7 +1588,79 @@ namespace BBC.Dna.Api
                 commentInfo.RetweetedBy = reader.GetStringNullAsEmpty("retweetedby");
             }
 
+            if (reader.DoesFieldExist("DmID"))
+            {
+                if (reader.IsDBNull("DmID") == false)
+                {
+                    commentInfo.DistressMessage = IncludeDistressMessage(reader, site);
+                }
+            }
+
             return commentInfo;
+        }
+
+        private CommentInfo IncludeDistressMessage(IDnaDataReader reader, ISite site)
+        {
+            var commentInfo = new CommentInfo();
+
+            commentInfo.Created = new DateTimeHelper(DateTime.Parse(reader.GetDateTime("DmCreated").ToString()));
+            commentInfo.ID = reader.GetInt32NullAsZero("DmId");
+            commentInfo.User = DmUserFromReader(reader, site);
+
+            commentInfo.hidden = (CommentStatus.Hidden)reader.GetInt32NullAsZero("DmHidden");
+            if (reader.IsDBNull("DmPostStyle"))
+            {
+                commentInfo.PostStyle = PostStyle.Style.richtext;
+            }
+            else
+            {
+                commentInfo.PostStyle = (PostStyle.Style)reader.GetTinyIntAsInt("DmPostStyle");
+            }
+            commentInfo.Index = reader.GetInt32NullAsZero("DmPostIndex");
+
+            commentInfo.text = CommentInfo.FormatComment(reader.GetStringNullAsEmpty("DmText"), 
+                commentInfo.PostStyle, 
+                commentInfo.hidden, 
+                commentInfo.User.Editor);
+
+            var replacement = new Dictionary<string, string>();
+            replacement.Add("commentforumid", reader.GetString("forumuid"));
+            replacement.Add("sitename", site.SiteName);
+            commentInfo.ForumUri = UriDiscoverability.GetUriWithReplacments(BasePath,
+                                                                            UriDiscoverability.UriType.CommentForumById,
+                                                                            replacement);
+            replacement = new Dictionary<string, string>();
+            replacement.Add("parentUri", reader.GetString("parentUri"));
+            replacement.Add("postid", commentInfo.ID.ToString());
+            commentInfo.Uri = UriDiscoverability.GetUriWithReplacments(BasePath, UriDiscoverability.UriType.Comment,
+                                                                       replacement);
+
+            return commentInfo;
+        }
+
+        private User DmUserFromReader(IDnaDataReader reader, ISite site)
+        {
+            var user = new User
+            {
+                UserId = reader.GetInt32NullAsZero("DmUserID"),
+                DisplayName = reader.GetStringNullAsEmpty("DmUserName"),
+                Editor = (reader.GetInt32NullAsZero("DmUserIsEditor") == 1),
+                Status = reader.GetInt32NullAsZero("DmStatus"),
+
+            };
+            if (reader.DoesFieldExist("DmIdentityUserId"))
+            {
+                user.BbcId = reader.GetStringNullAsEmpty("DmIdentityUserId");
+            }
+            user.SiteSpecificDisplayName = string.Empty;
+            if (SiteList.GetSiteOptionValueBool(site.SiteID, "User", "UseSiteSuffix"))
+            {
+                if (reader.DoesFieldExist("DmSiteSpecificDisplayName"))
+                {
+                    user.SiteSpecificDisplayName = reader.GetStringNullAsEmpty("SiteSpecificDisplayName");
+                }
+            }
+            return user;
         }
 
         

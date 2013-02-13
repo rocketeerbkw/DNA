@@ -307,6 +307,7 @@
     <Compile Include="ForumCommentsList.cs" />
     <Compile Include="Vote.cs" />
     <Compile Include="WatchList.cs" />
+    <Compile Include="WelcomePageBuilder.cs" />
     <Compile Include="WholePage.cs" />
     <Compile Include="DNATransformer.cs" />
     <Compile Include="User.cs" />

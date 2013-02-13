@@ -22,13 +22,13 @@
             <p class="action">
               <xsl:choose>
                 <xsl:when test="@POSTID">
-                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Daftarkan keluhan saya</a>
+                  <a href="?PostId={(POST-ID | @POSTID)[1]}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Ajukan keluhan saya</a>
                 </xsl:when>
                 <xsl:when test="@H2G2ID">
-                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Daftarkan keluhan saya</a>
+                  <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Ajukan keluhan saya</a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Daftarkan keluhan saya</a>
+                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Ajukan keluhan saya</a>
                 </xsl:otherwise>
               </xsl:choose>
             </p>
@@ -73,7 +73,7 @@
         <xsl:text>artikel</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>materi</xsl:text>
+        <xsl:text>konten</xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -106,7 +106,7 @@
                
                 <p class="options">
                 	<p class="options">
-                		<input type="radio" id="dnaacs-cq-1" value="memfintah atau mencemarkan nama baik" name="s_complaintText"/><label for="dnaacs-cq-1">memfintah atau mencemarkan nama baik</label>
+                		<input type="radio" id="dnaacs-cq-1" value="memfitnah atau mencemarkan nama baik" name="s_complaintText"/><label for="dnaacs-cq-1">memfitnah atau mencemarkan nama baik</label>
                 		<input type="radio" id="dnaacs-cq-2" value="rasis, seksis, homofobia, seksual secara terang-terangan, menghina atau menyerang" name="s_complaintText"/><label for="dnaacs-cq-2">rasis, seksis, homofobia, seksual secara terang-terangan, menghina atau menyerang</label>
                 		<input type="radio" id="dnaacs-cq-3" value="mengandung kata makian atau yang mungkin menghina" name="s_complaintText"/><label for="dnaacs-cq-3">mengandung kata makian atau yang mungkin menghina</label>
                 		<input type="radio" id="dnaacs-cq-4" value="melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar hak cipta, menghina pengadilan" name="s_complaintText"/><label for="dnaacs-cq-4">melanggar hukum atau membiarkan maupun mendorong tindakan yang tidak sesuai hukum seperti melanggar <a href="http://www.bbc.co.uk/indonesia/institutional/2011/02/000001_terms_of_use.shtml">hak cipta,</a> menghina pengadilan</label>
@@ -119,11 +119,11 @@
                       </xsl:with-param>
                     </xsl:call-template>
                 		<input type="radio" id="dnaacs-cq-10" value="tidak dalam Bahasa Indonesia" name="s_complaintText"/><label for="dnaacs-cq-10">tidak dalam Bahasa Indonesia</label>
-                		<input type="radio" id="dnaacs-cq-11" value="berisi nama pengguna yang tidak tepat Kebijakan Editorial" name="s_complaintText"/><label for="dnaacs-cq-11">berisi nama pengguna yang tidak tepat <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Kebijakan Editorial</a></label>
+                		<input type="radio" id="dnaacs-cq-11" value="berisi link dengan situs internet luar yang melanggar Kebijakan Editorial" name="s_complaintText"/><label for="dnaacs-cq-11">berisi link dengan situs internet luar yang melanggar <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">Kebijakan Editorial</a></label>
                 		<input type="radio" id="dnaacs-cq-12" value="menggambarkan atau mendorong kegiatan yang bisa membahayakan keselamatan atau kesejahteraan orang lain" name="s_complaintText"/><label for="dnaacs-cq-12">menggambarkan atau mendorong kegiatan yang bisa membahayakan keselamatan atau kesejahteraan orang lain</label>
                 		<input type="radio" id="dnaacs-cq-13" value="berisi nama pengguna yang tidak tepat" name="s_complaintText"/><label for="dnaacs-cq-13">berisi nama pengguna yang tidak tepat</label>
                 		<input type="radio" id="dnaacs-cq-14" value="spam" name="s_complaintText"/><label for="dnaacs-cq-14">spam</label>
-                		<input type="radio" id="dnaacs-cq-6" value="Yang lain" name="s_complaintText"/><label for="dnaacs-cq-6">atau melanggar peraturan dengan alasan yang tidak terdaftar di atas</label>
+                		<input type="radio" id="dnaacs-cq-6" value="Yang lain" name="s_complaintText"/><label for="dnaacs-cq-6">melanggar peraturan dengan alasan yang tidak terdaftar di atas</label>
                 	</p>
                 </p>
 
@@ -174,7 +174,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Mohon isi kotak di bawah ini untuk menginformasikan alasan Anda <xsl:call-template name="item_name"/> bahwa peraturan dilanggar. Jika sudah selesai, klik Kirim Keluhan sehingga bisa dibaca oleh moderator.</p>
+           	<p>Mohon isi kotak di bawah ini untuk menginformasikan alasan Anda bahwa satu <xsl:call-template name="item_name"/> melanggar peraturan. Jika sudah selesai, klik Kirim Keluhan sehingga bisa dibaca oleh moderator.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Yang lain'">
                     Saya ingin menyampaikan keluhan <xsl:call-template name="item_name"/> dengan alasan berikut
@@ -184,7 +184,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Yang lain'">
-                        <xsl:text> </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> Tutup <xsl:call-template name="item_name"/> segera</label>.
+                        <label for="hidePost"> Sembunyikan <xsl:call-template name="item_name"/> ini segera</label>.
                     </p>
                 </xsl:if>
                 
@@ -252,7 +252,6 @@
           <xsl:when test="@TYPE = 'EMAILNOTALLOWED'">
             <p>
               Anda dilarang menggunakan sistem keluhan internet, mohon tulis ke:<br />
-              BBC Central Communities Team<br />
               Broadcast Centre<br />
               201 Wood Lane<br />
               White City<br />
@@ -260,11 +259,52 @@
               W12 7TP
             </p>
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:when test="@TYPE = 'REGISTERCOMPLAINT'">
             <p>
-              <xsl:value-of select="(ERRORMESSAGE | ERROR)[1]"/>
+             Keluhan tidak dapat terdaftar
             </p>
-          </xsl:otherwise>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'EMAIL'">
+            <p>
+              Alamat email salah 
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'NOTFOUND'">
+            <p>
+              Komentar tidak ditemukan
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'InvalidVerificationCode'">
+            <p>
+              Kode verifikasi tidak benar
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'AlreadyModerated'">
+            <p>
+              Komentar ini telah diedit atau dicabut.
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTTEXT'">
+            <p>
+              Keluhan belum ditulis
+            </p>
+          </xsl:when>
+          <xsl:when test ="@TYPE = 'COMPLAINTREASON'">
+            <p>
+              Alasan keluhan belum ditulis
+            </p>
+          </xsl:when>
+          <xsl:when test="@TYPE = 'HIDEPOST'">
+            <p>
+              Komentar tidak dapat disembunyikan
+            </p>
+            
+          </xsl:when>
+          <xsl:when test="@TYPE = 'URL'">
+            <p>
+             URL salah
+            </p>
+          </xsl:when>
         </xsl:choose>
 
       </div>
@@ -299,7 +339,7 @@
     <div class="content">
       <h2>Keluhan berhasil</h2>
       <p>
-        Keluhan Anda sudah berhasil terkirim dan akan diteruskankepada Tim Moderator. Mereka akan menentukan apakah <a href="http://www.bbc.co.uk/indonesia/institutional/2012/09/120920_house_rules.shtml">Peraturan Internal</a> sudah dilanggar dan akan memberitahu kepada Anda melalui alamat email
+        Keluhan Anda sudah berhasil terkirim dan akan diteruskankepada Tim Moderator. Mereka akan menentukan apakah <a href="http://www.bbc.co.uk/indonesia/institutional/2012/09/120920_house_rules.shtml">Peraturan Internal</a> sudah dilanggar dan akan memberitahu  Anda melalui email.
       </p>
       <p>
         Identifikasi rujukan Anda adalah <strong>
