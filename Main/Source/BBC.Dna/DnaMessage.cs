@@ -126,7 +126,7 @@ namespace BBC.Dna
             var isRtlSite = InputContext.TheSiteList.GetSiteOptionValueBool(siteId, "General", "RTLSite");
             if (isRtlSite)
             {
-                body = "<html dir='rtl'><body>" + body + "</body></html>";
+                body = "<html dir='rtl'><body>" + body.Replace("\n\r", "<br/>").Replace("\n", "<br/>") + "</body></html>";
                 //subject = "<html dir='rtl'>" + subject + "</html>";
             }
 
