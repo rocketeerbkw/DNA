@@ -73,7 +73,7 @@
         <xsl:text>مقاله</xsl:text>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:text>فوری این</xsl:text>
+        <xsl:text></xsl:text>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -101,7 +101,7 @@
             <div class="content">
               <h2>دلیل شکایت شما</h2>
               <p>
-                به عقیده من <xsl:call-template name="item_name"/> یکی از  مقررات را ممکن است نقض کرده باشد، <a href="{$houserulespopupurl}">مقررات صفحه</a> 
+                به عقیده من <xsl:call-template name="item_name"/> یکی از  مقررات را ممکن است نقض کرده باشد، زیرا: 
               </p>
                
                 <p class="options">
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost"> پنهان کردن <xsl:call-template name="item_name"/> اظهارنظر</label>.
+                        <label for="hidePost"> پنهان کردن <xsl:call-template name="item_name"/> فوری این اظهارنظر</label>
                     </p>
                 </xsl:if>
                 
