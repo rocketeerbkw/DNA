@@ -38,7 +38,7 @@
             <xsl:with-param name="unauthorised"></xsl:with-param>
             <xsl:with-param name="loggedout">
                 <div class="content">
-                    <p>آپ اس ویب سائٹ کے کسی اکاؤنٹ پر سائن ان نہیں ہیں۔ اگر آپ رجسٹرڈ ہیں تو سائن ان کیجیے اس سے ہمیں آپ کی شکایت سے نمٹنے میں مدد ملے گی.</p>
+                    <p>آپ اس ویب سائٹ کے کسی اکاؤنٹ پر سائن ان نہیں ہیں۔ اگر آپ رجسٹرڈ ہیں تو سائن ان کیجیے اس سے ہمیں آپ کی شکایت سے نمٹنے میں مدد ملے گی۔</p>
                     <p class="action">
                       <a>
                       	<xsl:attribute name="href">
