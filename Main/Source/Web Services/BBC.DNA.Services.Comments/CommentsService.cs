@@ -58,51 +58,56 @@ namespace BBC.Dna.Services
             return GetOutputStream(commentForumList);
         }*/
 
-        [WebGet(UriTemplate = "V1/site/{siteName}/mostrecentlycommentedcommentforum/{count}/commentforums/{prefix}/")]
-        [WebHelp (Comment = "Get the most recently commented comment forums for a given sitename")]
+        [WebGet(UriTemplate = "V1/site/{siteName}/mostrecentlycommentedcommentforum/")]
+        [WebHelp(Comment = "Get the most recently commented comment forums.<br/>Param : count. Defines the max number of forums to return, default = 5<br/>Param : prefix. Defines the prefix that the returned forums should begin with, default = Empty String")]
         [OperationContract]
-        public Stream GetMostRecentlyCommentedCommentForumsBySitename(string siteName, string count, string prefix)
+        public Stream GetMostRecentlyCommentedCommentForumsForSite(string siteName)
         {
-            ISite site = GetSite(siteName);
-            MostCommentedCommentForumList mostRecentlyCommentedCommentForumList;
-            try
-            {
-                int commentForumCount;
-                if(!Int32.TryParse(count, out commentForumCount))
-                {
-                   throw ApiException.GetError(ErrorType.EmptyText);
-                }
-                mostRecentlyCommentedCommentForumList = _commentObj.GetMostRecentlyCommentedCommentForumList(site, prefix, commentForumCount);  
-            }
-            catch (ApiException ex)
-            {
-                throw new DnaWebProtocolException(ex);
-            }
+            int commentForumCount = QueryStringHelper.GetQueryParameterAsInt("count", 5);
+            string prefix = QueryStringHelper.GetQueryParameterAsString("prefix", "");
+            MostCommentedCommentForumList mostRecentlyCommentedCommentForumList = GetMostRecentlyCommented(siteName, commentForumCount, prefix);
             return GetOutputStream(mostRecentlyCommentedCommentForumList);
         }
 
-
-        [WebGet(UriTemplate = "V1/site/{siteName}/mostcommentedcommentforum/{count}/commentforums/{prefix}/")]
-        [WebHelp(Comment = "Get the most commented comment forums for a given sitename")]
-        [OperationContract]
-        public Stream GetMostCommentedCommentForumBySiteName(string siteName, string count, string prefix)
+        private MostCommentedCommentForumList GetMostRecentlyCommented(string siteName, int commentForumCount, string prefix)
         {
-            ISite site = GetSite(siteName);
-            MostCommentedCommentForumList mostCommentedCommentForumList;
+            MostCommentedCommentForumList mostRecentlyCommentedCommentForumList;
             try
             {
-                int commentForumCount;
-                if(!Int32.TryParse(count, out commentForumCount))
-                {
-                   throw ApiException.GetError(ErrorType.EmptyText);
-                }
-                mostCommentedCommentForumList = _commentObj.GetMostCommentedCommentForumList(site, prefix, commentForumCount);  
+                ISite site = GetSite(siteName);
+                mostRecentlyCommentedCommentForumList = _commentObj.GetMostRecentlyCommentedCommentForumList(site, prefix, commentForumCount);
             }
             catch (ApiException ex)
             {
                 throw new DnaWebProtocolException(ex);
             }
+            return mostRecentlyCommentedCommentForumList;
+        }
+
+        [WebGet(UriTemplate = "V1/site/{siteName}/mostcommentedcommentforum/")]
+        [WebHelp(Comment = "Get the most commented comment forums for a given sitename.<br/>Param : count. Defines the max number of forums to return, default = 5<br/>Param : prefix. Defines the prefix that the returned forums should begin with, default = Empty String")]
+        [OperationContract]
+        public Stream GetMostCommentedCommentForumBySiteName(string siteName)
+        {
+            int commentForumCount = QueryStringHelper.GetQueryParameterAsInt("count", 5);
+            string prefix = QueryStringHelper.GetQueryParameterAsString("prefix", "");
+            MostCommentedCommentForumList mostCommentedCommentForumList = GetMostCommented(siteName, commentForumCount, prefix);
             return GetOutputStream(mostCommentedCommentForumList);
+        }
+
+        private MostCommentedCommentForumList GetMostCommented(string siteName, int commentForumCount, string prefix)
+        {
+            MostCommentedCommentForumList mostCommentedCommentForumList;
+            try
+            {
+                ISite site = GetSite(siteName);
+                mostCommentedCommentForumList = _commentObj.GetMostCommentedCommentForumList(site, prefix, commentForumCount);
+            }
+            catch (ApiException ex)
+            {
+                throw new DnaWebProtocolException(ex);
+            }
+            return mostCommentedCommentForumList;
         }
 
         [WebGet(UriTemplate = "V1/site/{sitename}/")]
