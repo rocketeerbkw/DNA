@@ -48,12 +48,6 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream CreateTweet(string sitename, string commentForumId, Tweet tweet)
         {
-            // Retweets starting with @ are not supported for now
-            if (tweet.Text != null && tweet.Text.Trim().StartsWith("@"))
-            {
-                return GetOutputStream(new CommentInfo()); //empty commentinfo object
-            }
-
             ISite site = GetSite(sitename);
             if (site == null)
             {
@@ -217,6 +211,12 @@ namespace BBC.Dna.Services
         /// <returns></returns>
         private Stream HandleTweet(ISite site, CommentForum commentForumData, Tweet tweet)
         {
+            // Retweets starting with @ are not supported for now
+            if (tweet.Text != null && tweet.Text.Trim().StartsWith("@"))
+            {
+                return GetOutputStream(new CommentInfo()); //empty commentinfo object
+            }
+
             return GetOutputStream(CreateCommentFromTweet(site, commentForumData, tweet));
         }
 
