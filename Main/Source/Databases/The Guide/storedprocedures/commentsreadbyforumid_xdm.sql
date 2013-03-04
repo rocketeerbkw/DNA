@@ -23,7 +23,7 @@ DECLARE @SiteID int
 SELECT @SiteID = SiteID from dbo.Forums WHERE ForumID = @forumid
 
 DECLARE @IsTwitterSite bit
-IF (@SiteID IN (SELECT SiteID FROM dbo.Sites WHERE URLName in ('sporttweets','inthefleshtweets')))
+IF (@SiteID IN (select siteid from sites where urlname like '%tweet%'))
 BEGIN
 	SET @IsTwitterSite = 1
 END
