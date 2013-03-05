@@ -28,7 +28,7 @@
                   <a href="?h2g2Id={@H2G2ID}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">ثبت شکایت</a>
                 </xsl:when>
                 <xsl:otherwise>
-                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">Rثبت شکایت</a>
+                  <a href="?url={@URL}&amp;s_ptrt={/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}&amp;s_start=2">ثبت شکایت</a>
                 </xsl:otherwise>
               </xsl:choose>
             </p>
@@ -67,7 +67,7 @@
   <xsl:template name="item_name">
     <xsl:choose>
       <xsl:when test="@POSTID">
-        <xsl:text>اظهارنظر</xsl:text>
+        <xsl:text></xsl:text>
       </xsl:when>
       <xsl:when test="@H2G2ID">
         <xsl:text>مقاله</xsl:text>
