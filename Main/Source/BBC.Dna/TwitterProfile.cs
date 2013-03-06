@@ -209,7 +209,7 @@ namespace BBC.Dna.Component
                     }
 
                     //seperate method to fill up the twitter profile xml
-                    CreateTwitterProfileXML(twitterProfile, _commentForumURI);
+                    CreateTwitterProfileXML(twitterProfile, _commentForumURI, true);
                    
                     string[] str1 = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
 
@@ -242,7 +242,8 @@ namespace BBC.Dna.Component
         /// </summary>
         /// <param name="twitterProfile"></param>
         /// <param name="commentForumParentURI"></param>
-        private void CreateTwitterProfileXML(BuzzTwitterProfile twitterProfile, string commentForumParentURI)
+        /// <param name="isExists"></param>
+        private void CreateTwitterProfileXML(BuzzTwitterProfile twitterProfile, string commentForumParentURI, bool isExists)
         {
             string str = StringUtils.SerializeToXmlReturnAsString(twitterProfile);
 
@@ -252,6 +253,13 @@ namespace BBC.Dna.Component
             actualXml = actualXml.Replace("d2p1:string", "item");
 
             actualXml = actualXml.Replace("</profile>", "<commentforumparenturi>" + commentForumParentURI + "</commentforumparenturi></profile>");
+
+            //As the values are persisted even if there is a failure, we need to introduce another node to see if the 
+            //profile exists or a new profile. This is used in making the fields readonly in xslt
+            if (isExists)
+            {
+                actualXml = actualXml.Replace("</profile>", "<exists> </exists></profile>");
+            }
 
             //Making all the XML Nodes uppercase
             actualXml = StringUtils.ConvertXmlTagsToUppercase(actualXml);
@@ -359,13 +367,15 @@ namespace BBC.Dna.Component
                 else
                 {
                     twitterProfile.Users = twitterUserScreenNameList;
-                    CreateTwitterProfileXML(twitterProfile, _commentForumURI);
+                    
                     if (false == string.IsNullOrEmpty(_pageAction) && _pageAction.ToUpper().Equals("UPDATEPROFILE"))
                     {
+                        CreateTwitterProfileXML(twitterProfile, _commentForumURI, true);
                         return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTIONONUPDATE", ErrorMessage = "Error while retrieving the twitter user, '" + invalidTwitterName + "'. Check if the twitter screen name entered is valid on update" };
                     }
                     else
                     {
+                        CreateTwitterProfileXML(twitterProfile, _commentForumURI, false);
                         return new Error { Type = "TWITTERRETRIEVEUSERINVALIDACTIONONCREATION", ErrorMessage = "Error while retrieving the twitter user, '" + invalidTwitterName + "'. Check if the twitter screen name entered is valid" };
                     }
                 }
@@ -379,7 +389,7 @@ namespace BBC.Dna.Component
             {
                 twitterProfile.Users = twitterUserScreenNameList;
 
-                CreateTwitterProfileXML(twitterProfile, _commentForumURI);
+                CreateTwitterProfileXML(twitterProfile, _commentForumURI, false);
 
                 InputContext.Diagnostics.WriteExceptionToLog(ex);
 
@@ -420,13 +430,13 @@ namespace BBC.Dna.Component
                         ((Result)result).Message += " Your profile has been created, now please contact the DNA team to activate it.";
                     }
 
-                    CreateTwitterProfileXML(twitterProfile, commentForum.ParentUri);
+                    CreateTwitterProfileXML(twitterProfile, commentForum.ParentUri, true);
 
                     return result;
                 }
                 catch (Exception e)
                 {
-                    CreateTwitterProfileXML(twitterProfile, commentForum.ParentUri);
+                    CreateTwitterProfileXML(twitterProfile, commentForum.ParentUri, true);
 
                     InputContext.Diagnostics.WriteExceptionToLog(e);
 
