@@ -80,11 +80,19 @@ namespace TheGuide.Database.UnitTests
            {
                var complaintText = "لشروط المشاركة لأنها تحتوي على تشهير  Hello";
                var hash = Guid.NewGuid();
+               int postId = 0;
                string verificationUID;
 
                using (IDnaDataReader reader = StoredProcedureReader.Create("", _connectionDetails))
                {
-                   reader.ExecuteWithinATransaction(string.Format(@"exec registerpostingcomplaint @complainantid={0},@correspondenceemail={1},@postid={2},@complainttext={3},@hash={4}", 0, "'abc@abc.abc'", 100, "N'" + complaintText + "'", "'" + hash + "'"));
+                   reader.ExecuteWithinATransaction("select top 1 EntryId from ThreadEntries order by EntryId Desc");
+                   reader.Read();
+                   postId = reader.GetInt32("EntryId");
+               }
+
+               using (IDnaDataReader reader = StoredProcedureReader.Create("", _connectionDetails))
+               {
+                   reader.ExecuteWithinATransaction(string.Format(@"exec registerpostingcomplaint @complainantid={0},@correspondenceemail={1},@postid={2},@complainttext={3},@hash={4}", 0, "'abc@abc.abc'", postId, "N'" + complaintText + "'", "'" + hash + "'"));
                    reader.Read();
 
                    Assert.IsTrue(reader.DoesFieldExist("verificationUid"));
@@ -99,6 +107,7 @@ namespace TheGuide.Database.UnitTests
                    reader.Read();
 
                    Assert.AreEqual(reader.GetStringNullAsEmpty("ComplaintText"), complaintText);
+                   reader.Close();
                }
            }
        }
