@@ -79,19 +79,27 @@ namespace TheGuide.Database.UnitTests
            using (new TransactionScope())
            {
                var complaintText = "لشروط المشاركة لأنها تحتوي على تشهير  Hello";
-               var hash = "BA76D71B-2F06-4173-91FE-0013B050027B";
+               var hash = Guid.NewGuid();
+               string verificationUID;
 
                using (IDnaDataReader reader = StoredProcedureReader.Create("", _connectionDetails))
                {
-                   reader.ExecuteWithinATransaction(string.Format(@"exec registerpostingcomplaint @complainantid={0},@correspondenceemail={1},@postid={2},@complainttext={3},@hash={4}", 1, "'abc@abc.abc'", 100, "N'" + complaintText + "'", "'" + hash + "'"));
+                   reader.ExecuteWithinATransaction(string.Format(@"exec registerpostingcomplaint @complainantid={0},@correspondenceemail={1},@postid={2},@complainttext={3},@hash={4}", 0, "'abc@abc.abc'", 100, "N'" + complaintText + "'", "'" + hash + "'"));
                    reader.Read();
 
-                   Assert.IsTrue(reader.DoesFieldExist("ModId"));
-                   Assert.AreNotEqual(reader.GetInt32NullAsZero("ModId"), 0);
-
+                   Assert.IsTrue(reader.DoesFieldExist("verificationUid"));
+                   verificationUID = reader.GetGuidAsStringOrEmpty("verificationUid");
+                   Assert.IsTrue(verificationUID.Length > 0);
                    reader.Close();
                }
 
+               using (IDnaDataReader reader = StoredProcedureReader.Create("", _connectionDetails))
+               {
+                   reader.ExecuteWithinATransaction("select * from ThreadModAwaitingEmailVerification where ID='" + verificationUID + "'");
+                   reader.Read();
+
+                   Assert.AreEqual(reader.GetStringNullAsEmpty("ComplaintText"), complaintText);
+               }
            }
        }
     }
