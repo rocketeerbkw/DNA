@@ -1039,6 +1039,65 @@ namespace FunctionalTests.Services.Comments
         }
 
         [TestMethod]
+        public void CreateTweet_WithXmlData_TestTweetStartingCharacter_ReturnEmptyObjectOnSuccess()
+        {
+            var request = new DnaTestURLRequest(_sitename);
+            var text = "@abc hello this is a post for testing a tweet starting with @ symbol";
+
+            var twitterUserId = "24870599";
+            var screenName = "ccharlesworth";
+
+            var tweet = CreateTestTweet(876378637863786, text, twitterUserId, "Chico", screenName);
+            var tweetData = CreatTweetXmlData(tweet);
+
+            // now get the response
+            request.RequestPageWithFullURL(_tweetPostUrlReactive, tweetData, "text/xml");
+
+            // Check to make sure that the page returned with the correct information
+            var returnedCommentInfo = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+            
+            Assert.IsNotNull(returnedCommentInfo); //returns an empty object
+            
+            Assert.IsNull(returnedCommentInfo.text);
+        }
+
+        [TestMethod]
+        public void CreateReTweet_WithXmlData_TestReTweetStartingCharacter_ReturnCommentInfoWithDetailsOnSuccess()
+        {
+            var request = new DnaTestURLRequest(_sitename);
+
+            var text = "@abc hello this is a post for testing a tweet starting with @ symbol";
+            var expectedText = "<a href=\"http://twitter.com/abc\" target=\"_blank\">@abc</a> hello this is a post for testing a tweet starting with @ symbol";
+
+            // Post the original tweet, but make sure it's premoderated
+            long tweetId = 56565656121212121;
+
+            //Deleting the existing tweet
+            var existingTweetId = DeleteExistingTweet(tweetId);
+
+            var tweet = CreateTestTweet(tweetId, "SQLBits 2012 is a dreams", "3434343", "Itzik Ben Gan", "tsqlgod", "4");
+            PostTweet(tweet, ModerationStatus.ForumStatus.PreMod);
+
+            //Deleting the existing tweet
+            var existingreTweetId = DeleteExistingTweet(74853549057838);
+
+            // Create a retweet of the original tweet and post it
+            var retweet = CreateTestTweet(74853549057838, text, "909090909", "Danger Mouse", "dmouse", "4");
+            retweet.RetweetedStatus = tweet;
+
+            var tweetData = CreatTweetXmlData(retweet);
+
+            // now get the response
+            request.RequestPageWithFullURL(_tweetPostUrlReactive, tweetData, "text/xml");
+
+            // Check to make sure that the page returned with the correct information
+            var returnedCommentInfo = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+
+            Assert.AreEqual(PostStyle.Style.tweet, returnedCommentInfo.PostStyle);
+            Assert.AreEqual(expectedText, returnedCommentInfo.text);
+        }
+
+        [TestMethod]
         public void ArchiveFailedTweets_TweetArchived()
         {
             ClearModerationQueues();
