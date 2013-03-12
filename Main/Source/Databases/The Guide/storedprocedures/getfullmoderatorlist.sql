@@ -19,18 +19,17 @@ select u.*,
 	gm.SiteID 
 from users u
 inner join GroupMembers gm on u.UserID = gm.UserID AND gm.groupid = @groupid
-inner join Groups g on g.GroupID = gm.GroupID
 inner join 
 (
 	select siteid, modclassid
 	from sites
 	where (@issuperuser =1 or siteid in (select siteid from GroupMembers where groupid=@groupid and userid=@userid))
-	
-	
 ) s ON s.SiteID = gm.SiteID
 left join ModerationClassMembers cm on u.UserID = cm.UserID AND cm.ModClassID = s.ModClassID AND cm.groupid = @groupid
 where (@founduserid=0 or u.userid=@founduserid)
+
 union
+
 select u.*, 
 	cm.ModClassID, 
 	NULL 
