@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBC.Dna;
 using BBC.Dna.Sites;
 using Moq;
+using BBC.Dna.Utils;
 
 namespace HtmlEmailTests
 {
@@ -67,15 +68,16 @@ namespace HtmlEmailTests
         {
             var inputContext = new Mock<IInputContext>();
             var siteList = new Mock<ISiteList>();
-         
+            IDnaDiagnostics diagnostics;
+
             siteList.Setup(x => x.GetSiteOptionValueBool(0,"General","RTLSite")).Returns(true);
 
             inputContext.Setup(x => x.TheSiteList).Returns(siteList.Object);
             DnaMessage message = new DnaMessage(inputContext.Object);
 
             var subject = "This is the subject";
-            var body = "This is the body";
-            var sender = "david.williams@bbc.co.uk";
+            var body = "This is the body\n\rwith two lines";
+            var sender = "dnaops@bbc.co.uk";
             var recipient = sender;
             message.SendEmail(subject, body, sender, recipient,0);
         }
