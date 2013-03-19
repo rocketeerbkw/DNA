@@ -6,6 +6,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Api;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Sites;
+using BBC.Dna.Utils;
 
 namespace BBC.Dna.Component
 {
@@ -220,6 +221,31 @@ namespace BBC.Dna.Component
                     {
                         newCanWrite = InputContext.GetParamIntOrZero("dnanewcanwrite", docNewCanWrite);
                     }
+
+                    #region Anonymous Posting
+
+                    int forumId = 0;
+                    if (InputContext.DoesParamExist("forumid", "Forum ID"))
+                    {
+                        forumId = InputContext.GetParamIntOrZero("forumid", "Forum ID");
+                    }
+
+                    bool anonymousPostingStatusExists = false;
+                    anonymousPostingStatusExists = InputContext.DoesParamExist("dnaanonymoussetting", "");
+                    if (anonymousPostingStatusExists && forumId != 0)
+                    {
+                        var anonPostVal = InputContext.GetParamStringOrEmpty("dnaanonymoussetting", "");
+                        if (anonPostVal.ToUpper() == "ALLOW")
+                        {
+                            if (InputContext.TheSiteList.GetSiteOptionValueBool(InputContext.CurrentSite.SiteID, "CommentForum", "AllowNotSignedInCommenting"))
+                            {
+                                var user = new Dna.Users.User(AppContext.ReaderCreator, AppContext.TheAppContext.Diagnostics, AppContext.DnaCacheManager);
+                                user.CreateAnonymousUserForForum(InputContext.CurrentSite.SiteID, forumId, "");
+                            }
+                        }
+                    }
+
+                    #endregion
 
                     if (newNewForumCloseDateExists || newModStatusExists || newNewCanWriteExists || newFastModStatusExists)
                     {
