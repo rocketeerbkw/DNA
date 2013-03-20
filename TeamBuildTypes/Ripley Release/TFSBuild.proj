@@ -247,31 +247,20 @@
     </BuildStep>
 
     <!-- Exec IPC$ command - get access to vp-dev-dna-web1-->
-    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /u:dna_admin sotzed03"></Exec>
-    <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /u:dna_admin sotzed03"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /u:dna_admin sotzed03"></Exec>
 
-
-    <Exec Command='"$(SolutionRoot)\Release\Source\ripley\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web2\wwwroot\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web2 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web2_deployripley.txt"' ContinueOnError='true'>
+    <Exec Command='"$(SolutionRoot)\Release\Source\ripley\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web3\wwwroot\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web3 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web3_deployripley.txt"' ContinueOnError='true' >
       <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
     </Exec>
-    <Error Text="Error while deploying to Web2: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
-
-    <Exec Command='"$(SolutionRoot)\Release\Source\ripley\deployripley.bat" "$(BinariesRoot)" "\\vp-dev-dna-web4\wwwroot\h2g2" "$(SolutionRoot)\Source\filter.reg" vp-dev-dna-web4 Release > "$(DropLocation)\$(BuildNumber)\vp-dev-dna-web4_deployripley.txt"' ContinueOnError='true' >
-      <Output TaskParameter="ExitCode" PropertyName="ErrorCode"/>
-    </Exec>
-    <Error Text="Error while deploying to Web4: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
+    <Error Text="Error while deploying to Web3: $(ErrorCode)" Condition="'$(ErrorCode)' > '0'" />
 
 
     <!-- Close Access to vp-dev-dna-web1 -->
-    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /D"></Exec>
-    <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /D"></Exec>
-
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /D"></Exec>
 
     <!-- warm up servers -->
-    <WebDownload FileUri="http://dnaweb2.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
-    <WebDownload FileUri="http://dnaweb4.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
-    
-
+    <WebDownload FileUri="http://dnaweb3.national.core.bbc.co.uk/dna/h2g2/status" FileName="templates.html" ContinueOnError="true" />
+ 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
@@ -282,12 +271,10 @@
 
   <Target Name="PostBuildStepFailed">
     <!-- start website to copy ripley -->
-    <Exec Command="sc \\vp-dev-dna-web2 start w3svc"></Exec>
     <Exec Command="sc \\vp-dev-dna-web3 start w3svc"></Exec>
 
     <!-- Close Access to vp-dev-dna-web1 -->
-    <Exec Command="NET USE \\vp-dev-dna-web2\IPC$ /D"></Exec>
-    <Exec Command="NET USE \\vp-dev-dna-web4\IPC$ /D"></Exec>
+    <Exec Command="NET USE \\vp-dev-dna-web3\IPC$ /D"></Exec>
     <!-- Change the status of the task to "Failed" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(PostBuildStepId)" Status="Failed" Condition=" '$(IsDesktopBuild)' != 'true' " />
   </Target>
