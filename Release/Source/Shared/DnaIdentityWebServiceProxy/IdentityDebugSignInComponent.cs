@@ -39,6 +39,28 @@ namespace DnaIdentityWebServiceProxy
             }
         }
 
+        private string DotNetKidUser
+        {
+            get
+            {
+                StringBuilder details = new StringBuilder();
+                details.Append("<signInDetails>");
+                details.Append(string.Format("<{0}>{1}</{0}>", "logInName", "DotNetNormalUser"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "identityUserID", "238011401921716226"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "displayName", "DotNetNormalUser"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "email", "tester@bbc.co.uk"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "cookie", "238011401921716226|DotNetNormalUser|DotNetNormalUser|0|DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
+                details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -10).ToString()));
+                details.Append("<namespaceAttributes>");
+                details.Append(string.Format("<{0}>{1}</{0}>", "cbbc_displayname", "PinkFluffyCloud"));
+                details.Append("</namespaceAttributes>");
+                details.Append("</signInDetails>");
+
+                return details.ToString();
+            }
+        }
+
         private string DotNetSuperUser
         {
             get
@@ -249,6 +271,10 @@ namespace DnaIdentityWebServiceProxy
             if (userID == "dotnetnormaluser")
             {
                 userDetails = DotNetNormalUser;
+            }
+            else if (userID == "dotnetkiduser")
+            {
+                userDetails = DotNetKidUser;
             }
             else if (userID == "dotnetsuperuser")
             {

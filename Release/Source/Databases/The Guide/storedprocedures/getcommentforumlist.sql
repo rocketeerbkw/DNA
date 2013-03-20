@@ -26,7 +26,8 @@ WITH CTE_COMMENTFORUMLIST AS
 	cf.ForumCloseDate 'ForumCloseDate', 
 	@total 'CommentForumListCount',
 	f.LastPosted 'LastUpdated',
-	case when fmf.forumid is null then 0 else 1 end 'fastmod'
+	case when fmf.forumid is null then 0 else 1 end 'fastmod',
+	cf.NotSignedInUserID
 	FROM CTE_COMMENTFORUMLIST tmp WITH(NOLOCK) 
 	INNER JOIN CommentForums cf WITH(NOLOCK) on tmp.Uid = cf.Uid
 	INNER JOIN Forums f WITH(NOLOCK) on cf.ForumID = f.ForumID
