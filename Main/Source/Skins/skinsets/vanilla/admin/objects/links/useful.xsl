@@ -23,6 +23,9 @@
 			<li><a href="{$moderationemail}">Contact Moderation Services team</a></li>		
 			<li><a href="https://confluence.dev.bbc.co.uk/display/DNA/DNA">DNA team wiki</a></li> <!-- or http://wikis.gateway.bbc.co.uk/confluence/display/DNA/DNA? -->
 			<li><a href="http://wikis.gateway.bbc.co.uk/confluence/pages/viewpageattachments.action?pageId=159711330">DNA Hosts' handbooks</a></li>
+      <xsl:if test="$dashboardtype = 'twitter' or $dashboardtype = 'all'">
+        <li><a href="https://confluence.dev.bbc.co.uk/display/spstweet/Tweet+Module+Admin+Console+User+Guide">Twitter module admin user guide</a></li>
+      </xsl:if>
 		</ul>
 	</xsl:template>
 	
