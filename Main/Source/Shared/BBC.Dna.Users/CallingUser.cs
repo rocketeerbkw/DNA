@@ -118,7 +118,7 @@ namespace BBC.Dna.Users
                                 SynchronizeUserSigninDetails(authenticatedUser.UserName, authenticatedUser.Email, authenticatedUser.LoginName);
 
                                 bool isKidsSite = _siteList.GetSiteOptionValueBool(siteID, "General", "IsKidsSite");
-                                if (_siteList.GetSiteOptionValueBool(siteID, "Comments", "UseIDv4") && isKidsSite)
+                                if (_siteList.GetSiteOptionValueBool(siteID, "CommentForum", "UseIDv4") && isKidsSite)
                                 {
                                     // Kids sites using iDv4 should set site suffix to the current displayname
                                     SynchroniseSiteSuffix(authenticatedUser.UserName);
