@@ -326,7 +326,7 @@ namespace FunctionalTests
 
             SetAnonymousStatusForSite(currentSiteId, true);
 
-            _request.RequestPage(string.Format("CommentForumList?dnasiteid={0}&skin=purexml",currentSiteId));
+            _request.RequestPage(string.Format("CommentForumList?dnasiteid={0}&skin=purexml&_ns=1",currentSiteId));
 
             XmlDocument xml = _request.GetLastResponseAsXML();
 
