@@ -326,7 +326,7 @@ namespace FunctionalTests
 
             SetAnonymousStatusForSite(currentSiteId, true);
 
-            _request.RequestPage(string.Format("CommentForumList?dnasiteid={0}&skin=purexml",currentSiteId));
+            _request.RequestPage(string.Format("CommentForumList?dnasiteid={0}&skin=purexml&_ns=1",currentSiteId));
 
             XmlDocument xml = _request.GetLastResponseAsXML();
 
@@ -338,20 +338,22 @@ namespace FunctionalTests
 
             var forumID = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + forumUID + "']/@FORUMID").Value;
 
-            DeleteAnonymousPostingForCommentForum(currentSiteId, Convert.ToInt32(forumID));
+            UpdateAnonymousPostingForCommentForum(currentSiteId, Convert.ToInt32(forumID));
 
-            _request.RequestPage(string.Format("CommentForumList?dnasiteid={0}&skin=purexml", currentSiteId));
+            _request.RequestPage(string.Format("CommentForumList?dnasiteid={0}&skin=purexml&_ns=1", currentSiteId));
 
-            node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + forumUID + "']/@NOTSIGNEDINUSERID");
+            XmlDocument xml1 = _request.GetLastResponseAsXML();
+
+            node = xml1.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + forumUID + "']/@NOTSIGNEDINUSERID");
             Assert.IsTrue(!string.IsNullOrEmpty(node.InnerText));
             Assert.AreEqual("0", node.InnerText);
 
             //Anonymous posting update on comment forum
-            string requesturl = "CommentForumList?dnaaction=update&dnauid=" + forumUID + "&dnaanonymoussetting=allow&forumid=" + forumID + "&skin=purexml";
+            string requesturl = "CommentForumList?dnaaction=update&dnauid=" + forumUID + "&dnaanonymoussetting=allow&forumid=" + forumID + "&skin=purexml&_ns=1";
             _request.RequestPage(requesturl);
 
-            xml = _request.GetLastResponseAsXML();
-            node = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + forumUID + "']/@NOTSIGNEDINUSERID");
+            XmlDocument xml2 = _request.GetLastResponseAsXML();
+            node = xml2.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + forumUID + "']/@NOTSIGNEDINUSERID");
             Assert.AreNotEqual("0", node.InnerText);
         }
 
@@ -857,7 +859,7 @@ namespace FunctionalTests
             }
         }
 
-        private void DeleteAnonymousPostingForCommentForum(int currentSiteId, int forumId)
+        private void UpdateAnonymousPostingForCommentForum(int currentSiteId, int forumId)
         {
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader reader = context.CreateDnaDataReader(""))
