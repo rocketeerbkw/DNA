@@ -89,12 +89,16 @@
               <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 5">
                 <xsl:variable name="siteId" select="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE"/>
                 <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 1">
-                  <li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteId}">Comment Forum List</a></li>
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE != 0">
+                    <li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteId}">Comment Forum List</a></li>
+                  </xsl:if>
                   <li><a href="twitterprofilelist" target="_blank">Tweet Module Admin Console</a></li>
                   <li><a href="/dna/moderation/moderationhome" target="_blank">Moderation Homepage</a></li>
                 </xsl:if>
                 <xsl:if test="/H2G2/VIEWING-USER/USER/STATUS = 2">
-                  <li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteId}">Comment Forum List</a></li>
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE != 0">
+                    <li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteId}">Comment Forum List</a></li>
+                  </xsl:if>
                   <li><a href="twitterprofilelist" target="_blank">Tweet Module Admin Console</a></li>
                   <li><a href="sitemanager">Site Manager</a></li>
                   <li><a href="userreputationreport">User Reputation Report</a></li>
