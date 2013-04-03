@@ -97,7 +97,7 @@ namespace BBC.Dna
         /// </summary>
         public string UserAgent
         {
-            get { return _request.UserAgent.Trim(); }
+            get { return _request.UserAgent; }
         }
 
         /// <summary>
