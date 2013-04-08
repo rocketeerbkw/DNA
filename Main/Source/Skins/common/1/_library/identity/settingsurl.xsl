@@ -19,7 +19,15 @@
     <xsl:template match="VIEWING-USER[USER or SIGNINNAME]" mode="library_identity_settingsurl">
         <xsl:param name="ptrt" />
         
-        <xsl:value-of select="concat($configuration/identity/url, '/users/dash?target_resource=')"/>
+		<xsl:choose>
+			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
+				<xsl:value-of select="concat($configuration/identity/url, '/settings?target_resource=')" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat($configuration/identity/url, '/users/dash?target_resource=')" />
+			</xsl:otherwise>
+		</xsl:choose>
+<!--         <xsl:value-of select="concat($configuration/identity/url, '/users/dash?target_resource=')"/> -->
         
         <xsl:call-template name="library_string_urlencode">
         	<xsl:with-param name="string">
