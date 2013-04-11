@@ -39,7 +39,7 @@ namespace BBC.Dna
         /// </summary>
         public string RawUrl
         {
-            get { return _request.RawUrl; }
+            get { return _request.RawUrl.Trim(); }
         }
         
         /// <summary>
@@ -139,7 +139,7 @@ namespace BBC.Dna
             string retval = String.Empty;
             if (TryGetParamString(paramName, ref retval, description))
             {
-                return retval;
+                return retval.Trim();
             }
             else
             {
@@ -237,7 +237,7 @@ namespace BBC.Dna
         {
             if (_request[paramName] != null)
             {
-                return _request.Params.GetValues(paramName).GetValue(index).ToString();
+                return _request.Params.GetValues(paramName).GetValue(index).ToString().Trim();
             }
             return string.Empty;
         }
