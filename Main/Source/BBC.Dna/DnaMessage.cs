@@ -109,6 +109,30 @@ namespace BBC.Dna
         }
 
         /// <summary>
+        /// Email queued in the database
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="sender"></param>
+        /// <param name="recipient"></param>
+        /// <param name="siteId"></param>
+        /// <param name="temp"></param>
+        private void SendEmail(string subject, string body, string sender, string recipient, int siteId, bool temp)
+        {
+            using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("queueemail"))
+            {
+                dataReader.AddParameter("toemailaddress", recipient);
+                dataReader.AddParameter("fromemailaddress", sender);
+                dataReader.AddParameter("subject", subject);
+                dataReader.AddParameter("body", body);
+                dataReader.AddParameter("priority", 1);
+                dataReader.AddParameter("notes", null);
+
+                dataReader.Execute();
+            }
+        }
+
+        /// <summary>
         /// Sends Email.
         /// Uses smtp server configuration from Web.Config.
         /// </summary>
