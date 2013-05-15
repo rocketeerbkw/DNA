@@ -822,4 +822,26 @@ Sql job needs to be created and scheduled for one hour time interval (can be cha
 This job updates the TopNMostCommentedForums table with the most recently commented 
 and most commented comment forums for blogs
  
-=======================================
+=======Database Mail System for Moderation Emails===========
+
+Srihari T
+
+Following stored procedures are required,
+
+Please run these in order.
+
+DBMail_Moderation.sql -> Setting up the Database Mail account and profile. Please make sure that the mailserver_name is changed
+						 according to the server used
+
+
+GetEmailBatchtosendtoDBMailSystem.sql -> Gets the Email batch from EmailQueue and queues them in msdb
+
+UpdateEmailQueueSentStatus.sql -> Updates the sent status of the EMail batch in the EmailQueue
+
+Sql job should be created and scheduled for every 30 mins (can be modified according the needs)
+'GetEmailBatchtosendtoDBMailSystem' stored procedure needs to be added as the task in this job. 
+
+Another sql job should be created and scheduled for every 30 mins ideally after the previous job's schedule (not mandatory)
+'UpdateEmailQueueSentStatus' stored procedure needs to be added as the task in this job. 
+
+Please turn on the email notification on job completion for both the jobs.
