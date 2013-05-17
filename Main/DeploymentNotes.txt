@@ -838,10 +838,14 @@ GetEmailBatchtosendtoDBMailSystem.sql -> Gets the Email batch from EmailQueue an
 
 UpdateEmailQueueSentStatus.sql -> Updates the sent status of the EMail batch in the EmailQueue
 
-Sql job should be created and scheduled for every 30 mins (can be modified according the needs)
+Job 1: Sql job should be created and scheduled for every 30 mins (can be modified according the needs)
 'GetEmailBatchtosendtoDBMailSystem' stored procedure needs to be added as the task in this job. 
 
-Another sql job should be created and scheduled for every 30 mins ideally after the previous job's schedule (not mandatory)
+Job 2: Another sql job should be created and scheduled for every 30 mins ideally after the previous job's schedule (not mandatory)
 'UpdateEmailQueueSentStatus' stored procedure needs to be added as the task in this job. 
 
 Please turn on the email notification on job completion for both the jobs.
+
+As a second step in the Job 2, please set the following to delete the mail items that are sent from the database email queue
+
+execute msdb.dbo.sysmail_delete_mailitems_sp @sent_status = 'sent'
