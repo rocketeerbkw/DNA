@@ -21,12 +21,13 @@
 	<xsl:variable name="serverenvironment">
 		<xsl:text>local</xsl:text>
 	</xsl:variable>
+	
 
-	<!-- live
+	<!-- live 
 	<xsl:variable name="serverenvironment">
 		<xsl:text>live</xsl:text>
 	</xsl:variable>
-	 -->
+   -->
 
 	<!-- stage
 	<xsl:variable name="serverenvironment">
@@ -66,14 +67,7 @@
 	<xsl:variable name="idURL">
 		<xsl:choose>
 			<xsl:when test="$serverenvironment = 'live'">
-				<xsl:choose>
-					<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
-						<xsl:text>https://ssl.bbc.co.uk/id</xsl:text>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>https://id.bbc.co.uk</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
+				<xsl:text>https://ssl.bbc.co.uk/id</xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
 				<xsl:text>https://www</xsl:text><xsl:value-of select="$idurlenv"/><xsl:text>.bbc.co.uk/id</xsl:text>
@@ -82,6 +76,7 @@
 				<xsl:text>https://id</xsl:text><xsl:value-of select="$idurlenv"/><xsl:text>.bbc.co.uk</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
+		<xsl:if test="contains(/H2G2/SITE/IDENTITYPOLICY, 'u16comment')">/cbbc</xsl:if>
 	</xsl:variable>
 
   <xsl:variable name="globalconfiguration">

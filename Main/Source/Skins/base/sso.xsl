@@ -175,11 +175,25 @@
 	</xsl:variable>	
 	
 	<xsl:variable name="id_params">
-		<xsl:value-of select="concat('target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, $referrer)" />
+		<xsl:choose>
+			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
+				<xsl:value-of select="concat('p=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, $referrer)" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat('target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, $referrer)" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:variable>
 	
 	<xsl:variable name="id_params_decoded">
-		<xsl:value-of select="concat('target_resource=', /H2G2/SITE/IDENTITYPOLICY, '&amp;ptrt=', $id_ptrt, $root, $referrer)" />
+		<xsl:choose>
+			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
+				<xsl:value-of select="concat('p=', /H2G2/SITE/IDENTITYPOLICY, '&amp;ptrt=', $id_ptrt, $root, $referrer)" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat('target_resource=', /H2G2/SITE/IDENTITYPOLICY, '&amp;ptrt=', $id_ptrt, $root, $referrer)" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:variable>
 	
 	<xsl:variable name="lastchar">
@@ -196,7 +210,7 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:choose>
-					<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'"><xsl:text>/settings?</xsl:text></xsl:when>
+					<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'"><xsl:text>/additionaldetails?</xsl:text></xsl:when>
 					<xsl:otherwise><xsl:text>/users/dash/more?</xsl:text></xsl:otherwise>
 				</xsl:choose>
 			</xsl:otherwise>
@@ -243,7 +257,7 @@
 	<xsl:variable name="id_morelink">
 		<xsl:choose>
 			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
-				<xsl:value-of select="concat($idURL, '/settings?', $id_params, $id_kids)" />
+				<xsl:value-of select="concat($idURL, '/additionaldetails?', $id_params, $id_kids)" />
 			</xsl:when>
 			<xsl:otherwise><xsl:value-of select="concat($idURL, '/users/dash/more?', $id_params, $id_kids)" /></xsl:otherwise>
 		</xsl:choose>
@@ -289,7 +303,7 @@
 					<xsl:otherwise>			
 						<xsl:choose>
 							<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
-								<xsl:value-of select="concat($idURL, '/register?target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, $referrer, $id_kids)" />
+								<xsl:value-of select="concat($idURL, '/register?p=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, $referrer, $id_kids)" />
 							</xsl:when>
 							<xsl:otherwise>
 								<xsl:value-of select="concat($idURL, '/users/register?target_resource=', $policy_encoded, '&amp;ptrt=', $id_ptrt, $root_encoded, $referrer, $id_kids)" />
