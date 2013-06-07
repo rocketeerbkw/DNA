@@ -61,6 +61,22 @@ namespace BBC.Dna.Moderation.Utils
             SignalHelper.AddObject(typeof(ProfanityFilter), this);
         }
 
+        #region More Logging
+
+        private static bool _traceOutput = true;
+        private static StringBuilder _callInfo = new StringBuilder();
+
+        private static void AddTimingInfoLine(string info)
+        {
+            if (_traceOutput)
+            {
+                _callInfo.AppendLine(info);
+            }
+            Trace.WriteLineIf(_traceOutput, info);
+        }
+
+        #endregion
+
         /// <summary>
         /// Initialises the terms list
         /// </summary>
@@ -130,6 +146,7 @@ namespace BBC.Dna.Moderation.Utils
                     throw ex;
                 }
             }
+
             AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), profanityCache);
         }
 
@@ -210,6 +227,7 @@ namespace BBC.Dna.Moderation.Utils
             //Updated the profanity cache to add the profanityid also
             
             var _profanityClasses = ((ProfanityCache)ProfanityFilter.GetObject().GetObjectFromCache()).ProfanityClasses;
+
             if (false == _profanityClasses.ModClassProfanities.ContainsKey(modClassID))
             {
                 matchingProfanity = string.Empty;
@@ -236,6 +254,11 @@ namespace BBC.Dna.Moderation.Utils
                 && _profanityClasses.ModClassProfanities[modClassID].ProfanityList.Count > 0)
             {
                 ModClassProfanityList = _profanityClasses.ModClassProfanities[modClassID].ProfanityList;
+               
+                AddTimingInfoLine("<* Moderation Class Profanity List Start *>");
+                AddTimingInfoLine("ModClassID = " + modClassID.ToString());
+                AddTimingInfoLine("No of Profanities found = " + ModClassProfanityList.Count.ToString());
+                AddTimingInfoLine("Mod Class Profanity List End");
             }
 
             if (_profanityClasses.ModClassProfanities != null && _profanityClasses.ModClassProfanities.Count > 0
@@ -244,6 +267,11 @@ namespace BBC.Dna.Moderation.Utils
                 && _profanityClasses.ModClassProfanities[modClassID].ReferList.Count > 0)
             {
                 ModClassReferList = _profanityClasses.ModClassProfanities[modClassID].ReferList;
+
+                AddTimingInfoLine("<* Moderation Class Refer List Start *>");
+                AddTimingInfoLine("ModClassID = " + modClassID.ToString());
+                AddTimingInfoLine("No of Refered terms found = " + ModClassReferList.Count.ToString());
+                AddTimingInfoLine("Mod Class Refer List End");
             }
 
             if (_profanityClasses.ForumProfanities != null && _profanityClasses.ForumProfanities.Count > 0
@@ -252,6 +280,11 @@ namespace BBC.Dna.Moderation.Utils
                 && _profanityClasses.ForumProfanities[forumID].ProfanityList.Count > 0)
             {
                 ForumProfanityList = _profanityClasses.ForumProfanities[forumID].ProfanityList;
+
+                AddTimingInfoLine("<* Forum Profanity List Start *>");
+                AddTimingInfoLine("ForumID = " + forumID.ToString());
+                AddTimingInfoLine("No of Profanities found = " + ForumProfanityList.Count.ToString());
+                AddTimingInfoLine("Forum Profanity List End");
             }
 
             if (_profanityClasses.ForumProfanities != null &&  _profanityClasses.ForumProfanities.Count > 0
@@ -260,21 +293,40 @@ namespace BBC.Dna.Moderation.Utils
                 && _profanityClasses.ForumProfanities[forumID].ReferList.Count > 0)
             {
                 ForumReferList = _profanityClasses.ForumProfanities[forumID].ReferList;
+
+                AddTimingInfoLine("<* Forum Refer List Start *>");
+                AddTimingInfoLine("ForumID = " + forumID.ToString());
+                AddTimingInfoLine("No of Refered terms found = " + ForumReferList.Count.ToString());
+                AddTimingInfoLine("Forum Refer List End");
             }
 
+            AddTimingInfoLine("<* Checking against ModClassProfanityList - Start *>");
             if (true == DoesTextContain(lowerText, ModClassProfanityList, false, false, out matchingProfanity, out terms, modClassID, true))
             {
+                AddTimingInfoLine("Matching Profanity = " + matchingProfanity);
+                AddTimingInfoLine("No of terms found = " + terms.Count.ToString());
+                AddTimingInfoLine("<* Checking against ModClassProfanityList - End *>");
                 return FilterState.FailBlock;
             }
             
+            AddTimingInfoLine("<* Checking against ForumProfanityList - Start *>");
             if (true == DoesTextContain(lowerText, ForumProfanityList, false, false, out matchingProfanity, out terms, forumID, false))
             {
+                AddTimingInfoLine("Matching Profanity = " + matchingProfanity);
+                AddTimingInfoLine("No of terms found = " + terms.Count.ToString());
+                AddTimingInfoLine("<* Checking against ForumProfanityList - End *>");
                 return FilterState.FailBlock;
             }
 
 
+            AddTimingInfoLine("<* Check for profanity from the modclass refer list first and then check against forum refer list *>");
+
             if (true == DoesTextContain(lowerText, ModClassReferList, false, false, out matchingProfanity, out terms, modClassID, true))
             {
+                AddTimingInfoLine("--ModClassReferList--");
+                AddTimingInfoLine("Matching Profanity = " + matchingProfanity);
+                AddTimingInfoLine("No of terms found = " + terms.Count.ToString());
+
                 List<Term> ReferTerms = new List<Term>();
                 Term referTerm;
                 foreach (Term term in terms)
@@ -306,7 +358,15 @@ namespace BBC.Dna.Moderation.Utils
 
                 if (true == DoesTextContain(lowerText, ForumReferList, false, false, out matchingProfanity, out terms, forumID, false))
                 {
+                    AddTimingInfoLine("--ForumReferList--");
+                    AddTimingInfoLine("Matching Profanity = " + matchingProfanity);
+                    AddTimingInfoLine("No of terms found = " + terms.Count.ToString());
+
+                    AddTimingInfoLine("Add the terms filtered by forum to the Terms filtered by Moderation Class");
+                    
                     ReferTerms.AddRange(terms.Where(x => !ReferTerms.Exists(z => z.Id == x.Id))); // Add the terms filtered by forum to the Terms filtered by Moderation Class
+
+                    AddTimingInfoLine("No of terms after addition  = " + ReferTerms.Count.ToString());
                 }
 
                 terms = ReferTerms;
@@ -319,11 +379,20 @@ namespace BBC.Dna.Moderation.Utils
                 matchingProfanity = strModClassProfanity + " " + matchingProfanity;
                 
                 matchingProfanity = matchingProfanity.Trim();
+                
+                AddTimingInfoLine("<* Check for profanity from the modclass refer list first and then check against forum refer list - End *>");
+                
                 return FilterState.FailRefer;
             }
-
+            
+            AddTimingInfoLine("<* Checking against the forum refer list - Start *>");
+            
             if(true == DoesTextContain(lowerText, ForumReferList, false, false, out matchingProfanity, out terms, forumID, false))
             {
+                AddTimingInfoLine("Matching Profanity = " + matchingProfanity);
+                AddTimingInfoLine("No of terms found = " + terms.Count.ToString());
+                AddTimingInfoLine("<* Checking against the forum refer list - End *>");
+
                 return FilterState.FailRefer;
             }
             return FilterState.Pass;
