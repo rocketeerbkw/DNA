@@ -20,5 +20,6 @@ begin
  from TopNMostCommentedForums    
  where SiteId = ISNULL(@siteid, siteid) and UID like ISNULL(@prefix,uid)
  and GroupName = 'MostRecentlyCommented' 
+ order by LastPosted desc
     
 end

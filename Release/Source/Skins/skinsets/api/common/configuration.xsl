@@ -21,12 +21,13 @@
 	<xsl:variable name="serverenvironment">
 		<xsl:text>local</xsl:text>
 	</xsl:variable>
+	
 
-	<!-- live
+	<!-- live 
 	<xsl:variable name="serverenvironment">
 		<xsl:text>live</xsl:text>
 	</xsl:variable>
-	 -->
+   -->
 
 	<!-- stage
 	<xsl:variable name="serverenvironment">
@@ -75,6 +76,7 @@
 				<xsl:text>https://id</xsl:text><xsl:value-of select="$idurlenv"/><xsl:text>.bbc.co.uk</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
+		<xsl:if test="contains(/H2G2/SITE/IDENTITYPOLICY, 'u16comment')">/cbbc</xsl:if>
 	</xsl:variable>
 
   <xsl:variable name="globalconfiguration">

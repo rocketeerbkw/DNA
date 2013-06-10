@@ -109,16 +109,34 @@ namespace BBC.Dna
         }
 
         /// <summary>
-        /// Sends Email.
-        /// Uses smtp server configuration from Web.Config.
+        /// Email queued in the database
         /// </summary>
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="sender"></param>
         /// <param name="recipient"></param>
         /// <param name="siteId"></param>
+        private void SendEmail(string subject, string body, string sender, string recipient, int siteId)
+        {
+            DatabaseEmailQueue emailQueue = new DatabaseEmailQueue(); 
+            IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
+            
+            emailQueue.QueueEmail(creator, recipient, sender, subject, body, string.Empty, DatabaseEmailQueue.EmailPriority.Medium);
+        }
+
+        /// <summary>
+        /// Sends Email.
+        /// Uses smtp server configuration from Web.Config.
+        /// This will be deprecated soon
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="sender"></param>
+        /// <param name="recipient"></param>
+        /// <param name="siteId"></param>
+        /// <param name="tmp"></param>
         /// <exception cref="DnaEmailException">If there is an error sending email.</exception>
-        public void SendEmail(string subject, string body, string sender, string recipient, int siteId)
+        public void SendEmail(string subject, string body, string sender, string recipient, int siteId, bool tmp)
         {
             string errorMessage = string.Empty;
             bool bEmailFailed = false;

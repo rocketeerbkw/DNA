@@ -49,9 +49,19 @@ namespace BBC.DNA.Monitoring
                 kpiList.ListOfKPIs.Add(ExtractStatsValue(statisticsDataNode, "AVERAGEREQUESTTIME", "AverageRequestTime"));
                 kpiList.ListOfKPIs.Add(ExtractStatsValue(statisticsDataNode, "SERVERBUSYCOUNT", "ServerTooBusyCount"));
                 kpiList.ListOfKPIs.Add(ExtractStatsValue(statisticsDataNode, "RAWREQUESTS", "RawRequests"));
-
-                kpiList.ListOfKPIs.Add(CreateServerTooBusyPctKpi(kpiList));
+                kpiList.ListOfKPIs.Add(CreateBadRequestKPI(false));
+                
             }
+            else
+            {
+                kpiList.ListOfKPIs.Add(ExtractStatsValue(null, "AVERAGEREQUESTTIME", "AverageRequestTime"));
+                kpiList.ListOfKPIs.Add(ExtractStatsValue(null, "SERVERBUSYCOUNT", "ServerTooBusyCount"));
+                kpiList.ListOfKPIs.Add(ExtractStatsValue(null, "RAWREQUESTS", "RawRequests"));
+                kpiList.ListOfKPIs.Add(CreateBadRequestKPI(true));
+                
+            }
+
+            kpiList.ListOfKPIs.Add(CreateServerTooBusyPctKpi(kpiList));
 
             return kpiList;
         }
@@ -77,11 +87,41 @@ namespace BBC.DNA.Monitoring
             return stbPct;
         }
 
+        /// <summary>
+        /// Stats for bad requests KPI
+        /// </summary>
+        /// <param name="isBadRequest"></param>
+        /// <returns></returns>
+        KPI CreateBadRequestKPI(bool isBadRequest)
+        {
+            KPI brPct = new KPI();
+            brPct.KPIName = "BadRequests";
+            brPct.Dt = DateTime.UtcNow;
+
+            if (isBadRequest)
+            {
+                brPct.KPIValue = 1;
+            }
+            else
+            {
+                brPct.KPIValue = 0;
+            }
+            return brPct;
+        }
+
         KPI ExtractStatsValue(XmlNode n, string nodeName, string KPIName)
         {
             KPI kpi = new KPI();
             kpi.KPIName = KPIName;
-            kpi.KPIValue = int.Parse(n.SelectSingleNode(nodeName).InnerText);
+            if (n != null)
+            {
+                kpi.KPIValue = int.Parse(n.SelectSingleNode(nodeName).InnerText);
+            }
+            else
+            {
+                kpi.KPIValue = 0;
+            }
+
             kpi.Dt = DateTime.UtcNow;
 
             return kpi;

@@ -66,7 +66,14 @@
 	<xsl:variable name="idURL">
 		<xsl:choose>
 			<xsl:when test="$serverenvironment = 'live'">
-				<xsl:text>https://ssl.bbc.co.uk/id</xsl:text>
+				<xsl:choose>
+					<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
+						<xsl:text>https://ssl.bbc.co.uk/id</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>https://id.bbc.co.uk</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:when>
 			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
 				<xsl:text>https://www</xsl:text><xsl:value-of select="$idurlenv"/><xsl:text>.bbc.co.uk/id</xsl:text>
