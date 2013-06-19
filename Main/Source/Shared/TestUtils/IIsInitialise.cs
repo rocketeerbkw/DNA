@@ -73,7 +73,14 @@ namespace Tests
 
             using (var dirEntry = new DirectoryEntry(entryName))
             {
-                dirEntry.Invoke("start");
+                if (start)
+                {
+                    dirEntry.Invoke("start");
+                }
+                else
+                {
+                    dirEntry.Invoke("stop");
+                }
             }
         }
 
