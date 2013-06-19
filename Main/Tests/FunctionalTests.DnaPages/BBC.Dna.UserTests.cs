@@ -55,7 +55,7 @@ namespace FunctionalTests
             SignInSystem signInType = SignInSystem.Identity;
             CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetModeratorAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
-            string policy = "http://identity/policies/dna/adult";
+            string policy = "comment";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, "", null, Guid.Empty));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
@@ -72,7 +72,7 @@ namespace FunctionalTests
             SignInSystem signInType = SignInSystem.Identity;
             CallingUser user = new CallingUser(signInType, context.ReaderCreator, null, null, TestUserAccounts.GetModeratorAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
-            string policy = "http://identity/policies/dna/adult";
+            string policy = "comment";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, TestUserAccounts.GetModeratorAccount.UserName, null, Guid.Empty));
             Assert.IsTrue(user.IsUserA(UserTypes.Moderator));
@@ -91,7 +91,7 @@ namespace FunctionalTests
             SignInSystem signInType = SignInSystem.Identity;
             CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetNormalUserAccount.Cookie;
-            string policy = "http://identity/policies/dna/adult";
+            string policy = "comment";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, "", null, Guid.Empty));
             Assert.IsTrue(user.IsUserA(UserTypes.NormalUser), "User should be a normal user");
@@ -111,7 +111,7 @@ namespace FunctionalTests
             SignInSystem signInType = SignInSystem.Identity;
             CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetEditorUserAccount.Cookie;
-            string policy = "http://identity/policies/dna/adult";
+            string policy = "comment";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, "", null, Guid.Empty));
             Assert.IsTrue(user.IsUserA(UserTypes.NormalUser), "User should be a normal user");
@@ -131,7 +131,7 @@ namespace FunctionalTests
             SignInSystem signInType = SignInSystem.Identity;
             CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetSuperUserAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetSuperUserAccount.Cookie;
-            string policy = "http://identity/policies/dna/adult";
+            string policy = "comment";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, "", null, Guid.Empty));
             Assert.IsFalse(user.IsUserA(UserTypes.NormalUser), "User should not be a normal user");
@@ -151,7 +151,7 @@ namespace FunctionalTests
             SignInSystem signInType = SignInSystem.Identity;
             CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetModeratorAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetModeratorAccount.Cookie;
-            string policy = "http://identity/policies/dna/adult";
+            string policy = "comment";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, "", null, Guid.Empty));
             Assert.IsTrue(user.IsUserA(UserTypes.NormalUser), "User should be a normal user");
@@ -171,7 +171,7 @@ namespace FunctionalTests
             SignInSystem signInType = SignInSystem.Identity;
             CallingUser user = new CallingUser(signInType, null, null, null, TestUserAccounts.GetNotableUserAccount.UserName, context.SiteList);
             string cookie = TestUserAccounts.GetNotableUserAccount.Cookie;
-            string policy = "http://identity/policies/dna/adult";
+            string policy = "comment";
             int siteID = 1;
             Assert.IsTrue(user.IsUserSignedIn(cookie, policy, siteID, "", null, Guid.Empty));
             Assert.IsTrue(user.IsUserA(UserTypes.NormalUser), "User should be a normal user");

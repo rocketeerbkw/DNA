@@ -875,7 +875,7 @@ return.";
             /*using (IDnaDataReader reader = DnaMockery.CreateDatabaseInputContext().CreateDnaDataReader(""))
             {
                 StringBuilder sql = new StringBuilder("exec setsiteoption 1,'SignIn','UseIdentitySignIn','1'");
-                sql.AppendLine("UPDATE Sites SET IdentityPolicy='http://identity/policies/dna/adult' WHERE SiteID=1");
+                sql.AppendLine("UPDATE Sites SET IdentityPolicy='comment' WHERE SiteID=1");
                 reader.ExecuteDEBUGONLY(sql.ToString());
             }
             using (FullInputContext inputContext = new FullInputContext(""))

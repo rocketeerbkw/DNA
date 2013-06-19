@@ -51,12 +51,62 @@ namespace Tests
             return _iisTestSite;
         }
 
+        private enum webSiteType { main, test };
+
+        private static void StopWebSite(webSiteType siteType)
+        {
+            StopStartWebSite(siteType, false);
+        }
+
+        private static void StartWebSite(webSiteType siteType)
+        {
+            StopStartWebSite(siteType, true);
+        }
+
+        private static void StopStartWebSite(webSiteType siteType, bool start)
+        {
+            string entryName = "IIS://LocalHost/W3SVC/1";
+            if (siteType == webSiteType.test)
+            {
+                entryName = "IIS://LocalHost/W3SVC/2";
+            }
+
+            using (var dirEntry = new DirectoryEntry(entryName))
+            {
+                dirEntry.Invoke("start");
+            }
+        }
+
+        private static void RestartMemCache()
+        {
+            // Memcached service
+            using (ServiceController memCacheService = new ServiceController("memcached Server"))
+            {
+                if (memCacheService != null && memCacheService.Container != null)
+                {
+                    TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
+
+                    // Stop the memcached service
+                    if (memCacheService.CanStop)
+                    {
+                        memCacheService.Stop();
+                        memCacheService.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
+                    }
+
+                    // start memcached service
+                    if (memCacheService.Status != ServiceControllerStatus.Running)
+                    {
+                        memCacheService.Start();
+                        memCacheService.WaitForStatus(ServiceControllerStatus.Running, timeout);
+                    }
+                }
+            }
+        }
+
         public void RestartTestSite()
         {
             RestoreDefaultSite();
-
             StartTestSite();
-
         }
 
         /// <summary>
@@ -67,34 +117,21 @@ namespace Tests
         /// </summary>
         private static void StartTestSite()
         {
-
-            //Memcached service
-            ServiceController service = new ServiceController("memcached Server");
-            TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
-
-            //Stop Default Site
-            DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC/1");
-            entry.Invoke("stop");
-
-            //Stop the memcached service
-            if (service.CanStop)
-            {
-                service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
-            }
-
-            //start memcached service
-            if (service.Status != ServiceControllerStatus.Running)
-            {
-                service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
-            }
-
-            //Start Test Site.
-            entry = new DirectoryEntry("IIS://LocalHost/W3SVC/2");
-            entry.Invoke("start");
-
+            // Stop Default Site
+            StopWebSite(webSiteType.main);
+            RestartMemCache();
+            StartWebSite(webSiteType.test);
             GetSites();
+        }
+
+        /// <summary>
+        /// Enable the Default web Site and stop test web site.
+        /// </summary>
+        private void RestoreDefaultSite()
+        {
+            StopWebSite(webSiteType.test);
+            RestartMemCache();
+            StartWebSite(webSiteType.main);
         }
 
         /// <summary>
@@ -103,14 +140,16 @@ namespace Tests
         /// </summary>
         private static void GetSites()
         {
-           //Enumerate Sites.
-            DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC");
-           foreach (DirectoryEntry site in entry.Children)
-           {
-                if (site.SchemaClassName == "IIsWebServer")
+            //Enumerate Sites.
+            using (DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC"))
+            {
+                foreach (DirectoryEntry site in entry.Children)
                 {
-                    string ServerComment = site.Properties["ServerComment"].Value.ToString();
-                    Console.WriteLine(ServerComment + " (" + site.Name + ")");
+                    if (site.SchemaClassName == "IIsWebServer")
+                    {
+                        string ServerComment = site.Properties["ServerComment"].Value.ToString();
+                        Console.WriteLine(ServerComment + " (" + site.Name + ")");
+                    }
                 }
             }
         }
@@ -123,17 +162,20 @@ namespace Tests
         {
             try
             {
-                DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC");
-                foreach (DirectoryEntry site in entry.Children)
+                using (DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC"))
                 {
-                    if (site.SchemaClassName == "IIsWebServer")
+                    foreach (DirectoryEntry site in entry.Children)
                     {
-                        string serverComment = site.Properties["ServerComment"].Value.ToString();
-                        if (serverComment == website)
+                        if (site.SchemaClassName == "IIsWebServer")
                         {
-                            DirectoryEntry rootVDir = new DirectoryEntry("IIS://localhost/W3SVC/" + site.Name + "/Root");
-                            string rootPath = rootVDir.Properties["Path"].Value.ToString();
-                            return rootPath;
+                            string serverComment = site.Properties["ServerComment"].Value.ToString();
+                            if (serverComment == website)
+                            {
+                                using (DirectoryEntry rootVDir = new DirectoryEntry("IIS://localhost/W3SVC/" + site.Name + "/Root"))
+                                {
+                                    return rootVDir.Properties["Path"].Value.ToString();
+                                }
+                            }
                         }
                     }
                 }
@@ -157,20 +199,24 @@ namespace Tests
         {
             try
             {
-                DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC");
-                foreach (DirectoryEntry site in entry.Children)
+                using (DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC"))
                 {
-                    if (site.SchemaClassName == "IIsWebServer")
+                    foreach (DirectoryEntry site in entry.Children)
                     {
-                        string serverComment = site.Properties["ServerComment"].Value.ToString();
-                        if (serverComment == website)
+                        if (site.SchemaClassName == "IIsWebServer")
                         {
-                            DirectoryEntry entries = site.Children.Find("Root", "IIsWebVirtualDir");
-                            foreach (DirectoryEntry vdir in entries.Children)
+                            string serverComment = site.Properties["ServerComment"].Value.ToString();
+                            if (serverComment == website)
                             {
-                                if ( vdir.Name == vdirname )
+                                using (DirectoryEntry entries = site.Children.Find("Root", "IIsWebVirtualDir"))
                                 {
-                                    return vdir.Properties["Path"].Value.ToString();
+                                    foreach (DirectoryEntry vdir in entries.Children)
+                                    {
+                                        if (vdir.Name == vdirname)
+                                        {
+                                            return vdir.Properties["Path"].Value.ToString();
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -197,21 +243,23 @@ namespace Tests
         {
             try
             {
-                DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC");
-                foreach (DirectoryEntry site in entry.Children)
+                using (DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC"))
                 {
-                    if (site.SchemaClassName == "IIsWebServer")
+                    foreach (DirectoryEntry site in entry.Children)
                     {
-                        string serverComment = site.Properties["ServerComment"].Value.ToString();
-                        if (serverComment == website)
+                        if (site.SchemaClassName == "IIsWebServer")
                         {
-                            DirectoryEntry entries = site.Children.Find("Root", "IIsWebVirtualDir");
-                            foreach (DirectoryEntry vdir in entries.Children)
+                            string serverComment = site.Properties["ServerComment"].Value.ToString();
+                            if (serverComment == website)
                             {
-                                if (vdir.Name == vdirname)
+                                DirectoryEntry entries = site.Children.Find("Root", "IIsWebVirtualDir");
+                                foreach (DirectoryEntry vdir in entries.Children)
                                 {
-                                    DirectoryEntry childEntry = vdir.Children.Find(childDirName, "IIsWebVirtualDir");
-                                    return childEntry.Properties["Path"].Value.ToString();
+                                    if (vdir.Name == vdirname)
+                                    {
+                                        DirectoryEntry childEntry = vdir.Children.Find(childDirName, "IIsWebVirtualDir");
+                                        return childEntry.Properties["Path"].Value.ToString();
+                                    }
                                 }
                             }
                         }
@@ -224,55 +272,6 @@ namespace Tests
             }
 
             return string.Empty;
-        }
-
-        /// <summary>
-        /// Enable the Default web Site and stop test web site.
-        /// </summary>
-        private void RestoreDefaultSite()
-        {
-
-            //Memcached service
-            ServiceController service = new ServiceController("memcached Server");
-            TimeSpan timeout = TimeSpan.FromMilliseconds(10000);
-
-
-            /*IIsAdministrator iisadmin = new IIsAdministrator();
-            IIsWebSite current = iisadmin.WebSites.ActiveWebSite;
-
-            if ( current != null )
-            {
-                if (current == iisadmin.WebSites[0])
-                {
-                    return;
-                }
-                current.Stop();
-            }
-
-            IIsWebSite defaultsite = iisadmin.WebSites[0];
-            defaultsite.Start();*/
-
-            //Start Test Site.
-            DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC/2");
-            entry.Invoke("stop");
-
-            //Stop the memcached service
-            if (service.CanStop)
-            {
-                service.Stop();
-                service.WaitForStatus(ServiceControllerStatus.Stopped, timeout);
-            }
-
-            //start memcached service
-            if (service.Status != ServiceControllerStatus.Running)
-            {
-                service.Start();
-                service.WaitForStatus(ServiceControllerStatus.Running, timeout);
-            }
-
-            //Stop Default Site
-            entry = new DirectoryEntry("IIS://LocalHost/W3SVC/1");
-            entry.Invoke("start");
         }
     }
 }

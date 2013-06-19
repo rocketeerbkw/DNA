@@ -8,15 +8,15 @@
 				<xs:element name="URLFRIENDLYNAME" type="xs:string" />
 				<xs:element name="RECOMMENDABLE" type="xs:unsignedByte" />
 				<xs:element name="H2G2ID" type="xs:unsignedInt" />
-				<xs:element name="SITEID" type="xs:unsignedByte" />
-				<xs:element name="INCUBATETIME" type="xs:unsignedByte" />
+				<xs:element name="SITEID" type="xs:unsignedInt" />
+				<xs:element name="INCUBATETIME" type="xs:unsignedInt" />
 				<xs:element name="REVIEWFORUMTHREADS" minOccurs="0">
 					<xs:complexType>
 						<xs:sequence>
 							<xs:element maxOccurs="unbounded" name="THREAD">
 								<xs:complexType>
 									<xs:sequence>
-										<xs:element name="THREADID" type="xs:unsignedByte" />
+										<xs:element name="THREADID" type="xs:unsignedInt" />
 										<xs:element name="H2G2ID" type="xs:unsignedInt" />
 										<xs:element name="SUBJECT" type="xs:string" />
 										<xs:element name="DATEPOSTED">
@@ -39,7 +39,7 @@
 													<xs:element name="USER">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element name="USERID" type="xs:unsignedByte" />
+																<xs:element name="USERID" type="xs:unsignedInt" />
 																<xs:element name="USERNAME" type="xs:string" />
 															</xs:sequence>
 														</xs:complexType>
@@ -53,7 +53,7 @@
 													<xs:element name="USER">
 														<xs:complexType>
 															<xs:sequence>
-																<xs:element name="USERID" type="xs:unsignedByte" />
+																<xs:element name="USERID" type="xs:unsignedInt" />
 															</xs:sequence>
 														</xs:complexType>
 													</xs:element>

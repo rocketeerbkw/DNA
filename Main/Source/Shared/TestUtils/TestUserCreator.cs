@@ -45,23 +45,28 @@ namespace TestUtils
         {
             if (policy == IdentityPolicies.Adult)
             {
-                return "http://identity/policies/dna/adult";
+                return "comment";
+                //return "comment";
             }
             else if (policy == IdentityPolicies.Kids)
             {
-                return "http://identity/policies/dna/kids";
+                return "u16comment";
+                // return "http://identity/policies/dna/kids";
             }
             else if (policy == IdentityPolicies.Over13)
             {
-                return "http://identity/policies/dna/over13";
+                return "u16comment";
+                // return "http://identity/policies/dna/over13";
             }
             else if (policy == IdentityPolicies.Schools)
             {
-                return "http://identity/policies/dna/schools";
+                return "u16comment";
+                // return "http://identity/policies/dna/schools";
             }
             else if (policy == IdentityPolicies.Blast)
             {
-                return "http://identity/policies/dna/blast";
+                return "u16comment";
+                // return "http://identity/policies/dna/blast";
             }
             return "";
         }

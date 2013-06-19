@@ -622,7 +622,7 @@ namespace DnaIdentityWebServiceProxy
         public string[] GetDnaPolicies()
         {
             List<string> policies = new List<string>();
-            policies.Add("http://identity/policies/dna/adult");
+            policies.Add("comment");
             policies.Add("http://identity/policies/dna/kids");
             policies.Add("http://identity/policies/dna/over13");
             policies.Add("http://identity/policies/dna/schools");
