@@ -104,7 +104,7 @@ namespace Tests
         private bool _useDebugIdentityUser = false;
         private bool _useDebugUserSecureCookie = true;
         private string _userName = "ProfileAPITest";
-        private string _password = "APITest";
+        private string _password = "789456123";
         private string _cookie = "1371802813306%7C0%7Cd1a33cc5a64612671527650f38ecba259f619aeae27d";
         private int _userid = 1090498911;
         private string _identityuserid = "";
