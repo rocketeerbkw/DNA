@@ -55,7 +55,7 @@ namespace TestUtils
             }
             else if (policy == IdentityPolicies.Over13)
             {
-                return "u16comment";
+                return "comment";
                 // return "http://identity/policies/dna/over13";
             }
             else if (policy == IdentityPolicies.Schools)
@@ -65,7 +65,7 @@ namespace TestUtils
             }
             else if (policy == IdentityPolicies.Blast)
             {
-                return "u16comment";
+                return "comment";
                 // return "http://identity/policies/dna/blast";
             }
             return "";
