@@ -71,7 +71,8 @@ namespace Tests
 
             SetDefaultDiagnostics(mockery, mockedInput);
 
-            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "comment");
+            // CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "comment");
 
             // Add the mocked datareader for getting the user info from the database.
             CreateMockedReaderForUserNotInDataBase(mockery, mockedInput);
@@ -160,8 +161,8 @@ namespace Tests
             SetDefaultDiagnostics(mockery, mockedInput2);
 
             // Add the site for the contexts
-            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
-            CreateMockedSite(mockery, mockedInput2, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "comment");
+            CreateMockedSite(mockery, mockedInput2, 1, "h2g2", "h2g2", true, "comment");
 
             // Add the mocked datareader for getting the user info from the database.
             CreateMockedReaderForUserNotInDataBase(mockery, mockedInput);
@@ -233,7 +234,7 @@ namespace Tests
 
             SetDefaultDiagnostics(mockery, mockedInput);
 
-            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "comment");
 
             // Add the mocked datareader for getting the user info from the database.
             IDnaDataReader mockedNormalUserReader = mockery.NewMock<IDnaDataReader>();
@@ -333,7 +334,7 @@ namespace Tests
             SetDefaultDiagnostics(mockery, mockedInput);
 
             // Add the site for the context
-            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "comment");
 
             // Add the mocked datareader for getting the user info from the database.
             CreateMockedReaderForUserNotInDataBase(mockery, mockedInput);
@@ -380,7 +381,7 @@ namespace Tests
 
             SetDefaultDiagnostics(mockery, mockedInput);
 
-            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            CreateMockedSite(mockery, mockedInput, 1, "h2g2", "h2g2", true, "comment");
 
             // Add the mocked datareader for getting the user info from the database.
             IDnaDataReader mockedNormalUserReader = mockery.NewMock<IDnaDataReader>();

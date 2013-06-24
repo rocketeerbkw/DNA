@@ -1803,7 +1803,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsNotNull(xml.SelectSingleNode("//bda:error/bda:code", nsmgr), "Failed to find the error code");
             Assert.AreEqual("FailedTermsAndConditions", xml.SelectSingleNode("//bda:error/bda:code", nsmgr).InnerText);
             Assert.IsNotNull(xml.SelectSingleNode("//bda:error/bda:detail", nsmgr), "Failed to find the error deatils");
-            Assert.AreEqual("http://identity/policies/dna/adult",
+            Assert.AreEqual("comment",
                             xml.SelectSingleNode("//bda:error/bda:detail", nsmgr).InnerText);
 
             Console.WriteLine("After CreateForumAsNonAgreedTermsAndConditionsUser");
@@ -1906,7 +1906,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsNotNull(xml.SelectSingleNode("//bda:error/bda:code", nsmgr), "Failed to find the error code");
             Assert.AreEqual("FailedTermsAndConditions", xml.SelectSingleNode("//bda:error/bda:code", nsmgr).InnerText);
             Assert.IsNotNull(xml.SelectSingleNode("//bda:error/bda:detail", nsmgr), "Failed to find the error deatils");
-            Assert.AreEqual("http://identity/policies/dna/adult",
+            Assert.AreEqual("comment",
                             xml.SelectSingleNode("//bda:error/bda:detail", nsmgr).InnerText);
 
             Console.WriteLine("After CreateCommentAsNonAgreedTermsAndConditionsUser");

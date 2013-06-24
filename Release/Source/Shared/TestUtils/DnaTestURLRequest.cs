@@ -104,8 +104,8 @@ namespace Tests
         private bool _useDebugIdentityUser = false;
         private bool _useDebugUserSecureCookie = true;
         private string _userName = "ProfileAPITest";
-        private string _password = "APITest";
-        private string _cookie = "44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00";
+        private string _password = "789456123";
+        private string _cookie = "1371802813306%7C0%7Cd1a33cc5a64612671527650f38ecba259f619aeae27d";
         private int _userid = 1090498911;
         private string _identityuserid = "";
         private string _server = "";
@@ -123,7 +123,7 @@ namespace Tests
 
         List<Cookie> _cookieList = new List<Cookie>();
 
-        private string _secureCookie = "44c5a3037b5a65b37bbef0f591cdf10e1d9e59903823a0cb01270e7da41e8e3b00";
+        private string _secureCookie = "4684ea5e963fc0a81324ff098bdc79c580a1a91f";
 
         /// <summary>
         /// The dispose method for cleaning up after ourselves
