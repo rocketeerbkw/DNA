@@ -116,7 +116,7 @@ namespace BBC.Dna
         /// <param name="sender"></param>
         /// <param name="recipient"></param>
         /// <param name="siteId"></param>
-        private void SendEmail(string subject, string body, string sender, string recipient, int siteId)
+        private void SendEmailViaDatabase(string subject, string body, string sender, string recipient, int siteId)
         {
             DatabaseEmailQueue emailQueue = new DatabaseEmailQueue(); 
             IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
@@ -134,9 +134,8 @@ namespace BBC.Dna
         /// <param name="sender"></param>
         /// <param name="recipient"></param>
         /// <param name="siteId"></param>
-        /// <param name="tmp"></param>
         /// <exception cref="DnaEmailException">If there is an error sending email.</exception>
-        public void SendEmail(string subject, string body, string sender, string recipient, int siteId, bool tmp)
+        public void SendEmail(string subject, string body, string sender, string recipient, int siteId)
         {
             string errorMessage = string.Empty;
             bool bEmailFailed = false;
@@ -179,21 +178,8 @@ namespace BBC.Dna
 
             if (bEmailFailed)
             {
-                string failedFrom = "From: " + sender + "\r\n";
-                string failedRecipient = "Recipient: " + recipient + "\r\n";
-                string failedEmail = failedFrom + failedRecipient + subject + "\r\n" + AddLineBreaks(body);
-
-                //Create filename out of date and random number.
-                string fileName = "M" + DateTime.Now.ToString("yyyyMMddhmmssffff");
-                Random random = new Random(body.Length);
-                fileName += "-" + random.Next().ToString() + ".txt";
-
-                //Failed to Send - write to Failed Emails Folder.
-                //Probably shouldn't be using a cache function for non-cache activity.
-                FileCache.PutItem(AppContext.TheAppContext.Config.CachePath, "failedmails", fileName, failedEmail);
-
-                //Removed as a failed email shouldn't kill the page response
-                //throw new DnaEmailException(sender, recipient, subject, body, errorMessage);
+                // Send the email to the database so we can try later. This is more secure than storing it locally to the server.
+                SendEmailViaDatabase(subject, body, sender, recipient, siteId);
             }
         }
 
