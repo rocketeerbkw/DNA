@@ -257,7 +257,6 @@ BEGIN
 		EXEC Error @ErrorCode
 		RETURN @ErrorCode
 	END
-	
 END
 
 DECLARE @newpost int
@@ -272,6 +271,12 @@ begin
 	update Preferences set ContentFailedOrEdited = 1
 	where userid =  @userid and siteid = @siteid
 	
+	-- failed anonymous posts should have their names removed as well as being hidden.
+	IF EXISTS (SELECT * FROM VCommentForums WHERE FORUMID = @ForumID AND NotSignedinUserID = @UserID)
+	BEGIN
+		UPDATE ThreadEntries WITH(HOLDLOCK) SET UserName = 'Anonymous User' WHERE EntryID = @PostID
+	END
+
 	--Add an event to the queue to say that the post has been hidden
 	EXEC addtoeventqueueinternal 'ET_POSTREVOKE', @threadid, 'IT_THREAD', @postid, 'IT_POST', @userid
 end
