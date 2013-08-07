@@ -381,6 +381,8 @@ namespace BBC.Dna.Api
 
         private void WriteFailedEmailToFile(string sender, string recipient, string subject, string body, string filenamePrefix)
         {
+            SendEmailViaDatabase(sender, recipient, subject, body, "Failed to Send via normal email", DatabaseEmailQueue.EmailPriority.High);
+            /*
             string failedFrom = "From: " + sender + "\r\n";
             string failedRecipient = "Recipient: " + recipient + "\r\n";
             string failedEmail = failedFrom + failedRecipient + subject + "\r\n" + body;
@@ -403,6 +405,7 @@ namespace BBC.Dna.Api
             }
 
             FileCaching.PutItem(DnaDiagnostics, FileCacheFolder, "failedmails", fileName, failedEmail);
+            */
         }
     }
 }

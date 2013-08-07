@@ -69,11 +69,11 @@ namespace FunctionalTests
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("select siteId from sites where urlname = 'haveyoursay'");
+                dataReader.ExecuteDEBUGONLY("select siteId from sites where urlname = 'mbiplayer'");
                 Assert.IsTrue(dataReader.Read());
                 siteId = dataReader.GetInt32NullAsZero("siteId");
 
-                dataReader.ExecuteDEBUGONLY("select MAX(ModID) AS ModId from threadmod where siteid = " + siteId + ")");
+                dataReader.ExecuteDEBUGONLY("select MAX(ModID) AS ModId from threadmod where siteid = " + siteId);
                 Assert.IsTrue(dataReader.Read());
 
                 modId = dataReader.GetInt32NullAsZero("ModId");
@@ -89,14 +89,14 @@ namespace FunctionalTests
 
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("update Sites set ModeratorsEmail = '" + moderatorEmail + "' where siteid = " + siteId + "");
+                dataReader.ExecuteDEBUGONLY("update Sites set ModeratorsEmail = '" + moderatorEmail + "' where siteid = " + siteId);
             }
 
-            DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
+            DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserEditor();
             request.UseEditorAuthentication = true;
             string url = "ModeratePosts?modclassid=1&postid=" + postId + "&threadid=" + threadId + "&modid=" + modId + "&siteid=" + siteId + "&decision=" + modStatus + "&threadModStatus=" + threadModStatus + "&skin=purexml";
-            request.RequestPage(@"url");
+            request.RequestPage(url);
 
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsTrue(xml.SelectSingleNode("H2G2") != null, "The page does not exist!!!");
