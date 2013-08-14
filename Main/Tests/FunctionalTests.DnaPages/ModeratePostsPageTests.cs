@@ -64,7 +64,10 @@ namespace FunctionalTests
             var siteId = 0;
             var notes = string.Empty;
             var moderatorEmail = "abc123xyz@bbc.co"; //change this to a proper email account for checking the dbmail's send status
-
+            var emailInsertText = "Hi, this has failed!";
+            var emailInsertName = "InsertForTesting";
+            var emailTemplateSubject = "Your Content Failed today : " + DateTime.Now.ToShortTimeString();
+            var emailTemplateBody = "We failed your content";
 
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
@@ -90,12 +93,14 @@ namespace FunctionalTests
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
                 dataReader.ExecuteDEBUGONLY("update Sites set ModeratorsEmail = '" + moderatorEmail + "' where siteid = " + siteId);
+                dataReader.ExecuteDEBUGONLY("exec addsiteemailinsert " + siteId + ", '" + emailInsertName + "', 'House Rules', '" + emailInsertText + "'");
+                dataReader.ExecuteDEBUGONLY("addnewemailtemplate 4, 'ContentRemovedEmail', '" + emailTemplateSubject + "', '" + emailTemplateBody + "'");
             }
 
             DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserEditor();
             request.UseEditorAuthentication = true;
-            string url = "ModeratePosts?modclassid=1&postid=" + postId + "&threadid=" + threadId + "&modid=" + modId + "&siteid=" + siteId + "&decision=" + modStatus + "&threadModStatus=" + threadModStatus + "&skin=purexml";
+            string url = "ModeratePosts?forumid=" + forumId + "&modclassid=1&postid=" + postId + "&threadid=" + threadId + "&modid=" + modId + "&siteid=" + siteId + "&decision=" + (int)modStatus + "&threadModStatus=" + threadModStatus + "&emailtype=" + emailInsertName + "&skin=purexml";
             request.RequestPage(url);
 
             XmlDocument xml = request.GetLastResponseAsXML();
@@ -103,8 +108,13 @@ namespace FunctionalTests
 
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("select * from EmailQueue where ToEmailAddress = '" + moderatorEmail + "'");
+                StringBuilder sql = new StringBuilder();
+                sql.AppendLine("EXEC openemailaddresskey");
+                sql.AppendLine("select top 1 dbo.udf_decryptemailaddress(FromEmailAddress,id) as FromEmailAddress, dbo.udf_decrypttext(body,id) as body from EmailQueue order by id desc");
+                dataReader.ExecuteDEBUGONLY(sql.ToString());
                 Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual(moderatorEmail, dataReader.GetString("fromemailaddress"));
+                Assert.AreEqual(emailTemplateBody, dataReader.GetString("body"));
             }
         }
 
