@@ -157,10 +157,10 @@ namespace BBC.Dna.Utils.Tests
                              "This is a test post for ##FactsWithoutWikipedia",
                              "This is a test post for #FactsWithoutWikipedia and #TheBestThingInLifeIs",
                              "This is a test post for #FactsWithoutWikipedia_1"};
-            string[] expected = {"This is a test post for <a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a>",
-                "This is a test post for #<a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a>",
-                "This is a test post for <a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a> and <a href=\"http://search.twitter.com/search?q=%23TheBestThingInLifeIs\" target=\"_blank\">#TheBestThingInLifeIs</a>",
-                "This is a test post for <a href=\"http://search.twitter.com/search?q=%23FactsWithoutWikipedia_1\" target=\"_blank\">#FactsWithoutWikipedia_1</a>"};
+            string[] expected = {"This is a test post for <a href=\"http://twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a>",
+                "This is a test post for #<a href=\"http://twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a>",
+                "This is a test post for <a href=\"http://twitter.com/search?q=%23FactsWithoutWikipedia\" target=\"_blank\">#FactsWithoutWikipedia</a> and <a href=\"http://twitter.com/search?q=%23TheBestThingInLifeIs\" target=\"_blank\">#TheBestThingInLifeIs</a>",
+                "This is a test post for <a href=\"http://twitter.com/search?q=%23FactsWithoutWikipedia_1\" target=\"_blank\">#FactsWithoutWikipedia_1</a>"};
             for (int postIndex = 0; postIndex < input.Length; postIndex++)
             {
                 Assert.AreEqual(expected[postIndex], LinkTranslator.TranslateTwitterTags(input[postIndex]));
@@ -171,7 +171,7 @@ namespace BBC.Dna.Utils.Tests
         public void TranslateTwitterDetails_PassValidText_ReturnCorrectResult()
         {
             string[] input = {"This is a test post from @#srihari03" };
-            string[] expected = {"This is a test post from @<a href=\"http://search.twitter.com/search?q=%23srihari03\" target=\"_blank\">#srihari03</a>"};
+            string[] expected = {"This is a test post from @<a href=\"http://twitter.com/search?q=%23srihari03\" target=\"_blank\">#srihari03</a>"};
             for (int postIndex = 0; postIndex < input.Length; postIndex++)
             {
                 Assert.AreEqual(expected[postIndex], LinkTranslator.TranslateTwitterTags(input[postIndex]));
