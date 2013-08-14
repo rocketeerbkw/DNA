@@ -16,6 +16,12 @@ namespace FunctionalTests
     [TestClass]
     public class ModeratePostsPageTests
     {
+        [TestInitialize]
+        public void RestoreDatabase()
+        {
+            SnapshotInitialisation.RestoreFromSnapshot();
+        }
+
         /// <summary>
         /// Check Normal User Does not have access .
         /// </summary>
@@ -64,10 +70,10 @@ namespace FunctionalTests
             var siteId = 0;
             var notes = string.Empty;
             var moderatorEmail = "abc123xyz@bbc.co"; //change this to a proper email account for checking the dbmail's send status
-            var emailInsertText = "Hi, this has failed!";
+            var emailInsertText = "You Numpty!";
             var emailInsertName = "InsertForTesting";
             var emailTemplateSubject = "Your Content Failed today : " + DateTime.Now.ToShortTimeString();
-            var emailTemplateBody = "We failed your content";
+            var emailTemplateBody = @"We failed your content ++**inserted_text**++";
 
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
@@ -114,7 +120,7 @@ namespace FunctionalTests
                 dataReader.ExecuteDEBUGONLY(sql.ToString());
                 Assert.IsTrue(dataReader.Read());
                 Assert.AreEqual(moderatorEmail, dataReader.GetString("fromemailaddress"));
-                Assert.AreEqual(emailTemplateBody, dataReader.GetString("body"));
+                Assert.AreEqual(emailTemplateBody.Replace("++**inserted_text**++", emailInsertText), dataReader.GetString("body"));
             }
         }
 
