@@ -19,7 +19,7 @@ namespace FunctionalTests
         [TestInitialize]
         public void RestoreDatabase()
         {
-            SnapshotInitialisation.RestoreFromSnapshot();
+            SnapshotInitialisation.RestoreFromSnapshot(true);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace FunctionalTests
             var modId = 0;
             var siteId = 0;
             var notes = string.Empty;
-            var moderatorEmail = "abc123xyz@bbc.co"; //change this to a proper email account for checking the dbmail's send status
+            var moderatorEmail = "";
             var emailInsertText = "You Numpty!";
             var emailInsertName = "InsertForTesting";
             var emailTemplateSubject = "Your Content Failed today : " + DateTime.Now.ToShortTimeString();
@@ -98,7 +98,9 @@ namespace FunctionalTests
 
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("update Sites set ModeratorsEmail = '" + moderatorEmail + "' where siteid = " + siteId);
+                dataReader.ExecuteDEBUGONLY("select ModeratorsEmail from Sites where siteid = " + siteId);
+                dataReader.Read();
+                moderatorEmail = dataReader.GetString("ModeratorsEmail");
                 dataReader.ExecuteDEBUGONLY("exec addsiteemailinsert " + siteId + ", '" + emailInsertName + "', 'House Rules', '" + emailInsertText + "'");
                 dataReader.ExecuteDEBUGONLY("addnewemailtemplate 4, 'ContentRemovedEmail', '" + emailTemplateSubject + "', '" + emailTemplateBody + "'");
             }

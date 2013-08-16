@@ -34,7 +34,7 @@ namespace FunctionalTests
         {
             try
             {
-                SnapshotInitialisation.RestoreFromSnapshot();
+                SnapshotInitialisation.RestoreFromSnapshot(true);
             }
             catch { }
         }
