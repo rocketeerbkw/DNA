@@ -18,7 +18,17 @@
     <xsl:template match="VIEWING-USER" mode="library_identity_loginurl">
         <xsl:param name="ptrt" />
         <xsl:param name="loc" />
-      <xsl:value-of select="concat($configuration/identity/url, '/users/login?target_resource=')"/>
+        
+        <xsl:choose>
+			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
+				<xsl:value-of select="concat($configuration/identity/url, '/signin?p=')"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="concat($configuration/identity/url, '/users/login?target_resource=')"/>
+			</xsl:otherwise>
+		</xsl:choose>
+        
+<!--       <xsl:value-of select="concat($configuration/identity/url, '/users/login?target_resource=')"/> -->
     	
     	<!-- hard coded hack to allow the sign in link to show the 'contact me' details in have your say -->
 	    <xsl:variable name="policy">	

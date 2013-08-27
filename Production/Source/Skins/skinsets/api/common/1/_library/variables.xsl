@@ -50,21 +50,18 @@
                 
             </xsl:when>
             <xsl:otherwise>
-                
-                
-                
-                <!-- naughty, but helps with proper environment -->
-                <!--
-                <xsl:if test="/H2G2/SERVERNAME = 'PC-S039222'">
-                    <xsl:text>http://ops-dev14.national.core.bbc.co.uk:8584</xsl:text>
-                </xsl:if>
-                -->
-                
-                <xsl:text>/dna/</xsl:text>
-                <!--cater for staging instance-->
-                <!--<xsl:if test="/H2G2/SERVERNAME = 'NMSDNA0'">
-                    <xsl:text>staging/</xsl:text>
-                </xsl:if>-->
+				<xsl:choose>
+					<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
+						<xsl:choose>
+							<xsl:when test="$serverenvironment = 'int'">/dna/int/</xsl:when>
+							<xsl:when test="$serverenvironment = 'test'">/dna/test/</xsl:when>
+							<xsl:when test="$serverenvironment = 'stable'">/dna/stable/</xsl:when>
+							<xsl:otherwise>/dna/</xsl:otherwise>
+						</xsl:choose>
+					</xsl:when>
+					<xsl:otherwise>/dna/</xsl:otherwise>
+				</xsl:choose>
+
                 <xsl:choose>
                     <xsl:when test="/H2G2/SITE/NAME">
                         <xsl:value-of select="/H2G2/SITE/NAME"/>

@@ -1849,25 +1849,6 @@
     </xsl:choose>
 </xsl:template>
 
-  <xsl:variable name="houserulespopupurl">
-    <xsl:choose>
-      <xsl:when test="/H2G2/SITE/IDENTITYSIGNIN='1' and /H2G2/SITE/IDENTITYPOLICY='http://identity/policies/dna/over13'">
-        <xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_house_rules_teens.html</xsl:text>
-      </xsl:when>
-      <xsl:when test="/H2G2/SITE/IDENTITYSIGNIN='1' and /H2G2/SITE/IDENTITYPOLICY='http://identity/policies/dna/schools'">
-        <xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_house_rules_schools.html</xsl:text>
-      </xsl:when>
-      <xsl:otherwise>
-        <!-- Default to adult -->
-        <xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html</xsl:text>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:variable>
-
-  <xsl:variable name="faqpopupurl">
-    <xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_faq_index.html</xsl:text>
-  </xsl:variable>
-  
 	<xsl:template name="chooseassetsuffix">
 		<xsl:param name="mimetype"/>
 		<xsl:choose>

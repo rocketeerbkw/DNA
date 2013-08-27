@@ -35,9 +35,10 @@
             </xs:sequence>            
             <xs:attribute name="UID" type="xs:string" use="required" />
             <xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
-			<xs:attribute name="FORUMPOSTCOUNT" type="xs:unsignedByte" use="required" />
-			<xs:attribute name="FORUMPOSTLIMIT" type="xs:unsignedByte" use="required" />
-			<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+			      <xs:attribute name="FORUMPOSTCOUNT" type="xs:unsignedByte" use="required" />
+			      <xs:attribute name="FORUMPOSTLIMIT" type="xs:unsignedByte" use="required" />
+			      <xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="NOTSIGNEDINUSERID" type="xs:unsignedInt" use="required"/>
           </xs:complexType>
         </xs:element>
       </xs:sequence>

@@ -109,8 +109,25 @@ namespace BBC.Dna
         }
 
         /// <summary>
+        /// Email queued in the database
+        /// </summary>
+        /// <param name="subject"></param>
+        /// <param name="body"></param>
+        /// <param name="sender"></param>
+        /// <param name="recipient"></param>
+        /// <param name="siteId"></param>
+        private void SendEmailViaDatabase(string subject, string body, string sender, string recipient, int siteId)
+        {
+            DatabaseEmailQueue emailQueue = new DatabaseEmailQueue(); 
+            IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
+            
+            emailQueue.QueueEmail(creator, recipient, sender, subject, body, string.Empty, DatabaseEmailQueue.EmailPriority.Medium);
+        }
+
+        /// <summary>
         /// Sends Email.
         /// Uses smtp server configuration from Web.Config.
+        /// This will be deprecated soon
         /// </summary>
         /// <param name="subject"></param>
         /// <param name="body"></param>
@@ -126,7 +143,7 @@ namespace BBC.Dna
             var isRtlSite = InputContext.TheSiteList.GetSiteOptionValueBool(siteId, "General", "RTLSite");
             if (isRtlSite)
             {
-                body = "<html dir='rtl'><body>" + body + "</body></html>";
+                body = "<html dir='rtl'><body>" + body.Replace("\n\r", "<br/>").Replace("\n", "<br/>") + "</body></html>";
                 //subject = "<html dir='rtl'>" + subject + "</html>";
             }
 
@@ -161,21 +178,8 @@ namespace BBC.Dna
 
             if (bEmailFailed)
             {
-                string failedFrom = "From: " + sender + "\r\n";
-                string failedRecipient = "Recipient: " + recipient + "\r\n";
-                string failedEmail = failedFrom + failedRecipient + subject + "\r\n" + AddLineBreaks(body);
-
-                //Create filename out of date and random number.
-                string fileName = "M" + DateTime.Now.ToString("yyyyMMddhmmssffff");
-                Random random = new Random(body.Length);
-                fileName += "-" + random.Next().ToString() + ".txt";
-
-                //Failed to Send - write to Failed Emails Folder.
-                //Probably shouldn't be using a cache function for non-cache activity.
-                FileCache.PutItem(AppContext.TheAppContext.Config.CachePath, "failedmails", fileName, failedEmail);
-
-                //Removed as a failed email shouldn't kill the page response
-                //throw new DnaEmailException(sender, recipient, subject, body, errorMessage);
+                // Send the email to the database so we can try later. This is more secure than storing it locally to the server.
+                SendEmailViaDatabase(subject, body, sender, recipient, siteId);
             }
         }
 

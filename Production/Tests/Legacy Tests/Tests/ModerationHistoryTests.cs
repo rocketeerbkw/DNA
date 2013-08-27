@@ -94,7 +94,7 @@ namespace Tests
                 string IpAddress = "192.168.238.1";
                 Guid BBCUid = new Guid();
 
-                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "comment");
                 modId = RegisterTestComplaint(context, postId, userId, modId, email, complaintText, IpAddress, BBCUid);
 
                 ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
@@ -169,7 +169,7 @@ namespace Tests
                 Stub.On(context).Method("GetParamIntOrZero").With("h2g2id", "h2g2id").Will(Return.Value(0));
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
-                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "comment");
                 ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
                 Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));
                 Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(siteList));
@@ -238,7 +238,7 @@ namespace Tests
                 Stub.On(context).Method("GetParamIntOrZero").With("h2g2id", "h2g2id").Will(Return.Value(0));
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
-                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "comment");
                 ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
                 Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));
                 Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(siteList));
@@ -301,7 +301,7 @@ namespace Tests
                 Stub.On(context).Method("GetParamIntOrZero").With("h2g2id", "h2g2id").Will(Return.Value(0));
                 Stub.On(context).Method("GetParamStringOrEmpty").With("exlinkurl", "exlinkurl").Will(Return.Value(""));
 
-                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+                ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "comment");
                 ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
                 Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));
                 Stub.On(context).GetProperty("TheSiteList").Will(Return.Value(siteList));

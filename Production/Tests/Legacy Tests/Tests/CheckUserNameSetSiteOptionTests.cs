@@ -51,7 +51,7 @@ namespace Tests
             IDnaIdentityWebServiceProxy mockedProfileAPI = DnaMockery.CreateMockedProfileConnection(context, userID, "testUser", "BBCUID-Testing", "a@b.c", userID.ToString() + "123456789012345678901234567890abcdefghijklmnopqrstuvwxyz", true);
 
             // Create a mocked site
-            ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "comment");
 
             // Create the site options for the new mocked site
             SiteOptionList siteOptionList = new SiteOptionList();
@@ -87,7 +87,7 @@ namespace Tests
             IDnaIdentityWebServiceProxy mockedProfileAPI = DnaMockery.CreateMockedProfileConnection(context, userID, "testUser", "BBCUID-Testing", "a@b.c", userID.ToString() + "123456789012345678901234567890abcdefghijklmnopqrstuvwxyz", true);
 
             // Create a mocked site
-            ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "comment");
 
             SiteOptionList siteOptionList = new SiteOptionList();
             siteOptionList.CreateFromDatabase(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default);
@@ -122,7 +122,7 @@ namespace Tests
             IDnaIdentityWebServiceProxy mockedProfileAPI = DnaMockery.CreateMockedProfileConnection(context, userID, "testUser", "BBCUID-Testing", "a@b.c", userID.ToString() + "123456789012345678901234567890abcdefghijklmnopqrstuvwxyz", true);
 
             // Create a mocked site
-            ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            ISite mockedSite = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "comment");
 
             SiteOptionList siteOptionList = new SiteOptionList();
             siteOptionList.CreateFromDatabase(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default);

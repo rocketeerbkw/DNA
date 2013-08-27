@@ -99,7 +99,15 @@
 							<xsl:attribute name="class">selected</xsl:attribute>
 						</xsl:if>
 						<a href="hostdashboard?s_type=4{$dashboardsiteuser}" class="stories">Stories <xsl:apply-templates select="MODERATOR-HOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'EmbeddedComments']" mode="objects_moderator_actionitemtotal" /></a>
-					</li>																
+					</li>
+          <li>
+            <xsl:if test="PARAMS/PARAM[NAME = 's_type']/VALUE = '5'">
+              <xsl:attribute name="class">selected</xsl:attribute>
+            </xsl:if>
+            <a href="hostdashboard?s_type=5{$dashboardsiteuser}" class="twitter">
+              Twitter_Sites <xsl:apply-templates select="MODERATOR-HOME/MODERATOR/ACTIONITEMS/ACTIONITEM[TYPE = 'Twitter']" mode="objects_moderator_actionitemtotal" />
+            </a>
+          </li>
 				</xsl:otherwise>
 			</xsl:choose>
 		</ul>

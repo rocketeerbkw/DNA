@@ -315,6 +315,49 @@ namespace FunctionalTests
         }
 
         /// <summary>
+        /// Testing the anonymous posting status of a comment forum
+        /// </summary>
+        [TestMethod]
+        public void Test25UpdateAnonymousPostingStatusForCommentForumTest()
+        {
+            Console.WriteLine("Test25UpdateAnonymousPostingStatusForCommentForumTest");
+
+            int currentSiteId = GetSiteIdForSite("haveyoursay");
+
+            SetAnonymousStatusForSite(currentSiteId, true);
+
+            _request.RequestPage(string.Format("CommentForumList?dnasiteid={0}&skin=purexml&_ns=1",currentSiteId));
+
+            XmlDocument xml = _request.GetLastResponseAsXML();
+
+            XmlNode node;
+            node = xml.SelectSingleNode("H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'AllowNotSignedInCommenting']/VALUE");
+            Assert.AreEqual("1", node.InnerText);
+
+            var forumUID = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM/@UID").Value;
+
+            var forumID = xml.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + forumUID + "']/@FORUMID").Value;
+
+            UpdateAnonymousPostingForCommentForum(currentSiteId, Convert.ToInt32(forumID));
+
+            _request.RequestPage(string.Format("CommentForumList?dnasiteid={0}&skin=purexml&_ns=1", currentSiteId));
+
+            XmlDocument xml1 = _request.GetLastResponseAsXML();
+
+            node = xml1.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + forumUID + "']/@NOTSIGNEDINUSERID");
+            Assert.IsTrue(!string.IsNullOrEmpty(node.InnerText));
+            Assert.AreEqual("0", node.InnerText);
+
+            //Anonymous posting update on comment forum
+            string requesturl = "CommentForumList?dnaaction=update&dnauid=" + forumUID + "&dnaanonymoussetting=allow&forumid=" + forumID + "&skin=purexml&_ns=1";
+            _request.RequestPage(requesturl);
+
+            XmlDocument xml2 = _request.GetLastResponseAsXML();
+            node = xml2.SelectSingleNode("H2G2/COMMENTFORUMLIST/COMMENTFORUM[@UID='" + forumUID + "']/@NOTSIGNEDINUSERID");
+            Assert.AreNotEqual("0", node.InnerText);
+        }
+
+        /// <summary>
         /// Testing the comment forum doesn't get updated with invalid parameters
         /// </summary>
         [TestMethod]
@@ -787,6 +830,45 @@ namespace FunctionalTests
             XmlNode node;
             node = xml.SelectSingleNode("H2G2/ERROR/ERRORMESSAGE");
             Assert.IsTrue(node.InnerText.ToLower().Contains(errorMess.ToLower()), "Wrong Error - Wanted '" + errorMess + "', but got '" + node.InnerText);
+        }
+
+        private void SetAnonymousStatusForSite(int currentSiteId, bool setAnonymous)
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader reader = context.CreateDnaDataReader(""))
+            {
+                var anonymousStatus = string.Empty;
+
+                if (setAnonymous)
+                {
+                    anonymousStatus = "1";
+                }
+                else
+                {
+                    anonymousStatus = "0";
+                }
+
+                var deleteSQL = string.Format(@"delete from siteoptions where siteid = {0} and name = 'AllowNotSignedInCommenting' and section = 'CommentForum'", currentSiteId);
+
+                reader.ExecuteDEBUGONLY(deleteSQL);
+                
+                var sql = @"insert into SiteOptions(Section,SiteID,Name,Value,[Type],[Description])
+                        values('CommentForum'," + currentSiteId + ",'AllowNotSignedInCommenting','" + anonymousStatus + "',1,'Whether comment forums can be used with non-signed in users.')";
+                
+                reader.ExecuteDEBUGONLY(sql);
+            }
+        }
+
+        private void UpdateAnonymousPostingForCommentForum(int currentSiteId, int forumId)
+        {
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader reader = context.CreateDnaDataReader(""))
+            {
+
+                var updateSQL = string.Format(@"update commentforums set NotSignedInUserId = 0 where siteid = {0} and forumid = {1}", currentSiteId, forumId);
+
+                reader.ExecuteDEBUGONLY(updateSQL);
+            }
         }
     }
 }

@@ -22,13 +22,13 @@
   
   	<xsl:variable name="profiletype">
 		<xsl:choose>
-			<xsl:when test="/H2G2/PROFILE">Update</xsl:when>
+			<xsl:when test="/H2G2/PROFILE/EXISTS">Update</xsl:when>
 			<xsl:otherwise>Create</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
   	<xsl:variable name="lowerprofiletype">
 		<xsl:choose>
-			<xsl:when test="/H2G2/PROFILE">update</xsl:when>
+			<xsl:when test="/H2G2/PROFILE/EXISTS">update</xsl:when>
 			<xsl:otherwise>create</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>	
@@ -132,6 +132,8 @@
 										<xsl:attribute name="checked">checked</xsl:attribute>
 									</xsl:if>
 								</input>
+
+                <input type="hidden" name="moderated" value="true"/>
     							
 								<!--<label for="moderated">Moderated:</label>
 								<input type="checkbox" name="moderated" id="moderated" value="true">
@@ -144,7 +146,7 @@
 						<ul class="dna-buttons profile">
 							<xsl:variable name="sitetype" select="/H2G2/TWITTERPROFILE/@SITENAME" />
 							
-							<xsl:if test="/H2G2/PROFILE">
+							<xsl:if test="/H2G2/PROFILE/EXISTS">
 								<input type="hidden" name="s_action" value="updateprofile" />
 							</xsl:if>
 							<input type="hidden" name="action" value="createupdateprofile" />

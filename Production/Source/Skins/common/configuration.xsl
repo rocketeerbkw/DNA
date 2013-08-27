@@ -17,9 +17,80 @@
     </doc:notes>
   </doc:documentation>
 
+	<!-- local -->
+	<xsl:variable name="serverenvironment">
+		<xsl:text>local</xsl:text>
+	</xsl:variable>
 
+	<!-- live
+	<xsl:variable name="serverenvironment">
+		<xsl:text>live</xsl:text>
+	</xsl:variable>
+	 -->
+
+	<!-- stage
+	<xsl:variable name="serverenvironment">
+		<xsl:text>stage</xsl:text>
+	</xsl:variable>
+	 -->
+
+	<!-- test
+	<xsl:variable name="serverenvironment">
+		<xsl:text>test</xsl:text>
+	</xsl:variable>
+	 -->
+
+	<!-- int
+	<xsl:variable name="serverenvironment">
+		<xsl:text>int</xsl:text>
+	</xsl:variable>
+	 -->
+
+	<xsl:variable name="idurlenv">
+		<xsl:choose>
+			<xsl:when test="$serverenvironment = 'int'">
+				<xsl:text>.int</xsl:text>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'test' or $serverenvironment = 'local'">
+				<xsl:text>.test</xsl:text>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'stage'">
+				<xsl:text>.stage</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text></xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+	
+	<xsl:variable name="idURL">
+		<xsl:choose>
+			<xsl:when test="$serverenvironment = 'live'">
+				<xsl:choose>
+					<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
+						<xsl:text>https://ssl.bbc.co.uk/id</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>https://id.bbc.co.uk</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
+				<xsl:text>https://www</xsl:text><xsl:value-of select="$idurlenv"/><xsl:text>.bbc.co.uk/id</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>https://id</xsl:text><xsl:value-of select="$idurlenv"/><xsl:text>.bbc.co.uk</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 
   <xsl:variable name="globalconfiguration">
+    <host>
+      <!-- edit as appropriate -->
+      <!-- live is blank <url></url> -->
+      <url>http://local.bbc.co.uk</url>
+      <sslurl>https://local.bbc.co.uk</sslurl>
+    </host>
     <sso>
       <url>http://ops-dev14.national.core.bbc.co.uk/cgi-perl/signon/mainscript.pl</url>
       <optional>vanilla</optional>
@@ -35,30 +106,11 @@
         <xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='signinurl']">
           <url><xsl:value-of select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='signinurl']/VALUE"/></url>
         </xsl:when>
-        <xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB1' or /H2G2/SERVERNAME = 'VP-DEV-DNA-WEB3'">
-          <url>https://id.int.bbc.co.uk</url>
-        </xsl:when>
-        <xsl:when test="/H2G2/SERVERNAME = 'VP-DEV-DNA-WEB2' or /H2G2/SERVERNAME = 'VP-DEV-DNA-WEB4'">
-          <url>https://id.test.bbc.co.uk</url>
-        </xsl:when>
         <xsl:otherwise>
-          <url>https://id.test.bbc.co.uk</url>
+          <url><xsl:value-of select="$idURL"></xsl:value-of></url>
         </xsl:otherwise>
       </xsl:choose>
     </identity>
-    <!-- live 
-        	<identity>
-        		<url>https://id.bbc.co.uk</url>
-        	</identity>-->
-
-    <host>
-      <!-- edit as appropriate -->
-      <!-- live is blank <url></url> -->
-      <url>http://local.bbc.co.uk</url>
-      <!--url>http://dnarelease.national.core.bbc.co.uk</url -->
-      <sslurl>https://local.bbc.co.uk</sslurl>
-      <!-- <url>http://ops-dev14.national.core.bbc.co.uk:6666</url> -->
-    </host>
   </xsl:variable>
 
   <xsl:variable name="houserulespopupurl">

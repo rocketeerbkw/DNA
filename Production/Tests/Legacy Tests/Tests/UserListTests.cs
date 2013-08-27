@@ -44,7 +44,7 @@ namespace Tests
             _InputContext = DnaMockery.CreateDatabaseInputContext();
 
             // Create a mocked site for the context
-            ISite mockedSite = DnaMockery.CreateMockedSite(_InputContext, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
+            ISite mockedSite = DnaMockery.CreateMockedSite(_InputContext, 1, "h2g2", "h2g2", true, "comment");
             Stub.On(_InputContext).GetProperty("CurrentSite").Will(Return.Value(mockedSite));
             Stub.On(mockedSite).GetProperty("ModClassID").Will(Return.Value(1));
 

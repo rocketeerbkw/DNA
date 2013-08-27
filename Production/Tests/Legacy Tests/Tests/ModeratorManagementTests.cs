@@ -82,8 +82,8 @@ namespace Tests
         {
             IInputContext context = DnaMockery.CurrentMockery.NewMock<IInputContext>();
 
-            ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "http://identity/policies/dna/adult");
-            ISite siteModeration = DnaMockery.CreateMockedSite(context, 66, "moderation", "moderation", true, "http://identity/policies/dna/adult");
+            ISite site = DnaMockery.CreateMockedSite(context, 1, "h2g2", "h2g2", true, "comment");
+            ISite siteModeration = DnaMockery.CreateMockedSite(context, 66, "moderation", "moderation", true, "comment");
 
             ISiteList siteList = DnaMockery.CurrentMockery.NewMock<ISiteList>();
             Stub.On(siteList).Method("GetSite").With(70).Will(Return.Value(site));

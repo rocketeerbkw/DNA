@@ -102,7 +102,7 @@ namespace FunctionalTests
         public void AuthorizeUserWithPolicy()
         {
             _postParams.Clear();
-            _postParams.Add("target_resource", "http://identity/policies/dna/adult");
+            _postParams.Add("target_resource", "comment");
             HttpWebResponse response = TestUserCreator.CallIdentityRestAPI("/authorization", _postParams, _cookies, TestUserCreator.RequestVerb.GET);
             Assert.IsTrue(response != null, TestUserCreator.GetLastError);
             XmlDocument xDoc = GetLastResponseAsXML(response);

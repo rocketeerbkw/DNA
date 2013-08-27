@@ -151,6 +151,9 @@
 				<a href="#prioritymod">*</a>
 			</th>
 			</xsl:if>
+      <xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'AllowNotSignedInCommenting']/VALUE = '1'">
+        <th>Anonymous Posting</th>
+      </xsl:if>
 		</tr>
 		<tr>
 			<xsl:call-template name="objects_stripe" />
@@ -372,6 +375,42 @@
 				</form>
 			</td>
 			</xsl:if>
+      <xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME = 'AllowNotSignedInCommenting']/VALUE = '1'">
+        <td>
+          <form action="commentforumlist" method="get">
+            <fieldset>
+              <input type="hidden" name="dnauid" value="{@UID}" />
+              <input type="hidden" name="dnaaction" value="update" />
+              <input type="hidden" name="forumid" value="{@FORUMID}"/>
+
+              <xsl:choose>
+                <xsl:when test="@NOTSIGNEDINUSERID != '0'">
+                  <li>
+                    Anonymous UserId: <xsl:value-of select="@NOTSIGNEDINUSERID" />
+                  </li>
+                </xsl:when>
+                <xsl:otherwise>
+                  <span class="dna-buttons">
+                    <label for="dnaanonymoussetting{@UID}" class="blq-hide">Allow Anonymous Posting</label>
+                    <p>
+                      <input type="submit" name="dnaanonymoussetting" value="allow" />
+                    </p>
+                  </span>
+
+                </xsl:otherwise>
+              </xsl:choose>
+
+              <input type="hidden" name="dnasiteid"
+                value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}" />
+              <input type="hidden" name="dnahostpageurl"
+                value="{/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}" />
+              <input type="hidden" name="dnaskip" value="{/H2G2/COMMENTFORUMLIST/@SKIP}" />
+              <input type="hidden" name="dnashow" value="{/H2G2/COMMENTFORUMLIST/@SHOW}" />
+
+            </fieldset>
+          </form>
+        </td>
+      </xsl:if>
 		</tr>
 		<xsl:if test="$pagetype != 'Contact'">
 		<tr>

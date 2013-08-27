@@ -44,8 +44,17 @@
                 
             </xsl:when>
             <xsl:otherwise>
-                
-                <xsl:text>/dna/</xsl:text>
+				<xsl:choose>
+					<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
+						<xsl:choose>
+							<xsl:when test="$serverenvironment = 'int'">/dna/int/</xsl:when>
+							<xsl:when test="$serverenvironment = 'test'">/dna/test/</xsl:when>
+							<xsl:when test="$serverenvironment = 'stable'">/dna/stable/</xsl:when>
+							<xsl:otherwise>/dna/</xsl:otherwise>
+						</xsl:choose>
+					</xsl:when>
+					<xsl:otherwise>/dna/</xsl:otherwise>
+				</xsl:choose>
                 <xsl:choose>
                     <xsl:when test="/H2G2/SITE/NAME">
                         <xsl:value-of select="/H2G2/SITE/NAME"/>
@@ -301,6 +310,7 @@
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 2">messageboard</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 3">community</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 4">story</xsl:when>
+        <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 5">twitter</xsl:when>
     		<xsl:otherwise>all</xsl:otherwise>
     	</xsl:choose>
     </xsl:variable>
@@ -311,6 +321,7 @@
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 2">messageboards</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 3">communities</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 4">stories</xsl:when>
+        <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 5">twitter_sites</xsl:when>
     		<xsl:otherwise>all sites</xsl:otherwise>
     	</xsl:choose>
     </xsl:variable>    

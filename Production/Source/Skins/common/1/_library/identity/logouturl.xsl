@@ -19,7 +19,15 @@
     <xsl:template match="VIEWING-USER" mode="library_identity_logouturl">
         <xsl:param name="ptrt" />
         
-        <xsl:value-of select="concat($configuration/identity/url, '/users/logout?target_resource=')"/>        
+		<xsl:choose>
+			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
+		        <xsl:value-of select="concat($configuration/identity/url, '/signout?target_resource=')"/>        
+			</xsl:when>
+			<xsl:otherwise>
+		        <xsl:value-of select="concat($configuration/identity/url, '/users/logout?target_resource=')"/>        
+			</xsl:otherwise>
+		</xsl:choose>
+<!--         <xsl:value-of select="concat($configuration/identity/url, '/users/logout?target_resource=')"/>         -->
         <xsl:value-of select="/H2G2/SITE/IDENTITYPOLICY" />
         
         <xsl:if test="$ptrt">

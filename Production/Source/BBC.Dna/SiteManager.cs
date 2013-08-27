@@ -9,6 +9,7 @@ using DnaIdentityWebServiceProxy;
 using BBC.Dna.Moderation;
 using System.Linq;
 using BBC.Dna.Utils;
+using System.Text.RegularExpressions;
 
 namespace BBC.Dna.Component
 {
@@ -323,6 +324,13 @@ namespace BBC.Dna.Component
             if ( urlName == string.Empty || description == string.Empty || shortName == string.Empty)
             {
                 AddErrorXml("CREATE ERROR", "Unable to create site - url, Description, shortName are required.", RootElement);
+                return false;
+            }
+
+            Regex regEx = new Regex("^[0-9a-zA-Z]+$");
+            if (false == regEx.IsMatch(urlName))
+            {
+                AddErrorXml("CREATE ERROR", "Unable to create site with urlname, '" + urlName + "' - urlname can only be of alphanumeric characters.", RootElement);
                 return false;
             }
 

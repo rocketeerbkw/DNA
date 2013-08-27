@@ -2,18 +2,9 @@ CREATE PROCEDURE queueemail @toemailaddress nvarchar(128), @fromemailaddress nva
 AS
 EXEC openemailaddresskey
 
-INSERT INTO dbo.EmailQueue
-SELECT
-	ToEmailAddress = 0x00,
-	FromEmailAddress = 0x00,
-	Subject = 0x00,
-	Body = 0x00,
-	Notes = @notes,
-	Priority = @priority,
-	DateQueued = GetDate(),
-	DateSent = NULL,
-	LastFailedReason = NULL
-	
+INSERT INTO dbo.EmailQueue (ToEmailAddress, FromEmailAddress, Subject, Body, Notes, Priority, DateAdded, DateQueued, DateSent, LastFailedReason)
+VALUES(0x00, 0x00, 0x00, 0x00, @notes, @priority, GetDate(), NULL, NULL, NULL)
+
 DECLARE @EntryID INT
 SELECT @EntryID = @@IDENTITY FROM dbo.EmailQueue
 	

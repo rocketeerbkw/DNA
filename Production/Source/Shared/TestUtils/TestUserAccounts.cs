@@ -113,6 +113,7 @@ namespace TestUtils
     {
         private static UserAccount testProfileAPIAccount = null;
         private static UserAccount testNormalUserAccount = null;
+        private static UserAccount testKidUserAccount = null;
         private static UserAccount testBannedUserAccount = null;
         private static UserAccount testEditorUserAccount = null;
         private static UserAccount testSuperUserAccount = null;
@@ -154,6 +155,24 @@ namespace TestUtils
                     testNormalUserAccount = new UserAccount("DotNetNormalUser", "789456123", cookie, secureCookie, 1090501859, true);
                 }
                 return testNormalUserAccount;
+            }
+        }
+
+        /// <summary>
+        /// Creates the user account details for the kid user
+        /// </summary>
+        /// <returns>The user account details for the user</returns>
+        public static UserAccount GetKidUserAccount
+        {
+            get
+            {
+                if (testKidUserAccount == null)
+                {
+                    string cookie, secureCookie;
+                    GetUserCookies("DotNetKidUser", "789456123", out cookie, out secureCookie);
+                    testKidUserAccount = new UserAccount("DotNetKidUser", "789456123", cookie, secureCookie, 1090501819, true);
+                }
+                return testKidUserAccount;
             }
         }
 

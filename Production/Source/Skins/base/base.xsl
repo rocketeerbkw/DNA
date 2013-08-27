@@ -10,6 +10,7 @@
 	<xsl:import href="attributesets.xsl"/>
 	<xsl:include href="../admin/editorstools.xsl"/>
 	<xsl:include href="basetext.xsl"/>
+	<xsl:include href="../common/configuration.xsl"/>
 	<xsl:output method="html" version="4.0" omit-xml-declaration="yes" standalone="yes" indent="no"/>
 	<xsl:variable name="sitename">h2g2</xsl:variable>
 	<xsl:variable name="scopename">h2g2</xsl:variable>
@@ -177,7 +178,20 @@
 		</xsl:choose>
 	</xsl:variable>
 	<xsl:variable name="root">/dna/h2g2/</xsl:variable>
-	<xsl:variable name="rootbase">/dna/</xsl:variable>
+<!-- 	<xsl:variable name="rootbase">/dna/</xsl:variable> -->
+	<xsl:variable name="rootbase">
+		<xsl:choose>
+			<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
+				<xsl:choose>
+					<xsl:when test="$serverenvironment = 'int'">/dna/int/</xsl:when>
+					<xsl:when test="$serverenvironment = 'test'">/dna/test/</xsl:when>
+					<xsl:when test="$serverenvironment = 'stable'">/dna/stable/</xsl:when>
+					<xsl:otherwise>/dna/</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>/dna/</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 	<xsl:variable name="imagesource">/h2g2/skins/Alabaster/images/</xsl:variable>
 	<xsl:variable name="imagesource2">/h2g2/skins/Alabaster/images/</xsl:variable>
 	<xsl:variable name="skingraphics">/h2g2/skins/Alabaster/images/</xsl:variable>
