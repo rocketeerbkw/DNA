@@ -29,14 +29,16 @@ namespace FunctionalTests
         private string _siteName = "mbiplayer";
         private int _userId = TestUserAccounts.GetNormalUserAccount.UserID;
 
+        [ClassInitialize]
+        static public void ThisFirst(TestContext context)
+        {
+            SnapshotInitialisation.ForceRestore(true);
+        }
+
         [TestInitialize]
         public void Setup()
         {
-            try
-            {
-                SnapshotInitialisation.RestoreFromSnapshot();
-            }
-            catch { }
+            SnapshotInitialisation.RestoreFromSnapshot();
         }
 
         [TestCleanup]
@@ -69,7 +71,6 @@ namespace FunctionalTests
 
             CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
             CheckPostInThread(xml, expectedPostStatus, processPreMod);
-
         }
 
         [TestMethod]
@@ -103,7 +104,7 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request = PostToForumWithException(request, " POST WITHout credentials ");
+            request = PostToForumWithException(request, " POST WITHout credentials ", DnaTestURLRequest.usertype.NOTLOGGEDIN);
 
             CheckForError(request.GetLastResponseAsXML(), "NotLoggedIn");
         }
@@ -140,8 +141,8 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserSuperUser();
-            request = PostToForumWithException(request, " posting ok");
+            //request.SetCurrentUserSuperUser();
+            request = PostToForumWithException(request, " posting ok", DnaTestURLRequest.usertype.SUPERUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -163,8 +164,8 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserSuperUser();
-            request = PostToForumWithException(request, "my with refferred item post");
+            //request.SetCurrentUserSuperUser();
+            request = PostToForumWithException(request, "my with refferred item post", DnaTestURLRequest.usertype.SUPERUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -452,8 +453,8 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
-            request = PostToForumWithException(request, " POST WITH profanity fuck ");
+            //request.SetCurrentUserNormal();
+            request = PostToForumWithException(request, " POST WITH profanity fuck ", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
             Assert.AreEqual("1", xml.SelectSingleNode("H2G2/POSTTHREADFORM/@PROFANITYTRIGGERED").InnerText);
@@ -467,8 +468,8 @@ namespace FunctionalTests
             SetSiteOptions(0, 5, false,false,0);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
-            request = PostToForumWithException(request, " POST WITH that is longer than 5 chars");
+            //request.SetCurrentUserNormal();
+            request = PostToForumWithException(request, " POST WITH that is longer than 5 chars", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -481,8 +482,8 @@ namespace FunctionalTests
             SetSiteOptions(50, 0, false, false, 0);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
-            request = PostToForumWithException(request, "my post");
+            //request.SetCurrentUserNormal();
+            request = PostToForumWithException(request, "my post", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -495,8 +496,8 @@ namespace FunctionalTests
             SetSiteOptions(0, 0, true, false, 0);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
-            request = PostToForumWithException(request, "my post");
+            //request.SetCurrentUserNormal();
+            request = PostToForumWithException(request, "my post", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -509,8 +510,8 @@ namespace FunctionalTests
             SetSiteOptions(0, 0, false, true, 0);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
-            request = PostToForumWithException(request, "my post");
+            //request.SetCurrentUserNormal();
+            request = PostToForumWithException(request, "my post", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -523,8 +524,8 @@ namespace FunctionalTests
             SetSiteOptions(0, 0, true, false, 0);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserSuperUser();
-            request = PostToForumWithException(request, "my post");
+            //request.SetCurrentUserSuperUser();
+            request = PostToForumWithException(request, "my post", DnaTestURLRequest.usertype.SUPERUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -540,8 +541,8 @@ namespace FunctionalTests
             SetSiteOptions(0, 0, true, false, 0);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserEditor();
-            request = PostToForumWithException(request, "my post");
+            //request.SetCurrentUserEditor();
+            request = PostToForumWithException(request, "my post", DnaTestURLRequest.usertype.EDITOR);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -564,8 +565,8 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserSuperUser();
-            request = PostToForumWithException(request, "my post");
+            //request.SetCurrentUserSuperUser();
+            request = PostToForumWithException(request, "my post", DnaTestURLRequest.usertype.SUPERUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -587,12 +588,12 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
+            //request.SetCurrentUserNormal();
 
             new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation();
             SendTermsSignal();
 
-            request = PostToForumWithException(request, "my with refferred item potato post");
+            request = PostToForumWithException(request, "my with refferred item potato post", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -617,14 +618,14 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
+            //request.SetCurrentUserNormal();
 
             //Add the terms to the terms update history
 
             new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation();
             SendTermsSignal();
 
-            request = PostToForumWithException(request, "Testing terms with refferred item potato post");
+            request = PostToForumWithException(request, "Testing terms with refferred item potato post", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -672,14 +673,14 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
+            //request.SetCurrentUserNormal();
 
             //Add the terms to the terms update history
 
             new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation();
             SendTermsSignal();
 
-            request = PostToForumWithException(request, "Testing terms with refferred item post potato");
+            request = PostToForumWithException(request, "Testing terms with refferred item post potato", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -724,7 +725,7 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
+            //request.SetCurrentUserNormal();
 
             //Add the terms to the terms update history
 
@@ -741,7 +742,7 @@ namespace FunctionalTests
             Error error = termsLists.UpdateTermsInDatabase(creator, _cache, "Testing humbug123", 6, false);
             SendTermsSignal();
 
-            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post");
+            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -766,7 +767,7 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
+            //request.SetCurrentUserNormal();
 
             new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleTermToAll_PassesValidation();
             SendTermsSignal();
@@ -780,7 +781,7 @@ namespace FunctionalTests
             Error error = termList.UpdateTermsInDatabase(creator, _cache, "Testing hum123", 6, false);
             SendTermsSignal();
 
-            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post");
+            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -821,7 +822,7 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
+            //request.SetCurrentUserNormal();
 
             new TermsFilterImportPageTests().TermsFilterImportPage_AddSingleReferTermToAll_PassesValidation();
             SendTermsSignal();
@@ -840,7 +841,7 @@ namespace FunctionalTests
             Error error = termsLists.UpdateTermsInDatabase(creator, _cache, "Testing potato", 6, false);
             SendTermsSignal();
 
-            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post");
+            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -882,7 +883,7 @@ namespace FunctionalTests
             SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
+            //request.SetCurrentUserNormal();
 
             //Add the terms to the terms update history
 
@@ -899,7 +900,7 @@ namespace FunctionalTests
             Error error = termsLists.UpdateTermsInDatabase(creator, _cache, "Testing bum1234", 6, false);
             SendTermsSignal();
 
-            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post");
+            request = PostToForumWithException(request, "Testing terms with refferred item " + forumTerm + " post", DnaTestURLRequest.usertype.NORMALUSER);
 
             var xml = request.GetLastResponseAsXML();
 
@@ -952,9 +953,9 @@ namespace FunctionalTests
             SetSiteOptions(0, 0, false, false, 1000);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
-            request = PostToForumWithException(request, "my post");
-            request = PostToForumWithException(request, "my post2");
+            //request.SetCurrentUserNormal();
+            request = PostToForumWithException(request, "my post", DnaTestURLRequest.usertype.NORMALUSER);
+            request = PostToForumWithException(request, "my post2", DnaTestURLRequest.usertype.NORMALUSER);
             var xml = request.GetLastResponseAsXML();
 
             Assert.AreEqual("1", xml.SelectSingleNode("H2G2/POSTTHREADFORM/@POSTEDBEFOREREPOSTTIMEELAPSED").InnerText);
@@ -971,9 +972,8 @@ namespace FunctionalTests
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserEditor();
-            request = PostToForumWithException(request, "my post");
-            request = PostToForumWithException(request, "my post2");
+            request = PostToForumWithException(request, "my post", DnaTestURLRequest.usertype.EDITOR);
+            request = PostToForumWithException(request, "my post2", DnaTestURLRequest.usertype.EDITOR);
             var xml = request.GetLastResponseAsXML();
 
             CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
@@ -990,9 +990,8 @@ namespace FunctionalTests
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNotableUser();
-            request = PostToForumWithException(request, "my post");
-            request = PostToForumWithException(request, "my post2");
+            request = PostToForumWithException(request, "my post", DnaTestURLRequest.usertype.NOTABLE);
+            request = PostToForumWithException(request, "my post2", DnaTestURLRequest.usertype.NOTABLE);
             var xml = request.GetLastResponseAsXML();
 
             
@@ -1008,8 +1007,7 @@ namespace FunctionalTests
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
-            request.SetCurrentUserNormal();
-            request = PostToForumWithException(request, "1 > 2 and 3<4");
+            request = PostToForumWithException(request, "1 > 2 and 3<4", DnaTestURLRequest.usertype.NORMALUSER);
             var xml = request.GetLastResponseAsXML();
 
 
@@ -1204,7 +1202,6 @@ namespace FunctionalTests
         {
             var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-site", DnaTestURLRequest.CurrentServer);
             var request = new DnaTestURLRequest(_siteName);
-            //request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(url, null, "text/xml");
 
 
@@ -1233,10 +1230,26 @@ namespace FunctionalTests
             return request.GetLastResponseAsXML();
         }
 
-        private DnaTestURLRequest PostToForumWithException(DnaTestURLRequest request, string post)
+        private DnaTestURLRequest PostToForumWithException(DnaTestURLRequest request, string post, DnaTestURLRequest.usertype user)
         {
             var url = String.Format("PostToForum?skin=purexml&forumid=" + _forumId.ToString());
 
+            if (user == DnaTestURLRequest.usertype.EDITOR)
+            {
+                request.SetCurrentUserEditor();
+            }
+            else if (user == DnaTestURLRequest.usertype.SUPERUSER)
+            {
+                request.SetCurrentUserSuperUser();
+            }
+            else if (user == DnaTestURLRequest.usertype.NOTABLE)
+            {
+                request.SetCurrentUserNotableUser();
+            }
+            else if (user == DnaTestURLRequest.usertype.NORMALUSER)
+            {
+                request.SetCurrentUserNormal();
+            }
 
             var postParams = new Queue<KeyValuePair<string, string>>();
             postParams = new Queue<KeyValuePair<string, string>>();
@@ -1269,8 +1282,9 @@ namespace FunctionalTests
                         url += "&AddQuoteUser=1"; break;
 
                 }
+                url += "&d_identityuserid=dotnetnormaluser";
+
                 var request = new DnaTestURLRequest(_siteName);
-                request.SetCurrentUserNormal();
                 var postParams = new Queue<KeyValuePair<string, string>>();
                 postParams = new Queue<KeyValuePair<string, string>>();
                 postParams.Enqueue(new KeyValuePair<string, string>("threadid", _threadId.ToString()));

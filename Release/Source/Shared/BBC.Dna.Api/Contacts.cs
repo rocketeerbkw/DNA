@@ -207,8 +207,13 @@ namespace BBC.Dna.Api
             // Do the default thing
             subject = contactDetails.ForumUri;
             body = contactDetails.text;
-            notes = "ContactDetail - ID:" + contactDetails.ID + ", FORUM_URI:" + contactDetails.ForumUri;
+            notes = CreateEmailNotes(contactDetails);
             TryParseContactFormMessage(contactDetails.text, sendAsRawDetails, ref subject, ref body);
+        }
+
+        public static string CreateEmailNotes(ContactDetails contactDetails)
+        {
+            return "ContactDetail - ID:" + contactDetails.ID + ", FORUM_URI:" + contactDetails.ForumUri;
         }
 
         public static void TryParseContactFormMessage(string contactDetails, bool sendAsRawDetails, ref string subject, ref string body)

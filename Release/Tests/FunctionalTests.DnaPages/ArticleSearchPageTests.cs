@@ -24,6 +24,12 @@ namespace FunctionalTests
         private DnaTestURLRequest _request = new DnaTestURLRequest("actionnetwork");
         private const string _schemaUri = "H2G2ArticleSearchFlat.xsd";
 
+        [ClassInitialize]
+        static public void ThisFirst(TestContext context)
+        {
+            SnapshotInitialisation.ForceRestore(true);
+        }
+
         /// <summary>
         /// Set up function  
         /// </summary>
@@ -34,8 +40,6 @@ namespace FunctionalTests
             if (!_setupRun)
             {
                 Console.WriteLine("setting up");
-                //_request.UseEditorAuthentication = true;
-                //_request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
                 _setupRun = true;
             }
         }

@@ -342,11 +342,12 @@ namespace BBC.Dna.Api
             }
             catch (Exception e)
             {
-                if (failedBody.Length > 0)
-                {
-                    body = failedBody;
-                }
-                WriteFailedEmailToFile(sender, recipient, subject, body + "\r\n" + e.Message, filenamePrefix);
+                SendEmailViaDatabase(sender, recipient, subject, body, failedBody, DatabaseEmailQueue.EmailPriority.High);
+                //if (failedBody.Length > 0)
+                //{
+                //    body = failedBody;
+                //}
+                //WriteFailedEmailToFile(sender, recipient, subject, body + "\r\n" + e.Message, filenamePrefix);
                 DnaDiagnostics.WriteExceptionToLog(e);
                 sentOk = false;
                 message.Dispose();

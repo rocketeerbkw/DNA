@@ -16,6 +16,12 @@ namespace FunctionalTests
     [TestClass]
     public class ModeratePostsPageTests
     {
+        [TestInitialize]
+        public void RestoreDatabase()
+        {
+            SnapshotInitialisation.RestoreFromSnapshot(true);
+        }
+
         /// <summary>
         /// Check Normal User Does not have access .
         /// </summary>
@@ -63,17 +69,20 @@ namespace FunctionalTests
             var modId = 0;
             var siteId = 0;
             var notes = string.Empty;
-            var moderatorEmail = "abc123xyz@bbc.co"; //change this to a proper email account for checking the dbmail's send status
-
+            var moderatorEmail = "";
+            var emailInsertText = "You Numpty!";
+            var emailInsertName = "InsertForTesting";
+            var emailTemplateSubject = "Your Content Failed today : " + DateTime.Now.ToShortTimeString();
+            var emailTemplateBody = @"We failed your content ++**inserted_text**++";
 
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("select siteId from sites where urlname = 'haveyoursay'");
+                dataReader.ExecuteDEBUGONLY("select siteId from sites where urlname = 'mbiplayer'");
                 Assert.IsTrue(dataReader.Read());
                 siteId = dataReader.GetInt32NullAsZero("siteId");
 
-                dataReader.ExecuteDEBUGONLY("select MAX(ModID) AS ModId from threadmod where siteid = " + siteId + ")");
+                dataReader.ExecuteDEBUGONLY("select MAX(ModID) AS ModId from threadmod where siteid = " + siteId);
                 Assert.IsTrue(dataReader.Read());
 
                 modId = dataReader.GetInt32NullAsZero("ModId");
@@ -89,22 +98,31 @@ namespace FunctionalTests
 
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("update Sites set ModeratorsEmail = '" + moderatorEmail + "' where siteid = " + siteId + "");
+                dataReader.ExecuteDEBUGONLY("select ModeratorsEmail from Sites where siteid = " + siteId);
+                dataReader.Read();
+                moderatorEmail = dataReader.GetString("ModeratorsEmail");
+                dataReader.ExecuteDEBUGONLY("exec addsiteemailinsert " + siteId + ", '" + emailInsertName + "', 'House Rules', '" + emailInsertText + "'");
+                dataReader.ExecuteDEBUGONLY("addnewemailtemplate 4, 'ContentRemovedEmail', '" + emailTemplateSubject + "', '" + emailTemplateBody + "'");
             }
 
-            DnaTestURLRequest request = new DnaTestURLRequest("haveyoursay");
+            DnaTestURLRequest request = new DnaTestURLRequest("moderation");
             request.SetCurrentUserEditor();
             request.UseEditorAuthentication = true;
-            string url = "ModeratePosts?modclassid=1&postid=" + postId + "&threadid=" + threadId + "&modid=" + modId + "&siteid=" + siteId + "&decision=" + modStatus + "&threadModStatus=" + threadModStatus + "&skin=purexml";
-            request.RequestPage(@"url");
+            string url = "ModeratePosts?forumid=" + forumId + "&modclassid=1&postid=" + postId + "&threadid=" + threadId + "&modid=" + modId + "&siteid=" + siteId + "&decision=" + (int)modStatus + "&threadModStatus=" + threadModStatus + "&emailtype=" + emailInsertName + "&skin=purexml";
+            request.RequestPage(url);
 
             XmlDocument xml = request.GetLastResponseAsXML();
             Assert.IsTrue(xml.SelectSingleNode("H2G2") != null, "The page does not exist!!!");
 
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                dataReader.ExecuteDEBUGONLY("select * from EmailQueue where ToEmailAddress = '" + moderatorEmail + "'");
+                StringBuilder sql = new StringBuilder();
+                sql.AppendLine("EXEC openemailaddresskey");
+                sql.AppendLine("select top 1 dbo.udf_decryptemailaddress(FromEmailAddress,id) as FromEmailAddress, dbo.udf_decrypttext(body,id) as body from EmailQueue order by id desc");
+                dataReader.ExecuteDEBUGONLY(sql.ToString());
                 Assert.IsTrue(dataReader.Read());
+                Assert.AreEqual(moderatorEmail, dataReader.GetString("fromemailaddress"));
+                Assert.AreEqual(emailTemplateBody.Replace("++**inserted_text**++", emailInsertText), dataReader.GetString("body"));
             }
         }
 

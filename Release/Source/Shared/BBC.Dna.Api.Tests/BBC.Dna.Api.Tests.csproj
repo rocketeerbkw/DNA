@@ -117,6 +117,10 @@
       <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
       <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestUtils\TestUtils.csproj">
+      <Project>{E09BF891-7D4F-403E-B830-B9E2606D2C22}</Project>
+      <Name>TestUtils %28Source\Shared\TestUtils\TestUtils%29</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Shadow Include="Test References\BBC.Dna.Api.accessor" />

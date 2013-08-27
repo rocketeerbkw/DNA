@@ -78,12 +78,24 @@ namespace BBC.Dna.Api.Tests
             info.text = "{\"body\":[{\"Key\":\"" + testValue[0] + "\",\"Value\":\"" + testValue[1] + "\"}],\"subject\":\"" + testValue[2] + "\"}";
             info.ID = new Random().Next(10000000);
 
-            string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
+            string subject = "";
+            string body = "";
 
-            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
-            expectedInfo += testValue[2] + "\r\nContactDetail - ID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
-            expectedInfo += "\r\nThe SMTP host was not specified.";
-            Assert.AreEqual(expectedInfo, failedEmailContent);
+            Contacts.TryParseContactFormMessage(info.text, false, ref subject, ref body);
+
+            IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
+
+            CheckDatabaseValues(siteContactEmail, sentTo, subject, body, Contacts.CreateEmailNotes(info), FailedEmailDetails);
+        }
+
+        private static void CheckDatabaseValues(string siteContactEmail, string sentTo, string subject, string body, string notes, IList<object[]> FailedEmailDetails)
+        {
+            Assert.AreEqual(sentTo, (string)FailedEmailDetails[0][1]);
+            Assert.AreEqual(siteContactEmail, (string)FailedEmailDetails[1][1]);
+            Assert.AreEqual(subject, (string)FailedEmailDetails[2][1]);
+            Assert.AreEqual(body, (string)FailedEmailDetails[3][1]);
+            Assert.AreEqual(DatabaseEmailQueue.EmailPriority.High, (DatabaseEmailQueue.EmailPriority)FailedEmailDetails[4][1]);
+            Assert.AreEqual(notes, (string)FailedEmailDetails[5][1]);
         }
 
         [TestMethod]
@@ -96,12 +108,9 @@ namespace BBC.Dna.Api.Tests
             info.text = "This is a test email";
             info.ID = new Random().Next(10000000);
 
-            string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
+            IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
 
-            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
-            expectedInfo += info.ForumUri + "\r\nContactDetail - ID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
-            expectedInfo += "\r\nThe SMTP host was not specified.";
-            Assert.AreEqual(expectedInfo, failedEmailContent);
+            CheckDatabaseValues(siteContactEmail, sentTo, info.ForumUri, info.text, Contacts.CreateEmailNotes(info), FailedEmailDetails);
         }
 
         [TestMethod]
@@ -114,12 +123,9 @@ namespace BBC.Dna.Api.Tests
             info.text = "This is a test email";
             info.ID = new Random().Next(10000000);
 
-            string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
+            IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
 
-            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
-            expectedInfo += info.ForumUri + "\r\nContactDetail - ID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
-            expectedInfo += "\r\nThe SMTP host was not specified.";
-            Assert.AreEqual(expectedInfo, failedEmailContent);
+            CheckDatabaseValues(siteContactEmail, sentTo, info.ForumUri, info.text, Contacts.CreateEmailNotes(info), FailedEmailDetails);
         }
 
         [TestMethod]
@@ -134,37 +140,27 @@ namespace BBC.Dna.Api.Tests
             info.text = "<message><subject>" + subject + "</subject><body>" + body + "</body></message>";
             info.ID = new Random().Next(10000000);
 
-            string failedEmailContent = SendEmail(info, siteContactEmail, sentTo);
+            IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
 
-            string expectedInfo = "From: " + siteContactEmail + "\r\nRecipient: " + sentTo + "\r\n";
-            expectedInfo += subject + "\r\nContactDetail - ID:" + info.ID + ", FORUM_URI:" + info.ForumUri;
-            expectedInfo += "\r\nThe SMTP host was not specified.";
-            Assert.AreEqual(expectedInfo, failedEmailContent);
+            CheckDatabaseValues(siteContactEmail, sentTo, subject, "body:\r\n" + body + "\r\n\r\n", Contacts.CreateEmailNotes(info), FailedEmailDetails);
         }
 
-        private string SendEmail(ContactDetails info, string siteContactEmail, string sentTo)
+        private IList<object[]> SendEmail(ContactDetails info, string siteContactEmail, string sentTo)
         {
             ISiteList siteList = mocks.DynamicMock<ISiteList>();
             siteList.Stub(x => x.GetSite("h2g2").ContactFormsEmail).Return(siteContactEmail);
             siteList.Stub(x => x.GetSiteOptionValueBool(1, "General", "UseAtosEmailIngester")).Return(true);
+
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("QueueEmail")).Return(reader);
             mocks.ReplayAll();
 
-            Contacts contacts = new Contacts(null, null, null, siteList);
+            Contacts contacts = new Contacts(null, creator, null, siteList);
             contacts.EmailServerAddress = "";
-            contacts.FileCacheFolder = TestContext.TestDir;
-            string failedEmailFileName = "ContactDetails-ShouldSendEmailWhenGivenValidContactDetails-TestFailedEmail.txt";
-            contacts.SetFailedEmailFileName(failedEmailFileName);
 
             contacts.SendDetailstoContactEmail(info, sentTo, siteContactEmail, 1);
-
-            Statistics stats = new Statistics();
-            Statistics.InitialiseIfEmpty();
-
-            DateTime expires = new DateTime();
-            string failedEmailContent = "";
-            FileCaching.GetItem(null, TestContext.TestDir, "failedmails", failedEmailFileName, ref expires, ref failedEmailContent);
-
-            return failedEmailContent;
+            return reader.GetArgumentsForCallsMadeOn(x => x.AddParameter("", null));
         }
 
         [TestMethod]
