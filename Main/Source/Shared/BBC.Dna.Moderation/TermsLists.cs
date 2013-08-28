@@ -37,19 +37,23 @@ namespace BBC.Dna.Moderation
         /// <param name="termId"></param>
         public void FilterListByTermId(int termId)
         {
-            TermsLists tempList = new TermsLists();
+            Termslist = GetFilteredListByTerm(termId).Termslist;
+        }
+
+        public TermsLists GetFilteredListByTerm(int termId)
+        {
+            TermsLists filteredList = new TermsLists();
 
             foreach (var termsList in Termslist)
             {
                 termsList.FilterByTermId(termId);
-                if(termsList.Terms.Count !=0)
+                if (termsList.Terms.Count != 0)
                 {
 
-                    tempList.Termslist.Add(termsList);
+                    filteredList.Termslist.Add(termsList);
                 }
             }
-            Termslist = tempList.Termslist;
-            
+            return filteredList;
         }
 
         /// <summary>
