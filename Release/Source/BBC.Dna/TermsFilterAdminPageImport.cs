@@ -165,7 +165,7 @@ namespace BBC.Dna
 
 
             //this was destroying the cache for some reason
-            termsLists = (TermsLists)termsLists.Clone();
+            //termsLists = (TermsLists)termsLists.Clone();
             termsLists.FilterListByTermId(_termId);
             if (termsLists.Termslist.Count != 0 && termsLists.Termslist[0].Terms.Count != 0)
             {
