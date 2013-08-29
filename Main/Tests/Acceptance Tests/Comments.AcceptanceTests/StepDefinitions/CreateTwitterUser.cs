@@ -10,8 +10,8 @@ namespace Comments.AcceptanceTests.StepDefinitions
 {
     public partial class StepDefinitions
     {
-        private int profileSiteId;
-        private User user;
+        private int profileSiteId = 0;
+        private User user = null;
 
 
         [When(@"I create a profile with a valid twitter user that does not already exist in DNA")]
