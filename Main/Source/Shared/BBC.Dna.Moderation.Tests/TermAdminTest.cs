@@ -5,6 +5,9 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Rhino.Mocks;
 using System.Xml;
 using TestUtils;
+using BBC.Dna.Moderation.Utils;
+using System;
+using BBC.Dna.Objects;
 
 namespace BBC.Dna.Moderation.Tests
 {
@@ -30,22 +33,46 @@ namespace BBC.Dna.Moderation.Tests
             TermsList termsList = TermsListTest.GetTermsList();
             const int modClassId = 1;
 
-            //var reader = Mocks.DynamicMock<IDnaDataReader>();
-            //reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            var cacheManager = Mocks.DynamicMock<ICacheManager>();
+
+            TermDetails termDetail = new TermDetails();
+            termDetail.Id = 1;
+            termDetail.Value = "whoopsy";
+            termDetail.Reason = "It's not right";
+            DateTime updatedDate = DateTime.Now;
+            termDetail.UpdatedDate = new DateElement(updatedDate);
+            termDetail.UserID = 123456978;
+            termDetail.UserName = "Moderator";
+            termDetail.Action = TermAction.ReEdit;
+
+            var reader = Mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.AddParameter("modClassId", modClassId)).Return(reader);
+            reader.Stub(x => x.Execute()).Return(reader);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetInt32NullAsZero("TermID")).Return(termDetail.Id);
+            reader.Stub(x => x.GetStringNullAsEmpty("Term")).Return(termDetail.Value);
+            reader.Stub(x => x.GetStringNullAsEmpty("Reason")).Return(termDetail.Reason);
+            reader.Stub(x => x.GetDateTime("UpdatedDate")).Return(updatedDate);
+            reader.Stub(x => x.GetInt32NullAsZero("UserID")).Return(termDetail.UserID);
+            reader.Stub(x => x.GetStringNullAsEmpty("UserName")).Return(termDetail.UserName);
+            reader.Stub(x => x.GetByteNullAsZero("actionId")).Return((byte)termDetail.Action);
 
             var readerCreator = Mocks.DynamicMock<IDnaDataReaderCreator>();
-            //readerCreator.Stub(x => x.CreateDnaDataReader("getmoderationclasslist")).Return(reader);
-
-            var cacheManager = Mocks.DynamicMock<ICacheManager>();
-            cacheManager.Stub(x => x.GetData(termsList.GetCacheKey(modClassId))).Return(termsList);
+            readerCreator.Stub(x => x.CreateDnaDataReader("gettermsbymodclassid")).Return(reader);
 
             Mocks.ReplayAll();
 
-            var termAdmin = TermsFilterAdmin.CreateTermAdmin(readerCreator, cacheManager, modClassId, false);
+            var termAdmin = TermsFilterAdmin.CreateTermAdmin(readerCreator, cacheManager, modClassId);
 
             Assert.AreEqual(1, termAdmin.TermsList.Terms.Count);
             Assert.AreEqual(1, termAdmin.ModerationClasses.ModClassList.Count);
-
+            Assert.AreEqual(termDetail.Id, termAdmin.TermsList.Terms[0].Id);
+            Assert.AreEqual(termDetail.Value, termAdmin.TermsList.Terms[0].Value);
+            Assert.AreEqual(termDetail.Reason, termAdmin.TermsList.Terms[0].Reason);
+            Assert.AreEqual(termDetail.UpdatedDate.Date.DateTime, termAdmin.TermsList.Terms[0].UpdatedDate.Date.DateTime);
+            Assert.AreEqual(termDetail.UserID, termAdmin.TermsList.Terms[0].UserID);
+            Assert.AreEqual(termDetail.UserName, termAdmin.TermsList.Terms[0].UserName);
+            Assert.AreEqual(termDetail.Action, termAdmin.TermsList.Terms[0].Action);
         }
 
         /// <summary>
