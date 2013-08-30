@@ -577,7 +577,7 @@ namespace BBC.Dna
 
             int forumId = dataReader.GetInt32NullAsZero("forumID");
             //get terms admin object
-            TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateForumTermAdmin(InputContext.CreateDnaDataReaderCreator(), _cache, forumId, true);
+            TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateForumTermAdmin(InputContext.CreateDnaDataReaderCreator(), _cache, forumId);
             XmlDocument termNodeDoc = SerialiseToXmlDoc(termsAdmin);
             string termNodeText = termNodeDoc.DocumentElement.InnerXml.ToString();
             AddXmlTextTag(commentForum, "TERMS", termNodeText);

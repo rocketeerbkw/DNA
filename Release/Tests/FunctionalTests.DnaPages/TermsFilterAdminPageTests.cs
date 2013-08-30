@@ -377,7 +377,7 @@ namespace FunctionalTests
             const int modClassId = 3;
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
             request.SetCurrentUserSuperUser();
-            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml&ignorecache=1", modClassId));
+            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml", modClassId));
             ValidateResponse(request);
 
             var doc = request.GetLastResponseAsXML();
@@ -411,13 +411,10 @@ namespace FunctionalTests
             //Do siterefresh
             request.RequestPage("termsfilteradmin?action=REFRESHCACHE");
 
-            //wait for signals...
-            Thread.Sleep(6000);
-
             // Setup the request url
             var url = String.Format("AddThread?skin=purexml");
-            request = new DnaTestURLRequest("h2g2");
-            request.SetCurrentUserNormal();
+            var newrequest = new DnaTestURLRequest("h2g2");
+            newrequest.SetCurrentUserNormal();
             postParams = new Queue<KeyValuePair<string, string>>();
             postParams.Enqueue(new KeyValuePair<string, string>("threadid", "0"));
             postParams.Enqueue(new KeyValuePair<string, string>("inreplyto", "0"));
@@ -426,13 +423,10 @@ namespace FunctionalTests
             postParams.Enqueue(new KeyValuePair<string, string>("subject", "test post"));
             postParams.Enqueue(new KeyValuePair<string, string>("body", termText));
             postParams.Enqueue(new KeyValuePair<string, string>("post", "Post message"));
-            request.RequestPage(url, postParams);
-            doc = request.GetLastResponseAsXML();
+            newrequest.RequestPage(url, postParams);
+            doc = newrequest.GetLastResponseAsXML();
             //check for profanity triggered value
             Assert.IsNotNull(doc.SelectSingleNode("//H2G2/POSTTHREADFORM[@PROFANITYTRIGGERED='1']"));
-
-
-
         }
 
         /// <summary>
