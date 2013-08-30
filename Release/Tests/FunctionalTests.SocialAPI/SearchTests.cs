@@ -70,7 +70,8 @@ namespace FunctionalTests.SocialAPI
 
             try
             {
-                tweetUser = client.GetUserDetails(strTwitterScreenName);
+                //tweetUser = client.GetUserDetails(strTwitterScreenName);
+                tweetUser = client.GetUserDetailsByScrapping(strTwitterScreenName);
                 Assert.IsNotNull(tweetUser);
                 Assert.AreEqual(tweetUser.ScreenName, strTwitterScreenName);
             }
@@ -93,7 +94,7 @@ namespace FunctionalTests.SocialAPI
         [TestMethod]
         public void SearchTwitterUserByScreenName_ReturnInCorrectResults_AlwaysException()
         {
-            var strTwitterScreenName = "DotNetUser";
+            var strTwitterScreenName = "DotNetTemp";
             TwitterClient client = new TwitterClient();
             TweetUsers tweetUser = new TweetUsers();
 
@@ -106,6 +107,8 @@ namespace FunctionalTests.SocialAPI
                 string twitterLimitException = "The remote server returned an unexpected response: (400) Bad Request.";
                 string twitterErrorNotFound = "The remote server returned an error: (404) Not Found.";
                 string twitterHttpException = "The HTTP request was forbidden with client authentication scheme 'Basic'.";
+                string twitterException = "The remote server returned an unexpected response: (410) Gone.";
+
                 if (ex.InnerException.Message.Equals(twitterErrorNotFound))
                 {
                     Assert.AreEqual(twitterErrorNotFound, ex.InnerException.Message);
@@ -113,6 +116,10 @@ namespace FunctionalTests.SocialAPI
                 else if (ex.Message.Equals(twitterHttpException))
                 {
                     Assert.AreEqual(twitterHttpException, ex.Message);
+                }
+                else if(ex.Message.Equals(twitterException))
+                {
+                    Assert.AreEqual(twitterException, ex.Message);
                 }
                 else
                 {

@@ -7,6 +7,9 @@ using System.ServiceModel;
 using System.ServiceModel.Syndication;
 using System.ServiceModel.Web;
 using System.Net;
+using System.IO;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace BBC.Dna.SocialAPI
 {
@@ -29,6 +32,66 @@ namespace BBC.Dna.SocialAPI
                 ITwitter s = cfact.CreateChannel();
                 return s.GetUserDetails(userName);
             }
+        }
+
+        /// <summary>
+        /// Getting twitter user details by scrapping using HtmlAgilityPack
+        /// </summary>
+        /// <param name="screenName"></param>
+        /// <returns></returns>
+        public TweetUsers GetUserDetailsByScrapping(string screenName)
+        {
+            TweetUsers userDetails = new TweetUsers();
+
+            var proxyServer = ConfigurationSettings.AppSettings["proxyserver"].ToString();
+            string uri = "http://twitter.com/" + screenName; //url hasdcoded as this is a temp fix
+
+            Uri URL = new Uri(uri);
+            HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
+            try
+            {
+                webRequest.Timeout = 30000;
+
+                webRequest.Proxy = new WebProxy(proxyServer);
+
+                StreamReader responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream());
+
+                string strResponse = responseReader.ReadToEnd();
+                responseReader.Close();
+
+                HtmlAgilityPack.HtmlDocument doc = new HtmlAgilityPack.HtmlDocument();
+                doc.LoadHtml(strResponse);
+
+                var twitterUserId = string.Empty;
+                var twitterName = string.Empty;
+                var twitterImage = string.Empty;
+
+                //var divNodes = doc.DocumentNode.SelectNodes("//div[@data-screen-name='" + screenName + "']//div[starts-with(@class,'user-actions')]");
+                var divNodes = doc.DocumentNode.SelectNodes("//div[starts-with(@class,'user-actions')]");
+
+                foreach (var node in divNodes)
+                {
+                    twitterUserId = node.Attributes["data-user-id"].Value;
+                    twitterName = node.Attributes["data-name"].Value; 
+                }
+
+                var imgNodes = doc.DocumentNode.SelectNodes("//img[@alt='" + twitterName + "']");
+
+                foreach (var node in imgNodes)
+                {
+                    twitterImage = node.Attributes["src"].Value;
+                }
+
+                userDetails.id = twitterUserId;
+                userDetails.Name = twitterName;
+                userDetails.ScreenName = screenName;
+                userDetails.ProfileImageUrl = twitterImage;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+            return userDetails;
         }
 
         #endregion

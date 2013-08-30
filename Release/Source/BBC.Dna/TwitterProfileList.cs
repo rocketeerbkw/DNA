@@ -139,7 +139,9 @@ namespace BBC.Dna.Component
                     filteredProfileList = GetSiteSpecificProfileList(filteredProfileList, siteType);
                 }
             }
-            
+
+            filteredProfileList.Sort();
+
             return filteredProfileList;
         }
 
@@ -160,6 +162,8 @@ namespace BBC.Dna.Component
                     filteredProfileList.Add(profile);
                 }
             }
+
+            filteredProfileList.Sort();
 
             return filteredProfileList;
         }
