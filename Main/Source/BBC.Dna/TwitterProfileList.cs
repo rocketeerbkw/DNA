@@ -140,8 +140,6 @@ namespace BBC.Dna.Component
                 }
             }
 
-            filteredProfileList.Sort();
-
             return filteredProfileList;
         }
 
@@ -162,8 +160,6 @@ namespace BBC.Dna.Component
                     filteredProfileList.Add(profile);
                 }
             }
-
-            filteredProfileList.Sort();
 
             return filteredProfileList;
         }
