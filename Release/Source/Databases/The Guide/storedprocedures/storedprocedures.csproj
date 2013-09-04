@@ -1308,6 +1308,7 @@
     <None Include="getcommentforumdetailsbyforumid.sql" />
     <None Include="getmostcommentedcommentforumlist.sql" />
     <None Include="getnewssitestats.sql" />
+    <None Include="GetTermDetailsForAllModClasses.sql" />
     <None Include="gettermsbyforumid.sql" />
     <None Include="gettermsbyforumidfromforums.sql" />
     <None Include="gettermsbymodidfromthreadmod.sql" />

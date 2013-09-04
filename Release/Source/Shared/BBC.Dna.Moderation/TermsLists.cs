@@ -5,6 +5,8 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Collections.Generic;
 using System.Linq;
 using BBC.Dna.Common;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Objects;
 
 
 namespace BBC.Dna.Moderation
@@ -54,6 +56,38 @@ namespace BBC.Dna.Moderation
                 }
             }
             return filteredList;
+        }
+
+        public static TermsLists GetTermDetailsforAllmodClasses(IDnaDataReaderCreator readerCreator, int termId)
+        {
+            var termsLists = new TermsLists();
+
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("gettermdetailsforallmodclasses"))
+            {
+                reader.AddParameter("termid", termId);
+                reader.Execute();
+                while (reader.Read() && reader.HasRows)
+                {
+                    int modClassId = reader.GetInt32("modclassid");
+                    var termDetails = new TermDetails
+                    {
+                        Id = reader.GetInt32NullAsZero("TermID"),
+                        Value = reader.GetStringNullAsEmpty("Term"),
+                        Reason = reader.GetStringNullAsEmpty("Reason"),
+                        UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
+                        UserID = reader.GetInt32NullAsZero("UserID"),
+                        UserName = reader.GetStringNullAsEmpty("UserName"),
+                        Action = (TermAction)reader.GetByteNullAsZero("actionId"),
+                        ModClassID = modClassId
+                    };
+
+                    var termsList = new TermsList(modClassId);
+                    termsList.Terms.Add(termDetails);
+                    termsLists.Termslist.Add(termsList);
+                }
+            }
+
+            return termsLists;
         }
 
         /// <summary>

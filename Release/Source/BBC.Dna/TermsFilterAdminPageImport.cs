@@ -18,7 +18,6 @@ namespace BBC.Dna
     {
         private readonly ICacheManager _cache;
         private string _cmd = String.Empty;
-        private bool _ignoreCache;
         private int _termId;
 
 
@@ -29,8 +28,6 @@ namespace BBC.Dna
         public TermsFilterImportPageBuilder(IInputContext context)
             : base(context)
         {
-            _ignoreCache = false;
-
             _cache = CacheFactory.GetCacheManager();
         }
 
@@ -155,18 +152,20 @@ namespace BBC.Dna
         /// <returns></returns>
         private void GetTermActions()
         {
+            /*
             var moderationClassList =
                 ModerationClassListCache.GetObject();
 
             int[] modClassIds = moderationClassList.ModClassList.Select(modClass => modClass.ClassId).ToArray();
 
             TermsLists termsLists = TermsLists.GetAllTermsLists(AppContext.ReaderCreator, _cache,
-                                                                modClassIds, _ignoreCache);
+                                                                modClassIds, true);
 
-
-            //this was destroying the cache for some reason
-            //termsLists = (TermsLists)termsLists.Clone();
             termsLists.FilterListByTermId(_termId);
+            */
+
+            TermsLists termsLists = TermsLists.GetTermDetailsforAllmodClasses(AppContext.ReaderCreator, _termId);
+
             if (termsLists.Termslist.Count != 0 && termsLists.Termslist[0].Terms.Count != 0)
             {
                 SerialiseAndAppend(termsLists.Termslist[0].Terms[0], "");
@@ -181,10 +180,6 @@ namespace BBC.Dna
         {
             _termId = InputContext.GetParamIntOrZero("s_termid", "The id of the term to check");
             _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
-
-#if DEBUG
-            _ignoreCache = InputContext.GetParamIntOrZero("ignorecache", "Ignore the cache") == 1;
-#endif
         }
     }
 }
