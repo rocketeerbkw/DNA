@@ -1,6 +1,19 @@
 Create Procedure addtermsfilterterm	@term nvarchar(50), @actionid int, @modclassid int, @historyid int
 As
 
+	IF EXISTS
+	(
+		SELECT *
+		FROM TermsLookup t
+		INNER JOIN TermsByModClass tm on tm.TermID = t.Id
+		WHERE t.term = @term
+			AND tm.ModClassID = @modclassid
+			AND tm.ActionID = @actionid
+	)
+	BEGIN
+		SELECT TermUpdated = 0
+	END
+
 	declare @termId int
 	
 	--match existing term
@@ -51,7 +64,5 @@ As
 			(termid, modclassid, actionid, updateid)
 		values
 			(@termId, @modclassid, @actionid, @historyid)
-	
-		
-	
-	
+			
+	SELECT TermUpdated = 1
