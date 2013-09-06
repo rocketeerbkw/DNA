@@ -76,7 +76,9 @@ inner join #FORUMIDS ctf on te.ForumID = ctf.ForumID
 select cte_usersposts.n,   
  vu.*,  
  @totalresults as totalresults,  
- case when crv.value is null then 0 else crv.value end as nerovalue  
+ case when crv.value is null then 0 else crv.value end as nerovalue,
+ case when crv.positivevalue is null then 0 else crv.positivevalue end as neropositivevalue,
+ case when crv.negativevalue is null then 0 else crv.negativevalue end as neronegativevalue
 from cte_usersposts  
 inner join dbo.VComments vu on vu.Id = cte_usersposts.EntryID  
 left join dbo.VCommentsRatingValue crv with(noexpand)  on crv.entryid = cte_usersposts.EntryID  

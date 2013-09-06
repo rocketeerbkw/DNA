@@ -58,7 +58,9 @@ select cte_usersposts.n,
 	null as 'RetweetedBy',
 	null as 'Retweet',
 	@totalresults as totalresults,
-	null as nerovalue
+	null as nerovalue,
+	null as neropositivevalue,
+	null as neronegativevalue
 from cte_usersposts
 inner join dbo.VComments vu on vu.Id = cte_usersposts.EntryID
 inner join dbo.threadentriesencrypted tee on vu.id = tee.entryid
