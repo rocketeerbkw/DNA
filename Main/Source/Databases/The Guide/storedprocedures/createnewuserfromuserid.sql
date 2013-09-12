@@ -152,8 +152,11 @@ EXEC addtoeventqueueinternal 'ET_NEWUSERTOSITE', @UserID, 'IT_USER', @SiteID, 'I
 	
 END
 
-
-
+IF (@siteid in (SELECT SiteID FROM dbo.Sites WHERE UrlName in ('mbcbbc','cbbccomments')))
+BEGIN
+	IF EXISTS (SELECT * FROM dbo.Preferences WHERE UserID = @userid AND SiteID = @SiteID AND SiteSuffix IS NULL)
+		UPDATE dbo.Users SET lastupdateddate = DATEADD(YEAR, -5, lastupdateddate) WHERE userid = @userid
+END
 
 EXEC @Err = finduserfromid @userid, NULL, @siteid
 SET @Err = dbo.udf_checkerr(@@ERROR,@Err); IF @Err <> 0 GOTO HandleError
