@@ -104,11 +104,12 @@ namespace BBC.Dna
         {
             string body = "";
             string subject = "";
+            string sentFrom = "";
             XmlNodeList details = contactList.SelectNodes("/COMMENTSLIST/COMMENTS/COMMENT");
             foreach (XmlNode detail in details)
             {
                 XmlNode text = detail.FirstChild.NextSibling;
-                Contacts.TryParseContactFormMessage(text.InnerText, false, ref subject, ref body);
+                Contacts.TryParseContactFormMessage(text.InnerText, false, ref subject, ref body, ref sentFrom);
                 body = HtmlUtils.HtmlEncode(body);
                 try
                 {

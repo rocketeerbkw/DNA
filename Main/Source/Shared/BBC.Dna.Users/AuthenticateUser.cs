@@ -207,7 +207,7 @@ namespace BBC.Dna.Users
         public bool AuthenticateUserFromCookies(string cookie, string secureCookie, string policy)
         {
             // Check to make sure we got a cookie
-            if (cookie == "")
+            if (cookie == "" && _debugIdentityUserID.Length == 0)
             {
                 // no cookie, no entry!
                 return false;
