@@ -80,12 +80,37 @@ namespace BBC.Dna.Api.Tests
 
             string subject = "";
             string body = "";
+            string sentFrom = siteContactEmail;
 
-            Contacts.TryParseContactFormMessage(info.text, false, ref subject, ref body);
+            Contacts.TryParseContactFormMessage(info.text, false, ref subject, ref body, ref sentFrom);
 
             IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
 
-            CheckDatabaseValues(siteContactEmail, sentTo, subject, body, Contacts.CreateEmailNotes(info), FailedEmailDetails);
+            CheckDatabaseValues(sentFrom, sentTo, subject, body, Contacts.CreateEmailNotes(info), FailedEmailDetails);
+        }
+
+        [TestMethod]
+        public void ShouldWriteFailedJSONMessageEmailWithNoSMPTServerAvailableWithKeyWordEmailAddress()
+        {
+            string siteContactEmail = "mark.howitt@bbc.co.uk";
+            string sentTo = "tester@bbc.co.uk";
+            string sentFrom = "notfromthebbc@outthere.com";
+            ContactDetails info = new ContactDetails();
+            info.ForumUri = "http://local.bbc.co.uk/dna/api/contactformservice.svc/";
+            string[] testValue = { "First Key", "Value Of the First Item In the Message", "JSON string test contact", "email address", sentFrom };
+            info.text = "{\"body\":[{\"Key\":\"" + testValue[0] + "\",\"Value\":\"" + testValue[1] + "\"},{\"Key\":\"" + testValue[3] + "\",\"Value\":\"" + testValue[4] + "\"}],\"subject\":\"" + testValue[2] + "\"}";
+            info.ID = new Random().Next(10000000);
+
+            string subject = "";
+            string body = "";
+
+            Assert.AreNotEqual(sentFrom, siteContactEmail);
+            Contacts.TryParseContactFormMessage(info.text, false, ref subject, ref body, ref siteContactEmail);
+            Assert.AreEqual(sentFrom, siteContactEmail);
+
+            IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
+
+            CheckDatabaseValues(sentFrom, sentTo, subject, body, Contacts.CreateEmailNotes(info), FailedEmailDetails);
         }
 
         private static void CheckDatabaseValues(string siteContactEmail, string sentTo, string subject, string body, string notes, IList<object[]> FailedEmailDetails)
