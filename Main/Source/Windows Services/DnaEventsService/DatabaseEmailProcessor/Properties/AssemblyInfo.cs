@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DNAEventProcessor")]
-[assembly: AssemblyDescription("Responsible for acting on the EventQueue in the database.")]
+[assembly: AssemblyTitle("DatabaseEmailProcessor")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("BBC")]
-[assembly: AssemblyProduct("DNAEventProcessor")]
-[assembly: AssemblyCopyright("Copyright © BBC 2011")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("DatabaseEmailProcessor")]
+[assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("e472e8d4-3b0b-40b8-8eff-a668ab8f65e1")]
+[assembly: Guid("304a0ea4-6755-40c2-84f9-6f00ee11ef6b")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -32,4 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.5.101.0")]
+[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyFileVersion("1.0.0.0")]

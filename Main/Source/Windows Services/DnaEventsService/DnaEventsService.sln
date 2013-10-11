@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4DA85AC2-5EE4-43D4-98E9-19C7FC76BC8D}"
 	ProjectSection(SolutionItems) = preProject
 		DnaEventsService.vsmdi = DnaEventsService.vsmdi
@@ -78,9 +78,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnaIdentityWebServiceProxy"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api", "..\..\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj", "{A46E6756-CA6A-4C8A-A063-8515AFD1C614}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseEmailProcessor", "DatabaseEmailProcessor\DatabaseEmailProcessor.csproj", "{CE8111CD-53A5-47EA-A64B-969431F043C6}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 26
+		SccNumberOfProjects = 27
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection
 		SccLocalPath0 = .
@@ -185,6 +187,9 @@ Global
 		SccProjectTopLevelParentUniqueName25 = DnaEventsService.sln
 		SccProjectName25 = ../../Shared/BBC.Dna.Api
 		SccLocalPath25 = ..\\..\\Shared\\BBC.Dna.Api
+		SccProjectUniqueName26 = DatabaseEmailProcessor\\DatabaseEmailProcessor.csproj
+		SccProjectName26 = DatabaseEmailProcessor
+		SccLocalPath26 = DatabaseEmailProcessor
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DnaEventsService.vsmdi
@@ -343,6 +348,12 @@ Global
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614}.DebugSmallGuide|Any CPU.Build.0 = DebugSmallGuide|Any CPU
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A46E6756-CA6A-4C8A-A063-8515AFD1C614}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE8111CD-53A5-47EA-A64B-969431F043C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE8111CD-53A5-47EA-A64B-969431F043C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE8111CD-53A5-47EA-A64B-969431F043C6}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE8111CD-53A5-47EA-A64B-969431F043C6}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{CE8111CD-53A5-47EA-A64B-969431F043C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE8111CD-53A5-47EA-A64B-969431F043C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
