@@ -1322,6 +1322,7 @@
     <None Include="SearchForTwitterUserViaScreenName.sql" />
     <None Include="setcommentforumascontactform.sql" />
     <None Include="updatemostcommentedforums.sql" />
+    <None Include="updatequeuedemail.sql" />
     <None Include="updatetrackedmemberformodclass.sql" />
     <None Include="GetUserReputation.sql" />
     <None Include="updatetrackedmemberlistinternal.sql" />

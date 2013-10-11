@@ -1,11 +1,14 @@
 CREATE PROCEDURE getemailbatchtosend @batchsize int
 AS
+DECLARE @QueueDate DateTime
+SELECT @QueueDate = GETDATE()
+
 EXEC openemailaddresskey;
 
 WITH CTE_EmailsToSend AS
 (
 	SELECT 
-		row_number() OVER ( ORDER BY Priority DESC, ID DESC) as n,
+		row_number() OVER ( ORDER BY Priority DESC, DateAdded ASC) as n,
 		ID,
 		ToEmailAddress,
 		FromEmailAddress,
@@ -15,8 +18,19 @@ WITH CTE_EmailsToSend AS
 		Priority,
 		DateQueued
 	FROM dbo.EmailQueue
+	WHERE DateQueued IS NULL AND DateSent IS NULL
 )
-SELECT
+
+UPDATE dbo.EmailQueue SET DateQueued = @QueueDate WHERE ID IN
+(
+	SELECT
+		ID
+	FROM
+		CTE_EmailsToSend
+	WHERE
+		n < @batchsize
+)SELECT
+	ID,
 	'ToEmailAddress' = dbo.udf_decryptemailaddress(ToEmailAddress, ID),
 	'FromEmailAddress' = dbo.udf_decryptemailaddress(FromEmailAddress, ID),
 	'Subject' = dbo.udf_decrypttext(Subject, ID),
@@ -25,7 +39,8 @@ SELECT
 	Priority,
 	DateQueued
 FROM
-	CTE_EmailsToSend
+	dbo.EmailQueue
 WHERE
-	n < @batchsize
+	DateQueued = @QueueDate
+
 	
