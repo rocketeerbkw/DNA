@@ -6,5 +6,5 @@ BEGIN
 END
 ELSE
 BEGIN
-	UPDATE dbo.EmailQueue SET LastFailedReason = @failuredetails WHERE ID = @id
+	UPDATE dbo.EmailQueue SET LastFailedReason = @failuredetails, RetryAttempts = RetryAttempts + 1 WHERE ID = @id
 END

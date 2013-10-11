@@ -191,10 +191,6 @@
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
       <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
-      <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
-      <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

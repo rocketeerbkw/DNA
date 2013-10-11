@@ -1,4 +1,4 @@
-CREATE PROCEDURE getemailbatchtosend @batchsize int
+CREATE PROCEDURE getemailbatchtosend @batchsize int, @maxretryattempts int
 AS
 DECLARE @QueueDate DateTime
 SELECT @QueueDate = GETDATE()
@@ -9,16 +9,9 @@ WITH CTE_EmailsToSend AS
 (
 	SELECT 
 		row_number() OVER ( ORDER BY Priority DESC, DateAdded ASC) as n,
-		ID,
-		ToEmailAddress,
-		FromEmailAddress,
-		Subject,
-		Body,
-		Notes,
-		Priority,
-		DateQueued
+		ID
 	FROM dbo.EmailQueue
-	WHERE DateQueued IS NULL AND DateSent IS NULL
+	WHERE DateQueued IS NULL AND DateSent IS NULL AND (RetryAttempts <= @maxretryattempts OR RetryAttempts IS NULL)
 )
 
 UPDATE dbo.EmailQueue SET DateQueued = @QueueDate WHERE ID IN
@@ -29,7 +22,9 @@ UPDATE dbo.EmailQueue SET DateQueued = @QueueDate WHERE ID IN
 		CTE_EmailsToSend
 	WHERE
 		n < @batchsize
-)SELECT
+)
+
+SELECT
 	ID,
 	'ToEmailAddress' = dbo.udf_decryptemailaddress(ToEmailAddress, ID),
 	'FromEmailAddress' = dbo.udf_decryptemailaddress(FromEmailAddress, ID),
@@ -37,10 +32,11 @@ UPDATE dbo.EmailQueue SET DateQueued = @QueueDate WHERE ID IN
 	'Body' = dbo.udf_decrypttext(Body, ID),
 	Notes,
 	Priority,
-	DateQueued
+	DateQueued,
+	DateSent,
+	DateAdded,
+	RetryAttempts
 FROM
 	dbo.EmailQueue
 WHERE
 	DateQueued = @QueueDate
-
-	
