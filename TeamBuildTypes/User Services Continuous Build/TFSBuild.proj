@@ -262,7 +262,7 @@
     <Message Text="Inside BeforeCompileSolution *********"/>
     <Message Text="BuildProjectFolderPath: $(BuildProjectFolderPath)"/>
     <Message Text="SolutionRoot: $(SolutionRoot)"/>
-    <Exec Command="RestoreSmallguideFromTeamCityBackup.bat" />
+    <Exec Command="$(SolutionRoot)\RestoreSmallguideFromTeamCityBackup.bat" />
   </Target>
   
   <ItemGroup>
