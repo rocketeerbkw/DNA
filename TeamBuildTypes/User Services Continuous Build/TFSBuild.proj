@@ -258,10 +258,9 @@
     <CallTarget Targets="PostBuildStep" />
   </Target>
 
-  <Target Name="BeforeCompileSolution">
-    <Message Text="Inside BeforeCompileSolution *********"/>
-    <Message Text="BuildProjectFolderPath: $(BuildProjectFolderPath)"/>
-    <Message Text="SolutionRoot: $(SolutionRoot)"/>
+  <!-- Restore smallguide using the backup created by Team City.  Do this at the very beginning of the build process -->
+  <Target Name="BeforeEndToEndIteration">
+    <Message Text="Inside BeforeEndToEndIteration *********"/>
     <Exec Command="&quot;$(SolutionRoot)\ExecSqlScript.bat&quot; &quot;$(SolutionRoot)\RestoreSmallguideFromTeamCityBackup.sql&quot; " />
   </Target>
   
