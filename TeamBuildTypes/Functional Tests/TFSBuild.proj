@@ -222,7 +222,7 @@
   <Target Name="BeforeEndToEndIteration">
     <Message Text="Inside BeforeEndToEndIteration *********"/>
     <Message Text="Restoring SmallGuide from the TeamCity backup" />
-    <Exec Command="&quot;$(SolutionRoot)\ExecSqlScript.bat&quot; &quot;$(SolutionRoot)\RestoreSmallguideFromTeamCityBackup.sql&quot; " />
+    <Exec Command="&quot;$(SolutionRoot)\Main\ExecSqlScript.bat&quot; &quot;$(SolutionRoot)\Main\RestoreSmallguideFromTeamCityBackup.sql&quot; " />
   </Target>
 
   <Target Name="BeforeClean">
