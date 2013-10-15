@@ -258,9 +258,8 @@
     <CallTarget Targets="PostBuildStep" />
   </Target>
 
-  <!-- Restore smallguide using the backup created by Team City.  Do this at the very beginning of the build process -->
-  <Target Name="BeforeEndToEndIteration">
-    <Message Text="Inside BeforeEndToEndIteration *********"/>
+  <!-- Restore smallguide using the backup created by Team City.  Do this after a get -->
+  <Target Name="AfterGet">
     <Message Text="Restoring SmallGuide from the TeamCity backup" />
     <Exec Command="&quot;$(SolutionRoot)\ExecSqlScript.bat&quot; &quot;$(SolutionRoot)\RestoreSmallguideFromTeamCityBackup.sql&quot; " />
   </Target>
