@@ -377,9 +377,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpecFlow", "SpecFlow", "{BC
 		Source\Reference DLLs\SpecFlow\TechTalk.SpecFlow.dll = Source\Reference DLLs\SpecFlow\TechTalk.SpecFlow.dll
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{9FAA2099-F8F7-4C4C-8215-B43550329717}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TheGuide", "TheGuide", "{A305BD2D-8CEF-44DB-BE5E-BD8EC409CEDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheGuide.Database.UnitTests", "Source\Databases\The Guide\TheGuide.Database.UnitTests\TheGuide.Database.UnitTests.csproj", "{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}"
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 49
+		SccNumberOfProjects = 50
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
 		SccLocalPath0 = .
@@ -575,6 +581,10 @@ Global
 		SccProjectTopLevelParentUniqueName48 = UserServices.sln
 		SccProjectName48 = Tests/Acceptance\u0020Tests/Comments.AcceptanceTests
 		SccLocalPath48 = Tests\\Acceptance\u0020Tests\\Comments.AcceptanceTests
+		SccProjectUniqueName49 = Source\\Databases\\The\u0020Guide\\TheGuide.Database.UnitTests\\TheGuide.Database.UnitTests.csproj
+		SccProjectTopLevelParentUniqueName49 = UserServices.sln
+		SccProjectName49 = Source/Databases/The\u0020Guide/TheGuide.Database.UnitTests
+		SccLocalPath49 = Source\\Databases\\The\u0020Guide\\TheGuide.Database.UnitTests
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = UserServices2.vsmdi
@@ -2283,6 +2293,42 @@ Global
 		{A36FD8B0-A1BB-4AD1-8BA8-404202FB6FE2}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{A36FD8B0-A1BB-4AD1-8BA8-404202FB6FE2}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{A36FD8B0-A1BB-4AD1-8BA8-404202FB6FE2}.Retail|Win32.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Debug|.NET.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.DebugSmallGuide|.NET.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.DebugSmallGuide|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.DebugSmallGuide|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.DebugSmallGuide|Win32.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Debug|.NET.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Debug|Win32.ActiveCfg = Debug|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Release|.NET.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Release|Any CPU.Build.0 = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.MySQL Release|Win32.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Release|.NET.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Release|Win32.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|.NET.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Any CPU.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Any CPU.Build.0 = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -2294,6 +2340,7 @@ Global
 		{444038EE-D867-45BE-87CA-062461221E5F} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{E2971637-C176-41F1-9C2B-A60A2249BBF8} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{1716050D-1B1B-4AF8-BF48-EE87B3D92431} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
+		{9FAA2099-F8F7-4C4C-8215-B43550329717} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF} = {3FEECA36-C430-42EB-B37D-01EB46BA0875}
 		{2BF3EB98-483E-4C8D-98B7-C0BE3F649C39} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{DA384153-9F00-48D4-AEC8-3D445FB65C95} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
@@ -2379,6 +2426,8 @@ Global
 		{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D} = {F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B}
 		{A4F7704F-4932-473A-91DB-FEA3EA317DA7} = {F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B}
 		{A36FD8B0-A1BB-4AD1-8BA8-404202FB6FE2} = {BE2CBAEA-4814-4DBD-AE46-FBA06D24EEF8}
+		{A305BD2D-8CEF-44DB-BE5E-BD8EC409CEDC} = {9FAA2099-F8F7-4C4C-8215-B43550329717}
+		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79} = {A305BD2D-8CEF-44DB-BE5E-BD8EC409CEDC}
 	EndGlobalSection
 	GlobalSection(TextTemplating) = postSolution
 		TextTemplating = 1

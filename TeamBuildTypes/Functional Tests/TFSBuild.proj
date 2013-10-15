@@ -159,10 +159,10 @@
       <Targets></Targets>
       <Properties></Properties>
     </SolutionToBuild>
-    <SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/Source/Databases/The Guide/TheGuide.sln">
+    <!--<SolutionToBuild Include="$(BuildProjectFolderPath)/../../Main/Source/Databases/The Guide/TheGuide.sln">
       <Targets></Targets>
       <Properties></Properties>
-    </SolutionToBuild>
+    </SolutionToBuild>-->
 
   </ItemGroup>
 
