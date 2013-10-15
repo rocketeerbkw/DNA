@@ -261,6 +261,7 @@
   <!-- Restore smallguide using the backup created by Team City.  Do this at the very beginning of the build process -->
   <Target Name="BeforeEndToEndIteration">
     <Message Text="Inside BeforeEndToEndIteration *********"/>
+    <Message Text="Restoring SmallGuide from the TeamCity backup" />
     <Exec Command="&quot;$(SolutionRoot)\ExecSqlScript.bat&quot; &quot;$(SolutionRoot)\RestoreSmallguideFromTeamCityBackup.sql&quot; " />
   </Target>
   
