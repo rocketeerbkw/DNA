@@ -18,8 +18,13 @@
     <Build Condition="'$(Build)'==''">0</Build>
     <Revision Condition="'$(Revision)'==''">0</Revision>
   </PropertyGroup>
-  
 
+
+  <PropertyGroup>
+    <DNADbDacpacFolder>\\vp-dev-dna-db1\data</DNADbDacpacFolder>
+    <DNADbDacpacFolderUser>dna_admin</DNADbDacpacFolderUser>
+    <DNADbDacpacFolderPw>sotzed04</DNADbDacpacFolderPw>
+  </PropertyGroup>
 
   <ProjectExtensions>
 
@@ -254,7 +259,7 @@
     <AssemblyInfoFiles Include="$(SolutionRoot)\**\AssemblyInfo.cs" />
     <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
     <DatabaseScripts Include="$(SolutionRoot)\Source\Databases\The Guide\DBScripts\**\*.*"></DatabaseScripts>
-    <DNADbDacpac Include="\\vp-dev-dna-db1\data\DNADb.dacpac"/>
+    <DNADbDacpac Include="$(DNADbDacpacFolder)\DNADb.dacpac"/>
     <SkinsExclude Include="$(SolutionRoot)\Source\Skins\base\site.xsl;$(SolutionRoot)\Source\Skins\base\lists.xsl;$(SolutionRoot)\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Source\Skins\common\configuration.xsl;"></SkinsExclude>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
     <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
@@ -412,6 +417,9 @@
       <DeployDir>C:\RipleyRelease\deploy\</DeployDir>
     </PropertyGroup>
 
+    <!-- Exec IPC$ command - get access to vp-dev-dna-web1-->
+    <Exec Command="NET USE $(DNADbDacpacFolder) /u:$(DNADbDacpacFolderUser) $(DNADbDacpacFolderPw)"></Exec>
+
       <!-- delete existing files -->
     <Exec Command="rmdir /S /Q &quot;$(DeployDir)&quot;"></Exec>
     <Exec Command="mkdir &quot;$(DeployDir)&quot;"></Exec>
@@ -428,6 +436,8 @@
     <Copy SourceFiles="@(DNADbDacpac)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <Copy SourceFiles="@(Documentation)" DestinationFolder="$(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
+    <Exec Command="NET USE $(DNADbDacpacFolder) /DELETE"></Exec>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
