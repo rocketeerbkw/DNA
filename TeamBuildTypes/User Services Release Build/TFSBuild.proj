@@ -254,6 +254,7 @@
     <AssemblyInfoFiles Include="$(SolutionRoot)\**\AssemblyInfo.cs" />
     <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
     <DatabaseScripts Include="$(SolutionRoot)\Source\Databases\The Guide\DBScripts\**\*.*"></DatabaseScripts>
+    <DNADbDacpac Incude="\\vp-dev-dna-db1\data\DNADb.dacpac"/>
     <SkinsExclude Include="$(SolutionRoot)\Source\Skins\base\site.xsl;$(SolutionRoot)\Source\Skins\base\lists.xsl;$(SolutionRoot)\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Source\Skins\common\configuration.xsl;"></SkinsExclude>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
     <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
@@ -424,7 +425,8 @@
     <Copy SourceFiles="@(Skins)" DestinationFolder="$(DeployDir)wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Database)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(DatabaseScripts)" DestinationFolder="$(DeployDir)Database\DBScripts\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    
+    <Copy SourceFiles="@(DNADbDacpac)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+
     <Copy SourceFiles="@(Documentation)" DestinationFolder="$(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
