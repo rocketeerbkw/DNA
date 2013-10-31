@@ -77,6 +77,11 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Comments.AnonymousPosting.feature</DependentUpon>
     </Compile>
+    <Compile Include="Comments.CreateConversations.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Comments.CreateConversations.feature</DependentUpon>
+    </Compile>
     <Compile Include="Comments.CreateForum.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -132,6 +137,10 @@
     <None Include="Comments.AnonymousPosting.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Comments.AnonymousPosting.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Comments.CreateConversations.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Comments.CreateConversations.feature.cs</LastGenOutput>
     </None>
     <None Include="Comments.CreateForum.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

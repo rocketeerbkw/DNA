@@ -10,6 +10,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
 using BBC.DNA.Moderation.Utils;
 using System.Xml.Linq;
 using System.Linq;
+using System.Security.Cryptography;
 
 
 namespace BBC.Dna.Api
@@ -1390,7 +1391,248 @@ namespace BBC.Dna.Api
             }
         }
 
+        public int CreateConversation(string commentForumUid)
+        {
+            int threadId = 0;
+            using (var reader = CreateReader("dna.AddThread"))
+            {
+                reader.AddParameter("commentForumId", commentForumUid);
+                reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    threadId = reader.GetInt32NullAsZero("ThreadId");
+                }
+
+                return threadId;
+            }
+        }
+        
+        public CommentInfo PostCommentToConversation(string siteName, string commentForumUid, int conversationId, CommentInfo comment)
+        {
+            if (CallingUser == null)
+            {
+                throw new InvalidOperationException("Cannot post to conversation if not signed in");
+            }
+
+            var apiKey = GetApiKeyFromSiteName(siteName);
+
+            var moderationStatus = DetermineModerationStatus(apiKey, commentForumUid);
+            switch (moderationStatus)
+            {
+                case 0: //Reactive
+                    comment = AddToCommentRepository(commentForumUid, conversationId , comment);
+                    break;
+
+                case 1: //Post
+                    comment = AddToCommentRepository(commentForumUid, conversationId, comment);
+                    QueueComment(moderationStatus, commentForumUid, conversationId, comment);
+                    break;
+
+                case 2 : //Pre:
+                    QueueComment(moderationStatus, commentForumUid, conversationId, comment);
+                    break;
+
+                default:
+                    throw new NotImplementedException("Unknown moderation method in PostComment: " + moderationStatus.ToString());
+            }
+            return comment;
+        }
+
+        private void QueueComment(int moderationStatus, string commentForumUid, int conversationId, CommentInfo comment)
+        {
+            int modId = 0;
+            switch (moderationStatus)
+            {
+                case 1: //post
+                    modId = AddCommentToPostModerationsQueue(commentForumUid, comment, modId);
+                    break;
+                case 2:
+                    modId = AddCommentToPreModerationQueue(commentForumUid, conversationId, comment, modId);
+                    break;
+                default:
+                    throw new InvalidOperationException("Can't add to moderation queue using moderation method " /*+ moderationItem.ModerationPolicy.ToString()*/);
+            }
+        }
+
+        private int AddCommentToPostModerationsQueue(string commentForumUid, CommentInfo comment, int modId)
+        {
+            using (var reader = CreateReader("dna.AddCommentToPostModerationQueue"))
+            {
+                reader.AddParameter("commentForumId", commentForumUid);
+                reader.AddParameter("commentId", comment.ID);
+                reader.Execute();
+                if (reader.HasRows && reader.Read())
+                {
+                    modId = reader.GetInt32NullAsZero("ModerationQueueId");
+                }
+            }
+            return modId;
+        }
+
+        private int AddCommentToPreModerationQueue(string commentForumUid, int conversationId, CommentInfo comment, int modId)
+        {
+            using (var reader = CreateReader("dna.AddCommentToPreModerationQueue"))
+            {
+                reader.AddParameter("commentForumId", commentForumUid);
+                reader.AddParameter("bbcIdentityUserId", CallingUser.IdentityUserID);
+                reader.AddParameter("userName", CallingUser.UserName);
+                reader.AddParameter("text", comment.text);
+                reader.AddParameter("hash", GenerateHash(comment.text, commentForumUid, CallingUser.IdentityUserID));
+                reader.AddParameter("threadId", conversationId);
+                reader.AddParameter("subject", comment.Title);
+                reader.Execute();
+                if (reader.HasRows && reader.Read())
+                {
+                    modId = reader.GetInt32NullAsZero("ModerationQueueId");
+                }
+            }
+            return modId;
+        }
+
+        private Guid GenerateHash(string text, string commentForumId, string userId)
+        {
+            var source = text + "<:>" + commentForumId + "<:>" + userId == null ? "" : userId;
+            return GenerateHash(source);
+        }
+
+        private Guid GenerateHash(string source)
+        {
+            System.Text.UTF8Encoding utf8 = new System.Text.UTF8Encoding();
+            MD5CryptoServiceProvider md5Hasher = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] hashedDataBytes = md5Hasher.ComputeHash(utf8.GetBytes(source));
+            return new Guid(hashedDataBytes);
+        }
+
+        private CommentInfo AddToCommentRepository(string commentForumUid, int conversationId, CommentInfo comment)
+        {
+            using (var reader = CreateReader("dna.AddComment"))
+            {
+                reader.AddParameter("bbcIdentityUserId", CallingUser.IdentityUserID);
+                reader.AddParameter("commentForumId", commentForumUid);
+                reader.AddParameter("commentText", comment.text);
+                reader.AddParameter("trusetedSource", CallingUser.IsTrustedUser());
+                reader.AddParameter("threadId", conversationId);
+                reader.AddParameter("trustedSource", CallingUser.IsTrustedUser());
+                reader.Execute();
+
+                if(reader.HasRows && reader.Read())
+                {
+                    //fill in comment
+                }
+            }
+            return comment;         
+        }
+
+        private string GetApiKeyFromSiteName(string siteName)
+        {
+            string apiKey = "";
+            using (var reader = CreateReader("dna.GetApiKeyFromSiteName"))
+            {
+                reader.AddParameter("siteName", siteName);
+                reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    apiKey = reader.GetStringNullAsEmpty("ApiKey");
+                }
+
+            }
+            return apiKey;
+        }
+
+        private int DetermineModerationStatus(string apiKey, string commentForumId)
+        {
+            int userModerationStatus = 0;
+            
+            //dna.GetUserModerationStatus - apiKey, bbcIdentityId
+            using (var reader = CreateReader("dna.GetUserModerationStatus"))
+            {
+                reader.AddParameter("apiKey", apiKey);
+                reader.AddParameter("bbcIdentityUserId", CallingUser.IdentityUserID);
+                reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    userModerationStatus = reader.GetInt32NullAsZero("PrefStatus");
+                }
+            }
+
+            //if banned - exit
+            if (userModerationStatus == 4)
+                return 4;
+
+            string moderationPolicy = "Reactive";
+            using (var reader = CreateReader("dna.GetCommentServiceByApiKey"))
+            {
+                reader.AddParameter("apiKey", apiKey);
+                reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    moderationPolicy = reader.GetStringNullAsEmpty("ModerationPolicy");
+                }
+            }
+
+            int commentForumModerationStatus = 0;
+            using (var reader = CreateReader("dna.GetCommentForumModerationStatus"))
+            {
+                reader.AddParameter("apiKey", apiKey);
+                reader.AddParameter("commentForumId", commentForumId);
+                reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    commentForumModerationStatus = reader.GetInt32NullAsZero("ModerationStatus");
+                }
+            }
+
+            if (commentForumModerationStatus != 0)
+            {
+                moderationPolicy = ConvertToModerationPolicy(commentForumModerationStatus);
+            }
+
+            if (moderationPolicy != "Pre")
+            {
+                moderationPolicy = ConvertToModerationPolicy(userModerationStatus);
+            }
+
+            if (moderationPolicy == "Pre")
+            {
+                if (CallingUser.IsTrustedUser())
+                {
+                    moderationPolicy = "Post";
+                }
+            }
+            
+            return ConvertToModerationStatus(moderationPolicy);
+        }
+
         #region Private Functions
+
+        private string ConvertToModerationPolicy(int moderationStatus)
+        {
+            switch (moderationStatus)
+            {
+                case 0: return "Reactive";
+                case 1: return "Post";
+                case 2: return "Pre";
+                default:
+                    throw new ArgumentException("Cannot convert '" + moderationStatus.ToString() + "' to a moderation policy");
+            }
+        }
+
+        private int ConvertToModerationStatus(string moderationPolicy)
+        {
+            switch (moderationPolicy)
+            {
+                case "Reactive": return 0;
+                case "Post": return 1;
+                case "Pre": return 2;
+                default:
+                    throw new ArgumentException("Cannot convert '" + moderationPolicy + "' to a moderation status");
+            }
+        }
 
         private MostCommentedCommentForum MostCommentedCommentForumCreateFromReader(IDnaDataReader reader)
         {
@@ -1897,5 +2139,7 @@ namespace BBC.Dna.Api
 
 
         #endregion
+
+        
     }
 }

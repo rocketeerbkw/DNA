@@ -112,6 +112,8 @@
     <Compile Include="Contracts\ContactFormContactDetailList.Contract.cs" />
     <Compile Include="Contracts\ContactFormContactDetails.Contract.cs" />
     <Compile Include="Contracts\ContactFormMessage.Contract.cs" />
+    <Compile Include="Contracts\Conversation.Contract.cs" />
+    <Compile Include="Contracts\Conversations.Contract.cs" />
     <Compile Include="Contracts\ErrorData.Contract.cs" />
     <Compile Include="Contracts\Forum.Contract.cs" />
     <Compile Include="Contracts\MostCommentedCommentForum.Contract.cs" />
@@ -154,6 +156,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BBC.Dna.snk" />
+    <Compile Include="Contracts\ConversationStatus.Contracts.cs" />
+    <Compile Include="Repositories\ICommentForumRepository.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -191,6 +195,9 @@
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
       <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dao\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
