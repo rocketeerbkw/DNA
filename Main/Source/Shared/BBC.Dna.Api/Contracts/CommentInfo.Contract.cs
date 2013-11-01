@@ -147,7 +147,7 @@ namespace BBC.Dna.Api
             set;
         }
 
-        [DataMember(Name = ("title"), Order = 20)]
+        [DataMember(Name = ("title"), Order = 20, EmitDefaultValue=false)]
         public string Title
         {
             get;
