@@ -27,6 +27,7 @@
 				<xs:element name="neroPositiveRatingValue" type="xs:int" />
 				<xs:element name="neroNegativeRatingValue" type="xs:int" />
 				<xs:element name="rating" type="xs:unsignedByte" />
+        <xs:element name="title" type="xs:string" nillable="true" />
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
