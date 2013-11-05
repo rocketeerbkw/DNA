@@ -253,14 +253,10 @@
   </ItemGroup>
 
   <ItemGroup>
-
-    
     <RipleyRC Include="$(SolutionRoot)\Source\Ripley\RipleyServer.rc" />
     <AssemblyInfoFiles Include="$(SolutionRoot)\**\AssemblyInfo.cs" />
     <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
     <DatabaseScripts Include="$(SolutionRoot)\Source\Databases\The Guide\DBScripts\**\*.*"></DatabaseScripts>
-    <DNADbDacpacs Include="$(DNADbDacpacFolder)\DNADb*.dacpac"/>
-    <DNADbPublishXml Include="$(DNADbDacpacFolder)\*.publish.xml"/>
     <SkinsExclude Include="$(SolutionRoot)\Source\Skins\base\site.xsl;$(SolutionRoot)\Source\Skins\base\lists.xsl;$(SolutionRoot)\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Source\Skins\common\configuration.xsl;"></SkinsExclude>
     <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
     <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
@@ -421,7 +417,12 @@
     <!-- Exec IPC$ command - get access to vp-dev-dna-web1-->
     <Exec Command="NET USE $(DNADbDacpacFolder) /u:$(DNADbDacpacFolderUser) $(DNADbDacpacFolderPw)"></Exec>
 
-      <!-- delete existing files -->
+    <ItemGroup>
+      <DNADbDacpacs Include="$(DNADbDacpacFolder)\DNADb*.dacpac"/>
+      <DNADbPublishXml Include="$(DNADbDacpacFolder)\*.publish.xml"/>
+    </ItemGroup>
+    
+    <!-- delete existing files -->
     <Exec Command="rmdir /S /Q &quot;$(DeployDir)&quot;"></Exec>
     <Exec Command="mkdir &quot;$(DeployDir)&quot;"></Exec>
     <Copy SourceFiles="@(DnaPages)" DestinationFolder="$(DeployDir)wwwroot\DnaPages\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
