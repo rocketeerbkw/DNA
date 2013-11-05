@@ -252,27 +252,17 @@
     -->
   </ItemGroup>
 
-  <ItemGroup>
-    <RipleyRC Include="$(SolutionRoot)\Source\Ripley\RipleyServer.rc" />
-    <AssemblyInfoFiles Include="$(SolutionRoot)\**\AssemblyInfo.cs" />
-    <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
-    <DatabaseScripts Include="$(SolutionRoot)\Source\Databases\The Guide\DBScripts\**\*.*"></DatabaseScripts>
-    <SkinsExclude Include="$(SolutionRoot)\Source\Skins\base\site.xsl;$(SolutionRoot)\Source\Skins\base\lists.xsl;$(SolutionRoot)\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Source\Skins\common\configuration.xsl;"></SkinsExclude>
-    <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
-    <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
-    <CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.pdb"></CommentsApi>
-    <ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.pdb"></ModerationApi>
-    <ArticlesApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Articles\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Articles\**\*.pdb"></ArticlesApi>
-    <CategoriesApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Categories\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Categories\**\*.pdb"></CategoriesApi>
-    <ForumsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Forums\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Forums\**\*.pdb"></ForumsApi>
-    <UsersApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Users\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Users\**\*.pdb"></UsersApi>
-    <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
-    <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\cleanfilter.reg;$(SolutionRoot)\DeploymentNotes.txt;$(SolutionRoot)\Deploy*.bat"></Documentation>
-  </ItemGroup>
+
 
 
   <!-- Do versioning -->
   <Target Name="AfterGet" Condition="'$(IsDesktopBuild)'!='true' and '$(Major)' != '0'">
+    
+    <ItemGroup>
+      <RipleyRC Include="$(SolutionRoot)\Source\Ripley\RipleyServer.rc" />
+      <AssemblyInfoFiles Include="$(SolutionRoot)\**\AssemblyInfo.cs" />
+    </ItemGroup>
+    
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Message="Updating version files to version &quot;$(Major).$(Minor).$(Build).$(Revision)&quot;" Condition=" '$(IsDesktopBuild)' != 'true' ">
       <!-- Return the ID of the tasks and assigned it to "PropertyName" -->
       <Output TaskParameter="Id" PropertyName="VersioningStep" />
@@ -297,6 +287,9 @@
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(VersioningStep)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
 
     <OnError ExecuteTargets="AfterGetFailed" />
+
+
+    
   </Target>
   <Target Name="AfterGetFailed">
     <Exec WorkingDirectory="$(SolutionRoot)" Command="tf.exe undo /recursive &quot;AssemblyInfo.cs&quot; /noprompt"/>
@@ -418,8 +411,24 @@
     <Exec Command="NET USE $(DNADbDacpacFolder) /u:$(DNADbDacpacFolderUser) $(DNADbDacpacFolderPw)"></Exec>
 
     <ItemGroup>
+      <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
+      <CommentsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Comments\**\*.pdb"></CommentsApi>
+      <ModerationApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Moderation\**\*.pdb"></ModerationApi>
+      <ArticlesApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Articles\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Articles\**\*.pdb"></ArticlesApi>
+      <CategoriesApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Categories\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Categories\**\*.pdb"></CategoriesApi>
+      <ForumsApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Forums\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Forums\**\*.pdb"></ForumsApi>
+      <UsersApi Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Users\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Services.Users\**\*.pdb"></UsersApi>
+      <Ripley Include="$(BinariesRoot)\Win32\release\RipleyServer.dll"></Ripley>
+      <Documentation Include="$(SolutionRoot)\filter.reg;$(SolutionRoot)\cleanfilter.reg;$(SolutionRoot)\DeploymentNotes.txt;$(SolutionRoot)\Deploy*.bat"></Documentation>
+      <SkinsExclude Include="$(SolutionRoot)\Source\Skins\base\site.xsl;$(SolutionRoot)\Source\Skins\base\lists.xsl;$(SolutionRoot)\Source\Skins\base\sitemap.xml;$(SolutionRoot)\Source\Skins\common\configuration.xsl;"></SkinsExclude>
+      <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
+      <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
+      <DatabaseScripts Include="$(SolutionRoot)\Source\Databases\The Guide\DBScripts\**\*.*"></DatabaseScripts>
+
       <DNADbDacpacs Include="$(DNADbDacpacFolder)\DNADb*.dacpac"/>
       <DNADbPublishXml Include="$(DNADbDacpacFolder)\*.publish.xml"/>
+      <DNADbDeployScripts Include="$(SolutionRoot)\Source\Databases\Deploy*.bat" />
+
     </ItemGroup>
     
     <!-- delete existing files -->
@@ -435,8 +444,9 @@
     <Copy SourceFiles="@(Skins)" DestinationFolder="$(DeployDir)wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Database)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(DatabaseScripts)" DestinationFolder="$(DeployDir)Database\DBScripts\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(DNADbDacpacs)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(DNADbPublishXml)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(DNADbDacpacs)"       DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(DNADbPublishXml)"    DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(DNADbDeployScripts)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     
     <Copy SourceFiles="@(Documentation)" DestinationFolder="$(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
