@@ -80,9 +80,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api", "..\..\Shared
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseEmailProcessor", "DatabaseEmailProcessor\DatabaseEmailProcessor.csproj", "{CE8111CD-53A5-47EA-A64B-969431F043C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseEmailProcessor.IntegrationTests", "DatabaseEmailProcessor.IntegrationTests\DatabaseEmailProcessor.IntegrationTests.csproj", "{90F84ABC-AACB-4B96-ABCC-8BB5C5B10F83}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {E09BF891-7D4F-403E-B830-B9E2606D2C22}
+		{81BF57BE-74EA-4C73-81E3-8789B76E464D} = {81BF57BE-74EA-4C73-81E3-8789B76E464D}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 27
+		SccNumberOfProjects = 28
 		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
 		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/dnateamprojectcollection
 		SccLocalPath0 = .
@@ -190,6 +196,10 @@ Global
 		SccProjectUniqueName26 = DatabaseEmailProcessor\\DatabaseEmailProcessor.csproj
 		SccProjectName26 = DatabaseEmailProcessor
 		SccLocalPath26 = DatabaseEmailProcessor
+		SccProjectUniqueName27 = DatabaseEmailProcessor.IntegrationTests\\DatabaseEmailProcessor.IntegrationTests.csproj
+		SccProjectTopLevelParentUniqueName27 = DnaEventsService.sln
+		SccProjectName27 = DatabaseEmailProcessor.IntegrationTests
+		SccLocalPath27 = DatabaseEmailProcessor.IntegrationTests
 	EndGlobalSection
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = DnaEventsService.vsmdi
@@ -354,6 +364,12 @@ Global
 		{CE8111CD-53A5-47EA-A64B-969431F043C6}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
 		{CE8111CD-53A5-47EA-A64B-969431F043C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE8111CD-53A5-47EA-A64B-969431F043C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90F84ABC-AACB-4B96-ABCC-8BB5C5B10F83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F84ABC-AACB-4B96-ABCC-8BB5C5B10F83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90F84ABC-AACB-4B96-ABCC-8BB5C5B10F83}.DebugSmallGuide|Any CPU.ActiveCfg = Debug|Any CPU
+		{90F84ABC-AACB-4B96-ABCC-8BB5C5B10F83}.DebugSmallGuide|Any CPU.Build.0 = Debug|Any CPU
+		{90F84ABC-AACB-4B96-ABCC-8BB5C5B10F83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90F84ABC-AACB-4B96-ABCC-8BB5C5B10F83}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -377,6 +393,7 @@ Global
 		{211EB326-7B89-4F14-834A-A89240B91D8F} = {D1380547-12A9-4DD5-9028-9C4F0D998768}
 		{CB8FA3D2-5FC4-4161-A12C-FCE901FC73B7} = {5D5C1ADB-0418-4156-9E4C-98BBAA2E45AB}
 		{05A847A7-2A4F-4BEB-8CDC-2B91DB557EE3} = {5D5C1ADB-0418-4156-9E4C-98BBAA2E45AB}
+		{90F84ABC-AACB-4B96-ABCC-8BB5C5B10F83} = {5D5C1ADB-0418-4156-9E4C-98BBAA2E45AB}
 		{AD1F99C6-E380-4FA0-9B5E-FFDF8D51499C} = {E8170D91-811A-435C-9C65-B2CD5B21E535}
 	EndGlobalSection
 	GlobalSection(SpecExplorer.ActivityCompletionStatus) = preSolution

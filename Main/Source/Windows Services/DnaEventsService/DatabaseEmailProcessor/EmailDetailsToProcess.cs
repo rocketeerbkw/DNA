@@ -15,7 +15,7 @@ namespace Dna.DatabaseEmailProcessor
         public string LastFailedReason { get; private set; }
         public bool Sent { get; private set; }
 
-        public void ProcessEmail(SmtpClient client, IDnaLogger logger)
+        public void ProcessEmail(IDnaSmtpClient client, IDnaLogger logger)
         {
             try
             {
@@ -32,7 +32,7 @@ namespace Dna.DatabaseEmailProcessor
 
                     message.Priority = MailPriority.Normal;
 
-                    client.Send(message);
+                    client.SendMessage(message);
                     Sent = true;
                 }
             }

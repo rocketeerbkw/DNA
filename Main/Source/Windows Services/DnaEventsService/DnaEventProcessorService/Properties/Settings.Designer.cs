@@ -44,8 +44,7 @@ namespace DnaEventProcessorService.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=theGuide;Integrated Security=True;Application Name=" +
-            "DnaEventProcessorService")]
+        [global::System.Configuration.DefaultSettingValueAttribute("database=theguide; server=.; user id=sa; password=sapassword; pooling=false")]
         public string ConnectionString_TheGuide {
             get {
                 return ((string)(this["ConnectionString_TheGuide"]));
@@ -156,7 +155,7 @@ namespace DnaEventProcessorService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("20000")]
         public int DatabaseEmailProcessor_Interval {
             get {
                 return ((int)(this["DatabaseEmailProcessor_Interval"]));
@@ -192,7 +191,7 @@ namespace DnaEventProcessorService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool BIEventsOn {
             get {
                 return ((bool)(this["BIEventsOn"]));

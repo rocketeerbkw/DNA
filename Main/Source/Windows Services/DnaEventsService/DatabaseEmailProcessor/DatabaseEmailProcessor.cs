@@ -18,7 +18,7 @@ namespace Dna.DatabaseEmailProcessor
         private static int NumberOfThreads { get; set; }
         private static int BatchSize { get; set; }
         private static int TickCounter { get; set; }
-        private static SmtpClient SMTPClient { get; set; }
+        private static IDnaSmtpClient SMTPClient { get; set; }
         private static int MaxRetryAttempts { get; set; }
         static readonly object _locker = new object();
 
@@ -37,7 +37,7 @@ namespace Dna.DatabaseEmailProcessor
             DataReaderCreator = dataReaderCreator;
             NumberOfThreads = numThreads;
             BatchSize = batchSize;
-            SMTPClient = new SmtpClient(emailServerConnectionDetails);
+            SMTPClient = new DnaSmtpClient(emailServerConnectionDetails);
             MaxRetryAttempts = maxRetryAttempts;
 
             int minNumThreads, minCompPorts;
