@@ -132,16 +132,6 @@ namespace Dna.DatabaseEmailProcessor
             }
          }
 
-        private List<EmailDetailsToProcess> GetProcessedEmailsList(List<EmailDetailsToProcess> emailBatch)
-        {
-            var processedEvents = new List<EmailDetailsToProcess>();
-
-            foreach (var email in emailBatch.Where(x => x.Sent))
-                processedEvents.Add(email);
-
-            return processedEvents;
-        }
-
         public void ProcessEmailBatch(List<EmailDetailsToProcess> emailsToProcess, int numThreads)
         {
             ProcessorLogger.Log(TraceEventType.Verbose, "Starting ProcessEmailBatch");

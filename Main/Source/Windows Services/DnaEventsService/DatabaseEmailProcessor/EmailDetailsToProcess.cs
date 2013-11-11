@@ -38,8 +38,13 @@ namespace Dna.DatabaseEmailProcessor
             }
             catch (Exception e)
             {
-                logger.Log(System.Diagnostics.TraceEventType.Verbose, e.Message + " : " + e.InnerException.Source);
-                LastFailedReason = e.Message;
+                string errorMsg = e.Message;
+                if (e.InnerException != null)
+                {
+                    errorMsg += " : " + e.InnerException.Message;
+                }
+                logger.Log(System.Diagnostics.TraceEventType.Verbose, errorMsg);
+                LastFailedReason = errorMsg;
                 Sent = false;
             }
         }
