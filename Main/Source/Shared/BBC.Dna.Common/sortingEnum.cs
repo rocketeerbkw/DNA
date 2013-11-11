@@ -10,7 +10,9 @@
         PostCount,
         RatingValue,
         Term,
-        ReputationScore
+        ReputationScore,
+        HighestRating,
+        LowestRating
     }
 
     public enum SortDirection
