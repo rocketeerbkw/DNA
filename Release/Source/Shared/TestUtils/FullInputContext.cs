@@ -3,20 +3,17 @@ using System.IO;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
-using System.Text;
 using System.Net;
 using BBC.Dna;
-using BBC.Dna.Component;
 using DnaIdentityWebServiceProxy;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using BBC.Dna.Data;
 
-using BBC.Dna.Moderation.Utils;
-using BBC.Dna.Moderation.Utils.Tests;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Web;
 using TestUtils;
+using BBC.Dna.Moderation.Utils.Tests;
 
 
 namespace Tests
