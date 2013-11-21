@@ -21,9 +21,9 @@
 
 
   <PropertyGroup>
-    <DNADbDacpacFolder>\\vp-dev-dna-db1\data</DNADbDacpacFolder>
-    <DNADbDacpacFolderUser>dna_admin</DNADbDacpacFolderUser>
-    <DNADbDacpacFolderPw>sotzed04</DNADbDacpacFolderPw>
+    <TeamCityDNADbFilesFolder>\\vp-dev-dna-db1\data\TeamCityDNADbFiles</TeamCityDNADbFilesFolder>
+    <TeamCityDNADbFilesFolderUser>dna_admin</TeamCityDNADbFilesFolderUser>
+    <TeamCityDNADbFilesFolderPw>sotzed04</TeamCityDNADbFilesFolderPw>
   </PropertyGroup>
 
   <ProjectExtensions>
@@ -408,7 +408,7 @@
     </PropertyGroup>
 
     <!-- Exec IPC$ command - get access to vp-dev-dna-web1-->
-    <Exec Command="NET USE $(DNADbDacpacFolder) /u:$(DNADbDacpacFolderUser) $(DNADbDacpacFolderPw)"></Exec>
+    <Exec Command="NET USE $(TeamCityDNADbFilesFolder) /u:$(TeamCityDNADbFilesFolderUser) $(TeamCityDNADbFilesFolderPw)"></Exec>
 
     <ItemGroup>
       <DnaPages Include="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.*" Exclude="$(BinariesRoot)\release\_PublishedWebsites\BBC.DNA.Dnapages\**\*.pdb"></DnaPages>
@@ -424,11 +424,7 @@
       <Skins Include="$(SolutionRoot)\Source\Skins\**\*.*" Exclude="@(SkinsExclude)" ></Skins>
       <Database Include="$(SolutionRoot)\Source\Databases\**\*-Script.sql"></Database>
       <DatabaseScripts Include="$(SolutionRoot)\Source\Databases\The Guide\DBScripts\**\*.*"></DatabaseScripts>
-
-      <DNADbDacpacs Include="$(DNADbDacpacFolder)\DNADb*.dacpac"/>
-      <DNADbPublishXml Include="$(DNADbDacpacFolder)\*.publish.xml"/>
-      <DNADbDeployScripts Include="$(SolutionRoot)\Source\Databases\Deploy*.bat" />
-
+      <TeamCityDNADbFiles Include="$(TeamCityDNADbFilesFolder)\*.*"/>
     </ItemGroup>
     
     <!-- delete existing files -->
@@ -444,13 +440,11 @@
     <Copy SourceFiles="@(Skins)" DestinationFolder="$(DeployDir)wwwroot\h2g2\skins\%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(Database)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     <Copy SourceFiles="@(DatabaseScripts)" DestinationFolder="$(DeployDir)Database\DBScripts\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(DNADbDacpacs)"       DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(DNADbPublishXml)"    DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
-    <Copy SourceFiles="@(DNADbDeployScripts)" DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
+    <Copy SourceFiles="@(TeamCityDNADbFiles)"    DestinationFolder="$(DeployDir)Database\" SkipUnchangedFiles="false"  ContinueOnError="false"/>
     
     <Copy SourceFiles="@(Documentation)" DestinationFolder="$(DeployDir)%(RecursiveDir)" SkipUnchangedFiles="false"  ContinueOnError="false"/>
 
-    <Exec Command="NET USE $(DNADbDacpacFolder) /DELETE"></Exec>
+    <Exec Command="NET USE $(TeamCityDNADbFilesFolder) /DELETE"></Exec>
 
     <!-- When everything is done, change the status of the task to "Succeeded" -->
     <BuildStep TeamFoundationServerUrl="$(TeamFoundationServerUrl)" BuildUri="$(BuildUri)" Id="$(DeployToPublishFolderId)" Status="Succeeded" Condition=" '$(IsDesktopBuild)' != 'true' " />
