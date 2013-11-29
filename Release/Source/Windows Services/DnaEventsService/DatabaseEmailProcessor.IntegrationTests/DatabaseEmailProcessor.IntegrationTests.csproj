@@ -52,9 +52,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
     </Reference>
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
     <Reference Include="Rhino.Mocks">
       <HintPath>..\..\..\Reference DLLs\Rhino.Mocks.dll</HintPath>
     </Reference>
@@ -89,7 +86,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="BBC.Dna.snk" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

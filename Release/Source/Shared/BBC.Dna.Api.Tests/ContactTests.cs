@@ -10,6 +10,7 @@ using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
 using BBC.Dna.Api.Contracts;
+using System.Web;
 
 namespace BBC.Dna.Api.Tests
 {
@@ -552,6 +553,25 @@ namespace BBC.Dna.Api.Tests
 
             Contacts contact = new Contacts(null, mockerDataReaderCreator, null, null);
             Assert.IsTrue(contact.SetContactFormEmailAddress(testForumID, testContactEmail), "Should return false when invalid forumid given!");
+        }
+
+        [TestMethod]
+        public void ShouldReturnKeyValueForEncodedKeyName()
+        {
+            string expectedKeyName = "Email Address";
+            string expectedSubject = "Test Subject";
+            string expectedBody = expectedKeyName + "\ntest.email@bbc.co.uk\n\n";
+            string expectedSentFrom = "test.email@bbc.co.uk";
+            string contactDetails = "{\"body\":[{\"Key\":\"" + HttpUtility.UrlEncode(expectedKeyName) + "\",\"Value\":\"" + HttpUtility.UrlEncode(expectedSentFrom) + "\"}],\"subject\":\"" + HttpUtility.UrlEncode(expectedSubject) + "\"}";
+            string actualSubject = "";
+            string actualBody = "";
+            string actualSentFrom = "";
+
+            Contacts.TryParseContactFormMessage(contactDetails, false, ref actualSubject, ref actualBody, ref actualSentFrom);
+
+            Assert.AreEqual(expectedSubject, actualSubject);
+            Assert.AreEqual(expectedBody, actualBody);
+            Assert.AreEqual(expectedSentFrom, actualSentFrom);
         }
 
         private IDnaDataReader MockedGetContactFormDetailFromFormID(ContactForm newContactFormDetails, bool exists)
