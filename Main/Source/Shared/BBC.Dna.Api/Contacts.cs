@@ -247,12 +247,14 @@ namespace BBC.Dna.Api
                     body = "";
                     foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
                     {
-                        string messageLine = HttpUtility.UrlDecode(content.Key) + "\n" + HttpUtility.UrlDecode(content.Value) + "\n\n";
+                        string decodedKey = HttpUtility.UrlDecode(content.Key);
+                        string decodedValue = HttpUtility.UrlDecode(content.Value);
+                        string messageLine = decodedKey + "\n" + decodedValue + "\n\n";
                         body += messageLine;
 
-                        if (content.Key.ToLower().CompareTo("email address") == 0)
+                        if (decodedKey.ToLower().CompareTo("email address") == 0)
                         {
-                            sentFrom = content.Value;
+                            sentFrom = decodedValue;
                         }
                     }
                 }

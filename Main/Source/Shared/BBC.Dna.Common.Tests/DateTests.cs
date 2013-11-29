@@ -48,8 +48,31 @@ namespace BBC.Dna.Common.Tests
 
         }
 
+        [TestMethod]
+        public void ShouldHandleRelativeDatesInTheFuture()
+        {
+            DateTime dateTime = DateTime.Now.AddHours(7);
+            string text = DnaDateTime.TryGetRelativeValueForPastDate(dateTime);
+            Assert.IsNotNull(text);
+            text = BBC.Dna.Utils.TimeZoneInfo.GetTimeZoneInfo().ConvertUtcToTimeZone(dateTime).ToString("dd/MM/yyyy HH:mm:ss");
+            Assert.IsNotNull(text);
+            Assert.AreNotEqual("", text);
+            Assert.IsNotNull(DnaDateTime.TryGetRelativeValueForPastDate(dateTime));
+            Assert.AreNotEqual("", DnaDateTime.TryGetRelativeValueForPastDate(dateTime));
+        }
 
-        
+        [TestMethod]
+        public void ShouldHandleRelativeDatesForMidnight()
+        {
+            DateTime dateTime = new DateTime(2013, 10, 01, 00, 00, 00);
+            string text = DnaDateTime.TryGetRelativeValueForPastDate(dateTime);
+            Assert.IsNotNull(text);
+            text = BBC.Dna.Utils.TimeZoneInfo.GetTimeZoneInfo().ConvertUtcToTimeZone(dateTime).ToString("dd/MM/yyyy HH:mm:ss");
+            Assert.IsNotNull(text);
+            Assert.AreNotEqual("", text);
+            Assert.IsNotNull(DnaDateTime.TryGetRelativeValueForPastDate(dateTime));
+            Assert.AreNotEqual("", DnaDateTime.TryGetRelativeValueForPastDate(dateTime));
+        }
     }
 }
 
