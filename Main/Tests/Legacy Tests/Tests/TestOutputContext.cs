@@ -423,5 +423,14 @@ namespace Tests
         /// Gets the cookie collection for the response
         /// </summary>
         public HttpCookieCollection Cookies { get { throw new NotImplementedException(); }  }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> BannedUserAgents
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

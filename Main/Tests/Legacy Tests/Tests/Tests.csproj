@@ -134,6 +134,7 @@
     <Compile Include="Dna.Sites\SiteOptionListTests.cs" />
     <Compile Include="Dna.Sites\SiteOptionTests.cs" />
     <Compile Include="Dna.Sites\SiteTests.cs" />
+    <Compile Include="DnaBasePageTests.cs" />
     <Compile Include="MessageBoardStatisticsTests.cs" />
     <Compile Include="ModerationHistoryTests.cs" />
     <Compile Include="ModerationReasonsTests.cs" />

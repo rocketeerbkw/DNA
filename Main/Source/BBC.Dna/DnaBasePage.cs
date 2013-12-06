@@ -13,6 +13,7 @@ using DnaIdentityWebServiceProxy;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
 using BBC.Dna.Users;
+using System.Collections.Generic;
 
 namespace BBC.Dna.Page
 {
@@ -132,6 +133,8 @@ namespace BBC.Dna.Page
 
         private IDnaIdentityWebServiceProxy _signInComponent = null;
 
+        private string _botNotAllowedMessage = "Forbidden";
+
 		/// <summary>
         /// The current dna request object
         /// </summary>
@@ -146,6 +149,17 @@ namespace BBC.Dna.Page
         public XmlNode WholePageBaseXmlNode
         {
             get { return _page.RootElement; }
+        }
+
+        /// <summary>
+        /// List for holding all the banned user agent names, or parts of.
+        /// e.g. BingBot.htm or 'http://www.bing.com/bingbot.htm' or www.bing.com
+        /// The more info, the more specific banning can be done.
+        /// The list of banned agents is taken from the config file as a '|' seperated list
+        /// </summary>
+        public List<String> BannedUserAgents
+        {
+            get { return AppContext.TheAppContext.BannedUserAgents; }
         }
 
 		/// <summary>
@@ -223,6 +237,11 @@ namespace BBC.Dna.Page
 				}
 				catch (Exception ex)
 				{
+                    if (ex.GetType() == typeof(HttpException) && ex.Message == _botNotAllowedMessage)
+                    {
+                        throw;
+                    }
+
 					wasExceptionCaught = true;
 					if (Diagnostics != null)
 					{
@@ -292,6 +311,8 @@ namespace BBC.Dna.Page
 			{
 				return;
 			}
+
+            CheckForForbiddenUserAgents(UserAgent, BannedUserAgents);
 			
 			int curRequests = Interlocked.Increment(ref _currentRequestCount);
 
@@ -307,6 +328,7 @@ namespace BBC.Dna.Page
 					//_page.AddTextTag(_page.RootElement.FirstChild, "REQUESTTYPE", PageType);
                     //_skinSelector.Initialise(this, this);
 				}
+
                 InitialisePage();
                 
 				// Intialise the page
@@ -362,6 +384,23 @@ namespace BBC.Dna.Page
 			}
 
 		}
+
+        /// <summary>
+        /// Checks to see if the user agent is one of the listed banned agents.
+        /// </summary>
+        /// <param name="userAgent">The user agent for the current request</param>
+        /// <param name="bannedUserAgents">The list of banned agents to test against</param>
+        /// <exception cref="HttpException">This methos will throw a 403 Forbidden exception if a match is found</exception>
+        public void CheckForForbiddenUserAgents(string userAgent, List<string> bannedUserAgents)
+        {
+            foreach (string s in bannedUserAgents)
+            {
+                if (userAgent.ToLower().Contains(s.ToLower()))
+                {
+                    throw new HttpException(403, _botNotAllowedMessage);
+                }
+            }
+        }
 
         private void SetupDebugUserSignin()
         {
@@ -918,7 +957,7 @@ namespace BBC.Dna.Page
                     }
                     else
                     {
-                    throw new XsltException("Couldn't load xslt file: " + xsltFileName, e); 
+                        throw new XsltException("Couldn't load xslt file: " + xsltFileName, e); 
                     }
                 }
 			}

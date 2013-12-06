@@ -26,6 +26,8 @@ namespace BBC.Dna.Utils
 
         private string _siteRoot;
         private string _smtpServer;
+
+        private string _bannedUserAgentsString;
    
 		/// <summary>
 		/// Path of the Ripley cache
@@ -86,6 +88,10 @@ namespace BBC.Dna.Utils
             get { return _postcoderPlace; }
         }
 
+        public string BannedUserAgentsString
+        {
+            get { return _bannedUserAgentsString; }
+        }
 
         /// <summary>
         /// The ripley server farm addresses
@@ -239,6 +245,16 @@ namespace BBC.Dna.Utils
             CreatePostcoderDetails(xmlDoc);
             CreateSecretKey(xmlDoc);
             CreateSiteRoot(xmlDoc);
+            CreateBannedUserAgentString(xmlDoc);
+        }
+
+        private void CreateBannedUserAgentString(XmlDocument xmlDoc)
+        {
+            _bannedUserAgentsString = "";
+            if (xmlDoc.SelectSingleNode("RIPLEY/BANNEDUSERAGENTS") != null)
+            {
+                _bannedUserAgentsString = xmlDoc.SelectSingleNode("RIPLEY/BANNEDUSERAGENTS").InnerText;
+            }
         }
 
 		private string _secretKey;

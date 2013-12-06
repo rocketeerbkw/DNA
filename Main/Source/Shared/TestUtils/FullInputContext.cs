@@ -911,5 +911,14 @@ namespace Tests
         {
             throw new NotImplementedException();
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> BannedUserAgents
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }
