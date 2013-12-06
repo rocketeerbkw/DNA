@@ -14,6 +14,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using BBC.Dna.Common;
 using BBC.Dna.Users;
 using BBC.Dna.Moderation;
+using System.Diagnostics;
 
 namespace BBC.Dna
 {
@@ -42,6 +43,15 @@ namespace BBC.Dna
         public static List<string> BannedCookies
         {
             get { return AppContext._bannedCoookies; }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> BannedUserAgents
+        {
+            get;
+            private set;
         }
 
 		/// <summary>
@@ -87,7 +97,22 @@ namespace BBC.Dna
             var profanityFilter = new ProfanityFilter(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
             var moderationClasses = new ModerationClassListCache(AppContext.ReaderCreator, DnaDiagnostics.Default, cacheMemcachedManager, TheAppContext._dnaConfig.RipleyServerAddresses, TheAppContext._dnaConfig.DotNetServerAddresses);
 
+            // Setup the banned user agents list
+            InitialiseBannedUserAgents();
 		}
+
+        private static void InitialiseBannedUserAgents()
+        {
+            _appContext.BannedUserAgents = new List<string>();
+            string bannedUserAgentsString = TheAppContext.Config.BannedUserAgentsString;
+            if (bannedUserAgentsString.Length > 0)
+            {
+                foreach (string agent in bannedUserAgentsString.Split('|'))
+                {
+                    _appContext.BannedUserAgents.Add(agent);
+                }
+            }
+        }
 
 		/// <summary>
 		/// The instance of the AppContext that's created on application start-up
