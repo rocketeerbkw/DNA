@@ -64,7 +64,7 @@ namespace BBC.Dna.Sites
 
             while (siteList == null && getSiteListAttempts++ < 5)
             {
-                _dnaDiagnostics.WriteTimedEventToLog("SiteList.LoadSiteList", "Failed to get list for attempt(" + getSiteListAttempts.ToString() + "), waiting a second or two before trying again");
+                _dnaDiagnostics.WriteWarningToLog("SiteList.LoadSiteList", "Failed to get list for attempt(" + getSiteListAttempts.ToString() + "), waiting a second or two before trying again");
                 Thread.Sleep(5000);
                 siteList = FetchSiteData(siteId, siteList);
             }
@@ -104,6 +104,10 @@ namespace BBC.Dna.Sites
                         GetReviewForums(siteId, ref siteList);
                         GetSiteTopics(siteId, ref siteList);
                         GetSiteOpenCloseTimes(siteId, ref siteList);
+                    }
+                    else
+                    {
+                        throw new DnaException("Fetch Site Data : No site data returned!");
                     }
                 }
             }
