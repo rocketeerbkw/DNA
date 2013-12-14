@@ -23,55 +23,62 @@ namespace BBC.Dna.Sites.Tests
         public MockRepository mocks = new MockRepository();
 
         /// <summary>
-        ///A test for LoadSiteList
+        ///A test for GetSite
         ///</summary>
-        [TestMethod()]
-        public void LoadSiteListTest_NoRows_ReturnsNothing()
+        [TestMethod(), ExpectedException(typeof(DnaException))]
+        public void GetSiteTest_NullDatabaseReader_ThrowsException()
         {
             var cache = mocks.DynamicMock<ICacheManager>();
             cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
             IDnaDiagnostics diag = mocks.DynamicMock<IDnaDiagnostics>();
-            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
-            reader.Stub(x => x.HasRows).Return(false);
-            IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
-            creator.Stub(x => x.CreateDnaDataReader("fetchsitedata")).Return(reader);
 
-            IDnaDataReader readerOptions = mocks.DynamicMock<IDnaDataReader>();
-            readerOptions.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("getallsiteoptions")).Return(readerOptions);
+            IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("fetchsitedata")).Return(null);
+
             mocks.ReplayAll();
 
             SiteList target = new SiteList(creator, diag, cache, null, null);
-            
-            
-            Assert.AreEqual(0, target.Ids.Count);
         }
 
         /// <summary>
         ///A test for LoadSiteList
         ///</summary>
-        [TestMethod()]
-        public void LoadSiteListTest_DbException_ThrowsCorrectException()
+        [TestMethod(), ExpectedException(typeof(DnaException))]
+        public void LoadSiteListTest_NoRows_ThrowsException()
+        {
+            var cache = mocks.DynamicMock<ICacheManager>();
+            cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
+            IDnaDiagnostics diag = mocks.DynamicMock<IDnaDiagnostics>();
+            
+            IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
+            reader.Stub(x => x.HasRows).Return(false);
+
+            IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("fetchsitedata")).Return(reader);
+
+            mocks.ReplayAll();
+
+            SiteList target = new SiteList(creator, diag, cache, null, null);
+        }
+
+        /// <summary>
+        ///A test for LoadSiteList
+        ///</summary>
+        [TestMethod(), ExpectedException(typeof(DnaException))]
+        public void LoadSiteListTest_DatabaseException_ThrowsException()
         {
             var cache = mocks.DynamicMock<ICacheManager>();
             cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
             IDnaDiagnostics diag = mocks.DynamicMock<IDnaDiagnostics>();
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.Execute()).Throw(new Exception("test exception"));
+            
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
             creator.Stub(x => x.CreateDnaDataReader("fetchsitedata")).Return(reader);
-
-            IDnaDataReader readerOptions = mocks.DynamicMock<IDnaDataReader>();
-            readerOptions.Stub(x => x.Read()).Return(false);
-            creator.Stub(x => x.CreateDnaDataReader("getallsiteoptions")).Return(readerOptions);
 
             mocks.ReplayAll();
 
             SiteList target = new SiteList(creator, diag, cache, null, null);
-            
-
-            
-            Assert.AreEqual(0, target.Ids.Count);
         }
 
         /// <summary>
@@ -164,8 +171,24 @@ namespace BBC.Dna.Sites.Tests
             cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
             IDnaDiagnostics diag = mocks.DynamicMock<IDnaDiagnostics>();
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
-            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetInt32("SiteID")).Return(1);
+            reader.Stub(x => x["URLName"]).Return("h2g2");
+            reader.Stub(x => x["config"]).Return("");
+            reader.Stub(x => x.GetString("config")).Return("");
+            reader.Stub(x => x.Exists("UseIdentitySignIn")).Return(true);
+            reader.Stub(x => x.GetTinyIntAsInt("UseIdentitySignIn")).Return(1);
+            reader.Stub(x => x.Exists("IsKidsSite")).Return(true);
+            reader.Stub(x => x.GetTinyIntAsInt("IsKidsSite")).Return(1);
+            reader.Stub(x => x.GetStringNullAsEmpty("")).Constraints(Is.Anything()).Return("");
+
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            creator.Stub(x => x.CreateDnaDataReader("fetchsitedata")).Return(reader);
+            creator.Stub(x => x.CreateDnaDataReader("getreviewforums")).Return(GetReviewForumsMockReader());
+            creator.Stub(x => x.CreateDnaDataReader("getkeyarticlelist")).Return(GetKeyArticleListMockReader());
+            creator.Stub(x => x.CreateDnaDataReader("getsitetopicsopenclosetimes")).Return(GetSiteOpenCloseTimesMockReader());
+            creator.Stub(x => x.CreateDnaDataReader("GetTopicDetails")).Return(GetSiteTopicsMockReader());
 
             IDnaDataReader readerOptions = mocks.DynamicMock<IDnaDataReader>();
             readerOptions.Stub(x => x.Read()).Return(false);
@@ -187,9 +210,25 @@ namespace BBC.Dna.Sites.Tests
             cache.Stub(x => x.Contains("")).Constraints(Is.Anything()).Return(false);
             IDnaDiagnostics diag = mocks.DynamicMock<IDnaDiagnostics>();
             IDnaDataReader reader = mocks.DynamicMock<IDnaDataReader>();
-            reader.Stub(x => x.HasRows).Return(false);
+            reader.Stub(x => x.HasRows).Return(true);
+            reader.Stub(x => x.Read()).Return(true).Repeat.Once();
+            reader.Stub(x => x.GetInt32("SiteID")).Return(1);
+            reader.Stub(x => x["URLName"]).Return("h2g2");
+            reader.Stub(x => x["config"]).Return("");
+            reader.Stub(x => x.GetString("config")).Return("");
+            reader.Stub(x => x.Exists("UseIdentitySignIn")).Return(true);
+            reader.Stub(x => x.GetTinyIntAsInt("UseIdentitySignIn")).Return(1);
+            reader.Stub(x => x.Exists("IsKidsSite")).Return(true);
+            reader.Stub(x => x.GetTinyIntAsInt("IsKidsSite")).Return(1);
+            reader.Stub(x => x.GetStringNullAsEmpty("")).Constraints(Is.Anything()).Return("");
+            
             IDnaDataReaderCreator creator = mocks.DynamicMock<IDnaDataReaderCreator>();
-
+            creator.Stub(x => x.CreateDnaDataReader("fetchsitedata")).Return(reader);
+            creator.Stub(x => x.CreateDnaDataReader("getreviewforums")).Return(GetReviewForumsMockReader());
+            creator.Stub(x => x.CreateDnaDataReader("getkeyarticlelist")).Return(GetKeyArticleListMockReader());
+            creator.Stub(x => x.CreateDnaDataReader("getsitetopicsopenclosetimes")).Return(GetSiteOpenCloseTimesMockReader());
+            creator.Stub(x => x.CreateDnaDataReader("GetTopicDetails")).Return(GetSiteTopicsMockReader()); 
+            
             IDnaDataReader readerOptions = mocks.DynamicMock<IDnaDataReader>();
             readerOptions.Stub(x => x.Read()).Return(false);
             creator.Stub(x => x.CreateDnaDataReader("getallsiteoptions")).Return(readerOptions);
