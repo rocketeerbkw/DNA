@@ -313,6 +313,7 @@
 				<xs:element name="CURRENTSITEMINAGE" type="xs:unsignedByte" minOccurs="0" />
 				<xs:element name="CURRENTSITEMAXAGE" type="xs:unsignedByte" minOccurs="0" />
 				<xs:element name="SITE-CLOSED" type="xs:unsignedByte" minOccurs="0" />
+				<xs:element name="PAGEDOMAIN" type="xs:string" minOccurs="0" />
 				<xs:element ref="SITE" minOccurs="1"/>
 				<xs:element ref="TRACKEDPARAMETERS" minOccurs="0"/>
 			</xs:all>
