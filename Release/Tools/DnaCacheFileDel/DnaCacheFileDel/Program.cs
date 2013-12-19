@@ -16,7 +16,7 @@ namespace DnaCacheFileDel
 
                 if (args.GetLength(0) < 3)
                 {
-                    Console.WriteLine("Syntax: DnaCacheFileDel <rootFolder> <filePattern> <minsOld> [<delayBetweenDelsInMilliseconds>]");
+                    Console.WriteLine("Syntax: DnaCacheFileDel <rootFolder> <filePattern> <minsOld> [<delayBetweenDelsInMilliseconds>] [DeleteEmptyFolders]");
                     Console.WriteLine(@"E.g.: DnaCacheFileDel c:\cache *.txt 60");
                     return;
                 }
@@ -47,6 +47,17 @@ namespace DnaCacheFileDel
                     }
                 }
 
+                bool deleteEmptyFolders = false;
+                if (args.GetLength(0) >= 5)
+                {
+                    if (args[4].ToLower() == "deleteemptyfolders")
+                    {
+                        deleteEmptyFolders = true;
+                        Console.WriteLine("Deleting empty folders");
+                    }
+                }
+
+
                 Console.WriteLine("Deleting files from {0} that are more than {1} minute(s) old", srcFolder, minsOld);
 
                 if (delayBetweenDels > 0)
@@ -59,6 +70,8 @@ namespace DnaCacheFileDel
 
                 string[] files = Directory.GetFiles(srcFolder, filePattern, SearchOption.AllDirectories);
                 int totalFileCount = files.GetLength(0);
+
+                string[] directories = Directory.GetDirectories(srcFolder);
 
                 Console.WriteLine("Looking at {0} files matching pattern {1}", totalFileCount, filePattern);
 
@@ -116,6 +129,17 @@ namespace DnaCacheFileDel
                 }
                 Console.WriteLine("Total files deleted: {0}", delFileCount.ToString());
 
+                if (deleteEmptyFolders)
+                {
+                    foreach (string dir in directories)
+                    {
+                        if (Directory.Exists(dir))
+                        {
+                            DeleteFolderIfEmpty(dir);
+                        }
+                    }
+                }
+
                 DateTime endTime = DateTime.Now;
                 TimeSpan ts = endTime - startTime;
 
@@ -127,6 +151,29 @@ namespace DnaCacheFileDel
                 OutputExeception("<no file specified>",e);
             }
         }
+
+        static void DeleteFolderIfEmpty(string dir)
+        {
+            var subdirs = Directory.GetDirectories(dir);
+
+            if (subdirs.Length > 0)
+            {
+                foreach (string subdir in subdirs)
+                {
+                    DeleteFolderIfEmpty(subdir);
+                }
+            }
+
+            var numsubdirs = Directory.GetDirectories(dir).Length;
+            var numfiles = Directory.GetFiles(dir).Length;
+
+            if (numsubdirs == 0 && numfiles == 0)
+            {
+                Console.WriteLine(string.Format("Deleting folder {0}", dir));
+                Directory.Delete(dir);
+            }
+        }
+
 
         static void OutputExeception(string file,Exception e)
         {

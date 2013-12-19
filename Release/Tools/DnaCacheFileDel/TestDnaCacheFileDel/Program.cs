@@ -10,7 +10,7 @@ namespace TestDnaCacheFileDel
         static void Main(string[] args)
         {
             string rootfolder = args[0];
-            string[] roots = { rootfolder, rootfolder + @"\articles", rootfolder + @"\forums" };
+            string[] roots = { rootfolder, rootfolder + @"\articles", rootfolder + @"\forums", rootfolder + @"\forums\sub1", rootfolder + @"\articles\sub2" };
 
             foreach (string root in roots)
             {

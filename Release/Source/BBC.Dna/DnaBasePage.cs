@@ -35,6 +35,12 @@ namespace BBC.Dna.Page
         private SkinSelector _skinSelector = new SkinSelector(); 
         private IDnaWebPage _dnapage;
 
+        private string pageDomain
+        {
+            get;
+            set;
+        }
+
         /// <summary>
 		/// Enum representing the possible categories of user we might get
 		/// </summary>
@@ -565,6 +571,16 @@ namespace BBC.Dna.Page
                 UserGroups.GetObject().ReInitialise();
             }
 
+            // Set the pagedomain
+            pageDomain = "uk";
+            if (Request.DoesParamExist("hostsource", "Check the calling hostsource param"))
+            {
+                if (Request.GetParamStringOrEmpty("hostsource", "Check the calling hostsource param").ToLower() == "com")
+                {
+                    pageDomain = "com";
+                }
+            }
+
             _debugUserID = "";
 #if DEBUG
             // Check to see if we're wanting to use the debug user or not
@@ -664,6 +680,14 @@ namespace BBC.Dna.Page
             XmlNode siteOptionList = siteXml.GetSiteOptionListForSiteXml(CurrentSite.SiteID, TheSiteList);
             siteXml.GenerateXml(siteOptionList, CurrentSite);
             InsertPageComponent(siteXml);
+
+            // Add the domain tag to the page
+            string domain = "bbc.co.uk";
+            if (pageDomain == "com")
+            {
+                domain = "bbc.com";
+            }
+            _page.AddTextTag(_page.RootElement.FirstChild, "PAGEDOMAIN", domain);
         }
 
         /// <summary>
