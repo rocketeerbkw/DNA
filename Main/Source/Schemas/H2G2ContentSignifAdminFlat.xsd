@@ -27,8 +27,8 @@
 				<xs:element ref="ERROR" minOccurs="0"/>
 				<xs:element ref="PARAMS" minOccurs="0"/>
 				<xs:element ref="SITE"/>
-				<xs:element name="TIMEFORPAGE" type="xs:int"/>
 				<xs:element name="PAGEDOMAIN" type="xs:string"/>
+				<xs:element name="TIMEFORPAGE" type="xs:int"/>
 				<xs:element ref="TRACKEDPARAMETERS"/>
 			</xs:sequence>
 			<xs:attribute name="TYPE" type="xs:string" use="required"/>
