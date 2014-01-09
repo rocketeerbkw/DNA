@@ -127,7 +127,7 @@ namespace BBC.Dna.Api
             {
                 throw ApiException.GetError(ErrorType.InvalidForumUid);
             }
-            if (string.IsNullOrEmpty(commentForum.ParentUri) || commentForum.ParentUri.IndexOf("bbc.co.uk") < 0)
+            if (string.IsNullOrEmpty(commentForum.ParentUri) || (commentForum.ParentUri.IndexOf("bbc.co.uk") < 0 && commentForum.ParentUri.IndexOf("bbc.com") < 0))
             {
                 throw ApiException.GetError(ErrorType.InvalidForumParentUri);
             }
@@ -203,7 +203,7 @@ namespace BBC.Dna.Api
             {
                 throw ApiException.GetError(ErrorType.InvalidForumUid);
             }
-            if (string.IsNullOrEmpty(commentForum.ParentUri) || commentForum.ParentUri.IndexOf("bbc.co.uk") < 0)
+            if (string.IsNullOrEmpty(commentForum.ParentUri) || (commentForum.ParentUri.IndexOf("bbc.co.uk") < 0 && commentForum.ParentUri.IndexOf("bbc.com") < 0))
             {
                 throw ApiException.GetError(ErrorType.InvalidForumParentUri);
             }

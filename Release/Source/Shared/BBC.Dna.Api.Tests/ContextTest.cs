@@ -491,7 +491,65 @@ namespace BBC.Dna.Api.Tests
             var context = new Context(null, readerCreator, cacheManager, null);
 
             context.CreateForum(commentForum, site);
-           
+
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumcreate"));
+        }
+
+        /// <summary>
+        /// Test that forum can be created with bbc.com parent URL
+        ///</summary>
+        [TestMethod]
+        public void ForumCreate_WithDotComParentURL_ReturnsOK()
+        {
+            var commentForum = new Forum
+            {
+                Id = "".PadRight(10, 'a'),
+                ParentUri = "http://www.bbc.com/dna",
+                Title = "title",
+                ModerationServiceGroup = ModerationStatus.ForumStatus.PostMod
+            };
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var site = mocks.DynamicMock<ISite>();
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumcreate")).Return(reader);
+
+
+            mocks.ReplayAll();
+
+            var context = new Context(null, readerCreator, cacheManager, null);
+
+            context.CreateForum(commentForum, site);
+
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumcreate"));
+        }
+
+        /// <summary>
+        /// Test that forum can be created with bbc.co.uk parent URL
+        ///</summary>
+        [TestMethod]
+        public void ForumCreate_WithDotCoDotUKParentURL_ReturnsOK()
+        {
+            var commentForum = new Forum
+            {
+                Id = "".PadRight(10, 'a'),
+                ParentUri = "http://www.bbc.co.uk/dna",
+                Title = "title",
+                ModerationServiceGroup = ModerationStatus.ForumStatus.PostMod
+            };
+            var readerCreator = mocks.DynamicMock<IDnaDataReaderCreator>();
+            var reader = mocks.DynamicMock<IDnaDataReader>();
+            var site = mocks.DynamicMock<ISite>();
+            var cacheManager = mocks.DynamicMock<ICacheManager>();
+            readerCreator.Stub(x => x.CreateDnaDataReader("commentforumcreate")).Return(reader);
+
+
+            mocks.ReplayAll();
+
+            var context = new Context(null, readerCreator, cacheManager, null);
+
+            context.CreateForum(commentForum, site);
+
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("commentforumcreate"));
         }
 

@@ -25,6 +25,7 @@
 				<xs:element ref="SYSTEMMESSAGEMAILBOX"/>
 				<xs:element ref="PARAMS" minOccurs="0"/>
 				<xs:element ref="SITE"/>
+				<xs:element name="PAGEDOMAIN" type="xs:string"/>
 				<xs:element name="TIMEFORPAGE" type="xs:int"/>
 				<xs:element ref="TRACKEDPARAMETERS"/>
 			</xs:sequence>

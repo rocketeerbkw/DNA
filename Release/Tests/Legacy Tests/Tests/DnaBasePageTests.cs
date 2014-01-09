@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBC.Dna.Page;
 using System.Web;
+using System.Xml;
 
 namespace Tests
 {
@@ -90,6 +91,42 @@ namespace Tests
             DnaBasePage basePage = new DnaBasePage(null);
 
             basePage.CheckForForbiddenUserAgents(botUserAgent, bannedAgents);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        public void GivenCallToAnyPage_WhenHostSourceParamOfUK_ThenPAGEDOMAINTagIsBBC_CO_UK()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.RequestPage("status-n?hostsource=uk&skin=purexml");
+            XmlDocument doc = request.GetLastResponseAsXML();
+            Assert.IsTrue(doc.SelectSingleNode("/H2G2/PAGEDOMAIN").InnerText == "bbc.co.uk");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        public void GivenCallToAnyPage_WhenHostSourceParamNotProvided_ThenPAGEDOMAINTagIsBBC_CO_UK()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.RequestPage("status-n?hostsource=uk&skin=purexml");
+            XmlDocument doc = request.GetLastResponseAsXML();
+            Assert.IsTrue(doc.SelectSingleNode("/H2G2/PAGEDOMAIN").InnerText == "bbc.co.uk");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        public void GivenCallToAnyPage_WhenHostSourceParamOfCOM_ThenPAGEDOMAINTagIsBBC_COM()
+        {
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.RequestPage("status-n?hostsource=com&skin=purexml");
+            XmlDocument doc = request.GetLastResponseAsXML();
+            Assert.IsTrue(doc.SelectSingleNode("/H2G2/PAGEDOMAIN").InnerText == "bbc.com");
         }
     }
 }
