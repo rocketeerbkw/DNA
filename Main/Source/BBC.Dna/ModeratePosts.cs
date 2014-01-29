@@ -404,10 +404,11 @@ namespace BBC.Dna.Component
                 else
                 {
                     // Handle PreMod Postings
+                    int distressID = InputContext.GetParamIntOrZero("distressmessageid", i, "Distress Message");
                     bool preModPosting = false;
                     if (postId == 0)
                     {
-                        bool create = decision == ModerationItemStatus.PassedWithEdit;
+                        bool create = (decision == ModerationItemStatus.PassedWithEdit || distressID > 0);
                         using (IDnaDataReader dataReader = InputContext.CreateDnaDataReader("checkpremodpostingexists"))
                         {
                             dataReader.AddParameter("modid", modId);
@@ -438,7 +439,7 @@ namespace BBC.Dna.Component
                     Update(siteId, forumId, threadId, postId, modId, decision, notes, referId, threadModStatus, sendEmail, emailType, customText);
 
                     // Post Distress Message
-                    int distressID = InputContext.GetParamIntOrZero("distressmessageid", i, "Distress Message");
+               
                     if (distressID > 0)
                     {
                         ModerationDistressMessages distressMessage = new ModerationDistressMessages(InputContext);
