@@ -924,39 +924,45 @@ namespace BBC.Dna.Api
             {
                 throw ApiException.GetError(ErrorType.SiteIsClosed);
             }
+
             // reject comments that do not have any text
             if (String.IsNullOrEmpty(comment.text))
             {
                 throw ApiException.GetError(ErrorType.EmptyText);
             }
-            try
-            {
-//check for option - if not set then it throws exception
-                int maxCharCount = SiteList.GetSiteOptionValueInt(site.SiteID, "CommentForum",
-                                                                  "MaxCommentCharacterLength");
-                string tmpText = StringUtils.StripFormattingFromText(comment.text);
-                if (maxCharCount != 0 && tmpText.Length > maxCharCount)
-                {
-                    throw ApiException.GetError(ErrorType.ExceededTextLimit);
-                }
-            }
-            catch (SiteOptionNotFoundException)
-            {
-            }
 
-            try
+            // Superusers and Editors should not be restricted by char limits.
+            if (!ignoreModeration)
             {
-//check for option - if not set then it throws exception
-                int minCharCount = SiteList.GetSiteOptionValueInt(site.SiteID, "CommentForum",
-                                                                  "MinCommentCharacterLength");
-                string tmpText = StringUtils.StripFormattingFromText(comment.text);
-                if (minCharCount != 0 && tmpText.Length < minCharCount)
+                try
                 {
-                    throw ApiException.GetError(ErrorType.MinCharLimitNotReached);
+                    //check for option - if not set then it throws exception
+                    int maxCharCount = SiteList.GetSiteOptionValueInt(site.SiteID, "CommentForum",
+                                                                      "MaxCommentCharacterLength");
+                    string tmpText = StringUtils.StripFormattingFromText(comment.text);
+                    if (maxCharCount != 0 && tmpText.Length > maxCharCount)
+                    {
+                        throw ApiException.GetError(ErrorType.ExceededTextLimit);
+                    }
                 }
-            }
-            catch (SiteOptionNotFoundException)
-            {
+                catch (SiteOptionNotFoundException)
+                {
+                }
+
+                try
+                {
+                    //check for option - if not set then it throws exception
+                    int minCharCount = SiteList.GetSiteOptionValueInt(site.SiteID, "CommentForum",
+                                                                      "MinCommentCharacterLength");
+                    string tmpText = StringUtils.StripFormattingFromText(comment.text);
+                    if (minCharCount != 0 && tmpText.Length < minCharCount)
+                    {
+                        throw ApiException.GetError(ErrorType.MinCharLimitNotReached);
+                    }
+                }
+                catch (SiteOptionNotFoundException)
+                {
+                }
             }
 
             //strip out invalid chars
