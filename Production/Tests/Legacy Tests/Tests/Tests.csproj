@@ -70,6 +70,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.84.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Source\Reference DLLs\bin\Release\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Source\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
@@ -134,6 +138,7 @@
     <Compile Include="Dna.Sites\SiteOptionListTests.cs" />
     <Compile Include="Dna.Sites\SiteOptionTests.cs" />
     <Compile Include="Dna.Sites\SiteTests.cs" />
+    <Compile Include="DnaBasePageTests.cs" />
     <Compile Include="MessageBoardStatisticsTests.cs" />
     <Compile Include="ModerationHistoryTests.cs" />
     <Compile Include="ModerationReasonsTests.cs" />

@@ -1308,6 +1308,7 @@
     <None Include="getcommentforumdetailsbyforumid.sql" />
     <None Include="getmostcommentedcommentforumlist.sql" />
     <None Include="getnewssitestats.sql" />
+    <None Include="GetTermDetailsForAllModClasses.sql" />
     <None Include="gettermsbyforumid.sql" />
     <None Include="gettermsbyforumidfromforums.sql" />
     <None Include="gettermsbymodidfromthreadmod.sql" />
@@ -1321,6 +1322,7 @@
     <None Include="SearchForTwitterUserViaScreenName.sql" />
     <None Include="setcommentforumascontactform.sql" />
     <None Include="updatemostcommentedforums.sql" />
+    <None Include="updatequeuedemail.sql" />
     <None Include="updatetrackedmemberformodclass.sql" />
     <None Include="GetUserReputation.sql" />
     <None Include="updatetrackedmemberlistinternal.sql" />

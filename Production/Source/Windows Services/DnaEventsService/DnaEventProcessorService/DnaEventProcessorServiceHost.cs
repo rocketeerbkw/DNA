@@ -4,13 +4,13 @@ using System.ServiceProcess;
 using System.Threading;
 using BBC.Dna.Data;
 using BBC.Dna.Net.Security;
-using Dna.SnesIntegration.ActivityProcessor;
+using Dna.BIEventSystem;
+using Dna.DatabaseEmailProcessor;
 using Dna.ExModerationProcessor;
+using Dna.SiteEventProcessor;
+using Dna.SnesIntegration.ActivityProcessor;
 using DnaEventService.Common;
 using Microsoft.Practices.EnterpriseLibrary.PolicyInjection;
-using Dna.SiteEventProcessor;
-using Dna.BIEventSystem;
-using System.Collections.Generic;
 
 namespace DnaEventProcessorService
 {
@@ -49,6 +49,22 @@ namespace DnaEventProcessorService
 
             if (Properties.Settings.Default.BIEventsOn)
                 CreateBIEventProcessor(new DnaLogger());
+
+            if (Properties.Settings.Default.DatabaseEmailsOn)
+                CreateDatabaseEmailProcessor(new DnaLogger());
+        }
+
+        private void CreateDatabaseEmailProcessor(IDnaLogger logger)
+        {
+            DnaDataReaderCreator theGuideDnaDataReaderCreator = new DnaDataReaderCreator(Properties.Settings.Default.ConnectionString_TheGuide);
+            int interval = Properties.Settings.Default.DatabaseEmailProcessor_Interval;
+            int numThreads = Properties.Settings.Default.DatabaseEmaiProcessor_NumThreads;
+            int batchSize = Properties.Settings.Default.DatabaseEmaiProcessor_BatchSize;
+            string smtpSettings = Properties.Settings.Default.DatabaseEmailProcessor_SMTPSettings;
+            int maxRetryAttempts = Properties.Settings.Default.DatabaseEmailProcessor_MaxRetryAttempts;
+
+            var databaseEMailProcessor = DatabaseEmailProcessor.CreateDatabaseEmailProcessor(logger, theGuideDnaDataReaderCreator, interval, numThreads, batchSize, smtpSettings, maxRetryAttempts);
+            databaseEMailProcessor.Start();
         }
 
         private void CreateBIEventProcessor(IDnaLogger logger)
@@ -63,7 +79,6 @@ namespace DnaEventProcessorService
             var biEventProc = BIEventProcessor.CreateBIEventProcessor(logger, theGuideDnaDataReaderCreator, RiskDnaDataReaderCreator, interval, disableRiskMod, recordRiskModDecisionsOnPost, numThreads);
             biEventProc.Start();
         }
-
 
         private void CreateSnesActivityTimer()
         {
@@ -95,7 +110,6 @@ namespace DnaEventProcessorService
 
             timerPeriod = Properties.Settings.Default.SnesActivityProcessor_Interval;
             exModerationTimer = new Timer(exModerationProcessor.ProcessEvents, null, 0, timerPeriod);
-
         }
 
         protected string GetCertificateName(string type)

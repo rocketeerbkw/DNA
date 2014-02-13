@@ -53,10 +53,39 @@ namespace BBC.Dna.Sites
         {
             _dnaDiagnostics.WriteTimedEventToLog("SiteList.LoadSiteList", "Loading sitelist for " +
                 (siteId == 0 ? "all sites" : "siteid=" + siteId.ToString()));
+
             if (siteList == null)
             {
                 siteList = new SiteListCache();
             }
+
+            int getSiteListAttempts = 0;
+            siteList = FetchSiteData(siteId, siteList);
+
+            while (siteList == null && getSiteListAttempts++ < 5)
+            {
+                _dnaDiagnostics.WriteWarningToLog("SiteList.LoadSiteList", "Failed to get list for attempt(" + getSiteListAttempts.ToString() + "), waiting a second or two before trying again");
+                Thread.Sleep(5000);
+                siteList = FetchSiteData(siteId, siteList);
+            }
+
+            if (siteList != null)
+            {
+                //always refresh all options
+                siteList.SiteOptionList.CreateFromDatabase(_readerCreator, _dnaDiagnostics);
+                _dnaDiagnostics.WriteTimedEventToLog("SiteList.LoadSiteList", "Completed loading sitelist for " +
+                    (siteId == 0 ? "all sites" : "siteid=" + siteId.ToString()));
+
+                AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), siteList);
+            }
+            else
+            {
+                throw new DnaException("Failed to load SiteList From database.");
+            }
+        }
+
+        private SiteListCache FetchSiteData(int siteId, SiteListCache siteList)
+        {
             try
             {
                 string getSiteData = "fetchsitedata";
@@ -76,19 +105,18 @@ namespace BBC.Dna.Sites
                         GetSiteTopics(siteId, ref siteList);
                         GetSiteOpenCloseTimes(siteId, ref siteList);
                     }
+                    else
+                    {
+                        throw new DnaException("Fetch Site Data : No site data returned!");
+                    }
                 }
             }
             catch (Exception ex)
             {
                 _dnaDiagnostics.WriteExceptionToLog(ex);
+                siteList = null;
             }
-
-            //always refresh all options
-            siteList.SiteOptionList.CreateFromDatabase(_readerCreator, _dnaDiagnostics);
-            _dnaDiagnostics.WriteTimedEventToLog("SiteList.LoadSiteList", "Completed loading sitelist for " +
-                (siteId == 0 ? "all sites" : "siteid=" + siteId.ToString()));
-
-            AddToInternalObjects(GetCacheKey(), GetCacheKeyLastUpdate(), siteList);
+            return siteList;
         }
 
         /// <summary>

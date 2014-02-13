@@ -727,26 +727,15 @@ namespace FunctionalTests
 
         private void CheckEmailWasSent(string subject, string expectedInEmail)
         {
-            DirectoryInfo dir = new DirectoryInfo(TestConfig.GetConfig().GetRipleyConfSetting("CACHEROOT") + "failedmails");
-            Assert.IsTrue(dir.Exists);
-            Assert.AreEqual(1, dir.GetFiles().Length);
-
-            string email = "";
-            var emailFile = dir.GetFiles()[0];
-            using (var stream = emailFile.OpenText())
+            IInputContext context = DnaMockery.CreateDatabaseInputContext();
+            using (IDnaDataReader dataReader = context.CreateDnaDataReader(""))
             {
-                email = stream.ReadToEnd();
-                stream.Close();
+                dataReader.ExecuteDEBUGONLY("EXEC openemailaddresskey; select top 1 subject = dbo.udf_decrypttext(subject, ID), body = dbo.udf_decrypttext(body, ID) from emailqueue ORDER BY ID Desc");
+                Assert.IsTrue(dataReader.Read());
+                Assert.IsTrue(dataReader.HasRows);
+                Assert.AreEqual(subject, dataReader.GetString("subject"));
+                Assert.IsTrue(dataReader.GetString("body").Contains(expectedInEmail));
             }
-            Assert.IsTrue(email.IndexOf(expectedInEmail) >= 0);
-
-            email = email.Replace("\r\n", "\n");
-            var emailLines = email.Split('\n');
-            Assert.AreEqual(subject, emailLines[2]);//third line is the subject
-
-
-
-
         }
 
         private void ClearAllEmails()

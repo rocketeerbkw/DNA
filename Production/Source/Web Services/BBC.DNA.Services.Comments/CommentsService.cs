@@ -787,5 +787,70 @@ namespace BBC.Dna.Services
             //_commentObj.RateComment(site, commentForumUid, commentId, value, userId);
             return GetOutputStream(newValue);
         }
+
+        //2. GetConversations()
+        [WebGet(UriTemplate = "V1/site/{sitename}/commentsforums/{commentForumUid}/conversations")]
+        [WebHelp(Comment = "Get the conversations for a comment forum.")]
+        [OperationContract]
+        public Stream GetConversationsForCommentForum(string siteName, string commentForumUid)
+        {
+            var conversations = new Conversations(); 
+            return GetOutputStream(conversations);
+        }
+        
+        //Numbers reference API spec - https://confluence.dev.bbc.co.uk/display/DNA/Initial+API+Mock+data
+        //5. CreateConversation()
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumUid}/conversations")]
+        [WebHelp(Comment = "Create a new conversation in a comment forum")]
+        [OperationContract]
+        public Stream CreateConversation(string siteName, string commentForumUid)
+        {
+            var threadId = _commentObj.CreateConversation(commentForumUid);
+            return GetOutputStream(threadId);
+        }
+
+        //6. CreateCommentInConversatioin()
+        [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumUid}/conversations/{conversationId}/comments")]
+        [WebHelp(Comment = "Post a comment to a conversation")]
+        [OperationContract]
+        public Stream PostCommentToConversation(string siteName, string commentForumUid, string conversationId, CommentInfo commentInfo)
+        {
+            var threadId = int.Parse(conversationId);
+            
+            //Yuck!!!
+            _commentObj.CallingUser = GetCallingUser(GetSite(siteName));
+            var comment = _commentObj.PostCommentToConversation(siteName, commentForumUid, threadId, commentInfo);
+            return GetOutputStream(comment);
+        }
+
+        //3. GetCommentsByConversation
+        [WebGet(UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumUid}/conversations/{conversationId}/comments")]
+        [WebHelp(Comment = "Get comments for a conversation")]
+        [OperationContract]
+        public Stream GetCommentsForConversation(string siteName, string commentForumUid, string conversationId)
+        {
+            var comments = new object();
+            return GetOutputStream(comments);
+        }
+
+        //4. GetConversationsByUser
+        [WebGet(UriTemplate = "V1/site/{siteName}/commentsforums/myconversations")]
+        [WebHelp(Comment = "Get Conversations for the signed in user")]
+        [OperationContract]
+        public Stream GetConversationsForUser(string siteName)
+        {
+            var usersConversations = new object();
+            return GetOutputStream(usersConversations);
+        }
+
+        //7. UpdateConversation
+        [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumUid}/conversations/{conversationId}")]
+        [WebHelp(Comment = "Get Conversations for the signed in user")]
+        [OperationContract]
+        public Stream UpdateConversation(string siteName, string commentForumUid, string conversationId)
+        {
+            var conversation = new object();
+            return GetOutputStream(conversation);
+        }
     }
 }

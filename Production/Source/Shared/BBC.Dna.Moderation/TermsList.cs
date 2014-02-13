@@ -293,13 +293,15 @@ namespace BBC.Dna.Moderation
         public Error UpdateTermsWithHistoryId(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager, int historyId, bool isForModClass)
         {
             Error error = null;
+            bool refreshCache = true;
+
             foreach (var term in Terms)
             {
                 if (true == isForModClass)
                 {
                     try
                     {
-                        term.UpdateTermForModClassId(readerCreator, ModClassId, historyId);
+                        refreshCache = term.UpdateTermForModClassId(readerCreator, ModClassId, historyId);
                     }
                     catch (Exception e)
                     {
@@ -333,15 +335,20 @@ namespace BBC.Dna.Moderation
                 }
 
             }
-            //refresh cache
-            if (true == isForModClass)
+
+            if (refreshCache)
             {
-                GetTermsListByModClassId(readerCreator, cacheManager, ModClassId, true);
+                //refresh cache
+                if (true == isForModClass)
+                {
+                    GetTermsListByModClassId(readerCreator, cacheManager, ModClassId, true);
+                }
+                else
+                {
+                    GetTermsListByForumId(readerCreator, cacheManager, ForumId, true);
+                }
             }
-            else
-            {
-                GetTermsListByForumId(readerCreator, cacheManager, ForumId, true);
-            }
+
             return error;
         }
 

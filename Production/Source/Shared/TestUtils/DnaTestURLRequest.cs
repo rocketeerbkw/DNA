@@ -1073,6 +1073,10 @@ namespace Tests
             {
                 if (cookie != null)
                 {
+                    if (webRequest.CookieContainer == null)
+                    {
+                        webRequest.CookieContainer = new CookieContainer();
+                    }
                     webRequest.CookieContainer.Add(new Uri("http://" + _server + "/"), cookie);
                 }
             }

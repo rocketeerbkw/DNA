@@ -13,6 +13,7 @@ using DnaIdentityWebServiceProxy;
 using BBC.Dna.Utils;
 using BBC.Dna.Objects;
 using BBC.Dna.Users;
+using System.Collections.Generic;
 
 namespace BBC.Dna.Page
 {
@@ -33,6 +34,12 @@ namespace BBC.Dna.Page
 
         private SkinSelector _skinSelector = new SkinSelector(); 
         private IDnaWebPage _dnapage;
+
+        private string pageDomain
+        {
+            get;
+            set;
+        }
 
         /// <summary>
 		/// Enum representing the possible categories of user we might get
@@ -132,6 +139,8 @@ namespace BBC.Dna.Page
 
         private IDnaIdentityWebServiceProxy _signInComponent = null;
 
+        private string _botNotAllowedMessage = "Forbidden";
+
 		/// <summary>
         /// The current dna request object
         /// </summary>
@@ -146,6 +155,17 @@ namespace BBC.Dna.Page
         public XmlNode WholePageBaseXmlNode
         {
             get { return _page.RootElement; }
+        }
+
+        /// <summary>
+        /// List for holding all the banned user agent names, or parts of.
+        /// e.g. BingBot.htm or 'http://www.bing.com/bingbot.htm' or www.bing.com
+        /// The more info, the more specific banning can be done.
+        /// The list of banned agents is taken from the config file as a '|' seperated list
+        /// </summary>
+        public List<String> BannedUserAgents
+        {
+            get { return AppContext.TheAppContext.BannedUserAgents; }
         }
 
 		/// <summary>
@@ -223,6 +243,11 @@ namespace BBC.Dna.Page
 				}
 				catch (Exception ex)
 				{
+                    if (ex.GetType() == typeof(HttpException) && ex.Message == _botNotAllowedMessage)
+                    {
+                        throw;
+                    }
+
 					wasExceptionCaught = true;
 					if (Diagnostics != null)
 					{
@@ -292,6 +317,8 @@ namespace BBC.Dna.Page
 			{
 				return;
 			}
+
+            CheckForForbiddenUserAgents(UserAgent, BannedUserAgents);
 			
 			int curRequests = Interlocked.Increment(ref _currentRequestCount);
 
@@ -307,6 +334,7 @@ namespace BBC.Dna.Page
 					//_page.AddTextTag(_page.RootElement.FirstChild, "REQUESTTYPE", PageType);
                     //_skinSelector.Initialise(this, this);
 				}
+
                 InitialisePage();
                 
 				// Intialise the page
@@ -362,6 +390,23 @@ namespace BBC.Dna.Page
 			}
 
 		}
+
+        /// <summary>
+        /// Checks to see if the user agent is one of the listed banned agents.
+        /// </summary>
+        /// <param name="userAgent">The user agent for the current request</param>
+        /// <param name="bannedUserAgents">The list of banned agents to test against</param>
+        /// <exception cref="HttpException">This methos will throw a 403 Forbidden exception if a match is found</exception>
+        public void CheckForForbiddenUserAgents(string userAgent, List<string> bannedUserAgents)
+        {
+            foreach (string s in bannedUserAgents)
+            {
+                if (userAgent.ToLower().Contains(s.ToLower()))
+                {
+                    throw new HttpException(403, _botNotAllowedMessage);
+                }
+            }
+        }
 
         private void SetupDebugUserSignin()
         {
@@ -526,6 +571,16 @@ namespace BBC.Dna.Page
                 UserGroups.GetObject().ReInitialise();
             }
 
+            // Set the pagedomain
+            pageDomain = "uk";
+            if (Request.DoesParamExist("hostsource", "Check the calling hostsource param"))
+            {
+                if (Request.GetParamStringOrEmpty("hostsource", "Check the calling hostsource param").ToLower() == "com")
+                {
+                    pageDomain = "com";
+                }
+            }
+
             _debugUserID = "";
 #if DEBUG
             // Check to see if we're wanting to use the debug user or not
@@ -625,6 +680,14 @@ namespace BBC.Dna.Page
             XmlNode siteOptionList = siteXml.GetSiteOptionListForSiteXml(CurrentSite.SiteID, TheSiteList);
             siteXml.GenerateXml(siteOptionList, CurrentSite);
             InsertPageComponent(siteXml);
+
+            // Add the domain tag to the page
+            string domain = "bbc.co.uk";
+            if (pageDomain == "com")
+            {
+                domain = "bbc.com";
+            }
+            _page.AddTextTag(_page.RootElement.FirstChild, "PAGEDOMAIN", domain);
         }
 
         /// <summary>
@@ -918,7 +981,7 @@ namespace BBC.Dna.Page
                     }
                     else
                     {
-                    throw new XsltException("Couldn't load xslt file: " + xsltFileName, e); 
+                        throw new XsltException("Couldn't load xslt file: " + xsltFileName, e); 
                     }
                 }
 			}

@@ -856,6 +856,7 @@
 				<xs:element name="CURRENTSITEMINAGE" type="xs:unsignedByte" />
 				<xs:element name="CURRENTSITEMAXAGE" type="xs:unsignedByte" />
 				<xs:element name="SITE-CLOSED" type="xs:unsignedByte" />
+				<xs:element name="PAGEDOMAIN" type="xs:string" minOccurs="0" />
 				<xs:element ref="SITE"></xs:element>
 			</xs:sequence>
       <xs:attribute name="TYPE" type="xs:string" />

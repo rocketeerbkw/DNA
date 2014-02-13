@@ -349,6 +349,12 @@ that dot the landscape. If mountains interest someone they might visit the <LINK
             SnapshotInitialisation.RestoreFromSnapshot();
         }
 
+        [ClassInitialize()]
+        static public void RestoreToKnownState(TestContext testContext)
+        {
+            SnapshotInitialisation.ForceRestore(true);
+        }
+
         /// <summary>
         /// Constructor
         /// </summary>

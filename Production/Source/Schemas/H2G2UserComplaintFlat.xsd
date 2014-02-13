@@ -21,7 +21,8 @@
         <xs:element ref="USERCOMPLAINT"/>
         <xs:element name="PARAMS" />
         <xs:element ref="SITE"/>
-        <xs:element name="TIMEFORPAGE" type="xs:int"/>
+		  <xs:element name="PAGEDOMAIN" type="xs:string"/>
+		  <xs:element name="TIMEFORPAGE" type="xs:int"/>
         <xs:element ref="TRACKEDPARAMETERS"/>
       </xs:sequence>
       <xs:attribute name="TYPE" type="xs:string" use="required"/>

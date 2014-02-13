@@ -592,5 +592,13 @@ namespace BBC.Dna
         {
             throw new NotImplementedException();
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public List<string> BannedUserAgents
+        {
+            get { throw new NotImplementedException(); }
+        }
     }
 }

@@ -2,6 +2,9 @@
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using System.Xml;
+using System;
+using BBC.Dna.Data;
 
 namespace Tests
 {
@@ -60,6 +63,46 @@ namespace Tests
         // public void MyTestCleanup() { }
         //
         #endregion
+
+        /// <summary>
+        /// This tests the changes to the params that get sent through to the new contact forms admin pages
+        /// </summary>
+        [TestMethod]
+        public void GivenRequestToContactFormListPageShouldSetSkipAndShowVariablesInXML()
+        {
+            Mockery mock = new Mockery();
+            IInputContext mockedInputContext = mock.NewMock<IInputContext>();
+            ISite mockedSite = mock.NewMock<ISite>();
+
+            Stub.On(mockedSite).GetProperty("SiteID").Will(Return.Value(1));
+            Stub.On(mockedInputContext).GetProperty("CurrentSite").Will(Return.Value(mockedSite));
+
+            IDnaDataReader mockedReader = mock.NewMock<IDnaDataReader>();
+            Stub.On(mockedReader).Method("AddParameter");
+            Stub.On(mockedReader).Method("Execute");
+            Stub.On(mockedReader).GetProperty("HasRows").Will(Return.Value(false));
+            Stub.On(mockedReader).Method("Dispose");
+            Stub.On(mockedInputContext).Method("CreateDnaDataReader").With("getcontactformslist").Will(Return.Value(mockedReader));
+
+            ContactFormListBuilder contactFormBuilder = new ContactFormListBuilder(mockedInputContext);
+
+            int expectedShow = 200;
+            int expectedSkip = 1000;
+            int expectedSiteID = 66;
+
+            Stub.On(mockedInputContext).Method("DoesParamExist").With("action", "process action param").Will(Return.Value(false));
+            Stub.On(mockedInputContext).Method("DoesParamExist").With("dnaskip", "Items to skip").Will(Return.Value(true));
+            Stub.On(mockedInputContext).Method("DoesParamExist").With("dnashow", "Items to show").Will(Return.Value(true));
+            Stub.On(mockedInputContext).Method("GetParamIntOrZero").With("dnaskip", "Items to skip").Will(Return.Value(expectedSkip));
+            Stub.On(mockedInputContext).Method("GetParamIntOrZero").With("dnashow", "Items to show").Will(Return.Value(expectedShow));
+            Stub.On(mockedInputContext).Method("GetParamIntOrZero").With("dnasiteid", "The specified site").Will(Return.Value(expectedSiteID));
+
+            XmlNode requestResponce = contactFormBuilder.GetContactFormsAsXml();
+
+            Assert.AreEqual(expectedShow, Int32.Parse(requestResponce.SelectSingleNode("@SHOW").Value));
+            Assert.AreEqual(expectedSkip, Int32.Parse(requestResponce.SelectSingleNode("@SKIP").Value));
+            Assert.AreEqual(expectedSiteID, Int32.Parse(requestResponce.SelectSingleNode("@REQUESTEDSITEID").Value));
+        }
 
         /// <summary>
         /// Unit tests the GetParams() private method in the CommentForumListBuilder class

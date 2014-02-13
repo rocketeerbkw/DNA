@@ -78,14 +78,14 @@ namespace BBC.Dna
                 }
             }
 
-            if (InputContext.DoesParamExist("skip", "Items to skip"))
+            if (InputContext.DoesParamExist("dnaskip", "Items to skip"))
             {
-                skip = InputContext.GetParamIntOrZero("skip", "Items to skip");
+                skip = InputContext.GetParamIntOrZero("dnaskip", "Items to skip");
             }
 
-            if (InputContext.DoesParamExist("show", "Items to show"))
+            if (InputContext.DoesParamExist("dnashow", "Items to show"))
             {
-                show = InputContext.GetParamIntOrZero("show", "Items to show");
+                show = InputContext.GetParamIntOrZero("dnashow", "Items to show");
             }
 
             requestedSiteID = InputContext.GetParamIntOrZero("dnasiteid", "The specified site");

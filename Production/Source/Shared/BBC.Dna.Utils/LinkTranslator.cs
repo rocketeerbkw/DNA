@@ -45,7 +45,7 @@ namespace BBC.Dna.Utils
 
         
         static string twitterUser = "http://twitter.com/";
-        static string twitterSearch = "http://search.twitter.com/search?q=";
+        static string twitterSearch = "http://twitter.com/search?q=";
         
         /// <summary>
         /// Check the input string for matches.

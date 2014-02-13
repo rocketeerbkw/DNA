@@ -98,10 +98,9 @@ namespace FunctionalTests
         [TestMethod]
         public void TermsFilterImportPage_WithTermIdPassed_PassesValidation()
         {
-
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
             request.SetCurrentUserSuperUser();
-            request.RequestPage("termsfilterimport?s_termid=1&skin=purexml");
+            request.RequestPage("termsfilterimport?s_termid=1&skin=purexml&ignorecache=1");
             ValidateResponse(request);
 
             var doc = request.GetLastResponseAsXML();

@@ -65,6 +65,14 @@ namespace BBC.Dna
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        List<string> BannedUserAgents
+        {
+            get;
+        }
+
+        /// <summary>
         /// Escapes the string to make it safe for a URL
         /// </summary>
         /// <param name="text">The text to escape</param>

@@ -723,25 +723,38 @@
 
 
 	<xsl:template name="cfl-skip-show">
-		<xsl:param name="comments_per_page" select="/H2G2/COMMENTFORUMLIST/@SHOW" />
-		<xsl:param name="page_count"
-			select="ceiling(/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT div /H2G2/COMMENTFORUMLIST/@SHOW)" />
 		<xsl:param name="page_label" select="1" />
+
+		<xsl:param name="comments_per_page" select="/H2G2/COMMENTFORUMLIST/@SHOW" />
+		<xsl:param name="page_count" select="ceiling(/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT div /H2G2/COMMENTFORUMLIST/@SHOW)" />
 
 		<xsl:variable name="skip" select="/H2G2/COMMENTFORUMLIST/@SKIP" />
 		<xsl:variable name="show" select="/H2G2/COMMENTFORUMLIST/@SHOW" />
-		<xsl:variable name="total_list_count"
-			select="/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT" />
-		<xsl:variable name="page_count_total"
-			select="ceiling(/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT div /H2G2/COMMENTFORUMLIST/@SHOW)" />
+		<xsl:variable name="total_list_count" select="/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT" />
+		<xsl:variable name="page_count_total" select="ceiling(/H2G2/COMMENTFORUMLIST/@COMMENTFORUMLISTCOUNT div /H2G2/COMMENTFORUMLIST/@SHOW)" />
 		<xsl:variable name="current_page" select="($skip div $show) + 1" />
 
 		<!-- set for navigation range -->
 		<xsl:variable name="nav_range" select="10" />
-		<xsl:variable name="nav_start"
-			select="floor(($current_page - 1) div $nav_range) * $nav_range" />
+		<xsl:variable name="nav_start" select="floor(($current_page - 1) div $nav_range) * $nav_range" />
 		<xsl:variable name="nav_end" select="$nav_start + $nav_range" />
 
+		<xsl:variable name="display_contact_forms">
+			<xsl:if test="/H2G2/PARAMS/PARAM[NAME='s_displaycontactforms']/VALUE=1">&amp;s_displaycontactforms=1</xsl:if>
+		</xsl:variable>
+		
+		<xsl:variable name="request_url">
+			<xsl:if test="/H2G2/COMMENTFORUMLIST/@REQUESTEDURL">
+				&amp;dnahostpageurl=<xsl:value-of select="/H2G2/COMMENTFORUMLIST/@REQUESTEDURL" />
+			</xsl:if>
+		</xsl:variable>
+		
+		<xsl:variable name="request_siteid">
+			<xsl:if test="/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID > 0">
+				&amp;dnasiteid=<xsl:value-of select="/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID" />
+			</xsl:if>
+		</xsl:variable>
+				
 		<xsl:if test="$page_label = 1">
 			<li class="pagenum">
 				Page
@@ -754,41 +767,43 @@
 				</strong>
 			</li>
 		</xsl:if>
+		
 		<xsl:if test="$page_label = 1">
 			<li>
 				<xsl:choose>
 					<xsl:when test="$current_page > 1">
-						<a
-							href="commentforumlist?dnaskip=0&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">first page</a>
+						<a href="commentforumlist?dnaskip=0&amp;dnashow={$show}{$request_siteid}{$request_url}{$display_contact_forms}">first page</a>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>first page</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>
-			<li>
-				<xsl:choose>
-					<xsl:when test="$current_page > 1">
-						<a
-							href="commentforumlist?dnaskip={$skip - $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">previous page</a>
-					</xsl:when>
-					<xsl:otherwise>
-						<xsl:text>&lt; previous page</xsl:text>
-					</xsl:otherwise>
-				</xsl:choose>
-			</li>
-			<li>
-				<xsl:choose>
-					<xsl:when test="$current_page > $nav_range">
-						<a
-							href="commentforumlist?dnaskip={($nav_start - 1) * $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">
+			<xsl:choose>
+				<xsl:when test="$current_page > $nav_range">
+					<li>
+						<a href="commentforumlist?dnaskip={($nav_start - 1) * $show}&amp;dnashow={$show}{$request_siteid}{$request_url}{$display_contact_forms}">
 							&lt;&lt;
 							<xsl:value-of select="concat('previous ',$nav_range)" />
 						</a>
-					</xsl:when>
-					<xsl:otherwise>
+					</li>
+				</xsl:when>
+				<xsl:when test="$page_count_total > $nav_range">
+					<li>
 						&lt;&lt;
 						<xsl:value-of select="concat('previous ',$nav_range)" />
+					</li>
+				</xsl:when>
+				<xsl:otherwise>
+				</xsl:otherwise>
+			</xsl:choose>
+			<li>
+				<xsl:choose>
+					<xsl:when test="$current_page > 1">
+						<a href="commentforumlist?dnaskip={$skip - $show}&amp;dnashow={$show}{$request_siteid}{$request_url}{$display_contact_forms}">&lt; previous page</a>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:text>&lt; previous page</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>
@@ -797,10 +812,18 @@
 		<xsl:if test="($page_count > 0) and ($page_label &lt;= $nav_end)">
 			<xsl:if test="($page_label > $nav_start) and ($page_label &lt;= $nav_end)">
 				<li>
-					<a
-						href="commentforumlist?dnaskip={($page_label * $show) - $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">
-						<xsl:value-of select="$page_label" />
-					</a>
+					<xsl:choose>
+						<xsl:when test="$page_label = $current_page">
+							<strong>
+								<xsl:value-of select="$current_page" />
+							</strong>
+						</xsl:when>
+						<xsl:otherwise>
+							<a href="commentforumlist?dnaskip={($page_label * $show) - $show}&amp;dnashow={$show}{$request_siteid}{$request_url}{$display_contact_forms}">
+								<xsl:value-of select="$page_label" />
+							</a>
+						</xsl:otherwise>
+					</xsl:choose>
 				</li>
 			</xsl:if>
 
@@ -821,39 +844,41 @@
 			</xsl:choose>
 
 		</xsl:if>
-
-		<xsl:if test="$page_label = ($nav_end + 1)">
+		
+		<xsl:if test="$page_label = 1">
 			<li>
 				<xsl:choose>
 					<xsl:when test="$page_count_total > $current_page">
-						<a
-							href="commentforumlist?dnaskip={$current_page * $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">next page</a>
+						<a href="commentforumlist?dnaskip={$current_page * $show}&amp;dnashow={$show}{$request_siteid}{$request_url}{$display_contact_forms}">next page &gt;</a>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>next page &gt;</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</li>
-			<li>
-				<xsl:choose>
-					<xsl:when test="$page_count_total > $nav_end">
-						<a
-							href="commentforumlist?dnaskip={$nav_end * $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">
-							<xsl:value-of select="concat('next ',$nav_range)" />
-							&gt;&gt;
-						</a>
-					</xsl:when>
-					<xsl:otherwise>
+
+			<xsl:choose>
+				<xsl:when test="$page_count_total > $nav_end">
+					<li>
+						<a href="commentforumlist?dnaskip={$nav_end * $show}&amp;dnashow={$show}{$request_siteid}{$request_url}{$display_contact_forms}">
+						<xsl:value-of select="concat('next ',$nav_range)" />
+						&gt;&gt;</a>
+					</li>
+				</xsl:when>
+				<xsl:when test="$page_count_total > $nav_end">
+					<li>
 						<xsl:value-of select="concat('next ',$nav_range)" />
 						&gt;&gt;
-					</xsl:otherwise>
-				</xsl:choose>
-			</li>
+					</li>
+				</xsl:when>
+				<xsl:otherwise>
+				</xsl:otherwise>
+			</xsl:choose>
+
 			<li>
 				<xsl:choose>
 					<xsl:when test="$page_count_total > $current_page">
-						<a
-							href="commentforumlist?dnaskip={($page_count_total * $show) - $show}&amp;dnashow={$show}&amp;dnasiteid={/H2G2/COMMENTFORUMLIST/@REQUESTEDSITEID}&amp;dnahostpageurl={/H2G2/COMMENTFORUMLIST/@REQUESTEDURL}">last page</a>
+						<a href="commentforumlist?dnaskip={($page_count_total * $show) - $show}{$request_siteid}{$request_url}{$display_contact_forms}">last page</a>
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:text>last page</xsl:text>

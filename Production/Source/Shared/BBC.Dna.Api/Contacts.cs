@@ -190,7 +190,9 @@ namespace BBC.Dna.Api
             sendAsRawDetails &= recipient.ToLower().Contains("watchdog");
             // BODGE FIX
 
-            CreateEmailSubjectAndBodies(contactDetails, sendAsRawDetails, out subject, out body, out notes);
+            string sentFrom = sender;
+
+            CreateEmailSubjectAndBodies(contactDetails, sendAsRawDetails, out subject, out body, out notes, ref sender);
 
             if (SiteList.GetSiteOptionValueBool(siteID, "General", "SendEmailsViaDatabaseQueue"))
             {
@@ -202,19 +204,24 @@ namespace BBC.Dna.Api
             }
         }
 
-        private static void CreateEmailSubjectAndBodies(ContactDetails contactDetails, bool sendAsRawDetails, out string subject, out string body, out string notes)
+        private static void CreateEmailSubjectAndBodies(ContactDetails contactDetails, bool sendAsRawDetails, out string subject, out string body, out string notes, ref string sentFrom)
         {
             // Do the default thing
             subject = contactDetails.ForumUri;
             body = contactDetails.text;
-            notes = "ContactDetail - ID:" + contactDetails.ID + ", FORUM_URI:" + contactDetails.ForumUri;
-            TryParseContactFormMessage(contactDetails.text, sendAsRawDetails, ref subject, ref body);
+            notes = CreateEmailNotes(contactDetails);
+            TryParseContactFormMessage(contactDetails.text, sendAsRawDetails, ref subject, ref body, ref sentFrom);
         }
 
-        public static void TryParseContactFormMessage(string contactDetails, bool sendAsRawDetails, ref string subject, ref string body)
+        public static string CreateEmailNotes(ContactDetails contactDetails)
+        {
+            return "ContactDetail - ID:" + contactDetails.ID + ", FORUM_URI:" + contactDetails.ForumUri;
+        }
+
+        public static void TryParseContactFormMessage(string contactDetails, bool sendAsRawDetails, ref string subject, ref string body, ref string sentFrom)
         {
             // See if we have a json message
-            if (TyrParseJSONContactFormMessage(contactDetails, sendAsRawDetails, ref subject, ref body))
+            if (TyrParseJSONContactFormMessage(contactDetails, sendAsRawDetails, ref subject, ref body, ref sentFrom))
             {
                 return;
             }
@@ -225,7 +232,7 @@ namespace BBC.Dna.Api
             }
         }
 
-        private static bool TyrParseJSONContactFormMessage(string contactDetails, bool sendAsRawDetails, ref string subject, ref string body)
+        private static bool TyrParseJSONContactFormMessage(string contactDetails, bool sendAsRawDetails, ref string subject, ref string body, ref string sentFrom)
         {
             try
             {
@@ -240,8 +247,15 @@ namespace BBC.Dna.Api
                     body = "";
                     foreach (KeyValuePair<string, string> content in message.Body.ToList<KeyValuePair<string, string>>())
                     {
-                        string messageLine = HttpUtility.UrlDecode(content.Key) + "\n" + HttpUtility.UrlDecode(content.Value) + "\n\n";
+                        string decodedKey = HttpUtility.UrlDecode(content.Key);
+                        string decodedValue = HttpUtility.UrlDecode(content.Value);
+                        string messageLine = decodedKey + "\n" + decodedValue + "\n\n";
                         body += messageLine;
+
+                        if (decodedKey.ToLower().CompareTo("email address") == 0)
+                        {
+                            sentFrom = decodedValue;
+                        }
                     }
                 }
                 

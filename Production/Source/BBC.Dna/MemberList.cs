@@ -373,7 +373,8 @@ namespace BBC.Dna.Component
                 client = new TwitterClient();
                 tweetUser = new TweetUsers();
 
-                tweetUser = client.GetUserDetails(searchText);
+                //tweetUser = client.GetUserDetails(searchText);
+                tweetUser = client.GetUserDetailsByScrapping(searchText);
 
                 // Create the twitter user with the associated dnauserid in DNA
                 if (tweetUser != null)
@@ -436,7 +437,8 @@ namespace BBC.Dna.Component
             try
             {
                 client = new TwitterClient();
-                tweetUser = client.GetUserDetails(twitterScreenName);
+                //tweetUser = client.GetUserDetails(twitterScreenName);
+                tweetUser = client.GetUserDetailsByScrapping(twitterScreenName); //Temporary fix
             }
             catch (Exception ex)
             {

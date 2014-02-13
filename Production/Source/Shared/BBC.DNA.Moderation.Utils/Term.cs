@@ -50,7 +50,7 @@ namespace BBC.Dna.Moderation.Utils
         /// <param name="readerCreator"></param>
         /// <param name="modClassId"></param>
         /// <param name="historyId"></param>
-        public void UpdateTermForModClassId(IDnaDataReaderCreator readerCreator, int modClassId, int historyId)
+        public bool UpdateTermForModClassId(IDnaDataReaderCreator readerCreator, int modClassId, int historyId)
         {
             if (string.IsNullOrEmpty(Value))
             {//if empty then throw exception
@@ -65,6 +65,7 @@ namespace BBC.Dna.Moderation.Utils
                 throw new Exception("ModClassId cannot be 0.");
             }
 
+            bool termUpdated = true;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("addtermsfilterterm"))
             {
                 reader.AddParameter("term", Value);
@@ -72,7 +73,14 @@ namespace BBC.Dna.Moderation.Utils
                 reader.AddParameter("modClassId", modClassId);
                 reader.AddParameter("historyId", historyId);
                 reader.Execute();
+
+                if (reader.HasRows && reader.Read())
+                {
+                    termUpdated = reader.GetBoolean("termupdated");
+                }
             }
+
+            return termUpdated;
         }
 
         /// <summary>

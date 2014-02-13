@@ -21,7 +21,6 @@ namespace BBC.Dna
         private readonly ICacheManager _cache;
         private string _cmd = String.Empty;
         private int _modClassId = 1;
-        private bool _ignoreCache;
         private SortBy sortBy = SortBy.Term;
         private SortDirection sortDirection = SortDirection.Ascending;
 
@@ -32,8 +31,6 @@ namespace BBC.Dna
         public TermsFilterAdminPageBuilder(IInputContext context)
             : base(context)
         {
-            _ignoreCache = false;
-
             _cache = CacheFactory.GetCacheManager();
         }
 
@@ -56,12 +53,9 @@ namespace BBC.Dna
             }
 
             //get terms admin object
-            TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateTermAdmin(AppContext.ReaderCreator, _cache, _modClassId, _ignoreCache);
+            TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateTermAdmin(AppContext.ReaderCreator, _cache, _modClassId);
             termsAdmin.TermsList.SortList(sortBy, sortDirection);
             SerialiseAndAppend(termsAdmin, "");
-
-
-
         }
 
 
@@ -143,10 +137,6 @@ namespace BBC.Dna
             {
                 sortDirection = (SortDirection)Enum.Parse(typeof(SortDirection), InputContext.GetParamStringOrEmpty("s_sortdirection", "s_sortdirection"));
             }
-
-#if DEBUG
-            _ignoreCache = InputContext.GetParamIntOrZero("ignorecache", "Ignore the cache") == 1;
-#endif
         }
     }
 }

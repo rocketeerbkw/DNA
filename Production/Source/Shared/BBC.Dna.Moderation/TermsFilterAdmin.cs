@@ -56,16 +56,13 @@ namespace BBC.Dna.Moderation
         /// <param name="readerCreator"></param>
         /// <param name="cacheManager"></param>
         /// <param name="modClassId"></param>
-        /// <param name="ignoreCache"></param>
         /// <returns></returns>
         public static TermsFilterAdmin CreateTermAdmin(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
-            int modClassId, bool ignoreCache)
+            int modClassId)
         {
             var termAdmin = new TermsFilterAdmin() ;
             termAdmin.ModerationClasses = ModerationClassListCache.GetObject();
-
-            termAdmin.TermsList = TermsList.GetTermsListByModClassId(readerCreator, cacheManager, modClassId,
-                                                                     ignoreCache);
+            termAdmin.TermsList = TermsList.GetTermsListByModClassId(readerCreator, cacheManager, modClassId, true);
             return termAdmin;
         }
 
@@ -75,15 +72,12 @@ namespace BBC.Dna.Moderation
         /// <param name="readerCreator"></param>
         /// <param name="cacheManager"></param>
         /// <param name="forumId"></param>
-        /// <param name="ignoreCache"></param>
         /// <returns></returns>
         public static TermsFilterAdmin CreateForumTermAdmin(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
-            int forumId, bool ignoreCache)
+            int forumId)
         {
-            var termAdmin = new TermsFilterAdmin(forumId, true);
-            
-            termAdmin.TermsList = TermsList.GetTermsListByForumId(readerCreator, cacheManager, forumId, ignoreCache);
-
+            var termAdmin = new TermsFilterAdmin(forumId, true);           
+            termAdmin.TermsList = TermsList.GetTermsListByForumId(readerCreator, cacheManager, forumId, true);
             return termAdmin;
         }
     }

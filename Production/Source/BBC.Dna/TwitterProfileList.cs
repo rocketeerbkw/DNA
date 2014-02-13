@@ -139,7 +139,7 @@ namespace BBC.Dna.Component
                     filteredProfileList = GetSiteSpecificProfileList(filteredProfileList, siteType);
                 }
             }
-            
+
             return filteredProfileList;
         }
 

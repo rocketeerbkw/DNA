@@ -133,6 +133,26 @@ namespace BBC.Dna.Api
             set;
         }
 
+        [DataMember(Name = ("neroPositiveRatingValue"), Order = 18)]
+        public int NeroPositiveRatingValue
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("neroNegativeRatingValue"), Order = 19)]
+        public int NeroNegativeRatingValue
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("title"), Order = 20, EmitDefaultValue=false)]
+        public string Title
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         /// When true, this comment should go into the premodpostings table (if it requires moderation)
