@@ -29,7 +29,7 @@ using System;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("3.5.132.0")]
+[assembly: AssemblyFileVersion("3.5.133.0")]
 
 //
 // In order to sign your assembly you must specify a key to use. Refer to the 
