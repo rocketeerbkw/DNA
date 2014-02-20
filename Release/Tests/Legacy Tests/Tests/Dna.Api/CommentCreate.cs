@@ -778,31 +778,57 @@ return.";
         /// tests CommentCreate function to create comment with a character limit
         /// </summary>
         [TestMethod]
-        public void CommentCreate_WithCharLimit()
+        public void CommentCreate_WithCharLimit_NormalUser()
+        {
+            //normal user
+            ICallingUser user = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
+            user.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
+
+            bool shouldAssertCharLimit = true;
+
+            SetupforumAndTestCharLimit(user, shouldAssertCharLimit);
+        }
+
+        /// <summary>
+        /// tests CommentCreate function to create comment with a character limit
+        /// </summary>
+        [TestMethod]
+        public void CommentCreate_WithCharLimit_Editor()
+        {
+            //normal user
+            ICallingUser user = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
+            user.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetEditorUserAccount.Cookie, TestUtils.TestUserAccounts.GetEditorUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
+
+            bool shouldAssertCharLimit = false;
+
+            SetupforumAndTestCharLimit(user, shouldAssertCharLimit);
+        }
+
+        /// <summary>
+        /// tests CommentCreate function to create comment with a character limit
+        /// </summary>
+        [TestMethod]
+        public void CommentCreate_WithCharLimit_SuperUser()
+        {
+            //normal user
+            ICallingUser user = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetSuperUserAccount.UserName, _siteList);
+            user.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetSuperUserAccount.Cookie, TestUtils.TestUserAccounts.GetSuperUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
+
+            bool shouldAssertCharLimit = false;
+
+            SetupforumAndTestCharLimit(user, shouldAssertCharLimit);
+        }
+
+        private void SetupforumAndTestCharLimit(ICallingUser user, bool shouldAssertCharLimit)
         {
             try
             {
-                //set max char option
-                using (FullInputContext inputcontext = new FullInputContext(""))
-                {
-                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                    {
-                        reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','15',0,'test MaxCommentCharacterLength value')");
-                        _siteList = SiteList.GetSiteList();
-                        _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
-                    }
-                }
-                string commentForumID = "good" + Guid.NewGuid().ToString();
-                CommentForum commentForum = CommentForumCreate(commentForumID);
-                //set up test data
-                CommentInfo comment = new CommentInfo{text = Guid.NewGuid().ToString().Substring(0,10)};
-                //normal user
-                _comments.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
-                _comments.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUtils.TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
-                CommentInfo result = _comments.CreateComment(commentForum, comment);//should pass successfully
-                Assert.IsTrue(result != null);
-                Assert.IsTrue(result.ID > 0);
-                Assert.IsTrue(result.text == comment.text);
+                SetCharLimitTo15ForSite();
+
+                CommentForum commentForum;
+                CommentInfo comment;
+                CommentInfo result;
+                CreateCommentForum(user, out commentForum, out comment, out result);
 
                 //with some markup
                 comment.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", Guid.NewGuid().ToString().Substring(0, 10));
@@ -819,7 +845,14 @@ return.";
                 }
                 catch (ApiException ex)
                 {
-                    Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
+                    if (shouldAssertCharLimit)
+                    {
+                        Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
                 }
 
                 //string too large without html
@@ -830,19 +863,62 @@ return.";
                 }
                 catch (ApiException ex)
                 {
-                    Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
+                    if (shouldAssertCharLimit)
+                    {
+                        Assert.IsTrue(ex.type == ErrorType.ExceededTextLimit);
+                    }
+                    else
+                    {
+                        throw ex;
+                    }
                 }
             }
-            finally 
+            finally
             {
-                using (FullInputContext inputcontext = new FullInputContext(""))
+                RemoveCharLimitForSite();
+            }
+        }
+
+        private void CreateCommentForum(ICallingUser user, out CommentForum commentForum, out CommentInfo comment, out CommentInfo result)
+        {
+            string commentForumID = "good" + Guid.NewGuid().ToString();
+            commentForum = CommentForumCreate(commentForumID);
+
+            //set up test data
+            comment = new CommentInfo { text = Guid.NewGuid().ToString().Substring(0, 10) };
+
+            // Add the user
+            _comments.CallingUser = user;
+
+            result = _comments.CreateComment(commentForum, comment);//should pass successfully
+            Assert.IsTrue(result != null);
+            Assert.IsTrue(result.ID > 0);
+            Assert.IsTrue(result.text == comment.text);
+        }
+
+        private void RemoveCharLimitForSite()
+        {
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
-                    using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
-                    {
-                        reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxCommentCharacterLength'");
-                        _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
-                        _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
-                    }
+                    reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxCommentCharacterLength'");
+                    _siteList = new SiteList(DnaMockery.CreateDatabaseReaderCreator(), DnaDiagnostics.Default, CacheFactory.GetCacheManager(), null, null);
+                    _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
+                }
+            }
+        }
+
+        private void SetCharLimitTo15ForSite()
+        {
+            //set max char option
+            using (FullInputContext inputcontext = new FullInputContext(""))
+            {
+                using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
+                {
+                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'CommentForum', 'MaxCommentCharacterLength','15',0,'test MaxCommentCharacterLength value')");
+                    _siteList = SiteList.GetSiteList();
+                    _comments = new Comments(inputcontext.dnaDiagnostics, inputcontext.ReaderCreator, CacheFactory.GetCacheManager(), _siteList);
                 }
             }
         }
