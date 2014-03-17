@@ -13,6 +13,7 @@ using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.ServiceModel.Web;
 using System.Linq;
+using BBC.Dna.Api.Contracts;
 
 namespace BBC.Dna.Services
 {
@@ -727,7 +728,8 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream NeroRatingIncrease(string sitename, string commentForumUid, string commentId)
         {
-            return ApplyNeroRating(sitename, commentForumUid, commentId, 1);
+            NeroRatingInfo ratingInfo = ApplyNeroRating(sitename, commentForumUid, commentId, 1, 1);
+            return GetOutputStream(ratingInfo.neroValue);
         }
 
         [WebInvoke(Method = "PUT", UriTemplate = "V1/site/{sitename}/commentsforums/{commentForumUid}/comment/{commentId}/rate/down")]
@@ -735,7 +737,26 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream NeroRatingDecrease(string sitename, string commentForumUid, string commentId)
         {
-            return ApplyNeroRating(sitename, commentForumUid, commentId, -1);
+            NeroRatingInfo ratingInfo = ApplyNeroRating(sitename, commentForumUid, commentId, -1, 1);
+            return GetOutputStream(ratingInfo.neroValue);
+        }
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V2/site/{sitename}/commentsforums/{commentForumUid}/comment/{commentId}/rate/up")]
+        [WebHelp(Comment = "Increase the nero rating of a comment")]
+        [OperationContract]
+        public Stream NeroRatingIncreaseV2(string sitename, string commentForumUid, string commentId)
+        {
+            NeroRatingInfo ratingInfo = ApplyNeroRating(sitename, commentForumUid, commentId, 1, 2);
+            return GetOutputStream(ratingInfo);
+        }
+
+        [WebInvoke(Method = "PUT", UriTemplate = "V2/site/{sitename}/commentsforums/{commentForumUid}/comment/{commentId}/rate/down")]
+        [WebHelp(Comment = "Decrease the nero rating of a comment")]
+        [OperationContract]
+        public Stream NeroRatingDecreaseV2(string sitename, string commentForumUid, string commentId)
+        {
+            NeroRatingInfo ratingInfo = ApplyNeroRating(sitename, commentForumUid, commentId, -1, 2);
+            return GetOutputStream(ratingInfo);
         }
 
         /// <summary>
@@ -746,7 +767,7 @@ namespace BBC.Dna.Services
         /// <param name="commentId"></param>
         /// <param name="value"></param>
         /// <returns>The new aggregate value for the given comment</returns>
-        private Stream ApplyNeroRating(string sitename, string commentForumUid, string commentIdStr, short value)
+        private NeroRatingInfo ApplyNeroRating(string sitename, string commentForumUid, string commentIdStr, short value, short outputType)
         {
             ISite site = GetSite(sitename);
             var userId = 0;
@@ -783,9 +804,7 @@ namespace BBC.Dna.Services
                 throw ApiException.GetError(ErrorType.ForumUnknown);
             }
 
-            var newValue = _commentObj.CreateCommentRating(commentForumData, site, commentId, userId, value);
-            //_commentObj.RateComment(site, commentForumUid, commentId, value, userId);
-            return GetOutputStream(newValue);
+            return _commentObj.CreateCommentRating(commentForumData, site, commentId, userId, value);
         }
 
         //2. GetConversations()

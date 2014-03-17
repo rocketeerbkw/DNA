@@ -157,6 +157,7 @@
   <ItemGroup>
     <None Include="BBC.Dna.snk" />
     <Compile Include="Contracts\ConversationStatus.Contracts.cs" />
+    <Compile Include="Contracts\NeroRatingInfo.cs" />
     <Compile Include="Repositories\ICommentForumRepository.cs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

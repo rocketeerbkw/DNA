@@ -1977,6 +1977,8 @@ namespace BBC.Dna.Api.Tests
         public void CreateCommentRating_AsAnonymous_ReturnsValue()
         {
             var value = 1;
+            var posvalue = 20;
+            var negvalue = -10;
             var postId = 1;
             var userid = 0;
             var commentForum = new CommentForum() { ForumID = 1 };
@@ -1989,7 +1991,9 @@ namespace BBC.Dna.Api.Tests
 
             reader.Stub(x => x.Read()).Return(true);
             reader.Stub(x => x.HasRows).Return(true);
-            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            reader.Stub(x => x.GetInt32NullAsZero("nerovalue")).Return(value);
+            reader.Stub(x => x.GetInt32NullAsZero("neropositivevalue")).Return(posvalue);
+            reader.Stub(x => x.GetInt32NullAsZero("neronegativevalue")).Return(negvalue);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
             mocks.ReplayAll();
 
@@ -2000,7 +2004,9 @@ namespace BBC.Dna.Api.Tests
             };
 
             var retVal = comments.CreateCommentRating(commentForum, site, postId, userid, (short)value);
-            Assert.AreEqual(value, retVal);
+            Assert.AreEqual(value, retVal.neroValue);
+            Assert.AreEqual(posvalue, retVal.positiveNeroValue);
+            Assert.AreEqual(negvalue, retVal.negativeNeroValue);
             reader.AssertWasCalled(x => x.Execute());
         }
 
@@ -2083,6 +2089,8 @@ namespace BBC.Dna.Api.Tests
         public void CreateCommentRating_AsUser_ReturnsValue()
         {
             var value = 1;
+            var posvalue = 20;
+            var negvalue = -10;
             var postId = 1;
             var userid = 1;
             var commentForum = new CommentForum() { ForumID = 1 };
@@ -2095,7 +2103,9 @@ namespace BBC.Dna.Api.Tests
 
             reader.Stub(x => x.Read()).Return(true);
             reader.Stub(x => x.HasRows).Return(true);
-            reader.Stub(x => x.GetInt32NullAsZero("value")).Return(value);
+            reader.Stub(x => x.GetInt32NullAsZero("nerovalue")).Return(value);
+            reader.Stub(x => x.GetInt32NullAsZero("neropositivevalue")).Return(posvalue);
+            reader.Stub(x => x.GetInt32NullAsZero("neronegativevalue")).Return(negvalue);
             readerCreator.Stub(x => x.CreateDnaDataReader("commentratingcreate")).Return(reader);
             mocks.ReplayAll();
 
@@ -2106,7 +2116,9 @@ namespace BBC.Dna.Api.Tests
             };
 
             var retVal = comments.CreateCommentRating(commentForum, site, postId, userid, (short)value);
-            Assert.AreEqual(value, retVal);
+            Assert.AreEqual(value, retVal.neroValue);
+            Assert.AreEqual(posvalue, retVal.positiveNeroValue);
+            Assert.AreEqual(negvalue, retVal.negativeNeroValue);
             reader.AssertWasCalled(x => x.Execute());
         }
 

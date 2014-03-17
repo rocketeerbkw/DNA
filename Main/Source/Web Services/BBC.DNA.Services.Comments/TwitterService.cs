@@ -198,7 +198,7 @@ namespace BBC.Dna.Services
         {
             Guid userHash = DnaHasher.GenerateHash(tweet.RetweetedStatus.id.ToString());
             short ratingValue = tweet.RetweetedStatus.RetweetCount();
-            return _commentObj.CreateCommentRating(commentForumData, site, commentId, 0, ratingValue, userHash);
+            return _commentObj.CreateCommentRating(commentForumData, site, commentId, 0, ratingValue, userHash).neroValue;
             
         }
 

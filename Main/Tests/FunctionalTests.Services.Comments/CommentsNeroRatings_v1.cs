@@ -21,6 +21,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using TestUtils;
 using BBC.Dna.Common;
+using BBC.Dna.Api.Contracts;
 
 
 
@@ -53,7 +54,7 @@ namespace FunctionalTests.Services.Comments
         [TestInitialize]
         public void StartUp()
         {
-            SnapshotInitialisation.RestoreFromSnapshot();
+            //SnapshotInitialisation.RestoreFromSnapshot();
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace FunctionalTests.Services.Comments
         public CommentsNeroRatings_v1()
         {
             commentsHelper = new CommentsTests_V1();
-          
+            SnapshotInitialisation.RestoreFromSnapshot();
         }
 
         public void CreateTestForumAndComment(ref CommentForum commentForum, ref CommentInfo returnedComment)
@@ -104,24 +105,55 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(!String.IsNullOrEmpty(returnedComment.Created.Ago));
         }
 
+        /// <summary>
+        /// Test CreateCommentForum method from service
+        /// </summary>
+        [TestMethod]
+        public void RateUpComment_AsLoggedInUserV2_ReturnsValidTotal()
+        {
+            int apiVersion = 2;
+            CreateCommentAndRateUpAsNormalUserAndValidate(apiVersion);
+        }
 
         /// <summary>
         /// Test CreateCommentForum method from service
         /// </summary>
         [TestMethod]
-        public void RateUpComment_AsLoggedInUser_ReturnsValidTotal()
+        public void RateUpComment_AsLoggedInUserV1_ReturnsValidTotal()
+        {
+            int apiVersion = 1;
+            CreateCommentAndRateUpAsNormalUserAndValidate(apiVersion);
+        }
+
+        private void CreateCommentAndRateUpAsNormalUserAndValidate(int apiVersion)
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/up",_sitename,commentForum.Id, commentInfo.ID);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
+            
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
+            
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(1, neroRatingInfo.neroValue);
+                Assert.AreEqual(1, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(0, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We only support version 1 or 2 of ratings!");
+            }
 
             url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
@@ -142,10 +174,27 @@ namespace FunctionalTests.Services.Comments
 
             var returnedComment = (CommentInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(CommentInfo));
             Assert.AreEqual(1, returnedComment.NeroRatingValue);
+            Assert.AreEqual(1, returnedComment.NeroPositiveRatingValue);
+            Assert.AreEqual(0, returnedComment.NeroNegativeRatingValue);
         }
 
         [TestMethod]
-        public void RateDownComment_AsAnonymousWithAttributes_ReturnsValidTotal()
+        public void RateDownComment_AsAnonymousWithAttributesV2_ReturnsValidTotal()
+        {
+            int apiVersion = 2;
+
+            CreateCommentAndRateDownAsAnonymousUserAndValidate(apiVersion);
+        }
+
+        [TestMethod]
+        public void RateDownComment_AsAnonymousWithAttributesV1_ReturnsValidTotal()
+        {
+            int apiVersion = 1;
+
+            CreateCommentAndRateDownAsAnonymousUserAndValidate(apiVersion);
+        }
+
+        private void CreateCommentAndRateDownAsAnonymousUserAndValidate(int apiVersion)
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             CommentForum commentForum = new CommentForum();
@@ -156,12 +205,27 @@ namespace FunctionalTests.Services.Comments
             {
                 SetSiteOption(1, "CommentForum", "AllowNotSignedInRating", 1, "1");
                 request.AddCookie(new Cookie("BBC-UID", "a4acfefaf9d7a374026abfa9419a957ae48c5e5800803144642fba8aadcff86f0Mozilla%2f5%2e0%20%28Windows%3b%20U%3b%20Windows%20NT%205%2e1%3b%20en%2dGB%3b%20rv%3a1%2e9%2e2%2e12%29%20Gecko%2f20101026%20Firefox%2f3%2e6%2e12%20%28%2eNET%20CLR%203%2e5%2e30729%29"));
-                string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/down?clientIp=1.1.1.1", _sitename, commentForum.Id, commentInfo.ID);
+                string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down?clientIp=1.1.1.1", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
                 // Check to make sure that the page returned with the correct information
                 XmlDocument xml = request.GetLastResponseAsXML();
-                Assert.AreEqual("-1", xml.DocumentElement.InnerText);
+
+                if (apiVersion == 1)
+                {
+                    Assert.AreEqual("-1", xml.DocumentElement.InnerText);
+                }
+                else if (apiVersion == 2)
+                {
+                    var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                    Assert.AreEqual(-1, neroRatingInfo.neroValue);
+                    Assert.AreEqual(0, neroRatingInfo.positiveNeroValue);
+                    Assert.AreEqual(-1, neroRatingInfo.negativeNeroValue);
+                }
+                else
+                {
+                    Assert.Fail("We don't support any other version than 1 or 2");
+                }
 
 
                 url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
@@ -171,15 +235,16 @@ namespace FunctionalTests.Services.Comments
                 var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
                 validator.Validate();
 
-            
+
                 var returnedForum = (CommentForum)StringUtils.DeserializeObject(xml.InnerXml, typeof(CommentForum));
                 Assert.AreEqual(-1, returnedForum.commentList.comments[0].NeroRatingValue);
+                Assert.AreEqual(0, returnedForum.commentList.comments[0].NeroPositiveRatingValue);
+                Assert.AreEqual(-1, returnedForum.commentList.comments[0].NeroNegativeRatingValue);
             }
             finally
             {
                 RemoveSiteOption(1, "AllowNotSignedInRating");
             }
-            
         }
 
         [TestMethod]
@@ -254,25 +319,68 @@ namespace FunctionalTests.Services.Comments
         }
 
         [TestMethod]
-        public void RateUpComment_ChangesValue_ReturnsValidTotal()
+        public void RateUpComment_ChangesValueV2_ReturnsValidTotal()
+        {
+            int apiVersion = 2;
+            CreateCommentAndRateUpAndDown(apiVersion);
+        }
+
+        [TestMethod]
+        public void RateUpComment_ChangesValueV1_ReturnsValidTotal()
+        {
+            int apiVersion = 1;
+            CreateCommentAndRateUpAndDown(apiVersion);
+        }
+
+        private void CreateCommentAndRateUpAndDown(int apiVersion)
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(1, neroRatingInfo.neroValue);
+                Assert.AreEqual(1, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(0, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
+            //Assert.AreEqual("1", xml.DocumentElement.InnerText);
 
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo.ID);
+            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("-1", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("-1", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(-1, neroRatingInfo.neroValue);
+                Assert.AreEqual(0, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(-1, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
+            //Assert.AreEqual("-1", xml.DocumentElement.InnerText);
 
             url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
@@ -283,27 +391,71 @@ namespace FunctionalTests.Services.Comments
 
             var returnedForum = (CommentForum)StringUtils.DeserializeObject(xml.InnerXml, typeof(CommentForum));
             Assert.AreEqual(-1, returnedForum.commentList.comments[0].NeroRatingValue);
+            Assert.AreEqual(0, returnedForum.commentList.comments[0].NeroPositiveRatingValue);
+            Assert.AreEqual(-1, returnedForum.commentList.comments[0].NeroNegativeRatingValue);
         }
 
         [TestMethod]
-        public void RateUpComment_Duplicate_ReturnsValidTotal()
+        public void RateUpComment_DuplicateV2_ReturnsValidTotal()
+        {
+            int apiVersion = 2;
+            CreateCommentAndRateUpValidateTotal(apiVersion);
+        }
+        
+        [TestMethod]
+        public void RateUpComment_DuplicateV1_ReturnsValidTotal()
+        {
+            int apiVersion = 1;
+            CreateCommentAndRateUpValidateTotal(apiVersion);
+        }
+
+        private void CreateCommentAndRateUpValidateTotal(int apiVersion)
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
+
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(1, neroRatingInfo.neroValue);
+                Assert.AreEqual(1, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(0, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
 
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(1, neroRatingInfo.neroValue);
+                Assert.AreEqual(1, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(0, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
 
             url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
@@ -314,34 +466,89 @@ namespace FunctionalTests.Services.Comments
 
             var returnedForum = (CommentForum)StringUtils.DeserializeObject(xml.InnerXml, typeof(CommentForum));
             Assert.AreEqual(1, returnedForum.commentList.comments[0].NeroRatingValue);
+            Assert.AreEqual(1, returnedForum.commentList.comments[0].NeroPositiveRatingValue);
+            Assert.AreEqual(0, returnedForum.commentList.comments[0].NeroNegativeRatingValue);
         }
 
         [TestMethod]
-        public void RateUpComment_MultipleRatings_ReturnsValidTotal()
+        public void RateUpComment_MultipleRatingsV2_ReturnsValidTotal()
+        {
+            int apiVersion = 2;
+            CreateCommentRateupTwiceDownonceAndValidate(apiVersion);
+        }
+
+        [TestMethod]
+        public void RateUpComment_MultipleRatingsV1_ReturnsValidTotal()
+        {
+            int apiVersion = 1;
+            CreateCommentRateupTwiceDownonceAndValidate(apiVersion);
+        }
+
+        private void CreateCommentRateupTwiceDownonceAndValidate(int apiVersion)
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("1", xml.DocumentElement.InnerText);
-
-            
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(1, neroRatingInfo.neroValue);
+                Assert.AreEqual(1, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(0, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
             request.SetCurrentUserModerator();
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("2", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("2", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(2, neroRatingInfo.neroValue);
+                Assert.AreEqual(2, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(0, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
 
             request.SetCurrentUserNotableUser();
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo.ID);
+            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(1, neroRatingInfo.neroValue);
+                Assert.AreEqual(2, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(-1, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
 
             url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
@@ -352,10 +559,25 @@ namespace FunctionalTests.Services.Comments
 
             var returnedForum = (CommentForum)StringUtils.DeserializeObject(xml.InnerXml, typeof(CommentForum));
             Assert.AreEqual(1, returnedForum.commentList.comments[0].NeroRatingValue);
+            Assert.AreEqual(2, returnedForum.commentList.comments[0].NeroPositiveRatingValue);
+            Assert.AreEqual(-1, returnedForum.commentList.comments[0].NeroNegativeRatingValue);
         }
 
         [TestMethod]
-        public void RateUpComment_SortByRatingValue_ReturnsCorrectOrder()
+        public void RateUpComment_SortByRatingValueV2_ReturnsCorrectOrder()
+        {
+            int apiVersion = 2;
+            CreateCommentsWithDifferentRatingsAndValidate(apiVersion);
+        }
+
+        [TestMethod]
+        public void RateUpComment_SortByRatingValueV1_ReturnsCorrectOrder()
+        {
+            int apiVersion = 1;
+            CreateCommentsWithDifferentRatingsAndValidate(apiVersion);
+        }
+
+        private void CreateCommentsWithDifferentRatingsAndValidate(int apiVersion)
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
@@ -365,24 +587,68 @@ namespace FunctionalTests.Services.Comments
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
             CreateTestForumAndComment(ref commentForum, ref commentInfo2);
 
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("1", xml.DocumentElement.InnerText);
-
+            //Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("1", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(1, neroRatingInfo.neroValue);
+                Assert.AreEqual(1, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(0, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
 
             request.SetCurrentUserModerator();
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("2", xml.DocumentElement.InnerText);
+            //Assert.AreEqual("2", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("2", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(2, neroRatingInfo.neroValue);
+                Assert.AreEqual(2, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(0, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
 
             request.SetCurrentUserNotableUser();
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo2.ID);
+            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo2.ID, apiVersion);
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             xml = request.GetLastResponseAsXML();
-            Assert.AreEqual("-1", xml.DocumentElement.InnerText);
+            //Assert.AreEqual("-1", xml.DocumentElement.InnerText);
+            if (apiVersion == 1)
+            {
+                Assert.AreEqual("-1", xml.DocumentElement.InnerText);
+            }
+            else if (apiVersion == 2)
+            {
+                var neroRatingInfo = (NeroRatingInfo)StringUtils.DeserializeObject(xml.InnerXml, typeof(NeroRatingInfo));
+                Assert.AreEqual(-1, neroRatingInfo.neroValue);
+                Assert.AreEqual(0, neroRatingInfo.positiveNeroValue);
+                Assert.AreEqual(-1, neroRatingInfo.negativeNeroValue);
+            }
+            else
+            {
+                Assert.Fail("We don't support any other version than 1 or 2");
+            }
 
             //test as ascending
             url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?sortBy={2}&sortDirection={3}", _sitename, commentForum.Id, SortBy.RatingValue, SortDirection.Ascending);
