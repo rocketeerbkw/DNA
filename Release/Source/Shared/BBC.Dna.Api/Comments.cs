@@ -11,6 +11,7 @@ using BBC.DNA.Moderation.Utils;
 using System.Xml.Linq;
 using System.Linq;
 using System.Security.Cryptography;
+using BBC.Dna.Api.Contracts;
 
 
 namespace BBC.Dna.Api
@@ -824,7 +825,7 @@ namespace BBC.Dna.Api
         /// <param name="commentForum"></param>
         /// <param name="comment">The comment to add</param>
         /// <returns>The created comment object</returns>
-        public int CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, short value)
+        public NeroRatingInfo CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, short value)
         {
             if (userId == 0 && (BbcUid == Guid.Empty || string.IsNullOrEmpty(IpAddress)))
             {
@@ -840,7 +841,7 @@ namespace BBC.Dna.Api
             return CreateCommentRating(commentForum, site, entryId, userId, value, userHash);
         }
 
-        public int CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, short value, Guid userHash)
+        public NeroRatingInfo CreateCommentRating(Forum commentForum, ISite site, int entryId, int userId, short value, Guid userHash)
         {
             if (userId == 0 && userHash == Guid.Empty)
             {
@@ -852,9 +853,14 @@ namespace BBC.Dna.Api
                 throw ApiException.GetError(ErrorType.InvalidEntryId);
             }
 
-            var updatedValue = 0;
+            NeroRatingInfo ratinginfo = new NeroRatingInfo();
+            ratinginfo.negativeNeroValue = 0;
+            ratinginfo.positiveNeroValue = 0;
+            ratinginfo.neroValue = 0;
+
             //create unique comment hash
             //add comment to db
+
             try
             {
                 using (IDnaDataReader reader = CreateReader("commentratingcreate"))
@@ -870,7 +876,9 @@ namespace BBC.Dna.Api
                     reader.Execute();
                     if (reader.HasRows && reader.Read())
                     {
-                        updatedValue = reader.GetInt32NullAsZero("value");
+                        ratinginfo.negativeNeroValue = reader.GetInt32NullAsZero("neronegativevalue");
+                        ratinginfo.positiveNeroValue = reader.GetInt32NullAsZero("neropositivevalue");
+                        ratinginfo.neroValue = reader.GetInt32NullAsZero("nerovalue");
                     }
                 }
             }
@@ -879,7 +887,7 @@ namespace BBC.Dna.Api
                 throw new ApiException(ex.Message, ex.InnerException);
             }
             //return new comment complete with id etc
-            return updatedValue;
+            return ratinginfo;
         }
 
         /// <summary>
