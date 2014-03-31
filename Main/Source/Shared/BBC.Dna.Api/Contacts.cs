@@ -187,7 +187,10 @@ namespace BBC.Dna.Api
             // BODGE FIX
             // As there is only one contact form that needs the send raw functionality, WatchDog, we need to bodge it so that the siteoption
             // only gets applied to emails being sent to WatchDog
-            sendAsRawDetails &= recipient.ToLower().Contains("watchdog");
+            if (siteID <= 606)
+            {
+                sendAsRawDetails &= recipient.ToLower().Contains("watchdog");
+            }
             // BODGE FIX
 
             string sentFrom = sender;
