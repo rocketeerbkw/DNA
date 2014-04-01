@@ -12,8 +12,8 @@ ALTER DATABASE SmallGuide SET ONLINE
 RESTORE DATABASE [smallguide] 
 FROM  DISK = N'E:\MSSQL\data\DNADB-smallguide-teamcity.bak' 
 WITH  FILE = 1,  
-MOVE N'SmallGuide' TO N'E:\MSSQL\data\smallguide.mdf',  
-MOVE N'SmallGuide_log' TO N'E:\MSSQL\data\smallguide.LDF',  
+MOVE N'DNADB-smallguide' TO N'E:\MSSQL\data\smallguide.mdf',  
+MOVE N'DNADB-smallguide_log' TO N'E:\MSSQL\data\smallguide.LDF',  
 MOVE N'sysft_GuideEntriesCat' TO N'D:\MSSQL\FTData\SmallGuide\GuideEntriesCat0000',  
 MOVE N'sysft_HierarchyCat' TO N'D:\MSSQL\FTData\SmallGuide\HierarchyCat0000',  
 MOVE N'sysft_ThreadEntriesCat' TO N'D:\MSSQL\FTData\SmallGuide\ThreadEntriesCat0000',  
@@ -57,4 +57,4 @@ INSERT Salt VALUES('Email',@enc)
 -- Recreate snapshot 
 PRINT 'Recreating SmallGuide SnapShot'
 CREATE DATABASE SmallGuideSS ON 
-( NAME = SmallGuide, FILENAME = 'E:\MSSQL\data\smallGuideSS.ss') AS SNAPSHOT OF SmallGuide
+( NAME = [DNADB-smallguide], FILENAME = 'E:\MSSQL\data\smallGuideSS.ss') AS SNAPSHOT OF SmallGuide
