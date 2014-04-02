@@ -57,4 +57,4 @@ INSERT Salt VALUES('Email',@enc)
 -- Recreate snapshot 
 PRINT 'Recreating SmallGuide SnapShot'
 CREATE DATABASE SmallGuideSS ON 
-( NAME = [DNADB-smallguide], FILENAME = 'E:\MSSQL\data\smallGuideSS.ss') AS SNAPSHOT OF SmallGuide
+( NAME = [Smallguide], FILENAME = 'E:\MSSQL\data\smallGuideSS.ss') AS SNAPSHOT OF SmallGuide
