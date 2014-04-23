@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Serialization;
 using System.ServiceModel.Syndication;
+using System.Collections;
 
 namespace BBC.Dna.SocialAPI
 {
     //[KnownType(typeof(BuzzTwitterProfile))]
     //[Serializable]
     [DataContract(Name = "profile", Namespace = "BBC.Dna.SocialAPI")]
-    public class BuzzTwitterProfile
+    public class BuzzTwitterProfile : IComparable
     {
         private bool? _isProfileCountEnabled;
         private bool? _isProfileKeywordCountEnabled;
@@ -156,5 +157,14 @@ namespace BBC.Dna.SocialAPI
 
         [DataMember (Name = ("version"))]
         public int version { get; set; }*/
+
+        #region IComparable Members
+
+        public int CompareTo(object obj)
+        {
+            return ProfileId.CompareTo(((BuzzTwitterProfile)obj).ProfileId);
+        }
+
+        #endregion
     }
 }

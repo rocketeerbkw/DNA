@@ -1158,6 +1158,52 @@ namespace FunctionalTests.Services.Comments
 
         }
 
+        [TestMethod]
+        public void ProfilePageSortsProfilesByProfileID()
+        {
+            BuzzTwitterProfiles profiles = new BuzzTwitterProfiles();
+            profiles.Add(CreateNewProfile("D"));
+            profiles.Add(CreateNewProfile("B"));
+            profiles.Add(CreateNewProfile("A"));
+            profiles.Add(CreateNewProfile("C"));
+
+            List<String> profileIdsToSort = new List<string>();
+            foreach (var p in profiles)
+            {
+                profileIdsToSort.Add(p.ProfileId);
+            }
+            profileIdsToSort.Sort();
+            Assert.IsFalse(CompareProfileIds(profiles, profileIdsToSort));
+
+            profiles.Sort();
+            Assert.IsTrue(CompareProfileIds(profiles, profileIdsToSort));
+        }
+
+        private static bool CompareProfileIds(BuzzTwitterProfiles profiles, List<String> profileIdsToSort)
+        {
+            bool areEqual = true;
+            for (int i = 0; i < profiles.Count; i++)
+            {
+                areEqual &= (profiles[i].ProfileId == profileIdsToSort[i]);
+            }
+            return areEqual;
+        }
+
+        private static BuzzTwitterProfile CreateNewProfile(string profileID)
+        {
+            BuzzTwitterProfile profile = new BuzzTwitterProfile();
+            if (profileID.Length == 0)
+            {
+                profile.ProfileId = Guid.NewGuid().ToString();
+            }
+            else
+            {
+                profile.ProfileId = profileID;
+            }
+            
+            return profile;
+        }
+
         private void AddLatestPreModPostingToParamList(DnaTestURLRequest.ParamList paramList, ModerationItemStatus status, BBC.Dna.Api.PostStyle.Style postStyle)
         {
             paramList.Add("postid", 0);
