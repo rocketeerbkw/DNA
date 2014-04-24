@@ -531,7 +531,7 @@ namespace BBC.Dna.Component
                     string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
 
                     var commentforumlistURI = str[0].Replace("moderation", siteName);
-                    commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForumUpdateData.ParentUri.Trim());
+                    commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnauid=" + commentForumUpdateData.Id.Trim());
 
                     return new Result("TwitterProfileUpdated", String.Format("Twitter profile, {0} updated successfully.", _profileId), commentforumlistURI);
                 }
@@ -563,7 +563,7 @@ namespace BBC.Dna.Component
                 string[] str = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
 
                 var commentforumlistURI = str[0].Replace("moderation", siteName);
-                commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnahostpageurl=" + commentForumData.ParentUri.Trim());
+                commentforumlistURI = commentforumlistURI.Replace("twitterprofile", "commentforumlist?dnauid=" + commentForumData.Id.Trim());
 
                 return new Result("TwitterProfileCreated", String.Format("Twitter profile, {0} created successfully.", _profileId), commentforumlistURI);
             }

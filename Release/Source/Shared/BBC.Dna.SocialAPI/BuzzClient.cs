@@ -156,6 +156,7 @@ namespace BBC.Dna.SocialAPI
             DataContractJsonSerializer obj = new DataContractJsonSerializer(typeof(BuzzTwitterProfiles));
 
             BuzzTwitterProfiles profilesObject = obj.ReadObject(stream) as BuzzTwitterProfiles;
+            profilesObject.Sort();
 
             return profilesObject;
         }
