@@ -25,6 +25,10 @@ namespace FunctionalTests.Services.Users
         string callinguser_url;
         string callinguser_url_withInvalidSite;
         string callinguser_url_json;
+
+        string callinguserfull_url;
+        string callinguserfull_secure_url;
+        string callinguser_secure_url;
         
         private const string _schemaUser = @"Dna.Services.Users\user.xsd";
         private const string _schemaArticle = "Dna.Services.Articles\\article.xsd";
@@ -45,8 +49,12 @@ namespace FunctionalTests.Services.Users
         public users()
         {
             callinguser_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=xml";
+            callinguser_secure_url = @"https://" + DnaTestURLRequest.SecureServerAddress + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=xml";
             callinguser_url_json = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=json";
             callinguser_url_withInvalidSite = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/unknownsite/users/callinguser?format=xml";
+
+            callinguserfull_secure_url = @"https://" + DnaTestURLRequest.SecureServerAddress + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguserfull?format=xml";
+            callinguserfull_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguserfull?format=xml";
         }
 
         [TestMethod]
@@ -72,7 +80,7 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserBanned();
-            request.RequestPageWithFullURL(callinguser_url);
+            request.RequestPageWithFullURL(callinguserfull_secure_url);
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
@@ -88,7 +96,7 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserModerator();
-            request.RequestPageWithFullURL(callinguser_url);
+            request.RequestPageWithFullURL(callinguserfull_secure_url);
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
             
@@ -104,7 +112,7 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
-            request.RequestPageWithFullURL(callinguser_url);
+            request.RequestPageWithFullURL(callinguserfull_secure_url);
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
@@ -120,7 +128,7 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserEditor();
-            request.RequestPageWithFullURL(callinguser_url);
+            request.RequestPageWithFullURL(callinguserfull_secure_url);
 
             XmlDocument xml = request.GetLastResponseAsXML();
             string xmlWithoutNamespaces = xml.InnerXml.Replace(@"xmlns=""http://schemas.datacontract.org/2004/07/BBC.Dna.Users""", "");
@@ -152,7 +160,7 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNotableUser();
-            request.RequestPageWithFullURL(callinguser_url);
+            request.RequestPageWithFullURL(callinguserfull_secure_url);
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
@@ -171,7 +179,7 @@ namespace FunctionalTests.Services.Users
             request.AssertWebRequestFailure = false;
             try
             {
-                request.RequestPageWithFullURL(callinguser_url);               
+                request.RequestPageWithFullURL(callinguserfull_secure_url);               
             }
             catch (WebException)
             {
@@ -212,7 +220,7 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserPreModUser();
-            request.RequestPageWithFullURL(callinguser_url);
+            request.RequestPageWithFullURL(callinguserfull_secure_url);
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
@@ -228,7 +236,7 @@ namespace FunctionalTests.Services.Users
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserSuperUser();
-            request.RequestPageWithFullURL(callinguser_url);
+            request.RequestPageWithFullURL(callinguserfull_secure_url);
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
@@ -238,6 +246,44 @@ namespace FunctionalTests.Services.Users
             Console.WriteLine("After GetCallingUserInfo_AsSuperUser_ReturnsSuperStatus");
         }
 
+        [TestMethod]
+        public void GetCallingUserInfo_Non_Secure_ReturnsLessDetails()
+        {
+            Console.WriteLine("Before GetCallingUserInfo_Non_Secure_ReturnsLessDetails");
+
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(callinguser_url);
+
+            BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
+
+            Assert.IsTrue(string.IsNullOrEmpty(user.IdentityUserID));
+            Assert.IsTrue(string.IsNullOrEmpty(user.IdentityUserName));
+           
+            Console.WriteLine("After GetCallingUserInfo_Non_Secure_ReturnsLessDetails");
+        }
+
+        [TestMethod]
+        public void GetCallingUserInfoFull_Non_Secure_Returns401()
+        {
+            Console.WriteLine("Before GetCallingUserInfoFull_Non_Secure_Returns401");
+
+            DnaTestURLRequest request = new DnaTestURLRequest(DnaTestURLRequest.CurrentServer);
+            request.AssertWebRequestFailure = false;
+            try
+            {
+                request.RequestPageWithFullURL(callinguserfull_url);
+            }
+            catch (WebException)
+            {
+
+            }
+            Assert.AreEqual(HttpStatusCode.Unauthorized, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.MissingUserCredentials.ToString(), errorData.Code);
+
+            Console.WriteLine("After GetCallingUserInfoFull_Non_Secure_Returns401");
+        }
 
         /// <summary>
         /// Test GetUsersAboutMeArticle method from service 

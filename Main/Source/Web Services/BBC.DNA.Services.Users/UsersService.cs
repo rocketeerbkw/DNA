@@ -20,8 +20,24 @@ namespace BBC.Dna.Services
     [AspNetCompatibilityRequirements(RequirementsMode = AspNetCompatibilityRequirementsMode.Allowed)]
     public class UsersService : baseService
     {
-        public UsersService() : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
+        public UsersService()
+            : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
+        }
+
+        [WebGet(UriTemplate = "V1/site/{sitename}/users/callinguserfull")]
+        [WebHelp(Comment = "Get a user's info")]
+        [OperationContract]
+        public Stream GetCallingUserInfoFull(string sitename)
+        {
+            var user = GetCallingUserInfoInternalFull(sitename);
+
+            if (!user.IsSecureRequest)
+            {
+                throw new DnaWebProtocolException(new ApiException("Not authorised.", ErrorType.NotAuthorized));
+            }
+
+            return GetOutputStream(user);
         }
 
         [WebGet(UriTemplate = "V1/site/{sitename}/users/callinguser")]
@@ -33,6 +49,21 @@ namespace BBC.Dna.Services
         }
 
         private CallingUser GetCallingUserInfoInternal(string sitename)
+        {
+            var user = GetCallingUserInfoInternalFull(sitename);
+
+            var userWithLessDetail = new CallingUser(SignInSystem.Identity, null, null,null,null, null);
+
+            userWithLessDetail.UserID = user.UserID;
+            userWithLessDetail.UserName = user.UserName;
+            userWithLessDetail.UsersListOfGroups = user.UsersListOfGroups;
+            userWithLessDetail.Status = user.Status;
+            userWithLessDetail.SiteSuffix = user.SiteSuffix;
+            
+            return userWithLessDetail;
+        }
+
+        private CallingUser GetCallingUserInfoInternalFull(string sitename)
         {
             ISite site = GetSite(sitename);
             BBC.Dna.Users.CallingUser user;
@@ -50,7 +81,7 @@ namespace BBC.Dna.Services
         private CallingUser TryGetCallingUserInfoInternal(string sitename)
         {
             ISite site = GetSite(sitename);
-            
+
             return TryGetCallingUser(site);
         }
 
@@ -149,18 +180,18 @@ namespace BBC.Dna.Services
             ForumThreads journal;
             try
             {
-                journal = ForumThreads.CreateUsersJournal(cacheManager, 
-                                                            readerCreator, 
-                                                            Global.siteList, 
+                journal = ForumThreads.CreateUsersJournal(cacheManager,
+                                                            readerCreator,
+                                                            Global.siteList,
                                                             identityusername,
                                                             site.SiteID,
-                                                            itemsPerPage, 
-                                                            startIndex, 
-                                                            0, 
-                                                            true, 
-                                                            threadOrder, 
+                                                            itemsPerPage,
+                                                            startIndex,
+                                                            0,
+                                                            true,
+                                                            threadOrder,
                                                             null,
-                                                            userNameType.ToUpper()=="DNAUSERID",
+                                                            userNameType.ToUpper() == "DNAUSERID",
                                                             false,
                                                             applySkin);
             }
@@ -233,14 +264,14 @@ namespace BBC.Dna.Services
             LinksList links;
             try
             {
-                links = LinksList.CreateLinksList(cacheManager, 
-                    readerCreator, 
-                    null, 
-                    identityusername, 
-                    site.SiteID, 
-                    startIndex, 
+                links = LinksList.CreateLinksList(cacheManager,
+                    readerCreator,
+                    null,
+                    identityusername,
+                    site.SiteID,
+                    startIndex,
                     itemsPerPage,
-                    showPrivate == 1 ? true : false, 
+                    showPrivate == 1 ? true : false,
                     userNameType.ToUpper() == "DNAUSERID",
                     false);
             }
@@ -606,28 +637,28 @@ namespace BBC.Dna.Services
             {
                 case "1":
                     articleListType = ArticleList.ArticleListType.Normal;
-                break;
+                    break;
                 case "2":
                     articleListType = ArticleList.ArticleListType.Approved;
-                break;
+                    break;
                 case "3":
                     articleListType = ArticleList.ArticleListType.Cancelled;
-                break;
+                    break;
                 case "4":
                     articleListType = ArticleList.ArticleListType.NormalAndApproved;
-                break;
+                    break;
                 case "normal":
                     articleListType = ArticleList.ArticleListType.Normal;
-                break;
+                    break;
                 case "approved":
                     articleListType = ArticleList.ArticleListType.Approved;
-                break;
+                    break;
                 case "cancelled":
                     articleListType = ArticleList.ArticleListType.Cancelled;
-                break;
+                    break;
                 case "normalandapproved":
                     articleListType = ArticleList.ArticleListType.NormalAndApproved;
-                break;
+                    break;
                 default:
                     try
                     {
@@ -637,7 +668,7 @@ namespace BBC.Dna.Services
                     {
                         articleListType = ArticleList.ArticleListType.NormalAndApproved;
                     }
-                break;
+                    break;
             }
             ISite site = GetSite(sitename);
 
@@ -789,7 +820,7 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
         }
-        
+
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/users/{identifier}/friends/{friend}/delete")]
         [WebHelp(Comment = "Remove a users friend")]
         [OperationContract]
