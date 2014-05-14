@@ -779,18 +779,6 @@ namespace BBC.Dna.Api
                             replacement.Add("sitename", site.SiteName);
 
                             UriDiscoverability.UriType uriType = UriDiscoverability.UriType.CommentForumById;
-                            if (commentForum.isContactForm)
-                            {
-                                uriType = UriDiscoverability.UriType.ContactFormById;
-
-                                // We now need to store the comment in the encrypted thread entries table.
-                                using (IDnaDataReader contactDataReader = CreateReader("addencryptedcontactdetails"))
-                                {
-                                    contactDataReader.AddParameter("postid", comment.ID);
-                                    contactDataReader.AddParameter("text", comment.text);
-                                    contactDataReader.Execute();
-                                }
-                            }
 
                             comment.ForumUri = UriDiscoverability.GetUriWithReplacments(BasePath, uriType, replacement);
                         }
