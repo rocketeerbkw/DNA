@@ -155,8 +155,9 @@
 						</ul>	
 						<ul>	
 							<xsl:if test="/H2G2/RESULT/EXTRAINFO">
-								<xsl:variable name="commentforumlisturl" select="/H2G2/RESULT/EXTRAINFO"/>
-								<p>Please follow the url, <b><a href="{$commentforumlisturl}">Comment Forum</a></b> to manage the comment forum</p>
+<!-- 								<xsl:variable name="commentforumlisturl" select="/H2G2/RESULT/EXTRAINFO"/> -->
+								<xsl:variable name="commentforumid" select="/H2G2/PROFILE/PROFILEID"/>
+								<p>Please follow the url, <b><a href="{$root-secure-moderation}/commentforumlist?u={$commentforumid}">Comment Forum</a></b> to manage the comment forum</p>
 							</xsl:if>
 						</ul>
 					</fieldset>

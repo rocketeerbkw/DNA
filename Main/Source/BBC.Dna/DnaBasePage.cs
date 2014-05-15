@@ -226,7 +226,8 @@ namespace BBC.Dna.Page
         /// <param name="e">Arguments passed in</param>
         public void Page_Load(object sender, EventArgs e)
         {
-            
+            CheckForForbiddenUserAgents(UserAgent, BannedUserAgents);
+
             // Create the param tracker and request objects for this request
 			_tracker = new ParameterTracker(this);
 
@@ -243,11 +244,6 @@ namespace BBC.Dna.Page
 				}
 				catch (Exception ex)
 				{
-                    if (ex.GetType() == typeof(HttpException) && ex.Message == _botNotAllowedMessage)
-                    {
-                        throw;
-                    }
-
 					wasExceptionCaught = true;
 					if (Diagnostics != null)
 					{
@@ -317,8 +313,6 @@ namespace BBC.Dna.Page
 			{
 				return;
 			}
-
-            CheckForForbiddenUserAgents(UserAgent, BannedUserAgents);
 			
 			int curRequests = Interlocked.Increment(ref _currentRequestCount);
 
@@ -403,6 +397,7 @@ namespace BBC.Dna.Page
             {
                 if (userAgent.ToLower().Contains(s.ToLower()))
                 {
+                    Statistics.AddForbiddenResponse();
                     throw new HttpException(403, _botNotAllowedMessage);
                 }
             }
