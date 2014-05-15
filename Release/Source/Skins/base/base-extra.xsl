@@ -1878,7 +1878,19 @@
 	<xsl:variable name="scopename">h2g2</xsl:variable>
 	<xsl:variable name="realmediadir">http://www.bbc.co.uk/h2g2/ram/</xsl:variable>
 	<xsl:variable name="root">/dna/h2g2/</xsl:variable>
-	<xsl:variable name="rootbase">/dna/</xsl:variable>
+	<xsl:variable name="rootbase">
+		<xsl:choose>
+			<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
+				<xsl:choose>
+					<xsl:when test="$serverenvironment = 'int'">/dna/int/</xsl:when>
+					<xsl:when test="$serverenvironment = 'test'">/dna/test/</xsl:when>
+					<xsl:when test="$serverenvironment = 'stable'">/dna/stable/</xsl:when>
+					<xsl:otherwise>/dna/</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:otherwise>/dna/</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 	<xsl:variable name="imagesource">/h2g2/skins/Alabaster/images/</xsl:variable>
 	<xsl:variable name="toolbarsource">http://www.bbc.co.uk/images/</xsl:variable>
 	<xsl:variable name="imagesource2">/h2g2/skins/Alabaster/images/</xsl:variable>

@@ -34,6 +34,7 @@ namespace BBC.Dna.Utils
 				m_HTMLCacheMissCounter = 0;
                 m_IdentityUserCall = 0;
                 m_IdentityCallCount = 0;
+                m_ForbiddenResponseCount = 0;
 			}
 			public void AddCacheHit()
 			{
@@ -90,6 +91,10 @@ namespace BBC.Dna.Utils
                 Interlocked.Increment(ref m_IdentityCallCount);
                 Interlocked.Add(ref m_IdentityUserCall, ttaken);
             }
+            public void AddForbiddenResponse()
+            {
+                Interlocked.Increment(ref m_ForbiddenResponseCount);
+            }
 
 			public int GetRawRequestCounter() { return m_RawRequestCounter; }
 			public int GetServerBusyCounter() { return m_ServerBusyCounter; }
@@ -106,12 +111,14 @@ namespace BBC.Dna.Utils
 			public int GetRequestTime() { return m_TotalRequestTime; }
             public int GetIdentityCallTime() { return m_IdentityUserCall; }
             public int GetIdentityCallCount() { return m_IdentityCallCount; }
+            public int GetForbiddenResponseCount() { return m_ForbiddenResponseCount; }
 
 			int m_RawRequestCounter;
 			int m_ServerBusyCounter;
 			int m_TotalRequestTime;
 			int m_Requests;
 			int m_NonSSORequests;
+            int m_ForbiddenResponseCount;
 
 			int m_CacheHitCounter;
 			int m_CacheMissCounter;
@@ -232,6 +239,14 @@ namespace BBC.Dna.Utils
 			_statData[CalcMinutes()].AddHTMLCacheMiss();
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public static void AddForbiddenResponse()
+        {
+            _statData[CalcMinutes()].AddForbiddenResponse();
+        }
+
 		/// <summary>
 		/// This method will initialise the static data for the Statistics class only if
 		/// it hasn't already been initialised. 
@@ -320,6 +335,7 @@ namespace BBC.Dna.Utils
 			long requesttime = 0;
             long identityCallTime = 0;
             long identityCallCount = 0;
+            long forbiddenResponseCount = 0;
 
 			TimeSpan timespan = new TimeSpan();
 			int minutes = 0;
@@ -402,6 +418,11 @@ namespace BBC.Dna.Utils
                 else
                     identityCallCount = long.MaxValue;
 
+                if (identityCallCount < long.MaxValue - _statData[i].GetForbiddenResponseCount())
+                    identityCallCount += _statData[i].GetForbiddenResponseCount();
+                else
+                    identityCallCount = long.MaxValue;
+
 				++minutes;
 				if (minutes % interval == 0)
 				{
@@ -429,6 +450,7 @@ namespace BBC.Dna.Utils
                     AddLongElement(xmlbuilder, datasection, "IDENTITYREQUESTS", identityCallCount);
 
 					AddLongElement(xmlbuilder, datasection, "REQUESTS", requests);
+                    AddLongElement(xmlbuilder, datasection, "FORBIDDENREQUESTS", forbiddenResponseCount);
 
 					root.AppendChild(datasection);
 
@@ -448,6 +470,7 @@ namespace BBC.Dna.Utils
 					requesttime = 0;
                     identityCallTime = 0;
                     identityCallCount = 0;
+                    forbiddenResponseCount = 0;
 					timespan += new TimeSpan(0, interval, 0);
 				}
 			}
