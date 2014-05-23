@@ -456,7 +456,7 @@
 							<input type="hidden" value="{@FORUMID}" name="forumid" />
 							<table cellpadding="2" cellspacing="0" width="100%">
 								<tr>
-									<th>Terms:</th>
+									<th>Terms: (Enter one per line)</th>
 									<td colspan="3">
 										<xsl:choose>
 											<xsl:when test="/H2G2/ERROR/@TYPE = 'UPDATETERMMISSINGTERM'">

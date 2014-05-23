@@ -26,7 +26,7 @@
             <input type="hidden" value="UPDATETERMS" name="action" />
             <div class="dna-fl">
               <p style="margin-bottom:0px; color:#000000; font-weight:bold;">
-                Terms:
+                Terms: (Enter one per line)
               </p>
               <xsl:choose>
                 <xsl:when test="/H2G2/ERROR/@TYPE = 'UPDATETERMMISSINGTERM'">
