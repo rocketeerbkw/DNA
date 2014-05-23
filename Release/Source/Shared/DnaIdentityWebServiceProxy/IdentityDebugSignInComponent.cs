@@ -468,7 +468,7 @@ namespace DnaIdentityWebServiceProxy
                         string displayName = reader.GetStringNullAsEmpty("username");
                         details.Append(string.Format("<{0}>{1}</{0}>", "displayName", displayName));
 
-                        details.Append(string.Format("<{0}>{1}</{0}>", "email", reader.GetStringNullAsEmpty("email")));
+                        details.Append(string.Format("<{0}>{1}</{0}>", "email", "IdentityUser" + identityUserID + "@bbc.co.uk"));
                         details.Append(string.Format("<{0}>{1}</{0}>", "cookie", identityUserID.ToString() + "|" + loginName + "|" + displayName + "|0|DEBUG-IDENTITY-COOKIE"));
                         details.Append(string.Format("<{0}>{1}</{0}>", "secureCookie", "HTTPS-DEBUG-IDENTITY-COOKIE"));
                         details.Append(string.Format("<{0}>{1}</{0}>", "lastUpdated", DateTime.Now.AddYears(SyncDetails ? 1 : -1).ToString()));
@@ -489,6 +489,10 @@ namespace DnaIdentityWebServiceProxy
 
         private string GetDataBaseConnectionDetails()
         {
+            /*
+            DEBUGGING ATTACH COMMAND             
+            Debugger.Launch();
+            */
             if (DBConnectionDetails.Length > 0)
             {
                 return DBConnectionDetails;
@@ -565,6 +569,7 @@ namespace DnaIdentityWebServiceProxy
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                rootPath = @"C:\inetpub\wwwroot\h2g2";
             }
 
             RunningWebDirectoryRoot = rootPath;

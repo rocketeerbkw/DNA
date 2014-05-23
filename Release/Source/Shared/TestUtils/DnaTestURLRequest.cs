@@ -1156,7 +1156,7 @@ namespace Tests
 
                 if (AssertWebRequestFailure)
                 {
-                    Assert.Fail("DNARequest Failed!!! - " + error);
+                    Assert.Fail("DNARequest Failed!!! - " + error + " -+:=:+- " + _responseAsString);
                 }
 
                 throw ex;

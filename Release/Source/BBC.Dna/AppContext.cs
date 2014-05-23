@@ -66,9 +66,8 @@ namespace BBC.Dna
              *    DEBUGGING FROM THE WORD GO!     *
              *                                    *
              **************************************/
-            // System.Diagnostics.Debugger.Launch();
+             System.Diagnostics.Debugger.Launch();
 #endif
-
 			_appContext = new AppContext(rootPath);
 
             _dnaCacheManager = CacheFactory.GetCacheManager();

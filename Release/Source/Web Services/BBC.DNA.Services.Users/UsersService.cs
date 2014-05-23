@@ -45,7 +45,21 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetCallingUserInfo(string sitename)
         {
-            return GetOutputStream(GetCallingUserInfoInternal(sitename));
+            return AddCallingUserToOutputStream(GetCallingUserInfoInternal(sitename));
+        }
+
+        private Stream AddCallingUserToOutputStream(CallingUser user)
+        {
+            if (!user.IsSecureRequest)
+            {
+                user.IdentityUserID = "";
+                user.TeamID = 0;
+                user.TwitterUserID = "";
+                user.IdentityUserName = "";
+                user.LastSynchronisedDate = DateTime.Now;
+            }
+
+            return GetOutputStream(user);
         }
 
         private CallingUser GetCallingUserInfoInternal(string sitename)
@@ -66,7 +80,7 @@ namespace BBC.Dna.Services
         private CallingUser GetCallingUserInfoInternalFull(string sitename)
         {
             ISite site = GetSite(sitename);
-            BBC.Dna.Users.CallingUser user;
+            CallingUser user;
             try
             {
                 user = GetCallingUser(site);
