@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Mail;
 using System.Threading;
 using System.Timers;
 using BBC.Dna.Data;
@@ -21,6 +20,7 @@ namespace Dna.DatabaseEmailProcessor
         private static IDnaSmtpClient SMTPClient { get; set; }
         private static int MaxRetryAttempts { get; set; }
         static readonly object _locker = new object();
+        public static string PersistentErrorMsgSnippet { get; set; }
 
         public static DatabaseEmailProcessor CreateDatabaseEmailProcessor(IDnaLogger logger, IDnaDataReaderCreator dataReaderCreator, int processInterval, int numThreads, int batchSize, string emailServerConnectionDetails, int maxRetryAttempts)
         {
@@ -117,6 +117,7 @@ namespace Dna.DatabaseEmailProcessor
                 {
                     try
                     {
+                        DatabaseWorker.PersistentErrorMessageSnippet = PersistentErrorMsgSnippet;
                         worker.UpdateEmails(emailBatch);
                     }
                     catch (Exception ex)
