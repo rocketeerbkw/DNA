@@ -26,9 +26,7 @@ namespace FunctionalTests.Services.Users
         string callinguser_url_withInvalidSite;
         string callinguser_url_json;
 
-        string callinguserfull_url;
         string callinguserfull_secure_url;
-        string callinguser_secure_url;
         
         private const string _schemaUser = @"Dna.Services.Users\user.xsd";
         private const string _schemaArticle = "Dna.Services.Articles\\article.xsd";
@@ -49,12 +47,9 @@ namespace FunctionalTests.Services.Users
         public users()
         {
             callinguser_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=xml";
-            callinguser_secure_url = @"https://" + DnaTestURLRequest.SecureServerAddress + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=xml";
             callinguser_url_json = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=json";
             callinguser_url_withInvalidSite = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/unknownsite/users/callinguser?format=xml";
-
             callinguserfull_secure_url = @"https://" + DnaTestURLRequest.SecureServerAddress + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguserfull?format=xml";
-            callinguserfull_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguserfull?format=xml";
         }
 
         [TestMethod]
@@ -272,7 +267,7 @@ namespace FunctionalTests.Services.Users
             request.AssertWebRequestFailure = false;
             try
             {
-                request.RequestPageWithFullURL(callinguserfull_url);
+                request.RequestPageWithFullURL(callinguser_url);
             }
             catch (WebException)
             {
@@ -1227,7 +1222,7 @@ namespace FunctionalTests.Services.Users
 
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
 
-            request.RequestPageWithFullURL(callinguser_url);
+            request.RequestPageWithFullURL(callinguserfull_secure_url);
             // Check to make sure that the page returned with the correct information
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
