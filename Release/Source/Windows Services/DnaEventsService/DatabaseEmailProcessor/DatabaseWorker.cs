@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using BBC.Dna.Data;
 
 namespace Dna.DatabaseEmailProcessor
@@ -6,6 +8,7 @@ namespace Dna.DatabaseEmailProcessor
     public class DatabaseWorker : IDatabaseWorker
     {
         private IDnaDataReaderCreator ReaderCreator { get; set; }
+        public static string PersistentErrorMessageSnippet { get; set; }
 
         public DatabaseWorker(IDnaDataReaderCreator readerCreator)
         {
@@ -45,15 +48,95 @@ namespace Dna.DatabaseEmailProcessor
 
         public void UpdateEmails(List<EmailDetailsToProcess> emails)
         {
-            foreach(EmailDetailsToProcess email in emails)
+            foreach (var email in emails)
             {
-                using (IDnaDataReader reader = ReaderCreator.CreateDnaDataReader("updatequeuedemail"))
+                if (email.Sent)
                 {
-                    reader.AddParameter("id", email.ID);
-                    reader.AddParameter("sent", email.Sent ? 1 : 0);
-                    reader.AddParameter("failuredetails", email.LastFailedReason);
-                    reader.Execute();
+                    RemoveSentMailFromQueue(email.ID);
                 }
+                else
+                {
+
+                    var failureType = ConvertToSMTPFailureType(email.LastFailedReason);
+                    switch (failureType)
+                    {
+                        case SMTPFailureType.Persistent:
+                            UpdateEmailFailure(email, true);
+                            break;
+                        case SMTPFailureType.Permanent:
+                        case SMTPFailureType.Unclassified:
+                            UpdateEmailFailure(email, false);
+                            break;
+                    }
+                }
+            }
+        }
+
+        private enum SMTPFailureType
+        {
+            Persistent,
+            Permanent,
+            Unclassified
+        }
+
+        private static SMTPFailureType ConvertToSMTPFailureType(String failureReason)
+        {
+            var smtpFailureType = SMTPFailureType.Unclassified;
+
+            //  SMTP Error Status Code
+            //  4.YYY.ZZZ	Persistent Transient Failure
+            //  5.YYY.ZZZ	Permanent Failure
+            var match = Regex.Match(failureReason, @"(\s{1}4.[0-9].[0-9]{1,2}\s{1})", RegexOptions.IgnoreCase);
+            if (match.Success || DoesFailureMessageContainSnippet(failureReason))
+            {
+                smtpFailureType = SMTPFailureType.Persistent;
+            }
+            else
+            {
+                match = Regex.Match(failureReason, @"(\s{1}5.[0-9].[0-9]{1,2}\s{1})", RegexOptions.IgnoreCase);
+                if (match.Success)
+                {
+                    smtpFailureType = SMTPFailureType.Permanent;
+                }
+            }
+            
+            return smtpFailureType;
+        }
+
+        private static bool DoesFailureMessageContainSnippet(string failureReason)
+        {
+            var containSnippet = false;
+
+            var errorSnippets = PersistentErrorMessageSnippet.Split("#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var errMsg in errorSnippets)
+            {
+                if (failureReason != null && failureReason.IndexOf(errMsg, StringComparison.OrdinalIgnoreCase) > 0)
+                {
+                    containSnippet = true;
+                }
+            }
+
+            return containSnippet;
+        }
+
+        private void UpdateEmailFailure(EmailDetailsToProcess email, bool allowRetry)
+        {
+            using (var reader = ReaderCreator.CreateDnaDataReader("updatequeuedemail"))
+            {
+                reader.AddParameter("id", email.ID);
+                reader.AddParameter("failuredetails", email.LastFailedReason);
+                reader.AddParameter("retry", allowRetry ? 1 : 0);
+                reader.Execute();
+            }
+        }
+
+        private void RemoveSentMailFromQueue(int emailId)
+        {
+            using (var reader = ReaderCreator.CreateDnaDataReader("deletequeuedemail"))
+            {
+                reader.AddParameter("id", emailId);
+                reader.Execute();
             }
         }
 

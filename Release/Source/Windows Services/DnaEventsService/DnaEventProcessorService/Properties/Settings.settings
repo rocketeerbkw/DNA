@@ -77,5 +77,8 @@
     <Setting Name="DatabaseEmailProcessor_MaxRetryAttempts" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">3</Value>
     </Setting>
+    <Setting Name="DatabaseEmailProcessor_PersistentErrorMessageSnippet" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">service not available#remote name could not be resolved</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
