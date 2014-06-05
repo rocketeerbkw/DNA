@@ -18,11 +18,10 @@ namespace Dna.DatabaseEmailProcessor
         private static int BatchSize { get; set; }
         private static int TickCounter { get; set; }
         private static IDnaSmtpClient SMTPClient { get; set; }
-        private static int MaxRetryAttempts { get; set; }
         static readonly object _locker = new object();
         public static string PersistentErrorMsgSnippet { get; set; }
 
-        public static DatabaseEmailProcessor CreateDatabaseEmailProcessor(IDnaLogger logger, IDnaDataReaderCreator dataReaderCreator, int processInterval, int numThreads, int batchSize, string emailServerConnectionDetails, int maxRetryAttempts)
+        public static DatabaseEmailProcessor CreateDatabaseEmailProcessor(IDnaLogger logger, IDnaDataReaderCreator dataReaderCreator, int processInterval, int numThreads, int batchSize, string emailServerConnectionDetails)
         {
             ProcessorLogger = logger;
 
@@ -38,7 +37,6 @@ namespace Dna.DatabaseEmailProcessor
             NumberOfThreads = numThreads;
             BatchSize = batchSize;
             SMTPClient = new DnaSmtpClient(emailServerConnectionDetails);
-            MaxRetryAttempts = maxRetryAttempts;
 
             int minNumThreads, minCompPorts;
             ThreadPool.GetMinThreads(out minNumThreads, out minCompPorts);
@@ -59,7 +57,6 @@ namespace Dna.DatabaseEmailProcessor
                 { "Interval",                     processInterval },
                 { "NumThreads",                   NumberOfThreads },
                 { "BatchSize",                    BatchSize },
-                { "MaxRetryAttempts",             MaxRetryAttempts },
                 { "SMTP Settings",                emailServerConnectionDetails },
                 { "Debug Build",                  isDebugBuild ? 1 : 0 }
             };
@@ -102,7 +99,7 @@ namespace Dna.DatabaseEmailProcessor
                 try
                 {
                     worker = new DatabaseWorker(DataReaderCreator);
-                    emailBatch = worker.GetEmailDetailsBatch(BatchSize, MaxRetryAttempts);
+                    emailBatch = worker.GetEmailDetailsBatch(BatchSize);
 
                     if (emailBatch.Count > 0)
                     {

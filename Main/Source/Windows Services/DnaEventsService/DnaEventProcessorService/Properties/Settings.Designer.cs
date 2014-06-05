@@ -218,15 +218,6 @@ namespace DnaEventProcessorService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3")]
-        public int DatabaseEmailProcessor_MaxRetryAttempts {
-            get {
-                return ((int)(this["DatabaseEmailProcessor_MaxRetryAttempts"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("service not available#remote name could not be resolved#Unable to connect to the " +
             "remote server")]
         public string DatabaseEmailProcessor_PersistentErrorMessageSnippet {
