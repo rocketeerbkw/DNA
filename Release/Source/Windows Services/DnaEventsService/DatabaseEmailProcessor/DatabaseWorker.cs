@@ -17,13 +17,12 @@ namespace Dna.DatabaseEmailProcessor
 
         #region IDatabaseWorker Members
 
-        public List<EmailDetailsToProcess> GetEmailDetailsBatch(int batchSize, int maxRetryAttempts)
+        public List<EmailDetailsToProcess> GetEmailDetailsBatch(int batchSize)
         {
             List<EmailDetailsToProcess> emailBatch = new List<EmailDetailsToProcess>();
             using (IDnaDataReader reader = ReaderCreator.CreateDnaDataReader("getemailbatchtosend"))
             {
                 reader.AddParameter("batchsize", batchSize);
-                reader.AddParameter("maxretryattempts", maxRetryAttempts);
                 reader.Execute();
                 while (reader.Read() && reader.HasRows)
                 {

@@ -61,11 +61,10 @@ namespace DnaEventProcessorService
             int numThreads = Properties.Settings.Default.DatabaseEmaiProcessor_NumThreads;
             int batchSize = Properties.Settings.Default.DatabaseEmaiProcessor_BatchSize;
             string smtpSettings = Properties.Settings.Default.DatabaseEmailProcessor_SMTPSettings;
-            int maxRetryAttempts = Properties.Settings.Default.DatabaseEmailProcessor_MaxRetryAttempts;
             var persistentErrMsgSnippet =
                 Properties.Settings.Default.DatabaseEmailProcessor_PersistentErrorMessageSnippet;
 
-            var databaseEMailProcessor = DatabaseEmailProcessor.CreateDatabaseEmailProcessor(logger, theGuideDnaDataReaderCreator, interval, numThreads, batchSize, smtpSettings, maxRetryAttempts);
+            var databaseEMailProcessor = DatabaseEmailProcessor.CreateDatabaseEmailProcessor(logger, theGuideDnaDataReaderCreator, interval, numThreads, batchSize, smtpSettings);
             DatabaseEmailProcessor.PersistentErrorMsgSnippet = persistentErrMsgSnippet;
             databaseEMailProcessor.Start();
         }

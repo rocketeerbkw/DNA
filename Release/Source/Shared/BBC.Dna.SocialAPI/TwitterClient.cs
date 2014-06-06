@@ -66,28 +66,19 @@ namespace BBC.Dna.SocialAPI
                 var twitterName = string.Empty;
                 var twitterImage = string.Empty;
 
-                //var divNodes = doc.DocumentNode.SelectNodes("//div[@data-screen-name='" + screenName + "']//div[starts-with(@class,'user-actions')]");
-                var divNodes = doc.DocumentNode.SelectNodes("//div[starts-with(@class,'user-actions')]");
-
-                foreach (var node in divNodes)
-                {
-                    twitterUserId = node.Attributes["data-user-id"].Value;
-                    twitterName = node.Attributes["data-name"].Value; 
-                }
+                var divNodes = doc.DocumentNode.SelectNodes("//div[@data-screen-name='" + screenName + "']");
+                twitterUserId = divNodes[0].Attributes["data-user-id"].Value;
+                twitterName = divNodes[0].Attributes["data-name"].Value;
 
                 var imgNodes = doc.DocumentNode.SelectNodes("//img[@alt='" + twitterName + "']");
-
-                foreach (var node in imgNodes)
-                {
-                    twitterImage = node.Attributes["src"].Value;
-                }
+                twitterImage = imgNodes[0].Attributes["src"].Value;
 
                 userDetails.id = twitterUserId;
                 userDetails.Name = twitterName;
                 userDetails.ScreenName = screenName;
                 userDetails.ProfileImageUrl = twitterImage;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
