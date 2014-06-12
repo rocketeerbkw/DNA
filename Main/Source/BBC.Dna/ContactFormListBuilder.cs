@@ -142,6 +142,7 @@ namespace BBC.Dna
             AddAttribute(commentForum, "FORUMPOSTCOUNT", dataReader.GetInt32NullAsZero("forumpostcount").ToString());
             AddAttribute(commentForum, "FORUMPOSTLIMIT", InputContext.GetSiteOptionValueInt("Forum", "PostLimit"));
             AddAttribute(commentForum, "CANWRITE", dataReader.GetByteNullAsZero("CanWrite").ToString());
+            AddAttribute(commentForum, "NOTSIGNEDINUSERID", dataReader.GetInt32NullAsZero("NotSignedInUserID").ToString());
 
             AddTextTag(commentForum, "HOSTPAGEURL", dataReader.GetStringNullAsEmpty("url"));
             AddTextTag(commentForum, "TITLE", dataReader.GetStringNullAsEmpty("title"));

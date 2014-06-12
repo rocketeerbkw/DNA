@@ -141,6 +141,8 @@ namespace BBC.Dna.Page
 
         private string _botNotAllowedMessage = "Forbidden";
 
+        private bool _render = true;
+
 		/// <summary>
         /// The current dna request object
         /// </summary>
@@ -226,7 +228,14 @@ namespace BBC.Dna.Page
         /// <param name="e">Arguments passed in</param>
         public void Page_Load(object sender, EventArgs e)
         {
-            CheckForForbiddenUserAgents(UserAgent, BannedUserAgents);
+            // Check for bot traffic. Done via the UserAgent header
+            if (CheckForForbiddenUserAgents(UserAgent, BannedUserAgents))
+            {
+                Response.StatusCode = 403;
+                Response.Write(_botNotAllowedMessage);
+                _render = false;
+                return;
+            }
 
             // Create the param tracker and request objects for this request
 			_tracker = new ParameterTracker(this);
@@ -391,16 +400,17 @@ namespace BBC.Dna.Page
         /// <param name="userAgent">The user agent for the current request</param>
         /// <param name="bannedUserAgents">The list of banned agents to test against</param>
         /// <exception cref="HttpException">This methos will throw a 403 Forbidden exception if a match is found</exception>
-        public void CheckForForbiddenUserAgents(string userAgent, List<string> bannedUserAgents)
+        public bool CheckForForbiddenUserAgents(string userAgent, List<string> bannedUserAgents)
         {
             foreach (string s in bannedUserAgents)
             {
                 if (userAgent.ToLower().Contains(s.ToLower()))
                 {
                     Statistics.AddForbiddenResponse();
-                    throw new HttpException(403, _botNotAllowedMessage);
+                    return true;
                 }
             }
+            return false;
         }
 
         private void SetupDebugUserSignin()
@@ -749,6 +759,11 @@ namespace BBC.Dna.Page
         /// <param name="writer">The <see cref="T:System.Web.UI.HtmlTextWriter"></see> that receives the page content.</param>
         public void Render(HtmlTextWriter writer)
         {
+            if (!_render)
+            {
+                return;
+            }
+
             try
             {
                 if (UseDotNetRendering)
@@ -833,7 +848,11 @@ namespace BBC.Dna.Page
         /// <param name="e">Arguments passed in</param>
         public void Page_Unload(object sender, EventArgs e)
         {
-            Diagnostics.WriteTimedEventToLog("Close", "Page_Unload");
+            if (Diagnostics != null)
+            {
+                Diagnostics.WriteTimedEventToLog("Close", "Page_Unload");
+            }
+
             if (_signInComponent != null)
             {
                 _signInComponent.Dispose();
