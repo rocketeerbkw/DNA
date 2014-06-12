@@ -29,7 +29,7 @@
 			<li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteid}">Manage your entries</a></li>
 		</xsl:if>
 		<xsl:if test="$dashboardtype = 'story'">
-			<li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteid}">Manage your stories</a></li>
+			<li><a href="/dna/moderation/admin/commentforumlist?dnasiteid={$siteid}">Manage your comments</a></li>
 		</xsl:if>
 		<xsl:if test="$dashboardtype = 'messageboard'">
 			<li><a href="{$host}/dna/{$dashboardtypename}/admin/mbadmin?s_mode=admin">Manage your messageboard</a></li>
