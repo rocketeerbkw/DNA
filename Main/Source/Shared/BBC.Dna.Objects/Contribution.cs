@@ -234,6 +234,22 @@ namespace BBC.Dna.Objects
             set;
         }
 
+        [DataMember(Name = "TotalPositiveNeroRating")]
+        [XmlIgnore]
+        public int TotalPositiveNeroRating
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = "TotalNegativeNeroRating")]
+        [XmlIgnore]
+        public int TotalNegativeNeroRating
+        {
+            get;
+            set;
+        }
+
         public static Contribution CreateContribution(IDnaDataReaderCreator readerCreator, int threadEntryId)
        {
             Contribution contribution = new Contribution();

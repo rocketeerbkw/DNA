@@ -85,7 +85,20 @@ namespace BBC.Dna.Objects
         [DataMember(Name = "totalContributions")]
         [System.Xml.Serialization.XmlAttribute(AttributeName = "TOTALCONTRIBUTIONS")]
         public int TotalContributions { get; set; }
+        
+        /// <summary>
+        /// Total ratings for this query in db (not just page size)
+        /// </summary>
+        [DataMember(Name = "totalPositiveNeroRatings")]
+        [System.Xml.Serialization.XmlAttribute(AttributeName = "TOTALPOSITIVENERORATINGS")]
+        public int totalPositiveNeroRatings { get; set; }
 
+        /// <summary>
+        /// Total ratings for this query in db (not just page size)
+        /// </summary>
+        [DataMember(Name = "totalNegativeNeroRatings")]
+        [System.Xml.Serialization.XmlAttribute(AttributeName = "TOTALNEGATIVENERORATINGS")]
+        public int totalNegativeNeroRatings { get; set; }
 
         /// <summary>
         /// Whether we get via id or username.
@@ -297,6 +310,8 @@ namespace BBC.Dna.Objects
         {
             int returnValue = 0;
             int countReturnValue;
+            int totalPosRating = 0;
+            int totalNegRating = 0;
             reader2.TryGetIntReturnValueNullAsZero(out returnValue);                
 
             if (returnValue == 1)   // user wasn't found
@@ -374,7 +389,22 @@ namespace BBC.Dna.Objects
                         contribution.ForumCloseDate = new DateTimeHelper(closingDate);
                     }
                     contribution.isClosed = (!forumCanWrite || isEmergencyClosed || (closingDate != null && DateTime.Now > closingDate));
-                    
+
+                    int posRating = reader2.GetInt32NullAsZero("TotalPositiveNeroRating");
+                    contribution.TotalPositiveNeroRating = posRating;
+
+                    int negRating = reader2.GetInt32NullAsZero("TotalNegativeNeroRating");
+                    contribution.TotalNegativeNeroRating = negRating;
+
+                    if (totalPosRating == 0)
+                    {
+                        totalPosRating = reader2.GetInt32NullAsZero("OverallPositiveNeroRatings");
+                    }
+
+                    if (totalNegRating == 0)
+                    {
+                        totalNegRating = reader2.GetInt32NullAsZero("OverallNegativeNeroRatings");
+                    }
                     
                     returnedContributions.ContributionItems.Add(contribution);
 
@@ -392,7 +422,10 @@ namespace BBC.Dna.Objects
             {
                 returnedContributions.TotalContributions = countReturnValue;
             }
-            
+
+            returnedContributions.totalPositiveNeroRatings = totalPosRating;
+            returnedContributions.totalNegativeNeroRatings = totalNegRating;
+
             // wasn't in cache before, so add to cache now
             cache.Add(returnedContributions.ContributionsCacheKey, returnedContributions);            
             return returnedContributions;
