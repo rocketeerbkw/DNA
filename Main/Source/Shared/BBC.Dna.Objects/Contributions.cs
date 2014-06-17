@@ -390,12 +390,12 @@ namespace BBC.Dna.Objects
                     }
                     contribution.isClosed = (!forumCanWrite || isEmergencyClosed || (closingDate != null && DateTime.Now > closingDate));
 
-                    if (reader2.Exists("TotalPositiveNeroRating"))
+                    if (reader2.Exists("PositiveNeroRating"))
                     {
-                        int posRating = reader2.GetInt32NullAsZero("TotalPositiveNeroRating");
+                        int posRating = reader2.GetInt32NullAsZero("PositiveNeroRating");
                         contribution.TotalPositiveNeroRating = posRating;
 
-                        int negRating = reader2.GetInt32NullAsZero("TotalNegativeNeroRating");
+                        int negRating = reader2.GetInt32NullAsZero("NegativeNeroRating");
                         contribution.TotalNegativeNeroRating = negRating;
 
                         if (totalPosRating == 0)
