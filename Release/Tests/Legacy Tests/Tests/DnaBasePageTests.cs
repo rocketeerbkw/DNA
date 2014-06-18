@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using BBC.Dna.Page;
 using System.Web;
 using System.Xml;
+using System.Net;
 
 namespace Tests
 {
@@ -68,15 +69,15 @@ namespace Tests
         /// <summary>
         /// 
         /// </summary>
-        [TestMethod, ExpectedException(typeof(HttpException))]
+        [TestMethod]
         public void ShouldThrowForbidenExceptionIfUserAgentMatchesItemInBannedAgentsList()
         {
             List<string> bannedAgents = new List<string>();
             bannedAgents.Add("bingbot");
             string botUserAgent = "HTTP/1.1 Mozilla/5.0+(compatible;+bingbot/2.0;++http://www.bing.com/bingbot.htm)";
             DnaBasePage basePage = new DnaBasePage(null);
-
-            basePage.CheckForForbiddenUserAgents(botUserAgent, bannedAgents);
+            BBC.Dna.Utils.Statistics.InitialiseIfEmpty();
+            Assert.IsTrue(basePage.CheckForForbiddenUserAgents(botUserAgent, bannedAgents));
         }
         
         /// <summary>
@@ -90,7 +91,7 @@ namespace Tests
             string botUserAgent = "HTTP/1.1 Mozilla/5.0+(compatible;+bingbot/2.0;++http://www.bing.com/bingbot.htm)";
             DnaBasePage basePage = new DnaBasePage(null);
 
-            basePage.CheckForForbiddenUserAgents(botUserAgent, bannedAgents);
+            Assert.IsFalse(basePage.CheckForForbiddenUserAgents(botUserAgent, bannedAgents));
         }
 
         /// <summary>
