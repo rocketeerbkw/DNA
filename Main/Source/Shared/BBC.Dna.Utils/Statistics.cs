@@ -270,12 +270,7 @@ namespace BBC.Dna.Utils
 		private static void InitData(object context)
 		{
 			_dateStarted = DateTime.Now;
-            StatData[] data = new StatData[StatDataArraySize];
-            for (int i = 0; i < StatDataArraySize; i++)
-			{
-				data[i] = new StatData();
-			}
-			StatDataArray = data;
+            InitialiseStats();
 		}
 
 		private static bool AreStatsEmpty()
@@ -288,12 +283,7 @@ namespace BBC.Dna.Utils
 		/// </summary>
 		public static void ResetCounters()
 		{
-            StatData[] data = new StatData[_hoursPeriod * _minsPeriod];
-            for (int i = 0; i < _hoursPeriod * _minsPeriod; i++)
-            {
-                data[i] = new StatData();
-            }
-            StatDataArray = data;
+            InitialiseStats();
 		}
 
 		/// <summary>
@@ -314,7 +304,7 @@ namespace BBC.Dna.Utils
         /// <returns>Stats XML doc</returns>
 		public static XmlDocument CreateStatisticsDocument(int interval)
 		{
-            if (interval < 1 || interval > _hoursPeriod * _minsPeriod)
+            if (interval < 1 || interval > StatDataArraySize)
                 interval = 1;
 
             XmlDocument xmlbuilder = new XmlDocument();
@@ -526,7 +516,12 @@ namespace BBC.Dna.Utils
 
         public static StatData[] StatDataInThePeriod(StatData[] data)
         {
-            return data.Where(s => s.Date > (DateToTheMinute().AddMinutes(-(_hoursPeriod * _minsPeriod)))).ToArray();
+            return data.Where(s => s.Date > (DateToTheMinute().AddMinutes(-(StatDataArraySize)))).ToArray();
+        }
+
+        public static DateTime DateToTheMinute()
+        {
+            return DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
         }
 
 		private static void AddLongElement(XmlDocument xmlbuilder, XmlElement datasection, string elementName, long value)
@@ -559,9 +554,14 @@ namespace BBC.Dna.Utils
 			return statDataArrayId;
 		}
 
-        public static DateTime DateToTheMinute()
+        private static void InitialiseStats()
         {
-            return DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
+            StatData[] data = new StatData[StatDataArraySize];
+            for (int i = 0; i < StatDataArraySize; i++)
+            {
+                data[i] = new StatData();
+            }
+            StatDataArray = data;
         }
 
 		public static StatData[] StatDataArray { get;set; }
