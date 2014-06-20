@@ -35,18 +35,18 @@ namespace BBC.Dna.Api
             set;
         }
 
-        //[DataMember(Name = "totalPositiveNeroRating", Order = 3)]
-        //public int TotalPositiveNeroRating
-        //{
-        //    get;
-        //    set;
-        //}
+        [DataMember(Name = "totalPositiveNeroRating", Order = 3)]
+        public int TotalPositiveNeroRating
+        {
+            get;
+            set;
+        }
 
-        //[DataMember(Name = "totalNegativeNeroRating", Order = 4)]
-        //public int TotalNegativeNeroRating
-        //{
-        //    get;
-        //    set;
-        //}
+        [DataMember(Name = "totalNegativeNeroRating", Order = 4)]
+        public int TotalNegativeNeroRating
+        {
+            get;
+            set;
+        }
     }
 }

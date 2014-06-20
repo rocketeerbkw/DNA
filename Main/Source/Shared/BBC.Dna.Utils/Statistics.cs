@@ -4,7 +4,6 @@ using System.Text;
 using System.Threading;
 using System.Xml;
 using BBC.Dna.Utils;
-using System.Linq;
 
 namespace BBC.Dna.Utils
 {
@@ -13,17 +12,45 @@ namespace BBC.Dna.Utils
 	/// </summary>
 	public class Statistics
 	{
-		public class StatData
-		{
-			/// <summary>
+#if DEBUG
+        public class StatData
+#else
+		class StatData
+#endif
+        {
+            int m_RawRequestCounter;
+            int m_ServerBusyCounter;
+            int m_TotalRequestTime;
+            int m_Requests;
+            int m_NonSSORequests;
+            int m_ForbiddenResponseCount;
+
+            int m_CacheHitCounter;
+            int m_CacheMissCounter;
+
+            int m_RssCacheHitCounter;
+            int m_RssCacheMissCounter;
+
+            int m_SsiCacheHitCounter;
+            int m_SsiCacheMissCounter;
+
+            int m_HTMLCacheHitCounter;
+            int m_HTMLCacheMissCounter;
+
+            int m_IdentityUserCall;
+            int m_IdentityCallCount;
+
+            DateTime m_StatDate;
+
+            /// <summary>
 			/// ctor
 			/// </summary>
 			public StatData()
 			{
-                ResetStatDataVale();
+				ResetStatData(DateTime.Now.AddDays(-1));
 			}
 
-            public void ResetStatDataVale()
+            public void ResetStatData(DateTime StatDate)
             {
                 m_RawRequestCounter = 0;
                 m_ServerBusyCounter = 0;
@@ -41,7 +68,7 @@ namespace BBC.Dna.Utils
                 m_IdentityUserCall = 0;
                 m_IdentityCallCount = 0;
                 m_ForbiddenResponseCount = 0;
-                Date = DateToTheMinute();
+                m_StatDate = StatDate;
             }
 
 			public void AddCacheHit()
@@ -120,51 +147,37 @@ namespace BBC.Dna.Utils
             public int GetIdentityCallTime() { return m_IdentityUserCall; }
             public int GetIdentityCallCount() { return m_IdentityCallCount; }
             public int GetForbiddenResponseCount() { return m_ForbiddenResponseCount; }
-
-            public DateTime Date { get; set; }
-
-			int m_RawRequestCounter;
-			int m_ServerBusyCounter;
-			int m_TotalRequestTime;
-			int m_Requests;
-			int m_NonSSORequests;
-            int m_ForbiddenResponseCount;
-
-			int m_CacheHitCounter;
-			int m_CacheMissCounter;
-
-			int m_RssCacheHitCounter;
-			int m_RssCacheMissCounter;
-
-			int m_SsiCacheHitCounter;
-			int m_SsiCacheMissCounter;
-
-			int m_HTMLCacheHitCounter;
-			int m_HTMLCacheMissCounter;
-
-            int m_IdentityUserCall;
-            int m_IdentityCallCount;
-
+            public DateTime GetStatDate() { return m_StatDate; }
 		}
 
+        private static object _lockstats = new object();
+        private static object _lockCalc = new object(); 
+        private static DateTime _dateStarted;
+        private static StatData[] _statData;
+        private static int _hours;
+        private static int _minutes;
+        private static int _intervals;
 
 		/// <summary>
 		/// Default constructor
 		/// </summary>
+		public Statistics()
+		{
+		}
 
 		/// <summary>
 		/// Add to the RawRequests stats
 		/// </summary>
 		public static void AddRawRequest()
 		{
-			StatDataArray[CalcMinutes()].AddRawRequest();
+			_statData[CalcCurrentInterval()].AddRawRequest();
 		}
 		/// <summary>
 		/// Add to the ServerTooBusy stats
 		/// </summary>
 		public static void AddServerBusy()
 		{
-			StatDataArray[CalcMinutes()].AddServerBusy();
+			_statData[CalcCurrentInterval()].AddServerBusy();
 		}
         /// <summary>
         /// Addto the tracking of average request duration
@@ -172,7 +185,7 @@ namespace BBC.Dna.Utils
         /// <param name="ttaken"></param>
         public static void AddRequestDuration(int ttaken)
         {
-            StatDataArray[CalcMinutes()].AddRequestDuration(ttaken);
+            _statData[CalcCurrentInterval()].AddRequestDuration(ttaken);
         }
         /// <summary>
         /// Addto the tracking of average request duration
@@ -180,49 +193,49 @@ namespace BBC.Dna.Utils
         /// <param name="ttaken"></param>
         public static void AddIdentityCallDuration(int ttaken)
         {
-            StatDataArray[CalcMinutes()].AddIdentityCallDuration(ttaken);
+            _statData[CalcCurrentInterval()].AddIdentityCallDuration(ttaken);
         }
 		/// <summary>
 		/// Add a non SSO request to the stats
 		/// </summary>
 		public static void AddLoggedOutRequest()
 		{
-			StatDataArray[CalcMinutes()].AddLoggedOutRequest();
+			_statData[CalcCurrentInterval()].AddLoggedOutRequest();
 		}
 		/// <summary>
 		/// Add an XML cache hit
 		/// </summary>
 		public static void AddCacheHit()
 		{
-			StatDataArray[CalcMinutes()].AddCacheHit();
+			_statData[CalcCurrentInterval()].AddCacheHit();
 		}
 		/// <summary>
 		/// Add an XML cache miss
 		/// </summary>
 		public static void AddCacheMiss()
 		{
-			StatDataArray[CalcMinutes()].AddCacheMiss();
+			_statData[CalcCurrentInterval()].AddCacheMiss();
 		}
 		/// <summary>
 		/// Add an RSS cache hit
 		/// </summary>
 		public static void AddRssCacheHit()
 		{
-			StatDataArray[CalcMinutes()].AddRssCacheHit();
+			_statData[CalcCurrentInterval()].AddRssCacheHit();
 		}
 		/// <summary>
 		/// Add an RSS cache miss
 		/// </summary>
 		public static void AddRssCacheMiss()
 		{
-			StatDataArray[CalcMinutes()].AddRssCacheMiss();
+			_statData[CalcCurrentInterval()].AddRssCacheMiss();
 		}
 		/// <summary>
 		/// Add an SSI cache hit
 		/// </summary>
 		public static void AddSsiCacheHit()
 		{
-			StatDataArray[CalcMinutes()].AddSsiCacheHit();
+			_statData[CalcCurrentInterval()].AddSsiCacheHit();
 		}
 
 		/// <summary>
@@ -230,21 +243,21 @@ namespace BBC.Dna.Utils
 		/// </summary>
 		public static void AddSsiCacheMiss()
 		{
-			StatDataArray[CalcMinutes()].AddSsiCacheMiss();
+			_statData[CalcCurrentInterval()].AddSsiCacheMiss();
 		}
 		/// <summary>
 		/// Add an HTML cache hit
 		/// </summary>
 		public static void AddHTMLCacheHit()
 		{
-			StatDataArray[CalcMinutes()].AddHTMLCacheHit();
+			_statData[CalcCurrentInterval()].AddHTMLCacheHit();
 		}
 		/// <summary>
 		/// Add an HTML cache miss
 		/// </summary>
 		public static void AddHTMLCacheMiss()
 		{
-			StatDataArray[CalcMinutes()].AddHTMLCacheMiss();
+			_statData[CalcCurrentInterval()].AddHTMLCacheMiss();
 		}
 
         /// <summary>
@@ -252,7 +265,7 @@ namespace BBC.Dna.Utils
         /// </summary>
         public static void AddForbiddenResponse()
         {
-            StatDataArray[CalcMinutes()].AddForbiddenResponse();
+            _statData[CalcCurrentInterval()].AddForbiddenResponse();
         }
 
 		/// <summary>
@@ -262,20 +275,43 @@ namespace BBC.Dna.Utils
 		/// <remarks>It can be called multiple times but will only initialise and clear the static data
 		/// if it is currently empty. If you want to clear the current data call <see cref="ResetCounters"/>
 		/// </remarks>
-		public static void InitialiseIfEmpty()
+		public static void InitialiseIfEmpty(int[] hoursMinutes, bool refresh)
 		{
-            Locking.InitialiseOrRefresh(_lockstats, InitData, AreStatsEmpty, false, null);
+            Locking.InitialiseOrRefresh(_lockstats, InitData, AreStatsEmpty, refresh, hoursMinutes);
 		}
 
 		private static void InitData(object context)
 		{
+            if (context != null && context.GetType() == typeof(int[]))
+            {
+                _hours = ((int[])context)[0];
+                _minutes = ((int[])context)[1];
+            }
+            else
+            {
+                _hours = 24;
+                _minutes = 60;
+            }
+
+            _intervals = _minutes * _hours;
+
 			_dateStarted = DateTime.Now;
-            InitialiseStats();
+			StatData[] data = new StatData[_intervals];
+			for (int i = 0; i < _intervals; i++)
+			{
+				data[i] = new StatData();
+			}
+			_statData = data;
 		}
+
+        public static int GetIntervals()
+        {
+            return _intervals;
+        }
 
 		private static bool AreStatsEmpty()
 		{
-			return (StatDataArray == null);
+			return (_statData == null);
 		}
 
 		/// <summary>
@@ -283,7 +319,10 @@ namespace BBC.Dna.Utils
 		/// </summary>
 		public static void ResetCounters()
 		{
-            InitialiseStats();
+            for (int i = 0; i < _intervals; i++)
+			{
+                _statData[i].ResetStatData(DateTime.Now.AddMinutes(_intervals));
+			}
 		}
 
 		/// <summary>
@@ -304,8 +343,9 @@ namespace BBC.Dna.Utils
         /// <returns>Stats XML doc</returns>
 		public static XmlDocument CreateStatisticsDocument(int interval)
 		{
-            if (interval < 1 || interval > StatDataArraySize)
-                interval = 1;
+			//Default is data at 1 minute intervals from midnight.
+			if (interval < 1 || interval > _intervals)
+				interval = 1;
 
             XmlDocument xmlbuilder = new XmlDocument();
             XmlElement root = xmlbuilder.CreateElement("STATISTICS");
@@ -334,94 +374,94 @@ namespace BBC.Dna.Utils
             long identityCallCount = 0;
             long forbiddenResponseCount = 0;
 
-            StatData[] statDataInPeriod = StatDataInThePeriod(StatDataArray);
-
 			TimeSpan timespan = new TimeSpan();
 			int minutes = 0;
+			for (int i = 0; i < _intervals; i++)
+			{
+                if ((DateTime.Now - _statData[i].GetStatDate()).TotalMinutes < _intervals)
+                {
+                    if (rawrequests < long.MaxValue - _statData[i].GetRawRequestCounter())
+                        rawrequests += _statData[i].GetRawRequestCounter();
+                    else
+                        rawrequests = long.MaxValue;
 
-            foreach (StatData sd in statDataInPeriod)
-            {
-				if (rawrequests < long.MaxValue - sd.GetRawRequestCounter())
-					rawrequests += sd.GetRawRequestCounter();
-				else
-					rawrequests = long.MaxValue;
+                    if (serverbusy < long.MaxValue - _statData[i].GetServerBusyCounter())
+                        serverbusy += _statData[i].GetServerBusyCounter();
+                    else
+                        serverbusy = long.MaxValue;
 
-				if (serverbusy < long.MaxValue - sd.GetServerBusyCounter())
-					serverbusy += sd.GetServerBusyCounter();
-				else
-					serverbusy = long.MaxValue;
+                    if (nonssorequests < long.MaxValue - _statData[i].GetNonSSORequest())
+                        nonssorequests += _statData[i].GetNonSSORequest();
+                    else
+                        nonssorequests = long.MaxValue;
 
-				if (nonssorequests < long.MaxValue - sd.GetNonSSORequest())
-					nonssorequests += sd.GetNonSSORequest();
-				else
-					nonssorequests = long.MaxValue;
+                    if (cachehits < long.MaxValue - _statData[i].GetCacheHitCounter())
+                        cachehits += _statData[i].GetCacheHitCounter();
+                    else
+                        cachehits = long.MaxValue;
 
-				if (cachehits < long.MaxValue - sd.GetCacheHitCounter())
-					cachehits += sd.GetCacheHitCounter();
-				else
-					cachehits = long.MaxValue;
+                    if (cachemisses < long.MaxValue - _statData[i].GetCacheMissCounter())
+                        cachemisses += _statData[i].GetCacheMissCounter();
+                    else
+                        cachemisses = long.MaxValue;
 
-				if (cachemisses < long.MaxValue - sd.GetCacheMissCounter())
-					cachemisses += sd.GetCacheMissCounter();
-				else
-					cachemisses = long.MaxValue;
+                    if (rsscachehits < long.MaxValue - _statData[i].GetRssCacheHitCounter())
+                        rsscachehits += _statData[i].GetRssCacheHitCounter();
+                    else
+                        rsscachehits = long.MaxValue;
 
-				if (rsscachehits < long.MaxValue - sd.GetRssCacheHitCounter())
-					rsscachehits += sd.GetRssCacheHitCounter();
-				else
-					rsscachehits = long.MaxValue;
+                    if (rsscachemisses < long.MaxValue - _statData[i].GetRssCacheMissCounter())
+                        rsscachemisses += _statData[i].GetRssCacheMissCounter();
+                    else
+                        rsscachemisses = long.MaxValue;
 
-				if (rsscachemisses < long.MaxValue - sd.GetRssCacheMissCounter())
-					rsscachemisses += sd.GetRssCacheMissCounter();
-				else
-					rsscachemisses = long.MaxValue;
+                    if (ssicachehits < long.MaxValue - _statData[i].GetSsiCacheHitCounter())
+                        ssicachehits += _statData[i].GetSsiCacheHitCounter();
+                    else
+                        ssicachehits = long.MaxValue;
 
-				if (ssicachehits < long.MaxValue - sd.GetSsiCacheHitCounter())
-					ssicachehits += sd.GetSsiCacheHitCounter();
-				else
-					ssicachehits = long.MaxValue;
-
-				if (ssicachemisses < long.MaxValue - sd.GetSsiCacheMissCounter())
-					ssicachemisses += sd.GetSsiCacheMissCounter();
-				else
-					ssicachemisses = long.MaxValue;
-
-
-				if (htmlcachehits < long.MaxValue - sd.GetHTMLCacheHitCounter())
-					htmlcachehits += sd.GetHTMLCacheHitCounter();
-				else
-					htmlcachehits = long.MaxValue;
-
-				if (htmlcachemisses < long.MaxValue - sd.GetHTMLCacheMissCounter())
-					htmlcachemisses += sd.GetHTMLCacheMissCounter();
-				else
-					htmlcachemisses = long.MaxValue;
+                    if (ssicachemisses < long.MaxValue - _statData[i].GetSsiCacheMissCounter())
+                        ssicachemisses += _statData[i].GetSsiCacheMissCounter();
+                    else
+                        ssicachemisses = long.MaxValue;
 
 
-				if (requests < long.MaxValue - sd.GetRequests())
-					requests += sd.GetRequests();
-				else
-					requests = long.MaxValue;
+                    if (htmlcachehits < long.MaxValue - _statData[i].GetHTMLCacheHitCounter())
+                        htmlcachehits += _statData[i].GetHTMLCacheHitCounter();
+                    else
+                        htmlcachehits = long.MaxValue;
 
-                if (requesttime < long.MaxValue - sd.GetRequestTime())
-                    requesttime += sd.GetRequestTime();
-                else
-                    requesttime = long.MaxValue;
+                    if (htmlcachemisses < long.MaxValue - _statData[i].GetHTMLCacheMissCounter())
+                        htmlcachemisses += _statData[i].GetHTMLCacheMissCounter();
+                    else
+                        htmlcachemisses = long.MaxValue;
 
-                if (identityCallTime < long.MaxValue - sd.GetIdentityCallTime())
-                    identityCallTime += sd.GetIdentityCallTime();
-                else
-                    identityCallTime = long.MaxValue;
 
-                if (identityCallCount < long.MaxValue - sd.GetIdentityCallCount())
-                    identityCallCount += sd.GetIdentityCallCount();
-                else
-                    identityCallCount = long.MaxValue;
+                    if (requests < long.MaxValue - _statData[i].GetRequests())
+                        requests += _statData[i].GetRequests();
+                    else
+                        requests = long.MaxValue;
 
-                if (identityCallCount < long.MaxValue - sd.GetForbiddenResponseCount())
-                    identityCallCount += sd.GetForbiddenResponseCount();
-                else
-                    identityCallCount = long.MaxValue;
+                    if (requesttime < long.MaxValue - _statData[i].GetRequestTime())
+                        requesttime += _statData[i].GetRequestTime();
+                    else
+                        requesttime = long.MaxValue;
+
+                    if (identityCallTime < long.MaxValue - _statData[i].GetIdentityCallTime())
+                        identityCallTime += _statData[i].GetIdentityCallTime();
+                    else
+                        identityCallTime = long.MaxValue;
+
+                    if (identityCallCount < long.MaxValue - _statData[i].GetIdentityCallCount())
+                        identityCallCount += _statData[i].GetIdentityCallCount();
+                    else
+                        identityCallCount = long.MaxValue;
+
+                    if (forbiddenResponseCount < long.MaxValue - _statData[i].GetForbiddenResponseCount())
+                        forbiddenResponseCount += _statData[i].GetForbiddenResponseCount();
+                    else
+                        forbiddenResponseCount = long.MaxValue;
+                }
 
 				++minutes;
 				if (minutes % interval == 0)
@@ -477,53 +517,6 @@ namespace BBC.Dna.Utils
 			return xmlbuilder;
 		}
 
-        /// <summary>
-        /// Get a string XML representation of the Stats data grouped in hour intervals
-        /// </summary>
-        /// <returns></returns>
-        public static string GetStatisticsXML()
-        {
-            return GetStatisticsXML(_minsPeriod);
-        }
-
-        public static void SetStatDataDate(int statDataArrayId)
-        {
-            if (StatDataArray[statDataArrayId].Date < DateToTheMinute())
-            {
-                StatDataArray[statDataArrayId].ResetStatDataVale(); 
-            }
-        }
-
-        public static void SetStatDataArraySize(int hours, int mins)
-        {
-            _hoursPeriod = hours;
-            _minsPeriod = mins;
-        }
-
-        public static int CalculateCurrentStatDataArrayId(int currentHour, int hourMins, int currentMinute)
-        {
-            int id = 0;
-            
-            id = (currentHour * hourMins) + currentMinute;
-
-            while (id > StatDataArraySize -1)
-            {
-                id = id % StatDataArraySize;
-            }
-
-            return id;
-        }
-
-        public static StatData[] StatDataInThePeriod(StatData[] data)
-        {
-            return data.Where(s => s.Date > (DateToTheMinute().AddMinutes(-(StatDataArraySize)))).ToArray();
-        }
-
-        public static DateTime DateToTheMinute()
-        {
-            return DateTime.Now.Date.AddHours(DateTime.Now.Hour).AddMinutes(DateTime.Now.Minute);
-        }
-
 		private static void AddLongElement(XmlDocument xmlbuilder, XmlElement datasection, string elementName, long value)
 		{
 			XmlElement element = xmlbuilder.CreateElement(elementName);
@@ -538,66 +531,31 @@ namespace BBC.Dna.Utils
 			datasection.Attributes.Append(attr);
 		}
 
-		private static int CalcMinutes()
+		/// <summary>
+		/// Get a string XML representation of the Stats data grouped in hour intervals
+		/// </summary>
+		/// <returns></returns>
+		public static string GetStatisticsXML()
 		{
-            int statDataArrayId = 0;
-
-			DateTime now = DateTime.Now;
-
-            lock (_lockCalcMinutes)
-            {
-                statDataArrayId = CalculateCurrentStatDataArrayId(now.Hour, 60, now.Minute);
-
-                SetStatDataDate(statDataArrayId);
-            }
-
-			return statDataArrayId;
+			return GetStatisticsXML(_minutes);
 		}
 
-        private static void InitialiseStats()
-        {
-            StatData[] data = new StatData[StatDataArraySize];
-            for (int i = 0; i < StatDataArraySize; i++)
+		private static int CalcCurrentInterval()
+		{
+            DateTime now = DateTime.Now;
+            int interval = (int)(now - DateTime.Today).TotalMinutes;
+            lock (_lockCalc)
             {
-                data[i] = new StatData();
+                if ((now - _statData[interval].GetStatDate()).TotalMinutes >= _intervals)
+                {
+                    _statData[interval].ResetStatData(now);
+                }
             }
-            StatDataArray = data;
-        }
+            return interval;
+		}
 
-		public static StatData[] StatDataArray { get;set; }
-
-        public static int StatDataArraySize
-        {
-            get
-            {
-                return _hoursPeriod * _minsPeriod;
-            }
-        }
-
-        public static int MinsPeriod
-        {
-            get
-            {
-                return _minsPeriod;
-            }
-        }
-
-        public static int HoursPeriod
-        {
-            get
-            {
-                return _hoursPeriod;
-            }
-        }
-        
-        private static int _hoursPeriod = 24;
-        private static int _minsPeriod = 60;
-        private static object _lockstats = new object();
-        private static object _lockCalcMinutes = new object();
-
-        private static DateTime _dateStarted;
-
-        
-
+#if DEBUG
+        public static StatData[] DEBUONLYGetStatData() { return _statData; }
+#endif
 	}
 }

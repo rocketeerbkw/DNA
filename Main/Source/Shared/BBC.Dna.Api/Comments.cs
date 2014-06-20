@@ -1690,9 +1690,9 @@ namespace BBC.Dna.Api
             commentForum.commentSummary = new CommentsSummary
                                               {
                                                   Total = reader.GetInt32NullAsZero("ForumPostCount"),
-                                                  EditorPicksTotal = reader.GetInt32NullAsZero("editorpickcount")/*,
+                                                  EditorPicksTotal = reader.GetInt32NullAsZero("editorpickcount"),
                                                   TotalPositiveNeroRating = reader.GetInt32NullAsZero("TotalPositiveNeroRating"),
-                                                  TotalNegativeNeroRating = reader.GetInt32NullAsZero("TotalNegativeNeroRating")*/
+                                                  TotalNegativeNeroRating = reader.GetInt32NullAsZero("TotalNegativeNeroRating")
                                               };
             commentForum.ForumID = reader.GetInt32NullAsZero("forumid");
             commentForum.isClosed = !commentForum.CanWrite || site.IsEmergencyClosed ||

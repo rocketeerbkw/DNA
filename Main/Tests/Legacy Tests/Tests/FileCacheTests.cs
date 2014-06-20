@@ -27,7 +27,7 @@ namespace Tests
                 BBC.Dna.AppContext.OnDnaStartup(rootPath);
 
                 Console.WriteLine("TestFileCaching");
-                Statistics.InitialiseIfEmpty();
+                Statistics.InitialiseIfEmpty(null,false);
                 string cacheRoot = Directory.GetCurrentDirectory();
 
                 string testvalue = "The quick brown fox";
@@ -78,7 +78,7 @@ namespace Tests
                 string filename = "1|!%/&2.txt";
 
                 Console.WriteLine("TestFileCachingWithInvalidFileChars");
-                Statistics.InitialiseIfEmpty();
+                Statistics.InitialiseIfEmpty(null,false);
                 string cacheRoot = Directory.GetCurrentDirectory();
 
                 string testvalue = "The quick brown fox";

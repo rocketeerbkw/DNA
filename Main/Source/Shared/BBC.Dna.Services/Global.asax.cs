@@ -30,7 +30,7 @@ namespace BBC.Dna.Services
                 return;
             }
             
-            Statistics.InitialiseIfEmpty(/*TheAppContext*/);
+            Statistics.InitialiseIfEmpty(null,false);
             dnaDiagnostics = new DnaDiagnostics(RequestIdGenerator.GetNextRequestId(), DateTime.Now);
             connectionString = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiagnostics);

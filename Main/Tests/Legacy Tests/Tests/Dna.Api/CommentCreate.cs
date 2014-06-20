@@ -39,7 +39,7 @@ namespace Tests
         [TestInitialize]
         public void StartUp()
         {
-            Statistics.InitialiseIfEmpty();
+            Statistics.InitialiseIfEmpty(null,false);
             SnapshotInitialisation.RestoreFromSnapshot();
 
 
