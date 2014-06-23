@@ -115,14 +115,14 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetUserInfo(string sitename, string identityusername)
         {
-            CallingUser callingUser = GetCallingUserInfoInternal(sitename);
+            ISite site = GetSite(sitename);
+            CallingUser callingUser = GetCallingUser(site);
             if (callingUser == null || !callingUser.IsSecureRequest)
             {
                 throw new DnaWebProtocolException(new ApiException("Not authorised.", ErrorType.NotAuthorized));
             }
 
             var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty).ToUpper();
-            ISite site = GetSite(sitename);
             BBC.Dna.Users.User userInfo = new BBC.Dna.Users.User(readerCreator, dnaDiagnostic, cacheManager);
             bool foundUser = false;
             try
