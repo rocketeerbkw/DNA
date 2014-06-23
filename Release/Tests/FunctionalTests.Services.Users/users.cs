@@ -1046,20 +1046,44 @@ namespace FunctionalTests.Services.Users
         }
 
         [TestMethod]
-        public void GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus()
+        public void GetUserInfo_Secure_ForASuperUser_ReturnsTheirSuperStatus()
+        {
+            Console.WriteLine("Before GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus");
+
+            string url = @"https://" + DnaTestURLRequest.SecureServerAddress + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/DotNetSuperUser?format=xml";
+
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.SetCurrentUserNormal();
+            request.RequestPageWithFullURL(url);
+
+            BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
+
+            Assert.AreEqual("Super", user.StatusAsString);
+
+
+            Console.WriteLine("After GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus");
+        }
+
+        [TestMethod]
+        public void GetUserInfo_NonSecure_ForASuperUser_ReturnsUnAuthorised()
         {
             Console.WriteLine("Before GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus");
 
             string callinguser_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/DotNetSuperUser?format=xml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
+            request.AssertWebRequestFailure = false;
             request.SetCurrentUserNormal();
-            request.RequestPageWithFullURL(callinguser_url);
+            request.UseDebugUserSecureCookie = false;
+            try
+            {
+                request.RequestPageWithFullURL(callinguser_url);
+            }
+            catch { }
 
-            BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
-
-            Assert.AreEqual("Super", user.StatusAsString);
-
+            Assert.AreEqual(HttpStatusCode.Unauthorized, request.CurrentWebResponse.StatusCode);
+            ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
+            Assert.AreEqual(ErrorType.NotAuthorized.ToString(), errorData.Code);
 
             Console.WriteLine("After GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus");
         }
@@ -1074,11 +1098,11 @@ namespace FunctionalTests.Services.Users
 
             int dnaUserId = 9999999;
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
-            request.SetCurrentUserNotLoggedInUser();
             request.AssertWebRequestFailure = false;
+            request.SetCurrentUserNormal();
             try
             {
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}?idtype=DNAUserId&format=xml", _sitename, dnaUserId);
+                string url = String.Format("https://" + DnaTestURLRequest.SecureServerAddress + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}?idtype=DNAUserId&format=xml", _sitename, dnaUserId);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
             }

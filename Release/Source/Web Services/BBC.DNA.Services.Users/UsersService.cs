@@ -99,14 +99,30 @@ namespace BBC.Dna.Services
             return TryGetCallingUser(site);
         }
 
+        [WebGet(UriTemplate = "V1/user/{useridentifier}/publicprofile")]
+        [WebHelp(Comment = "Get a user's piblic profile details")]
+        [OperationContract]
+        public Stream GetUsersPublicProfile(string useridentifier)
+        {
+            int dnaUserID = 0;
+            var userIdentifierType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty).ToLower();
+
+            return null;
+        }
 
         [WebGet(UriTemplate = "V1/site/{sitename}/users/{identityusername}")]
         [WebHelp(Comment = "Get a user's info")]
         [OperationContract]
         public Stream GetUserInfo(string sitename, string identityusername)
         {
-            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty).ToUpper();
             ISite site = GetSite(sitename);
+            CallingUser callingUser = GetCallingUser(site);
+            if (callingUser == null || !callingUser.IsSecureRequest)
+            {
+                throw new DnaWebProtocolException(new ApiException("Not authorised.", ErrorType.NotAuthorized));
+            }
+
+            var userNameType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty).ToUpper();
             BBC.Dna.Users.User userInfo = new BBC.Dna.Users.User(readerCreator, dnaDiagnostic, cacheManager);
             bool foundUser = false;
             try
