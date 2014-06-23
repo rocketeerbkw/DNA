@@ -16,10 +16,10 @@
 				<xs:element name="updated" type="dateTimeHelper"/>
 				<xs:element name="created" type="dateTimeHelper"/>
 				<xs:element name="isClosed" type="xs:boolean" />
-        <xs:element name="identityPolicy" type="xs:string" />
-        <xs:element name="allowNotSignedInCommenting" type="xs:boolean" />
-        <xs:element name="forumId" type="xs:integer" />
-        <xs:element name="isContactForm" type="xs:boolean" />
+				<xs:element name="identityPolicy" type="xs:string" />
+				<xs:element name="allowNotSignedInCommenting" type="xs:boolean" />
+				<xs:element name="forumId" type="xs:integer" />
+				<xs:element name="isContactForm" type="xs:boolean" />
 				<xs:element ref="ratingsSummary"/>
 				<xs:element ref="ratingsList"/>
 			</xs:sequence>
