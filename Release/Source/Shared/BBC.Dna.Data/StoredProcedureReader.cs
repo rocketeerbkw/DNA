@@ -9,7 +9,6 @@ using System.Diagnostics;
 using System.Web.Caching;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
-using System.Text;
 
 namespace BBC.Dna.Data
 {

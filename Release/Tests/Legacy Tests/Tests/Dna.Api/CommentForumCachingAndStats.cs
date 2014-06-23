@@ -44,7 +44,7 @@ namespace Tests
         public void StartUp()
         {
             SnapshotInitialisation.RestoreFromSnapshot();
-            Statistics.InitialiseIfEmpty();
+            Statistics.InitialiseIfEmpty(null,false);
             Statistics.ResetCounters();
 
             using (FullInputContext inputcontext = new FullInputContext(""))

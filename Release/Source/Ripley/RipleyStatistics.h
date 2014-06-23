@@ -50,8 +50,7 @@ private:
 	CTDVDateTime	m_dDateStarted;
 
 	struct STAT_DATA
-	{
-
+	{	
 		STAT_DATA() :	m_RawRequestCounter(0),
 						m_ServerBusyCounter(0), 
 						m_TotalRequestTime(0),
@@ -66,7 +65,8 @@ private:
 						m_HTMLCacheHitCounter(0),
 						m_HTMLCacheMissCounter(0),
 						m_IdentityCallTime(0),
-						m_IdentityCallCount(0)
+						m_IdentityCallCount(0),
+						m_Epoch(0)
 						{}
 		
 		void AddRawRequest();
@@ -82,6 +82,7 @@ private:
 		void AddHTMLCacheMiss();
 		void AddRequestDuration( int ttaken);
 		void AddIdentityCallDuration( int ttaken);
+		void SetEpoch(long epoch);
 
 		long GetRawRequestCounter()		{ return m_RawRequestCounter; }
 		long GetServerBusyCounter()		{ return m_ServerBusyCounter; }
@@ -98,7 +99,9 @@ private:
 		long GetRequestTime()			{ return m_TotalRequestTime; }
 		long GetIdentityCallTime()		{ return m_IdentityCallTime; }
 		long GetIdentityCallCount()		{ return m_IdentityCallCount; }
+		long GetEpoch()                 { return m_Epoch; }
 
+        void InitialiseStats(long epoch);
 	private:
 
 		//Share this counter with all instances.
@@ -122,6 +125,8 @@ private:
 
 		long	m_IdentityCallTime;
 		long	m_IdentityCallCount;
+		
+		long    m_Epoch;
 	};
 
 	std::vector<STAT_DATA>	m_StatData;

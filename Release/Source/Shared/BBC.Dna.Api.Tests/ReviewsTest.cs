@@ -23,7 +23,7 @@ namespace BBC.Dna.Api.Tests
 
         public ReviewsTest()
         {
-            Statistics.InitialiseIfEmpty();
+            Statistics.InitialiseIfEmpty(null,false);
             ProfanityFilterTests.InitialiseProfanities();
         }
 

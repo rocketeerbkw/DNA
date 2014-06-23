@@ -76,7 +76,7 @@ namespace Tests
             bannedAgents.Add("bingbot");
             string botUserAgent = "HTTP/1.1 Mozilla/5.0+(compatible;+bingbot/2.0;++http://www.bing.com/bingbot.htm)";
             DnaBasePage basePage = new DnaBasePage(null);
-            BBC.Dna.Utils.Statistics.InitialiseIfEmpty();
+            BBC.Dna.Utils.Statistics.InitialiseIfEmpty(null,false);
             Assert.IsTrue(basePage.CheckForForbiddenUserAgents(botUserAgent, bannedAgents));
         }
         

@@ -24,7 +24,7 @@ namespace BBC.Dna.Api.Tests
     {
         public CommentsTest()
         {
-            Statistics.InitialiseIfEmpty();
+            Statistics.InitialiseIfEmpty(null,false);
             ProfanityFilterTests.InitialiseProfanities();
         }
 

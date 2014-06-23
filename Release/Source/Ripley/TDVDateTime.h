@@ -24,6 +24,7 @@ public:
 	bool GetAsXML(CTDVString& sResult, bool bIncludeRelative = false) const;
 	
 	int DaysElapsed();
+    long SecondsElapsed();
 	virtual int GetHour() const;
 	virtual int GetMinute() const;
 	bool IsWithinDBSmallDateTimeRange(); 

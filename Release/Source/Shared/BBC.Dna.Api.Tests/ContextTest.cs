@@ -112,7 +112,7 @@ namespace BBC.Dna.Api.Tests
         public void ShouldReplaceInvalidCharsFromCacheFileNameWithDash()
         {
             Statistics stats = new Statistics();
-            Statistics.InitialiseIfEmpty();
+            Statistics.InitialiseIfEmpty(null,false);
 
             Context_Accessor testContext = new Context_Accessor(null, null, null, null);
 

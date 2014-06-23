@@ -80,7 +80,7 @@ namespace BBC.Dna
                 DnaDiagnostics.WriteHeader("OnDnaStartup - RELEASE");
 #endif
 
-			Statistics.InitialiseIfEmpty(/*TheAppContext*/);
+			Statistics.InitialiseIfEmpty(null,false);
 
             //load the smiley list
             SmileyTranslator.LoadSmileys(ReaderCreator);

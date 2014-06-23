@@ -364,6 +364,13 @@ int CTDVDateTime::DaysElapsed()
 	return  (int)Difference.GetTotalDays();
 }
 
+long CTDVDateTime::SecondsElapsed()
+{
+	COleDateTime curTime = COleDateTime::GetCurrentTime();
+	COleDateTimeSpan Difference = curTime - (COleDateTime)(*this);
+	return (long)Difference.GetTotalSeconds();
+}
+
 /*********************************************************************************
 
 	bool CTDVDateTime::GetStatus() const
@@ -471,6 +478,7 @@ int CTDVDateTime::GetMinute() const
 {
 	return COleDateTime::GetMinute();
 }
+
 /*********************************************************************************
 
 	bool CTDVDateTime::IsWithinDBSmallDateTimeRange()

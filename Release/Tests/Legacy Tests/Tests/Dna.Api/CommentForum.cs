@@ -43,7 +43,7 @@ namespace Tests
         public void StartUp()
         {
             SnapshotInitialisation.ForceRestore();
-            Statistics.InitialiseIfEmpty();
+            Statistics.InitialiseIfEmpty(null,false);
 
             using (FullInputContext inputcontext = new FullInputContext(""))
             {

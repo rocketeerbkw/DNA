@@ -16,6 +16,8 @@
               <xs:element name="editorPicksTotal" type="xs:int" />
 							<xs:element name="total" type="xs:unsignedByte" />
 							<xs:element name="uri" nillable="true" />
+							<xs:element name="totalPositiveNeroRating" type="xs:int" />
+							<xs:element name="totalNegativeNeroRating" type="xs:int" />
 							<xs:element name="average" type="xs:unsignedByte" />
 						</xs:sequence>
 					</xs:complexType>

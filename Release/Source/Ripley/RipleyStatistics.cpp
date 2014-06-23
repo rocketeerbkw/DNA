@@ -15,6 +15,7 @@ CRipleyStatistics::~CRipleyStatistics(void)
 	DeleteCriticalSection(&m_criticalsection);
 }
 
+
 /*********************************************************************************
 
 	bool CRipleyStatistics::AddCacheHit()
@@ -275,83 +276,86 @@ CTDVString CRipleyStatistics::GetStatisticsXML( int interval  )
 	int minutes = 0;
 	for ( std::vector<STAT_DATA>::iterator iter = m_StatData.begin(); iter != m_StatData.end(); ++iter )
 	{
-		if ( rawrequests < LONG_MAX - iter->GetRawRequestCounter() )
-			rawrequests += iter->GetRawRequestCounter();
-		else
-			rawrequests = LONG_MAX;
+	    if (CTDVDateTime(iter->GetEpoch()).DaysElapsed() == 0)
+	    {
+		    if ( rawrequests < LONG_MAX - iter->GetRawRequestCounter() )
+			    rawrequests += iter->GetRawRequestCounter();
+		    else
+			    rawrequests = LONG_MAX;
 
-		if ( serverbusy < LONG_MAX - iter->GetServerBusyCounter() )
-			serverbusy += iter->GetServerBusyCounter();
-		else
-			serverbusy = LONG_MAX;
+		    if ( serverbusy < LONG_MAX - iter->GetServerBusyCounter() )
+			    serverbusy += iter->GetServerBusyCounter();
+		    else
+			    serverbusy = LONG_MAX;
 
-		if ( nonssorequests < LONG_MAX - iter->GetLoggedOutRequests() )
-			nonssorequests += iter->GetLoggedOutRequests();
-		else
-			nonssorequests = LONG_MAX;
-		
-		if ( cachehits < LONG_MAX - iter->GetCacheHitCounter() )
-			cachehits += iter->GetCacheHitCounter();
-		else
-			cachehits = LONG_MAX;
-		
-		if ( cachemisses < LONG_MAX - iter->GetCacheMissCounter() )
-			cachemisses += iter->GetCacheMissCounter();
-		else
-			cachemisses = LONG_MAX;
+		    if ( nonssorequests < LONG_MAX - iter->GetLoggedOutRequests() )
+			    nonssorequests += iter->GetLoggedOutRequests();
+		    else
+			    nonssorequests = LONG_MAX;
+    		
+		    if ( cachehits < LONG_MAX - iter->GetCacheHitCounter() )
+			    cachehits += iter->GetCacheHitCounter();
+		    else
+			    cachehits = LONG_MAX;
+    		
+		    if ( cachemisses < LONG_MAX - iter->GetCacheMissCounter() )
+			    cachemisses += iter->GetCacheMissCounter();
+		    else
+			    cachemisses = LONG_MAX;
 
-		if ( rsscachehits < LONG_MAX - iter->GetRssCacheHitCounter() )
-			rsscachehits += iter->GetRssCacheHitCounter();
-		else
-			rsscachehits = LONG_MAX;
-		
-		if ( rsscachemisses < LONG_MAX - iter->GetRssCacheMissCounter() )
-			rsscachemisses += iter->GetRssCacheMissCounter();
-		else
-			rsscachemisses = LONG_MAX;
+		    if ( rsscachehits < LONG_MAX - iter->GetRssCacheHitCounter() )
+			    rsscachehits += iter->GetRssCacheHitCounter();
+		    else
+			    rsscachehits = LONG_MAX;
+    		
+		    if ( rsscachemisses < LONG_MAX - iter->GetRssCacheMissCounter() )
+			    rsscachemisses += iter->GetRssCacheMissCounter();
+		    else
+			    rsscachemisses = LONG_MAX;
 
-		if ( ssicachehits < LONG_MAX - iter->GetSsiCacheHitCounter() )
-			ssicachehits += iter->GetSsiCacheHitCounter();
-		else
-			ssicachehits = LONG_MAX;
-		
-		if ( ssicachemisses < LONG_MAX - iter->GetSsiCacheMissCounter() )
-			ssicachemisses += iter->GetSsiCacheMissCounter();
-		else
-			ssicachemisses = LONG_MAX;
-
-
-		if ( htmlcachehits < LONG_MAX - iter->GetHTMLCacheHitCounter() )
-			htmlcachehits += iter->GetHTMLCacheHitCounter();
-		else
-			htmlcachehits = LONG_MAX;
-		
-		if ( htmlcachemisses < LONG_MAX - iter->GetHTMLCacheMissCounter() )
-			htmlcachemisses += iter->GetHTMLCacheMissCounter();
-		else
-			htmlcachemisses = LONG_MAX;
+		    if ( ssicachehits < LONG_MAX - iter->GetSsiCacheHitCounter() )
+			    ssicachehits += iter->GetSsiCacheHitCounter();
+		    else
+			    ssicachehits = LONG_MAX;
+    		
+		    if ( ssicachemisses < LONG_MAX - iter->GetSsiCacheMissCounter() )
+			    ssicachemisses += iter->GetSsiCacheMissCounter();
+		    else
+			    ssicachemisses = LONG_MAX;
 
 
-		if ( requests < LONG_MAX - iter->GetRequests() )
-			requests += iter->GetRequests();
-		else
-			requests = LONG_MAX;
-		
-		if ( requesttime < LONG_MAX - iter->GetRequestTime() )
-			requesttime += iter->GetRequestTime();
-		else
-			requesttime = LONG_MAX;
+		    if ( htmlcachehits < LONG_MAX - iter->GetHTMLCacheHitCounter() )
+			    htmlcachehits += iter->GetHTMLCacheHitCounter();
+		    else
+			    htmlcachehits = LONG_MAX;
+    		
+		    if ( htmlcachemisses < LONG_MAX - iter->GetHTMLCacheMissCounter() )
+			    htmlcachemisses += iter->GetHTMLCacheMissCounter();
+		    else
+			    htmlcachemisses = LONG_MAX;
 
-		if ( identitytime < LONG_MAX - iter->GetIdentityCallTime() )
-			identitytime += iter->GetIdentityCallTime();
-		else
-			identitytime = LONG_MAX;
 
-		if ( identitycallcount < LONG_MAX - iter->GetIdentityCallCount() )
-			identitycallcount += iter->GetIdentityCallCount();
-		else
-			identitycallcount = LONG_MAX;
+		    if ( requests < LONG_MAX - iter->GetRequests() )
+			    requests += iter->GetRequests();
+		    else
+			    requests = LONG_MAX;
+    		
+		    if ( requesttime < LONG_MAX - iter->GetRequestTime() )
+			    requesttime += iter->GetRequestTime();
+		    else
+			    requesttime = LONG_MAX;
 
+		    if ( identitytime < LONG_MAX - iter->GetIdentityCallTime() )
+			    identitytime += iter->GetIdentityCallTime();
+		    else
+			    identitytime = LONG_MAX;
+
+		    if ( identitycallcount < LONG_MAX - iter->GetIdentityCallCount() )
+			    identitycallcount += iter->GetIdentityCallCount();
+		    else
+			    identitycallcount = LONG_MAX;
+        }
+        
 		++minutes;
 		if ( minutes%interval == 0 )
 		{	
@@ -482,6 +486,25 @@ void CRipleyStatistics::STAT_DATA::AddIdentityCallDuration( int ttaken )
 	InterlockedIncrement(&m_IdentityCallCount);
 	InterlockedExchangeAdd(&m_IdentityCallTime,ttaken);
 }
+void CRipleyStatistics::STAT_DATA::InitialiseStats(long epoch)
+{
+	m_RawRequestCounter = 0;
+	m_ServerBusyCounter = 0; 
+	m_TotalRequestTime = 0;
+	m_Requests = 0;
+	m_LoggedOutRequests = 0;
+	m_CacheHitCounter = 0;
+	m_CacheMissCounter = 0;
+	m_RssCacheHitCounter = 0;
+	m_RssCacheMissCounter = 0;
+	m_SsiCacheHitCounter = 0;
+	m_SsiCacheMissCounter = 0;
+	m_HTMLCacheHitCounter = 0;
+	m_HTMLCacheMissCounter = 0;
+	m_IdentityCallTime = 0;
+	m_IdentityCallCount = 0;
+	m_Epoch = epoch;
+}
 
 /*********************************************************************************
 
@@ -500,5 +523,14 @@ int CRipleyStatistics::CalcMinutes()
 {
 	//Data runs from midnight - midnight - get minutes into day.
 	CTDVDateTime timestamp = COleDateTime::GetCurrentTime();
-	return timestamp.GetMinute() + timestamp.GetHour()*60;
+	int minute = timestamp.GetMinute() + timestamp.GetHour() * 60;
+
+	EnterCriticalSection(&m_criticalsection);
+	if (m_StatData[minute].GetEpoch() == 0 || CTDVDateTime(m_StatData[minute].GetEpoch()).DaysElapsed() > 0)
+	{
+	    m_StatData[minute].InitialiseStats(timestamp.SecondsElapsed());
+	}
+	LeaveCriticalSection(&m_criticalsection);
+
+	return minute;
 }

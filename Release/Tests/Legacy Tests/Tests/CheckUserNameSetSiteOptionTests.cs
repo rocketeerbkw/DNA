@@ -33,7 +33,7 @@ namespace Tests
         {
             // Force a restore of the database
             SnapshotInitialisation.ForceRestore();
-            Statistics.InitialiseIfEmpty();
+            Statistics.InitialiseIfEmpty(null,false);
         }
 
         /// <summary>

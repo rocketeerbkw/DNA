@@ -51,7 +51,7 @@ namespace Tests
         public void StartUp()
         {
             SnapshotInitialisation.RestoreFromSnapshot();
-            Statistics.InitialiseIfEmpty();
+            Statistics.InitialiseIfEmpty(null,false);
             using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 var p = new ProfanityFilter(DnaMockery.CreateDatabaseReaderCreator(), null, CacheFactory.GetCacheManager(), null, null);
