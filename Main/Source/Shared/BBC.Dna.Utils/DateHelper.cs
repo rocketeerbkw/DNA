@@ -105,6 +105,11 @@ namespace BBC.Dna.Api
             return msSinceEpoch;
         }
 
+        public static bool IsInLastSeconds(this DateTime dateTime, int interval)
+        {
+            return (DateTime.Now <= dateTime.AddSeconds(interval));
+        }
+
         private static int RoundedDistance(int value, int dividedBy)
         {
             return (int)decimal.Round(Convert.ToDecimal(value / dividedBy), MidpointRounding.AwayFromZero);

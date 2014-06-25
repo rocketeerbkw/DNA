@@ -52,10 +52,10 @@ namespace FunctionalTests.Services.Comments
 
             // Create a comment forums to post tweets to, and the corresponding URLs
             CommentsTests_V1 ct = new CommentsTests_V1();
-            _commentForumReactive = ct.CommentForumCreate("Tests Reactive", Guid.NewGuid().ToString(),ModerationStatus.ForumStatus.Reactive);
-            _tweetPostUrlReactive= String.Format("http://" + _server + "/dna/api/comments/TwitterService.svc/V1/site/{0}/commentsforums/{1}/",_sitename, _commentForumReactive.Id);
+            _commentForumReactive = ct.CommentForumCreate("Tests Reactive", Guid.NewGuid().ToString(), ModerationStatus.ForumStatus.Reactive);
+            _tweetPostUrlReactive = String.Format("http://" + _server + "/dna/api/comments/TwitterService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, _commentForumReactive.Id);
 
-            _commentForumPremod = ct.CommentForumCreate("Tests Premod", Guid.NewGuid().ToString(),ModerationStatus.ForumStatus.PreMod);
+            _commentForumPremod = ct.CommentForumCreate("Tests Premod", Guid.NewGuid().ToString(), ModerationStatus.ForumStatus.PreMod);
             _tweetPostUrlPremod = String.Format("http://" + _server + "/dna/api/comments/TwitterService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, _commentForumPremod.Id);
         }
 
@@ -87,7 +87,7 @@ namespace FunctionalTests.Services.Comments
             var request = new DnaTestURLRequest(_sitename);
 
             var tweetUserId = "24870588";
-            var tweet = CreateTestTweet(DateTime.Now.Ticks,"Here's Johnny",tweetUserId,"Chico Charlesworth", "ccharlesworth");
+            var tweet = CreateTestTweet(DateTime.Now.Ticks, "Here's Johnny", tweetUserId, "Chico Charlesworth", "ccharlesworth");
             var tweetData = CreatTweetXmlData(tweet);
 
             // now get the response
@@ -115,6 +115,76 @@ namespace FunctionalTests.Services.Comments
             var returnedCommentInfo = (CommentInfo)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentInfo));
 
             TestCommentInfo(returnedCommentInfo, tweet);
+        }
+
+        [TestMethod]
+        public void Test_CreateTweetBuzzAudit_Successfully()
+        {
+            CreateTweetBuzzAuditTest("twitter buzz test.", false);
+        }
+
+        [TestMethod]
+        public void Test_CreateTweetBuzzAudit_FailedProfanityCheck()
+        {
+            CreateTweetBuzzAuditTest("twitter buzz test - profanity - fuck.", true);
+        }
+
+        private void CreateTweetBuzzAuditTest(string tweetText, bool assertTweetToCommentFailureReason)
+        {
+            var tweet = CreateTwitterBuzzTestTweet(tweetText);
+            var tweetData = CreateTweetJsonData(tweet);
+            var response = CreateCommentFromTweet(tweetData);
+            
+            if (response.ID != 0)
+            {
+                Assert.AreEqual(PostStyle.Style.tweet, response.PostStyle);
+            }
+
+            using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
+            {
+                reader.ExecuteDEBUGONLY("select top 1 * from TwitterBuzzAudit where TwitterUserId ='" + tweet.user.id + "' order by [DateReceived] Desc");
+                Assert.IsTrue(reader.HasRows);
+                reader.Read();
+
+                var dateReceived = reader.GetDateTime("DateReceived");
+                Assert.AreEqual(tweet.user.ScreenName, reader.GetString("TwitterScreenName"), true);
+                Assert.AreEqual(tweet.user.id, reader.GetString("TwitterUserId"), true);
+                Assert.AreEqual(tweet.Text, reader.GetString("TweetText"));
+                Assert.IsTrue(dateReceived.IsInLastSeconds(10));
+                if (assertTweetToCommentFailureReason)
+                {
+                    Assert.AreEqual("Profanity Found", reader.GetString("TweetToCommentFailureReason"), true);
+                }
+            }
+        }
+
+        private Tweet CreateTwitterBuzzTestTweet(string tweetText)
+        {
+            var twitterUserId = "34567890";
+            var twitterScreenName = "tweetbuzzer";
+
+            var tweet = CreateTestTweet(DateTime.Now.Ticks, tweetText, twitterUserId, "TweetFromBuzz", twitterScreenName);
+            return tweet;
+        }
+
+        private CommentInfo CreateCommentFromTweet(string tweetData)
+        {
+            var request = new DnaTestURLRequest(_sitename);
+            var commentInfo = new CommentInfo();
+
+            // now get the response
+            try
+            {
+                request.RequestPageWithFullURL(_tweetPostUrlReactive, tweetData, "application/json");
+                // Check to make sure that the page returned with the correct information
+                commentInfo = (CommentInfo)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentInfo));
+            }
+            catch (AssertFailedException)
+            {
+                //Web Call Exception
+            }
+
+            return commentInfo;
         }
 
         private int DeleteExistingTwitterUsers(string tweetUserId)
@@ -390,7 +460,7 @@ namespace FunctionalTests.Services.Comments
                 PassPreModPosting(modId, forumId, threadId);
 
                 //var sql = string.Format("exec moderatepost @forumid={0},@threadid={1},@postid=0,@modid={2},@status=3,@notes=N' ',@referto=0,@referredby=6,@moderationstatus=0,@emailType=N'or Select failure reason'",
-                       //forumId, threadId, modId);
+                //forumId, threadId, modId);
                 //reader.ExecuteDEBUGONLY(sql);
 
                 reader.ExecuteDEBUGONLY("select * from premodpostingstweetinfo where modid=" + modId);
@@ -413,8 +483,8 @@ namespace FunctionalTests.Services.Comments
             using (IDnaDataReader reader = _context.CreateDnaDataReader(""))
             {
                 var sql = string.Format("exec moderatepost @forumid={0},@threadid={1},@postid=0,@modid={2},@status=3,@notes=N' ',@referto=0,@referredby=6,@moderationstatus=0,@emailType=N'or Select failure reason'",
-                    forumId, threadId.HasValue ? threadId.ToString() : "NULL" , modId);
-                    reader.ExecuteDEBUGONLY(sql);
+                    forumId, threadId.HasValue ? threadId.ToString() : "NULL", modId);
+                reader.ExecuteDEBUGONLY(sql);
             }
         }
 
@@ -447,9 +517,9 @@ namespace FunctionalTests.Services.Comments
             {
                 reader.ExecuteDEBUGONLY(@"select * from ThreadEntriesTweetInfo where threadEntryId=" + retweetThreadEntryId);
                 reader.Read();
-                var retweetDBId                 = reader.GetInt64("TweetId");
-                var originalTweetId             = reader.GetInt64("OriginalTweetId");
-                var IsOriginalTweetForRetweet   = reader.GetBoolean("IsOriginalTweetForRetweet");
+                var retweetDBId = reader.GetInt64("TweetId");
+                var originalTweetId = reader.GetInt64("OriginalTweetId");
+                var IsOriginalTweetForRetweet = reader.GetBoolean("IsOriginalTweetForRetweet");
 
                 Assert.AreEqual(retweetDBId, retweetId);
                 Assert.AreEqual(originalTweetId, tweetId);
@@ -653,7 +723,7 @@ namespace FunctionalTests.Services.Comments
                 Assert.AreEqual(DnaHasher.GenerateHash(tweetId.ToString()), rating.userHash);
                 Assert.AreEqual(90, rating.value);
             }
-           
+
         }
 
         [TestMethod]
@@ -679,7 +749,7 @@ namespace FunctionalTests.Services.Comments
             var existingreTweetId = DeleteExistingTweet(retweetId);
 
             var retweet = CreateTestTweet(retweetId, "Inspire", retwitterUserId, "Creative Labs Inc", retwitterScreenName, "4");
-            
+
             retweet.RetweetedStatus = tweet;
 
             //create the twitter user Add user to the trusted user group
@@ -765,7 +835,7 @@ namespace FunctionalTests.Services.Comments
             var existingreTweetId = DeleteExistingTweet(74853549057838);
 
             // Create a retweet of the original tweet and post it
-            var retweet = CreateTestTweet(74853549057838, "RT @tsqlgod: SQLBits 2012 is a dreams", originalTweetUserId , "Danger Mouse", "dmouse", "4");
+            var retweet = CreateTestTweet(74853549057838, "RT @tsqlgod: SQLBits 2012 is a dreams", originalTweetUserId, "Danger Mouse", "dmouse", "4");
             retweet.RetweetedStatus = tweet;
 
             var maxThreadEntryId = GetMaxThreadEntryId();
@@ -786,7 +856,7 @@ namespace FunctionalTests.Services.Comments
 
             //Deleting the existing tweet
             var existingreTweetId2 = DeleteExistingTweet(122435565688909);
-            
+
             retweet = CreateTestTweet(122435565688909, "RT @tsqlgod: SQLBits 2012 is a dreams", "2626262626", "Penfold", "pfold", "56");
             retweet.RetweetedStatus = tweet;
 
@@ -854,7 +924,7 @@ namespace FunctionalTests.Services.Comments
             Assert.AreEqual(maxThreadEntryId, GetMaxThreadEntryId());
 
             //Can't check the rating as the original tweet exists just because of the retweet and not created earlier
-            
+
             /*// Check that the last post's rating contains the new retweet count
             var rating = GetTweetRating(maxThreadEntryId);
             Assert.AreEqual(0, rating.userId);
@@ -965,10 +1035,10 @@ namespace FunctionalTests.Services.Comments
                         order by modid desc
 	                )
 	                select * from numbered
-	                where n="+n);
+	                where n=" + n);
                 Assert.IsTrue(reader.Read());
-                result.modId    = reader.GetInt32("modid");
-                result.forumId  = reader.GetInt32("forumId");
+                result.modId = reader.GetInt32("modid");
+                result.forumId = reader.GetInt32("forumId");
                 result.threadId = reader.GetNullableInt32("threadId");
             }
 
@@ -985,7 +1055,7 @@ namespace FunctionalTests.Services.Comments
             public int forumId;
             public int siteId;
         }
-        
+
         private ThreadEntryRating GetTweetRating(int entryId)
         {
             var result = new ThreadEntryRating();
@@ -1055,9 +1125,9 @@ namespace FunctionalTests.Services.Comments
 
             // Check to make sure that the page returned with the correct information
             var returnedCommentInfo = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
-            
+
             Assert.IsNotNull(returnedCommentInfo); //returns an empty object
-            
+
             Assert.IsNull(returnedCommentInfo.text);
         }
 
@@ -1200,7 +1270,7 @@ namespace FunctionalTests.Services.Comments
             {
                 profile.ProfileId = profileID;
             }
-            
+
             return profile;
         }
 
@@ -1248,7 +1318,7 @@ namespace FunctionalTests.Services.Comments
                 return reader.GetInt32("UserId");
             }
         }
-        
+
         private void CreateTweet_TestApplyExpiryTime(string text, string processPremodSetting)
         {
             // Set ProcessPreMod site option
@@ -1321,7 +1391,7 @@ namespace FunctionalTests.Services.Comments
                 reader.ExecuteDEBUGONLY("truncate table PremodPostings");
             }
 
-            var userId = CreateTwitterUser("9900001", "furryfunster", "Mr Furry Funster",_siteid);
+            var userId = CreateTwitterUser("9900001", "furryfunster", "Mr Furry Funster", _siteid);
 
             int i = 0;
 
@@ -1430,7 +1500,7 @@ namespace FunctionalTests.Services.Comments
                 return CreateRetweetJsonData(tweet, tweet.RetweetedStatus);
 
             // Use an actual tweet from Twitter as the source data
-            string s = @"{""id_str"":"""+tweet.id+@""",
+            string s = @"{""id_str"":""" + tweet.id + @""",
                 ""place"":null,
                 ""geo"":{""coordinates"":[28.736,-25.7373],""type"":""Point""},
                 ""in_reply_to_user_id_str"":null,
@@ -1438,14 +1508,14 @@ namespace FunctionalTests.Services.Comments
                 ""contributors"":null,
                 ""possibly_sensitive"":false,
                 ""created_at"":""Tue Nov 01 12:07:24 +0000 2011"",
-                ""user"":{""id_str"":""" + tweet.user.id+@""",
+                ""user"":{""id_str"":""" + tweet.user.id + @""",
                     ""profile_text_color"":""333333"",
                     ""protected"":false,
                     ""profile_image_url_https"":""https:\/\/si0.twimg.com\/profile_images\/99627155\/me_normal.jpg"",
                     ""profile_background_image_url"":""http:\/\/a0.twimg.com\/images\/themes\/theme1\/bg.png"",
                     ""followers_count"":250,
                     ""profile_image_url"":""http:\/\/a1.twimg.com\/profile_images\/99627155\/me_normal.jpg"",
-                    ""name"":"""+tweet.user.Name+@""",
+                    ""name"":""" + tweet.user.Name + @""",
                     ""listed_count"":11,
                     ""contributors_enabled"":false,
                     ""profile_link_color"":""0084B4"",
@@ -1466,27 +1536,27 @@ namespace FunctionalTests.Services.Comments
                     ""favourites_count"":8,
                     ""profile_sidebar_border_color"":""C0DEED"",
                     ""location"":""London"",
-                    ""screen_name"":"""+tweet.user.ScreenName+@""",
+                    ""screen_name"":""" + tweet.user.ScreenName + @""",
                     ""follow_request_sent"":false,
                     ""statuses_count"":586,
                     ""geo_enabled"":true,
                     ""friends_count"":480,
-                    ""id"":"+tweet.user.id+@",
+                    ""id"":" + tweet.user.id + @",
                     ""is_translator"":false,
                     ""lang"":""en"",
                     ""profile_use_background_image"":true,
                     ""url"":""http:\/\/99layers.com\/chico""},
-                ""retweet_count"":"+tweet.RetweetCountString+@",
+                ""retweet_count"":" + tweet.RetweetCountString + @",
                 ""in_reply_to_status_id"":null,
                 ""favorited"":false,
                 ""in_reply_to_screen_name"":null,
                 ""truncated"":false,
                 ""source"":""\u003Ca href=\""http:\/\/www.tweetdeck.com\"" rel=\""nofollow\""\u003ETweetDeck\u003C\/a\u003E"",
                 ""retweeted"":false,
-                ""id"":"+tweet.id+@",
+                ""id"":" + tweet.id + @",
                 ""in_reply_to_status_id_str"":null,
                 ""in_reply_to_user_id"":null,
-                ""text"":""" +tweet.Text+@"""}";
+                ""text"":""" + tweet.Text + @"""}";
 
             return s;
         }
@@ -1496,7 +1566,7 @@ namespace FunctionalTests.Services.Comments
             string s = @"
             {
                 ""retweeted_status"": {
-                    ""text"": """+retweetedTweet.Text+@""",
+                    ""text"": """ + retweetedTweet.Text + @""",
                     ""retweeted"": false,
                     ""truncated"": false,
                     ""entities"": {
@@ -1504,12 +1574,12 @@ namespace FunctionalTests.Services.Comments
                         ""hashtags"": [],
                         ""user_mentions"": []
                     },
-                    ""id"": "+retweetedTweet.id+@",
+                    ""id"": " + retweetedTweet.id + @",
                     ""source"": ""web"",
                     ""favorited"": false,
                     ""created_at"": ""Thu Jan 26 13:39:45 +0000 2012"",
-                    ""retweet_count"": "+retweetedTweet.RetweetCountString+@",
-                    ""id_str"": """+retweetedTweet.id+@""",
+                    ""retweet_count"": " + retweetedTweet.RetweetCountString + @",
+                    ""id_str"": """ + retweetedTweet.id + @""",
                     ""user"": {
                         ""location"": ""White House Press Room "",
                         ""default_profile"": false,
@@ -1517,14 +1587,14 @@ namespace FunctionalTests.Services.Comments
                         ""profile_background_tile"": false,
                         ""lang"": ""en"",
                         ""profile_link_color"": ""0084B4"",
-                        ""id"": "+retweetedTweet.user.id+@",
+                        ""id"": " + retweetedTweet.user.id + @",
                         ""favourites_count"": 1156,
                         ""protected"": false,
                         ""profile_text_color"": ""333333"",
                         ""description"": ""Independent White House journalist. Paul\u0027s bio: 5 yrs Moscow, 5 yrs network TV, 5 yrs Wall St.; foreign correspondent, private investor. 53 countries \u0026 counting"",
                         ""contributors_enabled"": false,
                         ""verified"": true,
-                        ""name"": """+retweetedTweet.user.Name+@""",
+                        ""name"": """ + retweetedTweet.user.Name + @""",
                         ""profile_sidebar_border_color"": ""BDDCAD"",
                         ""profile_background_color"": ""9AE4E8"",
                         ""created_at"": ""Thu Feb 05 20:12:05 +0000 2009"",
@@ -1542,8 +1612,8 @@ namespace FunctionalTests.Services.Comments
                         ""profile_use_background_image"": true,
                         ""friends_count"": 625,
                         ""profile_sidebar_fill_color"": ""DDFFCC"",
-                        ""screen_name"": """+retweetedTweet.user.ScreenName+@""",
-                        ""id_str"": """+retweetedTweet.user.id+@""",
+                        ""screen_name"": """ + retweetedTweet.user.ScreenName + @""",
+                        ""id_str"": """ + retweetedTweet.user.id + @""",
                         ""show_all_inline_media"": false,
                         ""profile_image_url"": 
                         ""http://a3.twimg.com/profile_images/1467994261/WWR.Logo.Twitter_normal.png"",
@@ -1551,7 +1621,7 @@ namespace FunctionalTests.Services.Comments
                         ""is_translator"": false
                     }
                 },
-                ""text"": """+tweet.Text+@""",
+                ""text"": """ + tweet.Text + @""",
                 ""retweeted"": false,
                 ""truncated"": true,
                 ""entities"": {
@@ -1570,12 +1640,12 @@ namespace FunctionalTests.Services.Comments
                         }
                     ]
                 },
-                ""id"": "+tweet.id+@",
+                ""id"": " + tweet.id + @",
                 ""source"": ""web"",
                 ""favorited"": false,
                 ""created_at"": ""Thu Jan 26 14:00:35 +0000 2012"",
-                ""retweet_count"": "+tweet.RetweetCountString+@",
-                ""id_str"": """+tweet.id+@""",
+                ""retweet_count"": " + tweet.RetweetCountString + @",
+                ""id_str"": """ + tweet.id + @""",
                 ""user"": {
                      ""location"": ""Chillicothe, Ohio 45601"",
                      ""default_profile"": false,
@@ -1583,14 +1653,14 @@ namespace FunctionalTests.Services.Comments
                      ""profile_background_tile"": true,
                      ""lang"": ""en"",
                      ""profile_link_color"": ""cb9934"",
-                     ""id"": "+tweet.user.id+@",
+                     ""id"": " + tweet.user.id + @",
                      ""favourites_count"": 68,
                      ""protected"": false,
                      ""profile_text_color"": ""575e61"",
                      ""description"": ""Citizens, educate yourself/others to EMPOWER communities. Harming working middle class does NOT empower people! STAND UP FOR MIDDLE CLASS \u0026 WORKING POOR!"",
                      ""contributors_enabled"": false,
                      ""verified"": false,
-                     ""name"": """+tweet.user.Name+@""",
+                     ""name"": """ + tweet.user.Name + @""",
                      ""profile_sidebar_border_color"": ""454b52"",
                      ""profile_background_color"": ""181c1f"",
                      ""created_at"": ""Fri Feb 20 14:02:37 +0000 2009"",
@@ -1609,8 +1679,8 @@ namespace FunctionalTests.Services.Comments
                      ""profile_use_background_image"": true,
                      ""friends_count"": 1956,
                      ""profile_sidebar_fill_color"": ""0e1621"",
-                     ""screen_name"": """+tweet.user.ScreenName+@""",
-                     ""id_str"": """+tweet.user.id+@""",
+                     ""screen_name"": """ + tweet.user.ScreenName + @""",
+                     ""id_str"": """ + tweet.user.id + @""",
                      ""show_all_inline_media"": true,
                      ""profile_image_url"": 
                     ""http://a0.twimg.com/profile_images/1462979161/March_12__2011_Chillicothe_Rally_normal.jpg"",

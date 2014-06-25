@@ -15,6 +15,7 @@ using Microsoft.ServiceModel.Web;
 using System.Linq;
 using System.Runtime.Serialization;
 using BBC.Dna.SocialAPI;
+using BBC.Dna.Data;
 
 namespace BBC.Dna.Services
 {
@@ -49,11 +50,13 @@ namespace BBC.Dna.Services
         public Stream CreateTweet(string sitename, string commentForumId, Tweet tweet)
         {
             ISite site = GetSite(sitename);
+            var auditId = AddTwitterBuzzAudit(commentForumId, tweet.user.id, tweet.user.ScreenName, tweet.Text);
+
             if (site == null)
             {
                 throw ApiException.GetError(ErrorType.UnknownSite);
             }
-
+            
             try
             {
                 CommentForum commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
@@ -71,6 +74,7 @@ namespace BBC.Dna.Services
             }
             catch (ApiException ex)
             {
+                TweetToCommentExceptionHandler(ex, auditId);
                 throw new DnaWebProtocolException(ex);
             }
 
@@ -230,9 +234,9 @@ namespace BBC.Dna.Services
         private CommentInfo CreateCommentFromTweet(ISite site, CommentForum commentForumData, Tweet tweet)
         {
             _commentObj.CallingUser = GetCallingTwitterUser(site, tweet);
-
+            
             CommentInfo commentInfo = _commentObj.CreateComment(commentForumData, tweet.CreateCommentInfo());
-
+            
             if (commentInfo.IsPreModPosting)
                 _commentObj.CreateTweetInfoForPreModPostings(commentInfo.PreModPostingsModId, tweet.id, 0, false);
             else
@@ -256,6 +260,69 @@ namespace BBC.Dna.Services
             callingTwitterUser.SynchroniseSiteSuffix(tweet.user.ProfileImageUrl);
 
             return callingTwitterUser;
+        }
+
+        private int AddTwitterBuzzAudit(string profileId, string twitterUserId, string twitterScreenName, string tweetText)
+        {
+            using (IDnaDataReader reader = _commentObj.CreateReader("inserttwitterbuzzaudit"))
+            {
+                reader.AddParameter("profileId", profileId);
+                reader.AddParameter("twitterUserId", twitterUserId);
+                reader.AddParameter("twitterScreenName", twitterScreenName);
+                reader.AddParameter("tweetText", tweetText);
+                reader.AddIntReturnValue();
+                reader.Execute();
+
+                int returnValue;
+                reader.TryGetIntReturnValue(out returnValue);
+                return returnValue;
+            }
+        }
+
+        private void TweetToCommentExceptionHandler(ApiException exception, int auditId)
+        {
+            var reason = string.Empty;
+
+            switch (exception.type)
+            {
+                case ErrorType.EmptyText:
+                    reason = "Empty Tweet";
+                    break;
+                case ErrorType.ForumClosed:
+                    reason = "Forum Closed";
+                    break;
+                case ErrorType.ForumUnknown:
+                    reason = "Forum Unknown";
+                    break;
+                case ErrorType.ProfanityFoundInText:
+                    reason = "Profanity Found";
+                    break;
+                case ErrorType.UnknownSite :
+                    reason = "Unknown Site";
+                    break;
+                case ErrorType.UserIsBanned:
+                    reason = "User Is Banned";
+                    break;
+                case ErrorType.SiteIsClosed:
+                    reason = "Site Closed";
+                    break;
+                default:
+                    break;
+            }
+
+            UpdateTwitterAudit(auditId, reason);
+        }
+
+        private void UpdateTwitterAudit(int auditItemId, string reason)
+        {
+            if (auditItemId == 0 || string.IsNullOrEmpty(reason)) { return; }
+
+            using (IDnaDataReader reader = _commentObj.CreateReader("updatetwitterbuzzaudit"))
+            {
+                reader.AddParameter("id", auditItemId);
+                reader.AddParameter("reason", reason);
+                reader.Execute();
+            }
         }
      }
 }
