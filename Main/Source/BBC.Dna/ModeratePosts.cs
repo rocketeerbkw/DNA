@@ -156,6 +156,7 @@ namespace BBC.Dna.Component
                 if (dataReader.Read())
                 {
                     AddAttribute(postMod, "COUNT", dataReader.GetInt32NullAsZero("count"));
+
                     do
                     {
                         XmlElement post = AddElementTag(postMod, "POST");
@@ -185,8 +186,8 @@ namespace BBC.Dna.Component
                         AddAttribute(post, "FORUMID", dataReader.GetInt32NullAsZero("forumid"));
                         AddAttribute(post, "ISPREMODPOSTING", dataReader.GetTinyIntAsInt("ispremodposting"));
                         AddAttribute(post, "ISPRIORITYPOST", dataReader.GetTinyIntAsInt("priority"));
-                        //AddAttribute(post, "MODCLASSID", dataReader.GetInt32NullAsZero("modclassid"));
                         AddIntElement(post, "MODERATION-STATUS", dataReader.GetInt32NullAsZero("threadmoderationstatus"));
+                        AddIntElement(post, "MODCLASSID", dataReader.GetInt32NullAsZero("ModClassID"));
 
                         int siteId = dataReader.GetInt32NullAsZero("siteid");
                         AddIntElement(post, "SITEID", siteId);
