@@ -26504,15 +26504,10 @@ Purpose:	Displays the Viewers name or 'Unknown Visitor'
             <td>Total Requests |</td>
             <td>Logged out requests |</td>
             <td>Logged in requests |</td>
-            <td>Cache hits |</td>
-            <td>Cache misses |</td>
-            <td>HTML cache hit |</td>
-            <td>HTML cache miss |</td>
-            <td>RSS cache hit |</td>
-            <td>RSS cache miss |</td>
-            <td>SSI cache hit |</td>
-            <td>SSI cache miss</td>
-          </tr>
+			  <td>Forbidden requests</td>
+			  <td>Cache Hits</td>
+			  <td>Cache Misses</td>
+		  </tr>
           <xsl:for-each select="/H2G2/STATUS-REPORT/STATISTICS/STATISTICSDATA">
             <tr style="text-align:center">
               <td>
@@ -26540,29 +26535,21 @@ Purpose:	Displays the Viewers name or 'Unknown Visitor'
                 <xsl:value-of select="IDENTITYREQUESTS"/>
               </td>
               <td>
-                <xsl:value-of select="CACHEHITS"/>
+              	<xsl:choose>
+              		<xsl:when test="/FORBIDDENREQUESTS">
+              			<xsl:value-of select="FORBIDDENREQUESTS"/>
+              		</xsl:when>
+              		<xsl:otherwise>
+              			0
+              		</xsl:otherwise>
+              	</xsl:choose>
               </td>
-              <td>
-                <xsl:value-of select="CACHEMISSES"/>
-              </td>
-              <td>
-                <xsl:value-of select="HTMLCACHEHITS"/>
-              </td>
-              <td>
-                <xsl:value-of select="HTMLCACHEMISSES"/>
-              </td>
-              <td>
-                <xsl:value-of select="RSSCACHEHITS"/>
-              </td>
-              <td>
-                <xsl:value-of select="RSSCACHEMISSES"/>
-              </td>
-              <td>
-                <xsl:value-of select="SSICACHEHITS"/>
-              </td>
-              <td>
-                <xsl:value-of select="SSICACHEMISSES"/>
-              </td>
+				<td>
+					<xsl:value-of select="CACHEHITS"/>
+				</td>
+				<td>
+					<xsl:value-of select="CACHEMISSES"/>
+				</td>
             </tr>
           </xsl:for-each>
         </table>

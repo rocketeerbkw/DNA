@@ -36,7 +36,11 @@ namespace BBC.Dna.Services
 
             if (Request.QueryString["skin"] == "purexml")
             {
-                statusUI.OutputXML(interval, this, Global.dnaDiagnostics);
+                XmlDocument xDoc = statusUI.OutputXML(interval, this, Global.dnaDiagnostics);
+                Response.ContentType = "text/xml";
+                Response.Clear();
+                Response.Write(xDoc.InnerXml);
+                Response.End();
             }
             else
             {
