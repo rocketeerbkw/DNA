@@ -15,6 +15,7 @@ using BBC.Dna.Common;
 using System.Reflection;
 using System.IO;
 using System.Text;
+using System.Xml;
 
 public partial class status : DnaWebPage
 {
@@ -47,7 +48,8 @@ public partial class status : DnaWebPage
 
         if (Request.QueryString["skin"] == "purexml")
         {
-            statusUI.OutputXML(interval, this, _basePage.Diagnostics);
+            XmlDocument xDoc = statusUI.OutputXML(interval, this, _basePage.Diagnostics);
+            _basePage.WholePageBaseXmlNode.FirstChild.AppendChild(_basePage.WholePageBaseXmlNode.OwnerDocument.ImportNode(xDoc.FirstChild, true));
         }
         else
         {
