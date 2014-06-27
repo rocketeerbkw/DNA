@@ -12,7 +12,7 @@ namespace BBC.Dna.Common
 {
     public class StatusUI
     {
-        public void OutputXML(int interval, Page page, IDnaDiagnostics diagnostics)
+        public XmlDocument OutputXML(int interval, Page page, IDnaDiagnostics diagnostics)
         {
             XmlDocument xDoc = new XmlDocument();
             XmlNode xmlEl = xDoc.AppendChild(xDoc.CreateElement("H2G2"));
@@ -36,10 +36,7 @@ namespace BBC.Dna.Common
                 childNode.InnerText = "Error getting memcached stats:" + e.Message;
             }
 
-            page.Response.ContentType = "text/xml";
-            page.Response.Clear();
-            page.Response.Write(xDoc.InnerXml);
-            page.Response.End();
+            return xDoc;
         }
 
         public void OutputHTML(int interval, ref Label lblHostName, string hostName, ref Table tblStats)
