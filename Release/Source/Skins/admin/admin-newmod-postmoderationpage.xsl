@@ -824,14 +824,19 @@
     </div>
   </xsl:template>
   <xsl:template match="POST" mode="distress_message">
+    <xsl:variable name="postModClassId">
+      <xsl:value-of select="MODCLASSID"/>
+    </xsl:variable>
     <div class="distress">
       <xsl:text>Post distress message </xsl:text>
       <select name="distressmessageID">
         <option value="0">none selected</option>
         <xsl:for-each select="/H2G2/DISTRESSMESSAGES/DISTRESSMESSAGE">
-          <option value="{@ID}">
-            <xsl:value-of select="SUBJECT"/>
-          </option>
+          <xsl:if test="MODCLASSID = $postModClassId">
+            <option value="{@ID}">
+              <xsl:value-of select="SUBJECT"/>
+            </option>
+          </xsl:if>
         </xsl:for-each>
       </select>
     </div>
