@@ -7,6 +7,7 @@ using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Text;
 using System.Reflection;
 using System.IO;
+using System.Drawing;
 
 namespace BBC.Dna.Common
 {
@@ -46,6 +47,7 @@ namespace BBC.Dna.Common
             XmlDocument xStats = Statistics.CreateStatisticsDocument(interval);
             XmlNodeList nodeList = xStats.SelectNodes("/STATISTICS/STATISTICSDATA");
             bool headerAdded = false;
+            DateTime currentTime = DateTime.Now;
 
             //for (int i = 0; i < nodeList.Count; i++)
             foreach (XmlNode node in nodeList)
@@ -63,6 +65,13 @@ namespace BBC.Dna.Common
                 cell.Style.Add("font-weight", "bold");
                 cell.Text = node.Attributes["INTERVALSTARTTIME"].InnerText;
                 row.Cells.Add(cell);
+                string[] hourMinutes = cell.Text.Split(':');
+                DateTime statTime = DateTime.Today + TimeSpan.FromHours(double.Parse(hourMinutes[0])) + TimeSpan.FromMinutes(double.Parse(hourMinutes[1]));
+                if (currentTime >= statTime && currentTime < statTime.AddMinutes(interval))
+                {
+                    row.Font.Underline = true;
+                    row.BackColor = Color.FromArgb(220, 255, 220);
+                }
 
                 foreach (XmlElement el in node.ChildNodes)
                 {
