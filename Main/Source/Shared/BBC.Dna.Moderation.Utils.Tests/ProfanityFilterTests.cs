@@ -448,6 +448,62 @@ namespace BBC.Dna.Moderation.Utils.Tests
         }
 
         [TestMethod]
+        public void CheckForProfanities_ProfanityWith_A_PreceedingLetter()
+        {
+            Console.WriteLine("Should not ReferContent -  bug fixing");
+            var modclass3 = 3;
+            var forumId = 1;
+            var matching = string.Empty;
+            List<Term> terms = null;
+            var textToSearch = "Sinvade should pass, as the profanity word is preceeded by S";
+
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass3, textToSearch, out matching, out terms, forumId), "Should not match - invade");
+            Assert.AreEqual(string.Empty, matching);
+        }
+
+        [TestMethod]
+        public void CheckForProfanities_ProfanityWith_A_PreceedingNonChar()
+        {
+            Console.WriteLine("ReferContent -  bug fixing");
+            var modclass3 = 3;
+            var forumId = 1;
+            var matching = string.Empty;
+            List<Term> terms = null;
+            var textToSearch = ":invade should pass, as the profanity word is preceeded by non letter...";
+
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass3, textToSearch, out matching, out terms, forumId), "Should not match - invade");
+            Assert.AreEqual("invade", matching);
+        }
+
+        [TestMethod]
+        public void CheckForProfanities_ProfanityWith_Prefix()
+        {
+            Console.WriteLine("Should not ReferContent -  bug fixing");
+            var modclass3 = 3;
+            var forumId = 1;
+            var matching = string.Empty;
+            List<Term> terms = null;
+            var textToSearch = "Prinvade should pass, as the profanity word is preceeded by pr";
+
+            Assert.IsTrue(ProfanityFilter.FilterState.Pass == ProfanityFilter.CheckForProfanities(modclass3, textToSearch, out matching, out terms, forumId), "Should not match - invade");
+            Assert.AreEqual(string.Empty, matching);
+        }
+
+        [TestMethod]
+        public void CheckForProfanities_ProfanityFound_Success()
+        {
+            Console.WriteLine("ReferContent -  bug fixing");
+            var modclass3 = 3;
+            var forumId = 1;
+            var matching = string.Empty;
+            List<Term> terms = null;
+            var textToSearch = "Invade should not pass, is in profanity list.";
+
+            Assert.IsTrue(ProfanityFilter.FilterState.FailRefer == ProfanityFilter.CheckForProfanities(modclass3, textToSearch, out matching, out terms, forumId), "matching referred word - invade");
+            Assert.AreEqual("invade", matching);
+        }
+
+        [TestMethod]
         public void GetTermsStats_GetsValidStats_ReturnsValidObject()
         {
             var cacheObj = GetProfanityCacheObject();
