@@ -155,7 +155,7 @@
 
   <xsl:template match="//H2G2[@TYPE = 'ERROR']" mode="library_identity_ptrt">
     	<xsl:choose>
-    		<xsl:when test="/H2G2/ERROR/@TYPE = 'Authorization' and /H2G2/SITE/NAME = 'moderation'">
+    		<xsl:when test="(/H2G2/ERROR/@TYPE = 'Authorization' or /H2G2/ERROR/@TYPE = 'NOT-EDITOR') and /H2G2/SITE/NAME = 'moderation'">
     			<!-- If user is on hostdashboard page then use ssl. -->
     			<xsl:call-template name="library_string_urlencode">
     				<xsl:with-param name="string" select="concat($sslhost, $root, '/hostdashboard')"/>

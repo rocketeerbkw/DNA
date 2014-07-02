@@ -660,7 +660,7 @@ namespace BBC.Dna.Moderation.Utils
 
                             // Check to see if we've got a leading char when checking for prefix OR/AND
                             // trailing chars when checking for suffix.
-                            if ((!bAllowPrefixChars && (pCharBefore > 0) && Char.IsLetter(textToCheck[pCharBefore])) ||
+                            if ((!bAllowPrefixChars && (pCharBefore >= 0) && Char.IsLetter(textToCheck[pCharBefore])) ||
                                 (!bAllowSuffixChars && (pCharAfter < textToCheck.Length) && (Char.IsLetter(textToCheck[pCharAfter]))))
                             {
                                 // We found chars! Find the next match
