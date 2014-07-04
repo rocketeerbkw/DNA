@@ -17,14 +17,16 @@ namespace BBC.Dna.Data
 
         public void QueueEmail(IDnaDataReaderCreator readerCreator, string toEmailAddress, string fromEmailAddress, string subject, string body, string notes, EmailPriority priority)
         {
-            IDnaDataReader reader = readerCreator.CreateDnaDataReader("QueueEmail");
-            reader.AddParameter("toEmailAddress", toEmailAddress);
-            reader.AddParameter("fromEmailAddress", fromEmailAddress);
-            reader.AddParameter("subject", subject);
-            reader.AddParameter("body", body);
-            reader.AddParameter("priority", priority);
-            reader.AddParameter("notes", notes);
-            reader.Execute();
+            using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("QueueEmail"))
+            {
+                reader.AddParameter("toEmailAddress", toEmailAddress);
+                reader.AddParameter("fromEmailAddress", fromEmailAddress);
+                reader.AddParameter("subject", subject);
+                reader.AddParameter("body", body);
+                reader.AddParameter("priority", priority);
+                reader.AddParameter("notes", notes);
+                reader.Execute();
+            }
         }
     }
 }

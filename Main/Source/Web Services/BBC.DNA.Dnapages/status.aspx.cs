@@ -16,6 +16,7 @@ using System.Reflection;
 using System.IO;
 using System.Text;
 using System.Xml;
+using BBC.Dna.Data;
 
 public partial class status : DnaWebPage
 {
@@ -45,6 +46,7 @@ public partial class status : DnaWebPage
 
         StatusUI statusUI = new StatusUI();
         statusUI.AddFileinfo(ref lbFileInfo);
+        statusUI.AddDatabaseVersion(_basePage.CreateDnaDataReaderCreator(),ref lbDatabaseVersion);
 
         if (Request.QueryString["skin"] == "purexml")
         {

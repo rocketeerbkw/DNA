@@ -16,6 +16,9 @@
     <div>
         <asp:Label ID="lbFileInfo" runat="server" Font-Bold="true"></asp:Label>
     </div>
+    <div>
+        <asp:Label ID="lbDatabaseVersion" runat="server" Font-Bold="true"></asp:Label>
+    </div>
     <br />
     <div>
         <asp:Table ID="tblStats" runat="server">
