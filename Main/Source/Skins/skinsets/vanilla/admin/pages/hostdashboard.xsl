@@ -23,24 +23,29 @@
     <div class="dna-mb-intro blq-clearfix">
     	<xsl:apply-templates select="VIEWING-USER/USER" mode="objects_user_welcome" />
 	    <div class="dna-fr">
-		    <form method="get" action="hostdashboard"> 
-		    	<fieldset>
-		    		<input type="hidden" name="s_type" value="{/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE}" />
-		            
-		            <xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''" >
-				    	<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
-		            </xsl:if>
-	           		
-	           		<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
-				    	<select name="s_siteid" id="s_siteid">
+			<form method="get" action="hostdashboard">
+				<fieldset>
+					<input type="hidden" name="s_type"
+						value="{/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_type']/VALUE}" />
+			
+					<xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''">
+						<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
+					</xsl:if>
+			
+					<xsl:variable name="modsiteid" select="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE" />
+					
+					<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
+						<select name="s_siteid" id="s_siteid">
 				    		<option selected="selected" value="all">All <xsl:value-of select="$dashboardtypeplural" /></option>
-				    		<xsl:apply-templates select="MODERATOR-HOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE]" mode="objects_moderator_sites" />
+				    		<xsl:apply-templates select="MODERATOR-HOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE]" mode="objects_moderator_sites">
+				    			<xsl:sort select="DESCRIPTION" />
+				    		</xsl:apply-templates>
 				    	</select>
-				    	<div class="dna-buttons">
-				    		<input type="submit" value="go" />
-				    	</div>
-			    	</xsl:if>
-		    	</fieldset>
+						<div class="dna-buttons">
+							<input type="submit" value="go" />
+						</div>
+					</xsl:if>
+				</fieldset>
 		    </form>
 	    </div>	
     </div>    
