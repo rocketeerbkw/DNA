@@ -184,6 +184,16 @@ bool CConfig::Init(CXMLTree& configTree,  const char* pConfigFileName, CTDVStrin
 		{
 			bRet = bRet && GetStringEx(pDbNode, "POOLING", m_sDbPooling, pConfigFileName, sConfigFileError );
 		}
+		CXMLTree* pDbFailoverPartnerNode = NULL;
+		if (GetElement(pRoot, "FAILOVERPARTNER", pDbFailoverPartnerNode))
+		{
+			bRet = bRet && GetStringEx(pDbNode, "FAILOVERPARTNER", m_sDbFailoverPartner, pConfigFileName, sConfigFileError );
+		}
+		CXMLTree* pDbDriverNode = NULL;
+		if (GetElement(pRoot, "DRIVER", pDbDriverNode))
+		{
+			bRet = bRet && GetStringEx(pDbNode, "DRIVER", m_sDbDriver, pConfigFileName, sConfigFileError );
+		}
 	}
 
 	{
@@ -205,6 +215,16 @@ bool CConfig::Init(CXMLTree& configTree,  const char* pConfigFileName, CTDVStrin
 			{
 				bRet = bRet && GetStringEx(pDbNode, "POOLING", m_sWriteDbPooling, pConfigFileName, sConfigFileError );
 			}
+			CXMLTree* pDbFailoverPartnerNode = NULL;
+			if (GetElement(pRoot, "FAILOVERPARTNER", pDbFailoverPartnerNode))
+			{
+				bRet = bRet && GetStringEx(pDbNode, "FAILOVERPARTNER", m_sWriteDbFailoverPartner, pConfigFileName, sConfigFileError );
+			}
+			CXMLTree* pDbDriverNode = NULL;
+			if (GetElement(pRoot, "DRIVER", pDbDriverNode))
+			{
+				bRet = bRet && GetStringEx(pDbNode, "DRIVER", m_sWriteDbDriver, pConfigFileName, sConfigFileError );
+			}
 		}
 		else
 		{
@@ -214,6 +234,8 @@ bool CConfig::Init(CXMLTree& configTree,  const char* pConfigFileName, CTDVStrin
 			m_sWriteDbPassword = m_sDbPassword;
 			m_sWriteDbApp = m_sDbApp;
 			m_sWriteDbPooling = m_sDbPooling;
+			m_sWriteDbFailoverPartner = m_sDbFailoverPartner;
+			m_sWriteDbDriver = m_sDbDriver;
 		}
 	}
 

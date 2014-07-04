@@ -238,6 +238,8 @@ protected:
 	virtual bool AllocDataBuffers(long ColCount);
 	virtual void FreeDataBuffers();
 
+	void DebugTraceSqlMessages(SQLRETURN rc);
+
 #ifdef __MYSQL__
 		MYSQL * m_pconnection;
 		MYSQL m_mysql;

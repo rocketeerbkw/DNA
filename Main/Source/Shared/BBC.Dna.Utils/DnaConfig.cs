@@ -127,38 +127,59 @@ namespace BBC.Dna.Utils
 
         /// <summary>
         /// Creates the database connection string based in the given XML doc
+        /// Check out this page for available connection string properties
+        /// http://msdn.microsoft.com/en-us/library/system.data.sqlclient.sqlconnection.connectionstring(v=vs.110).aspx
         /// </summary>
         /// <param name="xmlDoc">XML doc representing the app's configuration</param>
         private void CreateConnectionString(XmlDocument xmlDoc)
         {
-            XmlNode node = xmlDoc.SelectSingleNode("RIPLEY/DBSERVER/SQLSERVER/SERVERNAME");
-            string servername = node.InnerText;
+            string servername       = GetConnectionStringProperty(xmlDoc, "SERVERNAME");
+            string dbname           = GetConnectionStringProperty(xmlDoc, "DBNAME");
+            string uid              = GetConnectionStringProperty(xmlDoc, "UID");
+            string password         = GetConnectionStringProperty(xmlDoc, "PASSWORD");
+            string appName          = GetConnectionStringProperty(xmlDoc, "DOTNETAPPNAME","BBC.Dna");
+            string pooling          = GetConnectionStringProperty(xmlDoc, "POOLING", "true");
+            string failoverPartner  = GetConnectionStringProperty(xmlDoc, "FAILOVERPARTNER");
+            string networkLibrary   = GetConnectionStringProperty(xmlDoc, "NETWORKLIBRARY");
 
-            node = xmlDoc.SelectSingleNode("RIPLEY/DBSERVER/SQLSERVER/DBNAME");
-            string dbname = node.InnerText;
+            _connectionString = "application name=" + appName + "; user id=" + uid + ";password=" + password + ";data source=" + servername + ";initial catalog=" + dbname + ";pooling=" + pooling;
 
-            node = xmlDoc.SelectSingleNode("RIPLEY/DBSERVER/SQLSERVER/UID");
-            string uid = node.InnerText;
-
-            node = xmlDoc.SelectSingleNode("RIPLEY/DBSERVER/SQLSERVER/PASSWORD");
-            string password = node.InnerText;
-
-            string appName = "BBC.Dna";
-            node = xmlDoc.SelectSingleNode("RIPLEY/DBSERVER/SQLSERVER/DOTNETAPPNAME");
-            if (node != null)
+            if (failoverPartner != null)
             {
-                appName = node.InnerText;
+                _connectionString += ";Failover Partner=" + failoverPartner;
             }
 
-            string pooling = "true";
-            node = xmlDoc.SelectSingleNode("RIPLEY/DBSERVER/SQLSERVER/POOLING");
-            if (node != null)
+            if (networkLibrary != null)
             {
-                pooling = node.InnerText;
+                _connectionString += ";Network Library=" + networkLibrary;
             }
-
-            _connectionString = "application name="+appName+"; user id=" + uid + ";password=" + password + ";data source=" + servername + ";initial catalog=" + dbname + ";pooling="+pooling;
         }
+
+        private static string GetConnectionStringProperty(XmlDocument xmlDoc, string propertyName)
+        {
+            string value = null;
+
+            XmlNode node = xmlDoc.SelectSingleNode("RIPLEY/DBSERVER/SQLSERVER/"+propertyName);
+            if (node != null)
+            {
+                value = node.InnerText;
+            }
+
+            return value;
+        }
+
+        private static string GetConnectionStringProperty(XmlDocument xmlDoc, string propertyName, string defaultValue)
+        {
+            var value = GetConnectionStringProperty(xmlDoc, propertyName);
+
+            if (value == null)
+            {
+                value = defaultValue;
+            }
+
+            return value;
+        }
+
 
         /// <summary>
         /// Creates the input log file path from the given XML doc
