@@ -1695,12 +1695,16 @@ bool CGI::InitialiseWithConfig()
 
 	CTDVString sConn;
 	BuildConnectionString(theConfig.GetDbServer(), theConfig.GetDbName(), 
-		theConfig.GetDbUser(), theConfig.GetDbPassword(), theConfig.GetDbApp(), theConfig.GetDbPooling(), sConn);
+		theConfig.GetDbUser(), theConfig.GetDbPassword(), theConfig.GetDbApp(), theConfig.GetDbPooling(),
+		theConfig.GetDbFailoverPartner(), theConfig.GetDbDriver(),
+		sConn);
 
 	m_Connection.Initialise(sConn);
 
 	BuildConnectionString(theConfig.GetWriteDbServer(), theConfig.GetWriteDbName(), 
-		theConfig.GetWriteDbUser(), theConfig.GetWriteDbPassword(), theConfig.GetWriteDbApp(), theConfig.GetWriteDbPooling(), sConn);
+		theConfig.GetWriteDbUser(), theConfig.GetWriteDbPassword(), theConfig.GetWriteDbApp(), theConfig.GetWriteDbPooling(),
+		theConfig.GetWriteDbFailoverPartner(), theConfig.GetWriteDbDriver(),
+		sConn);
 
 	m_WriteConnection.Initialise(sConn);
 
@@ -1761,9 +1765,16 @@ void CGI::HandleExistingLogFile()
 
 void CGI::BuildConnectionString(const char* pServer, const char* pDbName,
 	const char* pUser, const char* pPassword, 
-	const char* pApp, const char* pPooling, CTDVString& sConn)
+	const char* pApp, const char* pPooling,
+	const char* pFailoverPartner, const char* pDriver,
+	CTDVString& sConn)
 {
-	sConn = "DRIVER={SQL Server};";
+	CTDVString sDriver = "SQL Server";
+	if (strlen(pDriver) != 0)
+		sDriver = pDriver;
+
+	sConn = "DRIVER=";
+	sConn << "{" << sDriver << "};";
 	sConn << "SERVER=" << pServer << ";";
 	sConn << "UID=" << pUser << ";";
 	sConn << "PWD=" << pPassword << ";";
@@ -1778,6 +1789,10 @@ void CGI::BuildConnectionString(const char* pServer, const char* pDbName,
 	if (strlen(pPooling) != 0)
 	{
 		sConn << "POOLING=" << pPooling << ";";
+	}
+	if (strlen(pFailoverPartner) != 0)
+	{
+		sConn << "Failover_Partner=" << pFailoverPartner << ";";
 	}
 	sConn << "WSID=" << m_ServerName << ";";
 	sConn << "DATABASE=" << pDbName;	// no terminating ;

@@ -470,7 +470,9 @@ public:
 		DBO* GetWriteDatabaseObject();
 		void BuildConnectionString(const char* pServer, const char* pDbName,
 			const char* pUser, const char* pPassword, 
-			const char* pApp, const char* pPooling, CTDVString& sConn);
+			const char* pApp, const char* pPooling,
+			const char* pFailoverServer, const char* pDriver,
+			CTDVString& sConn);
 public:
 
 	// Cache of user groups. Can be NULL

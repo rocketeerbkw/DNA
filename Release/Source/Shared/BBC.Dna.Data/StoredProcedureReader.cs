@@ -9,6 +9,8 @@ using System.Diagnostics;
 using System.Web.Caching;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Logging;
+using System.Text;
+using System.Data.Common;
 
 namespace BBC.Dna.Data
 {
@@ -107,6 +109,26 @@ namespace BBC.Dna.Data
             _name = name;
             _connectionString = connectionString;
             _dnaDiagnostics = dnaDiagnostics;
+        }
+
+        // This is added to the end of the connection string in case we need to "bust" the connection cache
+        // inside the .NET Data Provider.  This is to cope with a database failover that is not immediately detected
+        // by the .NET Data Provider
+        private static string _connStrCacheBuster = "";
+
+        private static void ModifyConnStringCacheBuster()
+        {
+            lock (_connStrCacheBuster)
+            {
+                // Benignly modify the cache buster string
+                _connStrCacheBuster += " ";
+            }
+        }
+
+        private string GetConnectionString()
+        {
+            // Always add the cache buster string in case it's been modified as a result of a database failover
+            return _connectionString + _connStrCacheBuster;
         }
 
         /// <summary>
@@ -373,20 +395,75 @@ namespace BBC.Dna.Data
                 _dnaDiagnostics.WriteTimedEventToLog("SP", message);
             }
         }
+        /// <summary>
+        /// Wrapper for executing a stored procedure
+        /// Will perform a retry if the initial execution fails, to cope with the possibility that
+        /// it failed due to a database mirror failover
+        /// </summary>
+        /// <returns></returns>
+        public IDnaDataReader Execute()
+        {
+            int retries = 0;
+
+            while (true)
+            {
+                try
+                {
+                    ExecuteInternal();
+                    return this;
+                }
+                catch (SqlException ex)
+                {
+                    retries++;
+
+                    if (retries > 1)
+                        throw ex;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Opens the database connection
+        /// If it fails the first time, it will retry once in case it failed due to a database mirror failover.
+        /// It modifies connection string which force the .NET Data Provider to try both database mirror partners again
+        /// </summary>
+        private void OpenConnection()
+        {
+            int retries = 0;
+
+            while (true)
+            {
+                try
+                {
+                    _connection = new SqlConnection(GetConnectionString());
+                    _connection.Open();
+                    return;
+                }
+                catch (SqlException ex)
+                {
+                    retries++;
+
+                    if (retries > 1)
+                        throw ex;
+
+                    ModifyConnStringCacheBuster();
+                }
+            }
+        }
 
         /// <summary>
         /// Execute the stored procedure.
         /// </summary>
         /// <returns>The instance of the StoredProcedureReader.</returns>
-        public IDnaDataReader Execute()
+        private IDnaDataReader ExecuteInternal()
         {
             using (new Tracer(this.GetType().Namespace))
             {
 //                _dnaDiagnostics.WriteToLog(this.GetType().Namespace, "Executing " + _name);
                 Logger.Write("Executing " + _name, this.GetType().Namespace);
                 WriteTimedEventToLog("Executing " + _name);
-                _connection = new SqlConnection(_connectionString);
-                _connection.Open();
+
+                OpenConnection();
                 _cmd = _connection.CreateCommand();
                 _cmd.CommandTimeout = 0;
                 _cmd.CommandType = CommandType.StoredProcedure;
@@ -428,7 +505,7 @@ namespace BBC.Dna.Data
                         {
                             if (!_dependencyStarted)
                             {
-                                SqlDependency.Start(_connectionString);
+                                SqlDependency.Start(GetConnectionString());
                             }
                             _dependencyStarted = true;
                         }
@@ -456,8 +533,7 @@ namespace BBC.Dna.Data
             {
                 tracer.Write("Executing " + _name, this.GetType().Namespace);
                 WriteTimedEventToLog("Executing " + _name);
-                _connection = new SqlConnection(_connectionString);
-                _connection.Open();
+                OpenConnection();
                 _cmd = _connection.CreateCommand();
                 _cmd.CommandTimeout = 0;
                 _cmd.CommandType = CommandType.StoredProcedure;
@@ -498,7 +574,7 @@ namespace BBC.Dna.Data
                         {
                             if (!_dependencyStarted)
                             {
-                                SqlDependency.Start(_connectionString);
+                                SqlDependency.Start(GetConnectionString());
                             }
                             _dependencyStarted = true;
                         }
@@ -550,8 +626,7 @@ namespace BBC.Dna.Data
         /// <returns></returns>
         public IDnaDataReader ExecuteDEBUGONLY(string sql)
         {
-            _connection = new SqlConnection(_connectionString);
-            _connection.Open();
+            OpenConnection();
             SqlCommand cmd = _connection.CreateCommand();
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = sql;

@@ -68,6 +68,8 @@ class CConfig
 
 		CTDVString m_sDbApp;
 		CTDVString m_sDbPooling;
+		CTDVString m_sDbFailoverPartner;
+		CTDVString m_sDbDriver;
 
 		CTDVString m_sWriteDbServer;
 		CTDVString m_sWriteDbName;
@@ -76,6 +78,8 @@ class CConfig
 
 		CTDVString m_sWriteDbApp;
 		CTDVString m_sWriteDbPooling;
+		CTDVString m_sWriteDbFailoverPartner;
+		CTDVString m_sWriteDbDriver;
 
 		CTDVString m_sMediaAssetFtpServer;
 		CTDVString m_sMediaAssetFtpUser;
@@ -101,6 +105,8 @@ class CConfig
 
 		const char* GetDbApp() const { return m_sDbApp; }
 		const char* GetDbPooling() const { return m_sDbPooling; }
+		const char* GetDbFailoverPartner() const { return m_sDbFailoverPartner; }
+		const char* GetDbDriver() const { return m_sDbDriver; }
 
 		const char* GetWriteDbServer() const { return m_sWriteDbServer; }
 		const char* GetWriteDbName() const { return m_sWriteDbName; }
@@ -109,6 +115,8 @@ class CConfig
 
 		const char* GetWriteDbApp() const { return m_sWriteDbApp; }
 		const char* GetWriteDbPooling() const { return m_sWriteDbPooling; }
+		const char* GetWriteDbFailoverPartner() const { return m_sWriteDbFailoverPartner; }
+		const char* GetWriteDbDriver() const { return m_sWriteDbDriver; }
 
 		//Information for contacting the Postcoder service.
 		const char* GetPostcoderServer() const { return m_PostcoderServer; }

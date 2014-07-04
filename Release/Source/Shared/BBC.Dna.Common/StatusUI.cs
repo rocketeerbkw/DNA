@@ -3,6 +3,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
 using BBC.Dna.Utils;
+using BBC.Dna.Data;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
 using System.Text;
 using System.Reflection;
@@ -133,6 +134,12 @@ namespace BBC.Dna.Common
                 }
             }
             tblStats.Rows.Add(row);
+        }
+
+        public void AddDatabaseVersion(IDnaDataReaderCreator readerCreator, ref Label lbDatabaseVersion)
+        {
+            var databaseVersion = DatabaseVersion.GetDatabaseVersion(readerCreator);
+            lbDatabaseVersion.Text = "Database version : "+databaseVersion;
         }
     }
 }

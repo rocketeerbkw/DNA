@@ -17,6 +17,7 @@ namespace BBC.Dna.Services
         protected Label lblHostName;
         protected Label lbFileInfo;
         protected Table tblStats;
+        protected Label lbDatabaseVersion;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -33,6 +34,7 @@ namespace BBC.Dna.Services
 
             StatusUI statusUI = new StatusUI();
             statusUI.AddFileinfo(ref lbFileInfo);
+            statusUI.AddDatabaseVersion(Global.readerCreator, ref lbDatabaseVersion);
 
             if (Request.QueryString["skin"] == "purexml")
             {

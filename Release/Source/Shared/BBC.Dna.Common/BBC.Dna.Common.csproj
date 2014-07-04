@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CachableBase.cs" />
+    <Compile Include="DatabaseVersion.cs" />
     <Compile Include="Date.cs" />
     <Compile Include="ISignalBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
