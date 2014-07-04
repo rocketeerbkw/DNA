@@ -146,18 +146,24 @@
 	</xsl:variable>	
 	
 	<xsl:variable name="id_ptrt">
+		<xsl:variable name="hosttype">
+			<xsl:choose>
+				<xsl:when test="/H2G2/SITE/NAME = 'moderation'">https</xsl:when>
+				<xsl:otherwise>http</xsl:otherwise>
+			</xsl:choose>
+		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="$serverenvironment = 'local'">
-				<xsl:text>http%3A%2F%2Flocal.bbc.co.uk</xsl:text>
+				<xsl:value-of select="$hosttype"/><xsl:text>%3A%2F%2Flocal.bbc.co.uk</xsl:text>
 			</xsl:when>		
 			<xsl:when test="/H2G2/SERVERNAME = 'PC-S052330'">
-				<xsl:text>http%3A%2F%2Fops-dev14.national.core.bbc.co.uk%3A6666</xsl:text>
+				<xsl:value-of select="$hosttype"/><xsl:text>%3A%2F%2Fops-dev14.national.core.bbc.co.uk%3A6666</xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
-				<xsl:text>http%3A%2F%2Fextdev.bbc.co.uk</xsl:text>
+				<xsl:value-of select="$hosttype"/><xsl:text>%3A%2F%2Fextdev.bbc.co.uk</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>http%3A%2F%2Fwww.bbc.co.uk</xsl:text>
+				<xsl:value-of select="$hosttype"/><xsl:text>%3A%2F%2Fwww.bbc.co.uk</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
