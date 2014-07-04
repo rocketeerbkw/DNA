@@ -60,20 +60,36 @@ namespace FunctionalTests.SocialAPI
         //
         #endregion
 
+
         [TestMethod]
         public void SearchTwitterUserByScreenName_ReturnCorrectResults_OrRateLimitedResponse()
         {
-            var strTwitterScreenName = "Srihari0309";
+            Test_SearchTwitterUserByScreenName_ReturnCorrectResults_OrRateLimitedResponse("Srihari0309");
+        }
+
+        [TestMethod]
+        public void SearchTwitterUserByScreenName_LowerCase_ReturnCorrectResults_OrRateLimitedResponse()
+        {
+            Test_SearchTwitterUserByScreenName_ReturnCorrectResults_OrRateLimitedResponse("srihari0309");
+        }
+
+        [TestMethod]
+        public void SearchTwitterUserByScreenName_MixCase_ReturnCorrectResults_OrRateLimitedResponse()
+        {
+            Test_SearchTwitterUserByScreenName_ReturnCorrectResults_OrRateLimitedResponse("SriHari0309");
+        }
+
+        private void Test_SearchTwitterUserByScreenName_ReturnCorrectResults_OrRateLimitedResponse(string twitterScreenName)
+        {
 
             TwitterClient client = new TwitterClient();
             TweetUsers tweetUser = new TweetUsers();
 
             try
             {
-                //tweetUser = client.GetUserDetails(strTwitterScreenName);
-                tweetUser = client.GetUserDetailsByScrapping(strTwitterScreenName);
+                tweetUser = client.GetUserDetailsByScrapping(twitterScreenName);
                 Assert.IsNotNull(tweetUser);
-                Assert.AreEqual(tweetUser.ScreenName, strTwitterScreenName);
+                Assert.AreEqual(tweetUser.ScreenName, twitterScreenName, true);
             }
             catch (Exception ex)
             {
@@ -88,7 +104,6 @@ namespace FunctionalTests.SocialAPI
                     Assert.AreEqual(twitterLimitException, ex.Message);
                 }
             }
-
         }
 
         [TestMethod]
