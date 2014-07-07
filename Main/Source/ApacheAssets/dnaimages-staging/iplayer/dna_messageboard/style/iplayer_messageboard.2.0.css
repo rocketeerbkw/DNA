@@ -1,0 +1,144 @@
+.blq-hide {position:absolute; left:-5000px}  
+
+.breadcrumbs {padding-left:254px; font-size:0.9em}
+.breadcrumbs li { color:#fff;float:left; padding:0 14px 0 0; background:url(/dnaimages/iplayer/dna_messageboard/img/breadcrumb.png) no-repeat 97% 65%; }
+.breadcrumbs li.current { background:none; }
+
+#blq-main {
+  background-color:#000000;
+  font-size: 1.1em;
+  line-height: 1.2em;
+}
+#blq-container{
+  background:transparent url(http://www.bbc.co.uk/iplayer/r10571/style/img/page_bg.gif) repeat-y scroll 50% 0;
+  width:100%;
+  }
+#blq-container-inner {
+  background-color:#FFFFFF;
+  padding-top:50px;
+  position:relative;
+}
+#blq-main p#membership {display:inline;position:relative;float:right; margin:-24px 7px 0 0; font-size:0.9em; font-weight:bold;}
+#blq-main p#membership strong {color:#eaeaea;}
+#blq-main #header { 
+  float: left;
+  height: 6em;
+  width: 100%;
+  margin-top: 29px;
+  }
+  
+#membership strong,
+#membership a 
+{margin:0 7px 0 7px;}
+
+.sidepanel a {color: #222222;}
+.sidePanel a.current-section, .sidePanel a.current-section:hover {color:#fff;background:#FF359F; border-bottom:1px solid #FF359F;}
+#nav { padding: 0; }
+
+h3 span { font-size:0.6em; padding:0 0 0 7px}
+h3 .dna-invisible {display:none;}
+
+h4 { font-size:2em; }
+
+.pagination { margin:1em 0 0 0; float:right }
+
+.pagination li {float:left;}
+.pagination li a, .pagination li span {font-size:0.8em; color:#fff;margin:0 1px 0 0; padding:2px 4px 2px 4px;}
+.pagination li a {background:#999;}
+.pagination li.current a {background:#EB037F;}
+.pagination li span {display:none;background:#ccc;}
+
+.pagination li a {color:#fff;}
+.pagination .arrow {display:none;}
+.pagination li.selected { background:#f359f;}
+
+.article {padding:0 0 14px 0}
+
+ul.forumthreadposts, p.forumthreadposts {clear:both;}
+ul.forumthreadposts li {padding:7px;}
+ul.forumthreadposts li.firstpost {padding:0;}
+ul.forumthreadposts li.stripe {background:#ebebed;}
+
+ul.forumthreads, p.forumthreads {clear:both;}
+p.forumthreads {color:#ccc; text-align:center;}
+ul.forumthreads li {padding:7px;}
+ul.forumthreads p a {font-size:1.4em}
+ul.forumthreads p a.nosubject {color:#999; font-style:italic}
+#blq-content ul.forumthreads p {margin:0;}
+ul.forumthreads li.stripe {background:#ebebed;}
+.noreplies {color:#bbb}
+
+ul.post-list {clear:both;}
+p.post-list {color:#ccc; text-align:center;}
+ul.post-list li {padding:7px;clear:both;}
+ul.post-list p a {font-size:1.4em}
+ul.post-list p a.nosubject {color:#999; font-style:italic}
+#blq-content ul.post-list p {margin:0;}
+ul.post-list li.stripe {background:#ebebed;}
+
+
+ul.forumthreads .itemdetail {font-size:0.9em; border-top:1px dotted #ccc; padding:4px 0 4px 0; margin:0 0 14px 0}
+.replies {float:right; position:relative; top:-1.3em;}
+.replies .dna-invisible {display:none;}
+ul.forumthreadposts .itemdetail {font-size:0.9em; border-bottom:1px dotted #ccc; padding:0 0 4px 0; margin:0 0 14px 0}
+ul.post-list .itemdetail {font-size:0.9em; border-top:1px dotted #ccc; padding:4px 0 4px 0; margin:0 0 14px 0}
+.itemdetail .permalink {padding:0 0 0 14px}
+ul.post-list .replydate {display:block;}
+ul.forumthreadposts li blockquote, div.inreplyto blockquote {font-style: italic; margin-left: 7px; margin-right: 7px;}
+
+.dna-boards-startanewdiscussion, .dna-boards-inreplyto {text-align:right;}
+.dna-boards-startanewdiscussion a, .dna-boards-inreplyto a {background:#EB1286; color:#fff; padding:4px 8px 4px 8px; font-size:0.9em;}
+
+p.flag {font-size:0.9em;text-align:right;margin-right:7px;}
+p.flag a {color:#999; background:url(/dnaimages/iplayer/dna_messageboard/img/complain.gif) no-repeat 1px 2px; padding-left:14px;}
+
+.dna-boards .collections {margin-left:216px;}
+.dna-boards .collections li {display:block; float:left; width:160px;}
+
+.dna-boards p label {width:193px; text-align:right; display:block; float:left;padding:4px; font-weight:bold;}
+.dna-boards ul label {padding:4px; font-weight:bold;}
+
+.dna-boards legend {padding:1em 0 1em 0;font-size:1.2em;color:#444}
+.dna-boards .text,
+.dna-boards select,
+.dna-boards .textarea
+{margin:0 0 0 14px; width:375px;padding:4px; font-family:arial,helevtica,sans-serif;border:1px solid #FF359F; font-size:1em;background: #f2f2f2 url(http://iplayerhelp.external.bbc.co.uk/clients/bbciplayer/resources/menu-bg.jpg) repeat-x scroll left bottom}
+
+.dna-boards .textarea{height:150px;}
+.dna-boards .disabled {border:1px solid #999}
+
+.dna-boards .submit {margin:0 0 0 215px; padding:4px;}
+
+.dna-boards-membername {display:none}
+
+.inreplyto {margin: 14px 7px 14px 0;}
+.inreplyto .itemdetail {margin: 0 0 14px;}
+.inreplyto .createdby {font-size: 0.9em; border-bottom: 1px dotted #CCCCCC;}
+
+#blq-content .dna-boards p.dna-error {padding-left:214px; width:375px; font-weight:bold; background:url(/dnaimages/iplayer/dna_messageboard/img/complain.gif) no-repeat 188px 2px;}
+
+#blq-content .dna-boards-moderation .dna-invisible {display:none}
+#blq-content .dna-boards-moderation a {padding-left:14px; color:#999}
+
+/* crazy override to customise the frontpage */
+#blq-content.frontpage  { background:none; float:left; margin-left:14px;padding:0;}
+
+#blq-content .topiclist h3 {width:250px; margin-left:0;}
+#blq-content h3 {color: #EB1286;}
+#blq-content .topiclist a {color: #F54997;}
+#blq-content .topiclist li {margin-right:14px; margin-bottom:14px; width:300px; background:#fff;}
+#blq-content .topiclist p {margin:0 25px 0 25px; min-height:160px; font-size: 1em;}
+#blq-content .topiclist {overflow:auto;}
+#blq-content .topiclist .replies {top:10.8em; min-height:0;margin:0;}
+#blq-content .topiclist br {display:none;}
+
+body.ie #blq-content { width: 665px; overflow: scroll; }
+body.ie #blq-content .topiclist p {height:160px; font-size: 0.9em;}
+body.ie #blq-content .topiclist .replies {height:0; position:absolute; top:auto; margin-top:10.8em;width:257px;text-align:right}
+body.ie ul.forumthreads li.stripe {height:1%;}
+
+body.ie ul.globalNav li.sidePanel {height:1%;}
+body.ie ul.globalNav li{margin-top:0;}
+/*body.ie ul.globalNav{margin:12px 0 0 0;}*/
+body.ie ul.globalNav li.sidePanel{line-height:1;}
+

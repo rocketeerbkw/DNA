@@ -1,0 +1,10 @@
+.dna-boards-moderation,.dna-moderation-wrap,.dna-boards-inreplyto,.dna-boards-thisreplyto,.dna-boards-startanewdiscussion,.forummodstatus input[type=submit],
+h2 span,.dna-boards-inreplyto,.flag,.permalink,#blq-bbclinks,.dna-boards ul {display:none}
+
+.pagination {margin:10px 0!important; border-top:1px solid #ccc; border-bottom:1px solid #ccc; float:left!important; width:100%!important}
+.pagination .current {font-weight:bold}
+#global-nav li.selected {font-weight:bold}
+
+#blq-content .stripe {border-bottom:1px solid #ccc; height:1%}
+
+#blq-foot {margin-top:20px}

@@ -1,0 +1,35 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+
+	<title>lastmillionaire ex1</title>
+
+	
+	<meta http-equiv="Content-Type" content="text/html;charset=charset=iso-8859-1" />
+	
+	<link type="text/css" href="/dnaimages/c/ouch/css/dna_comments.css" media="screen" rel="stylesheet"/>
+
+<!--#include virtual="/dnaimages/components/commentbox/head/1.1/javascript.sssi" -->
+
+
+</head>
+<body>
+<p>last millionaire working example</p>
+<div>
+<!--#set var="dna.commentbox.servicename" value="pmblog"-->
+<!--#set var="dna.commentbox.dnauid" value="jay_pmblog_1"-->
+<!--#set var="dna.commentbox.title" value="lastmillionaire+title+3"-->
+<!--#set var="dna.commentbox.commentProfileUrl" value="/dnaimages/c/lastmillionaire/myprofile"-->
+<!--#set var="dna.commentbox.amountPerPage" value="10"-->
+
+<!-- commented out for extdev, set to 1 for Live -->
+<!--#set var="dna.commentbox.staging" value="1"-->
+
+<!--#include virtual="/dnaimages/components/commentbox/commentbox.sssi"--> 
+
+</div>
+
+
+</body>
+</html>

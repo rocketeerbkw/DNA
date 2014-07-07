@@ -1,0 +1,61 @@
+/* CSS Document */
+#site-select-form {
+	padding: 10px 0px;
+	background-color: #dfdfcf;
+	border: solid red 0px;
+	float: left;
+	width: 100%;
+}
+
+#site-select-form p  {
+	float: left;	
+}
+
+#site-select-form select {
+	width: 150px; 
+  float: left;
+	margin: 0 0 0 8px;
+}
+
+#site-select-form input, #site-select-form label{
+	float: left;
+	margin: 0 0 0 8px;
+}
+
+#table-container {
+  background-color: #efe6e6;
+}
+
+#topic-list {
+	clear: all;
+	border-bottom: 3px dashed #d5d5d5;
+	border-right: 1px solid #999999;
+	background-color: #edece0;
+}
+
+#topic-list td {
+	padding: 10px;
+}
+
+#topic-list thead td {
+	background: #3399cc;
+	color: #01295e;
+	font-weight: bold;
+}
+
+#topic-list thead a {
+	color: #01295e;
+}
+
+#topic-list a {
+	color: #0d4d81;
+}
+
+#topic-list tr.evenRow {
+	background: #ffffff;
+}
+
+.fast-mod-check {
+  padding-right: 5px;
+  padding-left: 60px;
+}

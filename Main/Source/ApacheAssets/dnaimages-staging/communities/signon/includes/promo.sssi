@@ -1,0 +1,9 @@
+<!--
+Here you can put some service specific text and images which can be used to promote your site, and persuade users to continue with sign in or membership creation.
+
+If required it can be customised to reflect exactly what the user is trying to do using an additional query string item on your calls to action and apache tests within this file. See /ican/ for an example of this.
+
+The content of this include will appear below the standard status bar, displayed when a user has hit a call to action on the page, including the sign in button on the slim, unrecognised status bar
+
+PLEASE DELETE THIS COMMENT BEFORE USE
+-->

@@ -1,0 +1,51 @@
+<style>
+.ssoThree {line-height: 150%;}
+</style>
+<br />
+<!-- Start Email Box -->
+<table cellspacing="0" cellpadding="1" border="0" width="100%">
+<tr><td class="ssoThree" colspan="2"></td><td><img src="http://www.bbc.co.uk/f/t.gif" width="1" height="1" alt="" /></td></tr>
+<tr><td class="ssoThree"></td><td class="ssoThree" style="padding:10px;">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr><td class="ssoThree" width="53"><img src="/signon/sso/images/DNA_MB/sso_email.gif" width="42" height="42" alt="email icon" border="0" /></td><td class="ssoThree" width="580"><font size="-1">Before you start, make sure you have a current, active email address.<br />You will need to reply to an email from us to complete the registration process.<br/><strong>If you are a BBC staff member, please use your BBC email address.</strong></font></td></tr>
+</table>
+</td><td class="ssoTwo"></td></tr>
+<tr><td><img src="http://www.bbc.co.uk/f/t.gif" width="1" height="1" alt="" /></td><td class="ssoTwo" colspan="2"></td></tr>
+</table>
+
+<!-- End Email Box -->
+<br />
+<!-- Start Help Box -->
+
+<table cellspacing="0" cellpadding="1" border="0" width="100%">
+<tr><td class="ssoThree" colspan="2"></td><td><img src="http://www.bbc.co.uk/f/t.gif" width="1" height="1" alt="" /></td></tr>
+<tr><td class="ssoThree"></td><td class="ssoThree" style="padding:10px;">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr><td class="ssoThree" width="53"><img src="/signon/sso/images/DNA_MB/sso_helpicon.gif" width="42" height="42" alt="help icon" border="0" /></td><td class="ssoThree" width="580"><font size="-1">If you have problems using our moderation tools, please contact DNA-Host Support in the GAL.<br/> Please note all staff must be trained before using DNA moderation tools.<br/>For details of training please see <a href="http://learn.gateway.bbc.co.uk/details.asp?tID=1639&cat=0" target="_blank">http://learn.gateway.bbc.co.uk/details.asp?tID=1639&cat=0</a></font></td></tr>
+</table>
+</td><td class="ssoTwo"></td></tr>
+<tr><td><img src="http://www.bbc.co.uk/f/t.gif" width="1" height="1" alt="" /></td><td class="ssoTwo" colspan="2"></td></tr>
+</table>
+
+<!-- End Help Box -->
+<br />
+<!-- Start 1 Registration Box -->
+
+<table cellspacing="0" cellpadding="1" border="0" width="100%">
+<tr><td class="ssoThree" colspan="2"></td><td><img src="http://www.bbc.co.uk/f/t.gif" width="1" height="1" alt="" /></td></tr>
+<tr><td class="ssoThree"></td><td class="ssoThree" style="padding:10px;">
+<table cellspacing="0" cellpadding="0" border="0" width="100%">
+<tr><td class="ssoThree" width="53"><img src="/signon/sso/images/DNA_MB/sso_1login.gif" width="42" height="42" alt="one login icon" border="0" /></td><td class="ssoThree" width="580"><font size="-1">Register once for all our interactive services. Your bbc.co.uk membership gives you access to our messageboards and a great range of other community-based services.</font></td></tr>
+</table>
+</td><td class="ssoTwo"></td></tr>
+</table>
+<table cellspacing="0" cellpadding="1" border="0" width="100%">
+<tr><td class="ssoThree"></td><td class="ssoThree" height="60" valign="top">
+<table cellspacing="5" cellpadding="0" border="0" width="100%">
+<tr><td class="ssoThree"><a href="http://www.bbc.co.uk/dna/mbpointsofview/"><img src="/dnaimages/moderation/sso_resources/images/buttons/recommend/points_of_view.gif" width="116" height="44" alt="visit points of view" border="0" /></a></td><td class="ssoThree"><a href="http://www.bbc.co.uk/h2g2/"><img src="/signon/sso/images/DNA_MB/sso_h2g2.gif" width="116" height="44" alt="visit h2g2" border="0" /></a></td><td class="ssoThree"><a href="http://www.bbc.co.uk/dna/mbmovies"><img src="/dnaimages/moderation/sso_resources/images/buttons/recommend/movies.gif" width="116" height="44" alt="visit movies" border="0" /></a></td><td class="ssoThree"><a href="http://www.bbc.co.uk/dna/mblifestyle"><img src="/dnaimages/moderation/sso_resources/images/buttons/recommend/lifestyle.gif" width="116" height="44" alt="visit lifestyle" border="0" /></a></td><td class="ssoThree"><a href="http://www.bbc.co.uk/celebdaq/"><img src="/signon/sso/images/DNA_MB/sso_celebdaq.gif" width="116" height="44" alt="visit celebdaq" border="0" /></a></td></tr>
+</table>
+</td><td class="ssoTwo"><img src="http://www.bbc.co.uk/f/t.gif" width="1" height="1" alt="" /></td></tr>
+<tr><td><img src="http://www.bbc.co.uk/f/t.gif" width="1" height="1" alt="" /></td><td class="ssoTwo" colspan="2"></td></tr>
+</table>
+
+<!-- End 1 Registration Box -->

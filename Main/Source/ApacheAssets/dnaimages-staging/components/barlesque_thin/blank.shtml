@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+<head profile="http://dublincore.org/documents/dcq-html/">
+
+<title>BBC - Barlesque - Test Page</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<meta name="dcterms.created" content="2006-09-15T12:00:00Z" />
+<meta name="dcterms.modified" content="2006-09-15T12:35:00Z" />
+
+<link rel="index" href="/a-z/" />
+<link rel="help" href="/help/" />
+<link rel="copyright" href="/terms/" />
+<link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+<!--#include virtual="/includes/blq/include/blq_head.sssi" -->
+
+</head>
+<body>
+<!--#include virtual="/includes/blq/include/blq_body_first.sssi" -->
+
+<div id="blq-local-nav"></div>
+
+<!--#include virtual="/includes/blq/include/blq_body_last.sssi" -->
+</body>
+</html>

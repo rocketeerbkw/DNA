@@ -1,0 +1,16 @@
+<!--#set var="bbcpage_bgcolor"      value="98CC18" -->
+<!--#set var="bbcpage_nav"          value="no" -->
+<!--#set var="bbcpage_navgraphic"   value="no" -->
+<!--#set var="bbcpage_navgutter"    value="no" -->
+<!--#set var="bbcpage_contentwidth" value="100%" -->
+<!--#set var="bbcpage_contentalign" value="left" -->
+<!--#set var="bbcpage_charset"	value="iso-8859-1" -->
+<!--#set var="bbcpage_language"	value="english" -->
+<!--#set var="bbcpage_searchcolour" value="4D285B" -->
+
+<!--Top left styles (must be set using variables)-->
+<!--#set var="bbcpage_topleft_bgcolour" value="4D285B" -->
+<!--#set var="bbcpage_topleft_textcolour" value="ffffff" -->
+<!--#set var="bbcpage_topleft_linkcolour" value="ffffff" -->
+
+

@@ -1,0 +1,85 @@
+
+/* missing on barlesque > r54*/
+
+#blq-main {
+	margin:0 auto;
+}
+
+
+/*
+ as seen on /home/perif...
+ (uses homepage v8.0 assets)
+ */
+
+h1 {
+	background:#0C6A8A url(http://www.bbc.co.uk/home/beta/8.0/img/gradients/bg_teal.gif) repeat-x 0 -278px;
+	height:32px;
+	
+	color:#fff;
+	font-size:1.7em;
+	font-weight:normal;
+	
+	padding:10px 0 0 14px;
+}
+
+h1 span {display:none;}
+
+.content {
+	background:#FFFFFF url(http://www.bbc.co.uk/home/img/perif/bottom-corners3.gif) no-repeat scroll left bottom;
+	margin:14px 0 0 14px;
+	padding:0 0 14px 0;
+	width:626px;
+}
+.content h2 {
+	background:transparent url(http://www.bbc.co.uk/home/img/perif/top-corners3.gif) no-repeat scroll left top;
+	font-size: 1.2em;
+}
+
+.content h2{
+	padding:14px 10px 14px 10px;
+}
+
+.content p {
+	padding:7px 10px 7px 10px;
+}
+
+.content p {
+	font-size:0.9em;
+	line-height:1.5em;
+}
+
+.content p.action {
+	text-align:right;
+}
+
+.content p a {
+	color:#126483;
+	font-weight:bold;
+	text-decoration:none;
+}
+.content p.action a {
+	color:#888;
+	font-size:1.4em;
+	font-weight:normal;
+	padding:0pt 14px 0pt 0pt;
+	text-decoration:none;
+	
+	background:transparent url(http://www.bbc.co.uk/home/beta/8.0/img/bgsprite.gif) no-repeat right -353px;
+}
+
+.content p.action a:hover { border-bottom:1px solid #ddd}
+
+
+p.options label { position:relative; display:block; padding:4px 0 4px 21px;}
+p.options label:hover { background: #eee;}
+
+
+p.options input {float:left; position:relative; z-index:1}
+
+p.options textarea { width:466px; height: 95px; margin:0 0 0 21px;}
+
+em {display:block; background:#eee; border-top:#ccc solid 1px; border-bottom:#ccc solid 1px; padding:7px;margin:7px 0 7px 0; text-align:left;}
+
+input.textbox { width:262px;margin:0 0 0 3px;}
+
+p.options textarea, input.textbox {padding:3px; font-family:verdana,helvetica,arial,sans-serif; font-size:1.1em;}

@@ -1,0 +1,48 @@
+#dna-commentprofile {font:1em  arial,helvetica,sans-serif; margin:0; padding:0;}
+			
+			#dna-commentprofile div.detail { }
+			#dna-commentprofile h3 { font-size: 3em; width:600px; margin:15px 0 0 0;}
+			
+			#dna-commentprofile p {display:none;}
+			
+			#dna-commentprofile ul, #dna-commentprofile ul {list-style:none;}
+			
+			#dna-commentprofile ul, #dna-commentprofile ul, #dna-commentprofile h3, #dna-commentprofile p
+				{padding:0 0 0 40px; width:700px}
+			
+			#dna-commentprofile ul { list-style:none; clear:left;}
+			#dna-commentprofile li a { text-decoration:none; font-size:1em;}
+			
+			#dna-commentprofile ul.collections li { float:left; margin:0; padding:0; width:600px;}
+			
+			.collections li a { border-bottom:1px solid #E2E2ED; border-top:1px solid #D6D6E5; padding:0 20px 0 20px;}
+			
+			#dna-commentprofile li a,
+			#dna-commentprofile .title,
+			#dna-commentprofile cite,
+			#dna-commentprofile .comment-text
+			{ display:block; }
+			
+			#dna-commentprofile cite {font-size:1.1em; font-style:normal; margin:0 0 0 5px;}
+			#dna-commentprofile .comment-text {padding:10px 10px 10px 32px; font-size:1.2em;}
+			#dna-commentprofile .title { padding:3px; font-weight:normal; font-size:1.8em;}
+			#dna-commentprofile .postcount { font-size:0.5em;}
+			
+			#dna-commentprofile .pagination { font-size:1.2em; font-style:italic;}
+			#dna-commentprofile .pagination li { display:block;float:left; margin:10px 10px 0 0;}
+			#dna-commentprofile .pagination li a { display:inline; margin:0;}
+			
+			
+			#dna-commentprofile h3 a:hover, #dna-commentprofile p a:hover, #dna-commentprofile .pagination a:hover {background:none;}
+			#dna-commentprofile h3 a { color:#2F6EB2; }
+			#dna-commentprofile .title { color:#2F6EB2; }
+			#dna-commentprofile cite { color: #454545}
+			#dna-commentprofile .comment-text { background: url(http://www.bbc.co.uk/blogs/tmpl/globalim/comment.gif) no-repeat 15px 13px; color:#333;}
+			
+			
+			.collections li a, .collections li a:hover {background: #fffaee;}
+			.collections li.even a, .collections li.even a:hover {background: #fff;}
+			#dna-commentprofile .pagination li { color:#bbb;}
+			#dna-commentprofile .pagination li a { color:#003663;}
+			
+			#around {padding-bottom:10px;}

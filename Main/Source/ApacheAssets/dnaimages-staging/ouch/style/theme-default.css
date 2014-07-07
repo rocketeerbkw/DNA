@@ -1,0 +1,90 @@
+#blq-main p#membership strong { color:#fff; font-weight:normal; }
+#blq-main p#membership a { color:#fff; text-decoration:none; }
+#blq-main p#membership a:hover { text-decoration:underline; }
+.pagination {background:#b1d8e6;}
+.pagination li span { display:none; }
+#content .pagination li a { color:#112733; }
+#content .pagination li a:hover { color:#c00; }
+#content .pagination li.current a { color:#fff; }
+.pagination li.selected { background:#f359ff; border: 1px solid #387f9d; }  /* when does this happen? */
+#blq-content .topiclist li, ul.forumthreads li {
+	border-top:none; 
+	background:url(/ouch/css/f/theme-default/divider_1col.gif) 0 0 no-repeat;
+}
+
+#content ul.forumthreads p a {
+	color:#112733;
+	padding-right:22px; 
+	background:url(/ouch/css/f/theme-default/arrow_link_med.gif) right center no-repeat; 
+}
+#content ul.forumthreads p a:visited { color:#29708c; }
+#content ul.forumthreads p a:hover { color:#c00; }
+#content ul.forumthreads .latest { background:#f1f1f1; }
+#content ul.forumthreads .itemdetail p a { color:#389bbf; padding-right:0; background:none; }
+#content ul.forumthreads .itemdetail p a:visited { color:#29708c; }
+#content ul.forumthreads .itemdetail p a:hover { color:#c00; }
+#content ul.forumthreads p a.nosubject { color:#999; }
+#blq-content ul.forumthreads p { margin:0; }
+.noreplies { color:#112733; }
+
+p.post-list, p.comments-list { color:#ccc; }
+ul.post-list li, ul.comments-list li  {
+	border-top:none; 
+	background:url(/ouch/css/f/theme-default/divider_1col.gif) 0 0 no-repeat;
+}
+#content ul.comments-list p a { text-decoration:none; }
+#content ul.post-list p.threadtitle a, #content ul.comments-list p a span.title { 
+	color:#112733;
+	text-decoration:none;
+	padding-right:22px; 
+	background:url(/ouch/css/f/theme-default/arrow_link_med.gif) right center no-repeat; 
+}
+#content ul.post-list p.threadtitle a:visited, #content ul.comments-list p a:visited span.title { color:#29708c; }
+#content ul.post-list p.threadtitle a:hover, #content ul.comments-list p a:hover span.title { color:#c00; text-decoration:underline; }
+#content ul.post-list p a.nosubject, #content ul.comments-list p a.nosubject { color:#999; }
+
+#content .dna-boards-startanewdiscussion a, #content .dna-boards-inreplyto a { 
+	color:#112733; 
+	padding-right:12px; 
+	background:url(/ouch/css/f/theme-default/arrow_idlink_reg.gif) right center no-repeat;
+}
+
+#content ul.forumthreadposts li p.dna-boards-startanewdiscussion a.id-cta, p.dna-boards-inreplyto a.id-cta { 
+	color: #112733; 
+}
+p.flag a {color:#999; background:url(/dnaimages/dna_messageboard/img/complain.gif) no-repeat 1px 2px; padding-left:14px;}
+.dna-boards legend { padding:1em 0 1em 0; font-size:1.2em; color:#444; }
+.dna-boards .text, .dna-boards select, .dna-boards .textarea { 
+	border:1px solid #ccc; 
+	background:#fff; 
+	color:#112733;
+}
+.dna-boards .disabled { border:1px solid #999; }
+.inreplyto .createdby { border-bottom: 1px dotted #ccc; }
+#blq-content .dna-boards-moderation a { padding-left:14px; color:#999; }
+
+ul.forumthreadposts li blockquote, div.inreplyto blockquote { border: 1px solid #389bbf; }
+ul.forumthreadposts li {
+	border:none; 
+	padding-top:11px;
+	background:url(/ouch/css/f/theme-default/divider_1col.gif) 0 0 no-repeat;
+}
+ul.forumthreadposts .itemdetail { background:#f1f1f1; }
+
+/* crazy override to customise the frontpage */
+#blq-content h3 { color:#112733; }
+#blq-content h3 span a { color:#112733; }
+#blq-content h3 span a:visited { color:#29708c; }
+#blq-content h3 span a:hover { color:#c00; text-decoration:underline; }
+#blq-content .topiclist h3 a { 
+	color:#112733; 
+	padding-right:22px; 
+	background:url(/ouch/css/f/theme-default/arrow_link_med.gif) right center no-repeat;  
+}
+#blq-content .topiclist h3 a:visited { color:#29708c; }
+#blq-content .topiclist h3 a:hover { color:#c00; }
+
+/* overrides for barlesque */
+#blq-content .topiclist p a { color: #389bbf; }
+#blq-content .topiclist p a:visited { color:#29708c; }
+#blq-content .topiclist p a:hover { color:#c00; }

@@ -1,0 +1,507 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-GB" lang="en-GB">
+
+<head profile="http://dublincore.org/documents/dcq-html/">
+<title>BBC | Seosamh Mac Grianna</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<meta name="description" content="" />
+<meta name="keywords" content="" />
+<link rel="schema.dcterms" href="http://purl.org/dc/terms/" />
+<meta name="DCTERMS.created" content="2006-09-15T12:00:00Z" />
+<meta name="DCTERMS.modified" content="2006-09-15T12:35:00Z" />
+<!--#include virtual="include/test_site.sssi" --> <!--#include virtual="/includes/blq/include/blq_head.sssi" -->
+<!--#set var="blq_nav_color" value="orange" -->
+<!-- NOTE Example style and script tags - Please use or delete as appropriate -->
+<!-- NOTE Stylesheets MUST be included after the blq-head include due to the reset CSS technique included in Barlesque -->
+<style type="text/css" media="screen">@import '/stylesheets/site.css';</style>
+<style type="text/css" media="screen">@import '/stylesheets/typography.css';</style>
+
+
+<!--[if lte IE 7]>
+  <style type="text/css" media="screen">@import '/stylesheets/ie.css';</style>
+<![endif]-->
+<!--[if lte IE 6]>
+  <style type="text/css" media="screen">@import '/stylesheets/ie6.css';</style>
+<![endif]-->
+
+
+<!-- BBC Comments required javascript -->
+<script type="text/javascript" src="http://www.bbc.co.uk/glow/0.2.0/dist/glow/glow.js"></script>
+<script type="text/javascript" src="/dnaimages/components/commentbox/0.1rc6/commentbox.js"></script>
+	
+	
+<script type="text/javascript" src="/javascript/html_test.js"> </script>
+
+<script src="/javascript/FancyZoom.js" type="text/javascript"></script>
+<script src="/javascript/FancyZoomHTML.js" type="text/javascript"></script>
+<script type="text/javascript" src="/javascript/audiovideo.js"> </script>
+
+<script type="text/javascript" src="/javascript/articles.js"> </script>
+
+
+
+
+
+
+<script type="text/javascript" src="http://www.bbc.co.uk/emp/swfobject.js"></script>
+<script type="text/javascript" src="http://www.bbc.co.uk/emp/embed.js"></script>
+
+
+<!-- Trying to find the language --><!-- Inspecting:gaeilge --><!-- Setting -->
+<script type="text/javascript">
+window['lang'] = 'gaeilge';
+</script>
+
+
+</head>
+
+
+
+<body onload="useEnhancedPlayer();;" id="articles">
+  <!--#include virtual="/includes/blq/include/blq_body_first.sssi" -->
+  
+ <div id="wrapper">
+  <div class="background">
+  <div id="blq-local-nav">
+  <h2 class="blq-hide">Local Navigation</h2>
+  <div class="main_nav">
+    <ul>
+		  <li class="itm01"><a href="http://bbc_irish.frontware.co.uk/gaeilge/"><span>
+Baile
+
+</span></a></li>
+		  <li class="itm04"><a class="active" href="http://bbc_irish.frontware.co.uk/features/all/gaeilge/"><span>
+Gn&eacute;-ailt
+
+</span></a></li>
+		  <li class="itm02"><a id="audio_video_header_link"  href="http://bbc_irish.frontware.co.uk/video_audio/gaeilge/"><span>
+F&iacute;s &amp; Fuaim
+
+</span></a>
+		  </li>
+		  <li class="itm03"><a href="http://bbc_irish.frontware.co.uk/gallery/gaeilge/"><span>
+Gaileara&iacute;
+
+</span></a></li>
+		  <li class="itm05"><a href="http://bbc_irish.frontware.co.uk/map/gaeilge/"><span>
+L&eacute;arsc&aacute;il
+
+</span></a></li>
+		  <li class="itm06"><a href="http://bbc_irish.frontware.co.uk/features/8/gaeilge/"><span>Learners</span></a></li>
+    </ul>
+    <div class="lang_links">
+		  <p><span>
+Aistrigh an leathanach seo:
+
+</span>
+		  <a id="active_link" class="itm01" href="http://bbc_irish.frontware.co.uk/articles/view/345/gaeilge/"><span>gaeilge</span></a> 
+      <a class="itm02" href="http://bbc_irish.frontware.co.uk/articles/view/345/english/"><span>english</span></a></p>
+    </div>
+  </div>
+  </div>
+  
+  <!-- Main Content -->
+  <div id="blq-content">
+  <div class="maincontent">
+
+
+<div class="left_col">
+    <div class="transparent sidebar">  
+    <h3>
+Brabhs&aacute;il
+
+</h3>
+    <h4>
+Ailt &amp; Gn&eacute;-Ailt
+
+</h4>
+  
+    <ul class="col1">    <li><a href="http://bbc_irish.frontware.co.uk/features/4/gaeilge/">
+Eala&iacute;ona
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/7/gaeilge/">
+Oideachas
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/11/gaeilge/">
+Siamsa&iacute;ocht
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/14/gaeilge/">
+F&eacute;ilte
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/6/gaeilge/">
+Irish Interest
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/8/gaeilge/">
+Learners
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/12/gaeilge/">
+Caithimh aimsire
+
+</a></li>
+    </ul><!-- /col01 -->
+    <ul class="col2">  
+        <li><a href="http://bbc_irish.frontware.co.uk/features/5/gaeilge/">
+Ceol
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/9/gaeilge/">
+D&uacute;lra, Eola&iacute;ocht &amp; Teicneola&iacute;ocht
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/16/gaeilge/">
+Polait&iacute;ocht
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/10/gaeilge/">
+Sp&oacute;rt
+
+</a></li>
+      
+        <li><a href="http://bbc_irish.frontware.co.uk/features/13/gaeilge/">
+Taisteal
+
+</a></li>
+      
+  </ul><!-- /col02 -->
+    </div><!-- /sidebar -->
+    <div class="transparent sidebar">
+    <div class="col1">
+    <h4>
+Cl&aacute;ir
+
+</h4>
+    <ul>
+      <li><a href="http://bbc_irish.frontware.co.uk/on/tv/gaeilge/">
+Ar an Teilif&iacute;s
+
+</a></li>
+      <li><a href="http://bbc_irish.frontware.co.uk/on/radio/gaeilge/">
+Ar an Raidi&oacute;
+
+</a></li>
+      <li><a href="http://bbc_irish.frontware.co.uk/on/web/gaeilge/">
+Ar an Ghr&eacute;as&aacute;n
+
+</a></li>
+    </ul>
+    </div><!-- /col1 -->
+    <div class="col2">
+    <h4>
+N&iacute;os M&oacute;
+
+</h4>
+    <ul>
+      <li><a href="http://bbc_irish.frontware.co.uk/events/gaeilge/">
+&Oacute;c&aacute;id&iacute;
+
+</a></li>
+    </ul>
+    </div><!-- /col2 -->
+    </div><!-- /sidebar -->
+
+  <div class="sidebar2">
+      
+    <div class="vocab_holder">
+        <h4 class="banner">Sanas/Vocabulary</h4>
+        <span class="show_hide" onclick="toggleVocabulary()"><span id="show_hide">hide</span> <img id="vocab_icon" src="/images/hide_bg.gif" alt="-" /></span>
+      <div id="vocabulary">
+        <p><b>codarsnacht</b>  contrast<br />
+<br />
+<b>ardéirim</b>  intellectual talent/genius<br />
+<br />
+<b>éadóchas</b>  despair<br />
+<br />
+<b>meabhairshláinte</b>  mental health<br />
+<br />
+<b>saothar</b>  literary work<br />
+<br />
+<b>aitheantas</b>  recognition<br />
+<br />
+<b>béaloideas</b>  folklore<br />
+<br />
+<b>crom</b>  to bend/stoop<br />
+<br />
+<b>idirdhealaigh</b>  to discriminate/differentiate<br />
+<br />
+<b>maoithneach</b>  maudlin/sentimental<br />
+<br />
+<b>dírbheathaisnéis</b>  autobiography<br />
+<br />
+<b>dearóil</b>  miserable<br />
+<br />
+<b>streachailt</b>  struggle<br />
+<br />
+<b>foilsitheoireacht</b>  publishing<br />
+<br />
+<b>aistriúchán</b>  translation<br />
+</p>
+      </div>
+      </div> <!-- /vocab_holder -->
+           </div> <!-- /sidebar2 -->
+      <div class="sidebar3">
+ <div class="related_entries">
+   <h4 class="banner"><span>Related Articles</span></h4>
+
+
+
+
+ </div><!-- /related_entries -->     
+ </div><!-- /sidebar3 -->     
+</div><!-- /leftcol -->
+ 
+ <div id="article_holder">
+<div class="crumb"><a href="http://bbc_irish.frontware.co.uk/gaeilge/">home</a> : <a href="http://bbc_irish.frontware.co.uk/features/all/gaeilge/">Features</a> : <span>
+Seosamh Mac Grianna
+
+</span></div>
+
+  <h2>
+Seosamh Mac Grianna
+
+</h2>
+  <h4 class="banner"><span>Feature</span> Created: 25th July 2008</h4>
+
+
+<div class="intro"><p>Bhí Seosamh Mac Grianna ar dhuine de na scríobhneoirí is fearr san fhichiú haois.
+</p></div>
+<p>Tá codarsnacht bhrónach ann áfach, idir gile a ardéirime liteartha agus dorchadas a éadóchais agus na bhfadhbanna meabhairshláinte a d&#8217;fhulaing sé ar feadh bunús a shaoil thraigéidigh, go dtí gur glacadh i mbarda síciatrach in Otharlann Naomh Chonaill i Leitir Ceanainn é, áit a d&#8217;fhan sé ar feadh breis aguis tríocha bliain.&nbsp; D&#8217;ainneoin na ndeamhan pearsanta uilig seo, mhair saothar Mhic Grianna agus tháinig lucht léitheoireachta úr nua air agus thuig siad luach na hoibre.&nbsp; Inniu is cuid lárnach é a shaothar ar shiollabas scoile agus ollscoile, agus faoi dheireadh bronntar an t-aitheantas nach bhfuair sé le linn a shaoil ar Mhac Grianna.
+<br />
+    <!-- Begin Media Object. ID:204 -->
+    <div class="center">
+    <div class="media_insert">
+
+      <div id="media_204" style="margin:0 auto;width:512px;height:323px" >
+
+        <a href="http://www.adobe.com/go/getflash" >
+        Download the Adobe Flash player to view this content</a>
+
+      </div>
+      
+      <script type="text/javascript">
+        var emp = new bbc.Emp();
+        emp.setDomId("media_204"); 
+        emp.setWidth("512");
+        emp.setHeight("323");
+        emp.setPlaylist("http://extdev.bbc.co.uk/irish/shared/mediaxml/204.xml");
+        emp.write();
+      </script>
+
+      <a href="http://extdev.bbc.co.uk/irish/shared/mediaxml/204.xml"></a>
+
+
+
+    </div>
+    </div>
+    <!-- End Media Object -->
+
+<br />
+<b>Rugadh Seosamh Mac Grianna</b>, deartháir <u>Shéamuis Uí Ghrianna</u>, i Rann na Feirste, Co. Dhún na nGall i 1900, i dteaghlach a raibh mór-thraidisiún scéalaíochta, ceoil agus béaloidis aige.&nbsp; Ba é an traidisiún seo ceann de na tionchair is mó ar Sheosamh agus é ag toiseacht amach ar an scríbhneoireacht.&nbsp; 
+<br />
+    <!-- Begin Media Object. ID:172 -->
+    <div class="center">
+    <div class="media_insert">
+
+      <div id="media_172" style="margin:0 auto;width:512px;height:323px" >
+
+        <a href="http://www.adobe.com/go/getflash" >
+        Download the Adobe Flash player to view this content</a>
+
+      </div>
+      
+      <script type="text/javascript">
+        var emp = new bbc.Emp();
+        emp.setDomId("media_172"); 
+        emp.setWidth("512");
+        emp.setHeight("323");
+        emp.setPlaylist("http://extdev.bbc.co.uk/irish/shared/mediaxml/172.xml");
+        emp.write();
+      </script>
+
+      <a href="http://extdev.bbc.co.uk/irish/shared/mediaxml/172.xml"></a>
+
+
+
+    </div>
+    </div>
+    <!-- End Media Object -->
+
+<br />
+Bhí sé fíor-chliste, ach níor aontaigh saol na scoile leis - mhaígh sé go raibh an saol na scoile, chomh maith le saol an mhúinteora ní ba mhoille nuair a thosaigh sé ag teagasc, ró-chúng dó agus nach dtiocfadh leis cromadh chuige.&nbsp; Iarradh air gan teacht ar ais chuig Coláiste Adhamhnáin, Leitir Ceannain, nuair a bhí se ina scolaire ansin, agus níor fhán sé ar feadh i bhfad ag an mhúinteoireacht sular éirigh sé bréan de na rialacha go léir.
+<br />
+    <!-- Begin Media Object. ID:336 -->
+    <div class="center">
+    <div class="media_insert">
+
+      <div id="media_336" style="margin:0 auto;width:512px;height:323px" >
+
+        <a href="http://www.adobe.com/go/getflash" >
+        Download the Adobe Flash player to view this content</a>
+
+      </div>
+      
+      <script type="text/javascript">
+        var emp = new bbc.Emp();
+        emp.setDomId("media_336"); 
+        emp.setWidth("512");
+        emp.setHeight("323");
+        emp.setPlaylist("http://extdev.bbc.co.uk/irish/shared/mediaxml/336.xml");
+        emp.write();
+      </script>
+
+      <a href="http://extdev.bbc.co.uk/irish/shared/mediaxml/336.xml"></a>
+
+
+
+    </div>
+    </div>
+    <!-- End Media Object -->
+
+<br />
+Roghnaigh Seosamh Mac Grianna an leagan éagsúil dá ainm in ionad &#8216;Ó Grianna&#8217; le go mbeadh daoine in ann eisean a idirdhealú óna dheartháir Séamus, toisc go raibh siad beirt ina múinteoirí agus ina scríbhneoirí.&nbsp; Ba é a dheartháir a chéadspreag Seosamh dul i mbun pinn, ach tá difríochtaí suntasacha idir an dá stíl scríbhneoireachta a bhí acu - bhí nós ag Ó Grianna bheith maoithneach agus neamh-réadúil, go háiríthe agus é ag scríobh faoin Gaeltacht.&nbsp; Ar an taobh eile, bhí Mac Grianna níos réadúla agus níos loime faoin dóigh a raibh an saol, agus féictear seo go soiléir ina leabhar dírbheathaisnéise, <i>Mo Bhealach Féin</i>, agus sa leabhar nár chríochnaigh sé, <i>Dá mBíodh Ruball ar an Éan</i>, ina gcuireann sé síos ar shaol dearóil na cathrach agus an streachailt a bhíonn ag daoine maireachtáil inti.
+<br />
+    <!-- Begin Media Object. ID:337 -->
+    <div class="center">
+    <div class="media_insert">
+
+      <div id="media_337" style="margin:0 auto;width:512px;height:323px" >
+
+        <a href="http://www.adobe.com/go/getflash" >
+        Download the Adobe Flash player to view this content</a>
+
+      </div>
+      
+      <script type="text/javascript">
+        var emp = new bbc.Emp();
+        emp.setDomId("media_337"); 
+        emp.setWidth("512");
+        emp.setHeight("323");
+        emp.setPlaylist("http://extdev.bbc.co.uk/irish/shared/mediaxml/337.xml");
+        emp.write();
+      </script>
+
+      <a href="http://extdev.bbc.co.uk/irish/shared/mediaxml/337.xml"></a>
+
+
+
+    </div>
+    </div>
+    <!-- End Media Object -->
+
+</p>
+<p>
+Chaith Mac Grianna tamall maith ag obair do roinn foilsitheoireachta an rialtais, an Gúm, nuair a bhog sé go Baile Átha Cliath - aistriúcháin a bhí i mbunús na hoibre seo, agus cé nár thaitin sí le Mac Grianna, thug sé fáil dó na saothair litríochta is fearr ar an domhan a léamh, rud a thug ionsparáid agus spreagadh dó ina chuid oibre féin.&nbsp;     <!-- Begin Media Object. ID:338 -->
+    <div class="center">
+    <div class="media_insert">
+
+      <div id="media_338" style="margin:0 auto;width:512px;height:323px" >
+
+        <a href="http://www.adobe.com/go/getflash" >
+        Download the Adobe Flash player to view this content</a>
+
+      </div>
+      
+      <script type="text/javascript">
+        var emp = new bbc.Emp();
+        emp.setDomId("media_338"); 
+        emp.setWidth("512");
+        emp.setHeight("323");
+        emp.setPlaylist("http://extdev.bbc.co.uk/irish/shared/mediaxml/338.xml");
+        emp.write();
+      </script>
+
+      <a href="http://extdev.bbc.co.uk/irish/shared/mediaxml/338.xml"></a>
+
+
+
+    </div>
+    </div>
+    <!-- End Media Object -->
+
+<br />
+    <!-- Begin Media Object. ID:340 -->
+    <div class="center">
+    <div class="media_insert">
+
+      <div id="media_340" style="margin:0 auto;width:512px;height:323px" >
+
+        <a href="http://www.adobe.com/go/getflash" >
+        Download the Adobe Flash player to view this content</a>
+
+      </div>
+      
+      <script type="text/javascript">
+        var emp = new bbc.Emp();
+        emp.setDomId("media_340"); 
+        emp.setWidth("512");
+        emp.setHeight("323");
+        emp.setPlaylist("http://extdev.bbc.co.uk/irish/shared/mediaxml/340.xml");
+        emp.write();
+      </script>
+
+      <a href="http://extdev.bbc.co.uk/irish/shared/mediaxml/340.xml"></a>
+
+
+
+    </div>
+    </div>
+    <!-- End Media Object -->
+
+</p>
+
+
+<!-- BEGINETH THE COMMENT MODULE -->
+<!--#set var="dna.commentbox.servicename" value="irish2"-->
+<!--#set var="dna.commentbox.dnauid" value="irish003"-->
+<!--#set var="dna.commentbox.title" value="trr"-->
+<!--#set var="dna.commentbox.amountPerPage" value="10"-->
+<!--#set var="dna.commentbox.encoding" value="UTF-8"-->
+
+<!--#set var="dna.commentbox.staging" value="1"-->
+
+<!--#include virtual="/dnaimages/components/commentbox/commentbox.sssi"--> 
+
+
+</div><!-- /article_holder --> 
+  
+
+
+</div> <!-- /maincontent -->
+</div>  <!-- /blq-content -->
+ <div class="footstrap">
+  <a href="#" class="nis"><img src="/images/nis_logo.gif" width="223" height="58" alt="Northern Ireland Screen" /></a>
+  <p><span>
+Le taca&iacute;ocht &oacute;n Chiste Craolt&oacute;ireachta Gaeilge
+
+</span> <a href="http://bbc_irish.frontware.co.uk/send_to_friend/gaeilge/">
+Seol chuig Cara
+
+</a></p>
+  <p><a href="http://www.bbc.co.uk/feedback/" title="Leave feedback">
+Aiseolas
+
+</a></p>
+ </div><!-- /footstrap -->
+ </div> <!-- /background -->
+  </div><!-- /wrapper -->
+  <!--#include virtual="/includes/blq/include/blq_body_last.sssi" -->
+</body>
+</html>
+

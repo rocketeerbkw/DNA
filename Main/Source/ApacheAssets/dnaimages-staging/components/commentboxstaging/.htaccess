@@ -1,0 +1,12 @@
+RewriteEngine On
+# SORT OF PROPER BUILD LINK
+#RewriteRule ^commentbox.js$ /dnaimages/components/commentbox/0.1rc9/commentbox.js-UPDATETHIS [R]
+
+#RewriteRule ^commentbox.js$ /dnaimages/components/commentbox/1.0/commentbox.js [R]
+#RewriteRule ^commentbox.source.js$ /dnaimages/components/commentbox/1.0/commentbox.source.js [R]
+
+#RewriteRule ^gloader/commentbox.js$ /dnaimages/components/commentboxstaging/1.1/commentbox.js [R]
+#RewriteRule ^gloader/commentbox.source.js$ /dnaimages/components/commentboxstaging/1.1/commentbox.source.js [R]
+
+RewriteRule ^gloader/commentbox.js$ /dnaimages/components/commentboxstaging/1.2/commentbox.source.js [R]
+RewriteRule ^gloader/commentbox.source.js$ /dnaimages/components/commentboxstaging/1.2/commentbox.source.js [R]
