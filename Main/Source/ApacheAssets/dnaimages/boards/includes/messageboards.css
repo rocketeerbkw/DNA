@@ -229,20 +229,23 @@ th {font-weight:normal;padding:5px;margin:0px;background:#b3bdc1;vertical-align:
  *	Identity Styling                          *
  *	----------------------------------------- */
 
-#identitylogin {overflow: hidden; width: 635px; padding: 5px 5px 0 5px; margin: 10px 0 0 0; background: url(/dnaimages/boards/images/idlogin_top.gif) top left no-repeat; font-family: arial,sans-serif;}
-#identityloginend {overflow: hidden; width: 635px; height: 4px; margin: 0 0 7px 0; padding: 0; background: url(/dnaimages/boards/images/idlogin_bottom.gif) top left no-repeat;}
-#identitylogin p  {padding: 2px 0 0 0; margin: 0; font-size: 75% !important;}
-#identitylogin a  {color: #5da6c7;}
-#identitylogin a:hover  {text-decoration: none;}	
-#identitylogin a.id-signin {float: left; display: block; background: url(/blogs/mt-static/themes/bbc/images/identity/blue_100x20.png) top left no-repeat; width: 100px; height: 1%; margin: 0 2px 0 0; padding: 2px 0 5px 0; font-size: 75% !important; font-weight: bold; color: white; text-decoration: none;}  
-#identitylogin a.id-signin span {margin: 0 0 0 30px; font-size: 100%; color: white;}
+#identitylogin {overflow: hidden; width: 635px; padding: 5px 0px 0 5px; margin: 10px 0 0 0; background: url(/dnaimages/boards/images/idlogin_top.gif) top left no-repeat; font-family: verdana,arial,sans-serif !important;}
+#identityloginend {overflow: hidden; height: 4px; margin: 0 0 7px 0; padding: 0; background: url(/dnaimages/boards/images/idlogin_bottom.gif) top left no-repeat;}
+#identitylogin p  {float: left; padding: 2px 0 0 3px; margin: 0; font-size: 0.8em !important; color: #656565 !important; font-weight: normal !important; font-family: verdana,arial,sans-serif !important;}
+#identitylogin p.idtransitional  {padding-top: 1px;}
+#identitylogin a  {color: #5da6c7 !important; text-decoration: none !important; font-weight: bold !important; font-family: verdana,arial,sans-serif !important;}
+#identitylogin a:hover  {text-decoration: underline !important;}	
+#identitylogin a.id-signin {float: left; display: block; background: url(/blogs/mt-static/themes/bbc/images/identity/blue_100x20.png) top right no-repeat; width: 100px; height: 1%; margin: 0 2px 0 0px; padding: 2px 0 3px 0; font-size: 0.8em !important; font-weight: bold; color: white !important; text-decoration: none !important; font-family: verdana,arial,sans-serif !important;}  
+#identitylogin a.id-signin span {margin: 0 0 0 31px; font-size: 100%; color: white !important; font-family: verdana,arial,sans-serif !important;}
 #identitylogin a.id-signin:hover {background: url(/blogs/mt-static/themes/bbc/images/identity/blue_100x20_mouseover.png) no-repeat top left; color: #fff !important; text-decoration: none !important;}	
 #identitylogin a.id-signin:hover span {text-decoration: none !important; color: #fff !important;}
-#identitylogin img  {float: left; margin-right: 2px;}
-#identitylogin ul  {margin: 0; padding: 1px 0 0 0;}
-#identitylogin ul li {float: left; list-style-type: none; padding: 0; margin: 0 3px; color: black; font-size: 75% !important;}
-#identitylogin ul li a {color: black; font-weight: normal;}
+#identitylogin img  {float: left; margin: 0 2px 0 0;}
+#identitylogin ul  {float: left; margin: 0; padding: 0;}
+#identitylogin ul li {float: left; list-style-type: none; padding: 0; margin: 0 3px; color: #000; font-size: 0.8em !important; font-family: verdana, arial, sans-serif !important;}
+#identitylogin ul li a {color: black !important; font-weight: normal !important;  font-family: verdana, arial, sans-serif !important;}
 #identitylogin ul li a:hover {text-decoration: underline;}
+#identitylogin ul#iddiscussions  {float: right !important; padding: 0px 7px; margin: 0;}
+#identitylogin ul#iddiscussions li {text-align: right;}
 
 
 

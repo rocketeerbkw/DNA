@@ -12,6 +12,11 @@
 						dna.lang.register(glow);
 					})
 				}
+				if (typeof identity !== 'undefined') {
+					glow.events.addListener(identity,'login',function(){
+						window.location.reload();
+					});
+				}
             }
         }
     );
