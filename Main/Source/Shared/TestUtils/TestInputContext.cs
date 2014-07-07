@@ -600,5 +600,15 @@ namespace BBC.Dna
         {
             get { throw new NotImplementedException(); }
         }
+
+        #region IAppContext Members
+
+
+        public bool UseXSLTTransformerWithLargeStack
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
     }
 }

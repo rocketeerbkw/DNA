@@ -432,5 +432,17 @@ namespace Tests
         {
             get { throw new NotImplementedException(); }
         }
+
+        #region IAppContext Members
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool UseXSLTTransformerWithLargeStack
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        #endregion
     }
 }
