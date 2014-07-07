@@ -21,10 +21,10 @@
 
     <xsl:template match="/H2G2[@TYPE = 'USER-COMPLAINT'] | /H2G2[@TYPE = 'USERCOMPLAINTPAGE']" mode="page">
         <xsl:text disable-output-escaping="yes">&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"></xsl:text>
-        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="bn-BD" lang="bn-BD">
             <head profile="http://dublincore.org/documents/dcq-html/">
                 
-                <title>BBC Mundo - Quejas</title>
+                <title>BBC Bangla - অভিযোগ</title>
                 
                 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
                 <meta name="description" content="" />
@@ -42,7 +42,7 @@
                 <xsl:comment>#include virtual="/includes/blq/include/blq_head.sssi"</xsl:comment>
                 
                 <link rel="stylesheet" href="/dnaimages/components/barlesque_thin/style/complaints.css" type="text/css" />
-				<link rel="stylesheet" href="/worldservice/comments/es_complaints.css" type="text/css" />
+				<link rel="stylesheet" href="/worldservice/comments/bn_complaints.css" type="text/css" />
             	<script type="text/javascript" src="/dnaimages/javascript/DNA.js"/>
             	
             	<script type="text/javascript">
@@ -71,7 +71,7 @@
                 <div id="blq-container">
                     <div id="blq-main">
                         
-                        <h1>BBC Mundo - Quejas</h1>
+                        <h1>BBC Bangla - অভিযোগ</h1>
                         
                         <xsl:apply-templates select="USER-COMPLAINT-FORM | USERCOMPLAINT | ERROR" mode="input_user-complaint-form" />
                         

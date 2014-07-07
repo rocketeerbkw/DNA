@@ -15,8 +15,7 @@
     
     <xsl:template match="USER-COMPLAINT-FORM[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]] | USERCOMPLAINT[/H2G2/PARAMS/PARAM[NAME = 's_start'][VALUE = 1]]" mode="input_user-complaint-form">
         <div class="content">
-            <h2>Mesaj hakkında şikayette bulunun <!-- <xsl:call-template name="item_name"/> -->
-      </h2>
+            <h2>Mesaj hakkında şikayette bulunun</h2>
             <p>Bu form, sadece kullanım koşullarını ihlal ettiği düşünülen içerik için kullanılabilir. <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">Kullanım koşulları için tıklayın</a>.</p>
             <p>Eğer genel bir yorum yapmak ya da soru yöneltmek isterseniz, bu formu kullanmak yerine bir mesajla tartışmaya katılın.</p>
             <p>Hakkında şikayetçi olduğunuz mesaj, kullanım koşullarının ihlal edilip edilmediğine karar verecek olan moderatöre iletilecek.<a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml"> Kullanım koşulları için tıklayın</a>. Karar hakkında elektronik posta mesajı aracılığıyla bilgilendirileceksiniz.</p>
@@ -96,13 +95,13 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>Moderatörleri uyarmak</h2>
-            	<p>Bu yorumun ihlal ettiğini düşündüğünüz <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">kullanım koşulunu</a> seçin.<!-- <xsl:call-template name="item_name"/> --> Eğer birden fazla kuralın ihlal edildiğini düşünüyorsanız en ciddi ihlali seçin.</p>
+            	<p>Bu yorumun ihlal ettiğini düşündüğünüz <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">kullanım koşulunu</a> seçin. Eğer birden fazla kuralın ihlal edildiğini düşünüyorsanız en ciddi ihlali seçin.</p>
             </div>
             
             <div class="content">
               <h2>Şikayetinizin nedeni:</h2>
               <p>
-                Bu mesajın <!-- <xsl:call-template name="item_name"/> --><a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">kullanım koşullarını</a> ihlal etmiş olabileceğini düşünüyorum  çünkü:
+                Bu mesajın <a href="http://www.bbc.co.uk/turkce/kurumsal/2010/10/000001_forum_rules.shtml">kullanım koşullarını</a> ihlal etmiş olabileceğini düşünüyorum  çünkü:
               </p>
                
                 <p class="options">
@@ -175,7 +174,7 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>Lütfen aşağıdaki kutuya hangi nedenle kural ihlali olduğunu düşündüğünüzü yazın. <!-- <xsl:call-template name="item_name"/> --> Formu doldurduktan sonra da moderatör tarafından incelenmek üzere Şikayet Et'e tıklayın.</p>
+           	<p>Lütfen aşağıdaki kutuya hangi nedenle kural ihlali olduğunu düşündüğünüzü yazın. Formu doldurduktan sonra da moderatör tarafından incelenmek üzere Şikayet Et'e tıklayın.</p>
                <p>
                   <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Diğer'">
                     bu konuda şikayette bulunmak istiyorum: <xsl:call-template name="item_name"/> Aşağıdaki nedenle 
@@ -185,7 +184,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'Diğer'">
-                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
+                        <xsl:text> </xsl:text>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>

@@ -80,6 +80,8 @@ namespace BBC.Dna
                 DnaDiagnostics.WriteHeader("OnDnaStartup - RELEASE");
 #endif
 
+            TheAppContext.Diagnostics.WriteToLog("UseXSLTTransformerWithLargeStack", TheAppContext.UseXSLTTransformerWithLargeStack.ToString());
+
 			Statistics.InitialiseIfEmpty(null,false);
 
             //load the smiley list
@@ -133,6 +135,7 @@ namespace BBC.Dna
 		private DnaConfig _dnaConfig;
 		private int _maximumRequestCount = 50;
         private AllowedURLs _allowedURLs = null;
+        private bool _useXSLTTransformerWithLargeStack = false;
 
 		/// <summary>
 		/// Creates an AppContext, given the root path of the app, where it can find config info
@@ -149,6 +152,11 @@ namespace BBC.Dna
 				_maximumRequestCount = Convert.ToInt32(WebConfigurationManager.AppSettings["maxrequests"]);
 			}
             ReaderCreator = new DnaDataReaderCreator(_dnaConfig.ConnectionString, _dnaAppDiagnostics);
+
+            if (WebConfigurationManager.AppSettings["UseXSLTTransformerWithLargeStack"] != null)
+            {
+                _useXSLTTransformerWithLargeStack = Boolean.Parse(WebConfigurationManager.AppSettings["UseXSLTTransformerWithLargeStack"]);
+            }
 		}
 
 		/// <summary>
@@ -195,6 +203,15 @@ namespace BBC.Dna
 		{
 			get { return _maximumRequestCount; }
 		}
+
+        /// <summary>
+        /// Use the XSLT Transformer with a large stack
+        /// The transformer only works on IIS7 when it has a larger stack
+        /// </summary>
+        public bool UseXSLTTransformerWithLargeStack
+        {
+            get { return _useXSLTTransformerWithLargeStack; }
+        }
 
 		/// <summary>
 		/// The configuration of the application

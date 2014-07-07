@@ -101,6 +101,16 @@ namespace BBC.Dna.Page
         }
 
         /// <summary>
+        /// Use the XSLT Transformer with a large stack
+        /// The transformer only works on IIS7 when it has a larger stack
+        /// </summary>
+        public bool UseXSLTTransformerWithLargeStack
+        {
+            get { return AppContext.TheAppContext.UseXSLTTransformerWithLargeStack; }
+        }
+
+
+        /// <summary>
         /// <see cref="AppContext.CurrentServerName"/>
         /// </summary>
         public string CurrentServerName

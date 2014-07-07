@@ -15,7 +15,8 @@ using BBC.Dna.Data;
 namespace BBC.Dna
 {
     /// <summary>
-    /// Interface that represents all aspects of a DNA request.
+    /// Interface that represents all aspects of a DNA requestapp
+    /// 
     /// </summary>
 	public interface IInputContext : IAppContext
 	{

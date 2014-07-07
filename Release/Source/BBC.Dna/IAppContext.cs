@@ -112,6 +112,16 @@ namespace BBC.Dna
         }
 
         /// <summary>
+        /// Use the XSLT Transformer with a large stack
+        /// The transformer only works on IIS7 when it has a larger stack
+        /// </summary>
+        bool UseXSLTTransformerWithLargeStack
+        {
+            get;
+        }
+
+
+        /// <summary>
         /// Gets the given int site option for the given site
         /// <see cref="SiteOptionList.GetValueInt"/>
         /// </summary>

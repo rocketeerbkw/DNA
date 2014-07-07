@@ -902,7 +902,14 @@ namespace BBC.Dna.Page
                 }
 
                 // No cached version, so create and load the file
-				transformer = CreateCompiledTransform(xsltFileName);
+                if (this.UseXSLTTransformerWithLargeStack)
+                {
+                    transformer = CreateCompiledTransformWithLargeStack(xsltFileName);
+                }
+                else
+                {
+                    transformer = CreateCompiledTransform(xsltFileName);
+                }
 
                 // Create a dependency for the cached transform based on the xsltransformcache cache item. When this gets removed, the transform will be removed at the same time.
                 CacheDependency dep = new CacheDependency(null,recacheDepends);
@@ -916,7 +923,6 @@ namespace BBC.Dna.Page
             return transformer;
         }
 
-#if DEBUG
         /// <summary>
         /// A private class used to load XSLT files on another thread with a large stack
         /// Implemented to get around the reduced stack size in IIS 7
@@ -924,19 +930,27 @@ namespace BBC.Dna.Page
         private class TransformerLargeStack
         {
             private XslCompiledTransform transformer;
+            private Exception exception = null;
 
             private void LoadInternal(string xsltFileName)
             {
-                transformer = new XslCompiledTransform(false /* xsltDebugging*/);
-
-                // this stuff is necessary to cope with our stylesheets having DTDs
-                // Without all this settings and resolver stuff, you can't use the Load method
-                // and tell it to allow DTDs
-                XmlReaderSettings xset = new XmlReaderSettings();
-                xset.ProhibitDtd = false;
-                using (XmlReader xread = XmlReader.Create(xsltFileName, xset))
+                try
                 {
-                    transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
+                    transformer = new XslCompiledTransform(false /* xsltDebugging*/);
+
+                    // this stuff is necessary to cope with our stylesheets having DTDs
+                    // Without all this settings and resolver stuff, you can't use the Load method
+                    // and tell it to allow DTDs
+                    XmlReaderSettings xset = new XmlReaderSettings();
+                    xset.ProhibitDtd = false;
+                    using (XmlReader xread = XmlReader.Create(xsltFileName, xset))
+                    {
+                        transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
+                    }
+                }
+                catch (Exception ex)
+                {
+                    exception = ex;
                 }
             }
 
@@ -946,10 +960,42 @@ namespace BBC.Dna.Page
                 thread.Start();
                 thread.Join();
 
+                if (exception != null)
+                    throw exception;
+
                 return transformer;
             }
         }
-#endif
+
+        /// <summary>
+        /// Takes the path to an XSLT stylesheet and creates a compiled transformer
+        /// </summary>
+        /// <param name="xsltFileName">path to the .xsl file</param>
+        /// <returns>the XslCompiledTransform object created from the stylesheet</returns>
+        public static XslCompiledTransform CreateCompiledTransformWithLargeStack(string xsltFileName)
+        {
+            try
+            {
+                // Only need to do this on our IIS7 dev environments
+                var transLargeStack = new TransformerLargeStack();
+                return transLargeStack.Load(xsltFileName);
+            }
+            catch (Exception e)
+            {
+                Type exceptionType = e.GetType();
+                if (exceptionType.Name == "XslLoadException")
+                {
+                    int lineNumber = (int)exceptionType.GetMethod("get_LineNumber").Invoke(e, null);
+                    int linePosition = (int)exceptionType.GetMethod("get_LinePosition").Invoke(e, null);
+                    string fileName = (string)exceptionType.GetMethod("get_SourceUri").Invoke(e, null);
+                    throw new XsltException("XSLT Compile error in file " + fileName + " at line " + lineNumber + ", position " + linePosition, e);
+                }
+                else
+                {
+                    throw new XsltException("Couldn't load xslt file: " + xsltFileName, e);
+                }
+            }
+        }
 
 		/// <summary>
 		/// Takes the path to an XSLT stylesheet and creates a compiled transformer
@@ -958,12 +1004,6 @@ namespace BBC.Dna.Page
 		/// <returns>the XslCompiledTransform object created from the stylesheet</returns>
 		public static XslCompiledTransform CreateCompiledTransform(string xsltFileName)
 		{
-//            bool xsltDebugging = false;
-//#if DEBUG
-//            // Use xslt debugging?
-//            xsltDebugging = true;
-//#endif
-
             XslCompiledTransform transformer = new XslCompiledTransform(false /* xsltDebugging*/);
 
 			// this stuff is necessary to cope with our stylesheets having DTDs
@@ -975,13 +1015,7 @@ namespace BBC.Dna.Page
 			{
                 try
                 {
-#if DEBUG
-                    // Only need to do this on our IIS7 dev environments
-                    var transLargeStack = new TransformerLargeStack();
-                    transformer = transLargeStack.Load(xsltFileName);
-#else
                     transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
-#endif
                 }
                 catch (Exception e)
                 {
