@@ -95,7 +95,7 @@
               <input type="hidden" name="s_ptrt" value="{/H2G2/PARAMS/PARAM[NAME = 's_ptrt']/VALUE}"/>
                 
             	<h2>মডারেটরকে জানানো হচ্ছে</h2>
-            	<p>বেছে নিন কোন্‌ <a href="http://www.bbc.co.uk/bengali/institutional/2013/07/130724_000000_bangla_blog_house_rules.shtml">নিয়মাবলী</a> আপনার মনে হয় এখানে <xsl:call-template name="item_name"/> ভঙ্গ করা হয়েছে। যদি একাধিক নিয়মাবলী লঙ্ঘিত হয়ে থাকে, তাহলে সবচেয়ে গুরুতর অভিযোগটি বেছে নিন।</p>
+            	<p>বেছে নিন কোন্‌ <a href="http://www.bbc.co.uk/bengali/institutional/2013/07/130724_000000_bangla_blog_house_rules.shtml">নিয়মাবলী</a> আপনার মনে হয় এখানে  ভঙ্গ করা হয়েছে। যদি একাধিক নিয়মাবলী লঙ্ঘিত হয়ে থাকে, তাহলে সবচেয়ে গুরুতর অভিযোগটি বেছে নিন।</p>
             </div>
             
             <div class="content">
@@ -174,9 +174,9 @@
     <xsl:template match="USER-COMPLAINT-FORM | USERCOMPLAINT" mode="input_user-complaint-form">
         <form id="UserComplaintForm" action="UserComplaintPage" method="post"> 
            <div class="content"> 
-           	<p>নীচের ঘরে লিখুন কেন আপনি মনে করছেন এতে <xsl:call-template name="item_name"/> নিয়ম ভঙ্গ করা হয়েছে। লেখা শেষ হলে 'সেন্ড কমপ্লেইন্ট' বোতামে ক্লিক করুন, যাতে মডারেটর অভিযোগটি পর্য্যালোচনা করে দেখতে পারেন।p>
+           	<p>নীচের ঘরে লিখুন কেন আপনি মনে করছেন এতে  নিয়ম ভঙ্গ করা হয়েছে। লেখা শেষ হলে 'সেন্ড কমপ্লেইন্ট' বোতামে ক্লিক করুন, যাতে মডারেটর অভিযোগটি পর্য্যালোচনা করে দেখতে পারেন।</p>
                <p>
-                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'Other'">
+                  <xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE = 'অন্যান্য'">
 				আমি অভিযোগ করতে চাই <xsl:call-template name="item_name"/> নিচের কারণগুলোর জন্য:
                   </xsl:if>
                    
@@ -184,7 +184,7 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != 'অন্যান্য'">
-                        <xsl:text>আমার বিশ্বাস </xsl:text><xsl:call-template name="item_name"/>
+                        <xsl:text>আমার বিশ্বাস </xsl:text>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> এই কারণের জন্য</xsl:text>
                     	</xsl:if>
@@ -218,7 +218,7 @@
                 <xsl:if test="(/H2G2/VIEWING-USER/USER/GROUPS/EDITOR) or (/H2G2/VIEWING-USER/USER/STATUS = 2) or (/H2G2/VIEWING-USER/USER/GROUPS/GROUP[NAME='EDITOR'])">
                     <p>
                         <input type="checkbox" value="1" name="hidepost" id="hidePost"/>
-                        <label for="hidePost">পোস্টটি লুকিয়ে রাখুন <xsl:call-template name="item_name"/> এখুনি</label>.
+                        <label for="hidePost">পোস্টটি লুকিয়ে রাখুন <xsl:call-template name="item_name"/> এখুনি</label>
                     </p>
                 </xsl:if>
                 
@@ -340,7 +340,7 @@
     <div class="content">
       <h2>সফলভাবে অভিযোগ পাঠানো হয়েছে</h2>
       <p>
-		আপনার অভিযোগ সফলভাবে মডারেশন টিমের কাছে পাঠানো হয়েছে। তারা সিদ্ধান্ত নেবে কোনভাবে <a href="{$houserulespopupurl}">নিয়মাবলী</a> লঙ্ঘিত হয়েছে কি না। ইমেইলের মাধ্যমে আপনাকে তাদের সিদ্ধান্ত জানিয়ে দেয়া হবে।
+		আপনার অভিযোগ সফলভাবে মডারেশন টিমের কাছে পাঠানো হয়েছে। তারা সিদ্ধান্ত নেবে কোনভাবে <a href="http://www.bbc.co.uk/messageboards/newguide/popup_editorial_guidelines.html">নিয়মাবলী</a> লঙ্ঘিত হয়েছে কি না। ইমেইলের মাধ্যমে আপনাকে তাদের সিদ্ধান্ত জানিয়ে দেয়া হবে।
       </p>
       <p>
 		আপনার মডারেশন রেফারেন্স আইডি: <strong>

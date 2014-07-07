@@ -184,11 +184,11 @@
                 <p class="options">
                     <textarea id="reason" rows="10" cols="40" name="complainttext" class="textarea">
                     	<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE and /H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE != '其他'">
-                        <xsl:text> </xsl:text><!-- <xsl:call-template name="item_name"/> -->
+                        <xsl:text> </xsl:text>
                         <xsl:text xml:space="preserve"> </xsl:text>
                         <xsl:apply-templates select="/H2G2/PARAMS/PARAM[NAME = 's_complaintText']/VALUE" mode="library_string_stringtolower"/><xsl:text> </xsl:text>
                     	</xsl:if>
-                    	<xsl:text> <!-- leave this!! --> </xsl:text
+                    	<xsl:text> <!-- leave this!! --> </xsl:text>
                     </textarea> 
                 </p>
            </div>
