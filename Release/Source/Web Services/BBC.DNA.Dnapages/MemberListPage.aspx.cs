@@ -463,6 +463,21 @@ public partial class MemberListPage : BBC.Dna.Page.DnaWebPage
                         nextCell.Text = data.InnerText;
                         row.Cells.Add(nextCell);
                     }
+                    else if (data.LocalName == "USERNAME" || data.LocalName == "LOGINNAME")
+                    {
+                        if (count == 0)
+                        {
+                            AddHeaderCell(headerRow, data.LocalName);
+                        }
+
+                        link = new HyperLink();
+                        link.NavigateUrl = "/dna/moderation/MemberDetails?userid=" + userIDText;
+                        link.Text = data.InnerText;
+                        link.ToolTip = "View user's details";
+                        nextCell.HorizontalAlign = HorizontalAlign.Center;
+                        nextCell.Controls.Add(link);
+                        row.Cells.Add(nextCell);
+                    }
                     else if ( data.LocalName != "USERSTATUSDESCRIPTION" &&
                         data.LocalName != "URLNAME")
                     {

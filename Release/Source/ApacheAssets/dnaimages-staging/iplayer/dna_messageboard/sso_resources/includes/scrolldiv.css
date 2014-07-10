@@ -1,0 +1,10 @@
+/*set these border colours to match your design*/
+.scroll {
+	height:200px;
+	width:587px;
+	overflow:auto;
+	border: solid 1px #999999;
+	margin-bottom:9px;
+	padding: 5px;
+	background : White;
+}

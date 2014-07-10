@@ -49,8 +49,10 @@
 			</td>
 			
 			<td>
-				<xsl:value-of select="USER/SITESPECIFICDISPLAYNAME"/>
-				<xsl:value-of select="USER/DISPLAYNAME"/>
+				<a href="MemberDetails?userid={USER/USERID}" title="View users details">
+					<xsl:value-of select="USER/SITESPECIFICDISPLAYNAME"/>
+					<xsl:value-of select="USER/DISPLAYNAME"/>
+				</a>
 			</td>
 			
 			<td>

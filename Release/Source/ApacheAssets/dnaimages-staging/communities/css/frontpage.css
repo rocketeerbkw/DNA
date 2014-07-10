@@ -1,0 +1,95 @@
+H1{
+	color: #c60;
+	font: bold 160% Arial, Helvetica, sans-serif;
+	font-stretch:wider;
+	margin: 110px 0 0;
+}
+.boxType1, .boxType2{
+	border-bottom:1px solid #7a7a48;
+	float:left;
+	list-style-type:none;
+	margin:2em 7px 1em;
+	padding:0;
+	width:192px;
+}
+.boxType1 A:link, .boxType1 A:visited, .boxType2 A:link, .boxType2 A:visited{
+	color:#666;
+}
+.boxType2{
+	border-bottom:1px solid #c60;
+}
+.boxType1 LI, .boxType2 LI{
+	background:#fff url(http://www.bbc.co.uk/dnaimages/communities/images/boxout_title_bullet.gif) 15px .6em no-repeat;
+	border-left:1px;
+	font-size:x-small;
+	line-height:180%;
+	margin:0;
+	padding:.3em 0 .3em 30px;
+}
+.boxType1 LI LI, .boxType2 LI LI{
+	background:#fff url(http://www.bbc.co.uk/dnaimages/communities/images/3dot_right.gif) 0px .8em no-repeat;
+	border:0;
+	margin:0;
+	padding:.3em 0 .3em 15px;
+}
+.boxType1 LI UL, .boxType2 LI UL{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+}
+.boxType1 LI{
+	border-left:1px solid #7a7a48;
+	border-right:1px solid #7a7a48;
+}
+.boxType2 LI{
+	border-left:1px solid #c60;
+	border-right:1px solid #c60;
+}
+.boxType1 .first-child, .boxType2 .first-child{
+	background: #7a7a48 url(http://www.bbc.co.uk/dnaimages/communities/images/boxtop.gif) right top no-repeat;
+	border:0;
+	color:#fff;
+	font-weight:bold;
+	line-height:140%;
+	padding-left:4px;
+}
+.boxType2 .first-child{
+	background: #c60 url(http://www.bbc.co.uk/dnaimages/communities/images/boxtop.gif) right top no-repeat;
+}
+#splash{
+	background:#ffad64 url(http://www.bbc.co.uk/dnaimages/communities/images/splashbg.gif) right top repeat-y;
+	border:3px solid #ffad64;
+	border-width:4px 3px;
+	color:#c60;
+	float:left;
+	font:bold medium "Times New Roman", Times, serif;
+	font-stretch: wider;
+	height:170px;
+	margin:2em 7px 1em;
+	padding-left:32px;
+	width:235px;
+}
+#lowerCentre{
+	width:271px;
+}
+#lowerCentre LI LI{
+	background:#fff;
+	display:inline;
+	margin:.3em 0;
+	padding:0 .3em;
+}
+#lowerCentre LI LI.inner{
+	border-left:1px solid #666;
+	border-right:1px solid #666;
+}
+
+#lowerCentre LI UL{
+	margin:.3em 0;
+}
+#lowerLeft{
+	clear:left;
+}
+#mainStage{
+	padding:0;
+	width:718px;
+}

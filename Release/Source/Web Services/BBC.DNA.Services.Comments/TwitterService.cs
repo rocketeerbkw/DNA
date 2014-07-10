@@ -49,16 +49,12 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream CreateTweet(string sitename, string commentForumId, Tweet tweet)
         {
-            ISite site = GetSite(sitename);
             var auditId = AddTwitterBuzzAudit(commentForumId, tweet.user.id, tweet.user.ScreenName, tweet.Text);
 
-            if (site == null)
-            {
-                throw ApiException.GetError(ErrorType.UnknownSite);
-            }
-            
             try
             {
+                var site = RetrieveSite(sitename);
+
                 CommentForum commentForumData = _commentObj.GetCommentForumByUid(commentForumId, site);
                 if (commentForumData == null)
                 {
@@ -78,6 +74,24 @@ namespace BBC.Dna.Services
                 throw new DnaWebProtocolException(ex);
             }
 
+        }
+
+        private ISite RetrieveSite(string sitename)
+        {
+            try
+            {
+                var site = GetSite(sitename);
+                return site;
+            }
+            catch (DnaWebProtocolException ex)
+            {
+                if (((DnaWebProtocolException)ex).ErrorType == ErrorType.UnknownSite)
+                {
+                    throw ApiException.GetError(ErrorType.UnknownSite);
+                }
+
+                throw ex;
+            }
         }
 
         /// <summary>

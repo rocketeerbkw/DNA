@@ -1,0 +1,32 @@
+/*PLEASE REMOVE ALL THESE COMMENTS BEFORE LAUNCH*/
+
+/*"light" denotes areas of status bar that are of a ligher colour - eg the "new visitoes" section*/
+.ssoStatuslight {font-family :Arial, sans-serif;color:#666666;}
+a.ssoStatuslight {text-decoration:underline;color:#008AFF;}
+a.ssoStatuslight:hover {color:#666666;}
+
+/*"dark" denotes areas of status bar that are of a darker colour - eg the "returning bbci members" section*/
+.ssoStatusdark {font-family :Arial, sans-serif;color:#406284;}
+a.ssoStatusdark {color:#406284;text-decoration:underline;}
+a.ssoStatusdark:hover {color:#666666;}
+
+.ssoHelp {font-family :Arial, sans-serif;text-decoration:underline;cursor:help;color:#003366;}
+.ssoHelp:hover {color:#878787;}
+.ssoHelp:visited {color:#003366;}
+
+a.ssoStatusdarkhelp {color:#406284;font-family :Arial, sans-serif;cursor:help;}
+a.ssoStatusdarkhelp:hover {color:#666666;}
+
+.ssoStatusform {font-family :Arial, sans-serif;font-size:smaller; width:120px; height:20px; background-color:#ffffff;} /* Make sure this is the same colour as .ssoThree  or - if you're not using three shades of teh same colour for your main sso sections it should be a lighter version of the colour you are using for ssoOne*/
+
+.ssoError {font-family :Arial, sans-serif;color:#ff0000;}
+	
+/*background of main SSO layers, one is "returning members" section colour and three is "new visitors" section colour*/
+.ssoOne {background-color : #A1CAF9;}
+.ssoTwo {background-color : #BFD6F0;}
+.ssoThree {background-color : #E3E1CC;}
+
+.ssoLikebody {background-color:#ffffff;}
+
+/*divider colour for use between layers*/
+.ssoStatusshadow {background-color : #BFD6F0;}

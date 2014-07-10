@@ -1,0 +1,33 @@
+A:link, A:visited {
+	color: #520;
+	font-weight: bold;
+	text-decoration: underline;
+}
+H1, H2, H3{
+	color:#000;
+}
+A:after{
+	content:" (" attr(href) ")";
+	font-size:x-small;
+}
+A[href^="/"]:after{
+  content: " (http://www.bbc.co.uk" attr(href) ") ";
+}
+BODY{
+	background:#fff;
+	font-size:12pt;
+}
+#banner{
+	width:100%;
+}
+#footer, #localNav, #print, #ssoBar, #tabs, #tasks, #toolbox, #topTrim, #utility{
+	display:none;
+}
+#content, #mainStage, #panelActive{
+	background:#fff;
+	border:0;
+	color:#000;
+	margin:0;
+	padding:0;
+	width:100%
+}

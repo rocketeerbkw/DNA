@@ -1,0 +1,564 @@
+#blq-main {
+	font-family: arial,helvetica,sans-serif;
+	line-height: 1.2;
+}
+
+div.breadcrumbs {
+  margin-bottom: 1.5em;
+}
+ul.breadcrumbs {
+  margin-left:175px; 
+  font-size:0.9em
+  }
+  
+ul.breadcrumbs li { 
+  float:left; 
+  width: auto;
+  padding:0 14px 0 0; 
+  background:url(/dnaimages/dna_messageboard/img/right_arrow.gif) no-repeat 97% 65%; 
+}
+ul.breadcrumbs li.current { 
+  background:none; 
+}
+
+#header #tagline a:hover {
+	text-decoration: underline;
+}
+
+.threads, .addthread, .error {
+	/*background: #FFFFFF;*/
+}
+
+#blq-main #header {
+	padding:40px 10px 30px 10px;
+}
+
+#blq-main h1#logo {
+  padding-left: 35px;
+  font-size: 2.5em;
+}
+
+#tagline p {
+    font-weight: bold;
+    color: #EB1286;
+}
+
+#header #tagline a {
+	text-decoration: none;
+	font-weight: bold;
+}
+
+#tagline h2 {
+    font-size:1.6em;
+}
+
+#blq-main .threads, #blq-main  .addthread, #blq-main .error, #blq-main .multiposts, #blq-main .moreposts, #blq-main .morecomments  {
+	width: 464px;
+	border: 1px solid #CCCCCC;
+	padding-bottom: 10px;
+}
+
+#blq-local-nav {
+	float: left;
+	margin-left: 14px;
+	margin-bottom: 14px;
+	width: 146px;
+}
+  
+#blq-main p#membership {
+  display:inline;
+  position:relative;
+  float:right; 
+  width: auto;
+  margin:-24px 7px 0 0; 
+  font-size:0.9em; 
+  font-weight:bold;
+}
+
+#membership strong, #membership a {
+  margin:0 7px 0 7px;
+}
+
+#blq-main #dna-boardpromo {
+  width: 226px;
+	float: left;
+}
+
+div.dna-promocontainer {
+  border:1px solid #CCCCCC;
+  margin-bottom: 14px;
+}
+
+div.dna-promocontainer div   {
+  margin: 10px;
+}
+
+div.dna-promocontainer .image   {
+ text-align: center;
+}
+
+div.dna-promotype4, div.dna-promotype5 {
+  float: left;
+  width: auto;
+}
+
+div.extranav {
+	display:none;
+}	
+
+ul.navigation {
+  	border:1px solid #CCCCCC;
+  	margin-bottom: 14px;
+  	line-height: 1.5em;
+  	padding: 5px;
+}
+
+ul.navigation li {
+	display:block;
+	float:none;
+	width: auto;
+	line-height:1.8em;
+	padding:5px 10px;
+}
+
+ul.admin li a {
+  color: #CC0000 !important;
+}
+
+.sidepanel a {
+  color: #222222;
+}
+.sidePanel a.current-section, .sidePanel a.current-section:hover {
+  color:#fff;
+  background:#FF359F; 
+  border-bottom:1px solid #FF359F;
+}
+
+h3 span { 
+  font-size:0.6em; 
+  padding:0 0 0 7px; 
+}
+h3 .dna-invisible {
+  display:none;
+}
+
+h4 { 
+  font-size:1.5em; 
+  margin-left: 1em;
+}
+
+ul li h4 {
+  margin-left: 0;
+}
+
+.pagination { 
+  margin:1em 0 0 0; 
+  float:right;
+  width: auto;
+  clear: both;
+}
+
+.pagination li {
+  float:left;
+  width: auto;
+}
+.pagination li a, .pagination li span {
+  font-size:0.8em; 
+  margin:0 1px 0 0; 
+  padding:2px 4px 2px 4px;
+}
+.pagination li a {
+  background:#999;
+}
+.pagination li.current a {
+  background:#EB037F;
+}
+.pagination li span {
+  display:none;
+  background:#ccc;
+}
+
+.pagination li a {
+  color:#fff;
+  background-color: transparent;
+}
+.pagination .arrow {
+  display:none;
+}
+.pagination li.selected { 
+  background:#f359ff;
+}
+
+#blq-content .article {
+	padding-bottom: 1em;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: none;
+}
+ul.forumthreadposts, p.forumthreadposts {
+  clear:both;
+}
+ul.forumthreadposts li {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 15px;
+}
+ul.forumthreadposts li p {
+	margin-bottom: 10px;
+}
+ul.forumthreadposts li.firstpost {
+  padding:0;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+ul.forumthreadposts li.stripe {
+  background:#ebebed;
+}
+#blq-content .forumthreads {
+	font-size: 1.2em;
+	color: #000000;
+}
+#blq-content ul.forumthreads p {
+	margin-bottom: 0;
+}
+ul.forumthreads, p.forumthreads {
+  clear:both;
+}
+p.forumthreads {
+  color:#ccc; 
+  background-color: transparent;
+  text-align:center;
+}
+/*ul.forumthreads li, ul.post-list li {
+  padding:7px;
+}*/
+ul.forumthreads li p, ul.post-list li p { 
+  padding-left: 18px; 
+}
+ul.forumthreads p a, ul.post-list p a {
+  font-size:1.1em;
+  font-weight: bold;
+}
+ul.forumthreads p a.nosubject, ul.post-list p a.nosubject {
+  color:#999; 
+  background-color: transparent;
+  font-style:italic
+}
+#blq-content ul.forumthreads p, #blq-content ul.post-list p {
+  margin:0;
+}
+
+ul.forumthreads li, ul.post-list li {
+	margin-bottom: 25px;
+}
+
+ul.forumthreads li.stripe, ul.post-list li.stripe {
+  background:#ebebed;
+}
+
+#blq-content.moreposts p, #blq-content.morecomments p {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 5px;
+}
+.noreplies {
+  color:#bbb
+}
+
+ul.post-list {
+  clear:both;
+}
+p.post-list {
+  color:#ccc; 
+  background-color: transparent;
+  text-align:center;
+}
+
+ul.forumthreads .itemdetail, ul.more-posts .itemdetail, ul.post-list .itemdetail {
+  font-size:0.9em; 
+  border-top:1px dotted #ccc; 
+  margin-left: 18px;
+  margin-right: 18px;
+  margin-top: 5px;
+}
+.replies {
+  float:right; 
+  width: auto;
+  position:relative; 
+  top:1em;
+}
+.replies .dna-invisible {
+  display:none;
+}
+.itemdetail .permalink {
+  padding:0 0 0 14px
+}
+ul.post-list .replydate {
+  display:block;
+}
+ul.forumthreadposts li blockquote, div.inreplyto blockquote {
+  font-style: italic; 
+  margin-left: 7px; 
+  margin-right: 7px;
+}
+
+.dna-boards-startanewdiscussion, .dna-boards-inreplyto {
+  text-align:right;
+  margin-bottom: 15px;
+}
+.dna-boards-startanewdiscussion {
+  margin-right: 10px;
+}
+#blq-content .dna-boards-startanewdiscussion a, #blq-content .dna-boards-inreplyto a {
+	font-size:0.9em;
+	padding:4px 8px;
+	background: #4264A7;
+	color: #FFFFFF;
+}
+.dna-boards-thisreplyto {
+  font-size: 0.9em; 
+  text-align: right; 
+  margin-top:10px;
+}
+.dna-boards-startanewdiscussion a, .dna-boards-inreplyto a {
+  background:#4264A7; 
+  color:#fff; 
+  padding:4px 8px 4px 8px; 
+  font-size:0.9em;
+}
+.dna-boards-thisreplyto a {background: 0; padding: 0;}
+
+p.flag {
+  font-size:0.9em;
+  text-align:right;
+  margin-right:7px; 
+  margin-top: 10px;
+}
+p.flag a {
+  color:#999; 
+  background-color: transparent;
+  background:url(/dnaimages/dna_messageboard/img/complain.gif) no-repeat 1px 2px; 
+  padding-left:14px;
+}
+
+.dna-boards .collections {margin-left:216px;}
+.dna-boards .collections li {display:block; float:left; width:160px;}
+
+.dna-boards p label {
+  display:block; 
+  float:left;
+  width: auto;
+  padding: 10px 10px 10px 24px; 
+  font-weight:bold;
+}
+.dna-boards ul label {
+  padding:4px; 
+  font-weight:bold;
+}
+
+.dna-boards legend {
+  padding:1em 0 1em 0;
+  font-size:1.2em;
+  color:#444
+}
+.dna-boards .text,
+.dna-boards select,
+.dna-boards .textarea {
+  margin:0 0 0 24px; 
+  width:351px;
+  padding:4px; 
+  font-family:arial,helevtica,sans-serif;
+  border:1px solid #CCCCCC; 
+  font-size:1em;
+  }
+
+.dna-boards .textarea{height:150px;}
+.dna-boards .disabled {border:1px solid #999}
+
+.dna-boards .preview {
+  margin:10px 0 10px 24px; 
+  padding: 4px;
+}
+.dna-boards .submit, .dna-boards .cancel {
+  margin:0 0 10px 10px; 
+  padding:4px;
+}
+
+
+.dna-boards-membername {display:none}
+
+.dna-boards p.preview {
+  font-style: italic;
+  margin-left: 1em;
+}
+
+.inreplyto {
+  margin: 14px 7px 14px 0;
+}
+.inreplyto .itemdetail {
+  margin: 0 0 14px;
+}
+.inreplyto .createdby {
+  font-size: 0.9em; 
+  border-bottom: 1px dotted #CCCCCC;
+}
+
+a.editor, a.notable { 
+  font-weight: bold; 
+  font-style: italic;
+}
+
+#blq-content .dna-boards p.dna-error {
+  padding-left:214px; 
+  width:375px; 
+  font-weight:bold; 
+  background:url(/dnaimages/dna_messageboard/img/complain.gif) no-repeat 188px 2px;
+}
+
+#blq-content .dna-boards-moderation {
+  padding: 10px;
+  font-size: 100%;
+  color: #CC0000;
+}
+.dna-invisible { display: none; }
+#blq-content .dna-boards-moderation .dna-invisible {display:none}
+#blq-content .dna-boards-moderation a {
+  padding-left:14px; 
+  color:#CC0000; 
+  font-size: 100%;
+}
+
+/* crazy override to customise the frontpage */
+#blq-content.frontpage  { 
+  background:none; 
+  float:left; 
+  width: 750px;
+  margin-left:14px;
+  padding:0;
+}
+#blq-content .topiclist {
+	padding: 0;
+}
+
+#blq-content .topiclist h3 {
+  margin-left:0; 
+  background: #cccccc; 
+  padding-left: 14px; 
+  padding-top: 10px; 
+  padding-bottom: 10px; 
+  font-size: 100%;
+  }
+  
+  #blq-content .topiclist li p {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  
+  #blq-content .topiclist li div.topicimage {
+  margin: 10px 14px 0;
+}
+#blq-content .topiclist li div.topicimage img {
+  border: 0;
+}
+  
+#blq-content h3 {
+  color: #000000; 
+  background: #CCCCCC;
+  font-size: 1.5em; 
+  margin-bottom: 10px;
+  margin-left:0;
+  padding-bottom:10px;
+  padding-left:14px;
+  padding-top:10px;
+}
+#blq-content .topiclist a, #blq-content a {
+  color: #4264A7;
+  background-color: transparent;
+}
+#blq-content a:hover {
+	text-decoration: underline;
+}
+#blq-content .topiclist li {
+	background: #FFFFFF;
+	width: 224px;
+	float: left;
+	margin-bottom: 14px;
+	margin-right: 14px;
+	border: 1px solid #CCCCCC;
+	position: relative;
+	min-height: 160px;
+}
+#blq-content .topiclist p {
+  font-size: 1.1em; 
+  margin-top: 5px;
+}
+#blq-content .topiclist {overflow:auto;}
+#blq-content .topiclist .replies {
+  top:140px; 
+  min-height:0;
+  margin-top:5px; 
+  margin-left: 0; 
+  margin-bottom: 0;
+  height: auto;
+  position: absolute;
+  right: 0;
+}
+#blq-content .topiclist br {display:none;}
+
+#blq-content {
+	float: left;
+	margin-right: 14px;
+	margin-left: 14px;
+	width: 750px;
+	margin-bottom: 14px;
+}
+
+a.rsslink {
+	background: transparent url('/dnaimages/dna_messageboard/img/rss.gif') no-repeat scroll 0 0;
+	float: right;
+	width: 16px;
+	height: 16px;
+	margin-right: 14px;
+}
+
+.left {
+	float: left;
+	width: auto;
+	font-size: 1em;
+	display: block;
+}
+
+ul.forumthreads li span.userid {
+	display:none;
+}
+
+div#logintrouble {
+	float: right; 
+	width: auto;
+	margin-right: 10px; 
+	color: #FFF; 
+	font-size: 1.2em;
+}
+
+
+body.ie #blq-content .topiclist p {
+  height:160px; 
+  font-size: 0.9em;
+}
+body.ie #blq-content .topiclist .replies {
+  height:0; 
+  position:absolute; 
+  top:auto; 
+  margin-top:10.8em;
+  width:257px;
+  text-align:right
+}
+body.ie ul.forumthreads li.stripe {height:1%;}
+
+body.ie ul.globalNav li.sidePanel {height:1%;}
+body.ie ul.globalNav li{margin-top:-12px;}
+body.ie ul.globalNav{margin:12px 0 0 0;}
+body.ie ul.globalNav li.sidePanel{line-height:1;}
+body.ie ul.topiclist li h3 { padding-bottom: 10px; }
+body.ie div#blq-content h3 { height: 20px; }
+body.ie div#blq-content ul.forumthreadposts p { word-wrap: break-word; } /* IE hack */

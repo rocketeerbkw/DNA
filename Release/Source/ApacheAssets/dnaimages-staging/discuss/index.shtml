@@ -1,0 +1,56 @@
+<!--#set var="page.title" value="Home"-->
+<!--#include virtual="/discuss/include/header.sssi"-->
+
+<div class="column">
+	
+	<div class="module large-panel">
+		<h2>Commenting for Everyone</h2>
+		<p class="outline">Enabling user participation and conversation, BBC Discuss is a straight forward social component supported by a full range of powerful moderation tools.</p>
+		<p>Encouraging discussion, it can be quickly implemented with large web applications or small carefully crafted sites. Created by a team that has been at the centre of user generated content propositions in the BBC for more than 6 years, BBC Discuss can also offer advice and guidance on fostering and maintaining online communities.</p>
+		<h3>Features</h3>
+		<ul>
+			<li>Plug and Play Functionality</li>
+			<li>Complete integration with SSO and soon, <a href="https://id.bbc.co.uk/identity">Identity</a></li>
+			<li>Enhanced user experience with the <a href="http://www.bbc.co.uk/glow">BBC Glow</a> Javascript library</li>
+			<li>Clean and accessible HTML with appropriate Microformats</li>
+			<li>Supported by an experienced Moderation team and a full suite of tools for site owners</li>
+		</ul>
+	</div>
+</div>
+
+<div class="column">
+	
+	<div class="module small-panel" id="detail">
+		<h2>Getting Started</h2>
+		<ul class="endcorners">
+			<li class="outline">
+				<a href="/discuss">
+					&raquo; See the Example
+					<span>Too much marketing speak? Have a look at our demo of BBC Discuss.</span>
+					</a>
+			</li>
+			<li>
+				<a href="/discuss">
+					&raquo; Quick Guide
+					<span>What you'll need to get BBC Discuss on your pages in no time at all.</span>
+					</a>
+			</li>
+			<li>
+				<a href="/discuss">
+					&raquo; Documentation
+					<span>From APIs to service details, everything you need to know about BBC Discuss is here.</span>
+					</a>
+			</li>
+		</ul>
+	</div>
+	
+	<div class="module small-panel">
+		<h2>Service</h2>
+		<p>erm</p>
+	</div>
+
+</div>
+
+
+
+<!--#include virtual="/discuss/include/footer.sssi"-->

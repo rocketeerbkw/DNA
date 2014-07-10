@@ -1,0 +1,360 @@
+
+/* .bbcpageToplefttd {background-color:  #F5F5F5;}*/
+.bbcpageToplefttd {background-color:  #F2ECF9;}
+.bbcpageCrumb {background-color:  #F2ECF9;}
+.bbcpageLocal {background-color:  #F2ECF9; padding-left: 8px;  }
+.bbcpageServices {background-color:  #F2ECF9;}
+
+/* Formatting for all pages */
+body {background:#ffffff;}
+
+h1, h2, h3, h4, h5, h6, p, li, font, big, small, span, .off, blockquote, .postContentOne, .postContentTwo {
+	font-family : arial,helvetica,sans-serif ;
+}
+
+h1, h2, h3, h4, h5, h6, p, li, big, small, span, .postContentOne, .postContentTwo {
+	color:#666666;
+}
+
+.userbar {background:#f1f6e8; padding:5px;}
+
+/* Page heading */
+h1 {margin:0px;}
+
+/* Subheading text */
+h2 {margin:0px;}
+
+h3 {margin:0px;}
+
+h4 {margin:0px;}
+
+/* Crumbtrail */
+h5 {margin:0px;padding:5px;}
+#crumbtrail {padding-top:3px;padding-bottom:8px;}
+
+/* Promo box titles */
+h6 {margin:0px;}
+
+#main {background:#ffffff;}
+
+a:link,
+a:visited,
+.inactive,
+a:active {text-decoration:underline;color:#666666;}
+a:hover,a,.inactive:hover        {text-decoration:underline;font-family : arial,helvetica,sans-serif}
+
+a.ssoStatusdark,  a.ssoStatuslight {font-weight:normal;}
+
+#active,
+#active:visited {text-decoration:underline;font-weight:bold;}
+
+p {padding:0px;margin:0px;}
+
+th {font-weight:normal;padding:5px;margin:0px;background:#DED3EB;vertical-align:top;}
+
+.intro {padding:10px 5px 10px 5px;font-weight:bold;}
+
+.instructional {font-style : italic;font-weight:normal;}
+
+.strong {font-weight:bold;}
+
+.notable {font-weight:bold;}
+
+/* Page header (this is the bit to use to change colour for each topic) */
+#subject {background:#e4dbef;border-top:4px solid #7c649c;color:#ffffff;padding:5px;}
+#subject h1 {color:#666666;}
+#rulesHelp {background:#e4dbef;border-top:4px solid #7c649c;padding:5px;text-align:right;}
+
+
+/* Left-hand navigation */
+#lhTitle {font-weight:bold;}
+.lhOff {}
+.lhOn {}
+
+
+/*Table navigation bar*/
+.tablenavbarTop {background:#F2F6E8;text-align:right;color:#666666;}
+.tablenavbarBtm {background:#F2F6E8;text-align:right;color:#666666;}
+.tablenavtext a {text-decoration:none;}
+.off {color:#cccccc}
+.inactive {text-decoration:none;}
+.tablenavtext {padding:5px 10px 5px 5px;}
+
+
+/* Promos */
+#promoArea {padding:5px;padding-top:0px;}
+#staticPromo {background:#fffcf1;border:1px solid #7d8b96;padding:5px;}
+#dynamicPromoHeader {background:#d5d5b9;border:1px solid #7d8b96;padding:5px;}
+#dynamicPromoContent {background:#fffcf1;border:1px solid #7d8b96;border-top:0px;padding:5px;}
+
+/* Amount of discussions/messages */
+.discussions {text-align:right;}
+.discussions h4 {color:#666666;font-weight:normal;}
+
+#content {border:1px solid #e3e8e9;clear:both;}
+
+/* Topic area specific code */
+#thDiscussion {text-align:left;border:1px solid #f2ecf9;border-left:0px;}
+#thReplies {border-left:0px;text-align:center;border:1px solid #f2ecf9;border-left:0px;}
+#thStarted {border-left:0px;text-align:center;border:1px solid #f2ecf9;border-left:0px;}
+#thLatest {border-left:0px;text-align:center;border-top:1px solid #f2ecf9;border-bottom:1px solid #f2ecf9;}
+#thLatestReply {border-left:0px;text-align:center;border:1px solid #f2ecf9;border-left:0px;}
+#thTags {border-left:0px;text-align:center;border-top:1px solid #f2ecf9;border-bottom:1px solid #f2ecf9;}
+
+.thText {color:#666666;font-weight:bold;}
+
+.discussion {border-bottom:1px solid #f2ecf9;border-right:1px solid #f2ecf9;}
+.replies {text-align:center;border-bottom:1px solid #f2ecf9;border-right:1px solid #f2ecf9;}
+.startedby {text-align:center;border-bottom:1px solid #f2ecf9;border-right:1px solid #f2ecf9;}
+.latestreply {text-align:center;border-bottom:1px solid #f2ecf9;}
+.tags {border-bottom:1px solid #f2ecf9; border-left:1px solid #f2ecf9;}
+
+.rowOne td {background:#F2F6E8;padding:5px;vertical-align:top;}
+.rowTwo td {background:#ffffff;padding:5px;vertical-align:top;}
+
+#newconversation {margin-left:7px;}
+#newconversation span {vertical-align:5px;}
+
+/* Discussion specific code */
+.addTag { font-size:90%;} 
+
+#discussionTitle {padding-left:5px;}
+
+#complainHelp {margin-bottom:10px;}
+
+/* Presentation of posts */
+.post, .postPreview {background:#f1f6e8;border-top:1px solid #e3e8e9;border-bottom:1px solid #e3e8e9;padding:5px;}
+.postContentOne { border:1px;width:488px;padding:5px;margin-top:5px;}
+.postContentTwo { border:1px;width:488px;padding:5px;margin-top:5px;}
+.postBottom {background:#f1f6e8;background-image : url(http://www.bbc.co.uk/dnaimages/boards/images/multiposts_line.gif);}
+.postBottom td {border-bottom:10px solid #ded3eb;padding:3px;}
+
+/* Quotes within posts */
+.postContentOne blockquote, .postPreview blockquote {background:#f1f6e8;border:1px solid #ded3eb;padding:5px;margin-top:10px;}
+.postContentTwo blockquote {background:#f1f6e8;border:1px solid #ded3eb;padding:5px;margin-top:10px;}
+.quotefrom {text-align:right;}
+.extraquotes {background:#fffcf1;border-top:1px solid #ffcc99;border-bottom:1px solid #ffcc99;padding:3px;margin-top:10px;}
+.extraquotes2 {background:#fffcf1;border-top:1px solid #f6edcd;border-bottom:1px solid #f6edcd;padding:3px;margin-top:10px;}
+.hostsname {font-style:italic;}
+
+/* Form page (e.g. reply to/complain about a message) styles */
+#contentForm {border:1px solid #e3e8e9;border-bottom:1px solid #7d8b96;margin:40px 0px 40px 0px;}
+#formBg {background:#e3e8e9;border-top:10px solid #b3bdc1;border-bottom:10px solid #b3bdc1;}
+#tablenavbarForm {background:#ffffff;text-align:left;color:#666666;padding:5px;}
+.textfield {background:#fffcf1;padding:15px;margin:20px;}
+.textfield p {margin-bottom:5px;}
+.buttons {float:right;margin:0px 10px 10px 0px;}
+#formBg h3 {margin-bottom:5px;}
+.theForm {margin:20px;}
+
+
+/* NEW styles for reply to a message/start new conversation */
+#formArea {background:#f1f6e8;border-top:10px solid #e4dbef;padding:10px 0px 10px 10px;}
+#previewArea {border-top:1px dashed #7d8b96;background:#f1f6e8;border-bottom:10px solid #e4dbef;}
+#previewArea th, #previewTable th, #previewTableTwo th  {background:#e4dbef;text-align:left;padding-left:0px;font-weight:bold;}
+#previewArea #previewTable {margin:10px 10px 20px 30px;}
+#previewTableTwo {margin:5px;padding:10px;}
+#previewArea #previewTable .postContentOne, #previewArea #previewTableTwo .postContentOne {width:405px;} 
+
+.buttonsTwo {float:center;margin:10px 10px 0px 10px;}
+.buttonsThree {float:right;margin:0px 113px 3px 0px;}
+.message {margin-left:20px;}
+
+/* Moreposts page */
+
+.MPnewrow {background:#faf5e5;}
+.MPoldrow {background:#f9eee4;}
+.MPnew {border:1px solid #e6e4df;border-right:0px;padding:5px;}
+.MPdiscussion {border-top:1px solid #e6e4df;border-bottom:1px solid #e6e4df;padding:5px;}
+.MPdate {border:1px solid #e6e4df;border-left:0px;padding:5px;text-align:right;}
+
+.line {color:#7d8b96;background:#7d8b96;height:1px;border-width:0px;border-top:1px solid #7d8b96;}
+
+
+
+
+
+
+/* Frontpage stuff */
+
+.textbox {
+	padding: 5px;
+	background: #bbbbbb;
+}
+
+.topicbox {
+	padding: 5px;
+	background: #dddddd;
+}
+
+.lhn-container {
+	margin: 5px;
+}
+
+.lhn-topic {
+	margin: 1px;
+}
+
+/* ------------------------------------------ *
+ *	Contextual Help Blocks Styling            *
+ *	----------------------------------------- */
+
+/* Style the help block's colours and font. The background colour should be the same for both */
+
+.blockSide      { background-color:#E3E8E9}
+.promoTable .blockMain      { background-color:#E3E8E9;
+				  color: #000000;
+				  font-weight:normal;
+				  font-family: Verdana, Arial, Helvetica, sans-serif;
+				   line-height:150%;				  
+				  width:113px;
+				  padding:3px;
+				}
+
+/* Style the panel shadow, if you don't want the shadow change it to {background-color:none} */
+		
+.blockShadow     { background-color:#B3BDC1 }
+
+/* Style the links */
+
+.promoTable .blockMain a {color: #006699; text-decoration:underline; font-weight:normal; }
+.promoTable .blockMain a:hover	 {color: #006699; text-decoration:underline; cursor:help; font-weight:normal;}
+.promoTable .blockMain a:active  {color: #006699; font-weight:normal; text-decoration:underline;}
+.promoTable .blockMain a:visited {color: #006699; font-weight:normal; text-decoration:underline;}
+
+.promoTable {margin-bottom:5px;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.hotPhrases {float:left; padding:20 0px;  border-bottom: 1px dashed #7d8b96; width:100%;}
+
+
+.complainimage { text-decoration: none; vertical-align: top; padding-right:5px;}
+.addTag {border: 1px solid #333333; padding: 1px 2px; text-decoration: none; vertical-align: top;  font-family: Verdana, Arial, Helvetica, sans-serif;}
+.complainPhrase {padding-top:10px;}
+
+
+
+
+
+.TspThreadList {margin-top: 20px;}
+
+
+.TspDiscussions h4 {color:#666666;font-weight:normal;}
+
+.more-phrases {font-size:70%; font-weight:bold; float:right;}
+
+
+
+
+
+
+
+
+
+
+
+#lhcol {float:left;width:440px;border-right:1px dashed #7d8b96; padding-right:3px;}
+
+#rhcol {float:left; width:190px; margin-left: 1px;}
+
+
+/* TSP page */
+
+.TspIntro {padding:10px 5px 0px 5px; }
+.newDiscussion {margin-bottom:10px; margin-top:10px; float:left;clear:left;}
+.TspDiscussions { float:right;clear:right;text-align:right; vertical-align:bottom; padding:10px 20px 10px 0;}
+.englandMap {border-bottom:1px dashed #7d8b96; margin-bottom: 10px;background-color: #F1F6E8;}
+.openingHours {padding: 10px; background-color: #DFD3EB;font-family : arial,helvetica,sans-serif ; font-size:90%;}
+.openingHours em {font-weight: bold;font-style: normal;}
+.TspSearch {background-color:#E4DBEF;padding: 3px 5px 5px 10px;font-family : arial,helvetica,sans-serif ; font-size:90%; margin-top: 10px; clear:both;}
+.TspSearch p {color:333333;}
+.TspSearchObject {border-bottom:1px dashed #7d8b96; padding: 10 10 20 0px; clear:both;}
+
+
+
+
+
+
+/* England LHN */
+
+a.englandNav { text-decoration: none; font-size:80%; color:#330066; }
+a.englandNavCurrent {text-decoration: none; font-size:80%; font-weight:bold; color:#330066; }
+a:visited.englandNav {text-decoration:none; font-size:80%; color:#330066; }
+a:hover.englandNav, a:hover.englandNavCurrent {text-decoration:underline; color:#330066; }
+a:visited.englandNavCurrent {text-decoration:none; font-size:80%; color:#330066; }
+a:hover.englandNavCurrent {text-decoration:underline; color:#330066; }
+
+
+
+.englandNavCountry {font-weight:bold; font-size: 80%;color:#330066; }
+a.englandNavCountry {text-decoration:none; color:#330066; }
+a:visited.englandNavCountry {text-decoration:none; color:#330066; }
+a:hover.englandNavCountry {text-decoration:underline;color:#330066; }
+
+
+
+
+
+.regionBlock {
+				padding-top: 20px;   
+				font-family : arial,helvetica,sans-serif ;
+				color:#7d8b96;
+
+				 }
+
+.tablenavtext {text-align:center;}
+.onTspTabBlock a {text-decoration:underline;}
+
+.blockPhrase {
+  font-weight:normal;
+				  font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+.hotPhrasesNav { background-color:#E3E8E9;  padding:5px;text-align:center;}
+
+#moreTagsToBoards {float:right;  font-size: 80%;}
+
+
+.cancelTagLink {float:right;} 
+
+.blockPhrase { font-size:90%;} 
+
+.rank1{font-size:60%;}
+.rank2{font-size:80%;}
+.rank3{font-size:100%;}
+.rank4{font-size:120%;}
+.rank5{font-size:140%;}
+
+.introRegion {font-size:140%;}
+.introPhrase {font-size:140%;}
+
+.regionBlock{font-size:100%;}
+
+.imgPromoRight {float:right; margin: 10px; }
+.imgPromoLeft {float:left; margin: 10px; }
+#promoContentTag p {margin:10px;}
+
+
+.newregister {background-color: f1f6e8; padding: 5px;}
+
+
+
+
+
+
+
+
+

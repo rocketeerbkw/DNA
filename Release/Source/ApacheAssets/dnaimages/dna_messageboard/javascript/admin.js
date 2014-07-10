@@ -723,7 +723,7 @@ function sitemanager_validateForm(theForm) {
     if (error == null) {
         error = new Div();
     }
-
+    
     error.style.display = "none";
     theForm.notes.style.border = "";
 
@@ -739,22 +739,9 @@ function sitemanager_validateForm(theForm) {
         }
     }
 
-    with (theForm) {
-        var regExS = /^[0-9a-zA-Z]+$/;
-        if (regExS.test(urlname.value)) {
-            return true;
-        }
-        else {
-            error.innerHTML = "Site URL Name only accepts alphanumeric characters.";
-            urlname.style.border = errorStyle;
-            error.style.display = "block";
-            return false;
-        }
-    }
-      
-        theForm.reason.style.border = "";
-        theForm.termtext.style.border = "";
-        error.style.display = "none";
-        return confirm("Are you sure you want update the service " + theForm.urlname + "?");
-
+    theForm.reason.style.border = "";
+    theForm.termtext.style.border = "";
+    error.style.display = "none";
+    return confirm("Are you sure you want update the service " + theForm.urlname + "?");
+    
 }

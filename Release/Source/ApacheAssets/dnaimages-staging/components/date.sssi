@@ -1,0 +1,4 @@
+<!--#config timefmt="this is a test %y %m %e %H %M %S" -->
+<!--#set var="test" value="$DATE_GMT" -->
+<!--#echo var="test" -->
+

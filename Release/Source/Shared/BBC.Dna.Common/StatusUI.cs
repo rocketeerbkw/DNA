@@ -70,7 +70,8 @@ namespace BBC.Dna.Common
                 DateTime statTime = DateTime.Today + TimeSpan.FromHours(double.Parse(hourMinutes[0])) + TimeSpan.FromMinutes(double.Parse(hourMinutes[1]));
                 if (currentTime >= statTime && currentTime < statTime.AddMinutes(interval))
                 {
-                    row.Font.Underline = true;
+                    row.Font.Bold = true;
+                    row.Font.Italic = true;
                     row.BackColor = Color.FromArgb(220, 255, 220);
                 }
 

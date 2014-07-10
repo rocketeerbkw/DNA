@@ -1,0 +1,66 @@
+h1 {
+	font-size: 100%;
+}
+
+h2 {
+	font-size: 110%;
+}
+
+h3 {
+	font-size: 90%;
+}
+
+h4 {
+	font-size: 80%;
+}
+
+h5 {
+	font-size: 70%;
+}
+
+h6 {
+	font-size: 80%
+}
+
+p {	
+	font-size:80%;
+}
+
+span {	
+	font-size:100%;
+}
+
+
+li {
+	font-size:80%;
+}
+
+li ul {
+	font-size:125%;
+}
+
+.small {
+	font-size:80%;
+}
+
+.large {
+	font-size:100%;
+}
+
+p a {font-size:100%;}
+h5 a {font-size:100%;}
+.off {font-size:80%;}
+.tablenavtext a {font-size:80%;}
+blockquote {font-size:100%;}
+.postContentOne {font-size:80%;}
+.postContentTwo {font-size:80%;}
+#help h5 {font-size:80%;}
+#help a {font-size:80%;}
+
+.top {font-size:80%;}
+
+.blockMain {font-size:70%;}
+
+
+
+	
