@@ -309,7 +309,7 @@
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 1">blog</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 2">messageboard</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 3">community</xsl:when>
-    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 4">story</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 4">comment forum</xsl:when>
         <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 5">twitter</xsl:when>
     		<xsl:otherwise>all</xsl:otherwise>
     	</xsl:choose>
@@ -320,8 +320,8 @@
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 1">blogs</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 2">messageboards</xsl:when>
     		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 3">communities</xsl:when>
-    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 4">stories</xsl:when>
-        <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 5">twitter_sites</xsl:when>
+    		<xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 4">comment forums</xsl:when>
+        <xsl:when test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE = 5">twitter</xsl:when>
     		<xsl:otherwise>all sites</xsl:otherwise>
     	</xsl:choose>
     </xsl:variable>    

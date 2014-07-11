@@ -71,7 +71,7 @@ namespace BBC.Dna.Common
                 if (currentTime >= statTime && currentTime < statTime.AddMinutes(interval))
                 {
                     row.Font.Bold = true;
-                    row.Font.Italic = true;
+                    row.Font.Underline = true;
                     row.BackColor = Color.FromArgb(220, 255, 220);
                 }
 
