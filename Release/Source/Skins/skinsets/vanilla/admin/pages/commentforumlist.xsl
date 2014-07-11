@@ -19,7 +19,7 @@
 		mode="page">
 		<xsl:call-template name="objects_links_breadcrumb">
 			<xsl:with-param name="pagename">
-				manage your entries/stories 
+				manage your comment forums  
 			</xsl:with-param>
 		</xsl:call-template>
 		<div class="dna-mb-intro">

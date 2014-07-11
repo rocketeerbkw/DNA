@@ -47,7 +47,7 @@
   </xsl:template>
 	
 	<xsl:template match="H2G2[@TYPE = 'COMMENTFORUMLIST']" mode="objects_browsertitle">
-		BBC - Host Dashboard - Manage entries/stories | <xsl:value-of select="SITE/SHORTNAME" />
+		BBC - Host Dashboard - Manage comments | <xsl:value-of select="SITE/SHORTNAME" />
 	</xsl:template>	
 	
 	<xsl:template match="H2G2[@TYPE = 'USERLIST']" mode="objects_browsertitle">
