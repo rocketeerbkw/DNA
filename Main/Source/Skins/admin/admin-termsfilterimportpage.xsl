@@ -105,6 +105,15 @@
             <div style="clear:both;margin:0px; padding:0px;">
               <xsl:choose>
                 <xsl:when test="/H2G2/RESULT/MESSAGE != ''">
+                  <xsl:if test="/H2G2/RESULT/@TYPE='TermsUpdateSuccess'">
+                    <script type="text/javascript">
+                      <xsl:comment>
+                        <![CDATA[ 
+								                alert("Please refresh the Live Cache, so that the updated/new term(s) can go live immediately.\n\n Thank you.");
+							            ]]>
+                      </xsl:comment>
+                    </script>
+                  </xsl:if>                  
                   <div id="serverResponse" name="serverResponse" style="float:left; margin-top:10px; border: 1px solid green;">
                     <p>
                       <xsl:value-of select="/H2G2/RESULT/MESSAGE"/>

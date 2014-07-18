@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet 
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
-	version="1.0" 
-	xmlns:doc="http://www.bbc.co.uk/dna/documentation" 
-	xmlns="http://www.w3.org/1999/xhtml" 
+<xsl:stylesheet
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	version="1.0"
+	xmlns:doc="http://www.bbc.co.uk/dna/documentation"
+	xmlns="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="doc">
-	
-	<xsl:template match="H2G2[@TYPE = 'TERMSFILTERIMPORT']" mode="page">
-    
-		<xsl:call-template name="objects_links_breadcrumb">
-			<xsl:with-param name="pagename" >Terms Filter Import</xsl:with-param>
-		</xsl:call-template>
+
+  <xsl:template match="H2G2[@TYPE = 'TERMSFILTERIMPORT']" mode="page">
+
+    <xsl:call-template name="objects_links_breadcrumb">
+      <xsl:with-param name="pagename" >Terms Filter Import</xsl:with-param>
+    </xsl:call-template>
     <div class="dna-mb-intro blq-clearfix">
       Add new terms for moderation class -  <a href="termsfilteradmin" style="color:#CC6600">return to Term Filter Administration</a>
 
       <xsl:call-template name="refresh-cache" />
-      
+
     </div>
     <xsl:variable name="termId" select="/H2G2/PARAMS/PARAM[NAME='s_termid']/VALUE" />
     <div class="dna-main dna-main-bg dna-main-pad blq-clearfix">
@@ -35,7 +35,9 @@
                   </textarea>
                 </xsl:when>
                 <xsl:otherwise>
-                  <textarea id="termtext" name="termtext" cols="15" rows="20"><xsl:value-of select="/H2G2/TERMDETAILS/@TERM"/></textarea>
+                  <textarea id="termtext" name="termtext" cols="15" rows="20">
+                    <xsl:value-of select="/H2G2/TERMDETAILS/@TERM"/>
+                  </textarea>
                 </xsl:otherwise>
               </xsl:choose>
               <br/>
@@ -44,10 +46,14 @@
               </p>
               <xsl:choose>
                 <xsl:when test="/H2G2/ERROR/@TYPE = 'UPDATETERMMISSINGDESCRIPTION'">
-                  <textarea id="reason" name="reason" cols="15" rows="3" style="border: 2px solid red"><xsl:text> </xsl:text></textarea>
+                  <textarea id="reason" name="reason" cols="15" rows="3" style="border: 2px solid red">
+                    <xsl:text> </xsl:text>
+                  </textarea>
                 </xsl:when>
                 <xsl:otherwise>
-                  <textarea id="reason" name="reason" cols="15" rows="3"><xsl:text> </xsl:text></textarea>
+                  <textarea id="reason" name="reason" cols="15" rows="3">
+                    <xsl:text> </xsl:text>
+                  </textarea>
                 </xsl:otherwise>
               </xsl:choose>
 
@@ -89,14 +95,23 @@
 
               </table>
               <input type="submit" value="Apply"></input>
-              <xsl:apply-templates select="TERMDETAILS" mode="lastupdate" />              
+              <xsl:apply-templates select="TERMDETAILS" mode="lastupdate" />
 
               <div id="dnaTermErrorDiv" name="dnaTermErrorDiv" style="clear:both; float:left; margin-top:10px;border: 1px solid red;display: none;"></div>
 
-              
+
               <div style="clear: both">
                 <xsl:choose>
                   <xsl:when test="/H2G2/RESULT/MESSAGE != ''">
+                    <xsl:if test="/H2G2/RESULT/@TYPE='TermsUpdateSuccess'">
+                      <script type="text/javascript">
+                        <xsl:comment>
+                          <![CDATA[ 
+								                alert("Please refresh the Live Cache, so that the updated/new term(s) can go live immediately.\n\n Thank you.");
+							            ]]>
+                        </xsl:comment>
+                      </script>
+                    </xsl:if>
                     <div id="serverResponse" name="serverResponse" style="float:left; margin-top:10px; border: 1px solid green;">
                       <p>
                         <xsl:value-of select="/H2G2/RESULT/MESSAGE"/>
@@ -176,38 +191,38 @@
   </xsl:template>
 
   <xsl:template match="TERMDETAILS" mode="lastupdate">
-    
-      <div>
-        <strong>Last Update</strong>
-        <br />
-        <xsl:choose>
-          <xsl:when test="REASON = 'Reason Unknown'">
-          </xsl:when>
-          <xsl:otherwise>
-            "<xsl:value-of select="REASON"/>"
-          </xsl:otherwise>
-        </xsl:choose>
 
-        <xsl:choose>
-          <xsl:when test="REASON = 'Reason Unknown'">
-          </xsl:when>
-          <xsl:otherwise>
-            <br />by <a href="memberdetails?userid={@USERID}">
-              <xsl:value-of select="USERNAME"/>
-            </a>
-          </xsl:otherwise>
-        </xsl:choose>
-        <xsl:choose>
-          <xsl:when test="REASON = 'Reason Unknown'">
-          </xsl:when>
-          <xsl:otherwise>
-            (<xsl:value-of select="UPDATEDDATE/DATE/@RELATIVE"/>)
-          </xsl:otherwise>
-        </xsl:choose>
+    <div>
+      <strong>Last Update</strong>
+      <br />
+      <xsl:choose>
+        <xsl:when test="REASON = 'Reason Unknown'">
+        </xsl:when>
+        <xsl:otherwise>
+          "<xsl:value-of select="REASON"/>"
+        </xsl:otherwise>
+      </xsl:choose>
 
-      </div>
+      <xsl:choose>
+        <xsl:when test="REASON = 'Reason Unknown'">
+        </xsl:when>
+        <xsl:otherwise>
+          <br />by <a href="memberdetails?userid={@USERID}">
+            <xsl:value-of select="USERNAME"/>
+          </a>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:choose>
+        <xsl:when test="REASON = 'Reason Unknown'">
+        </xsl:when>
+        <xsl:otherwise>
+          (<xsl:value-of select="UPDATEDDATE/DATE/@RELATIVE"/>)
+        </xsl:otherwise>
+      </xsl:choose>
 
-    
+    </div>
+
+
   </xsl:template>
 
 </xsl:stylesheet>
