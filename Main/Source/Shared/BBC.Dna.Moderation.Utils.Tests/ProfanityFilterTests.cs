@@ -558,7 +558,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
             var nodes = testXml.SelectNodes("//profanities/P");
             foreach(XmlNode node in nodes)
             {
-                int modClassId = int.Parse(node.Attributes["ModClassID"].Value);
+                int modClassId = int.Parse(node.Attributes["MODCLASSID"].Value);
                 int refer = int.Parse(node.Attributes["Refer"].Value);
 
                 int forumId = 0;
