@@ -112,7 +112,6 @@ namespace BBC.Dna.Moderation
                 while (reader.Read())
                 {
                     var termDetails = new TermDetails
-
                     {
                         Id = reader.GetInt32NullAsZero("TermID"),
                         Value = reader.GetStringNullAsEmpty("Term"),
@@ -120,7 +119,8 @@ namespace BBC.Dna.Moderation
                         UpdatedDate = new DateElement(reader.GetDateTime("UpdatedDate")),
                         UserID = reader.GetInt32NullAsZero("UserID"),
                         UserName = reader.GetStringNullAsEmpty("UserName"),
-                        Action = (TermAction)reader.GetByteNullAsZero("actionId")
+                        Action = (TermAction)reader.GetByteNullAsZero("actionId"),
+                        ModClassID = reader.GetInt32NullAsZero("modclassid")
                     };
                     termsList.Terms.Add(termDetails);
                 }
