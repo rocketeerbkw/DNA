@@ -325,7 +325,7 @@ namespace BBC.Dna.Moderation.Tests
         [TestMethod]
         public void TermsListSchemaValidation()
         {
-            var expected = "<TERMSLIST xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" FORUMID=\"0\" MODCLASSID=\"0\"><TERMDETAILS ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" ModClassID=\"0\" ForumID=\"0\" USERID=\"0\" FromModClass=\"false\" /></TERMSLIST>";
+            var expected = "<TERMSLIST xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" FORUMID=\"0\" MODCLASSID=\"0\"><TERMDETAILS ID=\"0\" ACTION=\"ReEdit\" TERM=\"term\" MODCLASSID=\"0\" ForumID=\"0\" USERID=\"0\" FromModClass=\"false\" /></TERMSLIST>";
 
             var target = new TermsList{ModClassId = 0};
             target.Terms.Add(TermTest.CreateTerm());
