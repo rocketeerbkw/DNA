@@ -104,7 +104,6 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetUsersPublicProfile(string useridentifier)
         {
-            int dnaUserID = 0;
             var userIdentifierType = QueryStringHelper.GetQueryParameterAsString("idtype", string.Empty).ToLower();
 
             return null;

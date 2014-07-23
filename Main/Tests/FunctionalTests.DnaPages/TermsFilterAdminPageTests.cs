@@ -175,7 +175,7 @@ namespace FunctionalTests
         }
 
         [TestMethod]
-        public void TermsFilterAdminPage_UpdateExistingTermMissingModClassId_CorrectError()
+        public void TermsFilterAdminPage_UpdateExistingTermMissingModClassId_CorrectErrorAndTermAction()
         {
             const int modClassId = 1;
             var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
@@ -201,7 +201,9 @@ namespace FunctionalTests
             ValidateError(request, "UPDATETERM", "Moderation Class ID cannot be 0.");
 
             termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERMDETAILS");
-            Assert.AreEqual(action.ToString(), termNode.Attributes["ACTION"].Value);//should not have changed
+
+            // Global terms returned if modclass = 0. All Actions are set to 'NoAction'
+            Assert.AreEqual("NoAction", termNode.Attributes["ACTION"].Value);
             Assert.AreEqual(termText, termNode.Attributes["TERM"].Value);
         }
 
