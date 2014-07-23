@@ -397,18 +397,58 @@ namespace BBC.Dna.Sites.Tests
             
             // Check the option exists first
             GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, true);
-
+            
             SiteOption siteOption = new SiteOption(siteID, section, name, "0", SiteOption.SiteOptionType.Bool, description);
             SiteOption.RemoveSiteOptionFromSite(siteOption, siteID, readerCreator);
-            GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, false);
+            GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, siteID, false);
+        }
+
+        [TestMethod]
+        public void ShouldRemoveSiteOptionWhenNewSettingMatchesDefault()
+        {
+            IDnaDataReaderCreator readerCreator;
+            SetupDataBaseMockedDataReaderCreator(out readerCreator);
+
+            string section = "General";
+            string name = "IsMessageboard";
+            string description = "Set if this site is a messageboard";
+            int siteID = 1;
+
+            UpdateBooleanSiteOption(siteID, section, name, "1", description);
+            GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, siteID, true);
+
+            UpdateBooleanSiteOption(siteID, section, name, "0", description);
+            GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, siteID, false);
+            GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, true);
+        }
+
+        private void UpdateBooleanSiteOption(int siteID, string section, string name, string value, string description)
+        {
+            IDnaDataReaderCreator readerCreator;
+            SetupDataBaseMockedDataReaderCreator(out readerCreator);
+
+            SiteOption updatedSiteOption = new SiteOption(siteID, section, name, value, SiteOption.SiteOptionType.Bool, description);
+            List<SiteOption> updatedSiteoptions = new List<SiteOption>();
+            updatedSiteoptions.Add(updatedSiteOption);
+            SiteOption.UpdateSiteOptions(updatedSiteoptions, readerCreator);
         }
 
         private static int GetValueForGivenSiteOptionAssertFail(IDnaDataReaderCreator readerCreator, string section, string name, int siteID, bool expectResults)
         {
+            string sql = "SELECT dbo.udf_getsiteoptionsetting(" + siteID + ", '" + section + "', '" + name + "') AS value";
+            return GetSiteOptionSetting(readerCreator, expectResults, sql);
+        }
+
+        private static int GetValueForTheSpecificSiteSiteOptionAssertFail(IDnaDataReaderCreator readerCreator, string section, string name, int siteID, bool expectResults)
+        {
+            string sql = "SELECT * FROM SiteOptions WHERE Section='" + section + "' AND Name='" + name + "' AND SiteID=" + siteID;
+            return GetSiteOptionSetting(readerCreator, expectResults, sql);
+        }
+
+        private static int GetSiteOptionSetting(IDnaDataReaderCreator readerCreator, bool expectResults, string sql){
             int value = -1;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader(""))
             {
-                string sql = "SELECT * FROM SiteOptions WHERE Section='" + section + "' AND Name='" + name + "' AND SiteID=" + siteID;
                 reader.ExecuteDEBUGONLY(sql);
                 if (expectResults)
                 {
