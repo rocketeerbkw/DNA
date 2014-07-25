@@ -144,7 +144,7 @@ namespace BBC.Dna.Moderation.Utils
             XElement xml = new XElement("Profanities",
                                 new XElement("Terms",
                                     from c in terms
-                                    select new XElement("TermDetails", new XElement("MODCLASSID", c.ModClassID.ToString()), 
+                                    select new XElement("TermDetails", new XElement("ModClassID", c.ModClassID.ToString()), 
                                         new XElement("ForumID", c.ForumID.ToString()), new XElement("TermID", c.Id.ToString()))));
 
             return xml.ToString();
