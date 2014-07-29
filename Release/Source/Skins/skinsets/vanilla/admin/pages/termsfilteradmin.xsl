@@ -14,6 +14,7 @@
     <div class="dna-mb-intro blq-clearfix">
       View and edit terms filter lists for moderation class - 
       <select onchange="location.href='termsfilteradmin?modclassid=' + this.options[this.selectedIndex].value;">
+      	<option value="0">All Terms in All Mod Classes</option>
         <xsl:apply-templates select="TERMSFILTERADMIN/MODERATION-CLASSES/MODERATION-CLASS" mode="lefthandNav_terms"/>
       </select>
 
@@ -24,8 +25,14 @@
       <div class="dna-fl dna-main-full">
         <div class="dna-box">
           <h3>
-            Terms for "
-            <xsl:value-of select="TERMSFILTERADMIN/MODERATION-CLASSES/MODERATION-CLASS[@CLASSID = /H2G2/TERMSFILTERADMIN/TERMSLIST/@MODCLASSID]/NAME"/>"
+            <xsl:choose>
+				<xsl:when test="TERMSFILTERADMIN/TERMSLIST[@MODCLASSID = 0]">
+					All terms across all mod classes
+				</xsl:when>
+				<xsl:otherwise>
+					Terms for "<xsl:value-of select="TERMSFILTERADMIN/MODERATION-CLASSES/MODERATION-CLASS[@CLASSID = /H2G2/TERMSFILTERADMIN/TERMSLIST/@MODCLASSID]/NAME"/>"
+				</xsl:otherwise>
+			</xsl:choose>
         </h3>
           <xsl:apply-templates select="TERMSFILTERADMIN/TERMSLIST" mode="termsList"/>
         </div>
@@ -54,7 +61,9 @@
               <xsl:with-param name="sortBy">Term</xsl:with-param>
             </xsl:call-template>
           </th>
+			<xsl:if test="/H2G2/TERMSFILTERADMIN/TERMSLIST/@MODCLASSID != 0">
           <th>Action</th>
+			</xsl:if>
           <th>Reason</th>
           <th>User</th>
           <th>
@@ -70,7 +79,7 @@
       </tbody>
     </table>
     <p>
-      <a href="termsfilterimport?">Import More Terms</a>
+      <a href="termsfilterimport?s_modclassid={@MODCLASSID}">Import More Terms</a>
     </p>
   </xsl:template>
 
@@ -84,19 +93,21 @@
           <xsl:value-of select="@TERM"/>
         </strong>
       </td>
-      <td>
-        <xsl:choose>
-          <xsl:when test="@ACTION = 'Refer'">
-            <img src="/dnaimages/dna_messageboard/img/icons/post_REFERRED.png" width="30" height="30" alt="Send message to moderation" title="Send message to moderation" />
-          </xsl:when>
-          <xsl:when test="@ACTION = 'ReEdit'">
-            <img src="/dnaimages/dna_messageboard/img/icons/post_FAILED.png" width="30" height="30" alt="Ask user to re-edit word" title="Ask user to re-edit word" />
-          </xsl:when>
-          <xsl:otherwise>
-            -
-          </xsl:otherwise>
-        </xsl:choose>
-      </td>
+		<xsl:if test="/H2G2/TERMSFILTERADMIN/TERMSLIST/@MODCLASSID != 0">
+			<td>
+				<xsl:choose>
+					<xsl:when test="@ACTION = 'Refer'">
+						<img src="/dnaimages/dna_messageboard/img/icons/post_REFERRED.png" width="30" height="30" alt="Send message to moderation" title="Send message to moderation" />
+					</xsl:when>
+					<xsl:when test="@ACTION = 'ReEdit'">
+						<img src="/dnaimages/dna_messageboard/img/icons/post_FAILED.png" width="30" height="30" alt="Ask user to re-edit word" title="Ask user to re-edit word" />
+					</xsl:when>
+					<xsl:otherwise>
+						-
+					</xsl:otherwise>
+				</xsl:choose>
+			</td>
+		</xsl:if>
       <td>
         <xsl:choose>
           <xsl:when test="REASON = 'Reason Unknown'">
@@ -115,7 +126,7 @@
       </td>
       <td>
         <xsl:choose>
-          <xsl:when test="REASON = 'Reason Unknown'">
+          <xsl:when test="USERNAME = 'no username'">
             -
           </xsl:when>
           <xsl:otherwise>
@@ -126,18 +137,25 @@
         </xsl:choose>
       </td>
       <td>
-        <xsl:choose>
+        <!--<xsl:choose>
           <xsl:when test="REASON = 'Reason Unknown'">
             -
           </xsl:when>
-          <xsl:otherwise>
+          <xsl:otherwise>-->
             <xsl:value-of select="UPDATEDDATE/DATE/@RELATIVE"/>
-          </xsl:otherwise>
-        </xsl:choose>
+          <!--</xsl:otherwise>
+        </xsl:choose>-->
         
       </td>
       <td>
-        <a href="termsfilterimport?s_termid={@ID}&amp;modclassid={../@MODCLASSID}">edit</a>
+      	<xsl:choose>
+      		<xsl:when test="@MODCLASSID = 0">
+      			<a href="termsfilterimport?s_termid={@ID}&amp;modclassid=0&amp;s_modclassid=0">edit</a>
+      		</xsl:when>
+      		<xsl:otherwise>
+      			<a href="termsfilterimport?s_termid={@ID}&amp;modclassid={@MODCLASSID}&amp;s_modclassid={@MODCLASSID}">edit</a>
+      		</xsl:otherwise>
+      	</xsl:choose>
       </td>
     </tr>
   </xsl:template>

@@ -19,6 +19,7 @@ namespace BBC.Dna.Sites.Tests
     public class SiteOptionTest
     {
         private readonly MockRepository _mocks = new MockRepository();
+        private const int DEFAULT_SITE_ID = 0;
 
         [TestInitialize]
         public void TestStartup()
@@ -55,13 +56,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod]
         public void SiteOptionConstructorTest()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Int;
             string description = string.Empty;
-            var target = new SiteOption(siteId, section, name, value, type, description);
+            var target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             Assert.AreEqual(type, target.OptionType);
         }
 
@@ -81,13 +81,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetValueInt_ValidInt_ReturnsInt()
         {
-            int siteId = 0; 
             string section = string.Empty; 
             string name = string.Empty; 
             string value = "1"; 
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Int; 
             string description = string.Empty; 
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description); 
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description); 
             int expected = 1;
             int actual = target.GetValueInt();
             Assert.AreEqual(expected, actual);
@@ -99,13 +98,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetRawValue_ValidInt_ReturnsIntString()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Int;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             Assert.AreEqual(value, target.GetRawValue());
         }
 
@@ -115,13 +113,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetValueBool_ValidBool_ReturnsBool()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Bool;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             bool actual = target.GetValueBool();
             Assert.IsTrue(actual);
         }
@@ -132,13 +129,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetRawValue_ValidFalse_ReturnsFalseString()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "0";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Bool;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             Assert.AreEqual(value, target.GetRawValue());
         }
 
@@ -148,13 +144,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetRawValue_ValidBool_ReturnsBool()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Bool;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             Assert.AreEqual(value, target.GetRawValue());
         }
 
@@ -164,13 +159,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetValueInt_InvalidInt_ThrowsException()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "0";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Bool;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             bool actual = target.GetValueBool();
             Assert.IsFalse(actual);
             try
@@ -189,13 +183,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetValueBool_InvalidBool_ThrowsException()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Int;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             int expected = 1;
             int actual = target.GetValueInt();
             Assert.AreEqual(expected, actual);
@@ -216,13 +209,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetValueString_ValidString_ReturnsString()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.String;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             string expected = "1";
             string actual = target.GetValueString();
             Assert.AreEqual(expected, actual);
@@ -234,13 +226,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void SetValueString_NotStringType_ThrowsException()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Bool;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
 
             try
             {
@@ -258,13 +249,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void SetValueInt_NotIntType_ThrowsException()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Bool;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
 
             try
             {
@@ -282,13 +272,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void SetValueBool_NotBoolType_ThrowsException()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Int;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
 
             try
             {
@@ -306,13 +295,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetRawValue_ValidString_ReturnsString()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.String;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             Assert.AreEqual(value, target.GetRawValue());
         }
 
@@ -322,13 +310,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetValueString_InvalidString_ThrowsException()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "1";
             SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Bool;
             string description = string.Empty;
-            SiteOption target = new SiteOption(siteId, section, name, value, type, description);
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
 
             try
             {
@@ -347,14 +334,13 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod]
         public void SiteOptionConstructor_InvalidBoolType_ThrowsException()
         {
-            int siteId = 0;
             string section = string.Empty;
             string name = string.Empty;
             string value = "5";
             string description = string.Empty;
             try
             {
-                new SiteOption(siteId, section, name, value, SiteOption.SiteOptionType.Bool, description);
+                new SiteOption(DEFAULT_SITE_ID, section, name, value, SiteOption.SiteOptionType.Bool, description);
                 throw new Exception("new SiteOption should throw exception");
             }
             catch (SiteOptionInvalidTypeException)
@@ -397,18 +383,91 @@ namespace BBC.Dna.Sites.Tests
             
             // Check the option exists first
             GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, true);
-
+            
             SiteOption siteOption = new SiteOption(siteID, section, name, "0", SiteOption.SiteOptionType.Bool, description);
             SiteOption.RemoveSiteOptionFromSite(siteOption, siteID, readerCreator);
-            GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, false);
+            GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, siteID, false);
+        }
+
+        [TestMethod]
+        public void ShouldRemoveSiteOptionWhenNewSettingMatchesDefault()
+        {
+            IDnaDataReaderCreator readerCreator;
+            SetupDataBaseMockedDataReaderCreator(out readerCreator);
+
+            string section = "General";
+            string name = "IsMessageboard";
+            string description = "Set if this site is a messageboard";
+            int siteID = 1;
+
+            UpdateBooleanSiteOption(siteID, section, name, "1", description);
+            GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, siteID, true);
+
+            UpdateBooleanSiteOption(siteID, section, name, "0", description);
+            GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, siteID, false);
+            GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, true);
+        }
+
+        [TestMethod]
+        public void ShouldNotRemoveDefaultSiteOptionWhenDefaultSiteOptionIsUpdate()
+        {
+            IDnaDataReaderCreator readerCreator;
+            SetupDataBaseMockedDataReaderCreator(out readerCreator);
+
+            string section = "General";
+            string name = "IsMessageboard";
+            string description = "Set if this site is a messageboard";
+
+            GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, DEFAULT_SITE_ID, true);
+            UpdateBooleanSiteOption(DEFAULT_SITE_ID, section, name, "0", description);
+            GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, DEFAULT_SITE_ID, true);
+            GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, DEFAULT_SITE_ID, true);
+        }
+
+        [TestMethod]
+        public void ShouldRemoveSiteOptionWhenDefaultSettingChangesMatched()
+        {
+            IDnaDataReaderCreator readerCreator;
+            SetupDataBaseMockedDataReaderCreator(out readerCreator);
+
+            string section = "Category";
+            string name = "IncludeCloseMembers";
+            string description = "Set if you want the CLOSEMEMBERS section inside the HIERARCHYDETAILS tag on category pages";
+            int siteID = 16;
+
+            GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, siteID, true);
+            UpdateBooleanSiteOption(DEFAULT_SITE_ID, section, name, "1", description);
+            GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, siteID, false);
+            GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, DEFAULT_SITE_ID, true);
+        }
+
+        private void UpdateBooleanSiteOption(int siteID, string section, string name, string value, string description)
+        {
+            IDnaDataReaderCreator readerCreator;
+            SetupDataBaseMockedDataReaderCreator(out readerCreator);
+
+            SiteOption updatedSiteOption = new SiteOption(siteID, section, name, value, SiteOption.SiteOptionType.Bool, description);
+            List<SiteOption> updatedSiteoptions = new List<SiteOption>();
+            updatedSiteoptions.Add(updatedSiteOption);
+            SiteOption.UpdateSiteOptions(updatedSiteoptions, readerCreator);
         }
 
         private static int GetValueForGivenSiteOptionAssertFail(IDnaDataReaderCreator readerCreator, string section, string name, int siteID, bool expectResults)
         {
+            string sql = "SELECT dbo.udf_getsiteoptionsetting(" + siteID + ", '" + section + "', '" + name + "') AS value";
+            return GetSiteOptionSetting(readerCreator, expectResults, sql);
+        }
+
+        private static int GetValueForTheSpecificSiteSiteOptionAssertFail(IDnaDataReaderCreator readerCreator, string section, string name, int siteID, bool expectResults)
+        {
+            string sql = "SELECT * FROM SiteOptions WHERE Section='" + section + "' AND Name='" + name + "' AND SiteID=" + siteID;
+            return GetSiteOptionSetting(readerCreator, expectResults, sql);
+        }
+
+        private static int GetSiteOptionSetting(IDnaDataReaderCreator readerCreator, bool expectResults, string sql){
             int value = -1;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader(""))
             {
-                string sql = "SELECT * FROM SiteOptions WHERE Section='" + section + "' AND Name='" + name + "' AND SiteID=" + siteID;
                 reader.ExecuteDEBUGONLY(sql);
                 if (expectResults)
                 {

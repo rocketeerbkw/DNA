@@ -37,7 +37,7 @@ namespace BBC.Dna.Moderation.Utils
         }
 
         /// <remarks/>
-        [XmlAttributeAttribute(AttributeName = "ModClassID")]
+        [XmlAttributeAttribute(AttributeName = "MODCLASSID")]
         public int ModClassID { get; set; }
 
         /// <remarks/>

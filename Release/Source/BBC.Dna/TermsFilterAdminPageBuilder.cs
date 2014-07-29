@@ -122,10 +122,7 @@ namespace BBC.Dna
         private void GetQueryParameters()
         {
             _modClassId = InputContext.GetParamIntOrZero("modclassid", "Moderation Class ID");
-            if (_modClassId == 0)
-            {//default to the first one...(standard universal)
-                _modClassId = 1;
-            }
+
             _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
 
             if(InputContext.DoesParamExist("s_sortby","sortby"))

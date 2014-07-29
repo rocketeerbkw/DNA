@@ -31,15 +31,23 @@
 					<xsl:if test="/H2G2/PARAMS/PARAM[/H2G2/PARAMS/PARAM/NAME = 's_userid']/VALUE != ''">
 						<input type="hidden" name="s_userid" value="{PARAMS/PARAM[NAME = 's_userid']/VALUE}" />
 					</xsl:if>
-			
-					<xsl:variable name="modsiteid" select="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE" />
-					
+		
 					<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE != 0 or /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE">
 						<select name="s_siteid" id="s_siteid">
 				    		<option selected="selected" value="all">All <xsl:value-of select="$dashboardtypeplural" /></option>
-				    		<xsl:apply-templates select="MODERATOR-HOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE and @CLASSID != 2]" mode="objects_moderator_sites">
-				    			<xsl:sort select="DESCRIPTION" />
-				    		</xsl:apply-templates>
+				    		<xsl:for-each select="MODERATOR-HOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE and @CLASSID != 2]">
+			    				<xsl:sort select="." />
+			    				<xsl:variable name="modsiteid" select="@SITEID" />
+								<option value="{$modsiteid}">
+									<xsl:if test="/H2G2/PARAMS/PARAM[NAME = 's_siteid']/VALUE = $modsiteid"> 
+										<xsl:attribute name="selected">selected</xsl:attribute>
+									</xsl:if>
+									<xsl:value-of select="/H2G2/SITE-LIST/SITE[@ID = $modsiteid]/DESCRIPTION" />
+								</option> 
+				    		</xsl:for-each>
+<!-- 				    		<xsl:apply-templates select="MODERATOR-HOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE and @CLASSID != 2]" mode="objects_moderator_sites"> -->
+<!-- 				    			<xsl:sort select="/H2G2/SITE-LIST/SITE/DESCRIPTION" /> -->
+<!-- 				    		</xsl:apply-templates> -->
 				    		<option value="all">--++== All Sites Below Are Closed! ==++--</option>
 				    		<xsl:apply-templates select="MODERATOR-HOME/MODERATOR/SITES/SITE[@TYPE = /H2G2/PARAMS/PARAM[NAME = 's_type']/VALUE and @CLASSID = 2]" mode="objects_moderator_sites">
 				    			<xsl:sort select="DESCRIPTION" />

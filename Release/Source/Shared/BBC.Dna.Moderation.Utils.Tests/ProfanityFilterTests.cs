@@ -30,10 +30,10 @@ namespace BBC.Dna.Moderation.Utils.Tests
         [TestMethod]
         public void InitialiseProfanities_ValidDB_ReturnsFilledObject()
         {
-            var modclassId = new Queue<int>();
-            modclassId.Enqueue(1);
-            modclassId.Enqueue(2);
-            modclassId.Enqueue(2);
+            var ModClassID = new Queue<int>();
+            ModClassID.Enqueue(1);
+            ModClassID.Enqueue(2);
+            ModClassID.Enqueue(2);
             var profanity = new Queue<string>();
             profanity.Enqueue("hello");
             profanity.Enqueue("hello1");
@@ -48,7 +48,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var reader = _mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(3);
-            reader.Stub(x => x.GetInt32("ModClassID")).Return(0).WhenCalled(x => x.ReturnValue = modclassId.Dequeue());
+            reader.Stub(x => x.GetInt32("ModClassID")).Return(0).WhenCalled(x => x.ReturnValue = ModClassID.Dequeue());
             reader.Stub(x => x.GetStringNullAsEmpty("Profanity")).Return("").WhenCalled(x => x.ReturnValue = profanity.Dequeue());
             reader.Stub(x => x.GetByte("Refer")).Return(1).WhenCalled(x => x.ReturnValue = refer.Dequeue());
 
@@ -120,10 +120,10 @@ namespace BBC.Dna.Moderation.Utils.Tests
         {
             var signalType = "recache-terms";
             var cacheObj = GetProfanityCacheObject();
-            var modclassId = new Queue<int>();
-            modclassId.Enqueue(1);
-            modclassId.Enqueue(2);
-            modclassId.Enqueue(2);
+            var ModClassID = new Queue<int>();
+            ModClassID.Enqueue(1);
+            ModClassID.Enqueue(2);
+            ModClassID.Enqueue(2);
             
             var forumId = new Queue<int>();
             forumId.Enqueue(1);
@@ -146,7 +146,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
             var reader = _mocks.DynamicMock<IDnaDataReader>();
             reader.Stub(x => x.Read()).Return(true).Repeat.Times(3);
-            reader.Stub(x => x.GetInt32("ModClassID")).Return(0).WhenCalled(x => x.ReturnValue = modclassId.Dequeue());
+            reader.Stub(x => x.GetInt32("ModClassID")).Return(0).WhenCalled(x => x.ReturnValue = ModClassID.Dequeue());
             reader.Stub(x => x.GetInt32("ForumID")).Return(0).WhenCalled(x => x.ReturnValue = forumId.Dequeue());
             reader.Stub(x => x.GetStringNullAsEmpty("Profanity")).Return("").WhenCalled(x => x.ReturnValue = profanity.Dequeue());
             reader.Stub(x => x.GetByte("Refer")).Return(1).WhenCalled(x => x.ReturnValue = refer.Dequeue());
@@ -356,7 +356,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
         /// Testing various profanity hits and misses
         /// </summary>
         [TestMethod]
-        public void CheckForProfanities_CheckForProfanitiesUsingModClassId()
+        public void CheckForProfanities_CheckForProfanitiesUsingModClassID()
         {
             Console.WriteLine("ReferContent");
             int modclass1 = 3;
@@ -433,7 +433,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
         }
 
         [TestMethod]
-        public void CheckForProfanities_CheckForProfanitiesUsingModClassId_ForumID()
+        public void CheckForProfanities_CheckForProfanitiesUsingModClassID_ForumID()
         {
             Console.WriteLine("ReferContent");
             int modclass1 = 1;
@@ -558,7 +558,7 @@ namespace BBC.Dna.Moderation.Utils.Tests
             var nodes = testXml.SelectNodes("//profanities/P");
             foreach(XmlNode node in nodes)
             {
-                int modClassId = int.Parse(node.Attributes["ModClassID"].Value);
+                int ModClassID = int.Parse(node.Attributes["ModClassID"].Value);
                 int refer = int.Parse(node.Attributes["Refer"].Value);
 
                 int forumId = 0;
@@ -568,9 +568,9 @@ namespace BBC.Dna.Moderation.Utils.Tests
                     forumId = int.Parse(node.Attributes["ForumID"].Value);
                 }
 
-                if (!profanityCache.ProfanityClasses.ModClassProfanities.ContainsKey(modClassId))
+                if (!profanityCache.ProfanityClasses.ModClassProfanities.ContainsKey(ModClassID))
                 {
-                    profanityCache.ProfanityClasses.ModClassProfanities.Add(modClassId, new ProfanityPair());
+                    profanityCache.ProfanityClasses.ModClassProfanities.Add(ModClassID, new ProfanityPair());
                 }
 
                 //Adding the profanities based on the forumID
@@ -582,12 +582,12 @@ namespace BBC.Dna.Moderation.Utils.Tests
 
                 if(refer == 1)
                 {
-                    profanityCache.ProfanityClasses.ModClassProfanities[modClassId].ReferList.Add(new KeyValuePair<int,string> (Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()),node.Attributes["Profanity"].Value.ToLower()));
+                    profanityCache.ProfanityClasses.ModClassProfanities[ModClassID].ReferList.Add(new KeyValuePair<int,string> (Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()),node.Attributes["Profanity"].Value.ToLower()));
                     profanityCache.ProfanityClasses.ForumProfanities[forumId].ReferList.Add(new KeyValuePair<int, string>(Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()), node.Attributes["Profanity"].Value.ToLower()));
                 }
                 else
                 {
-                    profanityCache.ProfanityClasses.ModClassProfanities[modClassId].ProfanityList.Add(new KeyValuePair<int, string>(Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()), node.Attributes["Profanity"].Value.ToLower()));
+                    profanityCache.ProfanityClasses.ModClassProfanities[ModClassID].ProfanityList.Add(new KeyValuePair<int, string>(Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()), node.Attributes["Profanity"].Value.ToLower()));
                     profanityCache.ProfanityClasses.ForumProfanities[forumId].ProfanityList.Add(new KeyValuePair<int, string>(Convert.ToInt32(node.Attributes["ProfanityID"].Value.ToString()), node.Attributes["Profanity"].Value.ToLower()));
                 }
 

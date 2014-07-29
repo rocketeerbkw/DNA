@@ -25,7 +25,7 @@
                 <xs:complexType>
                   <xs:attribute name="ProfanityID" type="xs:unsignedShort" use="required" />
                   <xs:attribute name="Profanity" type="xs:string" use="required" />
-                  <xs:attribute name="ModClassID" type="xs:unsignedByte" use="required" />
+                  <xs:attribute name="MODCLASSID" type="xs:unsignedByte" use="required" />
                   <xs:attribute name="Refer" type="xs:unsignedByte" use="required" />
                 </xs:complexType>
               </xs:element>
