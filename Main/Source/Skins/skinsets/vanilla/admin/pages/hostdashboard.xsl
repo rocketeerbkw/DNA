@@ -122,6 +122,7 @@
                   <li><a href="termsfilteradmin">Terms Filter Admin</a></li>
                   <li><a href="/dna/moderation/moderationhome" target="_blank">Moderation Homepage</a></li>
                   <li><a href="/dna/moderation/moderatormanagement" target="_blank">Moderator Management</a></li>
+		              <li><a href="/dna/moderation/moderatestats" target="_blank">Moderation Stats</a></li>
                 </xsl:if>
               </xsl:when>
               <xsl:otherwise>
@@ -134,6 +135,7 @@
                   <li><a href="termsfilteradmin">Terms Filter Admin</a></li>
                   <li><a href="/dna/moderation/moderationhome" target="_blank">Moderation Homepage</a></li>
                   <li><a href="/dna/moderation/moderatormanagement" target="_blank">Moderator Management</a></li>
+		              <li><a href="/dna/moderation/moderatestats" target="_blank">Moderation Stats</a></li>
                 </xsl:if>
               </xsl:otherwise>
             </xsl:choose>				
