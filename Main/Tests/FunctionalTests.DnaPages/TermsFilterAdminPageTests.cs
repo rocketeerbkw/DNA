@@ -36,15 +36,15 @@ namespace FunctionalTests
         [TestCleanup]
         public void CleanUp()
         {
-           //_ts.Dispose();
+            //_ts.Dispose();
         }
 
 
         [TestMethod]
         public void TermsFilterAdminPage_AsSuperUser_PassesValidation()
         {
-            
-            var request = new DnaTestURLRequest(SiteName) {UseEditorAuthentication = true};
+
+            var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
             request.SetCurrentUserSuperUser();
             request.RequestPage("termsfilteradmin?modclassid=2&skin=purexml");
             ValidateResponse(request);
@@ -54,7 +54,7 @@ namespace FunctionalTests
         public void TermsFilterAdminPage_WithoutEditorAuthentication_AccessDenied()
         {
             var siteName = "moderation";
-            var request = new DnaTestURLRequest(siteName) {UseEditorAuthentication = false};
+            var request = new DnaTestURLRequest(siteName) { UseEditorAuthentication = false };
             request.SetCurrentUserSuperUser();
             request.UseDebugUserSecureCookie = false;
             request.RequestPage("termsfilteradmin?modclassid=2&skin=purexml", false, null);
@@ -72,7 +72,7 @@ namespace FunctionalTests
 
             request.RequestPage("termsfilteradmin?modclassid=2&skin=purexml");
             var doc = request.GetLastResponseAsXML();
-            Assert.AreEqual("ERROR",doc.SelectSingleNode("//H2G2").Attributes["TYPE"].Value);
+            Assert.AreEqual("ERROR", doc.SelectSingleNode("//H2G2").Attributes["TYPE"].Value);
             Assert.IsNotNull(doc.SelectSingleNode("//H2G2/ERROR/ERRORMESSAGE"));
             Assert.IsNull(doc.SelectSingleNode("//H2G2/TERMADMIN"));
         }
@@ -89,11 +89,11 @@ namespace FunctionalTests
             var doc = request.GetLastResponseAsXML();
             var termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERMDETAILS");
             var termText = termNode.Attributes["TERM"].Value;
-            var action = (TermAction) Enum.Parse(typeof (TermAction), termNode.Attributes["ACTION"].Value);
+            var action = (TermAction)Enum.Parse(typeof(TermAction), termNode.Attributes["ACTION"].Value);
             TermAction expectedAction = (action == TermAction.ReEdit ? TermAction.Refer : TermAction.ReEdit);
 
             var postParams = new Queue<KeyValuePair<string, string>>();
-            postParams.Enqueue(new KeyValuePair<string, string>("termtext",termText));
+            postParams.Enqueue(new KeyValuePair<string, string>("termtext", termText));
             postParams.Enqueue(new KeyValuePair<string, string>("termaction", expectedAction.ToString()));
 
             //update the first term
@@ -109,7 +109,7 @@ namespace FunctionalTests
 
             //check history audit
             var terms = new List<Term>();
-            terms.Add(new Term { Id = Int32.Parse(termNode.Attributes["ID"].Value), Action = expectedAction});
+            terms.Add(new Term { Id = Int32.Parse(termNode.Attributes["ID"].Value), Action = expectedAction });
             CheckAuditTable(modClassId, terms);
 
         }
@@ -138,7 +138,7 @@ namespace FunctionalTests
 
             doc = request.GetLastResponseAsXML();
             ValidateError(request, "UPDATETERM", "Terms text cannot be empty.");
- 
+
             termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERMDETAILS");
             Assert.AreEqual(action.ToString(), termNode.Attributes["ACTION"].Value);//should not have changed
             Assert.AreEqual(termText, termNode.Attributes["TERM"].Value);
@@ -234,7 +234,7 @@ namespace FunctionalTests
             ValidateResponse(request);
             ValidateOkResult(request, "TermsUpdateSuccess", "Terms updated successfully.");
             doc = request.GetLastResponseAsXML();
-            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERMDETAILS[@TERM='" + termText +"']");
+            termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERMDETAILS[@TERM='" + termText + "']");
             Assert.AreEqual(expectedAction.ToString(), termNode.Attributes["ACTION"].Value);
             Assert.AreEqual(termText, termNode.Attributes["TERM"].Value);
             Assert.AreEqual(termNodeCount + 1, doc.SelectNodes("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERMDETAILS").Count);
@@ -309,7 +309,7 @@ namespace FunctionalTests
                 Assert.AreEqual(HttpStatusCode.BadRequest, request.CurrentWebResponse.StatusCode);
             }
             Assert.IsTrue(exceptionThrown);
-            
+
 
 
         }
@@ -355,7 +355,7 @@ namespace FunctionalTests
             request.RequestPage("termsfilteradmin?action=REFRESHCACHE");
 
             // Setup the request url
-            var url = String.Format("acs?dnauid={0}&dnahostpageurl={1}&dnainitialtitle={2}&dnaur=0&skin=purexml", 
+            var url = String.Format("acs?dnauid={0}&dnahostpageurl={1}&dnainitialtitle={2}&dnaur=0&skin=purexml",
                 Guid.NewGuid(), "http://www.bbc.co.uk/dna/h2g2/test.aspx", "test forum");
             // now get the response
             request = new DnaTestURLRequest("h2g2");
@@ -402,7 +402,7 @@ namespace FunctionalTests
             doc = request.GetLastResponseAsXML();
             termNode = doc.SelectSingleNode("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERMDETAILS[@TERM='" + termText + "']");
             Assert.AreEqual(expectedAction.ToString(), termNode.Attributes["ACTION"].Value);
-            Assert.AreEqual(termText, termNode.Attributes["TERM"].Value );
+            Assert.AreEqual(termText, termNode.Attributes["TERM"].Value);
             Assert.AreEqual(termNodeCount + 1, doc.SelectNodes("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERMDETAILS").Count);
 
             //check history audit
@@ -429,6 +429,37 @@ namespace FunctionalTests
             doc = newrequest.GetLastResponseAsXML();
             //check for profanity triggered value
             Assert.IsNotNull(doc.SelectSingleNode("//H2G2/POSTTHREADFORM[@PROFANITYTRIGGERED='1']"));
+        }
+
+        [TestMethod]
+        public void TermsFilterAdminPage_ImportNewTerm_NewTermOnTop()
+        {
+            const int modClassId = 3;
+            var request = new DnaTestURLRequest(SiteName) { UseEditorAuthentication = true };
+            request.SetCurrentUserSuperUser();
+            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&skin=purexml", modClassId));
+            ValidateResponse(request);
+
+            var termText = "testterm";
+            var expectedTermText = termText + " (new)";
+            TermAction expectedAction = TermAction.ReEdit;
+
+            var postParams = new Queue<KeyValuePair<string, string>>();
+            postParams.Enqueue(new KeyValuePair<string, string>("termtext", termText));
+            postParams.Enqueue(new KeyValuePair<string, string>("termaction", expectedAction.ToString()));
+
+            //update the first term
+            request.RequestPage(string.Format("termsfilteradmin?modclassid={0}&action=UPDATETERM&skin=purexml", modClassId),
+                postParams);
+
+            ValidateResponse(request);
+            ValidateOkResult(request, "TermsUpdateSuccess", "Terms updated successfully.");
+            var doc = request.GetLastResponseAsXML();
+
+            var termsDeteailsNodes = doc.SelectNodes("//H2G2/TERMSFILTERADMIN/TERMSLIST/TERMDETAILS");
+            Assert.IsNotNull(termsDeteailsNodes);
+            Assert.IsTrue(termsDeteailsNodes.Count > 0);
+            Assert.IsTrue(expectedTermText.Equals(termsDeteailsNodes[0].Attributes["TERM"].Value));
         }
 
         /// <summary>
@@ -482,7 +513,7 @@ namespace FunctionalTests
             var result = doc.SelectSingleNode("//H2G2/RESULT");
             Assert.IsNotNull(result);
             Assert.IsNull(doc.SelectSingleNode("//H2G2/ERROR"));
-            
+
 
             var dnaXmlValidator = new DnaXmlValidator(result.OuterXml, "Result.xsd");
             dnaXmlValidator.Validate();
@@ -505,7 +536,7 @@ namespace FunctionalTests
                 var sql = String.Format("select top 1 * from TermsUpdateHistory order by updatedate desc");
                 dataReader.ExecuteDEBUGONLY(sql);
                 Assert.IsTrue(dataReader.HasRows);
-                while(dataReader.Read())
+                while (dataReader.Read())
                 {
                     updateId = dataReader.GetInt32NullAsZero("id");
                     Assert.AreNotEqual(0, updateId);
@@ -534,7 +565,7 @@ namespace FunctionalTests
             var request = new DnaTestURLRequest(SiteName);
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(url, null, "text/xml");
-            
+
 
         }
 

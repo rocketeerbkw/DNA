@@ -54,7 +54,8 @@ namespace BBC.Dna
 
             //get terms admin object
             TermsFilterAdmin termsAdmin = TermsFilterAdmin.CreateTermAdmin(AppContext.ReaderCreator, _cache, _modClassId);
-            termsAdmin.TermsList.SortList(sortBy, sortDirection);
+            //termsAdmin.TermsList.SortList(sortBy, sortDirection);
+            termsAdmin.TermsList.ReOrderRecentlyAddedTermsOnTop(sortBy, sortDirection);
             SerialiseAndAppend(termsAdmin, "");
         }
 
