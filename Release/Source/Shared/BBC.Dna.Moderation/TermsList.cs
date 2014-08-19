@@ -77,11 +77,11 @@ namespace BBC.Dna.Moderation
         public static TermsList GetTermsListByModClassId(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
             int modClassId, bool ignoreCache)
         {
-            var termsList = new TermsList {ModClassId = modClassId};
-            if(!ignoreCache)
+            var termsList = new TermsList { ModClassId = modClassId };
+            if (!ignoreCache)
             {
                 termsList = (TermsList)cacheManager.GetData(termsList.GetCacheKey(modClassId));
-                if(termsList != null)
+                if (termsList != null)
                 {
                     return termsList;
                 }
@@ -92,6 +92,32 @@ namespace BBC.Dna.Moderation
             cacheManager.Add(termsList.GetCacheKey(modClassId), termsList);
 
             return termsList;
+        }
+
+        public void ReOrderRecentlyAddedTermsOnTop(SortBy sortBy, SortDirection sortDirection)
+        {
+            if (Terms == null || Terms.Count == 0)
+            {
+                return ;
+            }
+
+            var most_recent = Terms.OrderByDescending(x => x.UpdatedDate.Date.Local.DateTime).First();
+            if (most_recent.UpdatedDate.Date.Local.DateTime.AddMinutes(5) > DateTime.Now)
+            {
+                Terms = Terms.OrderByDescending(d => d.UpdatedDate.Date.DateTime).ThenBy(x => x.Value).ToList<TermDetails>();
+
+                foreach (var term in Terms)
+                {
+                    if (term.UpdatedDate.Date.Local.DateTime.AddMinutes(5) > DateTime.Now)
+                    {
+                        term.Value = term.Value + " (new)";
+                    }
+                }
+                
+                return;
+            }
+
+            SortList(sortBy, sortDirection);
         }
 
         /// <summary>
@@ -168,7 +194,7 @@ namespace BBC.Dna.Moderation
             return termsList;
         }
 
-       
+
 
         /// <summary>
         /// Checks the cache and gets the terms from the cache else calls the db method to fetch the terms
@@ -255,7 +281,7 @@ namespace BBC.Dna.Moderation
         public Error UpdateTermsInDatabase(IDnaDataReaderCreator readerCreator, ICacheManager cacheManager,
             string reason, int userId, bool isForModClass)
         {
-            if(String.IsNullOrEmpty(reason))
+            if (String.IsNullOrEmpty(reason))
             {
                 return new Error { Type = "UpdateTermsInDatabase", ErrorMessage = "Valid reason must be supplied" };
             }
@@ -264,20 +290,20 @@ namespace BBC.Dna.Moderation
                 return new Error { Type = "UpdateTermsInDatabase", ErrorMessage = "Valid user must be supplied" };
             }
             //get history id first...
-            int historyId=0;
+            int historyId = 0;
             using (var reader = readerCreator.CreateDnaDataReader("addtermsfilterupdate"))
             {
                 reader.AddParameter("userid", userId);
                 reader.AddParameter("notes", reason);
                 reader.Execute();
-                while(reader.Read())
+                while (reader.Read())
                 {
                     historyId = reader.GetInt32NullAsZero("historyId");
                 }
             }
-            if(historyId ==0)
+            if (historyId == 0)
             {
-                return new Error {Type = "UpdateTermsInDatabase", ErrorMessage = "Unable to get history id"};
+                return new Error { Type = "UpdateTermsInDatabase", ErrorMessage = "Unable to get history id" };
             }
 
             return UpdateTermsWithHistoryId(readerCreator, cacheManager, historyId, isForModClass);
