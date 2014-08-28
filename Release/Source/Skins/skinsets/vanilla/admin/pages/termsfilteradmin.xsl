@@ -52,7 +52,9 @@
   </xsl:template>
 
   <xsl:template match="TERMSLIST" mode="termsList">
-    
+    <p>
+      <a href="termsfilterimport?s_modclassid={@MODCLASSID}">Import More Terms</a> 
+    </p>
     <table class="dna-termslist">
       <thead>
         <tr>
