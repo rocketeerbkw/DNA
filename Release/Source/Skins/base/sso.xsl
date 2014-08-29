@@ -160,7 +160,16 @@
 				<xsl:value-of select="$hosttype"/><xsl:text>%3A%2F%2Fops-dev14.national.core.bbc.co.uk%3A6666</xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
-				<xsl:value-of select="$hosttype"/><xsl:text>%3A%2F%2Fextdev.bbc.co.uk</xsl:text>
+				<xsl:choose>
+					<xsl:when test="$hosttype = 'https'">
+						<xsl:value-of select="$hosttype"/>
+						<xsl:text>%3A%2F%ssl.stage.bbc.co.uk</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$hosttype"/>
+						<xsl:text>%3A%2F%2Fwww.stage.bbc.co.uk</xsl:text>		
+					</xsl:otherwise>
+				</xsl:choose>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="$hosttype"/><xsl:text>%3A%2F%2Fwww.bbc.co.uk</xsl:text>

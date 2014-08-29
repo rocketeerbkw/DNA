@@ -159,7 +159,7 @@
 					<xsl:text>http://dna-staging.bbc.co.uk</xsl:text>
 				</xsl:when>	
 				<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
-					<xsl:text>http://extdev.bbc.co.uk</xsl:text>
+					<xsl:text>http://www.stage.bbc.co.uk</xsl:text>
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:text>http://www.bbc.co.uk</xsl:text>

@@ -247,7 +247,7 @@
       						<li>
       							<xsl:choose>
       								<xsl:when test="contains(/H2G2/SERVERNAME, 'NARTHUR5')">
-      									<a href="http://dna-extdev.bbc.co.uk/dna/{SITECONFIG/BOARDROOT}boards-admin/messageboardadmin">Messageboard Admin</a>
+      									<a href="http://www.stage.bbc.co.uk/dna/{SITECONFIG/BOARDROOT}boards-admin/messageboardadmin">Messageboard Admin</a>
       								</xsl:when>
       								<xsl:otherwise>
       									<a href="/dna/{SITECONFIG/BOARDROOT}boards-admin/messageboardadmin">Messageboard Admin</a>

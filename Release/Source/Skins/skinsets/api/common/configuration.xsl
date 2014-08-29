@@ -47,7 +47,7 @@
 	</xsl:variable>
 	 -->
 
-	<xsl:variable name="idurlenv">
+	<xsl:variable name="urlenv">
 		<xsl:choose>
 			<xsl:when test="$serverenvironment = 'int'">
 				<xsl:text>.int</xsl:text>
@@ -63,6 +63,46 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
+
+	<xsl:variable name="baseurl">
+		<xsl:choose>
+			<xsl:when test="$serverenvironment = 'int'">
+				<xsl:text>http://www.int.bbc.co.uk</xsl:text>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'test'">
+				<xsl:text>http://www.test.bbc.co.uk</xsl:text>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'stage'">
+				<xsl:text>http://www.stage.bbc.co.uk</xsl:text>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'local'">
+				<xsl:text>http://local.bbc.co.uk</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>http://www.bbc.co.uk</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
+
+	<xsl:variable name="securebaseurl">
+		<xsl:choose>
+			<xsl:when test="$serverenvironment = 'int'">
+				<xsl:text>https://ssl.int.bbc.co.uk</xsl:text>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'test'">
+				<xsl:text>https://ssl.test.bbc.co.uk</xsl:text>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'stage'">
+				<xsl:text>https://ssl.stage.bbc.co.uk</xsl:text>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'local'">
+				<xsl:text>https://local.bbc.co.uk</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:text>https://ssl.bbc.co.uk</xsl:text>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 	
 	<xsl:variable name="idURL">
 		<xsl:choose>
@@ -70,10 +110,10 @@
 				<xsl:text>https://ssl.bbc.co.uk/id</xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='UseIDV4']/VALUE = '1'">
-				<xsl:text>https://www</xsl:text><xsl:value-of select="$idurlenv"/><xsl:text>.bbc.co.uk/id</xsl:text>
+				<xsl:text>https://ssl</xsl:text><xsl:value-of select="$urlenv"/><xsl:text>.bbc.co.uk/id</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
-				<xsl:text>https://id</xsl:text><xsl:value-of select="$idurlenv"/><xsl:text>.bbc.co.uk</xsl:text>
+				<xsl:text>https://id</xsl:text><xsl:value-of select="$urlenv"/><xsl:text>.bbc.co.uk</xsl:text>
 			</xsl:otherwise>
 		</xsl:choose>
 		<xsl:if test="contains(/H2G2/SITE/IDENTITYPOLICY, 'u16comment')">/cbbc</xsl:if>
@@ -83,9 +123,15 @@
     <host>
       <!-- edit as appropriate -->
       <!-- live is blank <url></url> -->
-      <url>http://local.bbc.co.uk</url>
-      <sslurl>https://local.bbc.co.uk</sslurl>
-    </host>
+		<!--<url>http://local.bbc.co.uk</url>
+		<sslurl>https://local.bbc.co.uk</sslurl>-->
+		<url>
+			<xsl:value-of select="$baseurl"/>
+		</url>
+		<sslurl>
+			<xsl:value-of select="$securebaseurl"/>
+		</sslurl>
+	</host>
     <sso>
       <url>http://ops-dev14.national.core.bbc.co.uk/cgi-perl/signon/mainscript.pl</url>
       <optional>vanilla</optional>
