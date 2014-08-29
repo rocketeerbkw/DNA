@@ -37,10 +37,10 @@
 				<xsl:text>http%3A%2F%2Fdnarelease.national.core.bbc.co.uk</xsl:text>
 			</xsl:when>
 			<xsl:when test="/H2G2/SERVERNAME = 'NMSDNA0'">
-				<xsl:text>http%3A%2F%2Fdna-staging.bbc.co.uk</xsl:text>
+				<xsl:text>http%3A%2F%2Fwww.stage.bbc.co.uk</xsl:text>
 			</xsl:when>	
 			<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
-				<xsl:text>http%3A%2F%2Fextdev.bbc.co.uk</xsl:text>
+				<xsl:text>http%3A%2F%2Fwww.stage.bbc.co.uk</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:text>http%3A%2F%2Fwww.bbc.co.uk</xsl:text>
