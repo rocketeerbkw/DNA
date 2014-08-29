@@ -107,17 +107,7 @@
 	<xsl:variable name="root">
 		<xsl:choose>
 			<xsl:when test="/H2G2/SITECONFIG/BOARDROOT/node()">
-				<xsl:choose>
-					<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
-						<xsl:choose>
-							<xsl:when test="$serverenvironment = 'int'">/dna/int/</xsl:when>
-							<xsl:when test="$serverenvironment = 'test'">/dna/test/</xsl:when>
-							<xsl:when test="$serverenvironment = 'stable'">/dna/stable/</xsl:when>
-							<xsl:otherwise>/dna/</xsl:otherwise>
-						</xsl:choose>
-					</xsl:when>
-					<xsl:otherwise>/dna/</xsl:otherwise>
-				</xsl:choose>
+				<xsl:text>/dna/</xsl:text>
 				<xsl:copy-of select="/H2G2/SITECONFIG/BOARDROOT/node()"/>
 			</xsl:when>
 			<xsl:otherwise>

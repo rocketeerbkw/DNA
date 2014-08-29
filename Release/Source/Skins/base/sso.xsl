@@ -154,12 +154,34 @@
 		</xsl:variable>
 		<xsl:choose>
 			<xsl:when test="$serverenvironment = 'local'">
-				<xsl:value-of select="$hosttype"/><xsl:text>%3A%2F%2Flocal.bbc.co.uk</xsl:text>
-			</xsl:when>		
-			<xsl:when test="/H2G2/SERVERNAME = 'PC-S052330'">
-				<xsl:value-of select="$hosttype"/><xsl:text>%3A%2F%2Fops-dev14.national.core.bbc.co.uk%3A6666</xsl:text>
+				<xsl:value-of select="$hosttype"/>
+				<xsl:text>%3A%2F%2Flocal.bbc.co.uk</xsl:text>
 			</xsl:when>
-			<xsl:when test="/H2G2/SERVERNAME = 'NARTHUR5'">
+			<xsl:when test="$serverenvironment = 'int'">
+				<xsl:choose>
+					<xsl:when test="$hosttype = 'https'">
+						<xsl:value-of select="$hosttype"/>
+						<xsl:text>%3A%2F%ssl.int.bbc.co.uk</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$hosttype"/>
+						<xsl:text>%3A%2F%2Fwww.int.bbc.co.uk</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'test'">
+				<xsl:choose>
+					<xsl:when test="$hosttype = 'https'">
+						<xsl:value-of select="$hosttype"/>
+						<xsl:text>%3A%2F%ssl.test.bbc.co.uk</xsl:text>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:value-of select="$hosttype"/>
+						<xsl:text>%3A%2F%2Fwww.test.bbc.co.uk</xsl:text>
+					</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:when test="$serverenvironment = 'stage'">
 				<xsl:choose>
 					<xsl:when test="$hosttype = 'https'">
 						<xsl:value-of select="$hosttype"/>
@@ -167,7 +189,7 @@
 					</xsl:when>
 					<xsl:otherwise>
 						<xsl:value-of select="$hosttype"/>
-						<xsl:text>%3A%2F%2Fwww.stage.bbc.co.uk</xsl:text>		
+						<xsl:text>%3A%2F%2Fwww.stage.bbc.co.uk</xsl:text>
 					</xsl:otherwise>
 				</xsl:choose>
 			</xsl:when>
