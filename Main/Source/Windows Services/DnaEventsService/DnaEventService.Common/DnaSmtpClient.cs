@@ -1,18 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Net;
 using System.Net.Mail;
-using System.Text;
 
 namespace DnaEventService.Common
 {
     public class DnaSmtpClient : IDnaSmtpClient
     {
-        private SmtpClient client = new SmtpClient();
+        private readonly SmtpClient client;
 
-        public DnaSmtpClient(string hostDetails)
+        public DnaSmtpClient(string hostname, string userName, string password, bool enableSsl)
         {
-            client.Host = hostDetails;
+            client = new SmtpClient(hostname)
+            {
+                EnableSsl = enableSsl
+            };
+
+            if (!string.IsNullOrEmpty(userName))
+            {
+                client.Credentials = new NetworkCredential(userName, password);
+            }
         }
 
         #region IDnaSmtpClient Members

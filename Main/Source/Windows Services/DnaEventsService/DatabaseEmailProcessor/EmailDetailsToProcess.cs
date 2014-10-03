@@ -19,7 +19,7 @@ namespace Dna.DatabaseEmailProcessor
         {
             try
             {
-                using (MailMessage message = new MailMessage())
+                using (var message = new MailMessage())
                 {
                     message.From = new MailAddress(FromAddress);
                     message.To.Add(ToAddress);
@@ -38,11 +38,12 @@ namespace Dna.DatabaseEmailProcessor
             }
             catch (Exception e)
             {
-                string errorMsg = e.Message;
+                var errorMsg = e.Message;
                 if (e.InnerException != null)
                 {
                     errorMsg += " : " + e.InnerException.Message;
                 }
+
                 logger.Log(System.Diagnostics.TraceEventType.Verbose, errorMsg);
                 LastFailedReason = errorMsg;
                 Sent = false;
