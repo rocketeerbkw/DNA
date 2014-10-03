@@ -1,5 +1,7 @@
 REGEDIT4
 --delete all keys
 [-HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes]
+[-HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Redirects]
 --create prefix key
 [HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes]
+[HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Redirects]

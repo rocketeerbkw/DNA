@@ -1,4 +1,27 @@
 REGEDIT4
+--add redirects
+[HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Redirects]
+@=""
+"cbbc"="http://www.bbc.co.uk/cbbc/topics/get-involved"
+"mbcbbc"="http://www.bbc.co.uk/cbbc/topics/get-involved"
+"mbnewsround"="http://www.bbc.co.uk/cbbc/topics/get-involved"
+"h2g2"="http://h2g2.com/dna/h2g2$1"
+"filmnetwork"="http://www.bbc.co.uk/filmnetwork/"
+"onionstreet"="http://www.bbc.co.uk/schools/communities/onionstreet/blog/closed.shtml"
+"mbweather"="http://www.bbc.co.uk/weather/"
+"dannywallace"="http://www.citizensrequired.com/unit/site/index.shtml"
+"cult"="http://www.bbc.co.uk/cult/directory.shtml"
+"360"="http://h2g2.com/dna/h2g2/C59"
+"getwriting"="http://h2g2.com/dna/h2g2/"
+"mbwalesedu"="http://www.bbc.co.uk/wales/blogs/"
+"mbtalkwales"="http://www.bbc.co.uk/wales/blogs/"
+"ww2"="http://www.bbc.co.uk/history/ww2peopleswar/"
+"cbbc"="http://www.bbc.co.uk/cbbc/mb/"
+"mbstrictly"="strictlycomedancing$1"
+"ican"="http://news.bbc.co.uk/"
+"actionnetwork"="http://news.bbc.co.uk/"
+"mbouch"="http://www.bbc.co.uk/ouch/messageboards$1"
+
 --add associations
 [HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Prefixes]
 @=""

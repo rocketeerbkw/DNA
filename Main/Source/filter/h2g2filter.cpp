@@ -76,6 +76,11 @@ CH2g2Filter::CH2g2Filter() : m_bKeepAuditTrail(0)
 							RegAccess,			// security access mask
 							&m_RegKeyPrefixes);	// address of handle of open key
 
+	Result = RegOpenKeyEx(	m_RegKeyRoot,
+		 					"Redirects",
+							0,					// reserved
+							RegAccess,			// security access mask
+							&m_RegKeyRedirects);	    // address of handle of open key
 
 	Result = RegOpenKeyEx(	m_RegKeyRoot,
 		 					"Extensions",
@@ -149,7 +154,7 @@ BOOL CH2g2Filter::GetFilterVersion(PHTTP_FILTER_VERSION pVer)
 	TCHAR sz[SF_MAX_FILTER_DESC_LEN+1];
 	ISAPIVERIFY(::LoadString(AfxGetResourceHandle(),
 			IDS_FILTER, sz, SF_MAX_FILTER_DESC_LEN));
-	_tcscpy(pVer->lpszFilterDesc, sz);
+	strcpy_s(pVer->lpszFilterDesc, sz);
 	return TRUE;
 }
 
@@ -192,6 +197,7 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 {
 	char pURL[ URL_BUFFER_SIZE ];
 	char pPrefix[ URL_BUFFER_SIZE ];
+	char pRedirect[ URL_BUFFER_SIZE ];
 	char pNumericID[ URL_BUFFER_SIZE ];
 
 	char pDestURL[ URL_BUFFER_SIZE ];
@@ -206,6 +212,7 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 #ifdef _DEBUG
 	memset(pURL, '*', URL_BUFFER_SIZE);
 	memset(pPrefix, '*', URL_BUFFER_SIZE);
+	memset(pRedirect, '*', URL_BUFFER_SIZE);
 	memset(pDestURL, '*', URL_BUFFER_SIZE);
 	memset(pServerName, '*', URL_BUFFER_SIZE);
 #endif
@@ -219,7 +226,7 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 	DWORD buflen = URL_BUFFER_SIZE;
 	pCtxt->GetServerVariable("SERVER_NAME", pServerName, &buflen);
 
-	strcat(pServerName, "\\Prefixes");
+	strcat_s(pServerName, "\\Prefixes");
 
 	HKEY hRegKeyPrefixes;
 	LONG bRes = RegOpenKeyEx(	m_RegKeyRoot,
@@ -354,7 +361,7 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 	{
 		if (_strnicmp(pRootDir, pURL, strlen(pRootDir)) == 0)
 		{
-			strcpy(pURL, pURL+strlen(pRootDir)-1);
+			strcpy_s(pURL, pURL+strlen(pRootDir)-1);
 		}
 	}
 	
@@ -384,7 +391,7 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 		// If we found a slash, then remove the subdirectory - it's /h2g2/
 		if (_strnicmp(pURL, "/dna/",5) == 0)
 		{
-			strcpy(pURL, pSlash);
+			strcpy_s(pURL, pSlash);
 
 			// Now see if there's another one - this one will be the service name
 			pSlash = FindEndslash(pURL);
@@ -392,11 +399,11 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 			{
 				// Found a servicename, which goes from pURL+1 to pSlash-1
 				// so copy that to pServiceName
-				strncpy(pServiceName, pURL+1, pSlash - (pURL+1));
+				strncpy_s(pServiceName, pURL+1, pSlash - (pURL+1));
 				pServiceName[pSlash-(pURL+1)] = 0;
 
 				// Now strip it off as well
-				strcpy(pURL, pSlash);
+				strcpy_s(pURL, pSlash);
 
 				bGotSiteInfo = true;
 				// Now look for a skin name
@@ -405,23 +412,69 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 				{
 					// Found a skinname
 					// so copy that
-					strncpy(pSkinName, pURL+1, pSlash - (pURL+1));
+					strncpy_s(pSkinName, pURL+1, pSlash - (pURL+1));
 					pSkinName[pSlash-(pURL+1)] = 0;
 
 					// Now strip it off as well
-					strcpy(pURL, pSlash);
+					strcpy_s(pURL, pSlash);
 				}
 			}
 			else	// No endslash but we're expecting a service name so assume an omitted endslash
 			{
-				strcpy(pServiceName, pURL+1);
-				strcpy(pURL, "/");
+				strcpy_s(pServiceName, pURL+1);
+				strcpy_s(pURL, "/");
 			}
 		}
 	}
 
+/*
+    CHECK TO SEE IF WE NEED TO REDIRECT
+*/
+	Result = RegQueryValueEx(   m_RegKeyRedirects,
+								pServiceName,
+								NULL,		// lpReserved. Reserved; must be NULL. 
+								&KeyType,
+								(LPBYTE)pDestURL, // The URL we ultimately return.
+								&dwBufferSize);
+									
+    if (Result == ERROR_SUCCESS)
+    {
+        BOOL bRedirect = TRUE;
+        
+        char* pParamCopy = strstr(pDestURL,"$");
+        if (pParamCopy != NULL)
+        {
+            if (strstr(pDestURL,"http") != NULL)
+            {
+                strncpy_s(pDestURL,pDestURL,pParamCopy-pDestURL);
+                if (pURL != NULL)
+                {
+                    strcat_s(pDestURL,pURL);
+                }
+            }
+            else
+            {
+                // We want to replace the service name, not redirect
+                strncpy_s(pServiceName,pDestURL,pParamCopy-pDestURL);
+                bRedirect = FALSE;
+            }
+        }
+        
+        if (bRedirect)
+        {
+            char szTemp[URL_BUFFER_SIZE];
+            wsprintf(szTemp, "Location: %s\r\n\r\n",pDestURL);
 
+            pCtxt->ServerSupportFunction (  SF_REQ_SEND_RESPONSE_HEADER,
+                                            (PVOID) "302 Redirect",
+                                            (LPDWORD) szTemp,
+                                            0); 
 
+            pHeaderInfo->SetHeader(pCtxt->m_pFC, "url", pDestURL);
+           
+            return SF_STATUS_REQ_FINISHED_KEEP_CONN;
+        }
+    }
 
 
 	// *** strip off leading directory
@@ -439,7 +492,7 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 		if (((pQuery == NULL) || (pFirstSlash < pQuery)) && ((pAmpersand == NULL) || (pFirstSlash < pAmpersand)))
 		{
 			// Strip off root dir, leaving the last /
-			strcpy(pURL, strchr(pURL + 1, '/'));
+			strcpy_s(pURL, strchr(pURL + 1, '/'));
 		}
 	}
 */
@@ -491,7 +544,7 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 	
 		EventLog("Numeric ID or null-terminated prefix found", EVENTLOG_INFORMATION_TYPE);
 		
-		strcat(pDestURL, pNumericID);
+		strcat_s(pDestURL, pNumericID);
 
 		// Hurrah! 
 		bModifiedURL = TRUE;
@@ -538,7 +591,7 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 				{
 				//	if (bGotSiteInfo)
 				//	{
-				//		strcpy(pDestURL, pURL);
+				//		strcpy_s(pDestURL, pURL);
 				//	}
 				//	else
 				//	{
@@ -556,10 +609,10 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 													&dwBufferSize);
 					if (Result != ERROR_SUCCESS)
 					{
-						strcpy(pDestURL, "/ripleyserver.dll?article?name=");
+						strcpy_s(pDestURL, "/ripleyserver.dll?article?name=");
 					}
-					strcat(pDestURL,pPrefix + 1);
-					strcat(pDestURL, "&");
+					strcat_s(pDestURL,pPrefix + 1);
+					strcat_s(pDestURL, "&");
 				}
 			}
 			else
@@ -584,7 +637,7 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 	{
 		// Append " & option=";
 
-		strcat(pDestURL, "&option=");
+		strcat_s(pDestURL, "&option=");
 
 		// Append the remainder of the input string, changing any '?' to '&'
 
@@ -616,10 +669,10 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 	{
 		if (*pTerm != '&' && *pTerm != '?')
 		{
-			strcat(pDestURL, "&");
+			strcat_s(pDestURL, "&");
 		}
-		strcat(pDestURL, "_sk=");
-		strcat(pDestURL, pSkinName);
+		strcat_s(pDestURL, "_sk=");
+		strcat_s(pDestURL, pSkinName);
 		pTerm = pDestURL + strlen(pDestURL) - 1;
 	}
 
@@ -627,10 +680,10 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 	{
 		if (*pTerm != '&' && *pTerm != '?')
 		{
-			strcat(pDestURL, "&");
+			strcat_s(pDestURL, "&");
 		}
-		strcat(pDestURL, "_si=");
-		strcat(pDestURL, pServiceName);
+		strcat_s(pDestURL, "_si=");
+		strcat_s(pDestURL, pServiceName);
 	}
 
 	// Check for over-ridden registry keys - UnCookied and Extensions
@@ -665,8 +718,6 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 
 	return SF_STATUS_REQ_NEXT_NOTIFICATION;
 }
-
-
 
 /******************************************************************************
 
@@ -770,8 +821,8 @@ BOOL CH2g2Filter::CheckForCachedFiles(char* pDestURL, char* pPrefix, char* pNume
 		// Append the numeric ID passed, and terminate with a wildcard extension,
 		// e.g. "1234.*"
 
-		strcat(pExtensions, pNumericID);
-		strcat(pExtensions, ".*");
+		strcat_s(pExtensions, pNumericID);
+		strcat_s(pExtensions, ".*");
 
 		EventLog(pExtensions, EVENTLOG_INFORMATION_TYPE);
 		
@@ -1048,16 +1099,16 @@ DWORD CH2g2Filter::OnUrlMap(CHttpFilterContext* pfc, PHTTP_FILTER_URL_MAP pUrlMa
 	{
 		char* pPostNumeric = CopyMatching(pDigits, pPostPrefix, DIGITS);
 		
-		strcpy(pPathname, "E:\\blobcache\\");
+		strcpy_s(pPathname, "E:\\blobcache\\");
 		
 		// If there's anything after the blob, it's a directory
 		if (*pPostNumeric != '0')
 		{
-			strcat(pPathname, pPostNumeric);
-			strcat(pPathname, "\\");
+			strcat_s(pPathname, pPostNumeric);
+			strcat_s(pPathname, "\\");
 		}
-		strcat(pPathname, pDigits);
-		strcat(pPathname, ".*");
+		strcat_s(pPathname, pDigits);
+		strcat_s(pPathname, ".*");
 
 		WIN32_FIND_DATA fdData;
 
@@ -1065,10 +1116,10 @@ DWORD CH2g2Filter::OnUrlMap(CHttpFilterContext* pfc, PHTTP_FILTER_URL_MAP pUrlMa
 		if (hFile != INVALID_HANDLE_VALUE)
 		{
 			// Found the file, so put its path into the output
-			strcpy(pUrlMap->pszPhysicalPath, "E:\\blobcache\\");
-			strcat(pUrlMap->pszPhysicalPath, pPostNumeric);
-			strcat(pUrlMap->pszPhysicalPath, "\\");
-			strcat(pUrlMap->pszPhysicalPath, fdData.cFileName);
+			strcpy_s(pUrlMap->pszPhysicalPath, "E:\\blobcache\\");
+			strcat_s(pUrlMap->pszPhysicalPath, pPostNumeric);
+			strcat_s(pUrlMap->pszPhysicalPath, "\\");
+			strcat_s(pUrlMap->pszPhysicalPath, fdData.cFileName);
 		}
 		pfc->AddResponseHeaders("Content-Type: image/gif");
 		return SF_STATUS_REQ_HANDLED_NOTIFICATION;
