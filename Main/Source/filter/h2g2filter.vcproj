@@ -121,7 +121,7 @@
 			IntermediateDirectory=".\Release"
 			ConfigurationType="2"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="2"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
 			<Tool
@@ -149,9 +149,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories=".\references"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL"
 				StringPooling="true"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -169,6 +170,7 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
 				Culture="2057"
+				AdditionalIncludeDirectories=".\references"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -178,6 +180,7 @@
 				OutputFile=".\Release/h2g2filter.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=".\references"
 				ModuleDefinitionFile=".\h2g2filter.def"
 				ProgramDatabaseFile=".\Release/h2g2filter.pdb"
 				SubSystem="2"

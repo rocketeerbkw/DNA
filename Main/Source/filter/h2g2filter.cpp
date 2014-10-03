@@ -197,7 +197,6 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 {
 	char pURL[ URL_BUFFER_SIZE ];
 	char pPrefix[ URL_BUFFER_SIZE ];
-	char pRedirect[ URL_BUFFER_SIZE ];
 	char pNumericID[ URL_BUFFER_SIZE ];
 
 	char pDestURL[ URL_BUFFER_SIZE ];
@@ -212,7 +211,6 @@ DWORD CH2g2Filter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 #ifdef _DEBUG
 	memset(pURL, '*', URL_BUFFER_SIZE);
 	memset(pPrefix, '*', URL_BUFFER_SIZE);
-	memset(pRedirect, '*', URL_BUFFER_SIZE);
 	memset(pDestURL, '*', URL_BUFFER_SIZE);
 	memset(pServerName, '*', URL_BUFFER_SIZE);
 #endif
