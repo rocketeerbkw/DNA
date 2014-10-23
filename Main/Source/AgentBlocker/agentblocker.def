@@ -1,0 +1,7 @@
+; AGENTBLOCKER.def : declares the module parameters for the DLL.
+
+LIBRARY	     "AGENTBLOCKER"
+
+EXPORTS
+	HttpFilterProc
+	GetFilterVersion
