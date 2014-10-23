@@ -1697,8 +1697,12 @@ use master
 
         string GetNextIndentityId(IDnaDataReader reader)
         {
-            string sql = @"select IdentityUserID from signinuseridmapping 
-                           where cast(identityuserid as bigint) = (select max(cast(identityuserid as bigint)) from signinuseridmapping)";
+            //string sql = @"select IdentityUserID from signinuseridmapping 
+            //               where cast(identityuserid as bigint) = (select max(cast(identityuserid as bigint)) from signinuseridmapping)";
+
+            string sql = @"
+                            select '99999999999999998' As IdentityUserID
+                          ";
             reader.ExecuteWithinATransaction(sql);
             reader.Read();
             string identityId = reader.GetString("IdentityUserID");
@@ -1729,7 +1733,8 @@ use master
 
             reader.ExecuteWithinATransaction(sql);
 
-            sql = "SELECT DnaUserId FROM SignInUserIdMapping WHERE IdentityUserId='" + id + "'";
+            //sql = "SELECT DnaUserId FROM SignInUserIdMapping WHERE IdentityUserId='" + id + "'";
+            sql = @" Execute [dbo].[getdnauseridfromidentityuserid] '" + id + "'";
             reader.ExecuteWithinATransaction(sql);
             reader.Read();
             int userId = reader.GetInt32("DnaUserId");
