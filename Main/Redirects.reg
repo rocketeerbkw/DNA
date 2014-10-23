@@ -1,7 +1,8 @@
 REGEDIT4
+[-HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Redirects]
 --add redirects
 [HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\URLmap\Redirects]
-@=""
+@="http://www.bbc.co.uk"
 "cbbc"="http://www.bbc.co.uk/cbbc/topics/get-involved"
 "mbcbbc"="http://www.bbc.co.uk/cbbc/topics/get-involved"
 "mbnewsround"="http://www.bbc.co.uk/cbbc/topics/get-involved"
