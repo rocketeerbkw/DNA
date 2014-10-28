@@ -4,8 +4,7 @@
 #include "stdafx.h"
 #include "agentblocker.h"
 
-
-
+REGSAM RegAccess = KEY_READ|KEY_WOW64_64KEY;
 
 CAgentList::CAgentList()
 {
@@ -140,16 +139,15 @@ CAgentblockerFilter::CAgentblockerFilter()
 	Result = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
 		 						"SOFTWARE\\The Digital Village\\h2g2 web server\\Agents",
 								0,						// reserved
-								KEY_READ,				// security access mask
+								RegAccess,				// security access mask
 								&m_hkAgents);	// address of handle of open key
-	
-	
+									
 	DWORD ThrottlePeriod = 20; // default to 20 seconds...
 	HKEY hkWebKey;
 	Result = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
 		 						"SOFTWARE\\The Digital Village\\h2g2 web server",
 								0,						// reserved
-								KEY_READ,				// security access mask
+								RegAccess,				// security access mask
 								&hkWebKey);	// address of handle of open key
 	
 	DWORD KeyType;
@@ -168,9 +166,13 @@ CAgentblockerFilter::CAgentblockerFilter()
 		}
 		RegCloseKey(hkWebKey);
 	}
-
 	m_AgentList.Initialise(ThrottlePeriod);
-
+	
+	Result = RegOpenKeyEx( HKEY_LOCAL_MACHINE,
+		 						"SOFTWARE\\The Digital Village\\h2g2 web server\\BannedCookies",
+								0,						// reserved
+								RegAccess,				// security access mask
+								&m_hkCookies);	        // address of handle of open key
 }
 
 CAgentblockerFilter::~CAgentblockerFilter()
@@ -243,6 +245,53 @@ DWORD CAgentblockerFilter::OnPreprocHeaders(CHttpFilterContext* pCtxt,
 			return SF_STATUS_REQ_FINISHED;
 		}
 	}
+
+    // Get the cookies for the request
+    char pCookies[1024];
+    pCookies[0] = 0;
+    pCtxt->GetServerVariable("HTTP_COOKIE", pCookies, &buflen);
+    BOOL bCookie = pHeaderInfo->GetHeader(pCtxt->m_pFC, "cookie:", pCookies, &buflen);
+
+    if (pCookies != NULL && bCookie)
+    {
+        char* pBBCUIDStart = (strstr(pCookies,"BBC-UID="));
+        
+        if (pBBCUIDStart != NULL)
+        {
+            char pBBCUIDCookie[1024];
+            memset(pBBCUIDCookie,0,1024);
+            
+            char* pBBCUIDEnd = strchr(pBBCUIDStart,';');
+            if (pBBCUIDEnd != NULL)
+            {
+                strncpy_s(pBBCUIDCookie,pBBCUIDStart,pBBCUIDEnd-pBBCUIDStart);
+            }
+            else
+            {
+                strcpy_s(pBBCUIDCookie,pBBCUIDStart);
+            }
+            
+            // Check to see if the cookie is allowed
+    	    LONG Result = RegQueryValueEx(	m_hkCookies,
+							    pBBCUIDCookie,
+							    NULL,				// lpReserved. Reserved; must be NULL. 
+							    &KeyType,
+							    (LPBYTE)dwDebug,	// The word value is 
+							    &dwBufferSize);
+    							
+		    if (Result == ERROR_SUCCESS)
+		    {
+			    char szBuffer[1024];
+                wsprintf(szBuffer, "Error: Too many requests have been made during a short time period so you have been blocked.");
+                DWORD dwBuffSize = lstrlen(szBuffer);
+
+                pCtxt->ServerSupportFunction(SF_REQ_SEND_RESPONSE_HEADER, "403 Forbidden", 0, 0);
+                pCtxt->WriteClient(szBuffer, &dwBuffSize, 0);
+
+                return SF_STATUS_REQ_FINISHED;
+		    }
+		}
+    }
 	
 	return SF_STATUS_REQ_NEXT_NOTIFICATION;
 }

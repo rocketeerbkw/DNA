@@ -26,16 +26,18 @@ protected:
 	DWORD m_ThrottlePeriod;
 };
 
-
 class CAgentblockerFilter : public CHttpFilter
 {
-public:
-	HKEY m_hkAgents;
+public:	
 	CAgentblockerFilter();
 	~CAgentblockerFilter();
+
 protected:
 	CAgentList m_AgentList;
 	CHttpFilterContext* m_pContext;
+	HKEY m_hkAgents;
+	HKEY m_hkCookies;
+
 // Overrides
 	// ClassWizard generated virtual function overrides
 		// NOTE - the ClassWizard will add and remove member functions here.
