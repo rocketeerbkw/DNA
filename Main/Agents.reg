@@ -1,5 +1,6 @@
 REGEDIT4
 [-HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\Agents]
+
 [HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\Agents]
 "Openfind+data+gatherer,+Openbot/3.0+(robot-response@openfind.com.tw;+http://www.openfind.com.tw/robot.html)"=dword:00000001
 "Mozilla/5.0+(Slurp/cat;+slurp@inktomi.com;+http://www.inktomi.com/slurp.html)"=dword:00000001
@@ -7,3 +8,9 @@ REGEDIT4
 "ia_archiver"=dword:00000001
 "TurnitinBot/1.5+http://www.turnitin.com/robot/crawlerinfo.html"=dword:00000001
 "Scooter/3.3"=dword:00000001
+"Mozilla/5.0+(compatible;+Googlebot/2.1;++http://www.google.com/bot.html)"=dword:00000001
+"Mozilla/5.0+(compatible;+Yahoo!+Slurp;+http://help.yahoo.com/help/us/ysearch/slurp)"=dword:00000001
+"Scrapy/0.24.4+(+http://scrapy.org)"=dword:00000001
+"magpie-crawler/1.1+(U;+Linux+amd64;+en-GB;++http://www.brandwatch.net)"=dword:00000001
+"Mozilla/5.0+(compatible;+bingbot/2.0;++http://www.bing.com/bingbot.htm)"=dword:00000001
+"greenland+archiver+1.0"=dword:00000001

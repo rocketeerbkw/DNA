@@ -155,6 +155,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories=".\references"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -175,6 +176,7 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="NDEBUG"
 				Culture="2057"
+				AdditionalIncludeDirectories=".\references"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
@@ -184,6 +186,7 @@
 				OutputFile=".\Release/agentblocker.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				AdditionalLibraryDirectories=".\references"
 				ModuleDefinitionFile=".\agentblocker.def"
 				ProgramDatabaseFile=".\Release/agentblocker.pdb"
 				SubSystem="2"

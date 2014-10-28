@@ -1,0 +1,4 @@
+REGEDIT4
+[-HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\BannedCookies]
+[HKEY_LOCAL_MACHINE\SOFTWARE\The Digital Village\h2g2 web server\BannedCookies]
+"BBC-UID=55a4a4fe621e0189a1c083c7a19157c91bde6450f4d4511eba31c474dc64e9ac0Mozilla/4.0%20(compatible%3b%20MSIE%208.0%3b%20Windows%20NT%205.1%3b%20Trident/4.0%3b%20.NET%20CLR%201.1.4322%3b%20.NET%20CLR%20;+ckps_language=cy;+PHPSESSID=L-6dc3c5vevl47br30eb47g2lqj3"=dword:00000001
