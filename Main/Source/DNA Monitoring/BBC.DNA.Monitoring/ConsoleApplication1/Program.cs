@@ -10,16 +10,24 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            DNAMonitoring dm = new DNAMonitoring();
+            //Code called when resources existed on ATOS Content N\W
+            //DNAMonitoring dm = new DNAMonitoring();
+            //KPIList l = dm.GetBbcDnaStatsKPIs("narthur11");
+            //var zkl = new ZenossKPIList();
+            //foreach (var k in l.ListOfKPIs)
+            //{
+            //    var z = new ZenossKPI();
+            //    z.AppName = "";
+            //}
 
-            KPIList l = dm.GetBbcDnaStatsKPIs("narthur11");
-
+            //Code called when resources exist on Azure
+            DNAMonitoringOnAzure dm = new DNAMonitoringOnAzure();
+            KPIList l = dm.GetBbcDnaStatsKPIs("ServerOnAzure");
             var zkl = new ZenossKPIList();
             foreach (var k in l.ListOfKPIs)
             {
                 var z = new ZenossKPI();
                 z.AppName = "";
-
             }
         }
     }

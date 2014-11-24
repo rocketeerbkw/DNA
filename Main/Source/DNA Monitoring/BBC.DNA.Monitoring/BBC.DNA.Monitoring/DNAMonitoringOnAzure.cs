@@ -1,0 +1,132 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Net;
+using System.IO;
+using System.Xml;
+using System.Diagnostics;
+
+namespace BBC.DNA.Monitoring
+{
+    public class DNAMonitoringOnAzure
+    {
+        string _logFolder = "C:\\DebugLogs";
+        string _ripleyServerStatsUrl = "http://www.bbc.co.uk/dna/moderation/status?s_disp=stats&interval=60&skin=purexml";
+        string _bbcDnaStatsUrl = "http://www.bbc.co.uk/dna/moderation/status-n?s_disp=stats&interval=5&skin=purexml";
+        string _apiCommentsStatsUrl = "http://www.bbc.co.uk/dna/api/comments/status.aspx?interval=60&skin=purexml";
+
+        string _ripleyServerAppName = "DNA-RipleyServer";
+        string _bbcDnaAppName = "DNA-BBCDNA";
+        string _apiCommentsAppName = "DNA-API-Comments";
+
+        public KPIList GetApiCommentsStatsKPIs(string serverName)
+        {
+            string[] results = GetStatsResultsFromUrl(_apiCommentsStatsUrl);
+            return GenerateKPIListFromStatsResults(results, _apiCommentsAppName, serverName);
+        }
+
+        public KPIList GetBbcDnaStatsKPIs(string serverName)
+        {
+            string[] results = GetStatsResultsFromUrl(_bbcDnaStatsUrl);
+            return GenerateKPIListFromStatsResults(results, _bbcDnaAppName, serverName);
+        }
+
+        public KPIList GetRipleyServerStatsKPIs(string serverName)
+        {
+            string[] results = GetStatsResultsFromUrl(_ripleyServerStatsUrl);
+            return GenerateKPIListFromStatsResults(results, _ripleyServerAppName, serverName);
+        }
+
+        KPIList GenerateKPIListFromStatsResults(string[] statsResults, string appName, string serverName)
+        {
+            KPIList kpiList = new KPIList(appName, serverName);
+
+            kpiList.ListOfKPIs.Add(ExtractStatsValue(statsResults[0]));
+            kpiList.ListOfKPIs.Add(ExtractStatsValue(statsResults[1]));
+
+            //WriteKPIsToLogFile(kpiList); //Uncomment when Debugging
+
+            return kpiList;
+        }
+
+        KPI ExtractStatsValue(string strStats)
+        {
+            KPI kpi = new KPI();
+            string[] statsArr = strStats.Split(':');
+
+            kpi.KPIName = statsArr[0];
+            kpi.KPIValue = (statsArr[1] != "null") ? int.Parse(statsArr[1]) : 0;
+            kpi.Dt = DateTime.UtcNow;
+
+            return kpi;
+        }
+
+        String[] GetStatsResultsFromUrl(string url)
+        {
+            string[] results = new string[2];
+            TimeSpan timeTaken;
+
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
+            try
+            {
+                HttpWebRequest req = GetWebRequest(url);
+                WebResponse resp = req.GetResponse();
+                Stream respStream = resp.GetResponseStream();
+                StreamReader sreader = new StreamReader(respStream);
+                string xmlfile = sreader.ReadToEnd();
+                sreader.Close();
+                resp.Close();
+
+                stopWatch.Stop();
+                //Non200Responses
+                results[0] = "Non200Responses:null";
+            }
+            catch (System.Net.WebException webExc)
+            {
+                stopWatch.Stop();
+                //Non200Responses
+                results[0] = "Non200Responses:75"; //((int)((HttpWebResponse)webExc.Response).StatusCode).ToString();
+            }
+
+            timeTaken = stopWatch.Elapsed;
+            //ResponseTime in Milliseconds            
+            results[1] = "ResponseTimeMs:" + Math.Round(timeTaken.TotalMilliseconds).ToString();
+
+            return results;
+        }
+
+        HttpWebRequest GetWebRequest(string sURL)
+        {
+            Uri URL = new Uri(sURL);
+            HttpWebRequest wr = (HttpWebRequest)WebRequest.Create(URL);
+
+            string Proxy = "gatef-rth.mh.bbc.co.uk";
+            string Port = "80";
+            WebProxy myProxy = new WebProxy("http://" + Proxy + ":" + Port);
+            wr.Proxy = myProxy;
+
+            //wr.CookieContainer = cContainer;
+            wr.PreAuthenticate = true;
+            return wr;
+        }
+
+        void WriteKPIsToLogFile(KPIList kpis)
+        {
+            DateTime n = DateTime.Now;
+
+            string date = string.Format("{0}-{1}-{2}-{3}-{4}", n.Year, n.Month, n.Hour, n.Minute, n.Second);
+            string fileName = string.Format(@"{0}\{1}-{2}.txt", _logFolder, kpis.ServerName, date);
+
+            StreamWriter sw = new StreamWriter(fileName);
+
+            foreach (KPI k in kpis.ListOfKPIs)
+            {
+                sw.WriteLine(k.KPIName + " : " + k.KPIValue);
+            }
+            sw.Close();
+        }
+    }
+}
