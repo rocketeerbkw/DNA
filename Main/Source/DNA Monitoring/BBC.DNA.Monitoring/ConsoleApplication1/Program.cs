@@ -10,19 +10,11 @@ namespace ConsoleApplication1
     {
         static void Main(string[] args)
         {
-            //Code called when resources existed on ATOS Content N\W
-            //DNAMonitoring dm = new DNAMonitoring();
-            //KPIList l = dm.GetBbcDnaStatsKPIs("narthur11");
-            //var zkl = new ZenossKPIList();
-            //foreach (var k in l.ListOfKPIs)
-            //{
-            //    var z = new ZenossKPI();
-            //    z.AppName = "";
-            //}
-
-            //Code called when resources exist on Azure
             DNAMonitoringOnAzure dm = new DNAMonitoringOnAzure();
-            KPIList l = dm.GetBbcDnaStatsKPIs("ServerOnAzure");
+            KPIList l = dm.GetBbcDnaStatsKPIs("ServerOnAzure",
+                                                "http://www.bbc.co.uk/dna/moderation/status-n?s_disp=stats&interval=5&skin=purexml",
+                                                "DNA-BBCDNA",
+                                                "C:\\DebugLogs");
             var zkl = new ZenossKPIList();
             foreach (var k in l.ListOfKPIs)
             {

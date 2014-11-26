@@ -11,41 +11,32 @@ namespace BBC.DNA.Monitoring
 {
     public class DNAMonitoringOnAzure
     {
-        string _logFolder = "C:\\DebugLogs";
-        string _ripleyServerStatsUrl = "http://www.bbc.co.uk/dna/moderation/status?s_disp=stats&interval=60&skin=purexml";
-        string _bbcDnaStatsUrl = "http://www.bbc.co.uk/dna/moderation/status-n?s_disp=stats&interval=5&skin=purexml";
-        string _apiCommentsStatsUrl = "http://www.bbc.co.uk/dna/api/comments/status.aspx?interval=60&skin=purexml";
-
-        string _ripleyServerAppName = "DNA-RipleyServer";
-        string _bbcDnaAppName = "DNA-BBCDNA";
-        string _apiCommentsAppName = "DNA-API-Comments";
-
-        public KPIList GetApiCommentsStatsKPIs(string serverName)
+        public KPIList GetApiCommentsStatsKPIs(string serverName, string apiCommentsStatsUrl, string apiCommentsAppName, string logFolder)
         {
-            string[] results = GetStatsResultsFromUrl(_apiCommentsStatsUrl);
-            return GenerateKPIListFromStatsResults(results, _apiCommentsAppName, serverName);
+            string[] results = GetStatsResultsFromUrl(apiCommentsStatsUrl);
+            return GenerateKPIListFromStatsResults(results, apiCommentsAppName, serverName, logFolder);
         }
 
-        public KPIList GetBbcDnaStatsKPIs(string serverName)
+        public KPIList GetBbcDnaStatsKPIs(string serverName, string bbcDnaStatsUrl, string bbcDnaAppName, string logFolder)
         {
-            string[] results = GetStatsResultsFromUrl(_bbcDnaStatsUrl);
-            return GenerateKPIListFromStatsResults(results, _bbcDnaAppName, serverName);
+            string[] results = GetStatsResultsFromUrl(bbcDnaStatsUrl);
+            return GenerateKPIListFromStatsResults(results, bbcDnaAppName, serverName, logFolder);
         }
 
-        public KPIList GetRipleyServerStatsKPIs(string serverName)
+        public KPIList GetRipleyServerStatsKPIs(string serverName, string ripleyServerStatsUrl, string ripleyServerAppName, string logFolder)
         {
-            string[] results = GetStatsResultsFromUrl(_ripleyServerStatsUrl);
-            return GenerateKPIListFromStatsResults(results, _ripleyServerAppName, serverName);
+            string[] results = GetStatsResultsFromUrl(ripleyServerStatsUrl);
+            return GenerateKPIListFromStatsResults(results, ripleyServerAppName, serverName, logFolder);
         }
 
-        KPIList GenerateKPIListFromStatsResults(string[] statsResults, string appName, string serverName)
+        KPIList GenerateKPIListFromStatsResults(string[] statsResults, string appName, string serverName, string logFolder)
         {
             KPIList kpiList = new KPIList(appName, serverName);
 
             kpiList.ListOfKPIs.Add(ExtractStatsValue(statsResults[0]));
             kpiList.ListOfKPIs.Add(ExtractStatsValue(statsResults[1]));
 
-            //WriteKPIsToLogFile(kpiList); //Uncomment when Debugging
+            //WriteKPIsToLogFile(kpiList, logFolder); //Uncomment when Debugging
 
             return kpiList;
         }
@@ -56,7 +47,7 @@ namespace BBC.DNA.Monitoring
             string[] statsArr = strStats.Split(':');
 
             kpi.KPIName = statsArr[0];
-            kpi.KPIValue = (statsArr[1] != "null") ? int.Parse(statsArr[1]) : 0;
+            kpi.KPIValue = int.Parse(statsArr[1]);
             kpi.Dt = DateTime.UtcNow;
 
             return kpi;
@@ -82,18 +73,18 @@ namespace BBC.DNA.Monitoring
 
                 stopWatch.Stop();
                 //Non200Responses
-                results[0] = "Non200Responses:null";
+                results[0] = "Non200Responses:0";
             }
             catch (System.Net.WebException webExc)
             {
                 stopWatch.Stop();
                 //Non200Responses
-                results[0] = "Non200Responses:75"; //((int)((HttpWebResponse)webExc.Response).StatusCode).ToString();
+                results[0] = "Non200Responses:" + ((int)((HttpWebResponse)webExc.Response).StatusCode).ToString();
             }
 
             timeTaken = stopWatch.Elapsed;
             //ResponseTime in Milliseconds            
-            results[1] = "ResponseTimeMs:" + Math.Round(timeTaken.TotalMilliseconds).ToString();
+            results[1] = "ResponseTime:" + Math.Round(timeTaken.TotalMilliseconds).ToString();
 
             return results;
         }
@@ -113,12 +104,12 @@ namespace BBC.DNA.Monitoring
             return wr;
         }
 
-        void WriteKPIsToLogFile(KPIList kpis)
+        void WriteKPIsToLogFile(KPIList kpis, string logFolder)
         {
             DateTime n = DateTime.Now;
 
             string date = string.Format("{0}-{1}-{2}-{3}-{4}", n.Year, n.Month, n.Hour, n.Minute, n.Second);
-            string fileName = string.Format(@"{0}\{1}-{2}.txt", _logFolder, kpis.ServerName, date);
+            string fileName = string.Format(@"{0}\{1}-{2}.txt", logFolder, kpis.ServerName, date);
 
             StreamWriter sw = new StreamWriter(fileName);
 
