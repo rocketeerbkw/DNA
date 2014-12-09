@@ -99,7 +99,7 @@ namespace BBC.DNA.Monitoring
             WebProxy myProxy = new WebProxy("http://" + Proxy + ":" + Port);
             wr.Proxy = myProxy;
 
-            //wr.CookieContainer = cContainer;
+            wr.Timeout = 8000; //force a result to be returned if URL makes us wait more than 8 seconds
             wr.PreAuthenticate = true;
             return wr;
         }
