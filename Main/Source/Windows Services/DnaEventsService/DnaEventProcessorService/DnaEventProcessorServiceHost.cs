@@ -99,7 +99,14 @@ namespace DnaEventProcessorService
         private void CreateSnesActivityTimer()
         {
             Uri snesBaseUri = new Uri(Properties.Settings.Default.snesBaseUri);
-            Uri proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+
+
+            Uri proxyAddress = null;
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.proxyAddress))
+            {
+                proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+            }
+
             X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName("SnesActivityProcessor"));
             guideConnectionString = Properties.Settings.Default.ConnectionString_TheGuide;
 
@@ -114,7 +121,11 @@ namespace DnaEventProcessorService
 
         private void CreateExModerationEventTimer()
         {
-            Uri proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+            Uri proxyAddress = null;
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.proxyAddress))
+            {
+                proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+            }
             X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName("ExModerationProcessor"));
 
             guideConnectionString = Properties.Settings.Default.ConnectionString_TheGuide;
