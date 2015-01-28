@@ -19,14 +19,14 @@ namespace BBC.Dna.SocialAPI
 
         public TweetUsers GetUserDetails(string userName)
         {
-            var proxyServer = ConfigurationSettings.AppSettings["proxyserver"].ToString();
-            var twitterUser = ConfigurationSettings.AppSettings["TwitterUserName"].ToString();
-            var twitterPassword = ConfigurationSettings.AppSettings["TwitterPassword"].ToString();
+            var proxyServer = ConfigurationManager.AppSettings["proxyserver"];
+            var twitterUser = ConfigurationManager.AppSettings["TwitterUserName"];
+            var twitterPassword = ConfigurationManager.AppSettings["TwitterPassword"];
 
             using (WebChannelFactory<ITwitter> cfact = new WebChannelFactory<ITwitter>("TwitterClient"))
             {
-                Uri proxyAddress = new Uri(proxyServer);
-                WebRequest.DefaultWebProxy = new WebProxy(proxyAddress);
+                if (!string.IsNullOrEmpty(proxyServer))
+                    WebRequest.DefaultWebProxy = new WebProxy(proxyServer);
                 cfact.Credentials.UserName.UserName = twitterUser;
                 cfact.Credentials.UserName.Password = twitterPassword;
                 ITwitter s = cfact.CreateChannel();
@@ -43,7 +43,7 @@ namespace BBC.Dna.SocialAPI
         {
             TweetUsers userDetails = new TweetUsers();
 
-            var proxyServer = ConfigurationSettings.AppSettings["proxyserver"].ToString();
+            var proxyServer = ConfigurationManager.AppSettings["proxyserver"];
             string uri = "http://twitter.com/" + screenName; //url hasdcoded as this is a temp fix
 
             Uri URL = new Uri(uri);
@@ -52,7 +52,8 @@ namespace BBC.Dna.SocialAPI
             {
                 webRequest.Timeout = 30000;
 
-                webRequest.Proxy = new WebProxy(proxyServer);
+                if (!string.IsNullOrEmpty(proxyServer))
+                    webRequest.Proxy = new WebProxy(proxyServer);
 
                 StreamReader responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream());
 
