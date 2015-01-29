@@ -46,6 +46,7 @@ protected:
 	HANDLE m_hEventLog;
 	HKEY m_RegKeyRoot;
 	HKEY m_RegKeyPrefixes;
+	HKEY m_RegKeyRedirects;
 	HKEY m_RegKeyExtensions;
 	HKEY m_RegKeyUnCookied;
 	HKEY m_RegKeyTimeToLive;

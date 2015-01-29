@@ -49,7 +49,11 @@ namespace DnaEventService.Common
             {
                 httpClient.TransportSettings.ClientCertificates.Add(Certificate);
             }
-            httpClient.TransportSettings.Proxy = new WebProxy(ProxyAddress);
+
+            if (ProxyAddress != null)
+            {
+                httpClient.TransportSettings.Proxy = new WebProxy(ProxyAddress);
+            }
 
             ServicePointManager.Expect100Continue = false;
             ServicePointManager.SetTcpKeepAlive(false, 0, 0);

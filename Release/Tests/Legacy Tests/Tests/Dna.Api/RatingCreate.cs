@@ -19,17 +19,17 @@ using BBC.Dna.Moderation;
 
 namespace Tests
 {
-	/// <summary>
-	/// Tests for the Cookie decoder class
-	/// </summary>
-	[TestClass]
-	public class RatingCreateTests
-	{
+    /// <summary>
+    /// Tests for the Cookie decoder class
+    /// </summary>
+    [TestClass]
+    public class RatingCreateTests
+    {
         /// <summary>
         /// Class setup force a proper restore
         /// </summary>
         /// <param name="a"></param>
-        [ClassInitialize]      
+        [ClassInitialize]
         public static void ClassSetup(TestContext a)
         {
             Console.WriteLine("Class Setup");
@@ -51,7 +51,7 @@ namespace Tests
         public void StartUp()
         {
             SnapshotInitialisation.RestoreFromSnapshot();
-            Statistics.InitialiseIfEmpty(null,false);
+            Statistics.InitialiseIfEmpty(null, false);
             using (FullInputContext inputcontext = new FullInputContext(""))
             {
                 var p = new ProfanityFilter(DnaMockery.CreateDatabaseReaderCreator(), null, CacheFactory.GetCacheManager(), null, null);
@@ -72,8 +72,8 @@ namespace Tests
         /// </summary>
         public RatingCreateTests()
         {
-            
-            
+
+
         }
 
         /// <summary>
@@ -125,14 +125,15 @@ namespace Tests
             //set up test data
             RatingInfo rating = new RatingInfo
             {
-                text = "this is a nunit generated rating.", rating=3
+                text = "this is a nunit generated rating.",
+                rating = 3
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             //normal user
@@ -183,14 +184,15 @@ namespace Tests
             //set up test data
             RatingInfo rating = new RatingInfo
             {
-                text = "this is a nunit generated rating.", rating=3
+                text = "this is a nunit generated rating.",
+                rating = 3
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
@@ -202,7 +204,7 @@ namespace Tests
             Assert.IsTrue(result.ID > 0);
             Assert.IsTrue(result.text == rating.text);
 
-            RatingForum ratingForumData = _ratings.RatingForumReadByUID(ratingForumID,site);
+            RatingForum ratingForumData = _ratings.RatingForumReadByUID(ratingForumID, site);
             int total = ratingForumData.ratingsList.TotalCount;
 
             //repeat post
@@ -327,9 +329,6 @@ namespace Tests
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
 
-            
-
-
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
@@ -370,14 +369,15 @@ namespace Tests
             //set up test data
             RatingInfo rating = new RatingInfo
             {
-                text = "this is a nunit generated rating.", rating=3
+                text = "this is a nunit generated rating.",
+                rating = 3
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetBannedUserAccount.UserName, _siteList);
@@ -408,14 +408,15 @@ namespace Tests
             //set up test data
             RatingInfo rating = new RatingInfo
             {
-                text = "this is a nunit generated rating.", rating=3
+                text = "this is a nunit generated rating.",
+                rating = 3
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
             try
@@ -455,7 +456,7 @@ namespace Tests
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
@@ -484,7 +485,7 @@ namespace Tests
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
@@ -515,12 +516,11 @@ namespace Tests
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
             
-
             RatingInfo result = _ratings.RatingCreate(ratingForum, rating);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.ID > 0);
@@ -545,7 +545,7 @@ with a carrage return.";
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
@@ -575,7 +575,7 @@ return.";
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
@@ -639,14 +639,15 @@ return.";
             //set up test data
             RatingInfo rating = new RatingInfo
             {
-                text = "this is a nunit generated rating.", rating=3
+                text = "this is a nunit generated rating.",
+                rating = 3
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
@@ -664,11 +665,11 @@ return.";
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
                     reader.ExecuteDEBUGONLY("select * from ThreadMod where postid=" + result.ID.ToString());
-                    if(!reader.Read() || !reader.HasRows)
+                    if (!reader.Read() || !reader.HasRows)
                     {
                         Assert.Fail("Post not in ThreadMod table and moderation queue");
                     }
-                
+
                 }
             }
         }
@@ -685,9 +686,9 @@ return.";
                 using (IDnaDataReader reader = inputcontext.CreateDnaDataReader(""))
                 {
                     reader.ExecuteDEBUGONLY("update sites set premoderation=1 where siteid=" + site.SiteID.ToString());//set premod
-                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() +",'Moderation', 'ProcessPreMod','1',1,'test premod value')");
+                    reader.ExecuteDEBUGONLY("insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(" + site.SiteID.ToString() + ",'Moderation', 'ProcessPreMod','1',1,'test premod value')");
 
-                    
+
                 }
                 _siteList = SiteList.GetSiteList();
                 site = _siteList.GetSite("h2g2");
@@ -700,7 +701,8 @@ return.";
                 //set up test data
                 RatingInfo rating = new RatingInfo
                 {
-                    text = "this is a nunit generated rating.", rating=3
+                    text = "this is a nunit generated rating.",
+                    rating = 3
                 };
                 rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
@@ -722,7 +724,7 @@ return.";
                     Assert.IsTrue(ex.type == ErrorType.InvalidProcessPreModState);
                 }
             }
-            finally 
+            finally
             { //reset h2g2 site
                 using (FullInputContext inputcontext = new FullInputContext(""))
                 {
@@ -747,14 +749,15 @@ return.";
             //set up test data
             RatingInfo rating = new RatingInfo
             {
-                text = "this is a nunit generated rating.", rating=3
+                text = "this is a nunit generated rating.",
+                rating = 3
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PreMod);
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetEditorUserAccount.UserName, _siteList);
@@ -775,14 +778,15 @@ return.";
             //set up test data
             RatingInfo rating = new RatingInfo
             {
-                text = "this is a nunit generated rating.", rating=3
+                text = "this is a nunit generated rating.",
+                rating = 3
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
@@ -817,14 +821,15 @@ return.";
             //set up test data
             RatingInfo rating = new RatingInfo
             {
-                text = "this is a nunit generated rating.", rating=3
+                text = "this is a nunit generated rating.",
+                rating = 3
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID, ModerationStatus.ForumStatus.PostMod);
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
@@ -845,14 +850,15 @@ return.";
             //set up test data
             RatingInfo rating = new RatingInfo
             {
-                text = "this is a nunit generated rating.", rating=3
+                text = "this is a nunit generated rating.",
+                rating = 3
             };
             rating.text += Guid.NewGuid().ToString();//have to randomize the string to post
 
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum_good" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
 
 
@@ -897,7 +903,7 @@ return.";
             string IPAddress = String.Empty;
             Guid BBCUid = Guid.NewGuid();
             string ratingForumID = "testratingForum_good" + Guid.NewGuid().ToString();
-            
+
             RatingForum ratingForum = RatingForumCreate(ratingForumID);
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
@@ -935,7 +941,7 @@ return.";
 
                 BadMaxPostCheck(maxCharLength);
             }
-            finally 
+            finally
             {
                 DeleteMinMaxLimitSiteOptions();
             }
@@ -1010,7 +1016,7 @@ return.";
             //string too small with html
             ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
             //set up test data
-            RatingInfo rating = new RatingInfo { text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "".PadRight(minCharLength-1)) };
+            RatingInfo rating = new RatingInfo { text = String.Format("<div><b><i><u>{0}</u></i></b></div>", "".PadRight(minCharLength - 1)) };
             RatingInfo result;
             bool exceptionFlagged = false;
             try
@@ -1030,7 +1036,7 @@ return.";
 
             //string too small without html
             ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
-            rating.text = String.Format("{0}", "".PadRight(minCharLength-1));
+            rating.text = String.Format("{0}", "".PadRight(minCharLength - 1));
             try
             {
                 result = _ratings.RatingCreate(ratingForum, rating);
@@ -1051,10 +1057,10 @@ return.";
             //set up test data
             string randomString = String.Empty;
             //Getting a ok length of random characters for the test
-            for (int i=0;i<10;i++)
+            for (int i = 0; i < 10; i++)
             {
                 randomString = EncodedRandomString();
-                if (randomString.Length >  maxCharLength)
+                if (randomString.Length > maxCharLength)
                 {
                     break;
                 }
@@ -1067,18 +1073,13 @@ return.";
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
-            RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
+
+            AssertRatingCreate(ratingForum, rating);
 
             //with some markup
             ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
             rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", maxText);
-            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
+            AssertRatingCreate(ratingForum, rating);
         }
 
         private void GoodMinPostCheck(int minCharLength)
@@ -1095,18 +1096,12 @@ return.";
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
-            RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
+            AssertRatingCreate(ratingForum, rating);
 
             //with some markup
             ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
             rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", minText);
-            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
+            AssertRatingCreate(ratingForum, rating);
         }
 
         private void GoodMinMaxPostCheck(int minCharLength, int maxCharLength)
@@ -1125,18 +1120,12 @@ return.";
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
-            RatingInfo result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
+            AssertRatingCreate(ratingForum, rating);
 
             //with some markup
             ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
             rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", goodText);
-            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
+            AssertRatingCreate(ratingForum, rating);
 
             ratingForumID = "good" + Guid.NewGuid().ToString();
             ratingForum = RatingForumCreate(ratingForumID);
@@ -1150,23 +1139,17 @@ return.";
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
-            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
+            AssertRatingCreate(ratingForum, rating);
 
             //with some markup
             ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
             rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", goodText);
-            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
+            AssertRatingCreate(ratingForum, rating);
 
             ratingForumID = "good" + Guid.NewGuid().ToString();
             ratingForum = RatingForumCreate(ratingForumID);
 
-            goodText = randomString.Substring(0, (minCharLength + ((maxCharLength - minCharLength)/2)));
+            goodText = randomString.Substring(0, (minCharLength + ((maxCharLength - minCharLength) / 2)));
 
             //Test max boundary
             rating = new RatingInfo();
@@ -1175,19 +1158,12 @@ return.";
             //normal user
             _ratings.CallingUser = new CallingUser(SignInSystem.DebugIdentity, null, null, null, TestUserAccounts.GetNormalUserAccount.UserName, _siteList);
             _ratings.CallingUser.IsUserSignedInSecure(TestUtils.TestUserAccounts.GetNormalUserAccount.Cookie, TestUserAccounts.GetNormalUserAccount.SecureCookie, site.IdentityPolicy, site.SiteID, null, Guid.Empty);
-            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
+            AssertRatingCreate(ratingForum, rating);
 
             //with some markup
             ratingForum = RatingForumCreate(Guid.NewGuid().ToString());
             rating.text = String.Format("<div><b><i><u>{0}</u></i></b></div>", goodText);
-            result = _ratings.RatingCreate(ratingForum, rating);//should pass successfully
-            Assert.IsTrue(result != null);
-            Assert.IsTrue(result.ID > 0);
-            Assert.IsTrue(result.text == rating.text);
-
+            AssertRatingCreate(ratingForum, rating);
         }
 
         /// <summary>
@@ -1256,8 +1232,8 @@ return.";
                     {
                         reader.ExecuteDEBUGONLY("delete from siteoptions where SiteID=" + site.SiteID.ToString() + " and Name='MaxCommentCharacterLength'");
                     }
-                    catch 
-                    { 
+                    catch
+                    {
                     }
                     try
                     {
@@ -1482,6 +1458,7 @@ return.";
             {
                 randomString += asciiCodes[random.Next(asciiCodes.Length)];
             }
+
             return randomString;
         }
         /// <summary>
@@ -1501,6 +1478,26 @@ return.";
             string strippedText = StringUtils.StripFormattingFromText(randomString);
 
             return StringUtils.EscapeAllXml(strippedText);
+        }
+
+        private void AssertRatingCreate(RatingForum ratingForum, RatingInfo rating)
+        {
+            RatingInfo result= null;
+
+            try
+            {
+                result = _ratings.RatingCreate(ratingForum, rating);
+                Assert.IsTrue(result != null);
+                Assert.IsTrue(result.ID > 0);
+                Assert.IsTrue(result.text == rating.text);
+            }
+            catch (ApiException ex)
+            {
+                if (ex.type != ErrorType.ProfanityFoundInText)
+                {
+                    throw;
+                }
+            }
         }
     }
 }

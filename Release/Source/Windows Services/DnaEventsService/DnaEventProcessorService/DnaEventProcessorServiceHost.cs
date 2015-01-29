@@ -23,7 +23,7 @@ namespace DnaEventProcessorService
         private int timerPeriod;
         private string guideConnectionString;
         private string certificateName;
-        
+
         public DnaEventProcessorServiceHost()
         {
             InitializeComponent();
@@ -33,9 +33,9 @@ namespace DnaEventProcessorService
         {
             if (Properties.Settings.Default.DebugOn)
             {
-                #if DEBUG
+#if DEBUG
                 System.Diagnostics.Debugger.Break();
-                #endif
+#endif
             }
 
             if (Properties.Settings.Default.SiteEventsOn)
@@ -60,11 +60,25 @@ namespace DnaEventProcessorService
             int interval = Properties.Settings.Default.DatabaseEmailProcessor_Interval;
             int numThreads = Properties.Settings.Default.DatabaseEmaiProcessor_NumThreads;
             int batchSize = Properties.Settings.Default.DatabaseEmaiProcessor_BatchSize;
-            string smtpSettings = Properties.Settings.Default.DatabaseEmailProcessor_SMTPSettings;
+            var smtpHostname = Properties.Settings.Default.DatabaseEmailProcessor_SMTPHostname;
+            var smtpSslEnable = Properties.Settings.Default.DatabaseEmailProcessor_SMTPSslEnable;
+            var smtpUsername = Properties.Settings.Default.DatabaseEmailProcessor_SMTPUsername;
+            var smtpPassword = Properties.Settings.Default.DatabaseEmailProcessor_SMTPPassword;
+
             var persistentErrMsgSnippet =
                 Properties.Settings.Default.DatabaseEmailProcessor_PersistentErrorMessageSnippet;
 
-            var databaseEMailProcessor = DatabaseEmailProcessor.CreateDatabaseEmailProcessor(logger, theGuideDnaDataReaderCreator, interval, numThreads, batchSize, smtpSettings);
+            var databaseEMailProcessor = DatabaseEmailProcessor.CreateDatabaseEmailProcessor(logger,
+                                                                                             theGuideDnaDataReaderCreator,
+                                                                                             interval,
+                                                                                             numThreads,
+                                                                                             batchSize,
+                                                                                             smtpHostname,
+                                                                                             smtpUsername,
+                                                                                             smtpPassword,
+                                                                                             smtpSslEnable);
+
+
             DatabaseEmailProcessor.PersistentErrorMsgSnippet = persistentErrMsgSnippet;
             databaseEMailProcessor.Start();
         }
@@ -85,7 +99,14 @@ namespace DnaEventProcessorService
         private void CreateSnesActivityTimer()
         {
             Uri snesBaseUri = new Uri(Properties.Settings.Default.snesBaseUri);
-            Uri proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+
+
+            Uri proxyAddress = null;
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.proxyAddress))
+            {
+                proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+            }
+
             X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName("SnesActivityProcessor"));
             guideConnectionString = Properties.Settings.Default.ConnectionString_TheGuide;
 
@@ -100,7 +121,11 @@ namespace DnaEventProcessorService
 
         private void CreateExModerationEventTimer()
         {
-            Uri proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+            Uri proxyAddress = null;
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.proxyAddress))
+            {
+                proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+            }
             X509Certificate cert = X509CertificateLoader.FindCertificate(GetCertificateName("ExModerationProcessor"));
 
             guideConnectionString = Properties.Settings.Default.ConnectionString_TheGuide;
@@ -143,7 +168,7 @@ namespace DnaEventProcessorService
 
         protected override void OnStop()
         {
-            
+
         }
     }
 }

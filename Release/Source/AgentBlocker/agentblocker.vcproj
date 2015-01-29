@@ -2,11 +2,15 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="h2g2filter"
-	ProjectGUID="{C8AAFC56-1341-493A-853C-11900F3C0061}"
-	RootNamespace="h2g2filter"
+	Name="agentblocker"
+	ProjectGUID="{383658FB-A707-4703-A8EA-BAB45B9A9352}"
+	RootNamespace="agentblocker"
+	SccProjectName="SAK"
+	SccAuxPath="SAK"
+	SccLocalPath="SAK"
+	SccProvider="SAK"
 	Keyword="MFCProj"
-	TargetFrameworkVersion="131072"
+	TargetFrameworkVersion="0"
 	>
 	<Platforms>
 		<Platform
@@ -24,6 +28,7 @@
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -43,7 +48,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/h2g2filter.tlb"
+				TypeLibraryName=".\Debug/agentblocker.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -52,14 +57,14 @@
 				AdditionalIncludeDirectories=".\references"
 				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
+				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\Debug/h2g2filter.pch"
+				PrecompiledHeaderFile=".\Debug/agentblocker.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
-				BrowseInformation="1"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
@@ -71,24 +76,24 @@
 				Name="VCResourceCompilerTool"
 				PreprocessorDefinitions="_DEBUG"
 				Culture="2057"
-				AdditionalIncludeDirectories=".\atlmfc\include"
+				AdditionalIncludeDirectories=".\references"
 			/>
 			<Tool
 				Name="VCPreLinkEventTool"
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile=".\Debug/h2g2filter.dll"
+				OutputFile=".\Debug/agentblocker.dll"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=".\references"
-				ModuleDefinitionFile=".\h2g2filter.def"
+				ModuleDefinitionFile=".\agentblocker.def"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/h2g2filter.pdb"
+				ProgramDatabaseFile=".\Debug/agentblocker.pdb"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary=".\Debug/h2g2filter.lib"
+				ImportLibrary=".\Debug/agentblocker.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -103,7 +108,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Debug/h2g2filter.bsc"
+				OutputFile=".\Debug/agentblocker.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -123,6 +128,7 @@
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -142,7 +148,7 @@
 				MkTypLibCompatible="true"
 				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/h2g2filter.tlb"
+				TypeLibraryName=".\Release/agentblocker.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -156,7 +162,7 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\Release/h2g2filter.pch"
+				PrecompiledHeaderFile=".\Release/agentblocker.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
@@ -177,16 +183,16 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile=".\Release/h2g2filter.dll"
+				OutputFile=".\Release/agentblocker.dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories=".\references"
-				ModuleDefinitionFile=".\h2g2filter.def"
-				ProgramDatabaseFile=".\Release/h2g2filter.pdb"
+				ModuleDefinitionFile=".\agentblocker.def"
+				ProgramDatabaseFile=".\Release/agentblocker.pdb"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
-				ImportLibrary=".\Release/h2g2filter.lib"
+				ImportLibrary=".\Release/agentblocker.lib"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -201,7 +207,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\Release/h2g2filter.bsc"
+				OutputFile=".\Release/agentblocker.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -222,7 +228,7 @@
 			Filter="cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 			>
 			<File
-				RelativePath="h2g2filter.cpp"
+				RelativePath="agentblocker.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -242,11 +248,11 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="h2g2filter.def"
+				RelativePath=".\agentblocker.def"
 				>
 			</File>
 			<File
-				RelativePath="h2g2filter.rc"
+				RelativePath="agentblocker.rc"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -293,7 +299,7 @@
 			Filter="h;hpp;hxx;hm;inl"
 			>
 			<File
-				RelativePath="h2g2filter.h"
+				RelativePath="agentblocker.h"
 				>
 			</File>
 			<File
@@ -307,10 +313,10 @@
 		</Filter>
 		<Filter
 			Name="Resource Files"
-			Filter="ico;cur;bmp;dlg;rc2;rct;bin;cnt;rtf;gif;jpg;jpeg;jpe"
+			Filter="ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe"
 			>
 			<File
-				RelativePath="h2g2filter.rc2"
+				RelativePath="agentblocker.rc2"
 				>
 			</File>
 		</Filter>

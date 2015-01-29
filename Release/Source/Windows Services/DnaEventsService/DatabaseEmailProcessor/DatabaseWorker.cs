@@ -98,19 +98,22 @@ namespace Dna.DatabaseEmailProcessor
                     smtpFailureType = SMTPFailureType.Permanent;
                 }
             }
-            
+
             return smtpFailureType;
         }
 
         private static bool DoesFailureMessageContainSnippet(string failureReason)
         {
-            var containSnippet = false;
+            if (failureReason == null) return false;
 
+            var containSnippet = false;
             var errorSnippets = PersistentErrorMessageSnippet.Split("#".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 
-            foreach (var errMsg in errorSnippets)
+            for (var i = 0; containSnippet == false && i < errorSnippets.Length; i++)
             {
-                if (failureReason != null && failureReason.IndexOf(errMsg, StringComparison.OrdinalIgnoreCase) > 0)
+                var errMsg = errorSnippets[i];
+                if (failureReason.IndexOf(errMsg, StringComparison.OrdinalIgnoreCase) >= 0
+                    || errMsg.IndexOf(failureReason, StringComparison.OrdinalIgnoreCase) >= 0)
                 {
                     containSnippet = true;
                 }

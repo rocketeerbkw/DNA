@@ -21,7 +21,8 @@ namespace Dna.DatabaseEmailProcessor
         static readonly object _locker = new object();
         public static string PersistentErrorMsgSnippet { get; set; }
 
-        public static DatabaseEmailProcessor CreateDatabaseEmailProcessor(IDnaLogger logger, IDnaDataReaderCreator dataReaderCreator, int processInterval, int numThreads, int batchSize, string emailServerConnectionDetails)
+        public static DatabaseEmailProcessor CreateDatabaseEmailProcessor(IDnaLogger logger, IDnaDataReaderCreator dataReaderCreator, int processInterval, int numThreads, int batchSize,
+            string emailServerHostName, string emailServerUsername, string emailServerPassword, bool enableSsl)
         {
             ProcessorLogger = logger;
 
@@ -36,7 +37,7 @@ namespace Dna.DatabaseEmailProcessor
             DataReaderCreator = dataReaderCreator;
             NumberOfThreads = numThreads;
             BatchSize = batchSize;
-            SMTPClient = new DnaSmtpClient(emailServerConnectionDetails);
+            SMTPClient = new DnaSmtpClient(emailServerHostName, emailServerUsername, emailServerPassword, enableSsl);
 
             int minNumThreads, minCompPorts;
             ThreadPool.GetMinThreads(out minNumThreads, out minCompPorts);
@@ -57,7 +58,9 @@ namespace Dna.DatabaseEmailProcessor
                 { "Interval",                     processInterval },
                 { "NumThreads",                   NumberOfThreads },
                 { "BatchSize",                    BatchSize },
-                { "SMTP Settings",                emailServerConnectionDetails },
+                { "SMTP Hostname",                emailServerHostName },
+                { "SMTP Username",                emailServerUsername},
+                { "SMTP Enable SSL",              enableSsl.ToString()},
                 { "Debug Build",                  isDebugBuild ? 1 : 0 }
             };
             logger.Log(TraceEventType.Information, "Created DatabaseEmailProcessor with these params", props);

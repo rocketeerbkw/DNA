@@ -97,7 +97,11 @@ namespace DnaEventProcessorService.IntegrationTests
         private static IDnaHttpClient GetHttpClient()
         {
             var baseUri = new Uri(Properties.Settings.Default.baseUri);
-            var proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+            Uri proxyAddress = null;
+            if (!String.IsNullOrEmpty(Properties.Settings.Default.proxyAddress))
+            {
+                proxyAddress = new Uri(Properties.Settings.Default.proxyAddress);
+            }
             var cert = X509CertificateLoader.FindCertificate(Properties.Settings.Default.certificateName);
             var httpClientCreator = new DnaHttpClientCreator(baseUri, proxyAddress, cert);
             return httpClientCreator.CreateHttpClient();

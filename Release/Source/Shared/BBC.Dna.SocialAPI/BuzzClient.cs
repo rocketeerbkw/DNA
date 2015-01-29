@@ -20,50 +20,7 @@ namespace BBC.Dna.SocialAPI
     public class BuzzClient : ClientBase<IBuzz>, IBuzz
     {
         #region method(s)
-        /*
-        public string GetProfiless()
-        {
-            var proxyServer = ConfigurationSettings.AppSettings["proxyserver"].ToString();
-            var twitterUser = ConfigurationSettings.AppSettings["TwitterUserName"].ToString();
-            var twitterPassword = ConfigurationSettings.AppSettings["TwitterPassword"].ToString();
-
-            var response = string.Empty;
-
-            using (WebChannelFactory<IBuzz> cfact = new WebChannelFactory<IBuzz>("BuzzProfileClient"))
-            {
-                Uri proxyAddress = new Uri(proxyServer);
-                WebRequest.DefaultWebProxy = new WebProxy(proxyAddress);
-                cfact.Credentials.UserName.UserName = "thiags01";
-                cfact.Credentials.UserName.Password = "";
-                
-                X509Store store = new X509Store("My", StoreLocation.LocalMachine);
-                store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
-                X509Certificate certificate = null;
-                bool gotDevCert = false;
-                var subjectName = string.Empty;
-                for (int i = 0; i <= 1 && !gotDevCert; i++)
-                {
-                    certificate = store.Certificates.Find(X509FindType.FindBySubjectName, "dna", false)[i];
-                    gotDevCert = certificate.Subject.ToLower().Contains("cn=" + "dna".ToLower() + ",");
-                }
-                cfact.Credentials.ClientCertificate.SetCertificate(certificate.Subject,StoreLocation.LocalMachine,StoreName.My);
-                //X509Certificate certificate = store.Certificates.Find(X509FindType.FindBySubjectName, _certificateName, false)[0];
-                //webRequest.ClientCertificates.Add(certificate);
-                IBuzz s = cfact.CreateChannel();
-                
-                try
-                {
-                    //response = s.GetProfiles();
-                }
-                catch (Exception ex)
-                {
-                }
-            }
-
-            return response;
-        }
-        */
-
+        
         private bool _traceOutput = true;
         private StringBuilder _callInfo = new StringBuilder();
 
@@ -85,7 +42,7 @@ namespace BBC.Dna.SocialAPI
         private HttpWebRequest GetWebRequestWithCertificateDetails(string uri)
         {
             var connectionDetails = WebConfigurationManager.ConnectionStrings["IdentityURL"].ConnectionString;
-            var proxyServer = ConfigurationSettings.AppSettings["proxyserver"].ToString();
+            var proxyServer = ConfigurationManager.AppSettings["proxyserver"];
 
             Uri URL = new Uri(uri);
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
@@ -94,7 +51,8 @@ namespace BBC.Dna.SocialAPI
             {
                 webRequest.Timeout = 30000;
 
-                webRequest.Proxy = new WebProxy(proxyServer);
+                if (!string.IsNullOrEmpty(proxyServer))
+                    webRequest.Proxy = new WebProxy(proxyServer);
 
                 AddTimingInfoLine("<* BUZZ CLIENT CERTIFICATE START *>");
                 AddTimingInfoLine("Base URL           - " + uri);
@@ -240,26 +198,6 @@ namespace BBC.Dna.SocialAPI
                 if (resStatus.ToUpper().Equals("OK"))
                 {
                     resStatus = "OK";
-                    //uri = ConfigurationSettings.AppSettings["BuzzProfileRestartIngest"].ToString();
-
-                    //AddTimingInfoLine("<* BUZZ API CALL RESTART INGEST START *>");
-                    //AddTimingInfoLine("Base URL           - " + uri);
-
-                    //response = null;
-
-                    //webRequest = GetWebRequestWithCertificateDetails(uri);
-                    //webRequest.Method = "GET";
-                    //try
-                    //{
-                    //    response = (HttpWebResponse)webRequest.GetResponse();
-                    //    resStatus = response.StatusDescription;
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    resStatus = ex.Message;
-                    //    AddTimingInfoLine("BUZZ API CALL RESTART INGEST ERROR!!! - " + resStatus);
-                    //}
-                    //AddTimingInfoLine("<* BUZZ API CALL RESTART INGEST END *>");
                 }
             }
             catch (Exception ex)
