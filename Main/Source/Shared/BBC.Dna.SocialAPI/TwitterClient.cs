@@ -106,7 +106,7 @@ namespace BBC.Dna.SocialAPI
             
             if (string.Equals(uri.Trim(), "", StringComparison.OrdinalIgnoreCase)) return false;
 
-            if (Uri.IsWellFormedUriString("", UriKind.RelativeOrAbsolute)) return false;
+            if (Uri.IsWellFormedUriString(uri, UriKind.RelativeOrAbsolute)) return false;
 
             return true;
         }
