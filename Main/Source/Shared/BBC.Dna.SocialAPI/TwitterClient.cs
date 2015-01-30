@@ -25,7 +25,7 @@ namespace BBC.Dna.SocialAPI
 
             using (WebChannelFactory<ITwitter> cfact = new WebChannelFactory<ITwitter>("TwitterClient"))
             {
-                if (!string.IsNullOrEmpty(proxyServer))
+                if (IsUriValid(proxyServer))
                     WebRequest.DefaultWebProxy = new WebProxy(proxyServer);
                 cfact.Credentials.UserName.UserName = twitterUser;
                 cfact.Credentials.UserName.Password = twitterPassword;
@@ -52,7 +52,7 @@ namespace BBC.Dna.SocialAPI
             {
                 webRequest.Timeout = 30000;
 
-                if (!string.IsNullOrEmpty(proxyServer))
+                if (IsUriValid(proxyServer))
                     webRequest.Proxy = new WebProxy(proxyServer);
 
                 StreamReader responseReader = new StreamReader(webRequest.GetResponse().GetResponseStream());
@@ -98,6 +98,17 @@ namespace BBC.Dna.SocialAPI
                 throw ex;
             }
             return userDetails;
+        }
+
+        private bool IsUriValid(string uri)
+        {
+            if (string.IsNullOrEmpty(uri)) return false;
+            
+            if (string.Equals(uri.Trim(), "", StringComparison.OrdinalIgnoreCase)) return false;
+
+            if (Uri.IsWellFormedUriString("", UriKind.RelativeOrAbsolute)) return false;
+
+            return true;
         }
 
         #endregion
