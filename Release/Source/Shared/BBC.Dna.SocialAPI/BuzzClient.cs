@@ -51,13 +51,13 @@ namespace BBC.Dna.SocialAPI
             {
                 webRequest.Timeout = 30000;
 
-                if (!string.IsNullOrEmpty(proxyServer))
+                if (IsUriValid(proxyServer))
                     webRequest.Proxy = new WebProxy(proxyServer);
 
                 AddTimingInfoLine("<* BUZZ CLIENT CERTIFICATE START *>");
                 AddTimingInfoLine("Base URL           - " + uri);
                 AddTimingInfoLine("Certificate details   - " + connectionDetails);
-                AddTimingInfoLine("Proxy server       - " + proxyServer);
+                AddTimingInfoLine("Proxy server       - " + proxyServer ?? "");
 
                 string[] details = connectionDetails.Split(';');
                 var certificateName = details[1];
@@ -81,6 +81,17 @@ namespace BBC.Dna.SocialAPI
             AddTimingInfoLine("<* BUZZ CLIENT CERTIFICATE END *>");
 
             return webRequest;
+        }
+
+        private bool IsUriValid(string uri)
+        {
+            if (string.IsNullOrEmpty(uri)) return false;
+
+            if (string.Equals(uri.Trim(), "", StringComparison.OrdinalIgnoreCase)) return false;
+
+            if (Uri.IsWellFormedUriString("", UriKind.RelativeOrAbsolute)) return false;
+
+            return true;
         }
 
         /// <summary>
