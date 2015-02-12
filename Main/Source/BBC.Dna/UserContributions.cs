@@ -55,6 +55,11 @@ namespace BBC.Dna
                 siteName = InputContext.TheSiteList.GetSite(_siteId).SiteName;
             }
 
+            if (InputContext.CurrentSite.SiteName.ToLower() == "moderation")
+            {
+                _ignoreCache = true;
+            }
+
             var userContributions = Contributions.GetUserContributions(CacheFactory.GetCacheManager(),
                 AppContext.ReaderCreator, siteName, _userId.ToString(), _itemsPerPage, _startIndex,
                 SortDirection.Descending, _type, "dnauserid",
@@ -62,9 +67,6 @@ namespace BBC.Dna
 
 
             SerialiseAndAppend(userContributions, "");
-
-
-
         }
 
        
