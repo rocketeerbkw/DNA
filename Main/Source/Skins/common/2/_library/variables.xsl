@@ -132,9 +132,7 @@
                 <xsl:if test="/H2G2/SERVERNAME = 'NMSDNA0'">
                     <xsl:text>staging/</xsl:text>
                 </xsl:if>-->
-                
-                <xsl:text>secure/</xsl:text>
-                
+             
                 <xsl:choose>
                     <xsl:when test="/H2G2/SITE/NAME">
                         <xsl:value-of select="/H2G2/SITE/NAME"/>
