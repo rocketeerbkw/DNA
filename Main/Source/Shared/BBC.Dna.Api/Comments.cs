@@ -333,6 +333,7 @@ namespace BBC.Dna.Api
                     //DnaApiWebProtocalException.ThrowDnaApiWebProtocalException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
                 }
             }
+
             return commentForum;
         }
 
@@ -366,6 +367,7 @@ namespace BBC.Dna.Api
                 throw new ApiException(ex.Message, ex.InnerException);
                 //DnaApiWebProtocalException.ThrowDnaApiWebProtocalException(System.Net.HttpStatusCode.InternalServerError, ex.Message, ex);
             }
+
             return commentForum;
         }
 
@@ -2014,12 +2016,14 @@ namespace BBC.Dna.Api
                 Statistics.AddCacheMiss();
                 return false;
             }
-            //apply site variables
-            forum = ApplySiteVariables(forum, site);
             Statistics.AddCacheHit();
 
-            //readd to cache to add sliding window affect
+            // apply site variables
+            forum = ApplySiteVariables(forum, site); 
+
+            // readd to cache to add sliding window affect
             AddCommentForumToCache(forum, site);
+            
             return true;
         }
 
@@ -2060,8 +2064,12 @@ namespace BBC.Dna.Api
         /// <returns></returns>
         private static CommentForum ApplySiteVariables(CommentForum forum, ISite site)
         {
-            forum.isClosed = forum.isClosed || site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now) ||
-                             (DateTime.Now > forum.CloseDate);
+            //forum.isClosed = forum.isClosed || site.IsEmergencyClosed || site.IsSiteScheduledClosed(DateTime.Now) ||
+            //                 (DateTime.Now > forum.CloseDate);
+
+            forum.isClosed = !forum.CanWrite || site.IsEmergencyClosed ||
+                                    site.IsSiteScheduledClosed(DateTime.Now) ||
+                                    (DateTime.Now > forum.CloseDate);
             return forum;
         }
 
