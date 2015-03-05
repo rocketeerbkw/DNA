@@ -22,12 +22,10 @@ namespace Dna.DatabaseEmailProcessor
                 using (var message = new MailMessage())
                 {
                     message.From = new MailAddress(FromAddress);
-
-                    foreach (var address in ToAddress.Split(';')) { 
+                    foreach (var address in ToAddress.Split(';'))
+                    {
                         message.To.Add(new MailAddress(address));
                     }
-
-                    message.CC.Add(new MailAddress(FromAddress));
 
                     message.Subject = Subject;
                     message.SubjectEncoding = Encoding.UTF8;
