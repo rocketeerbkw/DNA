@@ -43,7 +43,7 @@ namespace BBC.Dna.Api
 
         public string BasePath { get; set; }
 
-        public string EmailServerAddress {get; set;}
+        public string EmailServerAddress { get; set; }
 
         public string FileCacheFolder { get; set; }
 
@@ -141,14 +141,14 @@ namespace BBC.Dna.Api
             }
 
             //get the inital moderation status...
-            var moderationStatus = (int) commentForum.ModerationServiceGroup;
+            var moderationStatus = (int)commentForum.ModerationServiceGroup;
             //get forum duration in days
             int duration = 0;
             if (commentForum.CloseDate != DateTime.MinValue)
             {
                 duration = (commentForum.CloseDate.Subtract(DateTime.Today)).Days; //the plus one takes to midnight
             }
-            
+
             using (IDnaDataReader reader = CreateReader("commentforumcreate"))
             {
                 try
@@ -196,7 +196,7 @@ namespace BBC.Dna.Api
         /// <param name="commentForum">The comment forum object</param>
         /// <param name="site"></param>
         /// <returns>The comment forum (either new or existing) which matches to the </returns>
-        public void UpdateForum(Forum commentForum, ISite site, bool? isClosed )
+        public void UpdateForum(Forum commentForum, ISite site, bool? isClosed)
         {
             //validate data
             if (string.IsNullOrEmpty(commentForum.Id) || commentForum.Id.Length > 255)
@@ -223,12 +223,12 @@ namespace BBC.Dna.Api
                     reader.AddParameter("url", commentForum.ParentUri);
                     reader.AddParameter("title", commentForum.Title);
                     reader.AddParameter("sitename", site.SiteName);
-                    reader.AddParameter("moderationstatus", (int) commentForum.ModerationServiceGroup);
+                    reader.AddParameter("moderationstatus", (int)commentForum.ModerationServiceGroup);
                     if (commentForum.CloseDate != DateTime.MinValue)
                     {
                         reader.AddParameter("closeDate", commentForum.CloseDate);
                     }
-                    
+
                     if (isClosed.HasValue)
                     {
                         reader.AddParameter("canwrite", !isClosed);
@@ -281,12 +281,12 @@ namespace BBC.Dna.Api
                 }
             }
             //if there is an anonymous user name use it
-            if(reader.DoesFieldExist("AnonymousUserName") && !String.IsNullOrEmpty(reader.GetStringNullAsEmpty("AnonymousUserName")))
+            if (reader.DoesFieldExist("AnonymousUserName") && !String.IsNullOrEmpty(reader.GetStringNullAsEmpty("AnonymousUserName")))
             {
                 user.DisplayName = reader.GetStringNullAsEmpty("AnonymousUserName");
             }
 
-            
+
             return user;
         }
 
@@ -314,96 +314,58 @@ namespace BBC.Dna.Api
 
             return user;
         }
-        
-        public bool SendEmailWithFailMessageOverride(string sender, string recipient, string subject, string body, string filenamePrefix, string failedBody)
+
+        public bool SendEmailWithFailMessageOverride(string sender, string recipient, string ccAddress, string subject, string body, string filenamePrefix, string failedBody)
         {
             bool sentOk = true;
 
-            MailMessage message = new MailMessage();
-            try
+            using (MailMessage message = new MailMessage())
             {
-                message.From = new MailAddress(sender);
+                try
+                {
+                    message.From = new MailAddress(sender);
 
-                foreach (string toAddress in recipient.Split(';'))
-                    message.To.Add(new MailAddress(toAddress));
+                    foreach (string toAddress in recipient.Split(';'))
+                        message.To.Add(new MailAddress(toAddress));
 
-                message.Subject = subject;
-                message.SubjectEncoding = Encoding.UTF8;
-                message.Body = body;
-                message.Priority = MailPriority.Normal;
-                message.BodyEncoding = Encoding.UTF8;
+                    if (ccAddress != null && ccAddress.Length > 0)
+                    {
+                        message.CC.Add(new MailAddress(ccAddress));
+                    }
 
-                SmtpClient client = new SmtpClient(EmailServerAddress);
-                client.Timeout = 5000;
+                    message.Subject = subject;
+                    message.SubjectEncoding = Encoding.UTF8;
+                    message.Body = body;
+                    message.Priority = MailPriority.Normal;
+                    message.BodyEncoding = Encoding.UTF8;
 
-                this._dnaDiagnostics.WriteTimedEventToLog("Email", "BeforeSend");
-                client.Send(message);
-                this._dnaDiagnostics.WriteTimedEventToLog("Email", "AfterSend");
-            }
-            catch (Exception e)
-            {
-                SendEmailViaDatabase(sender, recipient, subject, body, failedBody, DatabaseEmailQueue.EmailPriority.High);
-                //if (failedBody.Length > 0)
-                //{
-                //    body = failedBody;
-                //}
-                //WriteFailedEmailToFile(sender, recipient, subject, body + "\r\n" + e.Message, filenamePrefix);
-                DnaDiagnostics.WriteExceptionToLog(e);
-                sentOk = false;
-                message.Dispose();
+                    SmtpClient client = new SmtpClient(EmailServerAddress);
+                    client.Timeout = 5000;
+
+                    this._dnaDiagnostics.WriteTimedEventToLog("Email", "BeforeSend");
+                    client.Send(message);
+                    this._dnaDiagnostics.WriteTimedEventToLog("Email", "AfterSend");
+                }
+                catch (Exception e)
+                {
+                    SendEmailViaDatabase(sender, recipient, ccAddress, subject, body, failedBody, DatabaseEmailQueue.EmailPriority.High);
+                    DnaDiagnostics.WriteExceptionToLog(e);
+                    sentOk = false;
+                }
             }
 
             return sentOk;
         }
 
-        public void SendEmailViaDatabase(string sender, string recipient, string subject, string body, string notes, DatabaseEmailQueue.EmailPriority priority)
+        public void SendEmailViaDatabase(string sender, string recipient, string ccAddress, string subject, string body, string notes, DatabaseEmailQueue.EmailPriority priority)
         {
             DatabaseEmailQueue emailQueue = new DatabaseEmailQueue();
-            emailQueue.QueueEmail(DnaDataReaderCreator, recipient, sender, subject, body, notes, priority);
+            emailQueue.QueueEmail(DnaDataReaderCreator, recipient, sender, ccAddress, subject, body, notes, priority);
         }
 
-        public bool SendEmail(string sender, string recipient, string subject, string body, string filenamePrefix)
+        public bool SendEmail(string sender, string recipient, string ccAddress, string subject, string body, string filenamePrefix)
         {
-            return SendEmailWithFailMessageOverride(sender, recipient, subject, body, filenamePrefix, "");
-        }
-
-        private void client_SendCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        {
-            FailedEmail failedMail = (FailedEmail)e.UserState;
-            if (e.Error != null || e.Cancelled)
-            {
-                if (failedMail != null)
-                {
-                    WriteFailedEmailToFile(failedMail.To, failedMail.From, failedMail.Subject, failedMail.Body + "\n\n" + e.Error.Message + e.Error.InnerException.Message, failedMail.FilePreFix);
-                }
-                DnaDiagnostics.WriteExceptionToLog(e.Error);
-            }
-        }
-
-        private void WriteFailedEmailToFile(string sender, string recipient, string subject, string body, string filenamePrefix)
-        {
-            string failedFrom = "From: " + sender + "\r\n";
-            string failedRecipient = "Recipient: " + recipient + "\r\n";
-            string failedEmail = failedFrom + failedRecipient + subject + "\r\n" + body;
-
-            //Create filename out of date and random number.
-            string fileName = "";
-#if DEBUG
-            fileName = failedEmailFileName;
-#endif
-            if (fileName.Length == 0)
-            {
-                fileName = filenamePrefix + "_" + subject + "_" + DateTime.Now.ToString("yyyy-MM-dd-h:mm:ssffff");
-                Random random = new Random(body.Length);
-                fileName += "_" + random.Next().ToString() + ".txt";
-            }
-
-            foreach (char badChar in Path.GetInvalidFileNameChars())
-            {
-                fileName = fileName.Replace(badChar,'-');
-            }
-
-            FileCaching.PutItem(DnaDiagnostics, FileCacheFolder, "failedmails", fileName, failedEmail);
+            return SendEmailWithFailMessageOverride(sender, recipient, ccAddress, subject, body, filenamePrefix, "");
         }
     }
 }

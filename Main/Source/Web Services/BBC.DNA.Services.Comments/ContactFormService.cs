@@ -117,7 +117,13 @@ namespace BBC.Dna.Services
 
                 ContactDetails contactDetails = contactFormComments.CreateContactDetails(contactForm, newContactDetails);
 
-                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail, site.ContactFormsEmail, site.SiteID);
+                string sendingAddress = site.ContactFormsEmail;
+                if (sendingAddress.Length == 0)
+                {
+                    sendingAddress = contactForm.ContactEmail;
+                }
+
+                contactFormComments.SendDetailstoContactEmail(contactDetails, contactForm.ContactEmail, sendingAddress, site.SiteID);
                 WebOperationContext.Current.OutgoingResponse.StatusCode = System.Net.HttpStatusCode.Created;
                 return GetOutputStream(contactDetails);
             }

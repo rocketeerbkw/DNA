@@ -199,11 +199,11 @@ namespace BBC.Dna.Api
 
             if (SiteList.GetSiteOptionValueBool(siteID, "General", "SendEmailsViaDatabaseQueue"))
             {
-                SendEmailViaDatabase(sender, recipient, subject, body, notes, DatabaseEmailQueue.EmailPriority.Medium);
+                SendEmailViaDatabase(sender, recipient, null, subject, body, notes, DatabaseEmailQueue.EmailPriority.Medium);
             }
             else
             {
-                SendEmailWithFailMessageOverride(sender, recipient, subject, body, "ContactDetails-", notes);
+                SendEmailWithFailMessageOverride(sender, recipient, null, subject, body, "ContactDetails-", notes);
             }
         }
 
@@ -258,6 +258,10 @@ namespace BBC.Dna.Api
                         if (decodedKey.ToLower().CompareTo("email address") == 0)
                         {
                             sentFrom = decodedValue;
+                            if (!Utils.EmailAddressFilter.IsValidEmailAddresses(sentFrom))
+                            {
+                                sentFrom = "";
+                            }
                         }
                     }
                 }

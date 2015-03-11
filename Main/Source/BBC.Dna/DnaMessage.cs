@@ -12,9 +12,10 @@ namespace BBC.Dna
     /// </summary>
     public class DnaEmailException : DnaException
     {
-        string _recipient;
-        string _subject;
         string _sender;
+        string _recipient;
+        string _ccAddress;
+        string _subject;
         string _body;
 
         /// <summary>
@@ -22,11 +23,13 @@ namespace BBC.Dna
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="recipient"></param>
+        /// <param name="ccAddress"></param>
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <param name="errorMessage"></param>
         public DnaEmailException(string sender,
                                   string recipient,
+                                  string ccAddress,
                                   string subject,
                                   string body,
                                   string errorMessage)
@@ -36,6 +39,7 @@ namespace BBC.Dna
             _sender = sender;
             _body = body;
             _subject = subject;
+            _ccAddress = ccAddress;
         }
 
         /// <summary>
@@ -70,6 +74,13 @@ namespace BBC.Dna
             get { return _subject; }
         }
 
+        /// <summary>
+        /// The Carbon Copy 
+        /// </summary>
+        public string CCAddress
+        {
+            get { return _ccAddress; }
+        }
     }
 
     /// <summary>
@@ -92,11 +103,12 @@ namespace BBC.Dna
         /// <param name="recipientId"></param>
         /// <param name="recipient"></param>
         /// <param name="sender"></param>
+        /// <param name="ccAddress"></param>
         /// <param name="siteId"></param>
         /// <param name="subject"></param>
         /// <param name="body"></param>
         /// <exception>DnaEmailException</exception>
-        public void SendEmailOrSystemMessage(int recipientId, string recipient, string sender, int siteId, string subject, string body)
+        public void SendEmailOrSystemMessage(int recipientId, string recipient, string sender, string ccAddress, int siteId, string subject, string body)
         {
             if (InputContext.TheSiteList.GetSiteOptionValueBool(siteId, "General", "UseSystemMessages") && recipientId > 0)
             {
@@ -104,7 +116,7 @@ namespace BBC.Dna
             }
             else if (recipient != String.Empty)
             {
-                SendEmail(subject, body, sender, recipient, siteId);
+                SendEmail(subject, body, sender, recipient, ccAddress, siteId);
             }
         }
 
@@ -115,13 +127,14 @@ namespace BBC.Dna
         /// <param name="body"></param>
         /// <param name="sender"></param>
         /// <param name="recipient"></param>
+        /// <param name="ccAddress"></param>
         /// <param name="siteId"></param>
-        private void SendEmailViaDatabase(string subject, string body, string sender, string recipient, int siteId)
+        private void SendEmailViaDatabase(string subject, string body, string sender, string recipient, string ccAddress, int siteId)
         {
             DatabaseEmailQueue emailQueue = new DatabaseEmailQueue(); 
-            IDnaDataReaderCreator creator = new DnaDataReaderCreator(AppContext.TheAppContext.Config.ConnectionString, AppContext.TheAppContext.Diagnostics);
-            
-            emailQueue.QueueEmail(creator, recipient, sender, subject, body, string.Empty, DatabaseEmailQueue.EmailPriority.Medium);
+            IDnaDataReaderCreator creator = InputContext.CreateDnaDataReaderCreator();
+
+            emailQueue.QueueEmail(creator, recipient, sender, ccAddress, subject, body, string.Empty, DatabaseEmailQueue.EmailPriority.Medium);
         }
 
         /// <summary>
@@ -133,9 +146,10 @@ namespace BBC.Dna
         /// <param name="body"></param>
         /// <param name="sender"></param>
         /// <param name="recipient"></param>
+        /// <param name="ccAddress"></param>
         /// <param name="siteId"></param>
         /// <exception cref="DnaEmailException">If there is an error sending email.</exception>
-        public void SendEmail(string subject, string body, string sender, string recipient, int siteId)
+        public void SendEmail(string subject, string body, string sender, string recipient, string ccAddress, int siteId)
         {
             string errorMessage = string.Empty;
             bool bEmailFailed = false;
@@ -155,7 +169,10 @@ namespace BBC.Dna
                 foreach (string r in recipient.Split(';'))
                     message.To.Add(new System.Net.Mail.MailAddress(r));
 
-                message.CC.Add(new System.Net.Mail.MailAddress(sender));
+                if (ccAddress != null && ccAddress.Length > 0)
+                {
+                    message.CC.Add(new System.Net.Mail.MailAddress(ccAddress));
+                }
                 message.Subject = subject;
                 message.Body = AddLineBreaks(body);
                 if (isRtlSite)
@@ -179,7 +196,7 @@ namespace BBC.Dna
             if (bEmailFailed)
             {
                 // Send the email to the database so we can try later. This is more secure than storing it locally to the server.
-                SendEmailViaDatabase(subject, body, sender, recipient, siteId);
+                SendEmailViaDatabase(subject, body, sender, recipient, ccAddress, siteId);
             }
         }
 

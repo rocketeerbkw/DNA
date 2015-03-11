@@ -570,7 +570,7 @@ namespace BBC.Dna.Component
                     //Actually send the email.
                     DnaMessage sendMessage = new DnaMessage(InputContext);
                     String sender = InputContext.TheSiteList.GetSite(siteId).ModeratorsEmail;
-                    sendMessage.SendEmailOrSystemMessage(authorId, authorEmail, sender, siteId, emailSubject, emailBody);
+                    sendMessage.SendEmailOrSystemMessage(authorId, authorEmail, sender, sender, siteId, emailSubject, emailBody);
                 }
                 catch (DnaEmailException e)
                 {
@@ -614,7 +614,7 @@ namespace BBC.Dna.Component
                 //Actually send the email.
                 DnaMessage sendMessage = new DnaMessage(InputContext);
                 String sender = InputContext.TheSiteList.GetSite(siteId).ModeratorsEmail;
-                sendMessage.SendEmailOrSystemMessage(complainantId, complainantEmail, sender, siteId, emailSubject, emailBody);
+                sendMessage.SendEmailOrSystemMessage(complainantId, complainantEmail, sender, sender, siteId, emailSubject, emailBody);
             }
             catch (DnaEmailException e)
             {

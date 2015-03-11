@@ -338,6 +338,20 @@ namespace BBC.Dna.Moderation.Utils.Tests
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        [TestMethod]
+        public void CheckURLFiltering()
+        {
+            string test = @"http://www.bbc.co.uk/";
+            List<string> list = new List<string>(new string[] { "http:" });
+            string match;
+            Assert.IsTrue(ProfanityFilter.DoesTextContain(test,list,false,true,out match));
+            int i = 0;
+            i++;
+        }
+
+        /// <summary>
         /// Test that a profanity is not detected inside a link within the input text.
         /// </summary>
         [TestMethod]

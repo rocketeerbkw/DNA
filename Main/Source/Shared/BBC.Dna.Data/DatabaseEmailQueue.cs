@@ -15,12 +15,13 @@ namespace BBC.Dna.Data
             Urgent
         }
 
-        public void QueueEmail(IDnaDataReaderCreator readerCreator, string toEmailAddress, string fromEmailAddress, string subject, string body, string notes, EmailPriority priority)
+        public void QueueEmail(IDnaDataReaderCreator readerCreator, string toEmailAddress, string fromEmailAddress, string ccAddress, string subject, string body, string notes, EmailPriority priority)
         {
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader("QueueEmail"))
             {
                 reader.AddParameter("toEmailAddress", toEmailAddress);
                 reader.AddParameter("fromEmailAddress", fromEmailAddress);
+                reader.AddParameter("ccAddress", ccAddress == null ? "" : ccAddress);
                 reader.AddParameter("subject", subject);
                 reader.AddParameter("body", body);
                 reader.AddParameter("priority", priority);
