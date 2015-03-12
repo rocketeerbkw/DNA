@@ -483,7 +483,7 @@ namespace BBC.Dna.Component
                 
                 //Actually send the email.
                 DnaMessage sendMessage = new DnaMessage(InputContext);
-                sendMessage.SendEmailOrSystemMessage(userId, email, moderatorEmail, siteId, emailSubject, emailBody);
+                sendMessage.SendEmailOrSystemMessage(userId, email, moderatorEmail, moderatorEmail, siteId, emailSubject, emailBody);
             }
             catch (DnaEmailException e)
             {
@@ -526,7 +526,7 @@ namespace BBC.Dna.Component
 
                 //Actually send the email.
                 DnaMessage sendMessage = new DnaMessage(InputContext);
-                sendMessage.SendEmailOrSystemMessage(userId, email, moderatorEmail, siteId, emailSubject, emailBody);
+                sendMessage.SendEmailOrSystemMessage(userId, email, moderatorEmail, moderatorEmail, siteId, emailSubject, emailBody);
             }
             catch (DnaEmailException e)
             {
@@ -590,7 +590,7 @@ namespace BBC.Dna.Component
             {
                 //Actually send the email.
                 DnaMessage sendMessage = new DnaMessage(InputContext);
-                sendMessage.SendEmailOrSystemMessage(userId, email, email, siteId, emailSubject, emailBody);
+                sendMessage.SendEmailOrSystemMessage(userId, email, email, null, siteId, emailSubject, emailBody);
             }
             catch (DnaEmailException e)
             {
@@ -632,7 +632,7 @@ namespace BBC.Dna.Component
             {
                 //Actually send the email.
                 DnaMessage sendMessage = new DnaMessage(InputContext);
-                sendMessage.SendEmailOrSystemMessage(userId, email, email, siteId, emailSubject, emailBody);
+                sendMessage.SendEmailOrSystemMessage(userId, email, email, null, siteId, emailSubject, emailBody);
             }
             catch (DnaEmailException e)
             {

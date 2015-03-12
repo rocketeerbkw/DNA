@@ -41,6 +41,10 @@ namespace Dna.DatabaseEmailProcessor
             emailToProcess.Body = reader.GetString("Body");
             emailToProcess.FromAddress = reader.GetString("FromEmailAddress");
             emailToProcess.ToAddress = reader.GetString("ToEmailAddress");
+            if (reader.Exists("CCAddress"))
+            {
+                emailToProcess.CCAddress = reader.GetString("CCAddress");
+            }
 
             return emailToProcess;
         }

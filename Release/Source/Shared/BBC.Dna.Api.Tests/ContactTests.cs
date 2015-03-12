@@ -87,7 +87,7 @@ namespace BBC.Dna.Api.Tests
 
             IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
 
-            CheckDatabaseValues(sentFrom, sentTo, subject, body, Contacts.CreateEmailNotes(info), FailedEmailDetails);
+            CheckDatabaseValues(sentFrom, sentTo, "", subject, body, Contacts.CreateEmailNotes(info), FailedEmailDetails);
         }
 
         [TestMethod]
@@ -111,17 +111,18 @@ namespace BBC.Dna.Api.Tests
 
             IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
 
-            CheckDatabaseValues(sentFrom, sentTo, subject, body, Contacts.CreateEmailNotes(info), FailedEmailDetails);
+            CheckDatabaseValues(sentFrom, sentTo, "", subject, body, Contacts.CreateEmailNotes(info), FailedEmailDetails);
         }
 
-        private static void CheckDatabaseValues(string siteContactEmail, string sentTo, string subject, string body, string notes, IList<object[]> FailedEmailDetails)
+        private static void CheckDatabaseValues(string siteContactEmail, string sentTo, string CCAddress, string subject, string body, string notes, IList<object[]> FailedEmailDetails)
         {
             Assert.AreEqual(sentTo, (string)FailedEmailDetails[0][1]);
             Assert.AreEqual(siteContactEmail, (string)FailedEmailDetails[1][1]);
-            Assert.AreEqual(subject, (string)FailedEmailDetails[2][1]);
-            Assert.AreEqual(body, (string)FailedEmailDetails[3][1]);
-            Assert.AreEqual(DatabaseEmailQueue.EmailPriority.High, (DatabaseEmailQueue.EmailPriority)FailedEmailDetails[4][1]);
-            Assert.AreEqual(notes, (string)FailedEmailDetails[5][1]);
+            Assert.AreEqual(CCAddress, (string)FailedEmailDetails[2][1]);
+            Assert.AreEqual(subject, (string)FailedEmailDetails[3][1]);
+            Assert.AreEqual(body, (string)FailedEmailDetails[4][1]);
+            Assert.AreEqual(DatabaseEmailQueue.EmailPriority.High, (DatabaseEmailQueue.EmailPriority)FailedEmailDetails[5][1]);
+            Assert.AreEqual(notes, (string)FailedEmailDetails[6][1]);
         }
 
         [TestMethod]
@@ -136,7 +137,7 @@ namespace BBC.Dna.Api.Tests
 
             IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
 
-            CheckDatabaseValues(siteContactEmail, sentTo, info.ForumUri, info.text, Contacts.CreateEmailNotes(info), FailedEmailDetails);
+            CheckDatabaseValues(siteContactEmail, sentTo, "", info.ForumUri, info.text, Contacts.CreateEmailNotes(info), FailedEmailDetails);
         }
 
         [TestMethod]
@@ -151,7 +152,7 @@ namespace BBC.Dna.Api.Tests
 
             IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
 
-            CheckDatabaseValues(siteContactEmail, sentTo, info.ForumUri, info.text, Contacts.CreateEmailNotes(info), FailedEmailDetails);
+            CheckDatabaseValues(siteContactEmail, sentTo, "", info.ForumUri, info.text, Contacts.CreateEmailNotes(info), FailedEmailDetails);
         }
 
         [TestMethod]
@@ -168,7 +169,7 @@ namespace BBC.Dna.Api.Tests
 
             IList<object[]> FailedEmailDetails = SendEmail(info, siteContactEmail, sentTo);
 
-            CheckDatabaseValues(siteContactEmail, sentTo, subject, "body:\r\n" + body + "\r\n\r\n", Contacts.CreateEmailNotes(info), FailedEmailDetails);
+            CheckDatabaseValues(siteContactEmail, sentTo, "", subject, "body:\r\n" + body + "\r\n\r\n", Contacts.CreateEmailNotes(info), FailedEmailDetails);
         }
 
         private IList<object[]> SendEmail(ContactDetails info, string siteContactEmail, string sentTo)

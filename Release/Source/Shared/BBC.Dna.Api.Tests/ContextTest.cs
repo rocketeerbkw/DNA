@@ -108,28 +108,6 @@ namespace BBC.Dna.Api.Tests
             readerCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("commentforumcreate"));
         }
 
-        [TestMethod]
-        public void ShouldReplaceInvalidCharsFromCacheFileNameWithDash()
-        {
-            Statistics stats = new Statistics();
-            Statistics.InitialiseIfEmpty(null,false);
-
-            Context_Accessor testContext = new Context_Accessor(null, null, null, null);
-
-            string originalFileName = "Dodgy/Name<for>a#file.txt";
-            string expectedFileName = "Dodgy-Name-for-a#file.txt";
-
-            testContext.FileCacheFolder = TestContext.TestDir;
-            testContext.SetFailedEmailFileName(originalFileName);
-            testContext.WriteFailedEmailToFile("me@bbc.co.uk", "you@bbc.co.uk", "test subject", "test body", "");
-
-            DateTime expires = new DateTime();
-            string failedEmailContent = "";
-            FileCaching.GetItem(null, TestContext.TestDir, "failedmails", expectedFileName, ref expires, ref failedEmailContent);
-
-            Assert.IsTrue(failedEmailContent.Length > 0);
-        }
-
         /// <summary>
         ///A test for CommentInfo Constructor
         ///</summary>

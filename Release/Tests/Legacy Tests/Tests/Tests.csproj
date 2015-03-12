@@ -95,6 +95,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Source\Reference DLLs\NUnitASP\NUnitAsp.dll</HintPath>
     </Reference>
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Source\Reference DLLs\Rhino.Mocks.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core">
@@ -139,6 +143,7 @@
     <Compile Include="Dna.Sites\SiteOptionTests.cs" />
     <Compile Include="Dna.Sites\SiteTests.cs" />
     <Compile Include="DnaBasePageTests.cs" />
+    <Compile Include="DnaMessageTests.cs" />
     <Compile Include="MessageBoardStatisticsTests.cs" />
     <Compile Include="ModerationHistoryTests.cs" />
     <Compile Include="ModerationReasonsTests.cs" />

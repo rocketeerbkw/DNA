@@ -147,7 +147,7 @@ namespace BBC.Dna
             {
                 //Actually send the email.
                 DnaMessage sendMessage = new DnaMessage(InputContext);
-                sendMessage.SendEmailOrSystemMessage(userId, userEmail, moderatorEmail, siteId, emailSubject, emailBody);
+                sendMessage.SendEmailOrSystemMessage(userId, userEmail, moderatorEmail, moderatorEmail, siteId, emailSubject, emailBody);
             }
             catch (DnaEmailException e)
             {

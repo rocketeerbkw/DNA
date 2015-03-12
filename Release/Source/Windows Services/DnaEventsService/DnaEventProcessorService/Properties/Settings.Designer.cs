@@ -44,7 +44,7 @@ namespace DnaEventProcessorService.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("database=theguide; server=.; user id=sa; password=sapassword; pooling=false")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=.;Initial Catalog=DNADb;Integrated Security=True;Pooling=False")]
         public string ConnectionString_TheGuide {
             get {
                 return ((string)(this["ConnectionString_TheGuide"]));
@@ -155,7 +155,7 @@ namespace DnaEventProcessorService.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20000")]
+        [global::System.Configuration.DefaultSettingValueAttribute("2000")]
         public int DatabaseEmailProcessor_Interval {
             get {
                 return ((int)(this["DatabaseEmailProcessor_Interval"]));
@@ -210,19 +210,46 @@ namespace DnaEventProcessorService.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("ops-fs0.national.core.bbc.co.uk")]
-        public string DatabaseEmailProcessor_SMTPSettings {
+        public string DatabaseEmailProcessor_SMTPHostname {
             get {
-                return ((string)(this["DatabaseEmailProcessor_SMTPSettings"]));
+                return ((string)(this["DatabaseEmailProcessor_SMTPHostname"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("service not available#remote name could not be resolved#Unable to connect to the " +
-            "remote server")]
+            "remote server#Unable to Parse Server Reason")]
         public string DatabaseEmailProcessor_PersistentErrorMessageSnippet {
             get {
                 return ((string)(this["DatabaseEmailProcessor_PersistentErrorMessageSnippet"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool DatabaseEmailProcessor_SMTPSslEnable {
+            get {
+                return ((bool)(this["DatabaseEmailProcessor_SMTPSslEnable"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DatabaseEmailProcessor_SMTPUsername {
+            get {
+                return ((string)(this["DatabaseEmailProcessor_SMTPUsername"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DatabaseEmailProcessor_SMTPPassword {
+            get {
+                return ((string)(this["DatabaseEmailProcessor_SMTPPassword"]));
             }
         }
     }

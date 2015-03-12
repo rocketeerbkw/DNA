@@ -10,6 +10,7 @@ namespace Dna.DatabaseEmailProcessor
         public int ID { get; set; }
         public string FromAddress { get; set; }
         public string ToAddress { get; set; }
+        public string CCAddress { get; set; }
         public string Subject { get; set; }
         public string Body { get; set; }
         public string LastFailedReason { get; private set; }
@@ -22,12 +23,15 @@ namespace Dna.DatabaseEmailProcessor
                 using (var message = new MailMessage())
                 {
                     message.From = new MailAddress(FromAddress);
-
-                    foreach (var address in ToAddress.Split(';')) { 
+                    foreach (var address in ToAddress.Split(';'))
+                    {
                         message.To.Add(new MailAddress(address));
                     }
 
-                    message.CC.Add(new MailAddress(FromAddress));
+                    if (CCAddress.Length > 0)
+                    {
+                        message.CC.Add(new MailAddress(CCAddress));
+                    }
 
                     message.Subject = Subject;
                     message.SubjectEncoding = Encoding.UTF8;
