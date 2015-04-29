@@ -73,6 +73,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommentForumActivityTests.cs" />
     <Compile Include="CommentInfoTest.cs" />
     <Compile Include="ContactTests.cs" />
     <Compile Include="ContextTest.cs" />

@@ -871,5 +871,16 @@ namespace BBC.Dna.Services
             var conversation = new object();
             return GetOutputStream(conversation);
         }
+
+        [WebGet(UriTemplate = "v1/commentforums/mostrecentactivity")]
+        [WebHelp(Comment = "Gets most recent activity across all comment forums in the last ?minutes=X minutes, or since ?startdate. Both are capped at 60 mins max. Resolution to 1 minute")]
+        [OperationContract]
+        public Stream MostRecentActivity()
+        {
+            int minutes = QueryStringHelper.GetQueryParameterAsInt("minutes", 1);
+            string startDateString = QueryStringHelper.GetQueryParameterAsString("startdate", "");
+            CommentForumsActivityList commentForumsActivityList = _commentObj.GetCommentForumsActivity(minutes, startDateString);
+            return GetOutputStream(commentForumsActivityList);
+        }
     }
 }
