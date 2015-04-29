@@ -2152,6 +2152,83 @@ namespace BBC.Dna.Api
 
         #endregion
 
-        
+        /// <summary>
+        /// Get the latest activity on all comment forums across all sites
+        /// </summary>
+        /// <param name="minutes">Activity over the last 'X' minutes. Will top out at 60 mins if greater</param>
+        /// <param name="startDate">Activity since the given start date. Will truncate to 60 mins if greater</param>
+        /// <returns>A list of activity on forums within the given time span</returns>
+        public CommentForumsActivityList GetCommentForumsActivity(int minutes, string startDate)
+        {
+            if (minutes > 60)
+            {
+                minutes = 60;
+            }
+            else if (minutes < 1)
+            {
+                minutes = 1;
+            }
+            DateTime startDateTime = DateTime.Now.AddMinutes(-minutes);
+
+            if (startDate.Length > 0 && DateTime.TryParse(startDate, out startDateTime))
+            {
+                if (startDateTime < DateTime.Now.AddHours(-1))
+                {
+                    startDateTime = DateTime.Now.AddHours(-1);
+                }
+                minutes = (int)(DateTime.Now - startDateTime).TotalMinutes;
+            }
+
+            CommentForumsActivityList activityList = GetCachedActivitylist(minutes);
+            if (activityList != null)
+            {
+                return activityList;
+            }
+
+            activityList = new CommentForumsActivityList();
+            activityList.CommentForumsActivity = new List<CommentForumActivity>();
+            activityList.DateChecked = new DateTimeHelper(DateTime.Now);
+            activityList.StartDate = new DateTimeHelper(startDateTime);
+            activityList.Minutes = minutes;
+
+            using (IDnaDataReader reader = CreateReader("getcommentforumsactivity"))
+            {
+                reader.AddParameter("minutes", minutes);
+                reader.AddParameter("startdate", startDateTime);
+                reader.Execute();
+
+                while (reader.HasRows && reader.Read())
+                {
+                    CommentForumActivity activity = new CommentForumActivity();
+                    activity.ClosingDate = new DateTimeHelper(reader.GetDateTime("ForumCloseDate"));
+                    activity.Count = reader.GetInt32("count");
+                    activity.LastPostedDate = new DateTimeHelper(reader.GetDateTime("LastPostedDate"));
+                    activity.SiteId = reader.GetInt32("siteid");
+                    activity.SiteName = reader.GetString("urlname");
+                    activity.Title = reader.GetString("title");
+                    activity.TotalPosts = reader.GetInt32("totalPosts");
+                    activity.URL = reader.GetString("url");
+
+                    activityList.CommentForumsActivity.Add(activity);
+                }
+            }
+
+            CacheActivityList(activityList);
+
+            return activityList;
+        }
+
+        private CommentForumsActivityList GetCachedActivitylist(int minutes)
+        {
+            string cacheName = "CommentForumsActivity-" + DateTime.Now.Minute.ToString() + "-" + minutes;
+            return (CommentForumsActivityList)CacheManager.GetData(cacheName);
+        }
+
+        private void CacheActivityList(CommentForumsActivityList activityList)
+        {
+            string cacheName = "CommentForumsActivity-" + activityList.DateChecked.DateTime.Minute.ToString() + "-";
+            cacheName += activityList.Minutes.ToString();
+            CacheManager.Add(cacheName, activityList, CacheItemPriority.Normal, null, new AbsoluteTime(DateTime.Now.AddMinutes(1.0)));
+        }
     }
 }
