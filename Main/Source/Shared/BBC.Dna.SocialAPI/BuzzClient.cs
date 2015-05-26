@@ -50,26 +50,30 @@ namespace BBC.Dna.SocialAPI
             try
             {
                 webRequest.Timeout = 30000;
-
-                if (IsUriValid(proxyServer))
-                    webRequest.Proxy = new WebProxy(proxyServer);
-
                 AddTimingInfoLine("<* BUZZ CLIENT CERTIFICATE START *>");
                 AddTimingInfoLine("Base URL           - " + uri);
                 AddTimingInfoLine("Certificate details   - " + connectionDetails);
-                AddTimingInfoLine("Proxy server       - " + proxyServer ?? "");
+                if (!string.IsNullOrEmpty(proxyServer))
+                {
+                    webRequest.Proxy = new WebProxy(proxyServer);
+                    AddTimingInfoLine("Proxy server       - " + proxyServer);
+                }
+                else
+                {
+                    AddTimingInfoLine("Proxy server       - Not Specified");
+                }
 
                 string[] details = connectionDetails.Split(';');
                 var certificateName = details[1];
 
-                X509Store store = new X509Store(StoreName.My.ToString(), StoreLocation.LocalMachine);
+                X509Store store = new X509Store("My", StoreLocation.LocalMachine);
                 store.Open(OpenFlags.ReadOnly | OpenFlags.OpenExistingOnly);
                 X509Certificate certificate = null;
                 bool gotDevCert = false;
                 for (int i = 0; i <= 1 && !gotDevCert; i++)
                 {
                     certificate = store.Certificates.Find(X509FindType.FindBySubjectName, certificateName, false)[i];
-                    gotDevCert = certificate.Subject.ToLower().Contains("cn=" + certificateName + ",");
+                    gotDevCert = certificate.Subject.ToLower().Contains("cn=" + certificateName.ToLower() + ",");
                 }
 
                 webRequest.ClientCertificates.Add(certificate);

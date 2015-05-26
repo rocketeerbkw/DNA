@@ -34,9 +34,11 @@ namespace Dna.SnesIntegration.ActivityProcessor
         public static string JsonFromObject<T>(this object obj)
         {
             var ser = new DataContractJsonSerializer(typeof (T));
-            var ms = new MemoryStream();
-            ser.WriteObject(ms, obj);
-            return Encoding.UTF8.GetString(ms.ToArray());
+            using (var ms = new MemoryStream())
+            {
+                ser.WriteObject(ms, obj);
+                return Encoding.UTF8.GetString(ms.ToArray());
+            }
         }
     }
 }
