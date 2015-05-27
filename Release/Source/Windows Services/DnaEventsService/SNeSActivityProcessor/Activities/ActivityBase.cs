@@ -8,6 +8,7 @@ namespace Dna.SnesIntegration.ActivityProcessor.Activities
 {
     public enum ActivityType
     {
+        Invalid = 0,
         PublishActivity = 19,
         RevokeActivity = 20,    
     }
