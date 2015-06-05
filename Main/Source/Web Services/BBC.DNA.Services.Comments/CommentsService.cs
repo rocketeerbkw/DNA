@@ -882,5 +882,16 @@ namespace BBC.Dna.Services
             CommentForumsActivityList commentForumsActivityList = _commentObj.GetCommentForumsActivity(minutes, startDateString);
             return GetOutputStream(commentForumsActivityList);
         }
+
+        [WebGet(UriTemplate = "v1/commentforums/mostrecentratingactivity")]
+        [WebHelp(Comment = "Gets most recent rating activity across all comment forums in the last ?minutes=X minutes, or since ?startdate. Both are capped at 60 mins max. Resolution to 1 minute")]
+        [OperationContract]
+        public Stream MostRecentRatingActivity()
+        {
+            int minutes = QueryStringHelper.GetQueryParameterAsInt("minutes", 1);
+            string startDateString = QueryStringHelper.GetQueryParameterAsString("startdate", "");
+            CommentForumsRatingActivityList commentForumsRatingActivity = _commentObj.GetCommentForumsRatingActivity(minutes, startDateString);
+            return GetOutputStream(commentForumsRatingActivity);
+        }
     }
 }

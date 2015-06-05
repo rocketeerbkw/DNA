@@ -2218,10 +2218,84 @@ namespace BBC.Dna.Api
             return activityList;
         }
 
+        /// <summary>
+        /// Get the latest rating activity on all comment forums across all sites
+        /// </summary>
+        /// <param name="minutes">Activity over the last 'X' minutes. Will top out at 60 mins if greater</param>
+        /// <param name="startDate">Activity since the given start date. Will truncate to 60 mins if greater</param>
+        /// <returns>A list of activity on forums within the given time span</returns>
+        public CommentForumsRatingActivityList GetCommentForumsRatingActivity(int minutes, string startDate)
+        {
+            if (minutes > 60)
+            {
+                minutes = 60;
+            }
+            else if (minutes < 1)
+            {
+                minutes = 1;
+            }
+            DateTime startDateTime = DateTime.Now.AddMinutes(-minutes);
+
+            if (startDate.Length > 0 && DateTime.TryParse(startDate, out startDateTime))
+            {
+                if (startDateTime < DateTime.Now.AddHours(-1))
+                {
+                    startDateTime = DateTime.Now.AddHours(-1);
+                }
+                minutes = (int)(DateTime.Now - startDateTime).TotalMinutes;
+            }
+
+            CommentForumsRatingActivityList activityList = GetCachedRatingActivitylist(minutes);
+            if (activityList != null)
+            {
+                return activityList;
+            }
+
+            activityList = new CommentForumsRatingActivityList();
+            activityList.CommentForumsRatingActivity = new List<CommentForumRatingActivity>();
+            activityList.DateChecked = new DateTimeHelper(DateTime.Now);
+            activityList.StartDate = new DateTimeHelper(startDateTime);
+            activityList.Minutes = minutes;
+
+            using (IDnaDataReader reader = CreateReader("getcommentforumsactivity_ratings"))
+            {
+                reader.AddParameter("minutes", minutes);
+                reader.AddParameter("startdate", startDateTime);
+                reader.Execute();
+
+                while (reader.HasRows && reader.Read())
+                {
+                    CommentForumRatingActivity activity = new CommentForumRatingActivity();
+                    activity.ClosingDate = new DateTimeHelper(reader.GetDateTime("ForumCloseDate"));
+                    activity.Count = reader.GetInt32("count");
+                    activity.Up = reader.GetInt32("up");
+                    activity.Down = reader.GetInt32("down");
+                    activity.LastRatedDate = new DateTimeHelper(reader.GetDateTime("LastRatedDate"));
+                    activity.SiteId = reader.GetInt32("siteid");
+                    activity.SiteName = reader.GetString("urlname");
+                    activity.Title = reader.GetString("title");
+                    activity.TotalPosts = reader.GetInt32("totalPosts");
+                    activity.URL = reader.GetString("url");
+
+                    activityList.CommentForumsRatingActivity.Add(activity);
+                }
+            }
+
+            CacheRatingActivityList(activityList);
+
+            return activityList;
+        }
+
         private CommentForumsActivityList GetCachedActivitylist(int minutes)
         {
             string cacheName = "CommentForumsActivity-" + DateTime.Now.Minute.ToString() + "-" + minutes;
             return (CommentForumsActivityList)CacheManager.GetData(cacheName);
+        }
+
+        private CommentForumsRatingActivityList GetCachedRatingActivitylist(int minutes)
+        {
+            string cacheName = "CommentForumsRatingActivity-" + DateTime.Now.Minute.ToString() + "-" + minutes;
+            return (CommentForumsRatingActivityList)CacheManager.GetData(cacheName);
         }
 
         private void CacheActivityList(CommentForumsActivityList activityList)
@@ -2229,6 +2303,13 @@ namespace BBC.Dna.Api
             string cacheName = "CommentForumsActivity-" + activityList.DateChecked.DateTime.Minute.ToString() + "-";
             cacheName += activityList.Minutes.ToString();
             CacheManager.Add(cacheName, activityList, CacheItemPriority.Normal, null, new AbsoluteTime(DateTime.Now.AddMinutes(1.0)));
+        }
+
+        private void CacheRatingActivityList(CommentForumsRatingActivityList ratingActivityList)
+        {
+            string cacheName = "CommentForumsRatingActivity-" + ratingActivityList.DateChecked.DateTime.Minute.ToString() + "-";
+            cacheName += ratingActivityList.Minutes.ToString();
+            CacheManager.Add(cacheName, ratingActivityList, CacheItemPriority.Normal, null, new AbsoluteTime(DateTime.Now.AddMinutes(1.0)));
         }
     }
 }

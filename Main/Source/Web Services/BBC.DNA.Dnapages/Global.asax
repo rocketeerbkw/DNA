@@ -14,10 +14,7 @@
         }
         catch (Exception ex)
         {
-            System.IO.StreamWriter sw = new System.IO.StreamWriter(Server.MapPath(@"\") + "OnDnaStartup-Errors.txt");
-            sw.Write(ex.Message);
-            sw.Close();
-            
+            System.Diagnostics.EventLog.WriteEntry("DNAPages Application Startup", ex.Message);
             throw;
         }
     }
