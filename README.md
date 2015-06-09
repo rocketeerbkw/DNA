@@ -1,2 +1,2 @@
 # DNA
-Codebase for ripley, comments, moderation and tweets
+Codebase for ripley, comments, moderation and tweets.
