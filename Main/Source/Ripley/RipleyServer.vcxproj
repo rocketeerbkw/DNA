@@ -152,17 +152,6 @@ rem net start w3svc
     <PreBuildEvent>
       <Command />
     </PreBuildEvent>
-    <CustomBuildStep>
-      <Command>echo $(RipleyServerPath)
-echo $(TargetDir)
-iisreset /stop
-Copy "$(TargetPath)" "$(RipleyServerPath)"
-Copy "$(TargetPath)" "$(RipleyServerPath)"\..\h2g2UnitTesting
-echo Built RipleyServer.dll &gt; "$(TargetDir)CustomBuildOutput.txt"
-iisreset /start
-</Command>
-      <Outputs>$(TargetDir)CustomBuildOutput.txt;%(Outputs)</Outputs>
-    </CustomBuildStep>
     <Midl>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MkTypLibCompatible>true</MkTypLibCompatible>
