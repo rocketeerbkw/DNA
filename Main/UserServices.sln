@@ -1,14 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{47FA8425-900C-4CD5-AA0E-325CF31432A4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna", "BBC.Dna", "{3FEECA36-C430-42EB-B37D-01EB46BA0875}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA", "Source\BBC.Dna\BBC.DNA.csproj", "{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {62AC310D-0AE3-4D92-A928-CA9291481B5A}
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{611F017D-BA2C-40F0-B8EB-572363E37B11}"
 EndProject
@@ -32,39 +29,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Utils", "BBC.Dna.Ut
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Memcached.ClientLibrary", "Memcached.ClientLibrary", "{D651DDAE-4623-4E78-83B5-6905A0CEEC16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api", "Source\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj", "{A46E6756-CA6A-4C8A-A063-8515AFD1C614}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Data", "Source\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj", "{F79CF818-D597-4C2F-A61D-87773951E234}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation", "Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj", "{ED8FAD29-DC4F-40DC-A275-45D215591FA2}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Moderation.Utils", "Source\Shared\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj", "{8EB8245F-927C-469B-9DBB-4BAED2A9F420}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Objects", "Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects.csproj", "{B4EA926E-7D99-4077-8315-882F413B994D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Services", "Source\Shared\BBC.Dna.Services\BBC.Dna.Services.csproj", "{A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Sites", "Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj", "{2CE05465-9B21-4CD9-A592-FABD2AD051B3}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Users", "Source\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj", "{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Utils", "Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj", "{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memcached.ClientLibrary", "Source\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj", "{4770D032-9B06-450D-8B00-7200D8330397}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microsoft.ServiceModel.Web", "Microsoft.ServiceModel.Web", "{67595DFD-E528-4F60-8298-5A3484BE5E28}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.ServiceModel.Web", "Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj", "{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web Services", "Web Services", "{665D577F-30EE-4385-9A71-6478DFC0C15B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Services.Comments", "BBC.DNA.Services.Comments", "{FF6B0888-50F6-4B13-B804-3E010866916E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Services.Moderation", "BBC.DNA.Services.Moderation", "{06315016-E046-45CD-B63F-B68A10D3A8C8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Comments", "Source\Web Services\BBC.DNA.Services.Comments\BBC.DNA.Services.Comments.csproj", "{E4C34C5F-5F3B-4A43-A2BF-E593E1884786}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Moderation", "Source\Web Services\BBC.DNA.Services.Moderation\BBC.DNA.Services.Moderation.csproj", "{BF321555-30BC-45A3-BF5F-0E381DE31FAE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Reference DLLs", "Reference DLLs", "{444038EE-D867-45BE-87CA-062461221E5F}"
 	ProjectSection(SolutionItems) = preProject
@@ -78,8 +49,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Microsoft.Http", "Microsoft
 		Source\Reference DLLs\Microsoft.Http\Microsoft.Http.Extensions.dll = Source\Reference DLLs\Microsoft.Http\Microsoft.Http.Extensions.dll
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Objects.Tests", "Source\Shared\BBC.Dna.Objects.Tests\BBC.Dna.Objects.Tests.csproj", "{13939AC3-85A5-40DC-BD6E-8211451D27BB}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NMock", "NMock", "{4F19FE89-637B-4B05-A067-C868B2FF5BF1}"
 	ProjectSection(SolutionItems) = preProject
 		Source\Reference DLLs\NMock\NMock2.AcceptanceTests.dll = Source\Reference DLLs\NMock\NMock2.AcceptanceTests.dll
@@ -88,8 +57,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NMock", "NMock", "{4F19FE89
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestUtils", "TestUtils", "{54187AB7-0320-401A-948D-F1AE381F3D2C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtils", "Source\Shared\TestUtils\TestUtils.csproj", "{E09BF891-7D4F-403E-B830-B9E2606D2C22}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NUnitASP", "NUnitASP", "{B52F7B8B-91F4-4003-B2C8-9419238E2508}"
 	ProjectSection(SolutionItems) = preProject
@@ -115,8 +82,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B3785050-CB28-428E-8454-FD261DBD2EE5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy Tests", "Legacy Tests", "{EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Utils.Tests", "Source\Shared\BBC.Dna.Utils.Tests\BBC.Dna.Utils.Tests.csproj", "{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnterpriseLibrary", "EnterpriseLibrary", "{C3B6D85B-AA27-4DB4-B42A-4967AFC08BC6}"
 	ProjectSection(SolutionItems) = preProject
@@ -202,13 +167,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EnterpriseLibrary", "Enterp
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Dnapages", "BBC.DNA.Dnapages", "{F89247D0-E5BB-4959-98D1-BDA98CA127D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Dnapages", "Source\Web Services\BBC.DNA.Dnapages\BBC.DNA.Dnapages.csproj", "{C47CC990-90A2-457C-96A8-53722D81795A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Legacy Tests\Tests\Tests.csproj", "{6049CBC4-1622-46D4-AA01-E528106493EC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Schemas", "Schemas", "{E2971637-C176-41F1-9C2B-A60A2249BBF8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schemas", "Source\Schemas\Schemas.csproj", "{C32DB42E-9E40-4963-82D1-A968FAB86583}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Saxon", "Saxon", "{E23162C3-B3CA-4DEC-910A-EB7187BA0B8C}"
 	ProjectSection(SolutionItems) = preProject
@@ -226,18 +185,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CertsAndGACUtils", "CertsAn
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ripley", "Ripley", "{1716050D-1B1B-4AF8-BF48-EE87B3D92431}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ripleycore", "Source\Ripley\ripleycore.vcproj", "{ECAF0B64-57F6-4883-A633-93367D3BF1F1}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B} = {5B2FC0E0-8C34-48F0-A57A-C46C5187834B}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RipleyServer", "Source\Ripley\RipleyServer.vcproj", "{62AC310D-0AE3-4D92-A928-CA9291481B5A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{ECAF0B64-57F6-4883-A633-93367D3BF1F1} = {ECAF0B64-57F6-4883-A633-93367D3BF1F1}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RipleyTests", "Tests\Legacy Tests\RipleyTests\RipleyTests.csproj", "{351113F5-DBA7-4AE0-A218-1FFD165D1747}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vwcl", "vwcl", "{321FDD86-CD72-457D-A8AF-5038B62C52FE}"
 	ProjectSection(SolutionItems) = preProject
 		Source\Ripley\vwcl\vstandard.h = Source\Ripley\vwcl\vstandard.h
@@ -250,75 +197,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "networking", "networking", 
 		Source\Ripley\vwcl\networking\vsmtpsocket.hpp = Source\Ripley\vwcl\networking\vsmtpsocket.hpp
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Data.Tests", "Source\Shared\BBC.Dna.Data.Tests\BBC.Dna.Data.Tests.csproj", "{0B6597BC-1CC6-4D5B-8850-94E750B4B413}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Sites.Tests", "Source\Shared\BBC.Dna.Sites.Tests\BBC.Dna.Sites.Tests.csproj", "{7F2FFC4C-5BE6-4761-BA26-D97C5E6D877A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation.Tests", "Source\Shared\BBC.Dna.Moderation.Tests\BBC.Dna.Moderation.Tests.csproj", "{4F451D92-54A1-4013-B703-8F339F741935}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation.Utils.Tests", "Source\Shared\BBC.Dna.Moderation.Utils.Tests\BBC.Dna.Moderation.Utils.Tests.csproj", "{CD50FF01-F604-4C12-BFE7-199CE495313F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api.Tests", "Source\Shared\BBC.Dna.Api.Tests\BBC.Dna.Api.Tests.csproj", "{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.LoadTest", "Tests\BBC.Dna.LoadTest\BBC.Dna.LoadTest.csproj", "{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Services.Forums", "BBC.DNA.Services.Forums", "{6C3A9796-633A-4738-B003-BDBA5ABE3FD8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Services.Forums", "Source\Web Services\BBC.Dna.Services.Forums\BBC.Dna.Services.Forums.csproj", "{0F8243FA-0769-4A58-AC3F-12D51B6479DD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Services.Articles", "BBC.DNA.Services.Articles", "{96C76C5A-C07C-4269-A7D5-934AEE606719}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Articles", "Source\Web Services\BBC.Dna.Services.Articles\BBC.DNA.Services.Articles.csproj", "{B83A2AA4-D762-45E3-BB28-4B4A53D3C852}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Services.Categories", "BBC.DNA.Services.Categories", "{1B24DDDB-2681-4E12-9DD1-A42239CD0A47}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Categories", "Source\Web Services\BBC.DNA.Services.Categories\BBC.DNA.Services.Categories\BBC.DNA.Services.Categories.csproj", "{B6F288C5-806D-40F5-A1A2-14EACD78ACB8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Common", "BBC.Dna.Common", "{6508FDD8-346E-436F-A19C-BE414A86B67A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Common", "Source\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj", "{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Common.Tests", "Source\Shared\BBC.Dna.Common.Tests\BBC.Dna.Common.Tests.csproj", "{1A301836-3B83-4854-8F3A-EB778B6C4E82}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Users.Tests", "Source\Shared\BBC.Dna.Users.Tests\BBC.Dna.Users.Tests.csproj", "{1A62C0FE-7309-4E8A-B018-98FD26B4E672}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.DNA.Services.Users", "BBC.DNA.Services.Users", "{1283DADF-1D96-40D9-BA0D-0CABA59D3E8B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Users", "Source\Web Services\BBC.DNA.Services.Users\BBC.DNA.Services.Users.csproj", "{528B5353-0E55-4935-9F73-961603046DEF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FunctionalTests", "FunctionalTests", "{635A0283-226B-42FA-BCF4-8144BA92A77E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Articles", "Tests\FunctionalTests.Services.Articles\FunctionalTests.Services.Articles.csproj", "{EDC6001A-89AF-443B-91DF-1FBF3AFC6F4E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Categories", "Tests\FunctionalTests.Services.Categories\FunctionalTests.Services.Categories.csproj", "{AC8105E5-8838-4871-80E8-93B8FB6C4C4E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Comments", "Tests\FunctionalTests.Services.Comments\FunctionalTests.Services.Comments.csproj", "{B0B274BF-EAD0-438F-AF11-C6E15E1287A7}"
-	ProjectSection(ProjectDependencies) = postProject
-		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {62AC310D-0AE3-4D92-A928-CA9291481B5A}
-		{4770D032-9B06-450D-8B00-7200D8330397} = {4770D032-9B06-450D-8B00-7200D8330397}
-		{A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77} = {A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77}
-		{528B5353-0E55-4935-9F73-961603046DEF} = {528B5353-0E55-4935-9F73-961603046DEF}
-		{BF321555-30BC-45A3-BF5F-0E381DE31FAE} = {BF321555-30BC-45A3-BF5F-0E381DE31FAE}
-		{ECAF0B64-57F6-4883-A633-93367D3BF1F1} = {ECAF0B64-57F6-4883-A633-93367D3BF1F1}
-		{B4EA926E-7D99-4077-8315-882F413B994D} = {B4EA926E-7D99-4077-8315-882F413B994D}
-		{C47CC990-90A2-457C-96A8-53722D81795A} = {C47CC990-90A2-457C-96A8-53722D81795A}
-		{B83A2AA4-D762-45E3-BB28-4B4A53D3C852} = {B83A2AA4-D762-45E3-BB28-4B4A53D3C852}
-		{B6F288C5-806D-40F5-A1A2-14EACD78ACB8} = {B6F288C5-806D-40F5-A1A2-14EACD78ACB8}
-		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B} = {5B2FC0E0-8C34-48F0-A57A-C46C5187834B}
-		{0F8243FA-0769-4A58-AC3F-12D51B6479DD} = {0F8243FA-0769-4A58-AC3F-12D51B6479DD}
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Forums", "Tests\FunctionalTests.Services.Forums\FunctionalTests.Services.Forums.csproj", "{344FF2EF-8DD5-4FAB-991B-6A1D1E4B0F56}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Moderation", "Tests\FunctionalTests.Services.Moderation\FunctionalTests.Services.Moderation.csproj", "{9CA32BFC-3AF7-411C-BBEC-1B232DEF0569}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.DnaPages", "Tests\FunctionalTests.DnaPages\FunctionalTests.DnaPages.csproj", "{1FC1E57E-9EE1-4A88-8D6C-60DA89013E8A}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Users", "Tests\FunctionalTests.Services.Users\FunctionalTests.Services.Users.csproj", "{8C787A7D-C6C1-45C7-A49F-F5D1952DE65F}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DnaIdentityWebServiceProxy", "DnaIdentityWebServiceProxy", "{32224DE1-B8BD-4910-BFD6-0786C86F76EC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnaIdentityWebServiceProxy", "Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj", "{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DeployScripts", "DeployScripts", "{9BBD8F57-2EF3-47E2-9244-1930752A4FAF}"
 	ProjectSection(SolutionItems) = preProject
@@ -362,15 +253,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "HtmlAgilityPack", "HtmlAgil
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.SocialAPI", "BBC.Dna.SocialAPI", "{F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.SocialAPI", "Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI.csproj", "{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.SocialAPI", "Tests\FunctionalTests.SocialAPI\FunctionalTests.SocialAPI.csproj", "{235D41BF-8288-42AC-B932-7D6E225DDAD0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.SocialAPI.Tests", "Source\Shared\BBC.Dna.SocialAPI.Tests\BBC.Dna.SocialAPI.Tests.csproj", "{A4F7704F-4932-473A-91DB-FEA3EA317DA7}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Acceptance Tests", "Acceptance Tests", "{BE2CBAEA-4814-4DBD-AE46-FBA06D24EEF8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comments.AcceptanceTests", "Tests\Acceptance Tests\Comments.AcceptanceTests\Comments.AcceptanceTests.csproj", "{A36FD8B0-A1BB-4AD1-8BA8-404202FB6FE2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SpecFlow", "SpecFlow", "{BC740ACE-593B-4680-831C-F921CDCC7BD5}"
 	ProjectSection(SolutionItems) = preProject
@@ -381,214 +264,129 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Database", "Database", "{9F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TheGuide", "TheGuide", "{A305BD2D-8CEF-44DB-BE5E-BD8EC409CEDC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA", "Source\BBC.Dna\BBC.DNA.csproj", "{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {62AC310D-0AE3-4D92-A928-CA9291481B5A}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api", "Source\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj", "{A46E6756-CA6A-4C8A-A063-8515AFD1C614}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Data", "Source\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj", "{F79CF818-D597-4C2F-A61D-87773951E234}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation", "Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj", "{ED8FAD29-DC4F-40DC-A275-45D215591FA2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Moderation.Utils", "Source\Shared\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj", "{8EB8245F-927C-469B-9DBB-4BAED2A9F420}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Objects", "Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects.csproj", "{B4EA926E-7D99-4077-8315-882F413B994D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Services", "Source\Shared\BBC.Dna.Services\BBC.Dna.Services.csproj", "{A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Sites", "Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj", "{2CE05465-9B21-4CD9-A592-FABD2AD051B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Users", "Source\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj", "{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Utils", "Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj", "{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Memcached.ClientLibrary", "Source\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj", "{4770D032-9B06-450D-8B00-7200D8330397}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.ServiceModel.Web", "Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj", "{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Comments", "Source\Web Services\BBC.DNA.Services.Comments\BBC.DNA.Services.Comments.csproj", "{E4C34C5F-5F3B-4A43-A2BF-E593E1884786}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Moderation", "Source\Web Services\BBC.DNA.Services.Moderation\BBC.DNA.Services.Moderation.csproj", "{BF321555-30BC-45A3-BF5F-0E381DE31FAE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Objects.Tests", "Source\Shared\BBC.Dna.Objects.Tests\BBC.Dna.Objects.Tests.csproj", "{13939AC3-85A5-40DC-BD6E-8211451D27BB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtils", "Source\Shared\TestUtils\TestUtils.csproj", "{E09BF891-7D4F-403E-B830-B9E2606D2C22}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Utils.Tests", "Source\Shared\BBC.Dna.Utils.Tests\BBC.Dna.Utils.Tests.csproj", "{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Dnapages", "Source\Web Services\BBC.DNA.Dnapages\BBC.DNA.Dnapages.csproj", "{C47CC990-90A2-457C-96A8-53722D81795A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Legacy Tests\Tests\Tests.csproj", "{6049CBC4-1622-46D4-AA01-E528106493EC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schemas", "Source\Schemas\Schemas.csproj", "{C32DB42E-9E40-4963-82D1-A968FAB86583}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ripleycore", "Source\Ripley\ripleycore.vcxproj", "{ECAF0B64-57F6-4883-A633-93367D3BF1F1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RipleyServer", "Source\Ripley\RipleyServer.vcxproj", "{62AC310D-0AE3-4D92-A928-CA9291481B5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RipleyTests", "Tests\Legacy Tests\RipleyTests\RipleyTests.csproj", "{351113F5-DBA7-4AE0-A218-1FFD165D1747}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Data.Tests", "Source\Shared\BBC.Dna.Data.Tests\BBC.Dna.Data.Tests.csproj", "{0B6597BC-1CC6-4D5B-8850-94E750B4B413}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Sites.Tests", "Source\Shared\BBC.Dna.Sites.Tests\BBC.Dna.Sites.Tests.csproj", "{7F2FFC4C-5BE6-4761-BA26-D97C5E6D877A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation.Tests", "Source\Shared\BBC.Dna.Moderation.Tests\BBC.Dna.Moderation.Tests.csproj", "{4F451D92-54A1-4013-B703-8F339F741935}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Moderation.Utils.Tests", "Source\Shared\BBC.Dna.Moderation.Utils.Tests\BBC.Dna.Moderation.Utils.Tests.csproj", "{CD50FF01-F604-4C12-BFE7-199CE495313F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Api.Tests", "Source\Shared\BBC.Dna.Api.Tests\BBC.Dna.Api.Tests.csproj", "{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.LoadTest", "Tests\BBC.Dna.LoadTest\BBC.Dna.LoadTest.csproj", "{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Services.Forums", "Source\Web Services\BBC.Dna.Services.Forums\BBC.Dna.Services.Forums.csproj", "{0F8243FA-0769-4A58-AC3F-12D51B6479DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Articles", "Source\Web Services\BBC.Dna.Services.Articles\BBC.DNA.Services.Articles.csproj", "{B83A2AA4-D762-45E3-BB28-4B4A53D3C852}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Categories", "Source\Web Services\BBC.DNA.Services.Categories\BBC.DNA.Services.Categories\BBC.DNA.Services.Categories.csproj", "{B6F288C5-806D-40F5-A1A2-14EACD78ACB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Common", "Source\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj", "{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Common.Tests", "Source\Shared\BBC.Dna.Common.Tests\BBC.Dna.Common.Tests.csproj", "{1A301836-3B83-4854-8F3A-EB778B6C4E82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.Users.Tests", "Source\Shared\BBC.Dna.Users.Tests\BBC.Dna.Users.Tests.csproj", "{1A62C0FE-7309-4E8A-B018-98FD26B4E672}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.DNA.Services.Users", "Source\Web Services\BBC.DNA.Services.Users\BBC.DNA.Services.Users.csproj", "{528B5353-0E55-4935-9F73-961603046DEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Articles", "Tests\FunctionalTests.Services.Articles\FunctionalTests.Services.Articles.csproj", "{EDC6001A-89AF-443B-91DF-1FBF3AFC6F4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Categories", "Tests\FunctionalTests.Services.Categories\FunctionalTests.Services.Categories.csproj", "{AC8105E5-8838-4871-80E8-93B8FB6C4C4E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Comments", "Tests\FunctionalTests.Services.Comments\FunctionalTests.Services.Comments.csproj", "{B0B274BF-EAD0-438F-AF11-C6E15E1287A7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {62AC310D-0AE3-4D92-A928-CA9291481B5A}
+		{4770D032-9B06-450D-8B00-7200D8330397} = {4770D032-9B06-450D-8B00-7200D8330397}
+		{A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77} = {A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77}
+		{528B5353-0E55-4935-9F73-961603046DEF} = {528B5353-0E55-4935-9F73-961603046DEF}
+		{BF321555-30BC-45A3-BF5F-0E381DE31FAE} = {BF321555-30BC-45A3-BF5F-0E381DE31FAE}
+		{ECAF0B64-57F6-4883-A633-93367D3BF1F1} = {ECAF0B64-57F6-4883-A633-93367D3BF1F1}
+		{B4EA926E-7D99-4077-8315-882F413B994D} = {B4EA926E-7D99-4077-8315-882F413B994D}
+		{C47CC990-90A2-457C-96A8-53722D81795A} = {C47CC990-90A2-457C-96A8-53722D81795A}
+		{B83A2AA4-D762-45E3-BB28-4B4A53D3C852} = {B83A2AA4-D762-45E3-BB28-4B4A53D3C852}
+		{B6F288C5-806D-40F5-A1A2-14EACD78ACB8} = {B6F288C5-806D-40F5-A1A2-14EACD78ACB8}
+		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B} = {5B2FC0E0-8C34-48F0-A57A-C46C5187834B}
+		{0F8243FA-0769-4A58-AC3F-12D51B6479DD} = {0F8243FA-0769-4A58-AC3F-12D51B6479DD}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Forums", "Tests\FunctionalTests.Services.Forums\FunctionalTests.Services.Forums.csproj", "{344FF2EF-8DD5-4FAB-991B-6A1D1E4B0F56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Moderation", "Tests\FunctionalTests.Services.Moderation\FunctionalTests.Services.Moderation.csproj", "{9CA32BFC-3AF7-411C-BBEC-1B232DEF0569}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.DnaPages", "Tests\FunctionalTests.DnaPages\FunctionalTests.DnaPages.csproj", "{1FC1E57E-9EE1-4A88-8D6C-60DA89013E8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.Services.Users", "Tests\FunctionalTests.Services.Users\FunctionalTests.Services.Users.csproj", "{8C787A7D-C6C1-45C7-A49F-F5D1952DE65F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DnaIdentityWebServiceProxy", "Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj", "{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.SocialAPI", "Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI.csproj", "{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalTests.SocialAPI", "Tests\FunctionalTests.SocialAPI\FunctionalTests.SocialAPI.csproj", "{235D41BF-8288-42AC-B932-7D6E225DDAD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BBC.Dna.SocialAPI.Tests", "Source\Shared\BBC.Dna.SocialAPI.Tests\BBC.Dna.SocialAPI.Tests.csproj", "{A4F7704F-4932-473A-91DB-FEA3EA317DA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Comments.AcceptanceTests", "Tests\Acceptance Tests\Comments.AcceptanceTests\Comments.AcceptanceTests.csproj", "{A36FD8B0-A1BB-4AD1-8BA8-404202FB6FE2}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TheGuide.Database.UnitTests", "Source\Databases\The Guide\TheGuide.Database.UnitTests\TheGuide.Database.UnitTests.csproj", "{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{297C92F9-6C1B-4C11-AE54-77658EC921DB}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 50
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = http://vp-dev-dna-1:8080/tfs/DNATeamProjectCollection
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Source\\BBC.Dna\\BBC.DNA.csproj
-		SccProjectTopLevelParentUniqueName1 = UserServices.sln
-		SccProjectName1 = Source/BBC.Dna
-		SccLocalPath1 = Source\\BBC.Dna
-		SccProjectUniqueName2 = Source\\Shared\\BBC.Dna.Api\\BBC.Dna.Api.csproj
-		SccProjectTopLevelParentUniqueName2 = UserServices.sln
-		SccProjectName2 = Source/Shared/BBC.Dna.Api
-		SccLocalPath2 = Source\\Shared\\BBC.Dna.Api
-		SccProjectUniqueName3 = Source\\Shared\\BBC.Dna.Data\\BBC.Dna.Data.csproj
-		SccProjectTopLevelParentUniqueName3 = UserServices.sln
-		SccProjectName3 = Source/Shared/BBC.Dna.Data
-		SccLocalPath3 = Source\\Shared\\BBC.Dna.Data
-		SccProjectUniqueName4 = Source\\Shared\\BBC.Dna.Moderation\\BBC.Dna.Moderation.csproj
-		SccProjectTopLevelParentUniqueName4 = UserServices.sln
-		SccProjectName4 = Source/Shared/BBC.Dna.Moderation
-		SccLocalPath4 = Source\\Shared\\BBC.Dna.Moderation
-		SccProjectUniqueName5 = Source\\Shared\\BBC.DNA.Moderation.Utils\\BBC.DNA.Moderation.Utils.csproj
-		SccProjectTopLevelParentUniqueName5 = UserServices.sln
-		SccProjectName5 = Source/Shared/BBC.DNA.Moderation.Utils
-		SccLocalPath5 = Source\\Shared\\BBC.DNA.Moderation.Utils
-		SccProjectUniqueName6 = Source\\Shared\\BBC.Dna.Objects\\BBC.Dna.Objects.csproj
-		SccProjectTopLevelParentUniqueName6 = UserServices.sln
-		SccProjectName6 = Source/Shared/BBC.Dna.Objects
-		SccLocalPath6 = Source\\Shared\\BBC.Dna.Objects
-		SccProjectUniqueName7 = Source\\Shared\\BBC.Dna.Services\\BBC.Dna.Services.csproj
-		SccProjectTopLevelParentUniqueName7 = UserServices.sln
-		SccProjectName7 = Source/Shared/BBC.Dna.Services
-		SccLocalPath7 = Source\\Shared\\BBC.Dna.Services
-		SccProjectUniqueName8 = Source\\Shared\\BBC.Dna.Sites\\BBC.Dna.Sites.csproj
-		SccProjectTopLevelParentUniqueName8 = UserServices.sln
-		SccProjectName8 = Source/Shared/BBC.Dna.Sites
-		SccLocalPath8 = Source\\Shared\\BBC.Dna.Sites
-		SccProjectUniqueName9 = Source\\Shared\\BBC.Dna.Users\\BBC.Dna.Users.csproj
-		SccProjectTopLevelParentUniqueName9 = UserServices.sln
-		SccProjectName9 = Source/Shared/BBC.Dna.Users
-		SccLocalPath9 = Source\\Shared\\BBC.Dna.Users
-		SccProjectUniqueName10 = Source\\Shared\\BBC.Dna.Utils\\BBC.Dna.Utils.csproj
-		SccProjectTopLevelParentUniqueName10 = UserServices.sln
-		SccProjectName10 = Source/Shared/BBC.Dna.Utils
-		SccLocalPath10 = Source\\Shared\\BBC.Dna.Utils
-		SccProjectUniqueName11 = Source\\Shared\\Memcached.ClientLibrary\\Memcached.ClientLibrary.csproj
-		SccProjectTopLevelParentUniqueName11 = UserServices.sln
-		SccProjectName11 = Source/Shared/Memcached.ClientLibrary
-		SccLocalPath11 = Source\\Shared\\Memcached.ClientLibrary
-		SccProjectUniqueName12 = Source\\Shared\\Microsoft.ServiceModel.Web\\Microsoft.ServiceModel.Web.csproj
-		SccProjectTopLevelParentUniqueName12 = UserServices.sln
-		SccProjectName12 = Source/Shared/Microsoft.ServiceModel.Web
-		SccLocalPath12 = Source\\Shared\\Microsoft.ServiceModel.Web
-		SccProjectUniqueName13 = Source\\Web\u0020Services\\BBC.DNA.Services.Comments\\BBC.DNA.Services.Comments.csproj
-		SccProjectTopLevelParentUniqueName13 = UserServices.sln
-		SccProjectName13 = Source/Web\u0020Services/BBC.DNA.Services.Comments
-		SccLocalPath13 = Source\\Web\u0020Services\\BBC.DNA.Services.Comments
-		SccProjectUniqueName14 = Source\\Web\u0020Services\\BBC.DNA.Services.Moderation\\BBC.DNA.Services.Moderation.csproj
-		SccProjectTopLevelParentUniqueName14 = UserServices.sln
-		SccProjectName14 = Source/Web\u0020Services/BBC.DNA.Services.Moderation
-		SccLocalPath14 = Source\\Web\u0020Services\\BBC.DNA.Services.Moderation
-		SccProjectUniqueName15 = Source\\Shared\\BBC.Dna.Objects.Tests\\BBC.Dna.Objects.Tests.csproj
-		SccProjectTopLevelParentUniqueName15 = UserServices.sln
-		SccProjectName15 = Source/Shared/BBC.Dna.Objects.Tests
-		SccLocalPath15 = Source\\Shared\\BBC.Dna.Objects.Tests
-		SccProjectUniqueName16 = Source\\Shared\\TestUtils\\TestUtils.csproj
-		SccProjectTopLevelParentUniqueName16 = UserServices.sln
-		SccProjectName16 = Source/Shared/TestUtils
-		SccLocalPath16 = Source\\Shared\\TestUtils
-		SccProjectUniqueName17 = Source\\Shared\\BBC.Dna.Utils.Tests\\BBC.Dna.Utils.Tests.csproj
-		SccProjectTopLevelParentUniqueName17 = UserServices.sln
-		SccProjectName17 = Source/Shared/BBC.Dna.Utils.Tests
-		SccLocalPath17 = Source\\Shared\\BBC.Dna.Utils.Tests
-		SccProjectUniqueName18 = Source\\Web\u0020Services\\BBC.DNA.Dnapages\\BBC.DNA.Dnapages.csproj
-		SccProjectTopLevelParentUniqueName18 = UserServices.sln
-		SccProjectName18 = Source/Web\u0020Services/BBC.DNA.Dnapages
-		SccLocalPath18 = Source\\Web\u0020Services\\BBC.DNA.Dnapages
-		SccProjectUniqueName19 = Tests\\Legacy\u0020Tests\\Tests\\Tests.csproj
-		SccProjectTopLevelParentUniqueName19 = UserServices.sln
-		SccProjectName19 = Tests/Legacy\u0020Tests/Tests
-		SccLocalPath19 = Tests\\Legacy\u0020Tests\\Tests
-		SccProjectUniqueName20 = Source\\Schemas\\Schemas.csproj
-		SccProjectTopLevelParentUniqueName20 = UserServices.sln
-		SccProjectName20 = Source/Schemas
-		SccLocalPath20 = Source\\Schemas
-		SccProjectUniqueName21 = Source\\Ripley\\ripleycore.vcproj
-		SccProjectTopLevelParentUniqueName21 = UserServices.sln
-		SccProjectName21 = Source/Ripley
-		SccLocalPath21 = Source\\Ripley
-		SccProjectUniqueName22 = Source\\Ripley\\RipleyServer.vcproj
-		SccProjectTopLevelParentUniqueName22 = UserServices.sln
-		SccProjectName22 = Source/Ripley
-		SccLocalPath22 = Source\\Ripley
-		SccProjectUniqueName23 = Tests\\Legacy\u0020Tests\\RipleyTests\\RipleyTests.csproj
-		SccProjectTopLevelParentUniqueName23 = UserServices.sln
-		SccProjectName23 = Tests/Legacy\u0020Tests/RipleyTests
-		SccLocalPath23 = Tests\\Legacy\u0020Tests\\RipleyTests
-		SccProjectUniqueName24 = Source\\Shared\\BBC.Dna.Data.Tests\\BBC.Dna.Data.Tests.csproj
-		SccProjectTopLevelParentUniqueName24 = UserServices.sln
-		SccProjectName24 = Source/Shared/BBC.Dna.Data.Tests
-		SccLocalPath24 = Source\\Shared\\BBC.Dna.Data.Tests
-		SccProjectUniqueName25 = Source\\Shared\\BBC.Dna.Sites.Tests\\BBC.Dna.Sites.Tests.csproj
-		SccProjectTopLevelParentUniqueName25 = UserServices.sln
-		SccProjectName25 = Source/Shared/BBC.Dna.Sites.Tests
-		SccLocalPath25 = Source\\Shared\\BBC.Dna.Sites.Tests
-		SccProjectUniqueName26 = Source\\Shared\\BBC.Dna.Moderation.Tests\\BBC.Dna.Moderation.Tests.csproj
-		SccProjectTopLevelParentUniqueName26 = UserServices.sln
-		SccProjectName26 = Source/Shared/BBC.Dna.Moderation.Tests
-		SccLocalPath26 = Source\\Shared\\BBC.Dna.Moderation.Tests
-		SccProjectUniqueName27 = Source\\Shared\\BBC.Dna.Moderation.Utils.Tests\\BBC.Dna.Moderation.Utils.Tests.csproj
-		SccProjectTopLevelParentUniqueName27 = UserServices.sln
-		SccProjectName27 = Source/Shared/BBC.Dna.Moderation.Utils.Tests
-		SccLocalPath27 = Source\\Shared\\BBC.Dna.Moderation.Utils.Tests
-		SccProjectUniqueName28 = Source\\Shared\\BBC.Dna.Api.Tests\\BBC.Dna.Api.Tests.csproj
-		SccProjectTopLevelParentUniqueName28 = UserServices.sln
-		SccProjectName28 = Source/Shared/BBC.Dna.Api.Tests
-		SccLocalPath28 = Source\\Shared\\BBC.Dna.Api.Tests
-		SccProjectUniqueName29 = Tests\\BBC.Dna.LoadTest\\BBC.Dna.LoadTest.csproj
-		SccProjectTopLevelParentUniqueName29 = UserServices.sln
-		SccProjectName29 = Tests/BBC.Dna.LoadTest
-		SccLocalPath29 = Tests\\BBC.Dna.LoadTest
-		SccProjectUniqueName30 = Source\\Web\u0020Services\\BBC.Dna.Services.Forums\\BBC.Dna.Services.Forums.csproj
-		SccProjectTopLevelParentUniqueName30 = UserServices.sln
-		SccProjectName30 = Source/Web\u0020Services/BBC.Dna.Services.Forums
-		SccLocalPath30 = Source\\Web\u0020Services\\BBC.Dna.Services.Forums
-		SccProjectUniqueName31 = Source\\Web\u0020Services\\BBC.Dna.Services.Articles\\BBC.DNA.Services.Articles.csproj
-		SccProjectTopLevelParentUniqueName31 = UserServices.sln
-		SccProjectName31 = Source/Web\u0020Services/BBC.Dna.Services.Articles
-		SccLocalPath31 = Source\\Web\u0020Services\\BBC.Dna.Services.Articles
-		SccProjectUniqueName32 = Source\\Web\u0020Services\\BBC.DNA.Services.Categories\\BBC.DNA.Services.Categories\\BBC.DNA.Services.Categories.csproj
-		SccProjectTopLevelParentUniqueName32 = UserServices.sln
-		SccProjectName32 = Source/Web\u0020Services/BBC.DNA.Services.Categories/BBC.DNA.Services.Categories
-		SccLocalPath32 = Source\\Web\u0020Services\\BBC.DNA.Services.Categories\\BBC.DNA.Services.Categories
-		SccProjectUniqueName33 = Source\\Shared\\BBC.Dna.Common\\BBC.Dna.Common.csproj
-		SccProjectTopLevelParentUniqueName33 = UserServices.sln
-		SccProjectName33 = Source/Shared/BBC.Dna.Common
-		SccLocalPath33 = Source\\Shared\\BBC.Dna.Common
-		SccProjectUniqueName34 = Source\\Shared\\BBC.Dna.Common.Tests\\BBC.Dna.Common.Tests.csproj
-		SccProjectTopLevelParentUniqueName34 = UserServices.sln
-		SccProjectName34 = Source/Shared/BBC.Dna.Common.Tests
-		SccLocalPath34 = Source\\Shared\\BBC.Dna.Common.Tests
-		SccProjectUniqueName35 = Source\\Shared\\BBC.Dna.Users.Tests\\BBC.Dna.Users.Tests.csproj
-		SccProjectTopLevelParentUniqueName35 = UserServices.sln
-		SccProjectName35 = Source/Shared/BBC.Dna.Users.Tests
-		SccLocalPath35 = Source\\Shared\\BBC.Dna.Users.Tests
-		SccProjectUniqueName36 = Source\\Web\u0020Services\\BBC.DNA.Services.Users\\BBC.DNA.Services.Users.csproj
-		SccProjectTopLevelParentUniqueName36 = UserServices.sln
-		SccProjectName36 = Source/Web\u0020Services/BBC.DNA.Services.Users
-		SccLocalPath36 = Source\\Web\u0020Services\\BBC.DNA.Services.Users
-		SccProjectUniqueName37 = Tests\\FunctionalTests.Services.Articles\\FunctionalTests.Services.Articles.csproj
-		SccProjectTopLevelParentUniqueName37 = UserServices.sln
-		SccProjectName37 = Tests/FunctionalTests.Services.Articles
-		SccLocalPath37 = Tests\\FunctionalTests.Services.Articles
-		SccProjectUniqueName38 = Tests\\FunctionalTests.Services.Categories\\FunctionalTests.Services.Categories.csproj
-		SccProjectTopLevelParentUniqueName38 = UserServices.sln
-		SccProjectName38 = Tests/FunctionalTests.Services.Categories
-		SccLocalPath38 = Tests\\FunctionalTests.Services.Categories
-		SccProjectUniqueName39 = Tests\\FunctionalTests.Services.Comments\\FunctionalTests.Services.Comments.csproj
-		SccProjectTopLevelParentUniqueName39 = UserServices.sln
-		SccProjectName39 = Tests/FunctionalTests.Services.Comments
-		SccLocalPath39 = Tests\\FunctionalTests.Services.Comments
-		SccProjectUniqueName40 = Tests\\FunctionalTests.Services.Forums\\FunctionalTests.Services.Forums.csproj
-		SccProjectTopLevelParentUniqueName40 = UserServices.sln
-		SccProjectName40 = Tests/FunctionalTests.Services.Forums
-		SccLocalPath40 = Tests\\FunctionalTests.Services.Forums
-		SccProjectUniqueName41 = Tests\\FunctionalTests.Services.Moderation\\FunctionalTests.Services.Moderation.csproj
-		SccProjectTopLevelParentUniqueName41 = UserServices.sln
-		SccProjectName41 = Tests/FunctionalTests.Services.Moderation
-		SccLocalPath41 = Tests\\FunctionalTests.Services.Moderation
-		SccProjectUniqueName42 = Tests\\FunctionalTests.DnaPages\\FunctionalTests.DnaPages.csproj
-		SccProjectTopLevelParentUniqueName42 = UserServices.sln
-		SccProjectName42 = Tests/FunctionalTests.DnaPages
-		SccLocalPath42 = Tests\\FunctionalTests.DnaPages
-		SccProjectUniqueName43 = Tests\\FunctionalTests.Services.Users\\FunctionalTests.Services.Users.csproj
-		SccProjectTopLevelParentUniqueName43 = UserServices.sln
-		SccProjectName43 = Tests/FunctionalTests.Services.Users
-		SccLocalPath43 = Tests\\FunctionalTests.Services.Users
-		SccProjectUniqueName44 = Source\\Shared\\DnaIdentityWebServiceProxy\\DnaIdentityWebServiceProxy.csproj
-		SccProjectTopLevelParentUniqueName44 = UserServices.sln
-		SccProjectName44 = Source/Shared/DnaIdentityWebServiceProxy
-		SccLocalPath44 = Source\\Shared\\DnaIdentityWebServiceProxy
-		SccProjectUniqueName45 = Source\\Shared\\BBC.Dna.SocialAPI\\BBC.Dna.SocialAPI.csproj
-		SccProjectTopLevelParentUniqueName45 = UserServices.sln
-		SccProjectName45 = Source/Shared/BBC.Dna.SocialAPI
-		SccLocalPath45 = Source\\Shared\\BBC.Dna.SocialAPI
-		SccProjectUniqueName46 = Tests\\FunctionalTests.SocialAPI\\FunctionalTests.SocialAPI.csproj
-		SccProjectTopLevelParentUniqueName46 = UserServices.sln
-		SccProjectName46 = Tests/FunctionalTests.SocialAPI
-		SccLocalPath46 = Tests\\FunctionalTests.SocialAPI
-		SccProjectUniqueName47 = Source\\Shared\\BBC.Dna.SocialAPI.Tests\\BBC.Dna.SocialAPI.Tests.csproj
-		SccProjectTopLevelParentUniqueName47 = UserServices.sln
-		SccProjectName47 = Source/Shared/BBC.Dna.SocialAPI.Tests
-		SccLocalPath47 = Source\\Shared\\BBC.Dna.SocialAPI.Tests
-		SccProjectUniqueName48 = Tests\\Acceptance\u0020Tests\\Comments.AcceptanceTests\\Comments.AcceptanceTests.csproj
-		SccProjectTopLevelParentUniqueName48 = UserServices.sln
-		SccProjectName48 = Tests/Acceptance\u0020Tests/Comments.AcceptanceTests
-		SccLocalPath48 = Tests\\Acceptance\u0020Tests\\Comments.AcceptanceTests
-		SccProjectUniqueName49 = Source\\Databases\\The\u0020Guide\\TheGuide.Database.UnitTests\\TheGuide.Database.UnitTests.csproj
-		SccProjectTopLevelParentUniqueName49 = UserServices.sln
-		SccProjectName49 = Source/Databases/The\u0020Guide/TheGuide.Database.UnitTests
-		SccLocalPath49 = Source\\Databases\\The\u0020Guide\\TheGuide.Database.UnitTests
-	EndGlobalSection
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = UserServices2.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
 		Debug|Any CPU = Debug|Any CPU
@@ -2325,7 +2123,6 @@ Global
 		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Any CPU.ActiveCfg = Release|Any CPU
 		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Any CPU.Build.0 = Release|Any CPU
 		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Mixed Platforms.Build.0 = Release|Any CPU
 		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79}.Retail|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
@@ -2334,12 +2131,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3FEECA36-C430-42EB-B37D-01EB46BA0875} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{611F017D-BA2C-40F0-B8EB-572363E37B11} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
-		{665D577F-30EE-4385-9A71-6478DFC0C15B} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
-		{444038EE-D867-45BE-87CA-062461221E5F} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
-		{E2971637-C176-41F1-9C2B-A60A2249BBF8} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
-		{1716050D-1B1B-4AF8-BF48-EE87B3D92431} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
-		{9FAA2099-F8F7-4C4C-8215-B43550329717} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
-		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF} = {3FEECA36-C430-42EB-B37D-01EB46BA0875}
 		{2BF3EB98-483E-4C8D-98B7-C0BE3F649C39} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{DA384153-9F00-48D4-AEC8-3D445FB65C95} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{E8CACC67-1E8F-4142-B2DE-1BAC73309E6C} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
@@ -2351,66 +2142,73 @@ Global
 		{6327E7F4-5495-4A9C-8B7D-D55234DD7679} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{D651DDAE-4623-4E78-83B5-6905A0CEEC16} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{67595DFD-E528-4F60-8298-5A3484BE5E28} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
-		{54187AB7-0320-401A-948D-F1AE381F3D2C} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
-		{6508FDD8-346E-436F-A19C-BE414A86B67A} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
-		{32224DE1-B8BD-4910-BFD6-0786C86F76EC} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
-		{F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
-		{A46E6756-CA6A-4C8A-A063-8515AFD1C614} = {2BF3EB98-483E-4C8D-98B7-C0BE3F649C39}
-		{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9} = {2BF3EB98-483E-4C8D-98B7-C0BE3F649C39}
-		{F79CF818-D597-4C2F-A61D-87773951E234} = {DA384153-9F00-48D4-AEC8-3D445FB65C95}
-		{0B6597BC-1CC6-4D5B-8850-94E750B4B413} = {DA384153-9F00-48D4-AEC8-3D445FB65C95}
-		{ED8FAD29-DC4F-40DC-A275-45D215591FA2} = {E8CACC67-1E8F-4142-B2DE-1BAC73309E6C}
-		{4F451D92-54A1-4013-B703-8F339F741935} = {E8CACC67-1E8F-4142-B2DE-1BAC73309E6C}
-		{8EB8245F-927C-469B-9DBB-4BAED2A9F420} = {38F22A8A-7C67-4D41-8294-5C5FE31FF325}
-		{CD50FF01-F604-4C12-BFE7-199CE495313F} = {38F22A8A-7C67-4D41-8294-5C5FE31FF325}
-		{B4EA926E-7D99-4077-8315-882F413B994D} = {EE3A6C77-9CAC-43F3-ACFF-190C3E584B0A}
-		{13939AC3-85A5-40DC-BD6E-8211451D27BB} = {EE3A6C77-9CAC-43F3-ACFF-190C3E584B0A}
-		{A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77} = {E34060C1-4265-4040-AFB2-3CBE4A98E38A}
-		{2CE05465-9B21-4CD9-A592-FABD2AD051B3} = {0FDD2665-B401-48BC-92F9-2BFE1B5A5E86}
-		{7F2FFC4C-5BE6-4761-BA26-D97C5E6D877A} = {0FDD2665-B401-48BC-92F9-2BFE1B5A5E86}
-		{19609A9E-E93A-4106-8529-F3A6C7DE9BF7} = {C9A343BA-0502-4C5F-B347-FB8150000926}
-		{1A62C0FE-7309-4E8A-B018-98FD26B4E672} = {C9A343BA-0502-4C5F-B347-FB8150000926}
-		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D} = {6327E7F4-5495-4A9C-8B7D-D55234DD7679}
-		{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B} = {6327E7F4-5495-4A9C-8B7D-D55234DD7679}
-		{4770D032-9B06-450D-8B00-7200D8330397} = {D651DDAE-4623-4E78-83B5-6905A0CEEC16}
-		{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3} = {67595DFD-E528-4F60-8298-5A3484BE5E28}
+		{665D577F-30EE-4385-9A71-6478DFC0C15B} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{FF6B0888-50F6-4B13-B804-3E010866916E} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
 		{06315016-E046-45CD-B63F-B68A10D3A8C8} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
-		{F89247D0-E5BB-4959-98D1-BDA98CA127D9} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
-		{6C3A9796-633A-4738-B003-BDBA5ABE3FD8} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
-		{96C76C5A-C07C-4269-A7D5-934AEE606719} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
-		{1B24DDDB-2681-4E12-9DD1-A42239CD0A47} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
-		{1283DADF-1D96-40D9-BA0D-0CABA59D3E8B} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
-		{E4C34C5F-5F3B-4A43-A2BF-E593E1884786} = {FF6B0888-50F6-4B13-B804-3E010866916E}
-		{BF321555-30BC-45A3-BF5F-0E381DE31FAE} = {06315016-E046-45CD-B63F-B68A10D3A8C8}
+		{444038EE-D867-45BE-87CA-062461221E5F} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{A135E839-C263-4171-A2B3-E1D41355B6BB} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{4F19FE89-637B-4B05-A067-C868B2FF5BF1} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{54187AB7-0320-401A-948D-F1AE381F3D2C} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
 		{B52F7B8B-91F4-4003-B2C8-9419238E2508} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{EA19FCEE-4091-44A3-BD72-B0267FF2F4FE} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
 		{C3B6D85B-AA27-4DB4-B42A-4967AFC08BC6} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{F89247D0-E5BB-4959-98D1-BDA98CA127D9} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
+		{E2971637-C176-41F1-9C2B-A60A2249BBF8} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{E23162C3-B3CA-4DEC-910A-EB7187BA0B8C} = {444038EE-D867-45BE-87CA-062461221E5F}
 		{88B566EF-02FA-4C58-A4E7-4BCC0E6C6091} = {444038EE-D867-45BE-87CA-062461221E5F}
-		{8E8A516A-78B2-47D5-9127-B344BB9DA7A2} = {444038EE-D867-45BE-87CA-062461221E5F}
-		{BC740ACE-593B-4680-831C-F921CDCC7BD5} = {444038EE-D867-45BE-87CA-062461221E5F}
-		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {54187AB7-0320-401A-948D-F1AE381F3D2C}
-		{9BBD8F57-2EF3-47E2-9244-1930752A4FAF} = {C55F7869-3C5D-42AD-B4A5-A847BB965D4D}
-		{EA19FCEE-4091-44A3-BD72-B0267FF2F4FE} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
-		{635A0283-226B-42FA-BCF4-8144BA92A77E} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
-		{BE2CBAEA-4814-4DBD-AE46-FBA06D24EEF8} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
-		{6049CBC4-1622-46D4-AA01-E528106493EC} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
-		{351113F5-DBA7-4AE0-A218-1FFD165D1747} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
-		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
-		{C47CC990-90A2-457C-96A8-53722D81795A} = {F89247D0-E5BB-4959-98D1-BDA98CA127D9}
-		{C32DB42E-9E40-4963-82D1-A968FAB86583} = {E2971637-C176-41F1-9C2B-A60A2249BBF8}
-		{ECAF0B64-57F6-4883-A633-93367D3BF1F1} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
-		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
+		{1716050D-1B1B-4AF8-BF48-EE87B3D92431} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
 		{321FDD86-CD72-457D-A8AF-5038B62C52FE} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
 		{37B81E1F-D9D4-448A-B792-EF06F94A259B} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
 		{41C0ED7D-DF87-4C6D-9E93-DEAC789E2904} = {321FDD86-CD72-457D-A8AF-5038B62C52FE}
+		{6C3A9796-633A-4738-B003-BDBA5ABE3FD8} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
+		{96C76C5A-C07C-4269-A7D5-934AEE606719} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
+		{1B24DDDB-2681-4E12-9DD1-A42239CD0A47} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
+		{6508FDD8-346E-436F-A19C-BE414A86B67A} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
+		{1283DADF-1D96-40D9-BA0D-0CABA59D3E8B} = {665D577F-30EE-4385-9A71-6478DFC0C15B}
+		{635A0283-226B-42FA-BCF4-8144BA92A77E} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
+		{32224DE1-B8BD-4910-BFD6-0786C86F76EC} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
+		{9BBD8F57-2EF3-47E2-9244-1930752A4FAF} = {C55F7869-3C5D-42AD-B4A5-A847BB965D4D}
+		{8E8A516A-78B2-47D5-9127-B344BB9DA7A2} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B} = {611F017D-BA2C-40F0-B8EB-572363E37B11}
+		{BE2CBAEA-4814-4DBD-AE46-FBA06D24EEF8} = {B3785050-CB28-428E-8454-FD261DBD2EE5}
+		{BC740ACE-593B-4680-831C-F921CDCC7BD5} = {444038EE-D867-45BE-87CA-062461221E5F}
+		{9FAA2099-F8F7-4C4C-8215-B43550329717} = {47FA8425-900C-4CD5-AA0E-325CF31432A4}
+		{A305BD2D-8CEF-44DB-BE5E-BD8EC409CEDC} = {9FAA2099-F8F7-4C4C-8215-B43550329717}
+		{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF} = {3FEECA36-C430-42EB-B37D-01EB46BA0875}
+		{A46E6756-CA6A-4C8A-A063-8515AFD1C614} = {2BF3EB98-483E-4C8D-98B7-C0BE3F649C39}
+		{F79CF818-D597-4C2F-A61D-87773951E234} = {DA384153-9F00-48D4-AEC8-3D445FB65C95}
+		{ED8FAD29-DC4F-40DC-A275-45D215591FA2} = {E8CACC67-1E8F-4142-B2DE-1BAC73309E6C}
+		{8EB8245F-927C-469B-9DBB-4BAED2A9F420} = {38F22A8A-7C67-4D41-8294-5C5FE31FF325}
+		{B4EA926E-7D99-4077-8315-882F413B994D} = {EE3A6C77-9CAC-43F3-ACFF-190C3E584B0A}
+		{A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77} = {E34060C1-4265-4040-AFB2-3CBE4A98E38A}
+		{2CE05465-9B21-4CD9-A592-FABD2AD051B3} = {0FDD2665-B401-48BC-92F9-2BFE1B5A5E86}
+		{19609A9E-E93A-4106-8529-F3A6C7DE9BF7} = {C9A343BA-0502-4C5F-B347-FB8150000926}
+		{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D} = {6327E7F4-5495-4A9C-8B7D-D55234DD7679}
+		{4770D032-9B06-450D-8B00-7200D8330397} = {D651DDAE-4623-4E78-83B5-6905A0CEEC16}
+		{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3} = {67595DFD-E528-4F60-8298-5A3484BE5E28}
+		{E4C34C5F-5F3B-4A43-A2BF-E593E1884786} = {FF6B0888-50F6-4B13-B804-3E010866916E}
+		{BF321555-30BC-45A3-BF5F-0E381DE31FAE} = {06315016-E046-45CD-B63F-B68A10D3A8C8}
+		{13939AC3-85A5-40DC-BD6E-8211451D27BB} = {EE3A6C77-9CAC-43F3-ACFF-190C3E584B0A}
+		{E09BF891-7D4F-403E-B830-B9E2606D2C22} = {54187AB7-0320-401A-948D-F1AE381F3D2C}
+		{E061D2F5-BEC1-43DA-B5F6-51DBFFAA012B} = {6327E7F4-5495-4A9C-8B7D-D55234DD7679}
+		{C47CC990-90A2-457C-96A8-53722D81795A} = {F89247D0-E5BB-4959-98D1-BDA98CA127D9}
+		{6049CBC4-1622-46D4-AA01-E528106493EC} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
+		{C32DB42E-9E40-4963-82D1-A968FAB86583} = {E2971637-C176-41F1-9C2B-A60A2249BBF8}
+		{ECAF0B64-57F6-4883-A633-93367D3BF1F1} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
+		{62AC310D-0AE3-4D92-A928-CA9291481B5A} = {1716050D-1B1B-4AF8-BF48-EE87B3D92431}
+		{351113F5-DBA7-4AE0-A218-1FFD165D1747} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
+		{0B6597BC-1CC6-4D5B-8850-94E750B4B413} = {DA384153-9F00-48D4-AEC8-3D445FB65C95}
+		{7F2FFC4C-5BE6-4761-BA26-D97C5E6D877A} = {0FDD2665-B401-48BC-92F9-2BFE1B5A5E86}
+		{4F451D92-54A1-4013-B703-8F339F741935} = {E8CACC67-1E8F-4142-B2DE-1BAC73309E6C}
+		{CD50FF01-F604-4C12-BFE7-199CE495313F} = {38F22A8A-7C67-4D41-8294-5C5FE31FF325}
+		{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9} = {2BF3EB98-483E-4C8D-98B7-C0BE3F649C39}
+		{05EB7EC8-AAFF-48BA-B87C-3A45000A32E6} = {EA19FCEE-4091-44A3-BD72-B0267FF2F4FE}
 		{0F8243FA-0769-4A58-AC3F-12D51B6479DD} = {6C3A9796-633A-4738-B003-BDBA5ABE3FD8}
 		{B83A2AA4-D762-45E3-BB28-4B4A53D3C852} = {96C76C5A-C07C-4269-A7D5-934AEE606719}
 		{B6F288C5-806D-40F5-A1A2-14EACD78ACB8} = {1B24DDDB-2681-4E12-9DD1-A42239CD0A47}
 		{91E43B51-747D-4D9F-8416-9F65EC6D2D8E} = {6508FDD8-346E-436F-A19C-BE414A86B67A}
 		{1A301836-3B83-4854-8F3A-EB778B6C4E82} = {6508FDD8-346E-436F-A19C-BE414A86B67A}
+		{1A62C0FE-7309-4E8A-B018-98FD26B4E672} = {C9A343BA-0502-4C5F-B347-FB8150000926}
 		{528B5353-0E55-4935-9F73-961603046DEF} = {1283DADF-1D96-40D9-BA0D-0CABA59D3E8B}
 		{EDC6001A-89AF-443B-91DF-1FBF3AFC6F4E} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
 		{AC8105E5-8838-4871-80E8-93B8FB6C4C4E} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
@@ -2419,13 +2217,15 @@ Global
 		{9CA32BFC-3AF7-411C-BBEC-1B232DEF0569} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
 		{1FC1E57E-9EE1-4A88-8D6C-60DA89013E8A} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
 		{8C787A7D-C6C1-45C7-A49F-F5D1952DE65F} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
-		{235D41BF-8288-42AC-B932-7D6E225DDAD0} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
 		{5B2FC0E0-8C34-48F0-A57A-C46C5187834B} = {32224DE1-B8BD-4910-BFD6-0786C86F76EC}
 		{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D} = {F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B}
+		{235D41BF-8288-42AC-B932-7D6E225DDAD0} = {635A0283-226B-42FA-BCF4-8144BA92A77E}
 		{A4F7704F-4932-473A-91DB-FEA3EA317DA7} = {F09386DB-F16F-4EA2-B2C2-C3A90C43AE5B}
 		{A36FD8B0-A1BB-4AD1-8BA8-404202FB6FE2} = {BE2CBAEA-4814-4DBD-AE46-FBA06D24EEF8}
-		{A305BD2D-8CEF-44DB-BE5E-BD8EC409CEDC} = {9FAA2099-F8F7-4C4C-8215-B43550329717}
 		{EC38C9F4-BA6B-4DCD-92D1-48B6791CDB79} = {A305BD2D-8CEF-44DB-BE5E-BD8EC409CEDC}
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = UserServices2.vsmdi
 	EndGlobalSection
 	GlobalSection(TextTemplating) = postSolution
 		TextTemplating = 1

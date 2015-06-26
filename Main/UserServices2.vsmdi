@@ -1,5 +1,5 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<TestLists xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestLists xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <TestList name="ArticleService" id="1365fa20-ecaf-4b49-a109-ef4b29614432" parentListId="3a0ccdac-7f16-4aaa-8e53-b54295e6eaef">
     <TestLinks>
       <TestLink id="c4bc1b47-b8b2-15ab-8004-88a152e42dcb" name="UpdateArticle_WithHTML_AndCheckItsReturnedWithAFreshGet" storage="tests\functionaltests.services.articles\bin\debug\functionaltests.services.articles.dll" type="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestElement, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.ObjectModel,   PublicKeyToken=b03f5f7f11d50a3a" />
