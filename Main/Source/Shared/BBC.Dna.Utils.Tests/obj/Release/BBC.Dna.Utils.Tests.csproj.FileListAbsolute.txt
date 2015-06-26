@@ -1,1 +1,0 @@
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.Utils.Tests\obj\Release\BBC.Dna.Utils.Tests.csprojResolveAssemblyReference.cache

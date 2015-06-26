@@ -1,7 +1,0 @@
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Debug\BBC.Dna.SocialAPI.dll
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Debug\BBC.Dna.SocialAPI.pdb
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Debug\HtmlAgilityPack.dll
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Debug\HtmlAgilityPack.pdb
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Debug\HtmlAgilityPack.xml
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\obj\Debug\BBC.Dna.SocialAPI.dll
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\obj\Debug\BBC.Dna.SocialAPI.pdb

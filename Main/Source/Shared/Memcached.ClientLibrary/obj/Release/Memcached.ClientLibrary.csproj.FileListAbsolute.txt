@@ -1,7 +1,0 @@
-C:\ws\projects\DNA\Main\Source\Reference DLLs\bin\Release\Memcached.ClientLibrary.dll
-C:\ws\projects\DNA\Main\Source\Reference DLLs\bin\Release\Memcached.ClientLibrary.pdb
-C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\obj\Release\Memcached.ClientLibrary.StringMessages.resources
-C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\obj\Release\Memcached.ClientLibrary.csproj.GenerateResource.Cache
-C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\obj\Release\Memcached.ClientLibrary.dll
-C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\obj\Release\Memcached.ClientLibrary.pdb
-C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\obj\Release\Memcached.ClientLibrary.csprojResolveAssemblyReference.cache

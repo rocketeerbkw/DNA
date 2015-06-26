@@ -1,5 +1,0 @@
-C:\ws\projects\DNA\Main\Source\Reference DLLs\bin\Release\BBC.Dna.Data.dll
-C:\ws\projects\DNA\Main\Source\Reference DLLs\bin\Release\BBC.Dna.Data.pdb
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.Data\obj\Release\BBC.Dna.Data.csprojResolveAssemblyReference.cache
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.Data\obj\Release\BBC.Dna.Data.dll
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.Data\obj\Release\BBC.Dna.Data.pdb

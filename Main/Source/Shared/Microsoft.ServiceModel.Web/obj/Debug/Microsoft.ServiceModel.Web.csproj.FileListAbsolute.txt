@@ -1,4 +1,0 @@
-C:\ws\projects\DNA\Main\Source\Shared\Microsoft.ServiceModel.Web\bin\debug\Microsoft.ServiceModel.Web.dll
-C:\ws\projects\DNA\Main\Source\Shared\Microsoft.ServiceModel.Web\bin\debug\Microsoft.ServiceModel.Web.pdb
-C:\ws\projects\DNA\Main\Source\Shared\Microsoft.ServiceModel.Web\obj\Debug\Microsoft.ServiceModel.Web.dll
-C:\ws\projects\DNA\Main\Source\Shared\Microsoft.ServiceModel.Web\obj\Debug\Microsoft.ServiceModel.Web.pdb

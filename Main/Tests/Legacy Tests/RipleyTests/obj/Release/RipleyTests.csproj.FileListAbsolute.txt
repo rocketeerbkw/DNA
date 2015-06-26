@@ -1,1 +1,0 @@
-C:\ws\projects\DNA\Main\Tests\Legacy Tests\RipleyTests\obj\Release\RipleyTests.csprojResolveAssemblyReference.cache

@@ -1,8 +1,0 @@
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Release\BBC.Dna.SocialAPI.dll
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Release\BBC.Dna.SocialAPI.pdb
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Release\HtmlAgilityPack.dll
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Release\HtmlAgilityPack.pdb
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\bin\Release\HtmlAgilityPack.xml
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\obj\Release\BBC.Dna.SocialAPI.dll
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\obj\Release\BBC.Dna.SocialAPI.pdb
-C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI\obj\Release\BBC.Dna.SocialAPI.csprojResolveAssemblyReference.cache
