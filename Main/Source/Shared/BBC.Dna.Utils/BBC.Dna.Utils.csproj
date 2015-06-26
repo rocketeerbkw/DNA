@@ -10,13 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BBC.Dna.Utils</RootNamespace>
     <AssemblyName>BBC.Dna.Utils</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>BBC.Dna.snk</AssemblyOriginatorKeyFile>
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <FileUpgradeFlags>
@@ -37,6 +37,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -194,7 +195,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj">
       <Project>{4770D032-9B06-450D-8B00-7200D8330397}</Project>
-      <Name>Memcached.ClientLibrary %28Source\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary%29</Name>
+      <Name>Memcached.ClientLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

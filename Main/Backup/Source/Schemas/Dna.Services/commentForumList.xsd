@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:i="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="BBC.Dna.Api" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="BBC.Dna.Api">
+	<xs:include schemaLocation="commentForum.xsd"/>
+	<xs:include schemaLocation="pagingOptions.xsd"/>
+	<xs:element name="commentForumList" >
+		<xs:complexType>
+			<xs:sequence>
+				<xs:group ref="pagingOptions"/>
+				<xs:element name="commentForums">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="commentForum" maxOccurs="unbounded" minOccurs="0"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

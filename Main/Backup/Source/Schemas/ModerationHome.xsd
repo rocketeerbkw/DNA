@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="User.xsd" />
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="MODERATOR-HOME">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MODERATOR">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER" minOccurs="0"/>
+              <xs:element name="CLASSES">
+                <xs:complexType>
+                  <xs:sequence minOccurs="0">
+                    <xs:element maxOccurs="unbounded" name="CLASSID" type="xs:unsignedByte" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+							<xs:element name="SITES">
+								<xs:complexType>
+                  <xs:sequence minOccurs="0">
+                    <xs:element maxOccurs="unbounded" name="SITE">
+											<xs:complexType>
+												<xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="CLASSID" type="xs:unsignedByte" use="required" />
+                        <xs:attribute name="TYPE" type="xs:unsignedByte" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+              <xs:element name="ACTIONITEMS">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element maxOccurs="unbounded" name="ACTIONITEM" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="TYPE" type="xs:string" />
+                          <xs:element name="TYPEINT" type="xs:unsignedByte" />
+                          <xs:element name="TOTAL" type="xs:unsignedByte" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+						</xs:sequence>
+						<xs:attribute name="ISMODERATOR" type="xs:unsignedByte" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MODERATION-QUEUES">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" name="MODERATION-QUEUE-SUMMARY">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="OBJECT-TYPE" type="xs:string" />
+										<xs:element name="STATE" type="xs:string" />
+										<xs:element ref="DATE" />
+									</xs:sequence>
+									<xs:attribute name="FASTMOD" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="CLASSID" type="xs:unsignedByte" use="required" />
+									<xs:attribute name="TIMELEFT" type="xs:int" use="required" />
+									<xs:attribute name="TOTAL" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="USER-ID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="ISREFEREE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="FASTMOD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="NOTFASTMOD" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

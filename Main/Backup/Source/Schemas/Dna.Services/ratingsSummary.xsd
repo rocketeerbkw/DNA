@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:i="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="BBC.Dna.Api" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="BBC.Dna.Api">
+	<xs:element name="ratingsSummary">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="editorPicksTotal" type="xs:int" />
+				<xs:element name="total" type="xs:int" />
+				<xs:element name="uri" type="xs:string" />
+				<xs:element name="totalPositiveNeroRating" type="xs:int" />
+				<xs:element name="totalNegativeNeroRating" type="xs:int" />
+				<xs:element name="average" type="xs:int" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

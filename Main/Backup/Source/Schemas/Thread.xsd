@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="user.xsd" />
+	<xs:include schemaLocation="Date.xsd" />
+	<xs:include schemaLocation="Post.xsd" />
+	<xs:element name="FORUMTHREADPOSTS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FIRSTPOSTSUBJECT" type="xs:string" minOccurs="0" />
+				<xs:element maxOccurs="unbounded" ref="POST" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="ALERTINSTANTLY" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="THREADID" type="xs:unsignedInt" use="optional" />
+			<xs:attribute name="THREAD" type="xs:unsignedInt" use="optional">
+				<xs:annotation>
+					<xs:documentation>
+						Legacy ripley attribute
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="FORUMPOSTCOUNT" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="FORUMPOSTLIMIT" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="TOTALPOSTCOUNT" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="MORE" type="xs:unsignedByte" use="optional" />
+			<xs:attribute name="GROUPALERTID" type="xs:unsignedInt" use="optional" />
+			<xs:attribute name="GUESTBOOK" type="xs:unsignedInt" use="optional" />
+			<xs:attribute name="ASCORDER" type="xs:unsignedByte" use="optional">
+				<xs:annotation>
+					<xs:documentation>
+						Legacy ripley attribute
+					</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

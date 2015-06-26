@@ -1,14 +1,14 @@
-﻿using System;
-using System.Web;
-using System.Configuration;
+﻿using BBC.Dna.Common;
+using BBC.Dna.Data;
+using BBC.Dna.Moderation;
+using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
+using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
-using BBC.Dna.Data;
-using BBC.Dna.Moderation.Utils;
-using BBC.Dna.Common;
-using BBC.Dna.Users;
-using BBC.Dna.Moderation;
+using System;
+using System.Configuration;
+using System.Web;
 
 namespace BBC.Dna.Services
 {
@@ -29,10 +29,10 @@ namespace BBC.Dna.Services
             {//do nothing if in maintenance
                 return;
             }
-            
-            Statistics.InitialiseIfEmpty(null,false);
+
+            Statistics.InitialiseIfEmpty(null, false);
             dnaDiagnostics = new DnaDiagnostics(RequestIdGenerator.GetNextRequestId(), DateTime.Now);
-            connectionString = ConfigurationManager.ConnectionStrings["database"].ConnectionString;
+            connectionString = ConfigurationManager.ConnectionStrings["Database"].ConnectionString;
             readerCreator = new DnaDataReaderCreator(connectionString, dnaDiagnostics);
 
             try

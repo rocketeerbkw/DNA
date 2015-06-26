@@ -1,11 +1,9 @@
-﻿using System;
+﻿using BBC.Dna.Data;
+using System;
 using System.Collections.Generic;
+using System.DirectoryServices;
 using System.Text;
 using System.Xml;
-using BBC.Dna.Data;
-using System.DirectoryServices;
-using System.Diagnostics;
-using System.Security.Permissions;
 
 namespace DnaIdentityWebServiceProxy
 {
@@ -504,7 +502,7 @@ namespace DnaIdentityWebServiceProxy
                 string rootPath = GetRunningDNAWebDirectoryRoot();
                 xmlDoc.Load(rootPath + @"\ripleyserver.xmlconf");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 LastError = "Failed to get config file. " + ex.Message;
                 return "";
@@ -550,7 +548,7 @@ namespace DnaIdentityWebServiceProxy
             string rootPath = "";
             try
             {
-                DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC","editor","editor");
+                DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC", "editor", "editor");
                 foreach (DirectoryEntry site in entry.Children)
                 {
                     if (site.SchemaClassName == "IIsWebServer")

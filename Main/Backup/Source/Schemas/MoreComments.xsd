@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Comments-List.xsd"/>
+	<xs:element name="MORECOMMENTS">
+		<xs:annotation>
+			<xs:documentation>Xml for the More Comments page for a user.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="COMMENTS-LIST"/>
+			</xs:sequence>
+			<xs:attribute name="USERID" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

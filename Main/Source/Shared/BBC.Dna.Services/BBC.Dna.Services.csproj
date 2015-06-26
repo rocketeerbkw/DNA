@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,14 +10,35 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BBC.Dna.Services</RootNamespace>
     <AssemblyName>BBC.Dna.Services</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>BBC.Dna.snk</AssemblyOriginatorKeyFile>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,11 +81,13 @@
     <Reference Include="System.ServiceModel">
       <RequiredTargetFramework>3.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.ServiceModel.Activation" />
     <Reference Include="System.ServiceModel.Web">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.Web.Extensions">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -101,47 +124,59 @@
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
       <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
-      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+      <Name>BBC.Dna.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
-      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+      <Name>BBC.Dna.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
       <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
-      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+      <Name>BBC.DNA.Moderation.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
       <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
-      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
+      <Name>BBC.Dna.Moderation</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
       <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
-      <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
+      <Name>BBC.Dna.Objects</Name>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
       <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
-      <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
+      <Name>Microsoft.ServiceModel.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Api\BBC.Dna.Api.csproj">
       <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
-      <Name>BBC.Dna.Api %28Source\Shared\BBC.Dna.Api\BBC.Dna.Api%29</Name>
+      <Name>BBC.Dna.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
-      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+      <Name>BBC.Dna.Sites</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Users\BBC.Dna.Users.csproj">
       <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
-      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+      <Name>BBC.Dna.Users</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
-      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+      <Name>BBC.Dna.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="BBC.Dna.snk" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

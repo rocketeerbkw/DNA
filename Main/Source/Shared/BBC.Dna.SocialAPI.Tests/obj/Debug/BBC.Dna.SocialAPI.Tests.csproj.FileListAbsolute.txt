@@ -1,0 +1,11 @@
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\bin\Debug\BBC.Dna.SocialAPI.Tests.dll.config
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\bin\Debug\BBC.Dna.SocialAPI.Tests.dll
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\bin\Debug\BBC.Dna.SocialAPI.Tests.pdb
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\bin\Debug\BBC.Dna.SocialAPI.dll
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\bin\Debug\HtmlAgilityPack.dll
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\bin\Debug\BBC.Dna.SocialAPI.pdb
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\bin\Debug\HtmlAgilityPack.pdb
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\bin\Debug\HtmlAgilityPack.xml
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\obj\Debug\BBC.Dna.SocialAPI.Tests.csprojResolveAssemblyReference.cache
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\obj\Debug\BBC.Dna.SocialAPI.Tests.dll
+C:\ws\projects\DNA\Main\Source\Shared\BBC.Dna.SocialAPI.Tests\obj\Debug\BBC.Dna.SocialAPI.Tests.pdb

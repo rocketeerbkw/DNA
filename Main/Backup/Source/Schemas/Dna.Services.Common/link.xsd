@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="date.xsd"/>
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:element name="link">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="type" type="xs:string"/>
+				<xs:element name="linkId" type="xs:int" />
+				<xs:element name="teamId" type="xs:int" />
+				<xs:element name="relationship" type="xs:string"/>
+				<xs:element name="private" type="xs:int" />
+				<xs:element name="dnaUid" type="xs:string" />
+				<xs:element name="description" type="xs:string" />
+				<xs:element name="submitter">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="user" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="datelinked">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="date" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

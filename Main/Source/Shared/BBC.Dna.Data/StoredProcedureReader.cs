@@ -1,3 +1,5 @@
+using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,10 +9,6 @@ using System.Data.SqlClient;
 using System.Data.SqlTypes;
 using System.Diagnostics;
 using System.Web.Caching;
-using BBC.Dna.Utils;
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-using System.Text;
-using System.Data.Common;
 
 namespace BBC.Dna.Data
 {
@@ -282,7 +280,7 @@ namespace BBC.Dna.Data
             {
                 if (DBNull.Value.Equals(_cmd.Parameters[name].Value))
                     return null;
-                
+
                 return (string)_cmd.Parameters[name].Value;
             }
             catch (Exception ex)
@@ -355,7 +353,7 @@ namespace BBC.Dna.Data
             }
             catch (Exception ex)
             {
-                string msg = string.Format("GetIntReturnValue failed for call to {0}",_name);
+                string msg = string.Format("GetIntReturnValue failed for call to {0}", _name);
                 throw new Exception(msg, ex);
             }
         }
@@ -459,7 +457,7 @@ namespace BBC.Dna.Data
         {
             using (new Tracer(this.GetType().Namespace))
             {
-//                _dnaDiagnostics.WriteToLog(this.GetType().Namespace, "Executing " + _name);
+                //                _dnaDiagnostics.WriteToLog(this.GetType().Namespace, "Executing " + _name);
                 Logger.Write("Executing " + _name, this.GetType().Namespace);
                 WriteTimedEventToLog("Executing " + _name);
 
@@ -1283,7 +1281,7 @@ namespace BBC.Dna.Data
             return _dataReader.GetInt64(i);
         }
 
-        
+
         /// <summary>
         /// Get the value of the specified column as a Int64.
         /// </summary>

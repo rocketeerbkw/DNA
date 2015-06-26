@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="Link.xsd"/>
+	<xs:include schemaLocation="DNARichTextElements.xsd"/>
+	<xs:complexType name="POST">
+		<xs:sequence>
+			<xs:element name="SUBJECT" type="xs:string"/>
+			<xs:element name="DATEPOSTED">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="DATE"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="LASTUPDATED" minOccurs="0">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element ref="DATE"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element ref="USER"/>
+			<xs:element name="TEXT">
+				<xs:annotation>
+					<xs:documentation>Text of post. N.B. mixed content element so can contain text nodes and child elements.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType mixed="true">
+					<xs:sequence>
+						<xs:group ref="DNARichTextElements" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="HOSTPAGEURL" minOccurs="0"/>
+			<xs:element name="COMMENTFORUMTITLE" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="POSTID" type="xs:int" use="required"/>
+		<xs:attribute name="THREAD" type="xs:int" use="optional">
+			<xs:annotation>
+				<xs:documentation>ID of the thread.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="INDEX" type="xs:int" use="required">
+			<xs:annotation>
+				<xs:documentation>The number of the post within the page.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="HIDDEN" type="xs:int" use="required">
+			<xs:annotation>
+				<xs:documentation>Hidden for moderation flag.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CANREAD" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Please see CanReadCanWriteAttributes.doc for semantics of this attribute.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="CANWRITE" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Please see CanReadCanWriteAttributes.doc for semantics of this attribute.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="NEXTINDEX" type="xs:int" use="optional">
+			<xs:annotation>
+				<xs:documentation>Links to the next post. If you are at the end of the list of posts on an index page then it will be a post on the next indexed page. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="PREVINDEX" type="xs:int" use="optional">
+			<xs:annotation>
+				<xs:documentation>Links to the previous post. If you are at the beginning of the list of posts on an index page then it will be a post on the previous indexed page. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="INREPLYTO" type="xs:int" use="optional">
+			<xs:annotation>
+				<xs:documentation>The ID of the post this post was in reply to.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+    <xs:attribute name="INREPLYTOINDEX" type="xs:int" use="optional">
+      <xs:annotation>
+        <xs:documentation>The INDEX of the post this post was in reply to.</xs:documentation>
+      </xs:annotation>
+    </xs:attribute>
+		<xs:attribute name="PREVSIBLING" type="xs:int" use="optional">
+			<xs:annotation>
+				<xs:documentation>The POSTID of the previous sibling post i.e. the previous reply to the post this was reply to. </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="NEXTSIBLING" type="xs:int" use="optional">
+			<xs:annotation>
+				<xs:documentation>The POSTID of the next sibling post i.e. the next reply to the post this was reply to. .</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="FIRSTCHILD" type="xs:int" use="optional">
+			<xs:annotation>
+				<xs:documentation>The POSTID of the first replay this post.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="EDITABLE" type="xs:boolean" use="optional">
+			<xs:annotation>
+				<xs:documentation>Whether the post is editable or not.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+</xs:schema>

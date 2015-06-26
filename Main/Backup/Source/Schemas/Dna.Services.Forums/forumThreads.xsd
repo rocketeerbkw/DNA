@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
+  <xs:include schemaLocation="../Dna.Services.Common/date.xsd"/>
+  <xs:element name="forumThreads">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="canRead" type="xs:boolean" />
+        <xs:element name="canWrite" type="xs:boolean" />
+        <xs:element name="defaultCanRead" type="xs:boolean" minOccurs="0"/>
+        <xs:element name="defaultCanWrite" type="xs:boolean" minOccurs="0" />
+        <xs:element name="forumId" type="xs:unsignedInt" />
+        <xs:element name="forumPostCount" type="xs:unsignedInt" />
+        <xs:element name="itemsPerPage" type="xs:unsignedInt" />
+        <xs:element name="lastForumUpdated" type="xs:dateTime" />
+        <xs:element name="lastThreadUpdated" type="xs:dateTime" />
+        <xs:element name="moderationStatus" type="xs:string" />
+        <xs:element name="siteId" type="xs:unsignedInt" />
+        <xs:element name="sortBy" type="xs:string" />
+        <xs:element name="startIndex" type="xs:unsignedInt" />
+        <xs:element name="threads">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="threadSummary">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="canRead" type="xs:boolean" />
+                    <xs:element name="canWrite" type="xs:boolean" />
+                    <xs:element name="dateLastPosted">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element ref="date" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="firstPost">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element ref="date" />
+                          <xs:element name="postId" type="xs:unsignedInt" />
+                          <xs:element name="status" type="xs:unsignedByte" />
+                          <xs:element name="text" type="xs:string" />
+                          <xs:element ref="user" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+					<xs:element name="forumId" type="xs:unsignedInt" />
+					<xs:element name="isSticky" type="xs:boolean" />
+                    <xs:element name="lastPost">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element ref="date" />
+                          <xs:element name="postId" type="xs:unsignedInt" />
+                          <xs:element name="status" type="xs:unsignedByte" />
+                          <xs:element name="text" type="xs:string" />
+                          <xs:element ref="user" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="subject" type="xs:string" />
+                    <xs:element name="threadId" type="xs:unsignedInt" />
+                    <xs:element name="totalPosts" type="xs:unsignedInt" />
+                    <xs:element name="type" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+		<xs:element name="totalCount" type="xs:unsignedInt" />
+		<xs:element name="totalThreads" type="xs:unsignedInt" />
+
+	  </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

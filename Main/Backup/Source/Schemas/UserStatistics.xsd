@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="USERSTATISTICS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="STARTDATE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ENDDATE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="USER" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element name="FORUM" maxOccurs="unbounded" >
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SUBJECT" type="xs:string" />
+							<xs:element name="SITEID" type="xs:unsignedByte" />
+							<xs:element name="SITENAME" type="xs:string" />
+							<xs:element name="URL" type="xs:string" />
+							<xs:element name="THREAD">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SUBJECT" />
+										<xs:element name="POST"  minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="SUBJECT" />
+													<xs:element name="BODY">
+														<xs:complexType mixed="true">
+															<xs:sequence>
+																<xs:element name="RICHPOST" minOccurs="0"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>	
+													<xs:element name="POSTINDEX" type="xs:unsignedByte" />
+													<xs:element name="DATEPOSTED">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="DATE"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="POSTID" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="THREADID" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="HIDDEN" type="xs:unsignedByte" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="THREADID" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="DISPLAYMODE" type="xs:string" use="required" />
+			<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="SHOW" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="MORE" type="xs:unsignedByte" use="optional" />
+			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="TOTAL" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="USERNAME" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,784 @@
+﻿Build started 21/06/2015 20:54:28.
+     1>Project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" on node 2 (Build target(s)).
+     1>Building with tools version "12.0".
+     1>Target "_CheckForInvalidConfigurationAndPlatform" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (entry point):
+       Task "Error" skipped, due to false condition; ( '$(_InvalidConfigurationError)' == 'true' ) was evaluated as ( '' == 'true' ).
+       Task "Warning" skipped, due to false condition; ( '$(_InvalidConfigurationWarning)' == 'true' ) was evaluated as ( '' == 'true' ).
+       Using "Message" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "Message"
+         Configuration=Release
+       Done executing task "Message".
+       Task "Message"
+         Platform=Win32
+       Done executing task "Message".
+       Task "Error" skipped, due to false condition; ('$(OutDir)' != '' and !HasTrailingSlash('$(OutDir)')) was evaluated as ('.\Release\' != '' and !HasTrailingSlash('.\Release\')).
+       Task "Error" skipped, due to false condition; ('$(BaseIntermediateOutputPath)' != '' and !HasTrailingSlash('$(BaseIntermediateOutputPath)')) was evaluated as ('obj\' != '' and !HasTrailingSlash('obj\')).
+       Task "Error" skipped, due to false condition; ('$(IntermediateOutputPath)' != '' and !HasTrailingSlash('$(IntermediateOutputPath)')) was evaluated as ('.\Release\' != '' and !HasTrailingSlash('.\Release\')).
+     1>Done building target "_CheckForInvalidConfigurationAndPlatform" in project "RipleyServer.vcxproj".
+     1>Target "_PrepareForBuild" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.BuildSteps.Targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Build" depends on it):
+       Task "CreateItem" skipped, due to false condition; ('%(CustomBuild.IncludeFileToTool)'!='') was evaluated as (''!='').
+     1>Done building target "_PrepareForBuild" in project "RipleyServer.vcxproj".
+     1>Target "_PrepareForReferenceResolution" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveReferences" depends on it):
+       Task "Message" skipped, due to false condition; ('$(_REFERENCE_DEBUG)'=='true') was evaluated as (''=='true').
+     1>Done building target "_PrepareForReferenceResolution" in project "RipleyServer.vcxproj".
+       Target "ComputeCrtSDKReference" skipped, due to false condition; ('@(ClCompile)'!='' and '$(WindowsAppContainer)'=='true' and '$(UseCrtSDKReference)' != 'false') was evaluated as ('RipleyServer.cpp'!='' and 'false'=='true' and '' != 'false').
+     1>Target "BeforeResolveReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveReferences" depends on it):
+     1>Done building target "BeforeResolveReferences" in project "RipleyServer.vcxproj".
+     1>Target "AssignProjectConfiguration" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveReferences" depends on it):
+       Using "AssignProjectConfiguration" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "AssignProjectConfiguration"
+         Project reference "ripleycore.vcxproj" has been assigned the "Release|Win32" configuration.
+       Done executing task "AssignProjectConfiguration".
+     1>Done building target "AssignProjectConfiguration" in project "RipleyServer.vcxproj".
+       Target "AssignProjectConfiguration" skipped. Previously built successfully.
+     1>Target "_SplitProjectReferencesByFileExistence" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveProjectReferences" depends on it):
+       Using "ResolveNonMSBuildProjectOutput" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "ResolveNonMSBuildProjectOutput"
+         Resolving project reference "ripleycore.vcxproj".
+         Project reference "ripleycore.vcxproj" has not been resolved.
+       Done executing task "ResolveNonMSBuildProjectOutput".
+     1>Done building target "_SplitProjectReferencesByFileExistence" in project "RipleyServer.vcxproj".
+     1>Target "_RemoveNameMetadataFromProjectReferenceItems" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveProjectReferences" depends on it):
+     1>Done building target "_RemoveNameMetadataFromProjectReferenceItems" in project "RipleyServer.vcxproj".
+     1>Target "ResolveProjectReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveReferences" depends on it):
+       Using "MSBuild" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "MSBuild"
+         Global Properties:
+           Configuration=Release
+           Platform=Win32
+     1>Project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (1) is building "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (2) on node 2 (GetTargetPath target(s)).
+     2>Building with tools version "12.0".
+     2>Target "_CheckForInvalidConfigurationAndPlatform" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (entry point):
+       Task "Error" skipped, due to false condition; ( '$(_InvalidConfigurationError)' == 'true' ) was evaluated as ( '' == 'true' ).
+       Task "Warning" skipped, due to false condition; ( '$(_InvalidConfigurationWarning)' == 'true' ) was evaluated as ( '' == 'true' ).
+       Task "Message"
+         Configuration=Release
+       Done executing task "Message".
+       Task "Message"
+         Platform=Win32
+       Done executing task "Message".
+       Task "Error" skipped, due to false condition; ('$(OutDir)' != '' and !HasTrailingSlash('$(OutDir)')) was evaluated as ('.\Release\' != '' and !HasTrailingSlash('.\Release\')).
+       Task "Error" skipped, due to false condition; ('$(BaseIntermediateOutputPath)' != '' and !HasTrailingSlash('$(BaseIntermediateOutputPath)')) was evaluated as ('obj\' != '' and !HasTrailingSlash('obj\')).
+       Task "Error" skipped, due to false condition; ('$(IntermediateOutputPath)' != '' and !HasTrailingSlash('$(IntermediateOutputPath)')) was evaluated as ('.\Release\' != '' and !HasTrailingSlash('.\Release\')).
+     2>Done building target "_CheckForInvalidConfigurationAndPlatform" in project "ripleycore.vcxproj".
+     2>Target "_PrepareForReferenceResolution" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "GetTargetPath" depends on it):
+       Task "Message" skipped, due to false condition; ('$(_REFERENCE_DEBUG)'=='true') was evaluated as (''=='true').
+     2>Done building target "_PrepareForReferenceResolution" in project "ripleycore.vcxproj".
+     2>Target "GetResolvedWinMD" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "GetTargetPath" depends on it):
+     2>Done building target "GetResolvedWinMD" in project "ripleycore.vcxproj".
+     2>Target "GetTargetPath" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (entry point):
+     2>Done building target "GetTargetPath" in project "ripleycore.vcxproj".
+     2>Done Building Project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (GetTargetPath target(s)).
+     1>Done executing task "MSBuild".
+       Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' == '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('true' == 'true' and 'ripleycore.vcxproj' != '' and ('true' == 'true' or 'true' != 'true') and '12.0' == '10.0' and 'ripleycore.vcxproj' != '').
+       Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '$(BuildingInsideVisualStudio)' != 'true' and '$(BuildProjectReferences)' == 'true' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('true' == 'true' and 'ripleycore.vcxproj' != '' and 'true' != 'true' and 'true' == 'true' and 'ripleycore.vcxproj' != '').
+       Task "MSBuild"
+         Global Properties:
+           Configuration=Release
+           Platform=Win32
+     1>Project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (1) is building "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (2:2) on node 2 (GetNativeManifest target(s)).
+   2:2>Building with tools version "12.0".
+       Target "_CheckForInvalidConfigurationAndPlatform" skipped. Previously built successfully.
+   2:2>Target "GetNativeManifest" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (entry point):
+   2:2>Done building target "GetNativeManifest" in project "ripleycore.vcxproj".
+   2:2>Done Building Project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (GetNativeManifest target(s)).
+     1>Done executing task "MSBuild".
+       Task "Warning" skipped, due to false condition; ('@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceNonexistent)' != '') was evaluated as ('ripleycore.vcxproj' != '' and '' != '').
+     1>Done building target "ResolveProjectReferences" in project "RipleyServer.vcxproj".
+       Target "FindInvalidProjectReferences" skipped, due to false condition; ('$(FindInvalidProjectReferences)' == 'true') was evaluated as ('' == 'true').
+       Target "ResolveNativeReferences" skipped, due to false condition; ('@(NativeReference)'!='') was evaluated as (''!='').
+       Target "_PrepareForReferenceResolution" skipped. Previously built successfully.
+     1>Target "GetFrameworkPaths" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.NetFramework.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+     1>Done building target "GetFrameworkPaths" in project "RipleyServer.vcxproj".
+       Target "GetWinFXPath" skipped, due to false condition; (('@(Page)' != '' or '@(ApplicationDefinition)' != '' or '@(Resource)' != '') and ('$(GetWinFXNativePath)' != '' or '$(GetWinFXWoWPath)' != '' )) was evaluated as (('' != '' or '' != '' or '' != '') and ('' != '' or '' != '' )).
+     1>Target "GetReferenceAssemblyPaths" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+       Task "GetReferenceAssemblyPaths" skipped, due to false condition; ('$(TargetFrameworkMoniker)' != '' and ('$(_TargetFrameworkDirectories)' == '' or '$(_FullFrameworkReferenceAssemblyPaths)' == '')) was evaluated as ('' != '' and ('C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '' or 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '')).
+     1>Done building target "GetReferenceAssemblyPaths" in project "RipleyServer.vcxproj".
+     1>Target "SetBuildDefaultEnvironmentVariables" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Cpp.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "PrepareForBuild" depends on it):
+       Using "SetEnv" task from assembly "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Build.CppTasks.Common.dll".
+       Task "SetEnv"
+         PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;C:\Program Files (x86)\Windows Kits\8.1\bin\x86;;C:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\bin;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\tools;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\ide;C:\Program Files (x86)\HTML Help Workshop;;C:\Program Files (x86)\MSBuild\12.0\bin\;C:\Windows\Microsoft.NET\Framework\v4.0.30319\;C:\Windows\SysWow64;;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\NativeBinaries/x86;C:\Ruby22-x64\bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.4\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\TortoiseSVN\bin;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files\nodejs\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;;C:\Users\lennox.mcintosh\AppData\Local\Code\bin;C:\Users\lennox.mcintosh\AppData\Roaming\npm;
+       Done executing task "SetEnv".
+       Task "SetEnv"
+         LIB=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\lib;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\lib;C:\Program Files (x86)\Windows Kits\8.1\lib\winv6.3\um\x86;;
+       Done executing task "SetEnv".
+       Task "SetEnv"
+         LIBPATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\lib;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\lib;
+       Done executing task "SetEnv".
+       Task "SetEnv"
+         INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\include;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;
+       Done executing task "SetEnv".
+     1>Done building target "SetBuildDefaultEnvironmentVariables" in project "RipleyServer.vcxproj".
+       Target "SetUserMacroEnvironmentVariables" skipped, due to false condition; ('@(BuildMacro)' != '') was evaluated as ('' != '').
+     1>Target "GetResolvedWinMD" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "PrepareForBuild" depends on it):
+     1>Done building target "GetResolvedWinMD" in project "RipleyServer.vcxproj".
+     1>Target "PlatformPrepareForBuild" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Cpp.Platform.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "PrepareForBuild" depends on it):
+       Task "VCMessage" skipped, due to false condition; ('$(_Error64bitToolsNotInstalled)' == 'true') was evaluated as ('' == 'true').
+       Task "VCMessage" skipped, due to false condition; ('$(ConfigurationPlatformExists)' != 'true') was evaluated as ('true' != 'true').
+       Task "VCMessage" skipped, due to false condition; ('$(ToolsetTargetsFound)' != 'true') was evaluated as ('true' != 'true').
+     1>Done building target "PlatformPrepareForBuild" in project "RipleyServer.vcxproj".
+       Target "GetFrameworkPaths" skipped. Previously built successfully.
+       Target "GetReferenceAssemblyPaths" skipped. Previously built successfully.
+       Target "AssignLinkMetadata" skipped, due to false condition; ( '$(SynthesizeLinkMetadata)' == 'true' ) was evaluated as ( '' == 'true' ).
+     1>Target "SetCABuildNativeEnvironmentVariables" in file "C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0\CodeAnalysis\Microsoft.CodeAnalysis.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "PrepareForBuild" depends on it):
+       Initializing task factory "CodeTaskFactory" from assembly "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Build.Tasks.v12.0.dll".
+       Using "SetEnvironmentVariable" task from the task factory "Code Task Factory".
+       Task "SetEnvironmentVariable"
+       Done executing task "SetEnvironmentVariable".
+     1>Done building target "SetCABuildNativeEnvironmentVariables" in project "RipleyServer.vcxproj".
+     1>Target "PrepareForBuild" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+       Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)' != 'true' and '$(ConfigurationPlatformExists)' != 'true') was evaluated as ('' != 'true' and 'true' != 'true').
+       Using "MakeDir" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "MakeDir"
+       Done executing task "MakeDir".
+       Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)'!='true' and '$(WindowsAppContainer)'=='true' and '$(ConfigurationType)'!='Application' and '$(ConfigurationType)'!='DynamicLibrary' and '$(ConfigurationType)'!='StaticLibrary') was evaluated as (''!='true' and 'false'=='true' and 'DynamicLibrary'!='Application' and 'DynamicLibrary'!='DynamicLibrary' and 'DynamicLibrary'!='StaticLibrary').
+       Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)'!='true' and '$(VCInstallDir)'=='' and '$(UseEnv)' != 'true' and ('$(TargetFrameworkVersion)'=='v3.5' or '$(TargetFrameworkVersion)'=='v3.0' or '$(TargetFrameworkVersion)'=='v2.0' )) was evaluated as (''!='true' and 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\'=='' and '' != 'true' and ('v4.0'=='v3.5' or 'v4.0'=='v3.0' or 'v4.0'=='v2.0' )).
+       Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)'!='true' and '$(VCInstallDir)'=='' and '$(UseEnv)' != 'true' and '$(PlatformToolset)'=='v90') was evaluated as (''!='true' and 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\'=='' and '' != 'true' and 'v120'=='v90').
+       Task "VCMessage" skipped, due to false condition; ('$(VCInstallDir)'=='' and '$(UseEnv)' != 'true') was evaluated as ('C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\'=='' and '' != 'true').
+       Task "VCMessage" skipped, due to false condition; ('$(WindowsSDKDir)'=='' and '$(UseEnv)' != 'true') was evaluated as ('C:\Program Files (x86)\Windows Kits\8.1\'=='' and '' != 'true').
+       Task "VCMessage" skipped, due to false condition; ('$(IntDirTrailingSlashWarning)'=='true') was evaluated as (''=='true').
+       Task "VCMessage" skipped, due to false condition; ('$(OutDirTrailingSlashWarning)'=='true') was evaluated as (''=='true').
+       Task "VCMessage" skipped, due to false condition; ('%(CompatibilityIssues.Identity)' != '' and '$(DesignTimeBuild)'!='true') was evaluated as ('' != '' and ''!='true').
+       Task "VCMessage" skipped, due to false condition; ('$(_MBCS_Using)' == 'true' and '$(_MBCS_Installed)' != 'true' and '$(DesignTimeBuild)' != 'true') was evaluated as ('true' == 'true' and 'true' != 'true' and '' != 'true').
+       Using "VCMessage" task from assembly "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Build.CppTasks.Common.dll".
+       Task "VCMessage"
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (.\Release\) contains files shared from another project (ripleycore.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+       Done executing task "VCMessage".
+       Task "VCMessage" skipped, due to false condition; ('$(IgnoreWarnIntDirInTempDetected)' != 'true' and ('$(_IntDirFullpath.StartsWith($(Tmp), true, null))' == 'true' or '$(_IntDirFullpath.StartsWith($(Temp), true, null))' == 'true' or '$(_OutDirFullpath.StartsWith($(Tmp), true, null))' == 'true' or '$(_OutDirFullpath.StartsWith($(Temp), true, null))' == 'true')) was evaluated as ('' != 'true' and ('False' == 'true' or 'False' == 'true' or 'False' == 'true' or 'False' == 'true')).
+       Task "MakeDir"
+       Done executing task "MakeDir".
+     1>Done building target "PrepareForBuild" in project "RipleyServer.vcxproj".
+       Target "_PrepareForReferenceResolution" skipped. Previously built successfully.
+       Target "ComputeCrtSDKReference" skipped, due to false condition; ('@(ClCompile)'!='' and '$(WindowsAppContainer)'=='true' and '$(UseCrtSDKReference)' != 'false') was evaluated as ('RipleyServer.cpp'!='' and 'false'=='true' and '' != 'false').
+     1>Target "GetInstalledSDKLocations" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveSDKReferences" depends on it):
+       Task "GetInstalledSDKLocations" skipped, due to false condition; ('@(SDKReference)' != '') was evaluated as ('' != '').
+     1>Done building target "GetInstalledSDKLocations" in project "RipleyServer.vcxproj".
+     1>Target "ResolveSDKReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+       Task "ResolveSDKReference" skipped, due to false condition; ('@(SDKReference)'!='') was evaluated as (''!='').
+     1>Done building target "ResolveSDKReferences" in project "RipleyServer.vcxproj".
+       Target "ResolveSDKReferences" skipped. Previously built successfully.
+     1>Target "ExpandSDKReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+       Task "GetSDKReferenceFiles" skipped, due to false condition; ('@(ResolvedSDKReference)'!='') was evaluated as (''!='').
+     1>Done building target "ExpandSDKReferences" in project "RipleyServer.vcxproj".
+     1>Target "ResolveAssemblyReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveReferences" depends on it):
+       Task "ResolveAssemblyReference" skipped, due to false condition; ('@(Reference)'!='' or '@(_ResolvedProjectReferencePaths)'!='' or '@(_ExplicitReference)' != '') was evaluated as (''!='' or ''!='' or '' != '').
+     1>Done building target "ResolveAssemblyReferences" in project "RipleyServer.vcxproj".
+       Target "GenerateBindingRedirects" skipped, due to false condition; ('$(AutoGenerateBindingRedirects)' == 'true' and '$(GenerateBindingRedirectsOutputType)' == 'true') was evaluated as ('' == 'true' and '' == 'true').
+       Target "GenerateBindingRedirectsUpdateAppConfig" skipped, due to false condition; ('$(AutoGenerateBindingRedirects)' == 'true' and '$(GenerateBindingRedirectsOutputType)' == 'true' and Exists('$(_GenerateBindingRedirectsIntermediateAppConfig)')) was evaluated as ('' == 'true' and '' == 'true' and Exists('.\Release\RipleyServer.vcxproj.RipleyServer.dll.config')).
+       Target "ResolveComReferences" skipped, due to false condition; ('@(COMReference)'!='' or '@(COMFileReference)'!='') was evaluated as (''!='' or ''!='').
+     1>Target "AfterResolveReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResolveReferences" depends on it):
+     1>Done building target "AfterResolveReferences" in project "RipleyServer.vcxproj".
+       Target "ImplicitlyExpandDesignTimeFacades" skipped, due to false condition; ('$(ImplicitlyExpandDesignTimeFacades)' == 'true') was evaluated as ('' == 'true').
+       Target "ResolveTestReferences" skipped, due to false condition; ('@(Shadow)'!='') was evaluated as (''!='').
+     1>Target "ResolveReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Build" depends on it):
+     1>Done building target "ResolveReferences" in project "RipleyServer.vcxproj".
+       Target "PrepareForBuild" skipped. Previously built successfully.
+       Target "PrepareForBuild" skipped. Previously built successfully.
+     1>Target "InitializeBuildStatus" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Build" depends on it):
+       Using "ReadLinesFromFile" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "ReadLinesFromFile"
+       Done executing task "ReadLinesFromFile".
+       Using "WriteLinesToFile" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "WriteLinesToFile"
+       Done executing task "WriteLinesToFile".
+       Using "Touch" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "Touch"
+         Touching ".\Release\RipleyServer.tlog\unsuccessfulbuild".
+       Done executing task "Touch".
+     1>Done building target "InitializeBuildStatus" in project "RipleyServer.vcxproj".
+       Target "AssignProjectConfiguration" skipped. Previously built successfully.
+       Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
+     1>Target "BuildGenerateSourcesTraverse" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "BuildGenerateSources" depends on it):
+       Task "MSBuild" skipped, due to false condition; ('$(BuildPassReferences)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != '' and '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true') was evaluated as ('' == 'true' and 'ripleycore.vcxproj' != '' and 'ripleycore.vcxproj' != '' and 'true' == 'true').
+     1>Done building target "BuildGenerateSourcesTraverse" in project "RipleyServer.vcxproj".
+       Target "PrepareForBuild" skipped. Previously built successfully.
+       Target "ResolveReferences" skipped. Previously built successfully.
+     1>Target "BeforeBuildGenerateSources" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.BuildSteps.Targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+     1>Done building target "BeforeBuildGenerateSources" in project "RipleyServer.vcxproj".
+     1>Target "PreBuildEvent" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+       Task "Message" skipped, due to false condition; ('%(PreBuildEvent.Message)' != '' and '%(PreBuildEvent.Command)' != '') was evaluated as ('' != '' and '' != '').
+       Task "Exec" skipped, due to false condition; ('%(PreBuildEvent.Command)' != '') was evaluated as ('' != '').
+     1>Done building target "PreBuildEvent" in project "RipleyServer.vcxproj".
+       Target "CustomBuild" skipped, due to false condition; ('@(CustomBuild)' != '') was evaluated as ('' != '').
+       Target "FxCompile" skipped, due to false condition; ('@(FxCompile)' != '') was evaluated as ('' != '').
+       Target "Xsd" skipped, due to false condition; ('@(Xsd)' != '') was evaluated as ('' != '').
+     1>Target "_Xsd" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+     1>Done building target "_Xsd" in project "RipleyServer.vcxproj".
+     1>Target "MakeDirsForMidl" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Midl" depends on it):
+       Task "Makedir"
+       Done executing task "Makedir".
+     1>Done building target "MakeDirsForMidl" in project "RipleyServer.vcxproj".
+       Target "Midl" skipped, due to false condition; ('@(Midl)' != '') was evaluated as ('' != '').
+       Target "CustomBuild" skipped, due to false condition; ('@(CustomBuild)' != '') was evaluated as ('' != '').
+       Target "FxCompile" skipped, due to false condition; ('@(FxCompile)' != '') was evaluated as ('' != '').
+     1>Target "ComputeMIDLGeneratedCompileInputs" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Midl" depends on it):
+     1>Done building target "ComputeMIDLGeneratedCompileInputs" in project "RipleyServer.vcxproj".
+     1>Target "AfterMidl" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Midl" depends on it):
+     1>Done building target "AfterMidl" in project "RipleyServer.vcxproj".
+     1>Target "_Midl" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+     1>Done building target "_Midl" in project "RipleyServer.vcxproj".
+     1>Target "AfterBuildGenerateSources" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.BuildSteps.Targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+     1>Done building target "AfterBuildGenerateSources" in project "RipleyServer.vcxproj".
+     1>Target "AfterBuildGenerateSourcesEvent" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildGenerateSourcesAction" depends on it):
+     1>Done building target "AfterBuildGenerateSourcesEvent" in project "RipleyServer.vcxproj".
+     1>Target "_BuildGenerateSourcesAction" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "BuildGenerateSources" depends on it):
+     1>Done building target "_BuildGenerateSourcesAction" in project "RipleyServer.vcxproj".
+     1>Target "BuildGenerateSources" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Build" depends on it):
+     1>Done building target "BuildGenerateSources" in project "RipleyServer.vcxproj".
+       Target "AssignProjectConfiguration" skipped. Previously built successfully.
+       Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
+     1>Target "BuildCompileTraverse" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "BuildCompile" depends on it):
+       Task "MSBuild" skipped, due to false condition; ('$(BuildPassReferences)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != ''  and '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true') was evaluated as ('' == 'true' and 'ripleycore.vcxproj' != '' and 'ripleycore.vcxproj' != ''  and 'true' == 'true').
+     1>Done building target "BuildCompileTraverse" in project "RipleyServer.vcxproj".
+       Target "PrepareForBuild" skipped. Previously built successfully.
+       Target "ResolveReferences" skipped. Previously built successfully.
+     1>Target "BeforeClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ClCompile" depends on it):
+     1>Done building target "BeforeClCompile" in project "RipleyServer.vcxproj".
+       Target "ComputeMIDLGeneratedCompileInputs" skipped. Previously built successfully.
+     1>Target "ComputeCLInputPDBName" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ClCompile" depends on it):
+     1>Done building target "ComputeCLInputPDBName" in project "RipleyServer.vcxproj".
+       Target "ResolveReferences" skipped. Previously built successfully.
+     1>Target "ComputeReferenceCLInput" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ClCompile" depends on it):
+       Task "WriteLinesToFile" skipped, due to false condition; (('@(_ReferenceCopyLocalPaths)'!='') and '$(DesignTimeBuild)' != 'true') was evaluated as ((''!='') and '' != 'true').
+       Task "Message" skipped, due to false condition; ('$(_REFERENCE_DEBUG)'=='true') was evaluated as (''=='true').
+     1>Done building target "ComputeReferenceCLInput" in project "RipleyServer.vcxproj".
+     1>Target "WarnCompileDuplicatedFilename" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ClCompile" depends on it):
+       Task "VCMessage" skipped, due to false condition; ('%(ClCompile.ExcludedFromBuild)' != 'true' and '%(Filename)%(Extension)' != '@(ClCompile->'%(Filename)%(Extension)')' and '%(ObjectFileName)' == '@(ClCompile->Metadata(ObjectFileName)->Distinct())') was evaluated as ('' != 'true' and 'RipleyServer.cpp' != 'RipleyServer.cpp' and '.\Release\' == '.\Release\').
+     1>Done building target "WarnCompileDuplicatedFilename" in project "RipleyServer.vcxproj".
+     1>Target "MakeDirsForCl" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ClCompile" depends on it):
+       Task "MakeDir"
+       Done executing task "MakeDir".
+     1>Done building target "MakeDirsForCl" in project "RipleyServer.vcxproj".
+       Target "PrepareForBuild" skipped. Previously built successfully.
+       Target "SetBuildDefaultEnvironmentVariables" skipped. Previously built successfully.
+       Target "SetUserMacroEnvironmentVariables" skipped, due to false condition; ('@(BuildMacro)' != '') was evaluated as ('' != '').
+     1>Target "_SelectedFiles" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "SelectClCompile" depends on it):
+     1>Done building target "_SelectedFiles" in project "RipleyServer.vcxproj".
+       Target "ComputeMIDLGeneratedCompileInputs" skipped. Previously built successfully.
+       Target "ComputeCLInputPDBName" skipped. Previously built successfully.
+       Target "ComputeReferenceCLInput" skipped. Previously built successfully.
+       Target "WarnCompileDuplicatedFilename" skipped. Previously built successfully.
+       Target "_SelectedFiles" skipped. Previously built successfully.
+     1>Target "SelectCustomBuild" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "SelectClCompile" depends on it):
+     1>Done building target "SelectCustomBuild" in project "RipleyServer.vcxproj".
+     1>Target "SelectClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ClCompile" depends on it):
+     1>Done building target "SelectClCompile" in project "RipleyServer.vcxproj".
+       Target "GenerateTargetFrameworkMonikerAttribute" skipped, due to false condition; ('$(GenerateTargetFrameworkAttribute)' == 'true') was evaluated as ('false' == 'true').
+       Target "ManagedIncrementalBuildPreProcessDependencyGraph" skipped, due to false condition; ('@(ClCompile)' != '' and '$(EnableManagedIncrementalBuild)' == 'True') was evaluated as ('RipleyServer.cpp' != '' and 'false' == 'True').
+     1>Target "ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ClCompile" depends on it):
+       Task "Delete" skipped, due to false condition; ('%(ClCompile.DebugInformationFormat)' != '' and '%(ClCompile.DebugInformationFormat)' != 'OldStyle' and '%(ClCompile.ProgramDataBaseFileName)' != '' and !Exists(%(ClCompile.ProgramDataBaseFileName))) was evaluated as ('ProgramDatabase' != '' and 'ProgramDatabase' != 'OldStyle' and '.\Release\ripleyserver.pdb' != '' and !Exists(.\Release\ripleyserver.pdb)).
+       Task "CL" skipped, due to false condition; ('%(ClCompile.PrecompiledHeader)' == 'Create' and '%(ClCompile.ExcludedFromBuild)'!='true' and '%(ClCompile.CompilerIteration)' == '') was evaluated as ('' == 'Create' and ''!='true' and '' == '').
+       Using "CL" task from assembly "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Build.CppTasks.Common.dll".
+       Task "CL"
+         Using cached input dependency table built from:
+         	C:\ws\projects\DNA\Main\Source\Ripley\Release\RipleyServer.tlog\cl.read.1.tlog
+         Outputs for C:\WS\PROJECTS\DNA\MAIN\SOURCE\RIPLEY\RIPLEYSERVER.CPP:
+         	C:\WS\PROJECTS\DNA\MAIN\SOURCE\RIPLEY\RELEASE\RIPLEYSERVER.OBJ
+         All outputs are up-to-date.
+       Done executing task "CL".
+     1>Done building target "ClCompile" in project "RipleyServer.vcxproj".
+       Target "ManagedIncrementalBuildPostProcessDependencyGraph" skipped, due to false condition; ('@(ClCompile)' != '' and '$(EnableManagedIncrementalBuild)' == 'True') was evaluated as ('RipleyServer.cpp' != '' and 'false' == 'True').
+     1>Target "AfterClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ClCompile" depends on it):
+     1>Done building target "AfterClCompile" in project "RipleyServer.vcxproj".
+     1>Target "_ClCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildCompileAction" depends on it):
+     1>Done building target "_ClCompile" in project "RipleyServer.vcxproj".
+       Target "_ResGen" skipped, due to false condition; ('@(EmbeddedResource)'!='') was evaluated as (''!='').
+     1>Target "BeforeResourceCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ResourceCompile" depends on it):
+     1>Done building target "BeforeResourceCompile" in project "RipleyServer.vcxproj".
+     1>Target "MakeDirsForResourceCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ResourceCompile" depends on it):
+       Task "MakeDir"
+       Done executing task "MakeDir".
+     1>Done building target "MakeDirsForResourceCompile" in project "RipleyServer.vcxproj".
+       Target "_SelectedFiles" skipped. Previously built successfully.
+       Target "SelectCustomBuild" skipped. Previously built successfully.
+     1>Target "SelectResourceCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ResourceCompile" depends on it):
+     1>Done building target "SelectResourceCompile" in project "RipleyServer.vcxproj".
+     1>Target "ResourceCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ResourceCompile" depends on it):
+       Using "RC" task from assembly "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Build.CppTasks.Common.dll".
+       Task "RC"
+         Using cached output dependency table built from:
+         	C:\ws\projects\DNA\Main\Source\Ripley\Release\RipleyServer.tlog\rc.write.1.tlog
+         Using cached input dependency table built from:
+         	C:\ws\projects\DNA\Main\Source\Ripley\Release\RipleyServer.tlog\rc.read.1.tlog
+         Outputs for C:\WS\PROJECTS\DNA\MAIN\SOURCE\RIPLEY\RIPLEYSERVER.RC:
+         	C:\WS\PROJECTS\DNA\MAIN\SOURCE\RIPLEY\RELEASE\RIPLEYSERVER.RES
+         All outputs are up-to-date.
+       Done executing task "RC".
+     1>Done building target "ResourceCompile" in project "RipleyServer.vcxproj".
+     1>Target "AfterResourceCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_ResourceCompile" depends on it):
+     1>Done building target "AfterResourceCompile" in project "RipleyServer.vcxproj".
+     1>Target "_ResourceCompile" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildCompileAction" depends on it):
+     1>Done building target "_ResourceCompile" in project "RipleyServer.vcxproj".
+       Target "_ImpLib" skipped, due to false condition; ('$(ImpLibCompiled)' == 'true') was evaluated as ('' == 'true').
+       Target "_Lib" skipped, due to false condition; ('$(LibCompiled)' == 'true') was evaluated as ('' == 'true').
+     1>Target "AfterBuildCompileEvent" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildCompileAction" depends on it):
+     1>Done building target "AfterBuildCompileEvent" in project "RipleyServer.vcxproj".
+     1>Target "_BuildCompileAction" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "BuildCompile" depends on it):
+     1>Done building target "_BuildCompileAction" in project "RipleyServer.vcxproj".
+     1>Target "BuildCompile" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Build" depends on it):
+     1>Done building target "BuildCompile" in project "RipleyServer.vcxproj".
+       Target "AssignProjectConfiguration" skipped. Previously built successfully.
+       Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
+     1>Target "BuildLinkTraverse" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "BuildLink" depends on it):
+       Task "MSBuild" skipped, due to false condition; ('$(BuildPassReferences)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != ''  and '%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true') was evaluated as ('' == 'true' and 'ripleycore.vcxproj' != '' and 'ripleycore.vcxproj' != ''  and 'true' == 'true').
+     1>Done building target "BuildLinkTraverse" in project "RipleyServer.vcxproj".
+       Target "PrepareForBuild" skipped. Previously built successfully.
+       Target "ResolveReferences" skipped. Previously built successfully.
+     1>Target "ComputeLegacyManifestEmbedding" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+       Task "VCMessage" skipped, due to false condition; ('$(RevertManifestEmbedding)' == 'true' and '$(_LegacyManifestEmbeddingDebug)' == 'true') was evaluated as ('' == 'true' and '' == 'true').
+     1>Done building target "ComputeLegacyManifestEmbedding" in project "RipleyServer.vcxproj".
+     1>Target "BeforeLink" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+     1>Done building target "BeforeLink" in project "RipleyServer.vcxproj".
+     1>Target "ComputeRCOutputs" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ComputeRCGeneratedLinkInputs" depends on it):
+     1>Done building target "ComputeRCOutputs" in project "RipleyServer.vcxproj".
+     1>Target "ComputeRCGeneratedLinkInputs" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+     1>Done building target "ComputeRCGeneratedLinkInputs" in project "RipleyServer.vcxproj".
+     1>Target "ComputeManifestGeneratedLinkerInputs" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+     1>Done building target "ComputeManifestGeneratedLinkerInputs" in project "RipleyServer.vcxproj".
+     1>Target "ComputeCustomBuildOutput" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+       Task "CreateItem" skipped, due to false condition; ('%(CustomBuildDirsToMake.OutputFileToTool)'!='') was evaluated as (''!='').
+       Task "MakeDir"
+       Done executing task "MakeDir".
+     1>Done building target "ComputeCustomBuildOutput" in project "RipleyServer.vcxproj".
+       Target "ComputeMIDLGeneratedCompileInputs" skipped. Previously built successfully.
+       Target "ComputeCLInputPDBName" skipped. Previously built successfully.
+       Target "ComputeReferenceCLInput" skipped. Previously built successfully.
+       Target "WarnCompileDuplicatedFilename" skipped. Previously built successfully.
+     1>Target "ComputeCLOutputs" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ComputeCLGeneratedLinkInputs" depends on it):
+     1>Done building target "ComputeCLOutputs" in project "RipleyServer.vcxproj".
+     1>Target "ComputeCLGeneratedLinkInputs" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+     1>Done building target "ComputeCLGeneratedLinkInputs" in project "RipleyServer.vcxproj".
+     1>Target "ComputeLinkInputsFromProject" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+     1>Done building target "ComputeLinkInputsFromProject" in project "RipleyServer.vcxproj".
+       Target "PrepareForBuild" skipped. Previously built successfully.
+       Target "ResolveReferences" skipped. Previously built successfully.
+     1>Target "ResolvedLinkLib" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ComputeReferenceLinkInputs" depends on it):
+       Task "MSBuild"
+         Global Properties:
+           Configuration=Release
+           Platform=Win32
+     1>Project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (1) is building "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (2:3) on node 2 (GetResolvedLinkLibs target(s)).
+   2:3>Building with tools version "12.0".
+       Target "_CheckForInvalidConfigurationAndPlatform" skipped. Previously built successfully.
+   2:3>Target "SetBuildDefaultEnvironmentVariables" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Cpp.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "PrepareForBuild" depends on it):
+       Using "SetEnv" task from assembly "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Build.CppTasks.Common.dll".
+       Task "SetEnv"
+         PATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin;C:\Program Files (x86)\Windows Kits\8.1\bin\x86;;C:\Program Files (x86)\Microsoft SDKs\Windows\v8.1A\bin\NETFX 4.5.1 Tools;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\Tools\bin;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\tools;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\ide;C:\Program Files (x86)\HTML Help Workshop;;C:\Program Files (x86)\MSBuild\12.0\bin\;C:\Windows\Microsoft.NET\Framework\v4.0.30319\;C:\Windows\SysWow64;;C:\Program Files (x86)\Microsoft Visual Studio 12.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\NativeBinaries/x86;C:\Ruby22-x64\bin;C:\ProgramData\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.4\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;C:\Program Files\TortoiseSVN\bin;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\Tools\Binn\;C:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\110\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\;C:\Program Files\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\120\Tools\Binn\ManagementStudio\;C:\Program Files (x86)\Microsoft SQL Server\120\DTS\Binn\;C:\Program Files\nodejs\;C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.0\;;C:\Users\lennox.mcintosh\AppData\Local\Code\bin;C:\Users\lennox.mcintosh\AppData\Roaming\npm;
+       Done executing task "SetEnv".
+       Task "SetEnv"
+         LIB=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\lib;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\lib;C:\Program Files (x86)\Windows Kits\8.1\lib\winv6.3\um\x86;;
+       Done executing task "SetEnv".
+       Task "SetEnv"
+         LIBPATH=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\lib;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\lib;
+       Done executing task "SetEnv".
+       Task "SetEnv"
+         INCLUDE=C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include;C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\atlmfc\include;C:\Program Files (x86)\Windows Kits\8.1\Include\um;C:\Program Files (x86)\Windows Kits\8.1\Include\shared;C:\Program Files (x86)\Windows Kits\8.1\Include\winrt;;
+       Done executing task "SetEnv".
+   2:3>Done building target "SetBuildDefaultEnvironmentVariables" in project "ripleycore.vcxproj".
+       Target "SetUserMacroEnvironmentVariables" skipped, due to false condition; ('@(BuildMacro)' != '') was evaluated as ('' != '').
+       Target "GetResolvedWinMD" skipped. Previously built successfully.
+   2:3>Target "PlatformPrepareForBuild" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Cpp.Platform.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "PrepareForBuild" depends on it):
+       Task "VCMessage" skipped, due to false condition; ('$(_Error64bitToolsNotInstalled)' == 'true') was evaluated as ('' == 'true').
+       Task "VCMessage" skipped, due to false condition; ('$(ConfigurationPlatformExists)' != 'true') was evaluated as ('true' != 'true').
+       Task "VCMessage" skipped, due to false condition; ('$(ToolsetTargetsFound)' != 'true') was evaluated as ('true' != 'true').
+   2:3>Done building target "PlatformPrepareForBuild" in project "ripleycore.vcxproj".
+   2:3>Target "GetFrameworkPaths" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.NetFramework.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "PrepareForBuild" depends on it):
+   2:3>Done building target "GetFrameworkPaths" in project "ripleycore.vcxproj".
+       Target "GetWinFXPath" skipped, due to false condition; (('@(Page)' != '' or '@(ApplicationDefinition)' != '' or '@(Resource)' != '') and ('$(GetWinFXNativePath)' != '' or '$(GetWinFXWoWPath)' != '' )) was evaluated as (('' != '' or '' != '' or '' != '') and ('' != '' or '' != '' )).
+   2:3>Target "GetReferenceAssemblyPaths" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "PrepareForBuild" depends on it):
+       Task "GetReferenceAssemblyPaths" skipped, due to false condition; ('$(TargetFrameworkMoniker)' != '' and ('$(_TargetFrameworkDirectories)' == '' or '$(_FullFrameworkReferenceAssemblyPaths)' == '')) was evaluated as ('' != '' and ('C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '' or 'C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0' == '')).
+   2:3>Done building target "GetReferenceAssemblyPaths" in project "ripleycore.vcxproj".
+       Target "AssignLinkMetadata" skipped, due to false condition; ( '$(SynthesizeLinkMetadata)' == 'true' ) was evaluated as ( '' == 'true' ).
+   2:3>Target "SetCABuildNativeEnvironmentVariables" in file "C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v12.0\CodeAnalysis\Microsoft.CodeAnalysis.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "PrepareForBuild" depends on it):
+       Initializing task factory "CodeTaskFactory" from assembly "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Build.Tasks.v12.0.dll".
+       Using "SetEnvironmentVariable" task from the task factory "Code Task Factory".
+       Task "SetEnvironmentVariable"
+       Done executing task "SetEnvironmentVariable".
+   2:3>Done building target "SetCABuildNativeEnvironmentVariables" in project "ripleycore.vcxproj".
+   2:3>Target "PrepareForBuild" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "GetResolvedLinkLibs" depends on it):
+       Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)' != 'true' and '$(ConfigurationPlatformExists)' != 'true') was evaluated as ('' != 'true' and 'true' != 'true').
+       Task "MakeDir"
+       Done executing task "MakeDir".
+       Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)'!='true' and '$(WindowsAppContainer)'=='true' and '$(ConfigurationType)'!='Application' and '$(ConfigurationType)'!='DynamicLibrary' and '$(ConfigurationType)'!='StaticLibrary') was evaluated as (''!='true' and 'false'=='true' and 'StaticLibrary'!='Application' and 'StaticLibrary'!='DynamicLibrary' and 'StaticLibrary'!='StaticLibrary').
+       Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)'!='true' and '$(VCInstallDir)'=='' and '$(UseEnv)' != 'true' and ('$(TargetFrameworkVersion)'=='v3.5' or '$(TargetFrameworkVersion)'=='v3.0' or '$(TargetFrameworkVersion)'=='v2.0' )) was evaluated as (''!='true' and 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\'=='' and '' != 'true' and ('v4.0'=='v3.5' or 'v4.0'=='v3.0' or 'v4.0'=='v2.0' )).
+       Task "VCMessage" skipped, due to false condition; ('$(DesignTimeBuild)'!='true' and '$(VCInstallDir)'=='' and '$(UseEnv)' != 'true' and '$(PlatformToolset)'=='v90') was evaluated as (''!='true' and 'C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\'=='' and '' != 'true' and 'v120'=='v90').
+       Task "VCMessage" skipped, due to false condition; ('$(VCInstallDir)'=='' and '$(UseEnv)' != 'true') was evaluated as ('C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\'=='' and '' != 'true').
+       Task "VCMessage" skipped, due to false condition; ('$(WindowsSDKDir)'=='' and '$(UseEnv)' != 'true') was evaluated as ('C:\Program Files (x86)\Windows Kits\8.1\'=='' and '' != 'true').
+       Task "VCMessage" skipped, due to false condition; ('$(IntDirTrailingSlashWarning)'=='true') was evaluated as (''=='true').
+       Task "VCMessage" skipped, due to false condition; ('$(OutDirTrailingSlashWarning)'=='true') was evaluated as (''=='true').
+       Task "VCMessage" skipped, due to false condition; ('%(CompatibilityIssues.Identity)' != '' and '$(DesignTimeBuild)'!='true') was evaluated as ('' != '' and ''!='true').
+       Task "VCMessage" skipped, due to false condition; ('$(_MBCS_Using)' == 'true' and '$(_MBCS_Installed)' != 'true' and '$(DesignTimeBuild)' != 'true') was evaluated as ('true' == 'true' and 'true' != 'true' and '' != 'true').
+       Using "VCMessage" task from assembly "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Build.CppTasks.Common.dll".
+       Task "VCMessage"
+   2:3>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(388,5): warning MSB8028: The intermediate directory (.\Release\) contains files shared from another project (RipleyServer.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+       Done executing task "VCMessage".
+       Task "VCMessage" skipped, due to false condition; ('$(IgnoreWarnIntDirInTempDetected)' != 'true' and ('$(_IntDirFullpath.StartsWith($(Tmp), true, null))' == 'true' or '$(_IntDirFullpath.StartsWith($(Temp), true, null))' == 'true' or '$(_OutDirFullpath.StartsWith($(Tmp), true, null))' == 'true' or '$(_OutDirFullpath.StartsWith($(Temp), true, null))' == 'true')) was evaluated as ('' != 'true' and ('False' == 'true' or 'False' == 'true' or 'False' == 'true' or 'False' == 'true')).
+       Task "MakeDir"
+       Done executing task "MakeDir".
+   2:3>Done building target "PrepareForBuild" in project "ripleycore.vcxproj".
+       Target "_PrepareForReferenceResolution" skipped. Previously built successfully.
+       Target "ComputeCrtSDKReference" skipped, due to false condition; ('@(ClCompile)'!='' and '$(WindowsAppContainer)'=='true' and '$(UseCrtSDKReference)' != 'false') was evaluated as ('AddThreadBuilder.cpp;ArticleDiagnosticBuilder.cpp;ArticleEditForm.cpp;ArticleList.cpp;ArticleMember.cpp;ArticlePageBuilder.cpp;ArticleSearchPhrase.cpp;ArticleSearchPhraseBuilder.cpp;ArticleSubscriptionList.cpp;AssetUploadQueue.cpp;AuthorList.cpp;AutoCS.cpp;BasicSiteList.cpp;Blob.cpp;BlobBuilder.cpp;BlobTransformer.cpp;Category.cpp;CategoryBuilder.cpp;CategoryList.cpp;CategoryListBuilder.cpp;CGI.cpp;Club.cpp;ClubList.cpp;ClubListPageBuilder.cpp;ClubMember.cpp;ClubPageBuilder.cpp;ComingUpBuilder.cpp;CommentsList.cpp;Config.cpp;ContentSignifAdminBuilder.cpp;ContentSignifBuilder.cpp;ContentSignifSettings.cpp;CurrentClubs.cpp;CurrentClubsBuilder.cpp;DateRangeValidation.cpp;DBO.cpp;DBOMySQL.cpp;DBOSQLServer.cpp;DBXMLBuilder.cpp;DNAArray.cpp;DnaUrl.cpp;dynamiclist.cpp;dynamiclists.cpp;EditCategory.cpp;EditCategoryBuilder.cpp;EditorsPick.cpp;EditPostPageBuilder.cpp;EditRecentPostBuilder.cpp;EditReviewForumBuilder.cpp;EditReviewForumForm.cpp;EmailAddressFilter.cpp;EmailAlertBuilder.cpp;EMailAlertGroup.cpp;EMailAlertGroupBuilder.cpp;EmailAlertList.cpp;EmailInserts.cpp;EmailLineBreak.cpp;EMailQueueGenerator.cpp;EmailTemplate.cpp;EmailVocab.cpp;EventQueue.cpp;ExtraInfo.cpp;FailMessage.cpp;FailMessageBuilder.cpp;FastCategoryListBuilder.cpp;FixDBBuilder.cpp;FixExtraInfoBuilder.cpp;Forum.cpp;ForumModerationPageBuilder.cpp;ForumPageBuilder.cpp;ForumPostEditForm.cpp;ForumSchedule.cpp;FriendsBuilder.cpp;FrontPageBuilder.cpp;FrontpageEditor.cpp;FrontPageElement.cpp;FrontPageLayout.cpp;FrontPageLayoutBuilder.cpp;FrontPageTopicElement.cpp;FrontPageTopicElementBuilder.cpp;GeneralModerationPageBuilder.cpp;GroupManagementBuilder.cpp;Groups.cpp;GuideEntry.cpp;HierarchyNodeTyperBuilder.cpp;HierarchyTree.cpp;HierarchyTreeBuilder.cpp;HTMLTransformer.cpp;IDifDocBuilder.cpp;ImageLibrary.cpp;ImageLibraryBuilder.cpp;ImageModeration.cpp;ImageModerationBuilder.cpp;Index.cpp;IndexBuilder.cpp;Info.cpp;InfoBuilder.cpp;InputContext.cpp;InspectUserBuilder.cpp;KeyArticleEditBuilder.cpp;Link.cpp;Locations.cpp;LogoutBuilder.cpp;ManageLinksBuilder.cpp;md5_new.cpp;MediaAsset.cpp;MediaAssetBuilder.cpp;MediaAssetModController.cpp;MediaAssetSearchPhrase.cpp;MediaAssetSearchPhraseBuilder.cpp;MemberDetailsPageBuilder.cpp;MembersHomePageBuilder.cpp;MessageBoardAdmin.cpp;MessageBoardAdminBuilder.cpp;MessageBoardPromo.cpp;MessageBoardPromoBuilder.cpp;MessageBoardSchedulePageBuilder.cpp;MessageboardStats.cpp;MessageboardStatsBuilder.cpp;MessageBoardTransfer.cpp;MessageBoardTransferBuilder.cpp;ModAlertsCheckerBuilder.cpp;ModBillingBuilder.cpp;ModComplaintsStats.cpp;ModerateArticlePageBuilder.cpp;ModerateHomePageBuilder.cpp;ModerateMediaAssetsBuilder.cpp;ModerateNickNames.cpp;ModerateNickNamesBuilder.cpp;ModeratePosts.cpp;ModerationClasses.cpp;ModerationDistressMessages.cpp;ModerationEmail.cpp;ModerationEmailManagementBuilder.cpp;ModerationHistoryBuilder.cpp;ModerationStatusPageBuilder.cpp;ModeratorInfo.cpp;ModeratorListBuilder.cpp;ModeratorManagementBuilder.cpp;ModManageFastModBuilder.cpp;ModQueueStat.cpp;ModReasons.cpp;ModStats.cpp;ModTriggers.cpp;MonthSummary.cpp;MonthSummaryPageBuilder.cpp;MoreJournalBuilder.cpp;MorePagesBuilder.cpp;MorePostsBuilder.cpp;MoveThreadForm.cpp;MoveThreadPageBuilder.cpp;MultiStep.cpp;NewEmailBuilder.cpp;NewRegisterBuilder.cpp;NewUserDetailsPageBuilder.cpp;NewUsersPageBuilder.cpp;NickNameModerationPageBuilder.cpp;NotFoundBuilder.cpp;Notice.cpp;NoticeBoardBuilder.cpp;NoticeBoardList.cpp;NoticeBoardListBuilder.cpp;OutputContext.cpp;PageBody.cpp;PageUI.cpp;PipeHandles.cpp;poll.cpp;PollBuilder.cpp;PollContentRating.cpp;PolliCanClub.cpp;PollNoticeBoard.cpp;polls.cpp;PostcodeBuilder.cpp;PostCodeParser.cpp;Postcoder.cpp;PostJournalBuilder.cpp;PostList.cpp;ProcessRecommendationForm.cpp;ProcessRecommendationPageBuilder.cpp;ProcessRunner.cpp;Profanity.cpp;ProfanityAdmin.cpp;ProfanityAdminPageBuilder.cpp;ProfanityFilter.cpp;ProfanityGroup.cpp;ProfanityGroupList.cpp;ProfanityList.cpp;ProfileConnection.cpp;ProfileConnectionPool.cpp;RandomArticle.cpp;RecentSearch.cpp;RecommendEntryForm.cpp;RecommendEntryPageBuilder.cpp;RefereeList.cpp;RegisterBuilder.cpp;RegisterObject.cpp;ReservedArticlesBuilder.cpp;ReviewForum.cpp;ReviewForumBuilder.cpp;ReviewSubmissionForum.cpp;Ripley.cpp;RipleyStatistics.cpp;Ripley_GetBuilder.cpp;Ripley_GetTransformer.cpp;ScoutRecommendationsForm.cpp;ScoutRecommendationsPageBuilder.cpp;Search.cpp;SearchBuilder.cpp;ShareAndEnjoyBuilder.cpp;SignalBuilder.cpp;SignifContent.cpp;SimpleFtp.cpp;Site.cpp;SiteAdminBuilder.cpp;SiteConfig.cpp;SiteConfigBuilder.cpp;SiteConfigPreview.cpp;SiteConfigPreviewBuilder.cpp;SiteData.cpp;SiteList.cpp;SiteOpenCloseSchedule.cpp;SiteOpenCloseTime.cpp;SiteOption.cpp;SiteOptions.cpp;SiteOptionsBuilder.cpp;SkinDetails.cpp;SkinSelector.cpp;SmileyList.cpp;SmileyTranslator.cpp;SSOBuilder.cpp;StatsBuilder.cpp;StatusBuilder.cpp;StdAfx.cpp;StoredProcedure.cpp;StoredProcedureBase.cpp;SubAllocationForm.cpp;SubArticleStatusBuilder.cpp;SubbedArticlesPageBuilder.cpp;SubEditorAllocationPageBuilder.cpp;SubmitReviewForumBuilder.cpp;SubmitSubbedEntryForm.cpp;SubmitSubbedEntryPageBuilder.cpp;SubNotificationEmail.cpp;SystemMessageMailbox.cpp;SystemMessageMailboxBuilder.cpp;TagItem.cpp;TagItemBuilder.cpp;tdvassert.cpp;TDVDateTime.cpp;TDVString.cpp;Team.cpp;TeamListPageBuilder.cpp;TestArticleXML.cpp;TestHTMLTransformer.cpp;TestXMLBuilder.cpp;TextBoxElement.cpp;TextBoxElementBuilder.cpp;ThreadSearchPhrase.cpp;ThreadSearchPhraseBuilder.cpp;ThroughputTransformer.cpp;TimeZoneManager.cpp;TopFiveEditor.cpp;TopFives.cpp;Topic.cpp;TopicBuilder.cpp;TransmissionBuilder.cpp;TypedArticleBuilder.cpp;UnauthorisedBuilder.cpp;Upload.cpp;UploadedImage.cpp;UploadedObject.cpp;UploadPageBuilder.cpp;URLFilter.cpp;URLFilterAdmin.cpp;URLFilterAdminBuilder.cpp;URLFilterList.cpp;User.cpp;UserComplaintPageBuilder.cpp;UserEditPageBuilder.cpp;usergroups.cpp;UserList.cpp;UserPageBuilder.cpp;UserPrivacy.cpp;UserPrivacyBuilder.cpp;UsersTags.cpp;UserStatisticsPageBuilder.cpp;UserStatuses.cpp;UserTags.cpp;Vote.cpp;VotePageBuilder.cpp;WatchList.cpp;WholePage.cpp;WhosOnlineBuilder.cpp;WhosOnlineObject.cpp;XMLBuilder.cpp;XMLCookie.cpp;XMLDate.cpp;XMLError.cpp;XMLObject.cpp;XMLStringUtils.cpp;XMLTransformer.cpp;XMLTree.cpp;XSLT.cpp'!='' and 'false'=='true' and '' != 'false').
+   2:3>Target "BeforeResolveReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveReferences" depends on it):
+   2:3>Done building target "BeforeResolveReferences" in project "ripleycore.vcxproj".
+   2:3>Target "AssignProjectConfiguration" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveReferences" depends on it):
+       Task "AssignProjectConfiguration"
+         Project reference "..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" has been assigned the "Release|AnyCPU" configuration.
+       Done executing task "AssignProjectConfiguration".
+   2:3>Done building target "AssignProjectConfiguration" in project "ripleycore.vcxproj".
+       Target "AssignProjectConfiguration" skipped. Previously built successfully.
+   2:3>Target "_SplitProjectReferencesByFileExistence" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveProjectReferences" depends on it):
+       Task "ResolveNonMSBuildProjectOutput"
+         Resolving project reference "..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj".
+         Project reference "..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" has not been resolved.
+       Done executing task "ResolveNonMSBuildProjectOutput".
+   2:3>Done building target "_SplitProjectReferencesByFileExistence" in project "ripleycore.vcxproj".
+   2:3>Target "_RemoveNameMetadataFromProjectReferenceItems" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveProjectReferences" depends on it):
+   2:3>Done building target "_RemoveNameMetadataFromProjectReferenceItems" in project "ripleycore.vcxproj".
+   2:3>Target "ResolveProjectReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveReferences" depends on it):
+       Task "MSBuild"
+         Global Properties:
+           Configuration=Release
+           Platform=AnyCPU
+   2:3>Project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (2:3) is building "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (3) on node 2 (GetTargetPath target(s)).
+     3>Building with tools version "12.0".
+       Project file contains ToolsVersion="4.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="12.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=293424.
+     3>Target "_CheckForInvalidConfigurationAndPlatform" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (entry point):
+       Task "Error" skipped, due to false condition; ( '$(_InvalidConfigurationError)' == 'true' ) was evaluated as ( '' == 'true' ).
+       Task "Warning" skipped, due to false condition; ( '$(_InvalidConfigurationWarning)' == 'true' ) was evaluated as ( '' == 'true' ).
+       Task "Message"
+         Configuration=Release
+       Done executing task "Message".
+       Task "Message"
+         Platform=AnyCPU
+       Done executing task "Message".
+       Task "Error" skipped, due to false condition; ('$(OutDir)' != '' and !HasTrailingSlash('$(OutDir)')) was evaluated as ('bin\Debug\' != '' and !HasTrailingSlash('bin\Debug\')).
+       Task "Error" skipped, due to false condition; ('$(BaseIntermediateOutputPath)' != '' and !HasTrailingSlash('$(BaseIntermediateOutputPath)')) was evaluated as ('obj\' != '' and !HasTrailingSlash('obj\')).
+       Task "Error" skipped, due to false condition; ('$(IntermediateOutputPath)' != '' and !HasTrailingSlash('$(IntermediateOutputPath)')) was evaluated as ('obj\Release\' != '' and !HasTrailingSlash('obj\Release\')).
+     3>Done building target "_CheckForInvalidConfigurationAndPlatform" in project "DnaIdentityWebServiceProxy.csproj".
+     3>Target "GetTargetPath" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (entry point):
+     3>Done building target "GetTargetPath" in project "DnaIdentityWebServiceProxy.csproj".
+     3>Done Building Project "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (GetTargetPath target(s)).
+   2:3>Done executing task "MSBuild".
+       Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and ('$(BuildingInsideVisualStudio)' == 'true' or '$(BuildProjectReferences)' != 'true') and '$(VisualStudioVersion)' == '10.0' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('true' == 'true' and '..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj' != '' and ('true' == 'true' or 'false' != 'true') and '12.0' == '10.0' and '..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj' != '').
+       Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.BuildReference)' == 'true' and '@(ProjectReferenceWithConfiguration)' != '' and '$(BuildingInsideVisualStudio)' != 'true' and '$(BuildProjectReferences)' == 'true' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('true' == 'true' and '..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj' != '' and 'true' != 'true' and 'false' == 'true' and '..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj' != '').
+       Task "MSBuild"
+         Global Properties:
+           Configuration=Release
+           Platform=AnyCPU
+   2:3>Project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (2:3) is building "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (3:2) on node 2 (GetNativeManifest target(s)).
+   3:2>Building with tools version "12.0".
+       Project file contains ToolsVersion="4.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="12.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=293424.
+       Target "_CheckForInvalidConfigurationAndPlatform" skipped. Previously built successfully.
+   3:2>Target "GetNativeManifest" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (entry point):
+   3:2>Done building target "GetNativeManifest" in project "DnaIdentityWebServiceProxy.csproj".
+   3:2>Done Building Project "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (GetNativeManifest target(s)).
+   2:3>Done executing task "MSBuild".
+       Task "Warning" skipped, due to false condition; ('@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceNonexistent)' != '') was evaluated as ('..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj' != '' and '' != '').
+   2:3>Done building target "ResolveProjectReferences" in project "ripleycore.vcxproj".
+       Target "FindInvalidProjectReferences" skipped, due to false condition; ('$(FindInvalidProjectReferences)' == 'true') was evaluated as ('' == 'true').
+       Target "ResolveNativeReferences" skipped, due to false condition; ('@(NativeReference)'!='') was evaluated as (''!='').
+       Target "_PrepareForReferenceResolution" skipped. Previously built successfully.
+       Target "GetFrameworkPaths" skipped. Previously built successfully.
+       Target "GetReferenceAssemblyPaths" skipped. Previously built successfully.
+       Target "PrepareForBuild" skipped. Previously built successfully.
+       Target "_PrepareForReferenceResolution" skipped. Previously built successfully.
+       Target "ComputeCrtSDKReference" skipped, due to false condition; ('@(ClCompile)'!='' and '$(WindowsAppContainer)'=='true' and '$(UseCrtSDKReference)' != 'false') was evaluated as ('AddThreadBuilder.cpp;ArticleDiagnosticBuilder.cpp;ArticleEditForm.cpp;ArticleList.cpp;ArticleMember.cpp;ArticlePageBuilder.cpp;ArticleSearchPhrase.cpp;ArticleSearchPhraseBuilder.cpp;ArticleSubscriptionList.cpp;AssetUploadQueue.cpp;AuthorList.cpp;AutoCS.cpp;BasicSiteList.cpp;Blob.cpp;BlobBuilder.cpp;BlobTransformer.cpp;Category.cpp;CategoryBuilder.cpp;CategoryList.cpp;CategoryListBuilder.cpp;CGI.cpp;Club.cpp;ClubList.cpp;ClubListPageBuilder.cpp;ClubMember.cpp;ClubPageBuilder.cpp;ComingUpBuilder.cpp;CommentsList.cpp;Config.cpp;ContentSignifAdminBuilder.cpp;ContentSignifBuilder.cpp;ContentSignifSettings.cpp;CurrentClubs.cpp;CurrentClubsBuilder.cpp;DateRangeValidation.cpp;DBO.cpp;DBOMySQL.cpp;DBOSQLServer.cpp;DBXMLBuilder.cpp;DNAArray.cpp;DnaUrl.cpp;dynamiclist.cpp;dynamiclists.cpp;EditCategory.cpp;EditCategoryBuilder.cpp;EditorsPick.cpp;EditPostPageBuilder.cpp;EditRecentPostBuilder.cpp;EditReviewForumBuilder.cpp;EditReviewForumForm.cpp;EmailAddressFilter.cpp;EmailAlertBuilder.cpp;EMailAlertGroup.cpp;EMailAlertGroupBuilder.cpp;EmailAlertList.cpp;EmailInserts.cpp;EmailLineBreak.cpp;EMailQueueGenerator.cpp;EmailTemplate.cpp;EmailVocab.cpp;EventQueue.cpp;ExtraInfo.cpp;FailMessage.cpp;FailMessageBuilder.cpp;FastCategoryListBuilder.cpp;FixDBBuilder.cpp;FixExtraInfoBuilder.cpp;Forum.cpp;ForumModerationPageBuilder.cpp;ForumPageBuilder.cpp;ForumPostEditForm.cpp;ForumSchedule.cpp;FriendsBuilder.cpp;FrontPageBuilder.cpp;FrontpageEditor.cpp;FrontPageElement.cpp;FrontPageLayout.cpp;FrontPageLayoutBuilder.cpp;FrontPageTopicElement.cpp;FrontPageTopicElementBuilder.cpp;GeneralModerationPageBuilder.cpp;GroupManagementBuilder.cpp;Groups.cpp;GuideEntry.cpp;HierarchyNodeTyperBuilder.cpp;HierarchyTree.cpp;HierarchyTreeBuilder.cpp;HTMLTransformer.cpp;IDifDocBuilder.cpp;ImageLibrary.cpp;ImageLibraryBuilder.cpp;ImageModeration.cpp;ImageModerationBuilder.cpp;Index.cpp;IndexBuilder.cpp;Info.cpp;InfoBuilder.cpp;InputContext.cpp;InspectUserBuilder.cpp;KeyArticleEditBuilder.cpp;Link.cpp;Locations.cpp;LogoutBuilder.cpp;ManageLinksBuilder.cpp;md5_new.cpp;MediaAsset.cpp;MediaAssetBuilder.cpp;MediaAssetModController.cpp;MediaAssetSearchPhrase.cpp;MediaAssetSearchPhraseBuilder.cpp;MemberDetailsPageBuilder.cpp;MembersHomePageBuilder.cpp;MessageBoardAdmin.cpp;MessageBoardAdminBuilder.cpp;MessageBoardPromo.cpp;MessageBoardPromoBuilder.cpp;MessageBoardSchedulePageBuilder.cpp;MessageboardStats.cpp;MessageboardStatsBuilder.cpp;MessageBoardTransfer.cpp;MessageBoardTransferBuilder.cpp;ModAlertsCheckerBuilder.cpp;ModBillingBuilder.cpp;ModComplaintsStats.cpp;ModerateArticlePageBuilder.cpp;ModerateHomePageBuilder.cpp;ModerateMediaAssetsBuilder.cpp;ModerateNickNames.cpp;ModerateNickNamesBuilder.cpp;ModeratePosts.cpp;ModerationClasses.cpp;ModerationDistressMessages.cpp;ModerationEmail.cpp;ModerationEmailManagementBuilder.cpp;ModerationHistoryBuilder.cpp;ModerationStatusPageBuilder.cpp;ModeratorInfo.cpp;ModeratorListBuilder.cpp;ModeratorManagementBuilder.cpp;ModManageFastModBuilder.cpp;ModQueueStat.cpp;ModReasons.cpp;ModStats.cpp;ModTriggers.cpp;MonthSummary.cpp;MonthSummaryPageBuilder.cpp;MoreJournalBuilder.cpp;MorePagesBuilder.cpp;MorePostsBuilder.cpp;MoveThreadForm.cpp;MoveThreadPageBuilder.cpp;MultiStep.cpp;NewEmailBuilder.cpp;NewRegisterBuilder.cpp;NewUserDetailsPageBuilder.cpp;NewUsersPageBuilder.cpp;NickNameModerationPageBuilder.cpp;NotFoundBuilder.cpp;Notice.cpp;NoticeBoardBuilder.cpp;NoticeBoardList.cpp;NoticeBoardListBuilder.cpp;OutputContext.cpp;PageBody.cpp;PageUI.cpp;PipeHandles.cpp;poll.cpp;PollBuilder.cpp;PollContentRating.cpp;PolliCanClub.cpp;PollNoticeBoard.cpp;polls.cpp;PostcodeBuilder.cpp;PostCodeParser.cpp;Postcoder.cpp;PostJournalBuilder.cpp;PostList.cpp;ProcessRecommendationForm.cpp;ProcessRecommendationPageBuilder.cpp;ProcessRunner.cpp;Profanity.cpp;ProfanityAdmin.cpp;ProfanityAdminPageBuilder.cpp;ProfanityFilter.cpp;ProfanityGroup.cpp;ProfanityGroupList.cpp;ProfanityList.cpp;ProfileConnection.cpp;ProfileConnectionPool.cpp;RandomArticle.cpp;RecentSearch.cpp;RecommendEntryForm.cpp;RecommendEntryPageBuilder.cpp;RefereeList.cpp;RegisterBuilder.cpp;RegisterObject.cpp;ReservedArticlesBuilder.cpp;ReviewForum.cpp;ReviewForumBuilder.cpp;ReviewSubmissionForum.cpp;Ripley.cpp;RipleyStatistics.cpp;Ripley_GetBuilder.cpp;Ripley_GetTransformer.cpp;ScoutRecommendationsForm.cpp;ScoutRecommendationsPageBuilder.cpp;Search.cpp;SearchBuilder.cpp;ShareAndEnjoyBuilder.cpp;SignalBuilder.cpp;SignifContent.cpp;SimpleFtp.cpp;Site.cpp;SiteAdminBuilder.cpp;SiteConfig.cpp;SiteConfigBuilder.cpp;SiteConfigPreview.cpp;SiteConfigPreviewBuilder.cpp;SiteData.cpp;SiteList.cpp;SiteOpenCloseSchedule.cpp;SiteOpenCloseTime.cpp;SiteOption.cpp;SiteOptions.cpp;SiteOptionsBuilder.cpp;SkinDetails.cpp;SkinSelector.cpp;SmileyList.cpp;SmileyTranslator.cpp;SSOBuilder.cpp;StatsBuilder.cpp;StatusBuilder.cpp;StdAfx.cpp;StoredProcedure.cpp;StoredProcedureBase.cpp;SubAllocationForm.cpp;SubArticleStatusBuilder.cpp;SubbedArticlesPageBuilder.cpp;SubEditorAllocationPageBuilder.cpp;SubmitReviewForumBuilder.cpp;SubmitSubbedEntryForm.cpp;SubmitSubbedEntryPageBuilder.cpp;SubNotificationEmail.cpp;SystemMessageMailbox.cpp;SystemMessageMailboxBuilder.cpp;TagItem.cpp;TagItemBuilder.cpp;tdvassert.cpp;TDVDateTime.cpp;TDVString.cpp;Team.cpp;TeamListPageBuilder.cpp;TestArticleXML.cpp;TestHTMLTransformer.cpp;TestXMLBuilder.cpp;TextBoxElement.cpp;TextBoxElementBuilder.cpp;ThreadSearchPhrase.cpp;ThreadSearchPhraseBuilder.cpp;ThroughputTransformer.cpp;TimeZoneManager.cpp;TopFiveEditor.cpp;TopFives.cpp;Topic.cpp;TopicBuilder.cpp;TransmissionBuilder.cpp;TypedArticleBuilder.cpp;UnauthorisedBuilder.cpp;Upload.cpp;UploadedImage.cpp;UploadedObject.cpp;UploadPageBuilder.cpp;URLFilter.cpp;URLFilterAdmin.cpp;URLFilterAdminBuilder.cpp;URLFilterList.cpp;User.cpp;UserComplaintPageBuilder.cpp;UserEditPageBuilder.cpp;usergroups.cpp;UserList.cpp;UserPageBuilder.cpp;UserPrivacy.cpp;UserPrivacyBuilder.cpp;UsersTags.cpp;UserStatisticsPageBuilder.cpp;UserStatuses.cpp;UserTags.cpp;Vote.cpp;VotePageBuilder.cpp;WatchList.cpp;WholePage.cpp;WhosOnlineBuilder.cpp;WhosOnlineObject.cpp;XMLBuilder.cpp;XMLCookie.cpp;XMLDate.cpp;XMLError.cpp;XMLObject.cpp;XMLStringUtils.cpp;XMLTransformer.cpp;XMLTree.cpp;XSLT.cpp'!='' and 'false'=='true' and '' != 'false').
+   2:3>Target "GetInstalledSDKLocations" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveSDKReferences" depends on it):
+       Task "GetInstalledSDKLocations" skipped, due to false condition; ('@(SDKReference)' != '') was evaluated as ('' != '').
+   2:3>Done building target "GetInstalledSDKLocations" in project "ripleycore.vcxproj".
+   2:3>Target "ResolveSDKReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+       Task "ResolveSDKReference" skipped, due to false condition; ('@(SDKReference)'!='') was evaluated as (''!='').
+   2:3>Done building target "ResolveSDKReferences" in project "ripleycore.vcxproj".
+       Target "ResolveSDKReferences" skipped. Previously built successfully.
+   2:3>Target "ExpandSDKReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveAssemblyReferences" depends on it):
+       Task "GetSDKReferenceFiles" skipped, due to false condition; ('@(ResolvedSDKReference)'!='') was evaluated as (''!='').
+   2:3>Done building target "ExpandSDKReferences" in project "ripleycore.vcxproj".
+   2:3>Target "ResolveAssemblyReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveReferences" depends on it):
+       Task "ResolveAssemblyReference" skipped, due to false condition; ('@(Reference)'!='' or '@(_ResolvedProjectReferencePaths)'!='' or '@(_ExplicitReference)' != '') was evaluated as (''!='' or ''!='' or '' != '').
+   2:3>Done building target "ResolveAssemblyReferences" in project "ripleycore.vcxproj".
+       Target "GenerateBindingRedirects" skipped, due to false condition; ('$(AutoGenerateBindingRedirects)' == 'true' and '$(GenerateBindingRedirectsOutputType)' == 'true') was evaluated as ('' == 'true' and '' == 'true').
+       Target "GenerateBindingRedirectsUpdateAppConfig" skipped, due to false condition; ('$(AutoGenerateBindingRedirects)' == 'true' and '$(GenerateBindingRedirectsOutputType)' == 'true' and Exists('$(_GenerateBindingRedirectsIntermediateAppConfig)')) was evaluated as ('' == 'true' and '' == 'true' and Exists('.\Release\ripleycore.vcxproj.ripleycore.lib.config')).
+       Target "ResolveComReferences" skipped, due to false condition; ('@(COMReference)'!='' or '@(COMFileReference)'!='') was evaluated as (''!='' or ''!='').
+   2:3>Target "AfterResolveReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "ResolveReferences" depends on it):
+   2:3>Done building target "AfterResolveReferences" in project "ripleycore.vcxproj".
+       Target "ImplicitlyExpandDesignTimeFacades" skipped, due to false condition; ('$(ImplicitlyExpandDesignTimeFacades)' == 'true') was evaluated as ('' == 'true').
+       Target "ResolveTestReferences" skipped, due to false condition; ('@(Shadow)'!='') was evaluated as (''!='').
+   2:3>Target "ResolveReferences" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "GetResolvedLinkLibs" depends on it):
+   2:3>Done building target "ResolveReferences" in project "ripleycore.vcxproj".
+       Target "PrepareForBuild" skipped. Previously built successfully.
+       Target "ResolveReferences" skipped. Previously built successfully.
+   2:3>Target "ResolvedLinkLib" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "GetResolvedLinkLibs" depends on it):
+       Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.Extension)' == '.vcxproj' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != '') was evaluated as ('.csproj' == '.vcxproj' and '..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj' != '' and '..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj' != '').
+   2:3>Done building target "ResolvedLinkLib" in project "ripleycore.vcxproj".
+   2:3>Target "GetResolvedLinkLibs" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (entry point):
+   2:3>Done building target "GetResolvedLinkLibs" in project "ripleycore.vcxproj".
+   2:3>Done Building Project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (GetResolvedLinkLibs target(s)).
+     1>Done executing task "MSBuild".
+     1>Done building target "ResolvedLinkLib" in project "RipleyServer.vcxproj".
+     1>Target "ComputeResolveLinkObj" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "ComputeReferenceLinkInputs" depends on it):
+       Task "CallTarget" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.UseLibraryDependencyInputs)'=='true') was evaluated as ('false'=='true').
+     1>Done building target "ComputeResolveLinkObj" in project "RipleyServer.vcxproj".
+     1>Target "ComputeReferenceLinkInputs" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+       Task "VCMessage" skipped, due to false condition; ('%(ProjectReferenceToLink.ProjectType)' == 'DynamicLibrary' and '$(WindowsAppContainer)' == 'true' and '%(ProjectReferenceToLink.WindowsAppContainer)' != 'true') was evaluated as ('StaticLibrary' == 'DynamicLibrary' and 'false' == 'true' and '' != 'true').
+       Task "Message" skipped, due to false condition; ('$(_REFERENCE_DEBUG)'=='true') was evaluated as (''=='true').
+     1>Done building target "ComputeReferenceLinkInputs" in project "RipleyServer.vcxproj".
+     1>Target "ComputeManifestInputsTargets" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+     1>Done building target "ComputeManifestInputsTargets" in project "RipleyServer.vcxproj".
+       Target "ManifestResourceCompile" skipped, due to false condition; ('$(EmbedManifestBy)' == 'LINK' and '@(Manifest)' != '') was evaluated as ('MT' == 'LINK' and '' != '').
+       Target "AssignWinFXEmbeddedResource" skipped, due to false condition; ('@(WinFXEmbeddedResource)' != '') was evaluated as ('' != '').
+     1>Target "AssignTargetPaths" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "PrepareResourceNames" depends on it):
+       Using "AssignTargetPath" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath" skipped, due to false condition; ('@(_DeploymentBaseManifestWithTargetPath)'=='' and '%(None.Extension)'=='.manifest') was evaluated as (''=='' and '.bat'=='.manifest').
+       Task "AssignTargetPath" skipped, due to false condition; ('@(_DeploymentBaseManifestWithTargetPath)'=='' and '%(None.Extension)'=='.manifest') was evaluated as (''=='' and '.bin'=='.manifest').
+       Task "AssignTargetPath" skipped, due to false condition; ('@(_DeploymentBaseManifestWithTargetPath)'=='' and '%(None.Extension)'=='.manifest') was evaluated as (''=='' and '.def'=='.manifest').
+       Task "AssignTargetPath" skipped, due to false condition; ('@(_DeploymentBaseManifestWithTargetPath)'=='' and '%(None.Extension)'=='.manifest') was evaluated as (''=='' and '.rc2'=='.manifest').
+     1>Done building target "AssignTargetPaths" in project "RipleyServer.vcxproj".
+       Target "AssignTargetPaths" skipped. Previously built successfully.
+     1>Target "SplitResourcesByCulture" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "PrepareResourceNames" depends on it):
+       Task "Warning" skipped, due to false condition; ('@(ResxWithNoCulture)'!='') was evaluated as (''!='').
+       Task "Warning" skipped, due to false condition; ('@(ResxWithCulture)'!='') was evaluated as (''!='').
+       Task "Warning" skipped, due to false condition; ('@(NonResxWithCulture)'!='') was evaluated as (''!='').
+       Task "Warning" skipped, due to false condition; ('@(NonResxWithNoCulture)'!='') was evaluated as (''!='').
+       Using "AssignCulture" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "AssignCulture"
+       Done executing task "AssignCulture".
+     1>Done building target "SplitResourcesByCulture" in project "RipleyServer.vcxproj".
+       Target "CreateManifestResourceNames" skipped, due to false condition; ('@(EmbeddedResource)' != '') was evaluated as ('' != '').
+     1>Target "CreateCustomManifestResourceNames" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "PrepareResourceNames" depends on it):
+     1>Done building target "CreateCustomManifestResourceNames" in project "RipleyServer.vcxproj".
+     1>Target "PrepareResourceNames" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+     1>Done building target "PrepareResourceNames" in project "RipleyServer.vcxproj".
+     1>Target "MakeDirsForLink" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+       Task "MakeDir"
+       Done executing task "MakeDir".
+     1>Done building target "MakeDirsForLink" in project "RipleyServer.vcxproj".
+     1>Target "DoLinkOutputFilesMatch" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+       Task "VCMessage" skipped, due to false condition; ('@(_OutputFileFromLink)' == '') was evaluated as ('.\Release\RipleyServer.dll' == '').
+       Task "VCMessage" skipped, due to false condition; ('@(_OutputFileFromLink)' != '' and '%(_OutputFileFromLink.FullPath)' != '$([System.IO.Path]::GetFullPath($(TargetPath)))') was evaluated as ('.\Release\RipleyServer.dll' != '' and 'C:\ws\projects\DNA\Main\Source\Ripley\Release\RipleyServer.dll' != 'C:\ws\projects\DNA\Main\Source\Ripley\Release\RipleyServer.dll').
+       Task "VCMessage" skipped, due to false condition; ('@(_OutputFileFromLink)' != '' and '%(_OutputFileFromLink.Extension)' != '' and '%(_OutputFileFromLink.Extension)' != '$(TargetExt)') was evaluated as ('.\Release\RipleyServer.dll' != '' and '.dll' != '' and '.dll' != '.dll').
+       Task "VCMessage" skipped, due to false condition; ('@(_OutputFileFromLink)' != '' and '%(_OutputFileFromLink.Filename)' != '' and '%(_OutputFileFromLink.Filename)' != '$(TargetName)') was evaluated as ('.\Release\RipleyServer.dll' != '' and 'RipleyServer' != '' and 'RipleyServer' != 'RipleyServer').
+       Task "VCMessage" skipped, due to false condition; ('%(Link.MinimumRequiredVersion)' != '' and ('%(Link.Subsystem)' == '' or '%(Link.Subsystem)' == 'NotSet')) was evaluated as ('' != '' and ('Windows' == '' or 'Windows' == 'NotSet')).
+     1>Done building target "DoLinkOutputFilesMatch" in project "RipleyServer.vcxproj".
+     1>Target "PreLinkEvent" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+       Task "Message" skipped, due to false condition; ('%(PreLinkEvent.Message)' != '' and '%(PreLinkEvent.Command)' != '') was evaluated as ('' != '' and '' != '').
+       Task "Exec" skipped, due to false condition; ('%(PreLinkEvent.Command)' != '') was evaluated as ('' != '').
+     1>Done building target "PreLinkEvent" in project "RipleyServer.vcxproj".
+     1>Target "ComputeLinkSwitches" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Link" depends on it):
+     1>Done building target "ComputeLinkSwitches" in project "RipleyServer.vcxproj".
+     1>Target "Link" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+       Using "Link" task from assembly "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.Build.CppTasks.Common.dll".
+       Task "Link"
+         Using cached output dependency table built from:
+         	C:\ws\projects\DNA\Main\Source\Ripley\Release\RipleyServer.tlog\link.write.1.tlog
+         Using cached input dependency table built from:
+         	C:\ws\projects\DNA\Main\Source\Ripley\Release\RipleyServer.tlog\link.read.1.tlog
+         Outputs for C:\WS\PROJECTS\DNA\MAIN\SOURCE\RIPLEY\RELEASE\RIPLEYCORE.LIB|C:\WS\PROJECTS\DNA\MAIN\SOURCE\RIPLEY\RELEASE\RIPLEYSERVER.OBJ|C:\WS\PROJECTS\DNA\MAIN\SOURCE\RIPLEY\RELEASE\RIPLEYSERVER.RES:
+         	C:\WS\PROJECTS\DNA\MAIN\SOURCE\RIPLEY\RELEASE\RIPLEYSERVER.DLL
+         All outputs are up-to-date.
+       Done executing task "Link".
+       Task "Message"
+         RipleyServer.vcxproj -> C:\ws\projects\DNA\Main\Source\Ripley\.\Release\RipleyServer.dll
+       Done executing task "Message".
+     1>Done building target "Link" in project "RipleyServer.vcxproj".
+       Target "MetaGenInputsOutputs" skipped, due to false condition; ('$(EnableManagedIncrementalBuild)' == 'True') was evaluated as ('false' == 'True').
+       Target "ComputeMetaGenInputs" skipped, due to false condition; ('$(CLRSupport)'!='' and '$(CLRSupport)'!='false') was evaluated as ('false'!='' and 'false'!='false').
+       Target "MetaGen" skipped, due to false condition; ('@(MetaGen)' != '') was evaluated as ('' != '').
+       Target "ComputeLinkImportLibraryOutputsForClean" skipped, due to false condition; ('$(LinkSkippedExecution)' != 'true') was evaluated as ('True' != 'true').
+     1>Target "AfterLink" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_Link" depends on it):
+     1>Done building target "AfterLink" in project "RipleyServer.vcxproj".
+     1>Target "_Link" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+     1>Done building target "_Link" in project "RipleyServer.vcxproj".
+     1>Target "_ALink" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+     1>Done building target "_ALink" in project "RipleyServer.vcxproj".
+       Target "ComputeLegacyManifestEmbedding" skipped. Previously built successfully.
+     1>Target "_Manifest" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+       Task "CallTarget" skipped, due to false condition; ('$(LegacyManifestEmbedding)' == 'true') was evaluated as ('' == 'true').
+     1>Done building target "_Manifest" in project "RipleyServer.vcxproj".
+       Target "RegisterOutput" skipped, due to false condition; ('$(EmbedManifest)'=='true' and '$(LinkSkippedExecution)' != 'true' and ('$(_IsNativeEnvironment)' == 'true' or '$(Platform)' == 'Win32')) was evaluated as ('true'=='true' and 'True' != 'true' and ('' == 'true' or 'Win32' == 'Win32')).
+       Target "PrepareForBuild" skipped. Previously built successfully.
+       Target "ResolveReferences" skipped. Previously built successfully.
+     1>Target "ResolvedXDCMake" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_XdcMake" depends on it):
+       Task "MSBuild" skipped, due to false condition; ('%(_MSBuildProjectReferenceExistent.Extension)' == '.vcxproj' and '@(ProjectReferenceWithConfiguration)' != '' and '@(_MSBuildProjectReferenceExistent)' != '' and '$(_ClCompileGenerateXMLDocumentationFiles)' == 'true') was evaluated as ('.vcxproj' == '.vcxproj' and 'ripleycore.vcxproj' != '' and 'ripleycore.vcxproj' != '' and '' == 'true').
+     1>Done building target "ResolvedXDCMake" in project "RipleyServer.vcxproj".
+     1>Target "ComputeCLCompileGeneratedXDCFiles" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_XdcMake" depends on it):
+     1>Done building target "ComputeCLCompileGeneratedXDCFiles" in project "RipleyServer.vcxproj".
+     1>Target "MakeDirsForXdcMake" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_XdcMake" depends on it):
+       Task "MakeDir"
+       Done executing task "MakeDir".
+     1>Done building target "MakeDirsForXdcMake" in project "RipleyServer.vcxproj".
+       Target "XdcMake" skipped, due to false condition; ('@(XdcMake)' != '') was evaluated as ('' != '').
+     1>Target "_XdcMake" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+     1>Done building target "_XdcMake" in project "RipleyServer.vcxproj".
+     1>Target "ComputeCLCompileGeneratedSbrFiles" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BscMake" depends on it):
+     1>Done building target "ComputeCLCompileGeneratedSbrFiles" in project "RipleyServer.vcxproj".
+     1>Target "MakeDirsForBscMake" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BscMake" depends on it):
+       Task "MakeDir"
+       Done executing task "MakeDir".
+     1>Done building target "MakeDirsForBscMake" in project "RipleyServer.vcxproj".
+       Target "BscMake" skipped, due to false condition; ('@(BscMake)' != '') was evaluated as ('' != '').
+       Target "ComputeCustomBuildOutput" skipped. Previously built successfully.
+     1>Target "CustomBuildStep" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BscMake" depends on it):
+       Building target "CustomBuildStep" completely.
+       Output file "C:\ws\projects\DNA\Main\Source\Ripley\Release\CustomBuildOutput.txt" does not exist.
+       Task "Message"
+         Description: Performing Custom Build Step
+       Done executing task "Message".
+       Task "WriteLinesToFile"
+       Done executing task "WriteLinesToFile".
+       Using "Exec" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "Exec"
+         rem net stop w3svc
+         rem Copy "C:\ws\projects\DNA\Main\Source\Ripley\.\Release\RipleyServer.dll" ""
+         rem Copy "C:\ws\projects\DNA\Main\Source\Ripley\.\Release\RipleyServer.dll" ""\AdminRipleyServer.dll
+         rem net start w3svc
+         
+         :VCEnd
+       Done executing task "Exec".
+     1>Done building target "CustomBuildStep" in project "RipleyServer.vcxproj".
+     1>Target "_BscMake" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+     1>Done building target "_BscMake" in project "RipleyServer.vcxproj".
+       Target "RunMergeNativeCodeAnalysis" skipped, due to false condition; ('$(Language)'=='C++' and '$(RunCodeAnalysisOnThisProject)'=='true') was evaluated as ('C++'=='C++' and ''=='true').
+       Target "RunNativeCodeAnalysis" skipped, due to false condition; ('$(Language)'=='C++' and '$(RunCodeAnalysisOnThisProject)'=='true') was evaluated as ('C++'=='C++' and ''=='true').
+     1>Target "_GenerateSatelliteAssemblyInputs" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "CreateSatelliteAssemblies" depends on it):
+       Task "Warning" skipped, due to false condition; ('@(ManifestResourceWithCulture)'!='' and '%(ManifestResourceWithCulture.EmittedForCompatibilityOnly)'=='') was evaluated as (''!='' and ''=='').
+       Task "Warning" skipped, due to false condition; ('@(ManifestNonResxWithCultureOnDisk)'!='' and '%(ManifestNonResxWithCultureOnDisk.EmittedForCompatibilityOnly)'=='') was evaluated as (''!='' and ''=='').
+     1>Done building target "_GenerateSatelliteAssemblyInputs" in project "RipleyServer.vcxproj".
+       Target "ComputeIntermediateSatelliteAssemblies" skipped, due to false condition; (@(ReferenceSatellitePaths->'%(DestinationSubDirectory)') != '') was evaluated as ( != '').
+       Target "GenerateSatelliteAssemblies" skipped, due to false condition; ('@(_SatelliteAssemblyResourceInputs)' != '') was evaluated as ('' != '').
+     1>Target "CreateSatelliteAssemblies" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+     1>Done building target "CreateSatelliteAssemblies" in project "RipleyServer.vcxproj".
+     1>Target "_Appverifier" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+     1>Done building target "_Appverifier" in project "RipleyServer.vcxproj".
+     1>Target "_Deploy" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+     1>Done building target "_Deploy" in project "RipleyServer.vcxproj".
+       Target "ComputeIntermediateSatelliteAssemblies" skipped, due to false condition; (@(ReferenceSatellitePaths->'%(DestinationSubDirectory)') != '') was evaluated as ( != '').
+       Target "_CopyFilesMarkedCopyLocal" skipped, due to false condition; ('@(ReferenceCopyLocalPaths)' != '') was evaluated as ('' != '').
+       Target "AssignTargetPaths" skipped. Previously built successfully.
+       Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
+     1>Target "GetCopyToOutputDirectoryXamlAppDefs" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "GetCopyToOutputDirectoryItems" depends on it):
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+     1>Done building target "GetCopyToOutputDirectoryXamlAppDefs" in project "RipleyServer.vcxproj".
+     1>Target "GetCopyToOutputDirectoryItems" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_CopySourceItemsToOutputDirectory" depends on it):
+       Task "MSBuild"
+         Global Properties:
+           Configuration=Release
+           Platform=Win32
+     1>Project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (1) is building "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (2:4) on node 2 (GetCopyToOutputDirectoryItems target(s)).
+   2:4>Building with tools version "12.0".
+       Target "_CheckForInvalidConfigurationAndPlatform" skipped. Previously built successfully.
+   2:4>Target "AssignTargetPaths" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "GetCopyToOutputDirectoryItems" depends on it):
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath" skipped, due to false condition; ('@(_DeploymentBaseManifestWithTargetPath)'=='' and '%(None.Extension)'=='.manifest') was evaluated as (''=='' and ''=='.manifest').
+   2:4>Done building target "AssignTargetPaths" in project "ripleycore.vcxproj".
+       Target "_SplitProjectReferencesByFileExistence" skipped. Previously built successfully.
+   2:4>Target "GetCopyToOutputDirectoryXamlAppDefs" in file "C:\Windows\Microsoft.NET\Framework\v4.0.30319\Microsoft.Xaml.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (target "GetCopyToOutputDirectoryItems" depends on it):
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+   2:4>Done building target "GetCopyToOutputDirectoryXamlAppDefs" in project "ripleycore.vcxproj".
+   2:4>Target "GetCopyToOutputDirectoryItems" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (entry point):
+       Task "MSBuild"
+         Global Properties:
+           Configuration=Release
+           Platform=AnyCPU
+   2:4>Project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (2:4) is building "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (3:3) on node 2 (GetCopyToOutputDirectoryItems target(s)).
+   3:3>Building with tools version "12.0".
+       Project file contains ToolsVersion="4.0". This toolset may be unknown or missing, in which case you may be able to resolve this by installing the appropriate version of MSBuild, or the build may have been forced to a particular ToolsVersion for policy reasons. Treating the project as if it had ToolsVersion="12.0". For more information, please see http://go.microsoft.com/fwlink/?LinkId=293424.
+       Target "_CheckForInvalidConfigurationAndPlatform" skipped. Previously built successfully.
+   3:3>Target "AssignTargetPaths" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (target "GetCopyToOutputDirectoryItems" depends on it):
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+       Task "AssignTargetPath" skipped, due to false condition; ('@(_DeploymentBaseManifestWithTargetPath)'=='' and '%(None.Extension)'=='.manifest') was evaluated as (''=='' and '.snk'=='.manifest').
+   3:3>Done building target "AssignTargetPaths" in project "DnaIdentityWebServiceProxy.csproj".
+   3:3>Target "_SplitProjectReferencesByFileExistence" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (target "GetCopyToOutputDirectoryItems" depends on it):
+       Task "ResolveNonMSBuildProjectOutput" skipped, due to false condition; ('$(BuildingInsideVisualStudio)'=='true' and '@(ProjectReferenceWithConfiguration)'!='') was evaluated as ('true'=='true' and ''!='').
+   3:3>Done building target "_SplitProjectReferencesByFileExistence" in project "DnaIdentityWebServiceProxy.csproj".
+   3:3>Target "GetCopyToOutputDirectoryItems" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (entry point):
+       Task "MSBuild" skipped, due to false condition; ('@(_MSBuildProjectReferenceExistent)' != '' and '$(_GetChildProjectCopyToOutputDirectoryItems)' == 'true' and '%(_MSBuildProjectReferenceExistent.Private)' != 'false' and '$(UseCommonOutputDirectory)' != 'true') was evaluated as ('' != '' and 'true' == 'true' and '' != 'false' and 'false' != 'true').
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+   3:3>Done building target "GetCopyToOutputDirectoryItems" in project "DnaIdentityWebServiceProxy.csproj".
+   3:3>Done Building Project "C:\ws\projects\DNA\Main\Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj" (GetCopyToOutputDirectoryItems target(s)).
+   2:4>Done executing task "MSBuild".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+   2:4>Done building target "GetCopyToOutputDirectoryItems" in project "ripleycore.vcxproj".
+   2:4>Done Building Project "C:\ws\projects\DNA\Main\Source\Ripley\ripleycore.vcxproj" (GetCopyToOutputDirectoryItems target(s)).
+     1>Done executing task "MSBuild".
+       Task "AssignTargetPath"
+       Done executing task "AssignTargetPath".
+     1>Done building target "GetCopyToOutputDirectoryItems" in project "RipleyServer.vcxproj".
+       Target "_CopyOutOfDateSourceItemsToOutputDirectory" skipped, due to false condition; ( '@(_SourceItemsToCopyToOutputDirectory)' != '' ) was evaluated as ( '' != '' ).
+       Target "_CopyOutOfDateSourceItemsToOutputDirectoryAlways" skipped, due to false condition; ( '@(_SourceItemsToCopyToOutputDirectoryAlways)' != '' ) was evaluated as ( '' != '' ).
+     1>Target "_CopySourceItemsToOutputDirectory" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "CopyFilesToOutputDirectory" depends on it):
+     1>Done building target "_CopySourceItemsToOutputDirectory" in project "RipleyServer.vcxproj".
+       Target "_CopyAppConfigFile" skipped, due to false condition; ( '@(AppConfigWithTargetPath)' != '' ) was evaluated as ( '' != '' ).
+       Target "_CopyManifestFiles" skipped, due to false condition; ( '$(_DeploymentCopyApplicationManifest)'=='true' or '$(GenerateClickOnceManifests)'=='true' ) was evaluated as ( ''=='true' or ''=='true' ).
+     1>Target "_CheckForCompileOutputs" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "CopyFilesToOutputDirectory" depends on it):
+     1>Done building target "_CheckForCompileOutputs" in project "RipleyServer.vcxproj".
+       Target "_SGenCheckForOutputs" skipped, due to false condition; ('$(_SGenGenerateSerializationAssembliesConfig)' == 'On' or ('@(WebReferenceUrl)'!='' and '$(_SGenGenerateSerializationAssembliesConfig)' == 'Auto')) was evaluated as ('Auto' == 'On' or (''!='' and 'Auto' == 'Auto')).
+     1>Target "CopyFilesToOutputDirectory" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "PrepareForRun" depends on it):
+       Task "Copy" skipped, due to false condition; ('$(CopyBuildOutputToOutputDirectory)' == 'true' and '$(SkipCopyBuildProduct)' != 'true') was evaluated as ('true' == 'true' and 'true' != 'true').
+       Task "Message" skipped, due to false condition; ('$(CopyBuildOutputToOutputDirectory)' == 'true' and '$(SkipCopyBuildProduct)'!='true') was evaluated as ('true' == 'true' and 'true'!='true').
+       Task "Copy" skipped, due to false condition; ('@(AddModules)' != '') was evaluated as ('' != '').
+       Task "Copy" skipped, due to false condition; ('$(_SGenDllCreated)'=='true') was evaluated as ('false'=='true').
+       Task "Copy" skipped, due to false condition; ('$(_DebugSymbolsProduced)'=='true' and '$(SkipCopyingSymbolsToOutputDirectory)' != 'true' and '$(CopyOutputSymbolsToOutputDirectory)'=='true') was evaluated as ('false'=='true' and '' != 'true' and 'true'=='true').
+       Task "Copy" skipped, due to false condition; ('$(_DocumentationFileProduced)'=='true') was evaluated as ('false'=='true').
+       Task "Copy" skipped, due to false condition; ('@(IntermediateSatelliteAssembliesWithTargetPath)' != '') was evaluated as ('' != '').
+       Task "Copy" skipped, due to false condition; ('@(ReferenceComWrappersToCopyLocal)' != '' or '@(ResolvedIsolatedComModules)' != '' or '@(_DeploymentLooseManifestFile)' != '' or '@(NativeReferenceFile)' != '' ) was evaluated as ('' != '' or '' != '' or '' != '' or '' != '' ).
+       Task "Copy" skipped, due to false condition; ('$(SkipCopyWinMDArtifact)' != 'true' and '@(WinMDExpArtifacts)' != '') was evaluated as ('' != 'true' and '' != '').
+       Task "Message" skipped, due to false condition; ('$(SkipCopyWinMDArtifact)' != 'true' and '$(_WindowsMetadataOutputPath)' != '') was evaluated as ('' != 'true' and '' != '').
+     1>Done building target "CopyFilesToOutputDirectory" in project "RipleyServer.vcxproj".
+     1>Target "PrepareForRun" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+     1>Done building target "PrepareForRun" in project "RipleyServer.vcxproj".
+     1>Target "PostBuildEvent" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppCommon.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "_BuildLinkAction" depends on it):
+       Task "Message" skipped, due to false condition; ('%(PostBuildEvent.Message)' != '' and '%(PostBuildEvent.Command)' != '') was evaluated as ('' != '' and '' != '').
+       Task "Exec" skipped, due to false condition; ('%(PostBuildEvent.Command)' != '') was evaluated as ('' != '').
+     1>Done building target "PostBuildEvent" in project "RipleyServer.vcxproj".
+     1>Target "_BuildLinkAction" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "BuildLink" depends on it):
+     1>Done building target "_BuildLinkAction" in project "RipleyServer.vcxproj".
+     1>Target "BuildLink" in file "C:\Program Files (x86)\MSBuild\12.0\bin\Microsoft.Common.CurrentVersion.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Build" depends on it):
+     1>Done building target "BuildLink" in project "RipleyServer.vcxproj".
+       Target "CreateTfsBuildInfoResource" skipped, due to false condition; ( $(AddBuildInfoToAssembly)==true ) was evaluated as ( false==true ).
+     1>Target "AfterBuild" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.BuildSteps.Targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Build" depends on it):
+     1>Done building target "AfterBuild" in project "RipleyServer.vcxproj".
+     1>Target "TouchWinMDFile" in file "C:\Program Files (x86)\MSBuild\Microsoft\.NetNative\Microsoft.NetNative.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Build" depends on it):
+       Task "Touch" skipped, due to false condition; (Exists('%(Link.WindowsMetadataFile)')) was evaluated as (Exists('')).
+     1>Done building target "TouchWinMDFile" in project "RipleyServer.vcxproj".
+     1>Target "FinalizeBuildStatus" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (target "Build" depends on it):
+       Using "Delete" task from assembly "Microsoft.Build.Tasks.v12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a".
+       Task "Delete"
+         Deleting file ".\Release\RipleyServer.tlog\unsuccessfulbuild".
+       Done executing task "Delete".
+       Task "Touch"
+         Touching ".\Release\RipleyServer.tlog\RipleyServer.lastbuildstate".
+       Done executing task "Touch".
+     1>Done building target "FinalizeBuildStatus" in project "RipleyServer.vcxproj".
+     1>Target "Build" in file "C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.BuildSteps.Targets" from project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (entry point):
+     1>Done building target "Build" in project "RipleyServer.vcxproj".
+     1>Done Building Project "C:\ws\projects\DNA\Main\Source\Ripley\RipleyServer.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.29

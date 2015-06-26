@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="BlogSummary" xmlns:xs="http://www.w3.org/2001/XMLSchema"  elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:include schemaLocation="CommentForumListBase.xsd" />
+  <xs:element name="BLOGSUMMARY">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="COMMENTFORUMLIST" minOccurs="0" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

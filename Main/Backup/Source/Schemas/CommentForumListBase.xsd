@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="Date.xsd"/>
+  <xs:element name="COMMENTFORUMLIST">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" name="COMMENTFORUM">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="HOSTPAGEURL" type="xs:string" />
+              <xs:element name="TITLE" type="xs:string" />
+              <xs:element name="MODSTATUS" type="xs:unsignedByte" />
+              <xs:element name="SITEID" type="xs:unsignedByte" />
+              <xs:element name="DATECREATED">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element ref="DATE"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" name="CLOSEDATE">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element ref="DATE"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element minOccurs="0" name="LASTUPDATED">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element ref="DATE"/>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>            
+            <xs:attribute name="UID" type="xs:string" use="required" />
+            <xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+			      <xs:attribute name="FORUMPOSTCOUNT" type="xs:unsignedByte" use="required" />
+			      <xs:attribute name="FORUMPOSTLIMIT" type="xs:unsignedByte" use="required" />
+			      <xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+            <xs:attribute name="NOTSIGNEDINUSERID" type="xs:unsignedInt" use="required"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="COMMENTFORUMLISTCOUNT" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="SKIP" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="SHOW" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="REQUESTEDSITEID" type="xs:unsignedByte" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

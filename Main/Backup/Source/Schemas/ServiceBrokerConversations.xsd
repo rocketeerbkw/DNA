@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="SERVICEBROKERCONVERSATIONS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CONVERSATION" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="HANDLE" type="xs:string">
+								<xs:annotation>
+									<xs:documentation>GUID of the conversation.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="IS_INITIATOR" type="xs:string"/>
+							<xs:element name="LOCAL_SERVICE">
+								<xs:annotation>
+									<xs:documentation>Name of local service.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="FAR_SERVICE" type="xs:string">
+								<xs:annotation>
+									<xs:documentation>Name of far service.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="CONTRACT">
+								<xs:annotation>
+									<xs:documentation>Name of contract between the services.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="STATE_DESC" type="xs:string">
+								<xs:annotation>
+									<xs:documentation>Description of the state of the service.</xs:documentation>
+								</xs:annotation>
+							</xs:element>								
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

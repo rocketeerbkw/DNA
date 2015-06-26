@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:i="http://www.w3.org/2001/XMLSchema-instance" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="BBC.Dna.Api" xmlns:xs="http://www.w3.org/2001/XMLSchema"  xmlns="BBC.Dna.Api">
+	<xs:include schemaLocation="sortBy.xsd"/>
+	<xs:include schemaLocation="sortDirection.xsd"/>
+  <xs:include schemaLocation="filterBy.xsd" />
+	<xs:group name="pagingOptions">
+		<xs:sequence>
+			<xs:element name="itemsPerPage" type="xs:int" />
+			<xs:element name="startIndex" type="xs:int" />
+			<xs:element name="totalCount" type="xs:int" />
+			<xs:element ref="sortBy" />
+			<xs:element ref="sortDirection" />
+      <xs:element ref="filterBy" />
+		</xs:sequence>
+	</xs:group>
+</xs:schema>

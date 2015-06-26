@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="ARTICLE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ARTICLEINFO">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FORUMID" type="xs:unsignedShort" />
+							<xs:element name="SITEID" type="xs:unsignedByte" />
+							<xs:element name="MODERATIONSTATUS">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:unsignedByte">
+											<xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DATECREATED">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DATE">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="LOCAL">
+														<xs:complexType>
+															<xs:attribute name="DAYNAME" type="xs:string" use="required" />
+															<xs:attribute name="SECONDS" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="MINUTES" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="HOURS" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="DAY" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="MONTH" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="MONTHNAME" type="xs:string" use="required" />
+															<xs:attribute name="YEAR" type="xs:unsignedShort" use="required" />
+															<xs:attribute name="SORT" type="xs:unsignedLong" use="required" />
+															<xs:attribute name="RELATIVE" type="xs:string" use="required" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="DAYNAME" type="xs:string" use="required" />
+												<xs:attribute name="SECONDS" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="MINUTES" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="HOURS" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="DAY" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="MONTH" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="MONTHNAME" type="xs:string" use="required" />
+												<xs:attribute name="YEAR" type="xs:unsignedShort" use="required" />
+												<xs:attribute name="SORT" type="xs:unsignedLong" use="required" />
+												<xs:attribute name="RELATIVE" type="xs:string" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="LASTUPDATED">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DATE">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="LOCAL">
+														<xs:complexType>
+															<xs:attribute name="DAYNAME" type="xs:string" use="required" />
+															<xs:attribute name="SECONDS" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="MINUTES" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="HOURS" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="DAY" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="MONTH" type="xs:unsignedByte" use="required" />
+															<xs:attribute name="MONTHNAME" type="xs:string" use="required" />
+															<xs:attribute name="YEAR" type="xs:unsignedShort" use="required" />
+															<xs:attribute name="SORT" type="xs:unsignedLong" use="required" />
+															<xs:attribute name="RELATIVE" type="xs:string" use="required" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+												<xs:attribute name="DAYNAME" type="xs:string" use="required" />
+												<xs:attribute name="SECONDS" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="MINUTES" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="HOURS" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="DAY" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="MONTH" type="xs:unsignedByte" use="required" />
+												<xs:attribute name="MONTHNAME" type="xs:string" use="required" />
+												<xs:attribute name="YEAR" type="xs:unsignedShort" use="required" />
+												<xs:attribute name="SORT" type="xs:unsignedLong" use="required" />
+												<xs:attribute name="RELATIVE" type="xs:string" use="required" />
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="CRUMBTRAILS" />
+							<xs:element name="RELATEDMEMBERS">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RELATEDCLUBS" />
+										<xs:element name="RELATEDARTICLES" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="PREPROCESSED" type="xs:unsignedByte" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SUBJECT" type="xs:string" />
+				<xs:element name="GUIDE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BODY">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:choice maxOccurs="unbounded">
+											<xs:element name="P">
+												<xs:complexType mixed="true">
+													<xs:sequence minOccurs="0">
+														<xs:element minOccurs="0" name="I" type="xs:string" />
+														<xs:element minOccurs="0" maxOccurs="unbounded" name="LINK">
+															<xs:complexType>
+																<xs:simpleContent>
+																	<xs:extension base="xs:string">
+																		<xs:attribute name="H2G2" type="xs:string" use="required" />
+																	</xs:extension>
+																</xs:simpleContent>
+															</xs:complexType>
+														</xs:element>
+														<xs:element minOccurs="0" name="B" type="xs:string" />
+														<xs:element minOccurs="0" name="SMALL">
+															<xs:complexType mixed="true">
+																<xs:sequence>
+																	<xs:choice maxOccurs="unbounded">
+																		<xs:element maxOccurs="unbounded" name="LINK">
+																			<xs:complexType>
+																				<xs:simpleContent>
+																					<xs:extension base="xs:string">
+																						<xs:attribute name="H2G2" type="xs:string" use="required" />
+																					</xs:extension>
+																				</xs:simpleContent>
+																			</xs:complexType>
+																		</xs:element>
+																		<xs:element name="BR" />
+																	</xs:choice>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+													<xs:attribute name="ALIGN" type="xs:string" use="optional" />
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="HR" />
+											<xs:element name="PICTURE">
+												<xs:complexType>
+													<xs:attribute name="EMBED" type="xs:string" use="required" />
+													<xs:attribute name="BLOB" type="xs:string" use="required" />
+													<xs:attribute name="ALT" type="xs:string" use="required" />
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="UL">
+												<xs:complexType>
+													<xs:sequence>
+														<xs:element maxOccurs="unbounded" name="LI">
+															<xs:complexType>
+																<xs:sequence>
+																	<xs:element name="P">
+																		<xs:complexType mixed="true">
+																			<xs:sequence minOccurs="0">
+																				<xs:element minOccurs="0" name="FOOTNOTE" type="xs:string" />
+																				<xs:element minOccurs="0" maxOccurs="unbounded" name="I" type="xs:string" />
+																				<xs:element minOccurs="0" maxOccurs="unbounded" name="LINK">
+																					<xs:complexType>
+																						<xs:simpleContent>
+																							<xs:extension base="xs:string">
+																								<xs:attribute name="H2G2" type="xs:string" use="required" />
+																							</xs:extension>
+																						</xs:simpleContent>
+																					</xs:complexType>
+																				</xs:element>
+																				<xs:element minOccurs="0" name="B" type="xs:string" />
+																			</xs:sequence>
+																		</xs:complexType>
+																	</xs:element>
+																</xs:sequence>
+															</xs:complexType>
+														</xs:element>
+													</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+											<xs:element name="HEADER" type="xs:string" />
+											<xs:element name="SUBHEADER" type="xs:string" />
+										</xs:choice>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EXTRAINFO">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TYPE">
+								<xs:complexType>
+									<xs:attribute name="ID" type="xs:unsignedShort" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BOOKMARKCOUNT" type="xs:unsignedByte" />
+			</xs:sequence>
+			<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="CANCHANGEPERMISSIONS" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="DEFAULTCANCHANGEPERMISSIONS" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="PROFANITYTRIGGERED" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="NONALLOWEDURLSTRIGGERED" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

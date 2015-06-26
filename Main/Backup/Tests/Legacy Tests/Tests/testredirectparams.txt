@@ -1,0 +1,7 @@
+dnaur=1
+dnaskip=0
+dnashow=20
+dnahostpageurl=http://www.bbc.co.uk/dna/something
+dnauid=this is some unique id blah de blah blah2
+dnainitialtitle=newtitle
+s_dnaheadinglevel=1

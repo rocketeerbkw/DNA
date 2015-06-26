@@ -10,13 +10,13 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BBC.Dna.Data</RootNamespace>
     <AssemblyName>BBC.Dna.Data</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>BBC.Dna.snk</AssemblyOriginatorKeyFile>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -37,6 +37,7 @@
     <IsWebBootstrapper>true</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,7 +115,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
-      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+      <Name>BBC.Dna.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

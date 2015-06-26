@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
+  <xs:include schemaLocation="../Dna.Services.Common/date.xsd"/>
+  <xs:include schemaLocation="../Dna.Services.Articles/article.xsd" />
+  <xs:element name="category">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="ancestry" >
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="categorySummary" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="aliasCount" type="xs:int" />
+                    <xs:element name="articleCount" type="xs:int" />
+                    <xs:element name="name" type="xs:string" />
+                    <xs:element name="nodeCount" type="xs:int" />
+                    <xs:element name="nodeId" type="xs:int" />
+                    <xs:element name="redirectNodeId" type="xs:int" />
+                    <xs:element name="sortOrder" type="xs:int"  />
+                    <xs:element name="strippedName" />
+                    <xs:element minOccurs="0" name="subNodes" nillable="true">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element maxOccurs="unbounded" name="subnode">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element name="id" type="xs:unsignedShort"  />
+                                <xs:element name="type" type="xs:int"  />
+                                <xs:element name="value" type="xs:string" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="treeLevel" type="xs:int" />
+                    <xs:element name="type" type="xs:int" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+
+        <xs:element ref="article" minOccurs="0"/>
+        
+          <xs:element name="children">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="articles">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element minOccurs="0" maxOccurs="unbounded" name="articleSummary">                        
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="dateCreated">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element ref="date" />
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>                           
+                            <xs:element name="editor">
+                              <xs:complexType mixed="true">
+                                <xs:sequence>
+                                  <xs:element ref="user" />
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                           
+                            <xs:element name="h2g2id" type="xs:int" />
+                            <xs:element name="lastUpdated">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element ref="date" />
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="name" type="xs:string" />
+                            <xs:element name="redirectNodeId" type="xs:int" />
+                            <xs:element name="status">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element name="type" type="xs:int" />
+                                  <xs:element name="value" type="xs:string" />
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="strippedName" type="xs:string" />
+                            <xs:element name="type" type="xs:string" />
+                            <!--<xs:element name="sortOrder" type="xs:int" minOccurs ="0" />-->
+                          </xs:sequence>                          
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+
+                <xs:element name="subCategories">
+                  <xs:complexType>
+                    <xs:sequence>
+                      <xs:element name="categorySummary" minOccurs="0" maxOccurs="unbounded">
+                        <xs:complexType>
+                          <xs:sequence>
+                            <xs:element name="aliasCount" type="xs:int" />
+                            <xs:element name="articleCount" type="xs:int" />
+                            <xs:element name="name" type="xs:string" />
+                            <xs:element name="nodeCount" type="xs:int" />
+                            <xs:element name="nodeId" type="xs:int" />
+                            <xs:element name="redirectNodeId" type="xs:int" />
+                            <xs:element name="sortOrder" type="xs:int"  />
+                            <xs:element name="strippedName" />
+                            <xs:element minOccurs="0" name="subNodes" nillable="true">
+                              <xs:complexType>
+                                <xs:sequence>
+                                  <xs:element maxOccurs="unbounded" name="subnode">
+                                    <xs:complexType>
+                                      <xs:sequence>
+                                        <xs:element name="id" type="xs:unsignedShort"  />
+                                        <xs:element name="type" type="xs:int"  />
+                                        <xs:element name="value" type="xs:string" />
+                                      </xs:sequence>
+                                    </xs:complexType>
+                                  </xs:element>
+                                </xs:sequence>
+                              </xs:complexType>
+                            </xs:element>
+                            <xs:element name="treeLevel" type="xs:int" />
+                            <xs:element name="type" type="xs:int" />
+                          </xs:sequence>
+                        </xs:complexType>
+                      </xs:element>
+                    </xs:sequence>
+                  </xs:complexType>
+                </xs:element>
+
+
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+
+          
+
+        <xs:element name="description" />
+        <xs:element name="displayName" type="xs:string" />
+        <xs:element name="h2g2id" type="xs:int" />
+        <xs:element name="isRoot" type="xs:boolean" minOccurs="1" />
+        <xs:element name="nodeId" type="xs:int" minOccurs="1" />
+        <xs:element name="synonyms" />
+        <xs:element name="type" type="xs:string" minOccurs="1" />
+        <xs:element name="userAdd" type="xs:int" minOccurs="1" />
+      </xs:sequence>
+ 
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

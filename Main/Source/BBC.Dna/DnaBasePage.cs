@@ -1,4 +1,10 @@
+using BBC.Dna.Component;
+using BBC.Dna.Objects;
+using BBC.Dna.Users;
+using BBC.Dna.Utils;
+using DnaIdentityWebServiceProxy;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net;
 using System.Threading;
@@ -8,12 +14,6 @@ using System.Web.Configuration;
 using System.Web.UI;
 using System.Xml;
 using System.Xml.Xsl;
-using BBC.Dna.Component;
-using DnaIdentityWebServiceProxy;
-using BBC.Dna.Utils;
-using BBC.Dna.Objects;
-using BBC.Dna.Users;
-using System.Collections.Generic;
 
 namespace BBC.Dna.Page
 {
@@ -22,7 +22,7 @@ namespace BBC.Dna.Page
     /// </summary>
     public partial class DnaBasePage : IInputContext, IOutputContext
     {
-		/// <summary>
+        /// <summary>
         /// The DnaBasePage constructor.
         /// </summary>
         /// <param name="page">An interface to a DnaWebPage</param>
@@ -32,7 +32,7 @@ namespace BBC.Dna.Page
         }
 
 
-        private SkinSelector _skinSelector = new SkinSelector(); 
+        private SkinSelector _skinSelector = new SkinSelector();
         private IDnaWebPage _dnapage;
 
         private string pageDomain
@@ -42,52 +42,52 @@ namespace BBC.Dna.Page
         }
 
         /// <summary>
-		/// Enum representing the possible categories of user we might get
-		/// </summary>
-		[Flags]
-		public enum UserTypes
-		{
-			/// <summary>
-			/// Any user allowed, including anonymous users
-			/// </summary>
-			Any = 1,
-			/// <summary>
-			/// Any authenticated user (no anonymous users)
-			/// </summary>
-			Authenticated = 2,
-			/// <summary>
-			/// Tester
-			/// </summary>
-			Tester = 4,
-			/// <summary>
-			/// A member of one of the volunteer groups
-			/// </summary>
-			Volunteer = 8,
-			/// <summary>
-			/// A moderator
-			/// </summary>
-			Moderator = 16,
-			/// <summary>
-			/// Editor (or host)
-			/// </summary>
-			Editor = 32,
-			/// <summary>
-			/// Machine administrator
-			/// </summary>
-			Administrator = 64,
-			/// <summary>
-			/// All allowed admins
-			/// </summary>
-			EditorAndAbove = Editor | Administrator,
-			/// <summary>
-			/// Moderator, Editor and Administrator are allowed
-			/// </summary>
-			ModeratorAndAbove = Moderator | EditorAndAbove,
-			/// <summary>
-			/// Allow all users who are volunteers, moderators, editors and administrators
-			/// </summary>
-			VolunteerAndAbove = Volunteer | ModeratorAndAbove
-		}
+        /// Enum representing the possible categories of user we might get
+        /// </summary>
+        [Flags]
+        public enum UserTypes
+        {
+            /// <summary>
+            /// Any user allowed, including anonymous users
+            /// </summary>
+            Any = 1,
+            /// <summary>
+            /// Any authenticated user (no anonymous users)
+            /// </summary>
+            Authenticated = 2,
+            /// <summary>
+            /// Tester
+            /// </summary>
+            Tester = 4,
+            /// <summary>
+            /// A member of one of the volunteer groups
+            /// </summary>
+            Volunteer = 8,
+            /// <summary>
+            /// A moderator
+            /// </summary>
+            Moderator = 16,
+            /// <summary>
+            /// Editor (or host)
+            /// </summary>
+            Editor = 32,
+            /// <summary>
+            /// Machine administrator
+            /// </summary>
+            Administrator = 64,
+            /// <summary>
+            /// All allowed admins
+            /// </summary>
+            EditorAndAbove = Editor | Administrator,
+            /// <summary>
+            /// Moderator, Editor and Administrator are allowed
+            /// </summary>
+            ModeratorAndAbove = Moderator | EditorAndAbove,
+            /// <summary>
+            /// Allow all users who are volunteers, moderators, editors and administrators
+            /// </summary>
+            VolunteerAndAbove = Volunteer | ModeratorAndAbove
+        }
 
         /// <summary>
         /// Gets the DNA Wrapped Request object
@@ -122,20 +122,20 @@ namespace BBC.Dna.Page
         }
 
 
- 		/// <summary>
-		/// Which users are allowed to access this page. Default to any user.
-		/// </summary>
-		//protected UserTypes _allowedUsers = UserTypes.Any;
+        /// <summary>
+        /// Which users are allowed to access this page. Default to any user.
+        /// </summary>
+        //protected UserTypes _allowedUsers = UserTypes.Any;
 
         private WholePage _page = null;
 
         private int _requestId = 0;
 
-		private bool _useDotNetRendering = false;
+        private bool _useDotNetRendering = false;
 
-		private static int _currentRequestCount = 0;
+        private static int _currentRequestCount = 0;
 
-		private ParameterTracker _tracker;
+        private ParameterTracker _tracker;
 
         private IDnaIdentityWebServiceProxy _signInComponent = null;
 
@@ -143,7 +143,7 @@ namespace BBC.Dna.Page
 
         private bool _render = true;
 
-		/// <summary>
+        /// <summary>
         /// The current dna request object
         /// </summary>
         public IRequest CurrentDnaRequest
@@ -170,14 +170,14 @@ namespace BBC.Dna.Page
             get { return AppContext.TheAppContext.BannedUserAgents; }
         }
 
-		/// <summary>
-		/// Property indicating whether we should use .NET rendering of the aspx page.
-		/// True if we should (overriding the transformation step
-		/// False if we should use the XSLT transform mechanism
-		/// </summary>
-		public bool UseDotNetRendering
-		{
-			get
+        /// <summary>
+        /// Property indicating whether we should use .NET rendering of the aspx page.
+        /// True if we should (overriding the transformation step
+        /// False if we should use the XSLT transform mechanism
+        /// </summary>
+        public bool UseDotNetRendering
+        {
+            get
             {
                 if (Request.DoesParamExist("skin", "Are we being told to render with a specific skin?"))
                 {
@@ -188,27 +188,27 @@ namespace BBC.Dna.Page
                     return _useDotNetRendering;
                 }
             }
-			set { _useDotNetRendering = value; }
-		}
+            set { _useDotNetRendering = value; }
+        }
 
         /// <summary>
         /// Get the string representing the page type.
         /// </summary>
-		public string PageType
-		{
+        public string PageType
+        {
             get { return _dnapage.PageType; }
-		}
+        }
 
         private bool IsCachedOutputAvailable()
         {
-			if (Transformer != null)
-			{
-				return Transformer.IsCachedOutputAvailable();
-			}
-			else
-			{
-				return false;
-			}
+            if (Transformer != null)
+            {
+                return Transformer.IsCachedOutputAvailable();
+            }
+            else
+            {
+                return false;
+            }
         }
 
         /// <summary>
@@ -238,62 +238,62 @@ namespace BBC.Dna.Page
             }
 
             // Create the param tracker and request objects for this request
-			_tracker = new ParameterTracker(this);
+            _tracker = new ParameterTracker(this);
 
-			if (WebConfigurationManager.AppSettings["aspneterrors"] == "1")
-			{
-				DoPageLoad();
-			}
-			else
-			{
-				bool wasExceptionCaught = false;
-				try
-				{
-					DoPageLoad();
-				}
-				catch (Exception ex)
-				{
-					wasExceptionCaught = true;
-					if (Diagnostics != null)
-					{
-						Diagnostics.WriteExceptionToLog(ex);
-					}
-				}
+            if (WebConfigurationManager.AppSettings["aspneterrors"] == "1")
+            {
+                DoPageLoad();
+            }
+            else
+            {
+                bool wasExceptionCaught = false;
+                try
+                {
+                    DoPageLoad();
+                }
+                catch (Exception ex)
+                {
+                    wasExceptionCaught = true;
+                    if (Diagnostics != null)
+                    {
+                        Diagnostics.WriteExceptionToLog(ex);
+                    }
+                }
 
-				// Initialise an error page here if we don't have one already to stop a further error
-				// masking the real one.
-				if (_page == null)
-				{
-					if (_viewingUser == null)
-					{
-						_viewingUser = new User(this);
-					}
-					_page = new WholePage(this);
-					_page.InitialisePage("ERROR");
-				}
-				
+                // Initialise an error page here if we don't have one already to stop a further error
+                // masking the real one.
+                if (_page == null)
+                {
+                    if (_viewingUser == null)
+                    {
+                        _viewingUser = new User(this);
+                    }
+                    _page = new WholePage(this);
+                    _page.InitialisePage("ERROR");
+                }
+
                 if (wasExceptionCaught && _page != null)
-				{
-					XmlNode h2g2 = _page.RootElement.FirstChild;
-					XmlNode errornode = _page.AddTextTag(h2g2, "ERROR", "An unknown error has occurred");
-					_page.AddAttribute(errornode, "REQUESTID", _requestId.ToString());
-					_page.AddAttribute(errornode, "TIME", DateTime.Now.ToString("dd MMMM yyyy, HH:mm:ss"));
-					string originalType = h2g2.Attributes["TYPE"].InnerText;
-					_page.AddAttribute(errornode, "ORIGINALPAGETYPE", originalType);
-					// This will fail if there's no TYPE attribute - but that's a fatal bug at this point anyway
-					h2g2.Attributes["TYPE"].InnerText = "ERROR";
-				}
-			}
+                {
+                    XmlNode h2g2 = _page.RootElement.FirstChild;
+                    XmlNode errornode = _page.AddTextTag(h2g2, "ERROR", "An unknown error has occurred");
+                    _page.AddAttribute(errornode, "REQUESTID", _requestId.ToString());
+                    _page.AddAttribute(errornode, "TIME", DateTime.Now.ToString("dd MMMM yyyy, HH:mm:ss"));
+                    string originalType = h2g2.Attributes["TYPE"].InnerText;
+                    _page.AddAttribute(errornode, "ORIGINALPAGETYPE", originalType);
+                    // This will fail if there's no TYPE attribute - but that's a fatal bug at this point anyway
+                    h2g2.Attributes["TYPE"].InnerText = "ERROR";
+                }
+            }
         }
-		
-		/// <summary>
-		/// This is the place where all the actual work is done
-		/// Please add all new code here, and not in the main Page_Load method
-		/// </summary>
-		private void DoPageLoad()
-		{
-			Stopwatch requesttimer = new Stopwatch();
-			requesttimer.Start();
+
+        /// <summary>
+        /// This is the place where all the actual work is done
+        /// Please add all new code here, and not in the main Page_Load method
+        /// </summary>
+        private void DoPageLoad()
+        {
+            Stopwatch requesttimer = new Stopwatch();
+            requesttimer.Start();
             InitialiseRequest();
 
             // Check to see which sign in method we need to create
@@ -316,34 +316,29 @@ namespace BBC.Dna.Page
                 // Create a new profileAPI signin object
                 throw new NotSupportedException("The ProfileAPI is nolonger supported. Please set the site to use Identity as the Signin System.");
             }
-			
-			// If we have cached output available for this request, don't do any more work
-			if (IsCachedOutputAvailable())
-			{
-				return;
-			}
-			
-			int curRequests = Interlocked.Increment(ref _currentRequestCount);
 
-			try
-			{
-                if (curRequests > MaximumRequestCount && _dnapage.PageType.Equals("SERVERTOOBUSY") == false )
-				{
+            // If we have cached output available for this request, don't do any more work
+            if (IsCachedOutputAvailable())
+            {
+                return;
+            }
+
+            int curRequests = Interlocked.Increment(ref _currentRequestCount);
+
+            try
+            {
+                if (curRequests > MaximumRequestCount && _dnapage.PageType.Equals("SERVERTOOBUSY") == false)
+                {
                     AddServerBusy();
-                    Server.Transfer("ServerTooBusyPage.aspx"); 
-					//_viewingUser = new User(this);
-					//_page = new WholePage(this);
-					//_page.InitialisePage("SERVERTOOBUSY");
-					//_page.AddTextTag(_page.RootElement.FirstChild, "REQUESTTYPE", PageType);
-                    //_skinSelector.Initialise(this, this);
-				}
+                    Server.Transfer("ServerTooBusyPage.aspx");
+                }
 
                 InitialisePage();
-                
-				// Intialise the page
+
+                // Intialise the page
                 Statistics.AddRawRequest();
 
-                if (!IsDnaUserAllowed() && !_useDotNetRendering )
+                if (!IsDnaUserAllowed() && !_useDotNetRendering)
                 {//not logged in
                     if (!_skinSelector.IsPureXml(this))
                     {
@@ -386,13 +381,13 @@ namespace BBC.Dna.Page
                 Statistics.AddRequestDuration((int)requesttimer.ElapsedMilliseconds);
                 _page.AddTimeForPage(Diagnostics.ElapsedMilliseconds);
                 _page.AddInside(_tracker, "H2G2");
-			}
-			finally
-			{
-				Interlocked.Decrement(ref _currentRequestCount);
-			}
+            }
+            finally
+            {
+                Interlocked.Decrement(ref _currentRequestCount);
+            }
 
-		}
+        }
 
         /// <summary>
         /// Checks to see if the user agent is one of the listed banned agents.
@@ -433,94 +428,94 @@ namespace BBC.Dna.Page
 #endif
         }
 
-		/// <summary>
-		/// Add to the ServerTooBusy stats
-		/// </summary>
-		public void AddServerBusy()
-		{
-			Statistics.AddServerBusy();
-		}
+        /// <summary>
+        /// Add to the ServerTooBusy stats
+        /// </summary>
+        public void AddServerBusy()
+        {
+            Statistics.AddServerBusy();
+        }
 
-		/// <summary>
-		/// Addto the tracking of average request duration
-		/// </summary>
-		/// <param name="ttaken"></param>
-		public void AddRequestDuration(int ttaken)
-		{
-			Statistics.AddRequestDuration(ttaken);
-		}
+        /// <summary>
+        /// Addto the tracking of average request duration
+        /// </summary>
+        /// <param name="ttaken"></param>
+        public void AddRequestDuration(int ttaken)
+        {
+            Statistics.AddRequestDuration(ttaken);
+        }
 
-		/// <summary>
-		/// Add a non SSO request to the stats
-		/// </summary>
-		public void AddLoggedOutRequest()
-		{
-			Statistics.AddLoggedOutRequest();
-		}
+        /// <summary>
+        /// Add a non SSO request to the stats
+        /// </summary>
+        public void AddLoggedOutRequest()
+        {
+            Statistics.AddLoggedOutRequest();
+        }
 
-		/// <summary>
-		/// Add an XML cache hit
-		/// </summary>
-		public void AddCacheHit()
-		{
-			Statistics.AddCacheHit();
-		}
+        /// <summary>
+        /// Add an XML cache hit
+        /// </summary>
+        public void AddCacheHit()
+        {
+            Statistics.AddCacheHit();
+        }
 
-		/// <summary>
-		/// Add an XML cache miss
-		/// </summary>
-		public void AddCacheMiss()
-		{
-			Statistics.AddCacheMiss();
-		}
+        /// <summary>
+        /// Add an XML cache miss
+        /// </summary>
+        public void AddCacheMiss()
+        {
+            Statistics.AddCacheMiss();
+        }
 
-		/// <summary>
-		/// Add an RSS cache hit
-		/// </summary>
-		public void AddRssCacheHit()
-		{
-			Statistics.AddRssCacheHit();
-		}
+        /// <summary>
+        /// Add an RSS cache hit
+        /// </summary>
+        public void AddRssCacheHit()
+        {
+            Statistics.AddRssCacheHit();
+        }
 
-		/// <summary>
-		/// Add an RSS cache miss
-		/// </summary>
-		public void AddRssCacheMiss()
-		{
-			Statistics.AddRssCacheMiss();
-		}
+        /// <summary>
+        /// Add an RSS cache miss
+        /// </summary>
+        public void AddRssCacheMiss()
+        {
+            Statistics.AddRssCacheMiss();
+        }
 
-		/// <summary>
-		/// Add an SSI cache hit
-		/// </summary>
-		public void AddSsiCacheHit()
-		{
-			Statistics.AddSsiCacheHit();
-		}
+        /// <summary>
+        /// Add an SSI cache hit
+        /// </summary>
+        public void AddSsiCacheHit()
+        {
+            Statistics.AddSsiCacheHit();
+        }
 
-		/// <summary>
-		/// Add an SSI cache miss
-		/// </summary>
-		public void AddSsiCacheMiss()
-		{
-			Statistics.AddSsiCacheMiss();
-		}
+        /// <summary>
+        /// Add an SSI cache miss
+        /// </summary>
+        public void AddSsiCacheMiss()
+        {
+            Statistics.AddSsiCacheMiss();
+        }
 
-		/// <summary>
-		/// Add an HTML cache hit
-		/// </summary>
-		public void AddHTMLCacheHit()
-		{
-			Statistics.AddHTMLCacheHit();
-		}
+        /// <summary>
+        /// Add an HTML cache hit
+        /// </summary>
+        public void AddHTMLCacheHit()
+        {
+            Statistics.AddHTMLCacheHit();
+        }
 
-		/// <summary>
-		/// Add an HTML cache miss
-		/// </summary>
-		public void AddHTMLCacheMiss()
-		{
-			Statistics.AddHTMLCacheMiss();
-		}
+        /// <summary>
+        /// Add an HTML cache miss
+        /// </summary>
+        public void AddHTMLCacheMiss()
+        {
+            Statistics.AddHTMLCacheMiss();
+        }
 
         /// <summary>
         /// Called by the DnaWebPage when an exception goes off.
@@ -540,7 +535,7 @@ namespace BBC.Dna.Page
         private void InitialiseRequest()
         {
             // Increment the request Id
-			_requestId = RequestIdGenerator.GetNextRequestId();
+            _requestId = RequestIdGenerator.GetNextRequestId();
 
             // Create a diagnostics object for this request
             _dnaInputDiagnostics = new DnaDiagnostics(_requestId, _dnapage.Timestamp);
@@ -552,7 +547,7 @@ namespace BBC.Dna.Page
                 TheSiteList.ReInitialise();
                 EnsureAllowedURLsExists(true, this);
             }
-           
+
 
             bool clearTemplates = (Request.Params["clear_templates"] != null);
 #if DEBUG
@@ -568,7 +563,7 @@ namespace BBC.Dna.Page
                 // Call the clear templates function
                 ClearTemplates();
             }
-            
+
 
             // Check to see if we've been told to recache the user groups
             if (Request.Params["_gc"] != null)
@@ -638,7 +633,7 @@ namespace BBC.Dna.Page
             identityDebugUser.Domain = "bbc.co.uk";
             identityDebugUser.Path = "/";
             Response.Cookies.Add(identityDebugUser);
-            
+
             HttpCookie identity = new HttpCookie("IDENTITY", "");
             identity.Expires = DateTime.Now.AddYears(-1);
             identity.Domain = "bbc.co.uk";
@@ -661,8 +656,8 @@ namespace BBC.Dna.Page
         private void InitialisePage()
         {
             CreateViewingUser();
-			_page = new WholePage(this);
-			_page.InitialisePage(PageType);
+            _page = new WholePage(this);
+            _page.InitialisePage(PageType);
 
             if (_dnapage.IncludeTopFives)
             {
@@ -699,31 +694,31 @@ namespace BBC.Dna.Page
         /// Sets up the Viewing User component
         /// </summary>
         private void CreateViewingUser()
-		{
+        {
             _viewingUser = new User(this);
-			if (false == IsRequestAnonymous)
-			{
-				_viewingUser.CreateUser();
-			}
-		}
+            if (false == IsRequestAnonymous)
+            {
+                _viewingUser.CreateUser();
+            }
+        }
 
         /// <summary>
         /// Add a component to the Page.
         /// </summary>
         /// <param name="component">The component to add to the page.</param>
-		public void AddComponent(IDnaComponent component)
-		{
+        public void AddComponent(IDnaComponent component)
+        {
             _page.AddComponent(component);
-		}
+        }
 
-		/// <summary>
+        /// <summary>
         /// This is used to insert Dna Components into the current page
         /// </summary>
         /// <param name="Component">The component that you want to insert into the page</param>
         /// <returns>True if ok, false if not</returns>
         protected bool InsertPageComponent(DnaComponent Component)
         {
-            return _page.AddInside(Component,"H2G2");
+            return _page.AddInside(Component, "H2G2");
         }
 
         private IDnaTransformer _transformer = null;
@@ -740,16 +735,16 @@ namespace BBC.Dna.Page
         {
             if (!UseDotNetRendering)
             {
-                if ( _skinSelector.IsPureXml(this) )
+                if (_skinSelector.IsPureXml(this))
                 {
                     Transformer = new PureXmlTransformer(this);
                 }
-				else if ( _skinSelector.IsXmlSkin(this) )
-				{
-					Transformer = new XmlTransformer(this);
-					IsRequestAnonymous = true;
-				}
-				else
+                else if (_skinSelector.IsXmlSkin(this))
+                {
+                    Transformer = new XmlTransformer(this);
+                    IsRequestAnonymous = true;
+                }
+                else
                 {
                     Transformer = DnaTransformer.CreateTransformer(this, this);
                 }
@@ -830,16 +825,16 @@ namespace BBC.Dna.Page
                     Response.Write("<!-- There was a problem rendering this page. -->");
                 }
             }
-		}
+        }
 
         /// <summary>
-		/// The WholePage object containing the XML data as constructed
-		/// Useful for a .NET rendered page
-		/// </summary>
-		protected WholePage PageData
-		{
-			get { return _page; }
-		}
+        /// The WholePage object containing the XML data as constructed
+        /// Useful for a .NET rendered page
+        /// </summary>
+        protected WholePage PageData
+        {
+            get { return _page; }
+        }
 
         /// <summary>
         /// Called by the DnaWebPage. Used to write to the logs and close any profile contections
@@ -912,8 +907,8 @@ namespace BBC.Dna.Page
                 }
 
                 // Create a dependency for the cached transform based on the xsltransformcache cache item. When this gets removed, the transform will be removed at the same time.
-                CacheDependency dep = new CacheDependency(null,recacheDepends);
-                
+                CacheDependency dep = new CacheDependency(null, recacheDepends);
+
                 // Now add the new transform to the cache
                 DnaStaticCache.Add(xsltFileName, transformer, dep, DateTime.Now.AddMonths(12), TimeSpan.Zero, CacheItemPriority.High, null);
                 Diagnostics.WriteToLog("XSLT Caching", "Added cached file " + xsltFileName);
@@ -942,7 +937,7 @@ namespace BBC.Dna.Page
                     // Without all this settings and resolver stuff, you can't use the Load method
                     // and tell it to allow DTDs
                     XmlReaderSettings xset = new XmlReaderSettings();
-                    xset.ProhibitDtd = false;
+                    xset.DtdProcessing = DtdProcessing.Prohibit;
                     using (XmlReader xread = XmlReader.Create(xsltFileName, xset))
                     {
                         transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
@@ -997,22 +992,22 @@ namespace BBC.Dna.Page
             }
         }
 
-		/// <summary>
-		/// Takes the path to an XSLT stylesheet and creates a compiled transformer
-		/// </summary>
-		/// <param name="xsltFileName">path to the .xsl file</param>
-		/// <returns>the XslCompiledTransform object created from the stylesheet</returns>
-		public static XslCompiledTransform CreateCompiledTransform(string xsltFileName)
-		{
+        /// <summary>
+        /// Takes the path to an XSLT stylesheet and creates a compiled transformer
+        /// </summary>
+        /// <param name="xsltFileName">path to the .xsl file</param>
+        /// <returns>the XslCompiledTransform object created from the stylesheet</returns>
+        public static XslCompiledTransform CreateCompiledTransform(string xsltFileName)
+        {
             XslCompiledTransform transformer = new XslCompiledTransform(false /* xsltDebugging*/);
 
-			// this stuff is necessary to cope with our stylesheets having DTDs
-			// Without all this settings and resolver stuff, you can't use the Load method
-			// and tell it to allow DTDs
-			XmlReaderSettings xset = new XmlReaderSettings();
-			xset.ProhibitDtd = false;
-			using (XmlReader xread = XmlReader.Create(xsltFileName, xset))
-			{
+            // this stuff is necessary to cope with our stylesheets having DTDs
+            // Without all this settings and resolver stuff, you can't use the Load method
+            // and tell it to allow DTDs
+            XmlReaderSettings xset = new XmlReaderSettings();
+            xset.DtdProcessing = DtdProcessing.Prohibit;
+            using (XmlReader xread = XmlReader.Create(xsltFileName, xset))
+            {
                 try
                 {
                     transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
@@ -1029,35 +1024,35 @@ namespace BBC.Dna.Page
                     }
                     else
                     {
-                        throw new XsltException("Couldn't load xslt file: " + xsltFileName, e); 
+                        throw new XsltException("Couldn't load xslt file: " + xsltFileName, e);
                     }
                 }
-			}
-			return transformer;
-		}
+            }
+            return transformer;
+        }
 
-		private static XslCompiledTransform CreateCompiledTransformLongWinded(string xsltFileName)
-		{
-			XslCompiledTransform transformer = new XslCompiledTransform();
+        private static XslCompiledTransform CreateCompiledTransformLongWinded(string xsltFileName)
+        {
+            XslCompiledTransform transformer = new XslCompiledTransform();
 
-			// this stuff is necessary to cope with our stylesheets having DTDs
-			// Without all this settings and resolver stuff, you can't use the Load method
-			// and tell it to allow DTDs
-			XsltSettings settings = new XsltSettings();
-			settings.EnableDocumentFunction = true;
-			XmlUrlResolver resolver = new XmlUrlResolver();
-			resolver.Credentials = CredentialCache.DefaultCredentials;
+            // this stuff is necessary to cope with our stylesheets having DTDs
+            // Without all this settings and resolver stuff, you can't use the Load method
+            // and tell it to allow DTDs
+            XsltSettings settings = new XsltSettings();
+            settings.EnableDocumentFunction = true;
+            XmlUrlResolver resolver = new XmlUrlResolver();
+            resolver.Credentials = CredentialCache.DefaultCredentials;
 
-			XmlReaderSettings xset = new XmlReaderSettings();
-			// Set the reader settings object to use the resolver.
-			xset.XmlResolver = resolver;
+            XmlReaderSettings xset = new XmlReaderSettings();
+            // Set the reader settings object to use the resolver.
+            xset.XmlResolver = resolver;
 
-			xset.ProhibitDtd = false;
-			XmlReader xread = XmlReader.Create(xsltFileName, xset);
-			transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
-			return transformer;
-		}
-		
+            xset.DtdProcessing = DtdProcessing.Prohibit;
+            XmlReader xread = XmlReader.Create(xsltFileName, xset);
+            transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
+            return transformer;
+        }
+
         /// <summary>
         /// This removes the xsltransformcache item from the Cache, which in turn forces all the cached transforms to be cleared form
         /// the cache as well.
@@ -1069,22 +1064,22 @@ namespace BBC.Dna.Page
             Diagnostics.WriteToLog("XSLT Caching", "Clear templates called");
         }
 
-		/// <summary>
-		/// Test whether the http authentication for this request is suitable for this page
-		/// Some pages are not allowed for anonymous users. Some are restricted to editor only.
-		/// Subclassed pages should change the value of _allowedUsers appropriately
-		/// </summary>
-		/// <returns>true if the current request has suitable authentication. False otherwise.</returns>
-		public bool IsUserAllowed()
-		{
-			if ((_dnapage.AllowedUsers & UserTypes.Any) != 0)
-			{
-				return true;
-			}
-			if ((_dnapage.AllowedUsers & UserTypes.Volunteer) != 0)
-			{
-				return true;
-			}
+        /// <summary>
+        /// Test whether the http authentication for this request is suitable for this page
+        /// Some pages are not allowed for anonymous users. Some are restricted to editor only.
+        /// Subclassed pages should change the value of _allowedUsers appropriately
+        /// </summary>
+        /// <returns>true if the current request has suitable authentication. False otherwise.</returns>
+        public bool IsUserAllowed()
+        {
+            if ((_dnapage.AllowedUsers & UserTypes.Any) != 0)
+            {
+                return true;
+            }
+            if ((_dnapage.AllowedUsers & UserTypes.Volunteer) != 0)
+            {
+                return true;
+            }
 
             if (_isSecureRequest)
             {
@@ -1095,43 +1090,43 @@ namespace BBC.Dna.Page
                 return false;
             }
 
-			/*string userName = Request.LogonUserIdentity.Name;
-			if (userName.Contains(@"\"))
-			{
-				userName = userName.Substring(userName.IndexOf('\\')+1);
-			}
+            /*string userName = Request.LogonUserIdentity.Name;
+            if (userName.Contains(@"\"))
+            {
+                userName = userName.Substring(userName.IndexOf('\\')+1);
+            }
             if (userName == String.Empty)
-			{
-				return false;
-			}
+            {
+                return false;
+            }
             if ((_dnapage.AllowedUsers & UserTypes.Authenticated) != 0)
-			{
-				return true;
-			}
+            {
+                return true;
+            }
             else if ((_dnapage.AllowedUsers & UserTypes.Tester) != 0 && userName == "tester")
-			{
-				return true;
-			}
+            {
+                return true;
+            }
             else if ((_dnapage.AllowedUsers & UserTypes.Moderator) != 0 && userName == "moderator")
-			{
-				return true;
-			}
+            {
+                return true;
+            }
             else if ((_dnapage.AllowedUsers & UserTypes.Editor) != 0 && userName == "editor")
-			{
-				return true;
-			}
+            {
+                return true;
+            }
             else if ((_dnapage.AllowedUsers & UserTypes.Administrator) != 0 && userName == "editor")
-			{
-				return true;
-			}
-			else
-			{
-				return false;
-			}*/
-		}
-		/// <summary>
-		/// Checks whether if the page must be accessed by secure means that it is
-		/// </summary>
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }*/
+        }
+        /// <summary>
+        /// Checks whether if the page must be accessed by secure means that it is
+        /// </summary>
         /// <returns>true if the page must be accessed securely.</returns>
         public bool IsSecureAccessAllowed()
         {
@@ -1152,17 +1147,17 @@ namespace BBC.Dna.Page
             return true;
 
         }
-        
-		/// <summary>
-		/// Checks whether the page is accessible by types of logged on user
-		/// </summary>
-		/// <returns>true if the current user is allowed to view the page. False otherwise.</returns>
+
+        /// <summary>
+        /// Checks whether the page is accessible by types of logged on user
+        /// </summary>
+        /// <returns>true if the current user is allowed to view the page. False otherwise.</returns>
         public bool IsDnaUserAllowed()
         {
             if ((_dnapage.AllowedUsers & UserTypes.Any) != 0)
-			{
-				return true;
-			}
+            {
+                return true;
+            }
             if (ViewingUser.UserID != 0 && ViewingUser.UserLoggedIn)
             {
                 //if ((AllowedUsers & UserTypes.Authenticated) != 0)
@@ -1170,26 +1165,26 @@ namespace BBC.Dna.Page
                 //    return true;
                 //}
                 //else
-				if ((_dnapage.AllowedUsers & UserTypes.Volunteer) != 0 && ViewingUser.IsVolunteer)
-				{
-					return true;
-				}
-				else if ((_dnapage.AllowedUsers & UserTypes.Moderator) != 0 && ViewingUser.IsModerator)
-				{
-					return true;
-				}
-				else if ((_dnapage.AllowedUsers & UserTypes.Editor) != 0 && ViewingUser.IsEditor)
-				{
-					return true;
-				}
-				else if ((_dnapage.AllowedUsers & UserTypes.Administrator) != 0 && ViewingUser.IsSuperUser)
-				{
-					return true;
-				}
-				else
-				{
-					return false;
-				}
+                if ((_dnapage.AllowedUsers & UserTypes.Volunteer) != 0 && ViewingUser.IsVolunteer)
+                {
+                    return true;
+                }
+                else if ((_dnapage.AllowedUsers & UserTypes.Moderator) != 0 && ViewingUser.IsModerator)
+                {
+                    return true;
+                }
+                else if ((_dnapage.AllowedUsers & UserTypes.Editor) != 0 && ViewingUser.IsEditor)
+                {
+                    return true;
+                }
+                else if ((_dnapage.AllowedUsers & UserTypes.Administrator) != 0 && ViewingUser.IsSuperUser)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             else
             {
@@ -1197,27 +1192,27 @@ namespace BBC.Dna.Page
             }
         }
 
-		/// <summary>
-		/// <see cref="IAppContext"/>
-		/// </summary>
-		public bool FileCacheGetItem(string pCacheName, string pItemName, ref DateTime pdExpires, ref string oXMLText)
-		{
-			return AppContext.TheAppContext.FileCacheGetItem(pCacheName, pItemName, ref pdExpires, ref oXMLText);
-		}
+        /// <summary>
+        /// <see cref="IAppContext"/>
+        /// </summary>
+        public bool FileCacheGetItem(string pCacheName, string pItemName, ref DateTime pdExpires, ref string oXMLText)
+        {
+            return AppContext.TheAppContext.FileCacheGetItem(pCacheName, pItemName, ref pdExpires, ref oXMLText);
+        }
 
-		private bool _isRequestAnonymous = false;
+        private bool _isRequestAnonymous = false;
 
-		/// <summary>
-		/// Set this property to true if this request should not check for an SSO cookie and verify the user's identity
-		/// This mode is used for RSS requests (requests where the skin = xml) but might be used in other scenarios.
-		/// When this flag is set to true (and it must be set prior to the full initialisation of the page otherwise the
-		/// default false will be used, and the user will be verified) the ViewingUser object will always show UserLoggedIn == false;
-		/// </summary>
-		public bool IsRequestAnonymous
-		{
-			get { return _isRequestAnonymous; }
-			set { _isRequestAnonymous = value; }
-		}
+        /// <summary>
+        /// Set this property to true if this request should not check for an SSO cookie and verify the user's identity
+        /// This mode is used for RSS requests (requests where the skin = xml) but might be used in other scenarios.
+        /// When this flag is set to true (and it must be set prior to the full initialisation of the page otherwise the
+        /// default false will be used, and the user will be verified) the ViewingUser object will always show UserLoggedIn == false;
+        /// </summary>
+        public bool IsRequestAnonymous
+        {
+            get { return _isRequestAnonymous; }
+            set { _isRequestAnonymous = value; }
+        }
 
         /// <summary>
         /// Adds a cookie to the response
@@ -1229,13 +1224,13 @@ namespace BBC.Dna.Page
         }
     }
 
-	class RequestIdGenerator
-	{
-		private static int id = 0;
-		static public int GetNextRequestId()
-		{
-			return Interlocked.Increment(ref id);
-		}
-	}
+    class RequestIdGenerator
+    {
+        private static int id = 0;
+        static public int GetNextRequestId()
+        {
+            return Interlocked.Increment(ref id);
+        }
+    }
 
 }

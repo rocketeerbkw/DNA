@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="user.xsd"/>
+  <xs:include schemaLocation="ExtraInfo.xsd"/>
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:include schemaLocation="MediaAsset.xsd"/>
+	<xs:include schemaLocation="Phrases.xsd"/>
+	<xs:include schemaLocation="Zeitgeist.xsd"/>
+	<xs:element name="ARTICLE">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ENTRY-ID" type="xs:int" minOccurs="0"/>
+				<xs:element name="H2G2-ID" type="xs:int" minOccurs="0"/>
+				<xs:element name="SITEID" type="xs:int" minOccurs="0"/>
+				<xs:element name="RECOMMENDATION-ID" type="xs:int" minOccurs="0"/>
+				<xs:element name="NOTIFIED" type="xs:int" minOccurs="0"/>
+				<xs:element name="EDITOR" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AUTHOR" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ACCEPTOR" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SCOUT" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SUBEDITOR" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="STATUS" type="xs:int" minOccurs="0"/>       
+				<xs:element name="RECOMMENDATION-STATUS" type="xs:int" minOccurs="0"/>
+				<xs:element name="SUBBING-STATUS" type="xs:int" minOccurs="0"/>
+				<xs:element name="STYLE" type="xs:int" minOccurs="0"/>
+				<xs:element name="SUBJECT" type="xs:string" minOccurs="0"/>
+        <xs:element name="TYPE" type="xs:string" minOccurs="0"/>
+				<xs:element name="DATE-CREATED" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DATECREATED" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LASTUPDATED" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DATE-RECOMMENDED" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DATE-ALLOCATED" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DATE-RETURNED" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+        <xs:element ref="EXTRAINFO" minOccurs="0"/>
+				<xs:element name="NUMBEROFPOSTS" type="xs:int" minOccurs="0"/>
+				<xs:element name="FORUMPOSTCOUNT" type="xs:int" minOccurs="0"/>
+				<xs:element name="FORUMPOSTLIMIT" type="xs:int" minOccurs="0"/>
+				<xs:element name="FORUMLASTPOSTED" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Start of search date range. Element does not appear in XML if not exists. </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DATERANGESTART" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Start of search date range. Element does not appear in XML if not exists. </xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DATERANGEEND" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>End of search date range. Element does not appear in XML if not exists.</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TIMEINTERVAL" type="xs:int" minOccurs="0"/>
+				<xs:element name="ALLOCATOR" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RECOMMENDATION-DECISION-DATE" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BOOKMARKCOUNT" type="xs:int" minOccurs="0"/>
+				<xs:element ref="ZEITGEIST" minOccurs="0"/>
+				<xs:element name="DISTANCE" type="xs:float" minOccurs="0"/>
+				<xs:element ref="MEDIAASSET" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="PHRASES" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>KeyPhrases associated with article.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="H2G2ID" type="xs:int" use="required"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

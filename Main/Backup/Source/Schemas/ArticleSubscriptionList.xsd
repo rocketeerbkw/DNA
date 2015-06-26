@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="ArticleSummary.xsd"/>
+	<xs:element name="ARTICLESUBSCRIPTIONLIST">
+		<xs:annotation>
+			<xs:documentation>A collection of articles written by users who have been subscribed to.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ARTICLE" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="SKIP" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Index of first row in list of articles.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SHOW" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Number of articles requested.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="COUNT" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Number of articles returned on this page.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="TOTAL" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Total number of articles returned for this search.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

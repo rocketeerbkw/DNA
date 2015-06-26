@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="GuideML.xsd"/>
+  <xs:include schemaLocation="Date.xsd"/>
+  <xs:element name="TOPIC_PAGE">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="TOPICLIST">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element minOccurs="0" maxOccurs="unbounded" name="TOPIC">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="TOPICID" type="xs:int" />
+                    <xs:element name="H2G2ID" type="xs:unsignedInt" />
+                    <xs:element name="SITEID" type="xs:unsignedByte" />
+                    <xs:element name="TOPICSTATUS" type="xs:unsignedByte" />
+                    <xs:element name="TOPICLINKID" type="xs:unsignedShort" />
+                    <xs:element name="TITLE" type="xs:string" />
+                    <xs:element name="FORUMID" type="xs:unsignedInt" />
+                    <xs:element name="FORUMPOSTCOUNT" type="xs:unsignedByte" />
+                    <xs:element name="FASTMOD" type="xs:unsignedByte" />
+                    <xs:element name="DESCRIPTION">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element ref="GUIDE" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="POSITION" type="xs:unsignedByte" />
+                    <xs:element name="CREATEDBY" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="USERNAME" type="xs:string" />
+                          <xs:element name="USERID" type="xs:int" />
+                          <xs:element name="CREATEDDATE">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element ref="DATE"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="UPDATEDBY" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="USERNAME" type="xs:string" />
+                          <xs:element name="USERID" type="xs:int" />
+                          <xs:element name="LASTUPDATED">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element ref="DATE"/>
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="STYLE" type="xs:unsignedByte" />
+                    <xs:element name="EDITKEY" type="xs:string" />
+                    <xs:element name="FRONTPAGEELEMENT">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="ELEMENTID" type="xs:int" />
+                          <xs:element name="TEMPLATE" type="xs:unsignedByte" />
+                          <xs:element name="POSITION" type="xs:unsignedByte" />
+                          <xs:element name="TITLE" type="xs:string" />
+                          <xs:element name="TEXT">
+                            <xs:complexType>
+                              <xs:sequence>
+                                <xs:element ref="GUIDE" />
+                              </xs:sequence>
+                            </xs:complexType>
+                          </xs:element>
+                          <xs:element name="IMAGENAME" type="xs:string" />
+                          <xs:element name="IMAGEALTTEXT" type="xs:string" />
+                          <xs:element name="EDITKEY" type="xs:string" />
+                          <xs:element name="STATUS" type="xs:int" />
+                          <xs:element name="FORUMPOSTCOUNT" type="xs:int" />
+                          <xs:element name="TOPICID" type="xs:int" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="STATUS" type="xs:string" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="PAGE" type="xs:string" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

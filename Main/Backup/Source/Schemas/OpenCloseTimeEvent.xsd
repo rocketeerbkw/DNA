@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="DNADayOfWeek.xsd"/>
+	<xs:include schemaLocation="DNAHour.xsd"/>
+	<xs:include schemaLocation="DNAMinute.xsd"/>
+	<xs:element name="EVENT">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="TIME">
+					<xs:complexType>
+						<xs:attribute name="DAYTYPE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="HOURS" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="MINUTES" type="xs:unsignedByte" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="ACTION" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

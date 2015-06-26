@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="UIFieldErrors.xsd"/>
+	<xs:element name="UIFIELD">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="NAME" type="xs:string" />
+				<xs:element name="LABEL" />
+				<xs:element name="TYPE" type="xs:string" />
+				<xs:element name="DESCRIPTION" />
+				<xs:element name="KEYPHRASENAMESPACE" />
+				<xs:element name="DEFAULTVALUE" type="xs:string" />
+				<xs:element name="NOTEQUALTOVALUE" />
+				<xs:element name="VALUERAW" />
+				<xs:element name="VALUEESCAPED" />
+				<xs:element name="VALIDATATIONSTATUS" />
+				<xs:element name="PERMISSIONS" type="xs:string" />
+				<xs:element ref="UIFIELDERRORS" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="UIFIELDID" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="ISKEYPHRASE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="REQUIRED" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="ESCAPE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="RAWINPUT" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="INCLUDEINGUIDEENTRY" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="VALIDATEEMPTY" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="VALIDATENOTEQUALTO" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="VALIDATEPARSESOK" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="VALIDATECUSTOM" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="STEP" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

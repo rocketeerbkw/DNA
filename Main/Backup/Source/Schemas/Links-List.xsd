@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="User.xsd"/>
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="LINKS-LIST">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="USER" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="LINK">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DESCRIPTION" type="xs:string" />
+							<xs:element name="SUBMITTER">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="USER" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="DATELINKED">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="DATE" minOccurs="0" maxOccurs="1"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="TYPE" type="xs:string" use="required" />
+						<xs:attribute name="LINKID" type="xs:unsignedShort" use="required" />
+						<xs:attribute name="TEAMID" type="xs:unsignedInt" use="required" />
+						<xs:attribute name="RELATIONSHIP" type="xs:string" use="required" />
+						<xs:attribute name="PRIVATE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="DNAUID" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="SKIP" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="SHOW" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

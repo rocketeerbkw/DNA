@@ -116,6 +116,7 @@ CGI::CGI() :					m_pSiteList(NULL),
 	m_TickStart = GetTickCount();
 	m_LastEventTime = m_TickStart;
 	m_InputContext.SetCgi(this);
+
 }
 
 CGI::CGI(const CGI& other) :	m_pSiteList(other.m_pSiteList),
@@ -273,6 +274,7 @@ bool CGI::Initialise(EXTENSION_CONTROL_BLOCK* pECB, const TDVCHAR* pszQuery, LPT
 	{
 		delete m_pOutputContext;
 		m_pOutputContext = NULL;
+
 		return false;
 	}
 

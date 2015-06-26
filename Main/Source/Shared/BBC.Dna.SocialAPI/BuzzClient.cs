@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Configuration;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ServiceModel;
-using System.ServiceModel.Syndication;
-using System.ServiceModel.Web;
-using System.Net;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Security.Cryptography.X509Certificates;
-using System.Xml;
-using System.Runtime.Serialization.Json;
-using System.Web.Configuration;
 using System.Diagnostics;
+using System.IO;
+using System.Net;
+using System.Runtime.Serialization.Json;
+using System.Security.Cryptography.X509Certificates;
+using System.ServiceModel;
+using System.Text;
+using System.Web.Configuration;
 
 namespace BBC.Dna.SocialAPI
 {
     public class BuzzClient : ClientBase<IBuzz>, IBuzz
     {
         #region method(s)
-        
+
         private bool _traceOutput = true;
         private StringBuilder _callInfo = new StringBuilder();
 
@@ -104,7 +98,7 @@ namespace BBC.Dna.SocialAPI
         /// <returns></returns>
         public BuzzTwitterProfiles GetProfiles()
         {
-            var uri = ConfigurationSettings.AppSettings["BuzzProfileListAPI"].ToString();
+            var uri = ConfigurationManager.AppSettings["BuzzProfileListAPI"].ToString();
 
             AddTimingInfoLine("<* BUZZ API CALL GET PROFILES START *>");
             AddTimingInfoLine("Base URL           - " + uri);
@@ -141,7 +135,7 @@ namespace BBC.Dna.SocialAPI
         /// <returns></returns>
         public BuzzTwitterProfile GetProfile(string twitterProfileId)
         {
-            var uri = ConfigurationSettings.AppSettings["BuzzProfileAPI"].ToString();
+            var uri = ConfigurationManager.AppSettings["BuzzProfileAPI"].ToString();
 
             uri += twitterProfileId;
 
@@ -181,7 +175,7 @@ namespace BBC.Dna.SocialAPI
         public string CreateUpdateProfile(BuzzTwitterProfile twitterProfile)
         {
             var resStatus = string.Empty;
-            var uri = ConfigurationSettings.AppSettings["BuzzProfileAPI"].ToString();
+            var uri = ConfigurationManager.AppSettings["BuzzProfileAPI"].ToString();
 
             AddTimingInfoLine("<* BUZZ API CALL CREATE/UPDATE PROFILE START *>");
             AddTimingInfoLine("Base URL           - " + uri);
@@ -204,7 +198,7 @@ namespace BBC.Dna.SocialAPI
             {
                 requestWriter.Write(jsonserdata);
             }
-           
+
             try
             {
                 response = (HttpWebResponse)webRequest.GetResponse();
@@ -217,7 +211,7 @@ namespace BBC.Dna.SocialAPI
             }
             catch (Exception ex)
             {
-                if(ex.Message.Contains("400"))
+                if (ex.Message.Contains("400"))
                 {
                     resStatus = ex.Message + " Please check the profile request details.";
 

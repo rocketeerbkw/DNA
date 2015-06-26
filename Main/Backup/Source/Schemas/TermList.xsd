@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:include schemaLocation="Date.xsd" />
+<xs:element name="TERMSLIST">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element maxOccurs="unbounded" name="TERMDETAILS">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="REASON" type="xs:string" />
+            <xs:element name="UPDATEDDATE">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element ref="DATE" />
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="USERNAME" type="xs:string" />
+          </xs:sequence>
+          <xs:attribute name="ID" type="xs:unsignedShort" use="required" />
+          <xs:attribute name="ACTION" type="xs:string" use="required" />
+          <xs:attribute name="TERM" type="xs:string" use="required" />
+          <xs:attribute name="MODCLASSID" type="xs:int" use="required" />
+          <xs:attribute name="ForumID" type="xs:int" use="required" />
+          <xs:attribute name="USERID" type="xs:int" use="required" />
+          <xs:attribute name="FromModClass" type="xs:string" use="required" />
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="MODCLASSID" type="xs:unsignedByte" use="required" />
+    <xs:attribute name="FORUMID" type="xs:unsignedByte" use="required" />
+  </xs:complexType>
+</xs:element>
+</xs:schema>
+

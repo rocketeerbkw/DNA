@@ -1,0 +1,11 @@
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\bin\Release\FunctionalTests.SocialAPI.dll.config
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\bin\Release\FunctionalTests.SocialAPI.dll
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\bin\Release\FunctionalTests.SocialAPI.pdb
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\bin\Release\BBC.Dna.SocialAPI.dll
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\bin\Release\HtmlAgilityPack.dll
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\bin\Release\BBC.Dna.SocialAPI.pdb
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\bin\Release\HtmlAgilityPack.pdb
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\bin\Release\HtmlAgilityPack.xml
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\obj\Release\FunctionalTests.SocialAPI.csprojResolveAssemblyReference.cache
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\obj\Release\FunctionalTests.SocialAPI.dll
+C:\ws\projects\DNA\Main\Tests\FunctionalTests.SocialAPI\obj\Release\FunctionalTests.SocialAPI.pdb

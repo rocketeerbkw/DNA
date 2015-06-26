@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="../Dna.Services.Articles/articleInfo.xsd"/>
+  <xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
+  <xs:include schemaLocation="../Dna.Services.Common/date.xsd"/>
+  <xs:include schemaLocation="../Dna.Services.Common/guideml.xsd"/>
+  <xs:element name="article">
+    <xs:complexType>
+      <xs:sequence>
+		<xs:element ref="articleInfo" />
+        <xs:element name="canRead" type="xs:boolean" />
+        <xs:element name="canWrite" type="xs:boolean" />
+        <xs:element name="hidden" type="xs:unsignedByte" />
+        <xs:element name="id" type="xs:int" />
+        <xs:element name="style" type="xs:string" />
+        <xs:element name="subject" type="xs:string" />
+        <xs:element name="text">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="GUIDE" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="type" type="xs:string" />
+		<xs:element name="xmlError" type="xs:string" minOccurs="0" />
+		<xs:element name="xmlErrorLineNumber" type="xs:int"  minOccurs="0" />
+		<xs:element name="xmlErrorLinePosition" type="xs:int" minOccurs="0"  />
+	  </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

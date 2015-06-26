@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="ExtraElementXml.xsd"/>
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="flickrlink.xsd"/>
+	<xs:element name="MEDIAASSET">
+		<xs:annotation>
+			<xs:documentation>Xml for media asset.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="FTPPATH" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Directory path to actual file associated with this media asset on the FTP server.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="CAPTION" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Caption for media asset.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="OWNER">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MIMETYPE" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Mime type of media asset.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="EXTRAELEMENTXML"/>
+				<xs:element name="HIDDEN" type="xs:int">
+					<xs:annotation>
+						<xs:documentation>Visible flag.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EXTERNALLINKTYPE" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>Denotes type for external linked media assets such as YouTube , Google, MySpace and Unknown.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EXTERNALLINKURL" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>URL to media asset on external site.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="EXTERNALLINKID" type="xs:string">
+					<xs:annotation>
+						<xs:documentation>ID of the external object on external site.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element ref="FLICKR" minOccurs="0"/>
+			</xs:sequence>
+			<xs:attribute name="MEDIAASSETID" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>ID of media asset.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="CONTENTTYPE" type="MediaAsset_ContentType" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="MediaAsset_ContentType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Image asset</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Audio asset</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>Video asset</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

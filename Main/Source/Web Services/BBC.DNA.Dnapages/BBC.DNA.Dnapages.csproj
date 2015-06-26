@@ -1,4 +1,6 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,11 +12,22 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BBC.DNA.Dnapages</RootNamespace>
     <AssemblyName>BBC.DNA.Dnapages</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,18 +69,11 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Data.DataSetExtensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Web.Extensions">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
-    <Reference Include="System.Xml.Linq">
-      <RequiredTargetFramework>3.5</RequiredTargetFramework>
-    </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
@@ -75,6 +81,7 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="System.Web.Mobile" />
+    <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="acsdemoindex.aspx.cs">
@@ -828,52 +835,60 @@
     <Compile Include="WelcomePage.aspx.designer.cs">
       <DependentUpon>WelcomePage.aspx</DependentUpon>
     </Compile>
+    <None Include="Properties\PublishProfiles\localhost.pubxml" />
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\BBC.Dna\BBC.DNA.csproj">
       <Project>{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}</Project>
-      <Name>BBC.DNA %28Source\BBC.Dna\BBC.DNA%29</Name>
+      <Name>BBC.DNA</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj">
       <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
-      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+      <Name>BBC.Dna.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
-      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+      <Name>BBC.Dna.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
       <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
-      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+      <Name>BBC.DNA.Moderation.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
       <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
-      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
+      <Name>BBC.Dna.Moderation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
-      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+      <Name>BBC.Dna.Sites</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI.csproj">
       <Project>{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D}</Project>
-      <Name>BBC.Dna.SocialAPI %28Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI%29</Name>
+      <Name>BBC.Dna.SocialAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj">
       <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
-      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+      <Name>BBC.Dna.Users</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
-      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+      <Name>BBC.Dna.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj">
       <Project>{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}</Project>
-      <Name>DnaIdentityWebServiceProxy %28Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy%29</Name>
+      <Name>DnaIdentityWebServiceProxy</Name>
       <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj">
       <Project>{4770D032-9B06-450D-8B00-7200D8330397}</Project>
-      <Name>Memcached.ClientLibrary %28Source\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary%29</Name>
+      <Name>Memcached.ClientLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -1000,8 +1015,13 @@
     <Content Include="CommentsListPage.aspx" />
     <Content Include="WelcomePage.aspx" />
   </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

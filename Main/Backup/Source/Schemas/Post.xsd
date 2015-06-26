@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="Link.xsd"/>
+	<xs:include schemaLocation="DNARichTextElements.xsd"/>
+	<xs:include schemaLocation="PostType.xsd"/>
+	<xs:element name="POST" type="POST"/>
+</xs:schema>

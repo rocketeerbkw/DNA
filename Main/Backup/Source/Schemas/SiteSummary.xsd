@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="Date.xsd"/>
+  <xs:element name="SITESUMMARY">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="STARTDATE" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="DATE"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ENDDATE" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="DATE"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="POSTSUMMARYLIST" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="POSTSUMMARY" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="POSTTOTAL" type="xs:unsignedShort" />
+                    <xs:element name="POSTMODERATEDTOTAL" type="xs:unsignedByte" />
+                    <xs:element name="POSTPASSED" type="xs:unsignedByte" />
+                    <xs:element name="POSTFAILED" type="xs:unsignedByte" />
+                    <xs:element name="POSTREFERRED" type="xs:unsignedByte" />
+                    <xs:element name="POSTCOMPLAINT" type="xs:unsignedByte" />
+                  </xs:sequence>
+                  <xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="ARTICLESUMMARYLIST" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ARTICLESUMMARY" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="ARTICLEMODERATEDTOTAL" type="xs:unsignedByte" />
+                    <xs:element name="ARTICLEPASSED" type="xs:unsignedByte" />
+                    <xs:element name="ARTICLEFAILED" type="xs:unsignedByte" />
+                    <xs:element name="ARTICLEREFERRED" type="xs:unsignedByte" />
+                    <xs:element name="ARTICLECOMPLAINT" type="xs:unsignedByte" />
+                  </xs:sequence>
+                  <xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="GENERALSUMMARYLIST" minOccurs="0" maxOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="GENERALSUMMARY" minOccurs="0" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="GENERALMODERATEDTOTAL" type="xs:unsignedByte" />
+                    <xs:element name="GENERALPASSED" type="xs:unsignedByte" />
+                    <xs:element name="GENERALFAILED" type="xs:unsignedByte" />
+                    <xs:element name="GENERALREFERRED" type="xs:unsignedByte" />
+                  </xs:sequence>
+                  <xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

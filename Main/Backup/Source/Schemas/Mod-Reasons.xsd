@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="MOD-REASONS">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element maxOccurs="unbounded" name="MOD-REASON" minOccurs="0">
+          <xs:complexType>
+            <xs:attribute name="REASONID" type="xs:unsignedInt" use="required" />
+            <xs:attribute name="DISPLAYNAME" type="xs:string" use="required" />
+            <xs:attribute name="EMAILNAME" type="xs:string" use="required" />
+            <xs:attribute name="EDITORSONLY" type="xs:unsignedByte" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="MODCLASSID" type="xs:unsignedInt" use="optional" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

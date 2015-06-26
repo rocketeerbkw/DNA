@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+		<xs:element name="SERVICEBROKERTRANSMISSIONQUEUE">
+			<xs:complexType>
+				<xs:sequence>
+					<xs:element name="MESSAGE" maxOccurs="unbounded">
+						<xs:complexType>
+							<xs:sequence>
+								<xs:element name="FROM_SERVICE_NAME" type="xs:string"/>
+								<xs:element name="TO_SERVICE_NAME" type="xs:string"/>
+								<xs:element name="SERVICE_CONTRACT_NAME" type="xs:string"/>
+								<xs:element name="TRANSMISSION_STATUS" type="xs:string"/>
+							</xs:sequence>
+						</xs:complexType>
+					</xs:element>
+				</xs:sequence>
+			</xs:complexType>
+		</xs:element>
+</xs:schema>

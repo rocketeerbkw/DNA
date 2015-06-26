@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="Date.xsd" />
+  <xs:element name="LINKMODERATION-LIST">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="LINKMODERATION" minOccurs="0">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="URI" type="xs:string" />
+              <xs:element name="SITEID" type="xs:unsignedByte" />
+              <xs:element name="NOTES" />
+              <xs:element name="LOCKED">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="DATELOCKED">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element ref="DATE"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="USER">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element name="USERID" type="xs:unsignedInt" />
+                          <xs:element name="USERNAME" type="xs:string" />
+                          <xs:element name="FIRSTNAMES" type="xs:string" />
+                          <xs:element name="LASTNAME" type="xs:string" />
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+              <xs:element name="ALERTS" minOccurs="0">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="TEXT" type="xs:string" />
+                    <xs:element name="DATEQUEUED">
+                      <xs:complexType>
+                        <xs:sequence>
+                          <xs:element ref="DATE"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="MODID" type="xs:unsignedByte" use="required" />
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="MODCLASSID" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="ALERTS" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="COUNT" type="xs:unsignedInt" use="required" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

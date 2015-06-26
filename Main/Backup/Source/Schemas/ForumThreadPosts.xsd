@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Post.xsd"/>
+	<xs:element name="FORUMTHREADPOSTS">
+		<xs:annotation>
+			<xs:documentation>A collection of posts.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="POST" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="GUESTBOOK" type="xs:short" use="required">
+				<xs:annotation>
+					<xs:documentation>The style of the forum. If 1 then Forum's threads are ordered by lastposted (desc) and are flattened so all ThreadEntreis and Threads are in a single list. (If 0 then standard Forum XML). </xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required"/>
+			<xs:attribute name="ALERTINSTANTLY" type="xs:unsignedByte" use="required">
+				<xs:annotation>
+					<xs:documentation>1 if Forum supports instant alerts. Please see EmailAlertGroups.doc</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="FROM" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Start post index requested.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="TO" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Last post index requested.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SHOW" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Number of posts asked for.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="CANREAD" type="xs:boolean" use="required">
+				<xs:annotation>
+					<xs:documentation>Please see CanReadCanWriteAttributes.doc for semantics of this attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="CANWRITE" type="xs:boolean" use="required">
+				<xs:annotation>
+					<xs:documentation>Please see CanReadCanWriteAttributes.doc for semantics of this attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="DEFAULTCANREAD" type="xs:boolean" use="required">
+				<xs:annotation>
+					<xs:documentation>Please see CanReadCanWriteAttributes.doc for semantics of this attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="DEFAULTCANWRITE" type="xs:boolean" use="required">
+				<xs:annotation>
+					<xs:documentation>Please see CanReadCanWriteAttributes.doc for semantics of this attribute.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="FORUMPOSTCOUNT" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Count of all posts in the Forum.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="FORUMPOSTLIMIT" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>Site Option posting limit for the Forum.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="SITEID" type="xs:int" use="required"/>
+			<xs:attribute name="UID" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>GUID of forum.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="HOSTPAGEURL" type="xs:string" use="required">
+				<xs:annotation>
+					<xs:documentation>The URL of the page the comment box is hosted on.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+			<xs:attribute name="MODERATIONSTATUS" type="xs:int" use="required">
+				<xs:annotation>
+					<xs:documentation>The moderation status of the forum. (Skin should take Site mod status into account if Mod status = 0).</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

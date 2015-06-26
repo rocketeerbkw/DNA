@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="SubscribingUsers-List.xsd"/>
+	<xs:element name="MORESUBSCRIBINGUSERS">
+		<xs:annotation>
+			<xs:documentation>Xml for the More User Subscriptions page for a user.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="SUBSCRIBINGUSERS-LIST" />
+			</xs:sequence>
+			<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="ACCEPTSUBSCRIPTIONS" type="xs:int" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

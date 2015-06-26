@@ -1,14 +1,9 @@
+using BBC.Dna.Utils;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.IO;
 using System.Xml;
 using System.Xml.Schema;
-using System.IO;
-using System.Net;
-
-using BBC.Dna;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BBC.Dna.Utils;
 
 namespace Tests
 {
@@ -21,7 +16,7 @@ namespace Tests
         private string _schemaUri;
         private StringReader _xml;
         private String _rawXml;
-        private XmlReaderSettings _validationSettings; 
+        private XmlReaderSettings _validationSettings;
         private XmlReader _validator;
         private static Dictionary<string, XmlSchema> _cachedSchemas = new Dictionary<string, XmlSchema>();
 
@@ -42,9 +37,9 @@ namespace Tests
 
             // set up the settings for validating the xml
             _validationSettings = new XmlReaderSettings();
-            _validationSettings.Schemas.Add(_xmlSchema); 
-            _validationSettings.IgnoreWhitespace = true; 
-            _validationSettings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation; 
+            _validationSettings.Schemas.Add(_xmlSchema);
+            _validationSettings.IgnoreWhitespace = true;
+            _validationSettings.ValidationFlags |= XmlSchemaValidationFlags.ProcessSchemaLocation;
             _validationSettings.ValidationFlags |= XmlSchemaValidationFlags.ReportValidationWarnings;
             _validationSettings.ValidationFlags |= XmlSchemaValidationFlags.ProcessInlineSchema;
             _validationSettings.ValidationType = ValidationType.Schema;
@@ -54,11 +49,10 @@ namespace Tests
             }
             catch (XmlSchemaException e)
             {
-                string s = e.SourceUri; 
+                string s = e.SourceUri;
             }
             _validationSettings.ValidationEventHandler += new ValidationEventHandler(xmlReaderSettingsValidationEventHandler);
-            _validationSettings.ProhibitDtd = false;
-
+            _validationSettings.DtdProcessing = DtdProcessing.Prohibit;
             // set the the XmlReader for validation
             _validator = XmlReader.Create(_xml, _validationSettings);
         }
@@ -86,10 +80,10 @@ namespace Tests
                 //WebRequest request = WebRequest.Create(ourUri);
                 //request.Proxy = null;
                 //WebResponse response = request.GetResponse();
-        
+
                 //Read Schema from local path. This allows relative includes within the schema files to be resolved correctly.
                 _xmlSchema = XmlSchema.Read(new XmlTextReader(path), new ValidationEventHandler(xmlReaderSettingsValidationEventHandler));
-                
+
                 //Cache it.
                 _cachedSchemas[schemaUri] = _xmlSchema;
             }

@@ -1,16 +1,8 @@
 namespace BBC.Dna.Services
 {
-    using System.Web;
-    using System.Web.Hosting;
-    using System.IO;
-    using System.ServiceModel.Web;
-    using System.ServiceModel.Diagnostics;
-    using System.ServiceModel.Activation;
-    using System.Web.Compilation;
-    using System.Reflection;
     using System;
     using System.ServiceModel;
-    using System.Collections.ObjectModel;
+    using System.ServiceModel.Activation;
 
     public class DnaWebServiceHostFactory : ServiceHostFactory
     {

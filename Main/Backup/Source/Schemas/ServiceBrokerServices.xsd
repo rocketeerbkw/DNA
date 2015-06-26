@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="SERVICEBROKERSERVICES">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SERVICE" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NAME" type="xs:string"/>
+							<xs:element name="QUEUE">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="NAME" type="xs:string"/>
+										<xs:element name="ACTIVATION_PROCEDURE" type="xs:string"/>
+										<xs:element name="IS_ACTIVATION_ENABLED" type="xs:string"/>
+										<xs:element name="IS_RECEIVE_ENABLED" type="xs:string"/>
+										<xs:element name="IS_ENQUEUE_ENABLED" type="xs:string"/>
+										<xs:element name="IS_RETENTION_ENABLED" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

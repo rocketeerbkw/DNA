@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="DNADayOfWeek.xsd"/>
+	<xs:include schemaLocation="DNAHour.xsd"/>
+	<xs:include schemaLocation="DNAMinute.xsd"/>
+	<xs:element name="OPENCLOSETIME">
+		<xs:annotation>
+			<xs:documentation>A scheduled open/close event.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="CLOSETIME">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="HOUR" type="DNAHour">
+								<xs:annotation>
+									<xs:documentation>Hour of event.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="MINUTE" type="DNAMinute">
+								<xs:annotation>
+									<xs:documentation>Minutes of event.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OPENTIME">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="HOUR" type="DNAHour">
+								<xs:annotation>
+									<xs:documentation>Hour of event.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+							<xs:element name="MINUTE" type="DNAMinute">
+								<xs:annotation>
+									<xs:documentation>Minutes of event.</xs:documentation>
+								</xs:annotation>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="DAYOFWEEK" type="DNADayOfWeek">
+				<xs:annotation>
+					<xs:documentation>The day of the week: 1 = Monday, 2 = Tuesday etc.</xs:documentation>
+				</xs:annotation>
+			</xs:attribute>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

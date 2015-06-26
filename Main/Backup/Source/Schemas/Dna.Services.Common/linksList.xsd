@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="link.xsd"/>
+	<xs:element name="linksList" nillable="true">
+		<xs:complexType >
+			<xs:sequence>
+				<xs:element name="skip" type="xs:int" />
+				<xs:element name="show" type="xs:int" />
+				<xs:element name="more" type="xs:int" />
+				<xs:element name="user">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="user"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="links" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="link" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

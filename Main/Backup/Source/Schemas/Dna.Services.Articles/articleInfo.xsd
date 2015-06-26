@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
+	<xs:include schemaLocation="../Dna.Services.Common/date.xsd"/>
+	<xs:include schemaLocation="../Dna.Services.Forums/reviewForum.xsd"/>
+	<xs:element name="articleInfo">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="crumbTrails" >
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element minOccurs="0" maxOccurs="unbounded" name="crumbTrail"  >
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ancestor">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element maxOccurs="unbounded" name="crumbTrailAncestor">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="name" type="xs:string" />
+																<xs:element name="nodeId" type="xs:unsignedShort" />
+																<xs:element name="nodeType" type="xs:unsignedByte" />
+																<xs:element name="redirectNode" nillable="true" />
+																<xs:element name="treeLevel" type="xs:unsignedByte" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="dateCreated">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="date" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="entryId" type="xs:unsignedInt" />
+				<xs:element name="forumId" type="xs:unsignedInt" />
+				<xs:element name="lastUpdated">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="date" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="moderationStatus" type="xs:string" />
+				<xs:element name="pageAuthor">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="editor" >
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="user" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="researchers">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="user" maxOccurs="unbounded" minOccurs="0"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="preProcessed" type="xs:unsignedByte" />
+				<xs:element name="references">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="entries">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" name="entryLink" minOccurs="0">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="entryId" type="xs:unsignedInt" />
+													<xs:element name="subject" type="xs:string" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="externalLinks">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" minOccurs="0" name="referencesExternalLink">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="index" type="xs:unsignedByte" />
+													<xs:element name="offSite" type="xs:string" />
+													<xs:element name="title" type="xs:string" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="users" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="referenceUser" minOccurs="0" maxOccurs="unbounded">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="userId" type="xs:int" />
+													<xs:element name="username" type="xs:string" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="BBCLinks" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element maxOccurs="unbounded" minOccurs="0" name="referencesExternalLink">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="index" type="xs:unsignedByte" />
+													<xs:element name="offSite" type="xs:string" />
+													<xs:element name="title" type="xs:string" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="relatedMembers">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="relatedArticles">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="0" maxOccurs="unbounded" name="articleMember">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="dateCreated">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="date" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="editor" >
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="user" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="entryId" type="xs:unsignedInt" />
+													<xs:element name="lastUpdated">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="date" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="name" type="xs:string" />
+													<xs:element name="status" type="xs:string" />
+													<xs:element name="strippedName" type="xs:string" />
+													<xs:element name="type" type="xs:string" />
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="siteId" type="xs:unsignedByte" />
+				<xs:element name="status" type="xs:string" />
+				<xs:element name="submittable" minOccurs="0" nillable="true" >
+				  <xs:complexType>
+					<xs:sequence>
+						<xs:element name="forum" nillable="true" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="id" type="xs:unsignedShort" use="optional" />
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="post" nillable="true" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="ID" type="xs:unsignedInt" use="optional" />
+							</xs:complexType>
+						</xs:element>
+						<xs:element ref="reviewForum" minOccurs="0"/>
+						<xs:element name="thread" nillable="true" minOccurs="0">
+							<xs:complexType>
+								<xs:attribute name="ID" type="xs:unsignedInt" use="optional" />
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="type" type="xs:string" nillable="true"/>
+					 </xs:sequence>
+				  </xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="CATEGORYLIST">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="GUID" type="xs:string" />
+				<xs:element maxOccurs="unbounded" name="HIERARCHYDETAILS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="DISPLAYNAME" type="xs:string" />
+							<xs:element name="DESCRIPTION" />
+							<xs:element name="SYNONYMS" />
+							<xs:element name="H2G2ID" type="xs:unsignedInt" />
+							<xs:element name="MEMBERS">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SUBJECTMEMBERLIST">
+											<xs:complexType>
+												<xs:sequence minOccurs="0">
+													<xs:element maxOccurs="unbounded" name="SUBJECTMEMBER">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="NODEID" type="xs:unsignedShort" />
+																<xs:element name="TYPE" type="xs:unsignedByte" />
+																<xs:element name="NODECOUNT" type="xs:unsignedByte" />
+																<xs:element name="ARTICLECOUNT" type="xs:unsignedByte" />
+																<xs:element name="ALIASCOUNT" type="xs:unsignedByte" />
+																<xs:element name="NAME" type="xs:string" />
+																<xs:element name="STRIPPEDNAME" type="xs:string" />
+																<xs:element name="REDIRECTNODEID" type="xs:unsignedByte" />
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="NODEALIASMEMBERLIST" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="NODEID" type="xs:unsignedShort" use="required" />
+						<xs:attribute name="ISROOT" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="USERADD" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="TYPE" type="xs:unsignedByte" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="LISTWIDTH" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

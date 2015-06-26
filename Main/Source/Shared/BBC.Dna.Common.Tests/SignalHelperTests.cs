@@ -1,16 +1,13 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BBC.Dna.Moderation;
+using BBC.Dna.Moderation.Tests;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Moderation.Utils.Tests;
+using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using BBC.Dna.Utils;
-using BBC.Dna.Moderation.Tests;
-using BBC.Dna.Moderation.Utils.Tests;
-using BBC.Dna.Moderation;
-using BBC.Dna.Moderation.Utils;
-using System.Xml;
+using System;
 using System.Collections.Specialized;
+using System.Xml;
 
 namespace BBC.Dna.Common.Tests
 {

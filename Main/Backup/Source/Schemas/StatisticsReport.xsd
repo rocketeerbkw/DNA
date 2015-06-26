@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="POSTING-STATISTICS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ENTRYDATE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element minOccurs="0" name="STARTDATE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element minOccurs="0" name="ENDDATE">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="POSTINGS">
+					<xs:complexType>
+						<xs:attribute name="SITEID" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="URLNAME" type="xs:string" use="required" />
+						<xs:attribute name="ISMESSAGEBOARD" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="FORUMID" type="xs:string" use="optional" />
+						<xs:attribute name="TITLE" type="xs:string" use="optional" />
+						<xs:attribute name="TOTALPOSTS" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="TOTALUSERS" type="xs:unsignedByte" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="INTERVAL" type="xs:string" use="required" />
+			<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="SHOW" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="TOTAL" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

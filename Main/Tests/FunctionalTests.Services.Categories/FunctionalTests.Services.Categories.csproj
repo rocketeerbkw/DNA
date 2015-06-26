@@ -1,4 +1,5 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,13 +10,33 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Functional.Tests.Services.Categories</RootNamespace>
     <AssemblyName>Functional.Tests.Services.Categories</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
     <SccProvider>SAK</SccProvider>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,7 +56,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\Microsoft.VisualStudio.QualityTools.UnitTestFramework.11.0.50727.1\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+    </Reference>
     <Reference Include="NMock2, Version=1.0.2313.18049, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Source\Reference DLLs\NMock\NMock2.dll</HintPath>
@@ -60,55 +84,55 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Source\BBC.Dna\BBC.DNA.csproj">
       <Project>{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}</Project>
-      <Name>BBC.DNA %28Source\BBC.Dna\BBC.DNA%29</Name>
+      <Name>BBC.DNA</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj">
       <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
-      <Name>BBC.Dna.Api %28Source\Shared\BBC.Dna.Api\BBC.Dna.Api%29</Name>
+      <Name>BBC.Dna.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj">
       <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
-      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+      <Name>BBC.Dna.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
-      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+      <Name>BBC.Dna.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
       <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
-      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+      <Name>BBC.DNA.Moderation.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
       <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
-      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
+      <Name>BBC.Dna.Moderation</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
       <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
-      <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
+      <Name>BBC.Dna.Objects</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
-      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+      <Name>BBC.Dna.Sites</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj">
       <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
-      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+      <Name>BBC.Dna.Users</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
-      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+      <Name>BBC.Dna.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
       <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
-      <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
+      <Name>Microsoft.ServiceModel.Web</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Shared\TestUtils\TestUtils.csproj">
       <Project>{E09BF891-7D4F-403E-B830-B9E2606D2C22}</Project>
-      <Name>TestUtils %28Source\Shared\TestUtils\TestUtils%29</Name>
+      <Name>TestUtils</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Source\Web Services\BBC.DNA.Services.Comments\BBC.DNA.Services.Comments.csproj">
       <Project>{E4C34C5F-5F3B-4A43-A2BF-E593E1884786}</Project>
-      <Name>BBC.DNA.Services.Comments %28Source\Web Services\BBC.DNA.Services.Comments\BBC.DNA.Services.Comments%29</Name>
+      <Name>BBC.DNA.Services.Comments</Name>
     </ProjectReference>
     <ProjectReference Include="..\FunctionalTests.Services.Comments\FunctionalTests.Services.Comments.csproj">
       <Project>{B0B274BF-EAD0-438F-AF11-C6E15E1287A7}</Project>
@@ -117,6 +141,28 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Status.xsd" />
+	<xs:include schemaLocation="Groups.xsd" />
+	<xs:include schemaLocation="Date.xsd" />
+  <xs:element name="USERREPUTATION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="CURRENTSTATUS" type="xs:string" />
+        <xs:element name="REPUTATIONDETERMINEDSTATUS" type="xs:string" />
+        <xs:element name="REPUTATIONSCORE" type="xs:byte" />
+        <xs:element maxOccurs="1" name="MODERATIONCLASS">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NAME" type="xs:string" />
+              <xs:element name="DESCRIPTION" type="xs:string" />
+              <xs:element name="LANGUAGE" type="xs:string" />
+              <xs:element name="ITEMRETRIEVALTYPE" type="xs:string" />
+              
+            </xs:sequence>
+            <xs:attribute name="CLASSID" type="xs:unsignedByte" use="required" />
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="USERID" type="xs:unsignedInt" />
+        <xs:element name="LASTUPDATED">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element ref="DATE" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="USERNAME" type="xs:string" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="USERCOMPLAINT">
+    <xs:complexType>
+      <xs:sequence minOccurs="1">
+        <xs:element name="SUBJECT" type="xs:string" />
+        <xs:element name="STATUS" type="xs:unsignedInt"/>
+        <xs:element name="ENTRYID" type="xs:unsignedInt"/>
+        <xs:element name="AUTHOR">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="USER">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="USERID" type="xs:unsignedInt" />
+                    <xs:element name="USERNAME" type="xs:string" />
+                  </xs:sequence>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+      <xs:attribute name="H2G2ID" type="xs:unsignedInt"/>
+      <xs:attribute name="MODID" type="xs:unsignedInt"/>
+      <xs:attribute name="HIDDEN" type="xs:unsignedInt" use="optional" />
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

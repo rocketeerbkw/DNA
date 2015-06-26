@@ -10,9 +10,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BBC.DNA.Moderation.Utils</RootNamespace>
     <AssemblyName>BBC.DNA.Moderation.Utils</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>BBC.Dna.snk</AssemblyOriginatorKeyFile>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -23,6 +23,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -91,15 +92,15 @@
   <ItemGroup>
     <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
       <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
-      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+      <Name>BBC.Dna.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
-      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+      <Name>BBC.Dna.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
-      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+      <Name>BBC.Dna.Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

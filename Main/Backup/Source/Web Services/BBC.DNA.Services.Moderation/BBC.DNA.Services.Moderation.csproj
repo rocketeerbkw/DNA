@@ -1,0 +1,171 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BF321555-30BC-45A3-BF5F-0E381DE31FAE}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BBC.DNA.Services.Moderation</RootNamespace>
+    <AssemblyName>BBC.DNA.Services.Moderation</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.Mobile" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ModerationService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ModerationService.svc" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
+      <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
+      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary.csproj">
+      <Project>{4770D032-9B06-450D-8B00-7200D8330397}</Project>
+      <Name>Memcached.ClientLibrary %28Source\Shared\Memcached.ClientLibrary\Memcached.ClientLibrary%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
+      <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
+      <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj">
+      <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
+      <Name>BBC.Dna.Api %28Source\Shared\BBC.Dna.Api\BBC.Dna.Api%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
+      <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
+      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Services\BBC.Dna.Services.csproj">
+      <Project>{A69D0F3C-9ACC-41BF-B3F8-CF6E31099D77}</Project>
+      <Name>BBC.Dna.Services %28Source\Shared\BBC.Dna.Services\BBC.Dna.Services%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
+      <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
+      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj">
+      <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
+      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
+      <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
+      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
+      <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
+      <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="status.aspx" />
+    <Content Include="version.aspx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="configurations\Web.config.sample" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v9.0\WebApplications\Microsoft.WebApplication.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>False</AutoAssignPort>
+          <DevelopmentServerPort>31658</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>
+          </IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

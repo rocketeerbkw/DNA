@@ -8,20 +8,7 @@
     <script src="/dna/h2g2/acsdoc.js" type="text/javascript"></script>
 </head>
 <body>
-<%--<%
-	string[] stylesheets = System.IO.Directory.GetFiles(Server.MapPath(""), "*.css");
-	foreach (string stylesheet in stylesheets)
-	{
-		Response.Write(String.Format("<a href='Default.aspx?stylesheet={0}'>{0}</a><br/>",System.IO.Path.GetFileName(stylesheet)));
-	}
-	
-	 %>
---%>
-<%--<form method="get" action="acsdemoindex">
-<input type="text" name="stylesheet" value="defaultstyle.css" />
-<input type="submit" name="submit" value="Change Stylesheet" />
-</form>
---%>    <form id="form1" runat="server">
+  <form id="form1" runat="server">
 	<div class="helpsection" style="display:none">
 	<h3>Comments 2.0 Sandbox</h3>
 	<p>This include will help you design your stylesheet for including Comments 2.0 on your pages. With it you can:</p>

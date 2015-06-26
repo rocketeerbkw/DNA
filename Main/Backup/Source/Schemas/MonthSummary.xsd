@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="MONTHSUMMARY">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element minOccurs="0" maxOccurs="unbounded" name="GUIDEENTRY">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+							<xs:element name="SUBJECT" type="xs:string" />
+						</xs:sequence>
+						<xs:attribute name="H2G2ID" type="xs:unsignedInt" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -16,7 +16,7 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
     <IsWebBootstrapper>true</IsWebBootstrapper>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
     <SccAuxPath>SAK</SccAuxPath>
@@ -35,6 +35,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,7 +76,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\packages\Microsoft.VisualStudio.QualityTools.UnitTestFramework.11.0.50727.1\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll</HintPath>
+    </Reference>
     <Reference Include="NMock2, Version=1.0.2313.18049, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Reference DLLs\NMock\NMock2.dll</HintPath>
@@ -169,45 +173,48 @@
   <ItemGroup>
     <ProjectReference Include="..\..\BBC.Dna\BBC.DNA.csproj">
       <Project>{BF7A7C19-AC65-4B12-B79A-46D83FF7F3DF}</Project>
-      <Name>BBC.DNA %28Source\BBC.Dna\BBC.DNA%29</Name>
+      <Name>BBC.DNA</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
       <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
-      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+      <Name>BBC.Dna.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
-      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+      <Name>BBC.Dna.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Moderation.Utils.Tests\BBC.Dna.Moderation.Utils.Tests.csproj">
-      <Project>{CD50FF01-F604-4C12-BFE7-199CE495313F}</Project>
+      <Project>{cd50ff01-f604-4c12-bfe7-199ce495313f}</Project>
       <Name>BBC.Dna.Moderation.Utils.Tests</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
       <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
-      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+      <Name>BBC.DNA.Moderation.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
       <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
-      <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
+      <Name>BBC.Dna.Objects</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
-      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+      <Name>BBC.Dna.Sites</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Users\BBC.Dna.Users.csproj">
       <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
-      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+      <Name>BBC.Dna.Users</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
-      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+      <Name>BBC.Dna.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj">
       <Project>{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}</Project>
-      <Name>DnaIdentityWebServiceProxy %28Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy%29</Name>
+      <Name>DnaIdentityWebServiceProxy</Name>
       <Private>True</Private>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

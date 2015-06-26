@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>E:\wwwroot\api\comments</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="bin/BBC.Dna.Api.dll">
+      <publishTime>06/20/2015 20:19:45</publishTime>
+    </File>
+    <File Include="bin/BBC.Dna.Common.dll">
+      <publishTime>06/20/2015 20:19:37</publishTime>
+    </File>
+    <File Include="bin/BBC.Dna.Data.dll">
+      <publishTime>06/20/2015 20:19:34</publishTime>
+    </File>
+    <File Include="bin/BBC.Dna.Moderation.dll">
+      <publishTime>06/20/2015 20:19:41</publishTime>
+    </File>
+    <File Include="bin/BBC.DNA.Moderation.Utils.dll">
+      <publishTime>06/20/2015 20:19:39</publishTime>
+    </File>
+    <File Include="bin/BBC.Dna.Objects.dll">
+      <publishTime>06/20/2015 20:19:47</publishTime>
+    </File>
+    <File Include="bin/BBC.Dna.Services.dll">
+      <publishTime>06/20/2015 20:22:30</publishTime>
+    </File>
+    <File Include="bin/BBC.Dna.Site.dll">
+      <publishTime>06/20/2015 20:19:39</publishTime>
+    </File>
+    <File Include="bin/BBC.Dna.SocialAPI.dll">
+      <publishTime>06/20/2015 20:19:30</publishTime>
+    </File>
+    <File Include="bin/BBC.Dna.Users.dll">
+      <publishTime>06/20/2015 20:19:42</publishTime>
+    </File>
+    <File Include="bin/BBC.Dna.Utils.dll">
+      <publishTime>06/20/2015 20:19:31</publishTime>
+    </File>
+    <File Include="bin/comments.dll">
+      <publishTime>06/20/2015 20:25:05</publishTime>
+    </File>
+    <File Include="bin/DnaIdentityWebServiceProxy.dll">
+      <publishTime>06/20/2015 20:19:36</publishTime>
+    </File>
+    <File Include="bin/HtmlAgilityPack.dll">
+      <publishTime>06/15/2015 16:36:15</publishTime>
+    </File>
+    <File Include="bin/ICSharpCode.SharpZipLib.dll">
+      <publishTime>06/15/2015 16:36:20</publishTime>
+    </File>
+    <File Include="bin/Memcached.ClientLibrary.dll">
+      <publishTime>06/20/2015 20:19:30</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Practices.EnterpriseLibrary.Caching.dll">
+      <publishTime>06/15/2015 16:36:15</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Practices.EnterpriseLibrary.Common.dll">
+      <publishTime>06/15/2015 16:36:15</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Practices.EnterpriseLibrary.Logging.dll">
+      <publishTime>06/15/2015 16:36:15</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Practices.ObjectBuilder2.dll">
+      <publishTime>06/15/2015 16:36:15</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Practices.Unity.dll">
+      <publishTime>06/15/2015 16:36:15</publishTime>
+    </File>
+    <File Include="bin/Microsoft.ServiceModel.Web.dll">
+      <publishTime>06/20/2015 20:22:25</publishTime>
+    </File>
+    <File Include="CommentsService.svc">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="ContactFormService.svc">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="memcachedstatus.aspx">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="ReviewService.svc">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="samples/5-0.gif">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="samples/comedyextra.htm">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="samples/commentboxtestharness.aspx">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="samples/CommentForum.htm">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="samples/dna_comments.css">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="samples/index.htm">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="samples/iplayer.htm">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="samples/news.htm">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="samples/style.css">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="status.aspx">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="TwitterService.svc">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="version.aspx">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/comment.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/commentforum.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/commentforumlist.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/commentinfo.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/commentslist.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/commentssummary.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/common.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/createdupdated.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/formatDateTime.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/functions.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/paging.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/rating.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/ratingforum.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/ratinginfo.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/ratingslist.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/ratingssummary.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+    <File Include="xslt/2.0/user.xsl">
+      <publishTime>06/15/2015 16:36:23</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

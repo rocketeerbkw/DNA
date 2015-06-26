@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="OpenCloseTime.xsd"/>
+	<xs:include schemaLocation="OpenCloseTimeEvent.xsd"/>
+	<xs:element name="OPENCLOSETIMES">
+		<xs:annotation>
+			<xs:documentation>A collection of open/close times.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="OPENCLOSETIME" minOccurs="0" maxOccurs="unbounded"/>
+				<xs:element ref="EVENT" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>Ripley legacy - 606 articles seem to have this instead of open/close times.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

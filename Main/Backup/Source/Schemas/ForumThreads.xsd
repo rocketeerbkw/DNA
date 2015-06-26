@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="ThreadSummary.xsd" />
+	<xs:element name="FORUMTHREADS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MODERATIONSTATUS">
+					<xs:complexType>
+						<xs:simpleContent>
+							<xs:extension base="xs:string">
+								<xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+							</xs:extension>
+						</xs:simpleContent>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ORDERBY" type="xs:string" />
+				<xs:element ref="THREAD" minOccurs="0" maxOccurs="unbounded" />
+			</xs:sequence>
+			<xs:attribute name="FORUMID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="TOTALTHREADS" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="FORUMPOSTCOUNT" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="FORUMPOSTLIMIT" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="SITEID" type="xs:unsignedInt" use="required" />
+			<xs:attribute name="CANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="CANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="THREADCANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="THREADCANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="ALERTINSTANTLY" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="DEFAULTCANREAD" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="DEFAULTCANWRITE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="JOURNALOWNER" type="xs:unsignedInt" use="optional" />
+			<xs:attribute name="MORE" type="xs:unsignedByte" use="optional" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

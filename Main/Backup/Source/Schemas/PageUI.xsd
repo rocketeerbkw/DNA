@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="PAGEUI">
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="SITEHOME">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SEARCH">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DONTPANIC">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MYHOME">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="optional" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="REGISTER">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="optional" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MYDETAILS">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LOGOUT">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EDITPAGE">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="RECOMMEND-ENTRY">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ENTRY-SUBBED">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DISCUSS">
+					<xs:complexType>
+						<xs:attribute name="VISIBLE" type="xs:unsignedByte" use="required" />
+						<xs:attribute name="LINKHINT" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element maxOccurs="unbounded" name="BANNER" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="NAME" type="xs:string" use="required" />
+						<xs:attribute name="SEED" type="xs:string" use="required" />
+						<xs:attribute name="SECTION" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

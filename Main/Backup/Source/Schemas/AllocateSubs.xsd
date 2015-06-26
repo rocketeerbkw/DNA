@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Users-List.xsd" />
+	<xs:include schemaLocation="ArticleSummary.xsd" />
+	<xs:element name="SUB-ALLOCATION-FORM">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="SUB-EDITORS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER-LIST" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="UNALLOCATED-RECOMMENDATIONS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ARTICLE-LIST">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="ARTICLE" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+									<xs:attribute name="COUNT" type="xs:unsignedByte" use="optional" />
+									<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="optional" />
+									<xs:attribute name="TYPE" type="xs:string" use="required" />
+									<xs:attribute name="MORE" type="xs:unsignedByte" use="optional" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ALLOCATED-RECOMMENDATIONS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ARTICLE-LIST">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="ARTICLE" minOccurs="0" maxOccurs="unbounded"/>
+									</xs:sequence>
+									<xs:attribute name="COUNT" type="xs:unsignedByte" use="optional" />
+									<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="optional" />
+									<xs:attribute name="MORE" type="xs:unsignedByte" use="optional" />
+									<xs:attribute name="TYPE" type="xs:string" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="UNNOTIFIED-SUBS" type="xs:unsignedByte" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

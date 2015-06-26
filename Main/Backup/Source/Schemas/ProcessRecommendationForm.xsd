@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="PROCESS-RECOMMENDATION-FORM">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RECOMMENDATION-ID" type="xs:unsignedShort" />
+				<xs:element name="H2G2-ID" type="xs:unsignedInt" />
+				<xs:element name="SUBJECT" type="xs:string" />
+				<xs:element name="COMMENTS" />
+				<xs:element name="EDITOR">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SCOUT">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DATE-RECOMMENDED">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SCOUT-EMAIL">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SUBJECT" type="xs:string" />
+							<xs:element name="TEXT" type="xs:string" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="AUTHOR-EMAIL">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SUBJECT" type="xs:string" />
+							<xs:element name="TEXT" type="xs:string" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FUNCTIONS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ACCEPT" minOccurs="0"/>
+							<xs:element name="REJECT" minOccurs="0" />
+							<xs:element name="CANCEL" minOccurs="0" />
+							<xs:element name="FETCH" minOccurs="0" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

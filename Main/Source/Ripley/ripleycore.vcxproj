@@ -1,0 +1,735 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{ECAF0B64-57F6-4883-A633-93367D3BF1F1}</ProjectGuid>
+    <RootNamespace>ripleycore</RootNamespace>
+    <SccProjectName>SAK</SccProjectName>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccProvider>SAK</SccProvider>
+    <Keyword>MFCProj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v120</PlatformToolset>
+    <UseOfMfc>Dynamic</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>12.0.30501.0</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>.\Release\</OutDir>
+    <IntDir>.\Release\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>.\Debug\</OutDir>
+    <IntDir>.\Debug\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;_ADMIN_VERSION;_LIB;__LCC__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AssemblerListingLocation>$(OutDir)</AssemblerListingLocation>
+      <ObjectFileName>$(OutDir)</ObjectFileName>
+      <ProgramDataBaseFileName>$(OutDir)ripleycore.pdb</ProgramDataBaseFileName>
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat />
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)ripleycore.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;WIN32;_ADMIN_VERSION;_LIB;__LCC__;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ExceptionHandling>Async</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <AssemblerListingLocation>.\Debug/</AssemblerListingLocation>
+      <ObjectFileName>.\Debug/</ObjectFileName>
+      <ProgramDataBaseFileName>.\Debug/ripleycore.pdb</ProgramDataBaseFileName>
+      <BrowseInformation />
+      <WarningLevel>Level3</WarningLevel>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0809</Culture>
+    </ResourceCompile>
+    <Lib>
+      <OutputFile>$(OutDir)ripleycored.lib</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <IgnoreSpecificDefaultLibraries>msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="AddThreadBuilder.cpp" />
+    <ClCompile Include="ArticleDiagnosticBuilder.cpp" />
+    <ClCompile Include="ArticleEditForm.cpp" />
+    <ClCompile Include="ArticleList.cpp" />
+    <ClCompile Include="ArticleMember.cpp" />
+    <ClCompile Include="ArticlePageBuilder.cpp" />
+    <ClCompile Include="ArticleSearchPhrase.cpp" />
+    <ClCompile Include="ArticleSearchPhraseBuilder.cpp" />
+    <ClCompile Include="ArticleSubscriptionList.cpp" />
+    <ClCompile Include="AssetUploadQueue.cpp" />
+    <ClCompile Include="AuthorList.cpp" />
+    <ClCompile Include="AutoCS.cpp" />
+    <ClCompile Include="BasicSiteList.cpp" />
+    <ClCompile Include="Blob.cpp" />
+    <ClCompile Include="BlobBuilder.cpp" />
+    <ClCompile Include="BlobTransformer.cpp" />
+    <ClCompile Include="Category.cpp" />
+    <ClCompile Include="CategoryBuilder.cpp" />
+    <ClCompile Include="CategoryList.cpp" />
+    <ClCompile Include="CategoryListBuilder.cpp" />
+    <ClCompile Include="CGI.cpp" />
+    <ClCompile Include="Club.cpp" />
+    <ClCompile Include="ClubList.cpp" />
+    <ClCompile Include="ClubListPageBuilder.cpp" />
+    <ClCompile Include="ClubMember.cpp" />
+    <ClCompile Include="ClubPageBuilder.cpp" />
+    <ClCompile Include="ComingUpBuilder.cpp" />
+    <ClCompile Include="CommentsList.cpp" />
+    <ClCompile Include="Config.cpp" />
+    <ClCompile Include="ContentSignifAdminBuilder.cpp" />
+    <ClCompile Include="ContentSignifBuilder.cpp" />
+    <ClCompile Include="ContentSignifSettings.cpp" />
+    <ClCompile Include="CurrentClubs.cpp" />
+    <ClCompile Include="CurrentClubsBuilder.cpp" />
+    <ClCompile Include="DateRangeValidation.cpp" />
+    <ClCompile Include="DBO.cpp" />
+    <ClCompile Include="DBOMySQL.cpp" />
+    <ClCompile Include="DBOSQLServer.cpp" />
+    <ClCompile Include="DBXMLBuilder.cpp" />
+    <ClCompile Include="DNAArray.cpp" />
+    <ClCompile Include="DnaUrl.cpp" />
+    <ClCompile Include="dynamiclist.cpp" />
+    <ClCompile Include="dynamiclists.cpp" />
+    <ClCompile Include="EditCategory.cpp" />
+    <ClCompile Include="EditCategoryBuilder.cpp" />
+    <ClCompile Include="EditorsPick.cpp" />
+    <ClCompile Include="EditPostPageBuilder.cpp" />
+    <ClCompile Include="EditRecentPostBuilder.cpp" />
+    <ClCompile Include="EditReviewForumBuilder.cpp" />
+    <ClCompile Include="EditReviewForumForm.cpp" />
+    <ClCompile Include="EmailAddressFilter.cpp" />
+    <ClCompile Include="EmailAlertBuilder.cpp" />
+    <ClCompile Include="EMailAlertGroup.cpp" />
+    <ClCompile Include="EMailAlertGroupBuilder.cpp" />
+    <ClCompile Include="EmailAlertList.cpp" />
+    <ClCompile Include="EmailInserts.cpp" />
+    <ClCompile Include="EmailLineBreak.cpp" />
+    <ClCompile Include="EMailQueueGenerator.cpp" />
+    <ClCompile Include="EmailTemplate.cpp" />
+    <ClCompile Include="EmailVocab.cpp" />
+    <ClCompile Include="EventQueue.cpp" />
+    <ClCompile Include="ExtraInfo.cpp" />
+    <ClCompile Include="FailMessage.cpp" />
+    <ClCompile Include="FailMessageBuilder.cpp" />
+    <ClCompile Include="FastCategoryListBuilder.cpp" />
+    <ClCompile Include="FixDBBuilder.cpp" />
+    <ClCompile Include="FixExtraInfoBuilder.cpp" />
+    <ClCompile Include="Forum.cpp" />
+    <ClCompile Include="ForumModerationPageBuilder.cpp" />
+    <ClCompile Include="ForumPageBuilder.cpp" />
+    <ClCompile Include="ForumPostEditForm.cpp" />
+    <ClCompile Include="ForumSchedule.cpp" />
+    <ClCompile Include="FriendsBuilder.cpp" />
+    <ClCompile Include="FrontPageBuilder.cpp" />
+    <ClCompile Include="FrontpageEditor.cpp" />
+    <ClCompile Include="FrontPageElement.cpp" />
+    <ClCompile Include="FrontPageLayout.cpp" />
+    <ClCompile Include="FrontPageLayoutBuilder.cpp" />
+    <ClCompile Include="FrontPageTopicElement.cpp" />
+    <ClCompile Include="FrontPageTopicElementBuilder.cpp" />
+    <ClCompile Include="GeneralModerationPageBuilder.cpp" />
+    <ClCompile Include="GroupManagementBuilder.cpp" />
+    <ClCompile Include="Groups.cpp" />
+    <ClCompile Include="GuideEntry.cpp" />
+    <ClCompile Include="HierarchyNodeTyperBuilder.cpp" />
+    <ClCompile Include="HierarchyTree.cpp" />
+    <ClCompile Include="HierarchyTreeBuilder.cpp" />
+    <ClCompile Include="HTMLTransformer.cpp" />
+    <ClCompile Include="IDifDocBuilder.cpp" />
+    <ClCompile Include="ImageLibrary.cpp" />
+    <ClCompile Include="ImageLibraryBuilder.cpp" />
+    <ClCompile Include="ImageModeration.cpp" />
+    <ClCompile Include="ImageModerationBuilder.cpp" />
+    <ClCompile Include="Index.cpp" />
+    <ClCompile Include="IndexBuilder.cpp" />
+    <ClCompile Include="Info.cpp" />
+    <ClCompile Include="InfoBuilder.cpp" />
+    <ClCompile Include="InputContext.cpp" />
+    <ClCompile Include="InspectUserBuilder.cpp" />
+    <ClCompile Include="KeyArticleEditBuilder.cpp" />
+    <ClCompile Include="Link.cpp" />
+    <ClCompile Include="Locations.cpp" />
+    <ClCompile Include="LogoutBuilder.cpp" />
+    <ClCompile Include="ManageLinksBuilder.cpp" />
+    <ClCompile Include="md5_new.cpp" />
+    <ClCompile Include="MediaAsset.cpp" />
+    <ClCompile Include="MediaAssetBuilder.cpp" />
+    <ClCompile Include="MediaAssetModController.cpp" />
+    <ClCompile Include="MediaAssetSearchPhrase.cpp" />
+    <ClCompile Include="MediaAssetSearchPhraseBuilder.cpp" />
+    <ClCompile Include="MemberDetailsPageBuilder.cpp" />
+    <ClCompile Include="MembersHomePageBuilder.cpp" />
+    <ClCompile Include="MessageBoardAdmin.cpp" />
+    <ClCompile Include="MessageBoardAdminBuilder.cpp" />
+    <ClCompile Include="MessageBoardPromo.cpp" />
+    <ClCompile Include="MessageBoardPromoBuilder.cpp" />
+    <ClCompile Include="MessageBoardSchedulePageBuilder.cpp" />
+    <ClCompile Include="MessageboardStats.cpp" />
+    <ClCompile Include="MessageboardStatsBuilder.cpp" />
+    <ClCompile Include="MessageBoardTransfer.cpp" />
+    <ClCompile Include="MessageBoardTransferBuilder.cpp" />
+    <ClCompile Include="ModAlertsCheckerBuilder.cpp" />
+    <ClCompile Include="ModBillingBuilder.cpp" />
+    <ClCompile Include="ModComplaintsStats.cpp" />
+    <ClCompile Include="ModerateArticlePageBuilder.cpp" />
+    <ClCompile Include="ModerateHomePageBuilder.cpp" />
+    <ClCompile Include="ModerateMediaAssetsBuilder.cpp" />
+    <ClCompile Include="ModerateNickNames.cpp" />
+    <ClCompile Include="ModerateNickNamesBuilder.cpp" />
+    <ClCompile Include="ModeratePosts.cpp" />
+    <ClCompile Include="ModerationClasses.cpp" />
+    <ClCompile Include="ModerationDistressMessages.cpp" />
+    <ClCompile Include="ModerationEmail.cpp" />
+    <ClCompile Include="ModerationEmailManagementBuilder.cpp" />
+    <ClCompile Include="ModerationHistoryBuilder.cpp" />
+    <ClCompile Include="ModerationStatusPageBuilder.cpp" />
+    <ClCompile Include="ModeratorInfo.cpp" />
+    <ClCompile Include="ModeratorListBuilder.cpp" />
+    <ClCompile Include="ModeratorManagementBuilder.cpp" />
+    <ClCompile Include="ModManageFastModBuilder.cpp" />
+    <ClCompile Include="ModQueueStat.cpp" />
+    <ClCompile Include="ModReasons.cpp" />
+    <ClCompile Include="ModStats.cpp" />
+    <ClCompile Include="ModTriggers.cpp" />
+    <ClCompile Include="MonthSummary.cpp" />
+    <ClCompile Include="MonthSummaryPageBuilder.cpp" />
+    <ClCompile Include="MoreJournalBuilder.cpp" />
+    <ClCompile Include="MorePagesBuilder.cpp" />
+    <ClCompile Include="MorePostsBuilder.cpp" />
+    <ClCompile Include="MoveThreadForm.cpp" />
+    <ClCompile Include="MoveThreadPageBuilder.cpp" />
+    <ClCompile Include="MultiStep.cpp" />
+    <ClCompile Include="NewEmailBuilder.cpp" />
+    <ClCompile Include="NewRegisterBuilder.cpp" />
+    <ClCompile Include="NewUserDetailsPageBuilder.cpp" />
+    <ClCompile Include="NewUsersPageBuilder.cpp" />
+    <ClCompile Include="NickNameModerationPageBuilder.cpp" />
+    <ClCompile Include="NotFoundBuilder.cpp" />
+    <ClCompile Include="Notice.cpp" />
+    <ClCompile Include="NoticeBoardBuilder.cpp" />
+    <ClCompile Include="NoticeBoardList.cpp" />
+    <ClCompile Include="NoticeBoardListBuilder.cpp" />
+    <ClCompile Include="OutputContext.cpp" />
+    <ClCompile Include="PageBody.cpp" />
+    <ClCompile Include="PageUI.cpp" />
+    <ClCompile Include="PipeHandles.cpp" />
+    <ClCompile Include="poll.cpp" />
+    <ClCompile Include="PollBuilder.cpp" />
+    <ClCompile Include="PollContentRating.cpp" />
+    <ClCompile Include="PolliCanClub.cpp" />
+    <ClCompile Include="PollNoticeBoard.cpp" />
+    <ClCompile Include="polls.cpp" />
+    <ClCompile Include="PostcodeBuilder.cpp" />
+    <ClCompile Include="PostCodeParser.cpp" />
+    <ClCompile Include="Postcoder.cpp" />
+    <ClCompile Include="PostJournalBuilder.cpp" />
+    <ClCompile Include="PostList.cpp" />
+    <ClCompile Include="ProcessRecommendationForm.cpp" />
+    <ClCompile Include="ProcessRecommendationPageBuilder.cpp" />
+    <ClCompile Include="ProcessRunner.cpp" />
+    <ClCompile Include="Profanity.cpp" />
+    <ClCompile Include="ProfanityAdmin.cpp" />
+    <ClCompile Include="ProfanityAdminPageBuilder.cpp" />
+    <ClCompile Include="ProfanityFilter.cpp" />
+    <ClCompile Include="ProfanityGroup.cpp" />
+    <ClCompile Include="ProfanityGroupList.cpp" />
+    <ClCompile Include="ProfanityList.cpp" />
+    <ClCompile Include="ProfileConnection.cpp" />
+    <ClCompile Include="ProfileConnectionPool.cpp" />
+    <ClCompile Include="RandomArticle.cpp" />
+    <ClCompile Include="RecentSearch.cpp" />
+    <ClCompile Include="RecommendEntryForm.cpp" />
+    <ClCompile Include="RecommendEntryPageBuilder.cpp" />
+    <ClCompile Include="RefereeList.cpp" />
+    <ClCompile Include="RegisterBuilder.cpp" />
+    <ClCompile Include="RegisterObject.cpp" />
+    <ClCompile Include="ReservedArticlesBuilder.cpp" />
+    <ClCompile Include="ReviewForum.cpp" />
+    <ClCompile Include="ReviewForumBuilder.cpp" />
+    <ClCompile Include="ReviewSubmissionForum.cpp" />
+    <ClCompile Include="Ripley.cpp" />
+    <ClCompile Include="RipleyStatistics.cpp" />
+    <ClCompile Include="Ripley_GetBuilder.cpp" />
+    <ClCompile Include="Ripley_GetTransformer.cpp" />
+    <ClCompile Include="ScoutRecommendationsForm.cpp" />
+    <ClCompile Include="ScoutRecommendationsPageBuilder.cpp" />
+    <ClCompile Include="Search.cpp" />
+    <ClCompile Include="SearchBuilder.cpp" />
+    <ClCompile Include="ShareAndEnjoyBuilder.cpp" />
+    <ClCompile Include="SignalBuilder.cpp" />
+    <ClCompile Include="SignifContent.cpp" />
+    <ClCompile Include="SimpleFtp.cpp" />
+    <ClCompile Include="Site.cpp" />
+    <ClCompile Include="SiteAdminBuilder.cpp" />
+    <ClCompile Include="SiteConfig.cpp" />
+    <ClCompile Include="SiteConfigBuilder.cpp" />
+    <ClCompile Include="SiteConfigPreview.cpp" />
+    <ClCompile Include="SiteConfigPreviewBuilder.cpp" />
+    <ClCompile Include="SiteData.cpp" />
+    <ClCompile Include="SiteList.cpp" />
+    <ClCompile Include="SiteOpenCloseSchedule.cpp" />
+    <ClCompile Include="SiteOpenCloseTime.cpp" />
+    <ClCompile Include="SiteOption.cpp" />
+    <ClCompile Include="SiteOptions.cpp" />
+    <ClCompile Include="SiteOptionsBuilder.cpp" />
+    <ClCompile Include="SkinDetails.cpp" />
+    <ClCompile Include="SkinSelector.cpp" />
+    <ClCompile Include="SmileyList.cpp" />
+    <ClCompile Include="SmileyTranslator.cpp" />
+    <ClCompile Include="SSOBuilder.cpp" />
+    <ClCompile Include="StatsBuilder.cpp" />
+    <ClCompile Include="StatusBuilder.cpp" />
+    <ClCompile Include="StdAfx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="StoredProcedure.cpp" />
+    <ClCompile Include="StoredProcedureBase.cpp" />
+    <ClCompile Include="SubAllocationForm.cpp" />
+    <ClCompile Include="SubArticleStatusBuilder.cpp" />
+    <ClCompile Include="SubbedArticlesPageBuilder.cpp" />
+    <ClCompile Include="SubEditorAllocationPageBuilder.cpp" />
+    <ClCompile Include="SubmitReviewForumBuilder.cpp" />
+    <ClCompile Include="SubmitSubbedEntryForm.cpp" />
+    <ClCompile Include="SubmitSubbedEntryPageBuilder.cpp" />
+    <ClCompile Include="SubNotificationEmail.cpp" />
+    <ClCompile Include="SystemMessageMailbox.cpp" />
+    <ClCompile Include="SystemMessageMailboxBuilder.cpp" />
+    <ClCompile Include="TagItem.cpp" />
+    <ClCompile Include="TagItemBuilder.cpp" />
+    <ClCompile Include="tdvassert.cpp" />
+    <ClCompile Include="TDVDateTime.cpp" />
+    <ClCompile Include="TDVString.cpp" />
+    <ClCompile Include="Team.cpp" />
+    <ClCompile Include="TeamListPageBuilder.cpp" />
+    <ClCompile Include="TestArticleXML.cpp" />
+    <ClCompile Include="TestHTMLTransformer.cpp" />
+    <ClCompile Include="TestXMLBuilder.cpp" />
+    <ClCompile Include="TextBoxElement.cpp" />
+    <ClCompile Include="TextBoxElementBuilder.cpp" />
+    <ClCompile Include="ThreadSearchPhrase.cpp" />
+    <ClCompile Include="ThreadSearchPhraseBuilder.cpp" />
+    <ClCompile Include="ThroughputTransformer.cpp" />
+    <ClCompile Include="TimeZoneManager.cpp" />
+    <ClCompile Include="TopFiveEditor.cpp" />
+    <ClCompile Include="TopFives.cpp" />
+    <ClCompile Include="Topic.cpp" />
+    <ClCompile Include="TopicBuilder.cpp" />
+    <ClCompile Include="TransmissionBuilder.cpp" />
+    <ClCompile Include="TypedArticleBuilder.cpp" />
+    <ClCompile Include="UnauthorisedBuilder.cpp" />
+    <ClCompile Include="Upload.cpp" />
+    <ClCompile Include="UploadedImage.cpp" />
+    <ClCompile Include="UploadedObject.cpp" />
+    <ClCompile Include="UploadPageBuilder.cpp" />
+    <ClCompile Include="URLFilter.cpp" />
+    <ClCompile Include="URLFilterAdmin.cpp" />
+    <ClCompile Include="URLFilterAdminBuilder.cpp" />
+    <ClCompile Include="URLFilterList.cpp" />
+    <ClCompile Include="User.cpp" />
+    <ClCompile Include="UserComplaintPageBuilder.cpp" />
+    <ClCompile Include="UserEditPageBuilder.cpp" />
+    <ClCompile Include="usergroups.cpp" />
+    <ClCompile Include="UserList.cpp" />
+    <ClCompile Include="UserPageBuilder.cpp" />
+    <ClCompile Include="UserPrivacy.cpp" />
+    <ClCompile Include="UserPrivacyBuilder.cpp" />
+    <ClCompile Include="UsersTags.cpp" />
+    <ClCompile Include="UserStatisticsPageBuilder.cpp" />
+    <ClCompile Include="UserStatuses.cpp" />
+    <ClCompile Include="UserTags.cpp" />
+    <ClCompile Include="Vote.cpp" />
+    <ClCompile Include="VotePageBuilder.cpp" />
+    <ClCompile Include="WatchList.cpp" />
+    <ClCompile Include="WholePage.cpp" />
+    <ClCompile Include="WhosOnlineBuilder.cpp" />
+    <ClCompile Include="WhosOnlineObject.cpp" />
+    <ClCompile Include="XMLBuilder.cpp" />
+    <ClCompile Include="XMLCookie.cpp" />
+    <ClCompile Include="XMLDate.cpp" />
+    <ClCompile Include="XMLError.cpp" />
+    <ClCompile Include="XMLObject.cpp" />
+    <ClCompile Include="XMLStringUtils.cpp" />
+    <ClCompile Include="XMLTransformer.cpp" />
+    <ClCompile Include="XMLTree.cpp" />
+    <ClCompile Include="XSLT.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AddThreadBuilder.h" />
+    <ClInclude Include="ArticleDiagnosticBuilder.h" />
+    <ClInclude Include="ArticleEditForm.h" />
+    <ClInclude Include="ArticleList.h" />
+    <ClInclude Include="ArticleMember.h" />
+    <ClInclude Include="ArticlePageBuilder.h" />
+    <ClInclude Include="ArticleSearchPhrase.h" />
+    <ClInclude Include="ArticleSearchPhraseBuilder.h" />
+    <ClInclude Include="ArticleSubscriptionList.h" />
+    <ClInclude Include="AssetUploadQueue.h" />
+    <ClInclude Include="AuthorList.h" />
+    <ClInclude Include="AutoCS.h" />
+    <ClInclude Include="BasicSiteList.h" />
+    <ClInclude Include="Blob.h" />
+    <ClInclude Include="BlobBuilder.h" />
+    <ClInclude Include="BlobTransformer.h" />
+    <ClInclude Include="Category.h" />
+    <ClInclude Include="CategoryBuilder.h" />
+    <ClInclude Include="CategoryList.h" />
+    <ClInclude Include="CategoryListBuilder.h" />
+    <ClInclude Include="CGI.h" />
+    <ClInclude Include="Club.h" />
+    <ClInclude Include="ClubList.h" />
+    <ClInclude Include="ClubListPageBuilder.h" />
+    <ClInclude Include="ClubMember.h" />
+    <ClInclude Include="ClubPageBuilder.h" />
+    <ClInclude Include="ComingUpBuilder.h" />
+    <ClInclude Include="CommentsList.h" />
+    <ClInclude Include="Config.h" />
+    <ClInclude Include="ContentSignifAdminBuilder.h" />
+    <ClInclude Include="ContentSignifBuilder.h" />
+    <ClInclude Include="ContentSignifSettings.h" />
+    <ClInclude Include="CurrentClubs.h" />
+    <ClInclude Include="CurrentClubsBuilder.h" />
+    <ClInclude Include="DateRangeValidation.h" />
+    <ClInclude Include="DBO.h" />
+    <ClInclude Include="DBOMySQL.h" />
+    <ClInclude Include="DBOSQLServer.h" />
+    <ClInclude Include="DBXMLBuilder.h" />
+    <ClInclude Include="DNAArray.h" />
+    <ClInclude Include="DnaUrl.h" />
+    <ClInclude Include="dynamiclist.h" />
+    <ClInclude Include="dynamiclists.h" />
+    <ClInclude Include="EditCategory.h" />
+    <ClInclude Include="EditCategoryBuilder.h" />
+    <ClInclude Include="EditorsPick.h" />
+    <ClInclude Include="EditPostPageBuilder.h" />
+    <ClInclude Include="EditRecentPostBuilder.h" />
+    <ClInclude Include="EditReviewForumBuilder.h" />
+    <ClInclude Include="EditReviewForumForm.h" />
+    <ClInclude Include="EmailAddressFilter.h" />
+    <ClInclude Include="EmailAlertBuilder.h" />
+    <ClInclude Include="EmailAlertGroup.h" />
+    <ClInclude Include="EMailAlertGroupBuilder.h" />
+    <ClInclude Include="EmailAlertList.h" />
+    <ClInclude Include="EmailInserts.h" />
+    <ClInclude Include="EmailLineBreak.h" />
+    <ClInclude Include="EMailQueueGenerator.h" />
+    <ClInclude Include="EmailTemplate.h" />
+    <ClInclude Include="EmailVocab.h" />
+    <ClInclude Include="EventQueue.h" />
+    <ClInclude Include="ExtraInfo.h" />
+    <ClInclude Include="FailMessage.h" />
+    <ClInclude Include="FailMessageBuilder.h" />
+    <ClInclude Include="FastCategoryListBuilder.h" />
+    <ClInclude Include="FixDBBuilder.h" />
+    <ClInclude Include="FixExtraInfoBuilder.h" />
+    <ClInclude Include="Forum.h" />
+    <ClInclude Include="ForumModerationPageBuilder.h" />
+    <ClInclude Include="ForumPageBuilder.h" />
+    <ClInclude Include="ForumPostEditForm.h" />
+    <ClInclude Include="ForumSchedule.h" />
+    <ClInclude Include="FriendsBuilder.h" />
+    <ClInclude Include="FrontPageBuilder.h" />
+    <ClInclude Include="FrontpageEditor.h" />
+    <ClInclude Include="FrontPageElement.h" />
+    <ClInclude Include="FrontPageLayout.h" />
+    <ClInclude Include="FrontPageLayoutBuilder.h" />
+    <ClInclude Include="FrontPageTopicElement.h" />
+    <ClInclude Include="FrontPageTopicElementBuilder.h" />
+    <ClInclude Include="GeneralModerationPageBuilder.h" />
+    <ClInclude Include="GroupManagementBuilder.h" />
+    <ClInclude Include="Groups.h" />
+    <ClInclude Include="GuideEntry.h" />
+    <ClInclude Include="HierarchyNodeTyperBuilder.h" />
+    <ClInclude Include="HierarchyTree.h" />
+    <ClInclude Include="HierarchyTreeBuilder.h" />
+    <ClInclude Include="HTMLTransformer.h" />
+    <ClInclude Include="IDifDocBuilder.h" />
+    <ClInclude Include="ImageLibrary.h" />
+    <ClInclude Include="ImageLibraryBuilder.h" />
+    <ClInclude Include="ImageModeration.h" />
+    <ClInclude Include="ImageModerationBuilder.h" />
+    <ClInclude Include="Index.h" />
+    <ClInclude Include="IndexBuilder.h" />
+    <ClInclude Include="Info.h" />
+    <ClInclude Include="InfoBuilder.h" />
+    <ClInclude Include="InputContext.h" />
+    <ClInclude Include="InspectUserBuilder.h" />
+    <ClInclude Include="KeyArticleEditBuilder.h" />
+    <ClInclude Include="Link.h" />
+    <ClInclude Include="Locations.h" />
+    <ClInclude Include="LogoutBuilder.h" />
+    <ClInclude Include="ManageLinksBuilder.h" />
+    <ClInclude Include="md5.h" />
+    <ClInclude Include="md5_loc.h" />
+    <ClInclude Include="MediaAsset.h" />
+    <ClInclude Include="MediaAssetBuilder.h" />
+    <ClInclude Include="MediaAssetModController.h" />
+    <ClInclude Include="MediaAssetSearchPhrase.h" />
+    <ClInclude Include="MediaAssetSearchPhraseBuilder.h" />
+    <ClInclude Include="MemberDetailsPageBuilder.h" />
+    <ClInclude Include="MembersHomePageBuilder.h" />
+    <ClInclude Include="MessageBoardAdmin.h" />
+    <ClInclude Include="MessageBoardAdminBuilder.h" />
+    <ClInclude Include="MessageBoardPromo.h" />
+    <ClInclude Include="MessageBoardPromoBuilder.h" />
+    <ClInclude Include="MessageBoardSchedulePageBuilder.h" />
+    <ClInclude Include="MessageboardStats.h" />
+    <ClInclude Include="MessageboardStatsBuilder.h" />
+    <ClInclude Include="MessageBoardTransfer.h" />
+    <ClInclude Include="MessageBoardTransferBuilder.h" />
+    <ClInclude Include="ModAlertsCheckerBuilder.h" />
+    <ClInclude Include="ModBillingBuilder.h" />
+    <ClInclude Include="ModComplaintsStats.h" />
+    <ClInclude Include="ModerateArticlePageBuilder.h" />
+    <ClInclude Include="ModerateHomePageBuilder.h" />
+    <ClInclude Include="ModerateMediaAssetsBuilder.h" />
+    <ClInclude Include="ModerateNickNames.h" />
+    <ClInclude Include="ModerateNickNamesBuilder.h" />
+    <ClInclude Include="ModeratePosts.h" />
+    <ClInclude Include="ModerationClasses.h" />
+    <ClInclude Include="ModerationDistressMessages.h" />
+    <ClInclude Include="ModerationEmail.h" />
+    <ClInclude Include="ModerationEmailManagementBuilder.h" />
+    <ClInclude Include="ModerationHistoryBuilder.h" />
+    <ClInclude Include="ModerationStatus.h" />
+    <ClInclude Include="ModerationStatusPageBuilder.h" />
+    <ClInclude Include="ModeratorInfo.h" />
+    <ClInclude Include="ModeratorListBuilder.h" />
+    <ClInclude Include="ModeratorManagementBuilder.h" />
+    <ClInclude Include="ModManageFastModBuilder.h" />
+    <ClInclude Include="ModQueueStat.h" />
+    <ClInclude Include="ModReasons.h" />
+    <ClInclude Include="ModStats.h" />
+    <ClInclude Include="ModTriggers.h" />
+    <ClInclude Include="MonthSummary.h" />
+    <ClInclude Include="MonthSummaryPageBuilder.h" />
+    <ClInclude Include="MoreJournalBuilder.h" />
+    <ClInclude Include="MorePagesBuilder.h" />
+    <ClInclude Include="MorePostsBuilder.h" />
+    <ClInclude Include="MoveThreadForm.h" />
+    <ClInclude Include="MoveThreadPageBuilder.h" />
+    <ClInclude Include="MultiStep.h" />
+    <ClInclude Include="NewEmailBuilder.h" />
+    <ClInclude Include="NewRegisterBuilder.h" />
+    <ClInclude Include="NewUserDetailsPageBuilder.h" />
+    <ClInclude Include="NewUsersPageBuilder.h" />
+    <ClInclude Include="NickNameModerationPageBuilder.h" />
+    <ClInclude Include="NotFoundBuilder.h" />
+    <ClInclude Include="Notice.h" />
+    <ClInclude Include="NoticeBoardBuilder.h" />
+    <ClInclude Include="NoticeBoardList.h" />
+    <ClInclude Include="NoticeBoardListBuilder.h" />
+    <ClInclude Include="OutputContext.h" />
+    <ClInclude Include="PageBody.h" />
+    <ClInclude Include="PageUI.h" />
+    <ClInclude Include="phrase.h" />
+    <ClInclude Include="PipeHandles.h" />
+    <ClInclude Include="poll.h" />
+    <ClInclude Include="PollBuilder.h" />
+    <ClInclude Include="PollContentRating.h" />
+    <ClInclude Include="PolliCanClub.h" />
+    <ClInclude Include="PollNoticeBoard.h" />
+    <ClInclude Include="polls.h" />
+    <ClInclude Include="PostcodeBuilder.h" />
+    <ClInclude Include="PostCodeParser.h" />
+    <ClInclude Include="Postcoder.h" />
+    <ClInclude Include="PostJournalBuilder.h" />
+    <ClInclude Include="PostList.h" />
+    <ClInclude Include="ProcessRecommendationForm.h" />
+    <ClInclude Include="ProcessRecommendationPageBuilder.h" />
+    <ClInclude Include="ProcessRunner.h" />
+    <ClInclude Include="Profanity.h" />
+    <ClInclude Include="ProfanityAdmin.h" />
+    <ClInclude Include="ProfanityAdminPageBuilder.h" />
+    <ClInclude Include="ProfanityFilter.h" />
+    <ClInclude Include="ProfanityGroup.h" />
+    <ClInclude Include="ProfanityGroupList.h" />
+    <ClInclude Include="ProfanityList.h" />
+    <ClInclude Include="ProfileConnection.h" />
+    <ClInclude Include="ProfileConnectionPool.h" />
+    <ClInclude Include="RandomArticle.h" />
+    <ClInclude Include="RecentSearch.h" />
+    <ClInclude Include="RecommendEntryForm.h" />
+    <ClInclude Include="RecommendEntryPageBuilder.h" />
+    <ClInclude Include="RefereeList.h" />
+    <ClInclude Include="RegisterBuilder.h" />
+    <ClInclude Include="RegisterObject.h" />
+    <ClInclude Include="ReservedArticlesBuilder.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="ReviewForum.h" />
+    <ClInclude Include="ReviewForumBuilder.h" />
+    <ClInclude Include="ReviewSubmissionForum.h" />
+    <ClInclude Include="Ripley.h" />
+    <ClInclude Include="RipleyStatistics.h" />
+    <ClInclude Include="ScoutRecommendationsForm.h" />
+    <ClInclude Include="ScoutRecommendationsPageBuilder.h" />
+    <ClInclude Include="Search.h" />
+    <ClInclude Include="SearchBuilder.h" />
+    <ClInclude Include="ShareAndEnjoyBuilder.h" />
+    <ClInclude Include="SignalBuilder.h" />
+    <ClInclude Include="SignifContent.h" />
+    <ClInclude Include="SimpleFtp.h" />
+    <ClInclude Include="Site.h" />
+    <ClInclude Include="SiteAdminBuilder.h" />
+    <ClInclude Include="SiteConfig.h" />
+    <ClInclude Include="SiteConfigBuilder.h" />
+    <ClInclude Include="SiteConfigPreview.h" />
+    <ClInclude Include="SiteConfigPreviewBuilder.h" />
+    <ClInclude Include="SiteData.h" />
+    <ClInclude Include="SiteList.h" />
+    <ClInclude Include="SiteOpenCloseSchedule.h" />
+    <ClInclude Include="SiteOpenCloseTime.h" />
+    <ClInclude Include="SiteOption.h" />
+    <ClInclude Include="SiteOptions.h" />
+    <ClInclude Include="SiteOptionsBuilder.h" />
+    <ClInclude Include="SkinDetails.h" />
+    <ClInclude Include="SkinSelector.h" />
+    <ClInclude Include="SmileyList.h" />
+    <ClInclude Include="SmileyTranslator.h" />
+    <ClInclude Include="SSOBuilder.h" />
+    <ClInclude Include="StatsBuilder.h" />
+    <ClInclude Include="StatusBuilder.h" />
+    <ClInclude Include="StdAfx.h" />
+    <ClInclude Include="StoredProcedure.h" />
+    <ClInclude Include="StoredProcedureBase.h" />
+    <ClInclude Include="SubAllocationForm.h" />
+    <ClInclude Include="SubArticleStatusBuilder.h" />
+    <ClInclude Include="SubbedArticlesPageBuilder.h" />
+    <ClInclude Include="SubEditorAllocationPageBuilder.h" />
+    <ClInclude Include="SubmitReviewForumBuilder.h" />
+    <ClInclude Include="SubmitSubbedEntryForm.h" />
+    <ClInclude Include="SubmitSubbedEntryPageBuilder.h" />
+    <ClInclude Include="SubNotificationEmail.h" />
+    <ClInclude Include="subst.h" />
+    <ClInclude Include="SystemMessageMailbox.h" />
+    <ClInclude Include="SystemMessageMailboxBuilder.h" />
+    <ClInclude Include="TagItem.h" />
+    <ClInclude Include="TagItemBuilder.h" />
+    <ClInclude Include="tdvassert.h" />
+    <ClInclude Include="TDVDateTime.h" />
+    <ClInclude Include="TDVString.h" />
+    <ClInclude Include="Team.h" />
+    <ClInclude Include="TeamListPageBuilder.h" />
+    <ClInclude Include="TestArticleXML.h" />
+    <ClInclude Include="TestHTMLTransformer.h" />
+    <ClInclude Include="TestXMLBuilder.h" />
+    <ClInclude Include="TextBoxElement.h" />
+    <ClInclude Include="TextBoxElementBuilder.h" />
+    <ClInclude Include="ThreadSearchPhrase.h" />
+    <ClInclude Include="ThreadSearchPhraseBuilder.h" />
+    <ClInclude Include="ThroughputTransformer.h" />
+    <ClInclude Include="TimeZoneManager.h" />
+    <ClInclude Include="TopFiveEditor.h" />
+    <ClInclude Include="TopFives.h" />
+    <ClInclude Include="Topic.h" />
+    <ClInclude Include="TopicBuilder.h" />
+    <ClInclude Include="TransmissionBuilder.h" />
+    <ClInclude Include="TypedArticleBuilder.h" />
+    <ClInclude Include="UnauthorisedBuilder.h" />
+    <ClInclude Include="Upload.h" />
+    <ClInclude Include="UploadedImage.h" />
+    <ClInclude Include="UploadedObject.h" />
+    <ClInclude Include="UploadPageBuilder.h" />
+    <ClInclude Include="URLFilter.h" />
+    <ClInclude Include="URLFilterAdmin.h" />
+    <ClInclude Include="URLFilterAdminBuilder.h" />
+    <ClInclude Include="URLFilterList.h" />
+    <ClInclude Include="User.h" />
+    <ClInclude Include="UserComplaintPageBuilder.h" />
+    <ClInclude Include="UserEditPageBuilder.h" />
+    <ClInclude Include="usergroups.h" />
+    <ClInclude Include="UserList.h" />
+    <ClInclude Include="UserPageBuilder.h" />
+    <ClInclude Include="UserPrivacy.h" />
+    <ClInclude Include="UserPrivacyBuilder.h" />
+    <ClInclude Include="UsersTags.h" />
+    <ClInclude Include="UserStatisticsPageBuilder.h" />
+    <ClInclude Include="UserStatuses.h" />
+    <ClInclude Include="UserTags.h" />
+    <ClInclude Include="Vote.h" />
+    <ClInclude Include="VotePageBuilder.h" />
+    <ClInclude Include="WatchList.h" />
+    <ClInclude Include="WholePage.h" />
+    <ClInclude Include="WhosOnlineBuilder.h" />
+    <ClInclude Include="WhosOnlineObject.h" />
+    <ClInclude Include="XMLBuilder.h" />
+    <ClInclude Include="XMLCookie.h" />
+    <ClInclude Include="XMLDate.h" />
+    <ClInclude Include="XMLError.h" />
+    <ClInclude Include="XMLObject.h" />
+    <ClInclude Include="XMLStringUtils.h" />
+    <ClInclude Include="XMLTransformer.h" />
+    <ClInclude Include="XMLTree.h" />
+    <ClInclude Include="XSLT.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj">
+      <Project>{5b2fc0e0-8c34-48f0-a57a-c46c5187834b}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

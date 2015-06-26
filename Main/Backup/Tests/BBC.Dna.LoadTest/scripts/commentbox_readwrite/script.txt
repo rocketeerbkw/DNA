@@ -1,0 +1,16 @@
+NEW TRANSACTION
+    classId = 1
+    NEW REQUEST HTTP
+        Verb = "POST"
+        URL = "http://www.bbc.co.uk/dna/api/comments/CommentsService.svc/v1/site/blog104/commentsforums/movabletype104_128996/create.htm"
+	RequestHeader = "Content-Type: application/x-www-form-urlencoded\r\n"
+	RequestData = "text=this is a test%RAND(0,100000000,11)%\r\n"
+	Cookie = "IDENTITY=15029%7Cmarcusparnwell%7Cparn3y%7C1260196967041%7C0%7Ced3b0b3b67e32c263a9091343f0a7e82703413c28d6a%3A0; IDENTITY-USERNAME=marcusparnwell%7C15029%7C84852ad30b5d9c945dcff851b774b4f2; IDENTITY_SESSION=Lht3g01ug3fcob76og6k1hinlv0;"
+
+
+NEW TRANSACTION
+    classId = 2
+    NEW REQUEST HTTP
+        Verb = "GET"
+        URL = "http://<!--SERVER-->/dna/h2g2/comments/acswithoutapi?dnauid=<!--UID-->&dnainitialtitle=TestingCommentBox&dnahostpageurl=http://local.bbc.co.uk/dna/haveyoursay/acs&dnaforumduration=0&skin=purexml"
+	

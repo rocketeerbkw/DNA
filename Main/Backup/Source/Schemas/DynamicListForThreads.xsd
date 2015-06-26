@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="LISTDEFINITION">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="NAME" type="xs:string" />
+        <xs:element name="TYPE" type="xs:string" />
+        <xs:element name="DATECREATED" type="xs:unsignedShort" />
+        <xs:element name="LASTUPDATED" type="xs:unsignedShort" />
+        <xs:element name="SORTBY" type="xs:string" />
+        <xs:element name="CATEGORIES" />
+        <xs:element name="VERSION" />
+        <xs:element name="LISTLENGTH" type="xs:unsignedByte" />
+        <xs:element name="THREADTYPE" type="xs:unsignedByte" />
+        <xs:element name="KEYPHRASES" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

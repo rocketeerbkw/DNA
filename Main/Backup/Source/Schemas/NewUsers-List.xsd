@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:include schemaLocation="Users-List.xsd" />
+  <xs:element name="NEWUSERS-LISTING">
+    <xs:annotation>
+      <xs:documentation>List of new users subscribed to by a user.</xs:documentation>
+    </xs:annotation>
+      <xs:complexType>
+        <xs:sequence>
+          <xs:element ref="USER-LIST" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+		<xs:attribute name="UNITTYPE" type="xs:string" use="required" />
+		<xs:attribute name="TIMEUNITS" type="xs:int" use="required" />
+		<xs:attribute name="SITEID" type="xs:int" use="required" />
+		<xs:attribute name="FILTER-USERS" type="xs:boolean" use="optional" />
+		<xs:attribute name="FILTER-TYPE" type="xs:string" use="optional" />
+		<xs:attribute name="UPDATINGUSERS" type="xs:int" use="optional" />
+	  </xs:complexType>	  
+  </xs:element>
+</xs:schema>

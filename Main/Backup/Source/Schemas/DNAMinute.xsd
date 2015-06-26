@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:simpleType name="DNAMinute">
+		<xs:annotation>
+			<xs:documentation>Minute (0-59).</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:unsignedByte">
+			<xs:minInclusive value="0"/>
+			<xs:maxInclusive value="59"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

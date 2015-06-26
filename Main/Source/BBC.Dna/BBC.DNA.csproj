@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>BBC.Dna</RootNamespace>
     <AssemblyName>BBC.Dna</AssemblyName>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
     <AssemblyOriginatorKeyFile>BBC.Dna.snk</AssemblyOriginatorKeyFile>
     <SccProjectName>SAK</SccProjectName>
     <SccLocalPath>SAK</SccLocalPath>
@@ -22,7 +22,7 @@
     </UpgradeBackupLocation>
     <OldToolsVersion>3.5</OldToolsVersion>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -39,6 +39,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFrameworkSubset>
     </TargetFrameworkSubset>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -49,7 +50,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\BBC.DNA.XML</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
@@ -372,47 +373,47 @@
   <ItemGroup>
     <ProjectReference Include="..\Shared\BBC.Dna.Api\BBC.Dna.Api.csproj">
       <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
-      <Name>BBC.Dna.Api %28Source\Shared\BBC.Dna.Api\BBC.Dna.Api%29</Name>
+      <Name>BBC.Dna.Api</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\BBC.Dna.Common\BBC.Dna.Common.csproj">
       <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
-      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+      <Name>BBC.Dna.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\BBC.Dna.Data\BBC.Dna.Data.csproj">
       <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
-      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+      <Name>BBC.Dna.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
       <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
-      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+      <Name>BBC.DNA.Moderation.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation.csproj">
       <Project>{ED8FAD29-DC4F-40DC-A275-45D215591FA2}</Project>
-      <Name>BBC.Dna.Moderation %28Source\Shared\BBC.Dna.Moderation\BBC.Dna.Moderation%29</Name>
+      <Name>BBC.Dna.Moderation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
       <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
-      <Name>BBC.Dna.Objects %28Source\Shared\BBC.Dna.Objects\BBC.Dna.Objects%29</Name>
+      <Name>BBC.Dna.Objects</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
       <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
-      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+      <Name>BBC.Dna.Sites</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI.csproj">
       <Project>{BD150CEF-5F42-4C4D-AA7D-C7760977DD4D}</Project>
-      <Name>BBC.Dna.SocialAPI %28Source\Shared\BBC.Dna.SocialAPI\BBC.Dna.SocialAPI%29</Name>
+      <Name>BBC.Dna.SocialAPI</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\BBC.Dna.Users\BBC.Dna.Users.csproj">
       <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
-      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+      <Name>BBC.Dna.Users</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
       <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
-      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+      <Name>BBC.Dna.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy.csproj">
       <Project>{5B2FC0E0-8C34-48F0-A57A-C46C5187834B}</Project>
-      <Name>DnaIdentityWebServiceProxy %28Source\Shared\DnaIdentityWebServiceProxy\DnaIdentityWebServiceProxy%29</Name>
+      <Name>DnaIdentityWebServiceProxy</Name>
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>

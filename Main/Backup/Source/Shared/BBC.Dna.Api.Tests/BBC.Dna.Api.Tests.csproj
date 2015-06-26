@@ -1,0 +1,138 @@
+﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{B3C33253-95FB-4E81-8F0C-59F74BC7A1C9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>BBC.Dna.Api.Tests</RootNamespace>
+    <AssemblyName>BBC.Dna.Api.Tests</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Caching, Version=4.1.0.0, Culture=neutral, PublicKeyToken=54b8fe30038faf0d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference DLLs\EnterpriseLibrary\Microsoft.Practices.EnterpriseLibrary.Caching.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Reference DLLs\Rhino.Mocks.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.Entity">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel">
+      <RequiredTargetFramework>3.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.ServiceModel.Web">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CommentForumActivityTests.cs" />
+    <Compile Include="CommentForumRatingActivityTests.cs" />
+    <Compile Include="CommentInfoTest.cs" />
+    <Compile Include="ContactTests.cs" />
+    <Compile Include="ContextTest.cs" />
+    <Compile Include="CommentsTest.cs" />
+    <Compile Include="ReviewsTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BBC.Dna.Api\BBC.Dna.Api.csproj">
+      <Project>{A46E6756-CA6A-4C8A-A063-8515AFD1C614}</Project>
+      <Name>BBC.Dna.Api %28Source\Shared\BBC.Dna.Api\BBC.Dna.Api%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Common\BBC.Dna.Common.csproj">
+      <Project>{91E43B51-747D-4D9F-8416-9F65EC6D2D8E}</Project>
+      <Name>BBC.Dna.Common %28Source\Shared\BBC.Dna.Common\BBC.Dna.Common%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Data\BBC.Dna.Data.csproj">
+      <Project>{F79CF818-D597-4C2F-A61D-87773951E234}</Project>
+      <Name>BBC.Dna.Data %28Source\Shared\BBC.Dna.Data\BBC.Dna.Data%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Moderation.Utils.Tests\BBC.Dna.Moderation.Utils.Tests.csproj">
+      <Project>{CD50FF01-F604-4C12-BFE7-199CE495313F}</Project>
+      <Name>BBC.Dna.Moderation.Utils.Tests</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.DNA.Moderation.Utils\BBC.DNA.Moderation.Utils.csproj">
+      <Project>{8EB8245F-927C-469B-9DBB-4BAED2A9F420}</Project>
+      <Name>BBC.DNA.Moderation.Utils %28Source\Shared\BBC.Dna.Moderation.Utils\BBC.DNA.Moderation.Utils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
+      <Project>{2CE05465-9B21-4CD9-A592-FABD2AD051B3}</Project>
+      <Name>BBC.Dna.Sites %28Source\Shared\BBC.Dna.Sites\BBC.Dna.Sites%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Users\BBC.Dna.Users.csproj">
+      <Project>{19609A9E-E93A-4106-8529-F3A6C7DE9BF7}</Project>
+      <Name>BBC.Dna.Users %28Source\Shared\BBC.Dna.Users\BBC.Dna.Users%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BBC.Dna.Utils\BBC.Dna.Utils.csproj">
+      <Project>{52E9F388-5ED0-4D9C-9A7D-53F92EA21D1D}</Project>
+      <Name>BBC.Dna.Utils %28Source\Shared\BBC.Dna.Utils\BBC.Dna.Utils%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web.csproj">
+      <Project>{CBC8A641-D6B5-4E9F-96B4-3AF72E8ACFB3}</Project>
+      <Name>Microsoft.ServiceModel.Web %28Source\Shared\Microsoft.ServiceModel.Web\Microsoft.ServiceModel.Web%29</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestUtils\TestUtils.csproj">
+      <Project>{E09BF891-7D4F-403E-B830-B9E2606D2C22}</Project>
+      <Name>TestUtils %28Source\Shared\TestUtils\TestUtils%29</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Shadow Include="Test References\BBC.Dna.Api.accessor" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

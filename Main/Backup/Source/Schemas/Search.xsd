@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="SEARCH">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="RECENTSEARCHES">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" name="SEARCHTERM">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="NAME" type="xs:string" />
+										<xs:element name="TYPE" type="xs:string" />
+										<xs:element name="TIMESTAMP" type="xs:string" />
+										<xs:element name="COUNT" type="xs:unsignedByte" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="SEARCHRESULTS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SEARCHTERM" type="xs:string" />
+							<xs:element name="SAFESEARCHTERM" type="xs:string" />
+							<xs:element maxOccurs="unbounded" name="ARTICLERESULT">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="STATUS" type="xs:unsignedByte" />
+										<xs:element name="TYPE" type="xs:unsignedByte" />
+										<xs:element name="ENTRYID" type="xs:unsignedInt" />
+										<xs:element name="SUBJECT" type="xs:string" />
+										<xs:element name="H2G2ID" type="xs:unsignedInt" />
+										<xs:element name="DATECREATED">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="DATE"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="LASTUPDATED">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element ref="DATE"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SCORE" type="xs:unsignedByte" />
+										<xs:element name="SITEID" type="xs:unsignedByte" />
+										<xs:element name="PRIMARYSITE" type="xs:unsignedByte" />
+										<xs:element name="EXTRAINFO">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element minOccurs="0" name="EDITOR">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element ref="USER"/>															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+													<xs:element name="TYPE">
+														<xs:complexType>
+															<xs:attribute name="ID" type="xs:unsignedByte" use="required" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SKIP" type="xs:unsignedByte" />
+							<xs:element name="COUNT" type="xs:unsignedByte" />
+							<xs:element name="MORE" type="xs:unsignedByte" />
+						</xs:sequence>
+						<xs:attribute name="TYPE" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="FUNCTIONALITY">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SEARCHARTICLES">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SHOWAPPROVED" type="xs:unsignedByte" />
+										<xs:element name="SHOWNORMAL" type="xs:unsignedByte" />
+										<xs:element name="SHOWSUBMITTED" type="xs:unsignedByte" />
+									</xs:sequence>
+									<xs:attribute name="SELECTED" type="xs:unsignedByte" use="required" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SEARCHFORUMS" />
+							<xs:element name="SEARCHUSERS" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

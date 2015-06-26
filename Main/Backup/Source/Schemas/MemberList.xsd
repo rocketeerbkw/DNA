@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="date.xsd"/>
+	<xs:element name="MEMBERLIST">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="USERACCOUNTS" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element maxOccurs="unbounded" name="USERACCOUNT">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SITEID" type="xs:unsignedByte" />
+										<xs:element name="USERNAME" type="xs:string" />
+										<xs:element name="LOGINNAME" type="xs:string" />
+										<xs:element name="EMAIL" type="xs:string" />
+										<xs:element name="PREFSTATUS" type="xs:unsignedByte" />
+										<xs:element name="PREFSTATUSDURATION" type="xs:int" />
+										<xs:element name="USERSTATUSDESCRIPTION" type="xs:string" />
+                    <xs:element name="DATEJOINED" minOccurs="0">
+                      <xs:complexType>
+                        <xs:sequence minOccurs="0">
+                          <xs:element ref="DATE"/>
+                        </xs:sequence>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="PREFSTATUSCHANGEDDATE">
+											<xs:complexType>
+												<xs:sequence minOccurs="0">
+													<xs:element ref="DATE"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="SHORTNAME" type="xs:string" />
+										<xs:element name="URLNAME" type="xs:string" />
+										<xs:element name="IPADDRESS" minOccurs="0" type="xs:string" />
+										<xs:element name="BBCUID" minOccurs="0" type="xs:string" />
+                    <xs:element name="SSOUSERID" type="xs:unsignedInt" />
+                    <xs:element name="IDENTITYUSERID" type="xs:string" />
+                    <xs:element name="ACTIVE" type="xs:boolean" />
+                  </xs:sequence>
+									<xs:attribute name="USERID" type="xs:unsignedInt" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="USERSEARCHTYPE" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="SEARCHTEXT" type="xs:string" use="required" />
+			<xs:attribute name="CHECKALLSITES" type="xs:string" use="required" />
+			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+      <xs:attribute name="TWITTEREXCEPTION" type="xs:string" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

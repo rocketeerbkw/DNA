@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="../Dna.Services.Articles/article.xsd" />
+	<xs:element name="articleSubscriptionsList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="skip" type="xs:unsignedByte" />
+				<xs:element name="show" type="xs:unsignedByte" />
+				<xs:element name="count" type="xs:unsignedByte" />
+				<xs:element name="total" type="xs:unsignedByte" />
+				<xs:element name="articles">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="article" minOccurs="0" maxOccurs="unbounded"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

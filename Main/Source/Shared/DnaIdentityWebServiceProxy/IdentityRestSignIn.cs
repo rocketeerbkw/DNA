@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using System.Net.Security;
 using System.Diagnostics;
-using System.Xml;
-using System.Reflection;
 using System.IO;
+using System.Net;
+using System.Net.Security;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
+using System.Xml;
 
 namespace DnaIdentityWebServiceProxy
 {
@@ -30,7 +30,7 @@ namespace DnaIdentityWebServiceProxy
             // Set the connection string for the web service
             Initialise(connectionDetails, clientIPAddress);
         }
-        
+
         /// <summary>
         /// This property tell the caller that it uses identity
         /// </summary>
@@ -55,7 +55,7 @@ namespace DnaIdentityWebServiceProxy
             {
                 _callInfo.AppendLine(info);
             }
-            Trace.WriteLineIf(_traceOutput,info);
+            Trace.WriteLineIf(_traceOutput, info);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace DnaIdentityWebServiceProxy
             {
                 _identityBaseURL = details[0];
 
-                _identityBaseURL = _identityBaseURL.Substring(0,_identityBaseURL.LastIndexOf("/"));
+                _identityBaseURL = _identityBaseURL.Substring(0, _identityBaseURL.LastIndexOf("/"));
                 _identityBaseURL = _identityBaseURL.Substring(0, _identityBaseURL.LastIndexOf("/"));
                 _identityBaseURL = _identityBaseURL.Substring(0, _identityBaseURL.LastIndexOf("/"));
 
@@ -89,11 +89,11 @@ namespace DnaIdentityWebServiceProxy
                     _traceOutput = true;
                 }
 
-                AddTimingInfoLine( "<* IDENTITY START *>");
-                AddTimingInfoLine( "IdentityRestSignIn - Initialising...");
-                AddTimingInfoLine( "Base URL           - " + _identityBaseURL);
-                AddTimingInfoLine( "Certificate Name   - " + _certificateName);
-                AddTimingInfoLine( "Proxy server       - " + _proxy);
+                AddTimingInfoLine("<* IDENTITY START *>");
+                AddTimingInfoLine("IdentityRestSignIn - Initialising...");
+                AddTimingInfoLine("Base URL           - " + _identityBaseURL);
+                AddTimingInfoLine("Certificate Name   - " + _certificateName);
+                AddTimingInfoLine("Proxy server       - " + _proxy);
 
                 _clientIPAddress = clientIPAddress;
 
@@ -105,10 +105,10 @@ namespace DnaIdentityWebServiceProxy
             }
             catch (Exception e)
             {
-                AddTimingInfoLine( "ERROR!!! - " + e.Message);
+                AddTimingInfoLine("ERROR!!! - " + e.Message);
             }
 
-            AddTimingInfoLine( "<* IDENTITY END *>");
+            AddTimingInfoLine("<* IDENTITY END *>");
             return _initialised;
         }
 
@@ -439,7 +439,7 @@ namespace DnaIdentityWebServiceProxy
                     {
                         AddTimingInfoLine("Failed to authorize user because status code = " + response.StatusCode.ToString());
                     }
-                    AddTimingInfoLine( "<* IDENTITY END *>");
+                    AddTimingInfoLine("<* IDENTITY END *>");
                     return false;
                 }
 
@@ -458,7 +458,7 @@ namespace DnaIdentityWebServiceProxy
                 {
                     // Not valid or false
                     AddTimingInfoLine("authorize result false or null : " + response);
-                    AddTimingInfoLine( "<* IDENTITY END *>");
+                    AddTimingInfoLine("<* IDENTITY END *>");
                     return false;
                 }
                 string identityUserName = cookie.Split('|').GetValue(1).ToString();
@@ -468,7 +468,7 @@ namespace DnaIdentityWebServiceProxy
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
                     AddTimingInfoLine("Get attributes failed : " + response);
-                    AddTimingInfoLine( "<* IDENTITY END *>");
+                    AddTimingInfoLine("<* IDENTITY END *>");
                     return false;
                 }
 
@@ -518,7 +518,7 @@ namespace DnaIdentityWebServiceProxy
                 }
                 AddTimingInfoLine("Error!!! : " + error);
             }
-            AddTimingInfoLine( "<* IDENTITY END *>");
+            AddTimingInfoLine("<* IDENTITY END *>");
             return _userLoggedIn;
         }
 
@@ -567,7 +567,7 @@ namespace DnaIdentityWebServiceProxy
         public string[] GetDnaPolicies()
         {
             List<string> policies = new List<string>();
-            AddTimingInfoLine( "<* IDENTITY START *>");
+            AddTimingInfoLine("<* IDENTITY START *>");
 
             try
             {
@@ -575,7 +575,7 @@ namespace DnaIdentityWebServiceProxy
                 if (response.StatusCode != HttpStatusCode.OK)
                 {
                     AddTimingInfoLine("Failed to get policies!");
-                    AddTimingInfoLine( "<* IDENTITY END *>");
+                    AddTimingInfoLine("<* IDENTITY END *>");
                     return policies.ToArray();
                 }
 
@@ -588,7 +588,7 @@ namespace DnaIdentityWebServiceProxy
                 {
                     // Not valid or false
                     AddTimingInfoLine("No policies found");
-                    AddTimingInfoLine( "<* IDENTITY END *>");
+                    AddTimingInfoLine("<* IDENTITY END *>");
                     return policies.ToArray();
                 }
 
@@ -598,7 +598,7 @@ namespace DnaIdentityWebServiceProxy
                     if (policy.InnerText.Contains("/identity/policies/dna/") && !policies.Contains(policy.InnerText))
                     {
                         policies.Add(policy.InnerText);
-                        AddTimingInfoLine( "policy.InnerText");
+                        AddTimingInfoLine("policy.InnerText");
                     }
                 }
             }
@@ -612,10 +612,10 @@ namespace DnaIdentityWebServiceProxy
                 AddTimingInfoLine("Error!!! : " + error);
             }
 
-            AddTimingInfoLine( "<* IDENTITY END *>");
+            AddTimingInfoLine("<* IDENTITY END *>");
             return policies.ToArray();
         }
-        
+
         /// <summary>
         /// Gets the min max ages for a given service
         /// </summary>
@@ -694,7 +694,7 @@ namespace DnaIdentityWebServiceProxy
         public string GetVersion()
         {
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
-            return String.Format("{0} (RestAPI)",v.ToString());
+            return String.Format("{0} (RestAPI)", v.ToString());
         }
 
         /// <summary>
@@ -753,7 +753,7 @@ namespace DnaIdentityWebServiceProxy
             AddTimingInfoLine("<* IDENTITY START *>");
 
             AddTimingInfoLine("Calling Does App Spacename Attrbute Exist " + attributeName + " for namespace " + appNameSpace);
-            _cookieContainer.Add(new Cookie("IDENTITY", cookie.Replace(' ','+'), "/", ".bbc.co.uk")); 
+            _cookieContainer.Add(new Cookie("IDENTITY", cookie.Replace(' ', '+'), "/", ".bbc.co.uk"));
             HttpWebResponse response = CallRestAPI(string.Format("{0}/idservices/users/{1}/applications/{2}/attributes", _identityBaseURL, identityUserName, appNameSpace));
             if (response == null || response.StatusCode != HttpStatusCode.OK)
             {

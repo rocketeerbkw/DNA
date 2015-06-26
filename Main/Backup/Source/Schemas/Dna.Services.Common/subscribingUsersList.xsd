@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="../Dna.Services.Common/user.xsd"/>
+	<xs:element name="subscribingUsersList">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="skip" type="xs:unsignedByte" />
+				<xs:element name="show" type="xs:unsignedByte" />
+				<xs:element name="more" type="xs:unsignedByte" />
+				<xs:element name="subscribedToAcceptsSubscriptions" type="xs:boolean" />
+				<xs:element name="subscribedTo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="user"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="users">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="userElement" minOccurs="0" maxOccurs="unbounded" >
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="user" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

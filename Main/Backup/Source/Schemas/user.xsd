@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Status.xsd" />
+	<xs:include schemaLocation="Groups.xsd" />
+	<xs:include schemaLocation="Date.xsd" />
+	<xs:element name="USER">
+		<xs:annotation>
+			<xs:documentation>Standard user model used most often in relation to content as author. Viewing-user is defined in viewinguser.xsd.</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+
+				<xs:element name="USERID" type="xs:integer" />
+				<xs:element name="USERNAME" />
+				<xs:element name="USER-MODE" type="xs:int" minOccurs="0" />
+				<xs:element name="EMAIL-ADDRESS" type="xs:string" minOccurs="0" />
+				<xs:element name="POSTCODE" type="xs:string" minOccurs="0" />
+				<xs:element name="REGION" type="xs:string" minOccurs="0" />
+				<xs:element name="PREFUSERMODE" type="xs:boolean" minOccurs="0" />
+				<xs:element name="STATUS" type="xs:int" minOccurs="0" />
+				<xs:element name="AREA" type="xs:string" minOccurs="0" />
+				<xs:element name="TITLE" type="xs:string" minOccurs="0" />
+				<xs:element name="FIRST-NAMES" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Bodge for backward compatibility with old skins. TODO: It is planned to remove this element and update Ripley + skins accordingly.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="FIRSTNAMES" type="xs:string" minOccurs="0" />
+				<xs:element name="LAST-NAME" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>Bodge for backward compatibility with old skins. TODO: It is planned to remove this element and update Ripley + skins accordingly.</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="LASTNAME" type="xs:string" minOccurs="0" />
+				<xs:element name="SITESUFFIX" type="xs:string" minOccurs="0" />
+				<xs:element name="TEAMID" type="xs:int" minOccurs="0" />
+				<xs:element name="UNREADPUBLICMESSAGECOUNT" type="xs:int" minOccurs="0" />
+				<xs:element name="UNREADPRIVATEMESSAGECOUNT" type="xs:int" minOccurs="0" />
+				<xs:element name="TAXONOMYNODE" type="xs:string" minOccurs="0" />
+				<xs:element name="HIDELOCATION" type="xs:int" minOccurs="0" />
+				<xs:element name="HIDEUSERNAME" type="xs:int" minOccurs="0" />
+				<xs:element name="JOURNAL" type="xs:string" minOccurs="0" />
+				<xs:element name="ACTIVE" type="xs:string" minOccurs="0" />
+				<xs:element name="SCORE" type="xs:double" minOccurs="0" />
+				<xs:element name="SUB-QUOTA" type="xs:int" minOccurs="0" />
+				<xs:element name="ALLOCATIONS" type="xs:int" minOccurs="0" />
+				<xs:element name="FORUMID" type="xs:int" minOccurs="0" />
+				<xs:element name="FORUM-POSTED-TO" type="xs:int" minOccurs="0" />
+				<xs:element name="MASTHEAD" type="xs:int" minOccurs="0"/>
+				<xs:element name="SINBIN" type="xs:int" minOccurs="0" />
+				<xs:element name="DATE-JOINED" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MODERATIONSTATUS" minOccurs="0">
+					<xs:complexType>
+						<xs:attribute name="ID" type="xs:unsignedInt" use="required" />
+						<xs:attribute name="NAME" type="xs:string" use="required" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="GROUPS" minOccurs="0" />
+				<xs:element name="ACCEPTSUBSCRIPTIONS" type="xs:unsignedByte" minOccurs="0" />
+				<xs:element name="PROMPTSETUSERNAME" type="xs:boolean" minOccurs="0" />
+				<xs:element name="DATE-LAST-NOTIFIED" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="DATE"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EDITOR" type="xs:unsignedByte" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Legacy ripley attribute
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="NOTABLE" type="xs:unsignedByte" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Legacy ripley attribute
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+				<xs:element name="IDENTITYUSERID" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Identity User ID
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+        <xs:element name="TWITTERUSERID" type="xs:string" minOccurs="0">
+          <xs:annotation>
+            <xs:documentation>
+              Twitter User ID
+            </xs:documentation>
+          </xs:annotation>
+        </xs:element>
+        <xs:element name="IDENTITYUSERNAME" type="xs:string" minOccurs="0">
+					<xs:annotation>
+						<xs:documentation>
+							Identity User Name
+						</xs:documentation>
+					</xs:annotation>
+				</xs:element>
+			</xs:all>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

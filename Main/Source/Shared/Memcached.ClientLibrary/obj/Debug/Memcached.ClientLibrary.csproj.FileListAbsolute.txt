@@ -1,0 +1,13 @@
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\bin\Debug\Memcached.ClientLibrary.dll
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\bin\Debug\Memcached.ClientLibrary.pdb
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.dll
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Logging.dll
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\bin\Debug\Microsoft.Practices.ObjectBuilder2.dll
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\bin\Debug\Microsoft.Practices.Unity.dll
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Common.xml
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\bin\Debug\Microsoft.Practices.EnterpriseLibrary.Logging.xml
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\obj\Debug\Memcached.ClientLibrary.StringMessages.resources
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\obj\Debug\Memcached.ClientLibrary.csproj.GenerateResource.Cache
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\obj\Debug\Memcached.ClientLibrary.dll
+C:\ws\projects\DNA\Main\Source\Shared\Memcached.ClientLibrary\obj\Debug\Memcached.ClientLibrary.pdb

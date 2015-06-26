@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="user.xsd"/>
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:element name="RECOMMENDATIONS">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" name="RECOMMENDATION">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SUBJECT" type="xs:string" />
+							<xs:element name="ACCEPTEDSTATUS" type="xs:unsignedByte" />
+							<xs:element name="GUIDESTATUS" type="xs:unsignedByte" />
+							<xs:element name="ORIGINAL">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ENTRYID" type="xs:unsignedInt" />
+										<xs:element name="H2G2ID" type="xs:unsignedInt" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="EDITED">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ENTRYID" type="xs:unsignedInt" />
+										<xs:element name="H2G2ID" type="xs:unsignedInt" />
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element ref="USER" minOccurs="0" maxOccurs="unbounded"/>
+							<xs:element minOccurs="0" name="DATEALLOCATED">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="DATE"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="DATERETURNED">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element ref="DATE"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="SKIPTO" type="xs:unsignedByte" use="required" />
+			<xs:attribute name="TOTAL" type="xs:unsignedByte" use="required" />
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DnaIdentityWebServiceProxy
 {
@@ -89,7 +86,7 @@ namespace DnaIdentityWebServiceProxy
         /// <param name="password">The password for the user</param>
         /// <returns>True if user was set correctly, false if not</returns>
         bool TrySetUserViaUserNamePassword(string userName, string password);
-        
+
         /// <summary>
         /// Tries to set the user using their username and cookie
         /// </summary>
@@ -106,7 +103,7 @@ namespace DnaIdentityWebServiceProxy
         /// <returns>True if user was set correctly, false if not</returns>
         bool TrySecureSetUserViaCookies(string cookie, string secureCookie);
 
-            /// <summary>
+        /// <summary>
         /// Tries to log the user in with the details already set
         /// </summary>
         /// <returns>True if they were logged in, false if not</returns>
@@ -196,10 +193,10 @@ namespace DnaIdentityWebServiceProxy
         /// <param name="attributeName">The name of the attribute you want to check for</param>
         /// <returns>True if it exists, false if not</returns>
         bool DoesAppNameSpacedAttributeExist(string cookie, string appNameSpace, string attributeName);
-        
+
         /// <summary>
         /// Get property that states whether or not the request is secure or not
         /// </summary>
-        bool IsSecureRequest{ get; }
+        bool IsSecureRequest { get; }
     }
 }

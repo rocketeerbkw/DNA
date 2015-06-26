@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="Article.xsd"/>
+	<xs:include schemaLocation="User.xsd"/>
+	<xs:include schemaLocation="reviewforum.xsd"/>
+	<xs:include schemaLocation="Club.xsd"/>
+	<xs:element name="FORUMSOURCE">
+		<xs:annotation>
+			
+		</xs:annotation>
+		<xs:complexType>
+			<xs:all>
+				<xs:element ref="ARTICLE" minOccurs="0"/>
+				<xs:element name="JOURNAL" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="USERPAGE" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element ref="USER" />
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element ref="REVIEWFORUM" minOccurs="0"/>
+				<xs:element ref="CLUB" minOccurs="0"/>
+				<xs:element name="ALERTINSTANTLY" type="xs:byte"/>
+			</xs:all>
+			<xs:attribute name="TYPE" type="xs:string"/>
+		</xs:complexType>
+		
+	</xs:element>
+</xs:schema>

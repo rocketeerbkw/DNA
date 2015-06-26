@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="Phrase.xsd"/>
+	<xs:element name="ARTICLEHOT-PHRASES">
+		<xs:complexType mixed="true">
+			<xs:sequence>
+				<xs:element ref="PHRASE" minOccurs="0" maxOccurs="unbounded"/>
+			</xs:sequence>
+			<xs:attribute name="CONTENTTYPE" type="ArticleHot-Phrase_ContentType" use="required"/>
+			<xs:attribute name="SKIP" type="xs:unsignedByte" use="required"/>
+			<xs:attribute name="SHOW" type="xs:unsignedByte" use="required"/>
+			<xs:attribute name="SORTBY" type="xs:string" use="required"/>
+			<xs:attribute name="COUNT" type="xs:unsignedByte" use="required"/>
+			<xs:attribute name="MORE" type="xs:unsignedByte" use="required"/>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="ArticleHot-Phrase_ContentType">
+		<xs:restriction base="xs:int">
+			<xs:enumeration value="-1">
+				<xs:annotation>
+					<xs:documentation>No media assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="0">
+				<xs:annotation>
+					<xs:documentation>Any media assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="1">
+				<xs:annotation>
+					<xs:documentation>Image assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="2">
+				<xs:annotation>
+					<xs:documentation>Audio assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="3">
+				<xs:annotation>
+					<xs:documentation>Video assets</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

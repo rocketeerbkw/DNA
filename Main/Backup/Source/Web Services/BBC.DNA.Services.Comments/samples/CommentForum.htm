@@ -1,0 +1,448 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+    <title>Html Example Using Glow</title>
+    
+    <link href="../style/style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="http://www.bbc.co.uk/glow/gloader.js"></script>
+    <script type="text/javascript">
+        gloader.load(["glow", "1", "glow.data", "glow.net", "glow.widgets.Slider", "glow.widgets.Overlay", "glow.widgets.Panel", "glow.widgets.Editor"]);
+    </script>
+    <script type="text/javascript">
+        var itemsPerPage = 50;
+        var startIndex = 0;
+        var totalItems = 0;
+        var forumId = glow.data.decodeUrl(location.search.replace("?", "")).id;
+        var sitename = glow.data.decodeUrl(location.search.replace("?", "")).sitename;
+        var urlCommentForums = "/dna/api/comments/CommentsService.svc";
+        var $ = glow.dom.get;
+        var pagingInit = false;
+        var mySlider;
+        var editor = null;
+        var sortBy = "Created";
+        var sortDirection = "Ascending";
+        var editorMode = false;
+        var host = location.host;
+
+        function showError(response) {
+            addToDebug(response.statusText());
+            addToDebug(response.text());
+        }
+
+        function getUrl() {
+            var querystring = "?itemsPerPage=" + itemsPerPage + "&startIndex=" + startIndex;
+            if (sortBy != "") {
+                querystring += "&sortBy=" + sortBy;
+            }
+            if (sortDirection != "") {
+                querystring += "&sortDirection=" + sortDirection;
+            }
+            if (editorMode) {
+                querystring += "&filterBy=EditorPicks";
+            }
+            return "http://" + host + urlCommentForums + "/V1/site/" + sitename + "/commentsforums/" + forumId + "/" + querystring;
+        }
+
+        function getCreateUrl() {
+            return "http://" + host + urlCommentForums + "/V1/site/" + sitename + "/commentsforums/" + forumId + "/?format=JSON"
+        }
+
+        function loaddata() {
+            var url = getUrl();
+            addToDebug("Request: " + url);
+
+            //set up JSON response in header
+            var headers = { headers:
+					{ "Content-Type": "text/javascript" },
+                onLoad: function(response) {
+                    processResponse(response);
+                },
+                onError: function(response) {
+                    showError(response);
+                }
+
+            };
+
+            //Make call
+            glow.net.get(url, headers);
+        }
+
+        function processResponse(response) {
+
+            addToDebug(response.text());
+            if (response.status == 200) {//all ok
+
+                var objForum = glow.data.decodeJson(response.text());
+                loadPaging(objForum);
+                loadForum(objForum);
+            }
+            else {
+                addToDebug(response.status + ":" + response.statusText());
+            }
+        }
+
+        function loadPaging(objForum) {
+
+            //itemsPerPage = Number(objForum.commentslist.itemsPerPage);
+            startIndex = Number(objForum.commentsList.startIndex);
+            totalItems = Number(objForum.commentsList.totalCount);
+            addToDebug(itemsPerPage + " - " + startIndex + " - " + totalItems);
+            
+            var startItem = (startIndex) + 1;
+            var itemTo = startItem + itemsPerPage-1;
+
+            if (itemTo > totalItems) {
+                itemTo = totalItems;
+            }
+            
+            document.getElementById("spPagingInfo").innerHTML = startItem + " to " + itemTo + " of " + totalItems;
+
+            if (itemsPerPage < totalItems) {
+                if (!pagingInit) {
+                    mySlider = new glow.widgets.Slider("#pagingSliderContainer",
+                    {
+                        min: 1,
+                        max: (totalItems / itemsPerPage) + 1,
+                        id: "pagingSlider",
+                        tickMajor: 5,
+                        tickMinor: 1,
+                        labels: 5,
+                        snapOnDrag: true,
+                        val: startIndex++,
+                        bindTo: "#pInput",
+                        onChange: changePaging
+
+                    });
+                    pagingInit = true;
+                }
+
+            }
+            else {
+                document.getElementById("divPageForm").style.display = "none";
+            }
+        }
+
+        function loadForum(objForum) {
+
+            var divDetails = document.getElementById("divDetails");
+            var startItem = startIndex;
+
+            divDetails.innerHTML = "";
+            divDetails.innerHTML += "ID: " + objForum.id + "<br>";
+            divDetails.innerHTML += "Title: " + objForum.title + "<br>";
+            divDetails.innerHTML += "Uri: " + objForum.uri + "( <a href='" + objForum.uri + "?format=html'>AsHtml</a>)<br>";
+            divDetails.innerHTML += "ParentUri: " + objForum.parentUri + "<br>";
+            divDetails.innerHTML += "Created: " + objForum.created.at + " (" + objForum.created.ago + ")<br>";
+            divDetails.innerHTML += "Updated: " + objForum.updated.at + " (" + objForum.updated.ago + ")<br>";
+            divDetails.innerHTML += "Total Comments: " + objForum.commentsSummary.total + "<br>";
+            divDetails.innerHTML += "isClosed: " + objForum.isClosed + "<br>";
+
+            if (objForum.isClosed) {
+                document.getElementById("divClosed").style.display = "block";
+
+            }
+            else {
+                //editor = new glow.widgets.Editor("#txtComment");
+                //editor.textarea.onkeyup = maxchars(editor.textarea);
+                //editor.valueOf().onKeyUp = maxchars(editor.valueOf());
+                if (isLoggedIn()) {
+                    document.getElementById("divAddComment").style.display = "block";
+                }
+                else {
+                    document.getElementById("divLogin").style.display = "block";
+                    
+                }
+            }
+
+            document.getElementById("divComments").innerHTML = "";
+
+            for (var i = 0; i < objForum.commentsList.comments.length; i++) {
+
+                addCommentToHtml(objForum.commentsList.comments[i], startItem + i);
+            }
+
+        }
+
+        var lastItemNo = 0;
+        function addCommentToHtml(commentObj, itemNo) {
+            var divComment = "<div id='commentHolder' style='margin-top: 5px; margin-bottom: 5px'>" +
+                        "#" + (itemNo) + "&nbsp;" +
+                        "Created:" + commentObj.created.at + " (" + commentObj.created.ago + ")<br>" +
+                        "<b>User:</b> " + commentObj.user.displayName  +
+                        (commentObj.user.editor ? " (Editor)" : "") +
+                        (commentObj.user.notable ? " (Notable)" : "") + " <br/>" + 
+                        "bbc Id: " + commentObj.user.bbcId + "" + 
+                        //" <a href='#'>Make editors Pick</a><br><br>" +
+                        "<p>" + commentObj.text + "</P><br><br>" +
+                        (editorMode ? "<a href='Javascript:removeEditorsPick(\"" + commentObj.id + "\");'>Remove Editors pick</a><br>" :"<a href='Javascript:makeEditorsPick(\"" + commentObj.id + "\");'>Make Editors pick</a><br>") +
+                        "<a href='" + commentObj.complaintUri + "' target=\"_blank\">Complain about this post</a>" +
+                        //(commentObj.editorsPick ? "EditorPick" : "Not Editor Pick") + " " +
+                        //(commentObj.userPick ? "UserPick" : "Not User Pick") + "" +
+                    "</div>";
+
+            document.getElementById("divComments").innerHTML += divComment;
+            lastItemNo = itemNo;
+
+        }
+
+        function changePaging() {
+
+            var newPage = Number(mySlider.val())-1;
+            startIndex = (newPage * itemsPerPage);
+            addToDebug(newPage);
+
+            loaddata();
+        }
+
+        function changeSorting(sortVar) {
+            sortBy = sortVar;
+            if (sortDirection == "Descending") {
+                sortDirection = "Ascending";
+            }
+            else {
+                sortDirection = "Descending";
+            }
+            addToDebug("sortBy:" + sortBy + " sortDirection:" + sortDirection);
+            loaddata();
+        }
+
+        function addToDebug(str) {
+            var debugObj = document.getElementById("txtDebug");
+            debugObj.value = str + "\r\n" + debugObj.value;
+        }
+
+        var overlay;
+        function showCommentBox() {
+            overlay = new glow.widgets.Overlay("#divAddComment",
+            {
+                modal:true,
+                anim: "fade"
+            }); 
+            overlay.show();
+        }
+
+        
+        function postcomment() {
+            var postData = "";
+            var mimeType = "";
+            var submitType = document.getElementById("submitType").value;
+            var submitHttps = document.getElementById("submitHttps").value;
+            if (submitType == "Xml") {
+                mimeType = "text/xml";
+                postData = "<comment xmlns=\"BBC.Dna.Api\">" +
+                "<text>" + glow.data.escapeHTML(document.getElementById("txtComment").value) + "</text>" +
+                "<poststyle>" + document.getElementById("postStyle").value + "</poststyle>" +
+                "</comment>";
+                
+            }
+            else {
+                mimeType = "application/json";
+                var jsonComment = {
+                    "uri":null,
+                    "text": glow.data.escapeHTML(document.getElementById("txtComment").value),
+                    "id": 0,
+                    "poststyle": document.getElementById("postStyle").selectedIndex+1,
+                    "complaintUri": null,
+                    "created": null,
+                    "user": null,
+                    "forumUri":null,
+                    "status":0
+
+
+                };
+                postData = JSON.stringify(jsonComment);
+
+            }
+            addToDebug(postData);
+
+
+
+            var urlCreate = getCreateUrl();
+
+            if (submitHttps == "true") {
+                urlCreate = urlCreate.replace("http", "https");
+            }
+            
+            addToDebug(urlCreate);
+            startIndex = 0;
+            glow.net.post(urlCreate,
+                postData,
+                {
+                    headers: { "Content-Type": mimeType },
+                    onLoad: function(response) {
+                        addToDebug(response.text());
+                        var objComment = glow.data.decodeJson(response.text());
+                        addCommentToHtml(objComment, lastItemNo++);
+
+                    },
+                    onError: function(response) {
+                    alert("url:" + urlCreate + "\n\ndata:" + postData + "\n\nGot error: " + response.status + " - " + response.statusText() + "\n\ntext:" + response.text());
+                    }
+                });
+        }
+
+        function isLoggedIn() {
+            if (!getAuthenticationCookie())
+                return false;
+            else
+                return true;
+        }
+        function getAuthenticationCookie() {
+            var sso = readCookie("SSO2-UID");
+            if (sso != '')
+                return "SSO2-UID=" + sso;
+            var id = readCookie("IDENTITY");
+            if (id != '')
+                return "IDENTITY=" + id;
+            return false;
+
+        }
+        function readCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+
+            
+        var maxChars = 500;
+        function maxchars(field) {
+            var tmp = field.value.replace(/(<([^>]+)>)/ig, "")
+            tmp = tmp.replace(/\s/g,' ');
+            if (tmp.length > maxChars)
+            field.value = field.value.substring(0, maxChars);
+            
+            document.getElementById('remaining').innerHTML = maxChars - tmp.length;
+        }
+        
+        function selectFitler(item)
+	     {
+		        var displayDiv = null;
+		        var hideDiv = null;
+		        if (item == "divAll")
+		        {
+			        displayDiv = document.getElementById("divAll");
+			        hideDiv = document.getElementById("divEditorPicks");
+			        editorMode = false;
+		        }
+		        else
+		        {
+		            displayDiv = document.getElementById("divEditorPicks");
+		            hideDiv = document.getElementById("divAll");
+		            editorMode = true;
+		        }
+        		
+		        displayDiv.style.background = "#FFF";
+		        hideDiv.style.background = "#EEE";
+		        loaddata();
+		    }
+
+		    function makeEditorsPick(postId) {
+		        var url = "http://" + location.host + urlCommentForums + "/V1/site/" + sitename + "/comments/" + postId + "/editorpicks/";  
+		        addToDebug("Request: " + url);
+
+		        //set up JSON response in header
+		        var headers = { headers:
+					{ "Content-Type": "text/javascript" },
+		            onLoad: function(response) {
+		            alert("Response:" + response.statusText());
+		            },
+		            onError: function(response) {
+    		            alert("Error Returned: " + response.statusText());
+		                showError(response);
+		            }
+
+		        };
+
+		        //Make call
+		        glow.net.post(url, "", headers);
+		    }
+    </script>
+
+<!--#set var="blq_identity" value="on" -->
+<!--#include virtual="/includes/blq/include/blq_head.sssi" -->
+
+<!-- NOTE Example style and script tags - Please use or delete as appropriate -->
+<!-- NOTE Stylesheets MUST be included after the blq-head include due to the reset CSS technique included in Barlesque -->
+<!--[if IE]><![if gte IE 6]><![endif]-->
+<style type="text/css" media="screen">@import 'style/example.css';</style>
+<!--[if IE]><![endif]><![endif]-->
+<script type="text/javascript" src="script/example.js"></script>
+
+
+
+</head>
+<body class="blq-typ" onload="loaddata();">
+<!--#include virtual="/includes/blq/include/blq_body_first.sssi" -->
+
+<div style="clear:both;padding:5px" id="div1">
+    <h1>Comment Forum</h1>
+    <h2>Details</h2>
+    <div id="divDetails"></div>
+</div>
+
+<h2>Comments</h2>
+Sort By: <a href="Javascript:changeSorting('Created');">Date Created</a>
+<div style="clear:both;margin:10px;">
+	<div style="float:left; padding:10px;background-color:#EEE;" id="divAll"><a href="Javascript:selectFitler('divAll');">All Comments</a></div>
+	<div style="float:left;padding:10px;"  id="divEditorPicks"><a href="Javascript:selectFitler('divEditorPicks');" >Editors Picks</a></div>
+</div>
+<div style="clear:both;padding:20px 5px 20px 5px" id="divComments">
+</div>
+<div style="border: solid 1px #C0C0C0; padding:5px; width: 300px">
+    Items <span id="spPagingInfo"></span>
+    <div style="clear:both;">    
+        <div id="pagingSliderContainer"></div>
+        <div id="divPageForm">
+        <label for="pagingSlider">Page:</label>
+            <input type="text" name="pInput" id="pInput" size="2" /><input type="button" onclick="changePaging();" value="GO" />
+        </div>
+    </div>
+</div>
+
+<div id="divAddComment" style="display:none">
+    <H2>Add Comment</H2>
+    <div id="divRemainingChars" style="display:block;">
+    Remaining character count: <span id="remaining">500</span><br />
+    </div>
+    
+    <textarea cols="30" rows="5" id="txtComment" name="txtComment"  onkeyup="maxchars(this);"></textarea><br />
+    Post style:<select id="postStyle" name="postStyle">
+        <!-- this must be in order of enum -->
+        <option>plaintext</option>
+        <option>richtext</option>
+        <option>rawtext</option>
+    </select><br />
+    Submit Type:<select id="submitType" name="submitType">
+        <option>Xml</option>
+        <option>JSON</option>
+    </select><br />
+    Use SSL:<select id="submitHttps" name="submitType">
+        <option>true</option>
+        <option>false</option>
+    </select><br />
+    <input type="button" value="Submit" onclick="postcomment();" />
+</div>
+
+<div id="divLogin" style="display:none">
+Please log in to post...
+</div>
+
+<div id="divClosed" style="display:none">
+This site is currently closed...
+</div>
+
+<div style="clear:both;"> 
+DEBUG:<br />
+<textarea cols="100" rows="20" id="txtDebug"></textarea>
+</div>
+    
+    
+    <!--#include virtual="/includes/blq/include/blq_body_last.sssi" -->
+</body>
+</html>

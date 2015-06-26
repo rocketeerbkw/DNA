@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:include schemaLocation="ViewingUser.xsd"/>
+	<xs:include schemaLocation="AddedNode.xsd"/>
+	<xs:include schemaLocation="CategoryList.xsd"/>
+	<xs:include schemaLocation="Params.xsd"/>
+	<xs:include schemaLocation="Site.xsd"/>
+	<xs:include schemaLocation="Date.xsd"/>
+	<xs:include schemaLocation="Error.xsd"/>
+	<xs:include schemaLocation="TrackedParameters.xsd"/>
+	<xs:include schemaLocation="SiteConfig.xsd"/>
+	<xs:include schemaLocation="Site-List.xsd"/>
+  <xs:include schemaLocation="RecentActivity.xsd"/>
+	<xs:element name="H2G2">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="VIEWING-USER"/>
+				<xs:element name="SERVERNAME" type="xs:string"/>
+				<xs:element name="USERAGENT" type="xs:string"/>
+				<xs:element ref="DATE"/>
+				<xs:element ref="SITECONFIG"/>
+        <xs:element ref="RECENTACTIVITY" minOccurs="0"/>
+				<xs:element ref="ERROR" minOccurs="0"/>
+				<xs:element ref="ADDEDNODE" minOccurs="0"/>
+				<xs:element ref="CATEGORYLIST"/>
+				<xs:element ref="PARAMS" minOccurs="0"/>
+				<xs:element ref="SITE"/>
+				<xs:element name="PAGEDOMAIN" type="xs:string"/>
+				<xs:element name="TIMEFORPAGE" type="xs:int"/>
+				<xs:element ref="TRACKEDPARAMETERS"/>
+			</xs:sequence>
+			<xs:attribute name="TYPE" type="xs:string" use="required"/>
+			<xs:attribute name="MODE" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Xml;
-using System.Xml.Xsl;
 using System.Xml.XPath;
+using System.Xml.Xsl;
 
 
 namespace BBC.Dna.Utils
@@ -14,7 +13,7 @@ namespace BBC.Dna.Utils
     /// </summary>
     public class XSLTransformer
     {
-        
+
         private static Dictionary<string, XslCompiledTransform> _cachedXslt = new Dictionary<string, XslCompiledTransform>();
 
 
@@ -57,7 +56,7 @@ namespace BBC.Dna.Utils
                     // Without all this settings and resolver stuff, you can't use the Load method
                     // and tell it to allow DTDs
                     XmlReaderSettings xset = new XmlReaderSettings();
-                    xset.ProhibitDtd = false;
+                    xset.DtdProcessing = DtdProcessing.Prohibit;
                     using (XmlReader xread = XmlReader.Create(xslFile, xset))
                     {
                         try
@@ -136,7 +135,7 @@ namespace BBC.Dna.Utils
             //        xmlBaseNode = xmlDoc.Build(testXML.FirstChild);
             //    }
 
-                
+
             //    XsltTransformer transformer = null;
             //    if (_cachedSaxonXslt.ContainsKey(xslFile))
             //    {
@@ -178,7 +177,7 @@ namespace BBC.Dna.Utils
             //    throw new Exception(errorMsg);
             //}
 
-            
+
         }
 
     }

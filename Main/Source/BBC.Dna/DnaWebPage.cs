@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using System.Xml;
-using System.Web.UI;
-using System.Web;
-using System.Web.UI.WebControls;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
+using System;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Xml;
 
 //Build you bugger!!
 
@@ -25,7 +23,7 @@ namespace BBC.Dna.Page
         public DnaWebPage()
         {
             _basePage = new DnaBasePage(this);
-            
+
         }
 
         /// <summary>
@@ -63,7 +61,7 @@ namespace BBC.Dna.Page
             DnaStaticCache.InitialiseCache(Page.Cache);
             _basePage.Page_Load(sender, e);
         }
-        
+
         /// <summary>
         /// Called by ASP.NET at the end of the request
         /// </summary>
@@ -81,7 +79,9 @@ namespace BBC.Dna.Page
         /// <param name="e">Arguments passed in</param>
         protected void Page_Error(object sender, EventArgs e)
         {
-            _basePage.Page_Error(sender,e);
+            System.Diagnostics.Trace.WriteLine(e.ToString());
+
+            _basePage.Page_Error(sender, e);
         }
 
         /// <summary>
