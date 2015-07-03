@@ -52,7 +52,7 @@ namespace Tests
                 string s = e.SourceUri;
             }
             _validationSettings.ValidationEventHandler += new ValidationEventHandler(xmlReaderSettingsValidationEventHandler);
-            _validationSettings.DtdProcessing = DtdProcessing.Prohibit;
+            _validationSettings.DtdProcessing = DtdProcessing.Parse;
             // set the the XmlReader for validation
             _validator = XmlReader.Create(_xml, _validationSettings);
         }

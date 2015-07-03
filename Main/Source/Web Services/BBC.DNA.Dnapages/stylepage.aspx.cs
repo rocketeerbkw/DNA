@@ -68,7 +68,7 @@ public partial class stylepage : System.Web.UI.Page
 					// Without all this settings and resolver stuff, you can't use the Load method
 					// and tell it to allow DTDs
 					XmlReaderSettings xset = new XmlReaderSettings();
-                    xset.DtdProcessing = DtdProcessing.Prohibit;
+                    xset.DtdProcessing = DtdProcessing.Parse;
 
 					using (XmlReader xread = XmlReader.Create(stylesheet, xset))
 					{

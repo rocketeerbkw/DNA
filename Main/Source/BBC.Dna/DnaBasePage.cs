@@ -937,7 +937,7 @@ namespace BBC.Dna.Page
                     // Without all this settings and resolver stuff, you can't use the Load method
                     // and tell it to allow DTDs
                     XmlReaderSettings xset = new XmlReaderSettings();
-                    xset.DtdProcessing = DtdProcessing.Prohibit;
+                    xset.DtdProcessing = DtdProcessing.Parse;
                     using (XmlReader xread = XmlReader.Create(xsltFileName, xset))
                     {
                         transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
@@ -1005,7 +1005,7 @@ namespace BBC.Dna.Page
             // Without all this settings and resolver stuff, you can't use the Load method
             // and tell it to allow DTDs
             XmlReaderSettings xset = new XmlReaderSettings();
-            xset.DtdProcessing = DtdProcessing.Prohibit;
+            xset.DtdProcessing = DtdProcessing.Parse;
             using (XmlReader xread = XmlReader.Create(xsltFileName, xset))
             {
                 try
@@ -1047,7 +1047,7 @@ namespace BBC.Dna.Page
             // Set the reader settings object to use the resolver.
             xset.XmlResolver = resolver;
 
-            xset.DtdProcessing = DtdProcessing.Prohibit;
+            xset.DtdProcessing = DtdProcessing.Parse;
             XmlReader xread = XmlReader.Create(xsltFileName, xset);
             transformer.Load(xread, XsltSettings.TrustedXslt, new XmlUrlResolver());
             return transformer;

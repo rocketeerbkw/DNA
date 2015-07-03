@@ -56,7 +56,7 @@ namespace BBC.Dna.Utils
                     // Without all this settings and resolver stuff, you can't use the Load method
                     // and tell it to allow DTDs
                     XmlReaderSettings xset = new XmlReaderSettings();
-                    xset.DtdProcessing = DtdProcessing.Prohibit;
+                    xset.DtdProcessing = DtdProcessing.Parse;
                     using (XmlReader xread = XmlReader.Create(xslFile, xset))
                     {
                         try
