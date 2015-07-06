@@ -1,54 +1,61 @@
 <RIPLEY>
 	<DBSERVER>
 		<SQLSERVER>
-			<SERVERNAME>127.0.0.1</SERVERNAME>
+			<SERVERNAME>127.0.0.1,1433</SERVERNAME>
 			<DBNAME>TheGuide</DBNAME>
 			<UID>sa</UID>
 			<PASSWORD></PASSWORD>
-      <POOLING>false</POOLING>
+			<POOLING>true</POOLING>
+			<FAILOVERPARTNER>127.0.0.1,1433</FAILOVERPARTNER>
+			<DRIVER>SQL Server Native Client 11.0</DRIVER>
+			<NETWORKLIBRARY>DBMSSOCN</NETWORKLIBRARY>
 		</SQLSERVER>
 	</DBSERVER>
 	<SITEROOT>local.bbc.co.uk/dna/</SITEROOT>
-	<BLOBCACHEROOT>C:\temp\blobcache\</BLOBCACHEROOT>
-	<SMTPSERVER></SMTPSERVER>
-	<RETURNADDRESS>register@h2g2.com</RETURNADDRESS>
+	<BLOBCACHEROOT>D:\blobcache\</BLOBCACHEROOT>
+	<SMTPSERVER>127.0.0.1</SMTPSERVER>
+	<RETURNADDRESS>h2g2registration@bbc.co.uk</RETURNADDRESS>
 	<RETURNNAME>h2g2</RETURNNAME>
 	<COOKIE-DOMAIN>.bbc.co.uk</COOKIE-DOMAIN>
-	<COOKIE-NAME>testuser</COOKIE-NAME>
-	<CACHEROOT>C:\temp\ripleycache\</CACHEROOT>
-	<DEFAULT-SKIN>Brunel</DEFAULT-SKIN>
-	<SMILEY-LIST>C:\inetpub\wwwroot\h2g2\SmileyList.txt</SMILEY-LIST>
-	<INPUTLOGPATH>C:\Temp\</INPUTLOGPATH>
+	<COOKIE-NAME>H2G2USER</COOKIE-NAME>
+	<CACHEROOT>D:\ripleycache\</CACHEROOT>
+	<INPUTLOGPATH>D:\InputLogs\</INPUTLOGPATH>
 	<INITIALLOGFILESIZE>1</INITIALLOGFILESIZE>
-	<POSTCODER>
-		<SERVER>ops-dna2.national.core.bbc.co.uk</SERVER>
+	<SERVERTOOBUSYLIMIT>5000000</SERVERTOOBUSYLIMIT>
+	<DEFAULT-SKIN>Alabaster</DEFAULT-SKIN>
+	<SMILEY-LIST>C:\inetpub\wwwroot\dnasite\SmileyList.txt</SMILEY-LIST>
+	<REGISTRATION>
+		<SERVER>192.168.201.170</SERVER>
+		<SCRIPT>/cgi-perl/mybbc/XML.pl</SCRIPT>
 		<PROXY></PROXY>
-		<PLACE>/postcoder/postcodedata.pl?customer=ican&amp;loc=--**placename**--</PLACE>
+	</REGISTRATION>
+  <BANNEDUSERAGENTS></BANNEDUSERAGENTS>
+  <SERVERFARM>
+		<ADDRESS>127.0.0.1</ADDRESS>
+
+	</SERVERFARM>
+	<DOTNET-SERVERFARM>
+		<ADDRESS>127.0.0.1</ADDRESS>
+	</DOTNET-SERVERFARM>
+
+	<POSTCODER>
+		<SERVER>192.168.232.30</SERVER>
+		<PROXY></PROXY>
+		<PLACE>/cgi-perl/whereilive/server/place.pl?customer=ican&amp;loc=--**placename**--</PLACE>
+		<GAZETTEER>/postcoder/gazetteer.xml</GAZETTEER>
 		<POSTCODEDATA>/postcoder/postcodedata.xml</POSTCODEDATA>
-		<COOKIESERVER>www.bbc.co.uk</COOKIESERVER>
+		<COOKIESERVER>192.168.232.30</COOKIESERVER>
 		<COOKIEURL>/cgi-perl/whereilive/server/bouncer_api.pl?type=ican_cookie&amp;loc=--**placename**--</COOKIEURL>
-		<COOKIEPROXY>www-cache.reith.bbc.co.uk</COOKIEPROXY>
+		<COOKIEPROXY></COOKIEPROXY>
 		<COOKIENAME>BBCpostcoder</COOKIENAME>
 		<COOKIEPOSTCODEKEY>PST</COOKIEPOSTCODEKEY>
 	</POSTCODER>
-	<REGISTRATION>
-		<SERVER>ops-dev7.bu.bbc.co.uk</SERVER>
-		<SCRIPT>/cgi-perl/cud/XML.pl</SCRIPT>
-		<PROXY>www-cache.reith.bbc.co.uk</PROXY>
-	</REGISTRATION>
-  <SERVERFARM>
-    <ADDRESS>127.0.0.1</ADDRESS>
-  </SERVERFARM>
-  <DOTNET-SERVERFARM>
-    <ADDRESS>127.0.0.1</ADDRESS>
-  </DOTNET-SERVERFARM>
-  <SECRET-KEY>simon_brickle</SECRET-KEY>
-	<PROFILECONFFILE>C:\inetpub\wwwroot\h2g2\DBConnection.conf</PROFILECONFFILE>
+	<SECRET-KEY>simon_brickle</SECRET-KEY>
 	<IMAGELIBRARY>
 		<MAXUPLOADBYTES>200000</MAXUPLOADBYTES>
 		<FTPSERVER>bbcdev1105</FTPSERVER>
 		<FTPUSER>anonymous</FTPUSER>
-		<FTPPASSWORD>igor.loboda@bbc.co.uk</FTPPASSWORD>
+		<FTPPASSWORD>mark.neves@bbc.co.uk</FTPPASSWORD>
 		<FTPRAW>dnaimagesraw/</FTPRAW>
 		<FTPPUBLIC>dnaimages/</FTPPUBLIC>
 		<AWAITINGMODERATION>awaitingmoderation</AWAITINGMODERATION>
@@ -58,15 +65,15 @@
 		<RAWURLBASE>http://dnadev.bu.bbc.co.uk/images/dnaimagesraw/</RAWURLBASE>
 		<PREVIEWIMAGE>uploadpreview.jpg</PREVIEWIMAGE>
 	</IMAGELIBRARY>
+	<PROFILECONFFILE>C:\inetpub\wwwroot\DBConnection.conf</PROFILECONFFILE>
 	<MEDIAASSET>
-		<FTPSERVER>ftp-gw.reith.bbc.co.uk</FTPSERVER>
-		<FTPUSER>dna_ftp@borg.bbc.co.uk</FTPUSER>
+		<FTPSERVER>192.168.232.44</FTPSERVER>
+		<FTPUSER>dna_ftp</FTPUSER>
 		<FTPPASSWORD>mylpax37</FTPPASSWORD>
-		<FTPHOMEDIRECTORY>rmhttp/dnauploads/test/</FTPHOMEDIRECTORY>
-		<UPLOADQUEUE>c:\mediaassetuploadqueue</UPLOADQUEUE>
-		<UPLOADQUEUETEMP>c:\mediaassetuploadqueue\temp</UPLOADQUEUETEMP>
+		<FTPHOMEDIRECTORY>rmhttp/dnauploads/</FTPHOMEDIRECTORY>
+		<UPLOADQUEUE>D:\mediaassetuploadqueue</UPLOADQUEUE>
+		<UPLOADQUEUETEMP>D:\mediaassetuploadqueue\temp</UPLOADQUEUETEMP>
 	</MEDIAASSET>
-  <SERVERTOOBUSYLIMIT>50</SERVERTOOBUSYLIMIT>
-	<qIDENTITYURI>https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dnadevteam;http://www-cache.reith.bbc.co.uk:80</qIDENTITYURI>
-	<IDENTITYURI>https://api.stage.bbc.co.uk/opensso/identityservices/IdentityServices;dna live;http://www-cache.reith.bbc.co.uk:80</IDENTITYURI>
+	<IDENTITYURI>https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;;logging</IDENTITYURI>
+	<EXTRASIGNINLOGGING>1</EXTRASIGNINLOGGING>
 </RIPLEY>

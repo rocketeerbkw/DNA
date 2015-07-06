@@ -1,35 +1,101 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using BBC.Dna;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
-using System.IO;
 
 namespace FunctionalTests
 {
-    /// <summary>
-    /// Test utility class TwitterProfilePageTests.cs
-    /// </summary>
     [TestClass]
     public class TwitterProfilePageTests
     {
-        //private static string _siteName = "moderation";
-        private static int _siteId = 1;
-        private static int _normalUserId = 1;//TestUserAccounts.GetNormalUserAccount.UserID;
-        private string _normalUserSearch = String.Format("HostDashboardUserActivity?s_user={0}&s_siteid={1}&skin=purexml", _normalUserId, _siteId);
-        private IInputContext testContext = DnaMockery.CreateDatabaseInputContext();
-
-        /// <summary>
-        /// Set up function
-        /// </summary>
-        [TestInitialize]
-        public void StartUp()
+        [TestMethod]
+        public void GivenIamASuperUser_WhenICreateATwitterProfileWithValidData_ThenMyProfileIsCreatedSuccessfully()
         {
-            
+            var dnaRequest = new DnaTestURLRequest("moderation");
+
+            dnaRequest.SetCurrentUserSuperUser();
+
+            const string url = "admin/twitterprofile?sitename=&s_sitename=All&profileid=blah&title=blah&commentforumparenturl=blah&users=blah+&searchterms=blah+&moderated=true&action=createupdateprofile&skin=purexml";
+
+            dnaRequest.UseProxyPassing = false;
+
+            dnaRequest.RequestPage(url);
+
+            const string xpath = @"/H2G2/ERROR[@TYPE=""TWITTERPROFILEMANDATORYFIELDSMISSING""]/ERRORMESSAGE";
+
+            var response = dnaRequest.GetLastResponseAsXML();
+
+            Assert.IsNull(response.SelectSingleNode(xpath));
+        }
+
+        [TestMethod]
+        public void GivenIamASuperUser_WhenICreateATwitterProfile_WithAProfileIdConatiningASpace_ThenIAmShownTheProfileIdSpacesErrorMessage()
+        {
+            var dnaRequest = new DnaTestURLRequest("moderation");
+
+            dnaRequest.SetCurrentUserSuperUser();
+
+            const string url = "admin/twitterprofile?sitename=&s_sitename=h2g2&profileid=blah blah&title=blah&commentforumparenturl=blah&users=blah+&searchterms=blah+&moderated=true&action=createupdateprofile&skin=purexml";
+
+            dnaRequest.UseProxyPassing = false;
+
+            dnaRequest.RequestPage(url);
+
+            var response = dnaRequest.GetLastResponseAsXML();
+
+            const string xpath = @"/H2G2/ERROR[@TYPE=""TWITTERPROFILEMANDATORYFIELDSMISSING""]/ERRORMESSAGE";
+
+            const string expected = "Profile ID cannot contain spaces";
+
+            var actual = response.SelectSingleNode(xpath).InnerXml;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GivenIamASuperUser_WhenICreateATwitterProfile_WithABlankProfileId_ThenIAmShownTheMissingProfileIdErrorMessage()
+        {
+            var dnaRequest = new DnaTestURLRequest("moderation");
+
+            dnaRequest.SetCurrentUserSuperUser();
+
+            const string url = "admin/twitterprofile?sitename=&s_sitename=h2g2&profileid=&title=blah&commentforumparenturl=blah&users=blah+&searchterms=blah+&moderated=true&action=createupdateprofile&skin=purexml";
+
+            dnaRequest.UseProxyPassing = false;
+
+            dnaRequest.RequestPage(url);
+
+            var response = dnaRequest.GetLastResponseAsXML();
+
+            const string xpath = @"/H2G2/ERROR[@TYPE=""TWITTERPROFILEMANDATORYFIELDSMISSING""]/ERRORMESSAGE";
+
+            const string expected = "Please fill in the mandatory fields for creating/updating a profile";
+
+            var actual = response.SelectSingleNode(xpath).InnerXml;
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GivenIamASuperUser_WhenICreateATwitterProfile_WithABlankTitle_ThenIamShownTheMissingTitleErrorMessage()
+        {
+            var dnaRequest = new DnaTestURLRequest("moderation");
+
+            dnaRequest.SetCurrentUserSuperUser();
+
+            const string url = "admin/twitterprofile?sitename=&s_sitename=h2g2&profileid=blahblah&title=&commentforumparenturl=blah&users=blah+&searchterms=blah+&moderated=true&action=createupdateprofile&skin=purexml";
+
+            dnaRequest.UseProxyPassing = false;
+
+            dnaRequest.RequestPage(url);
+
+            var response = dnaRequest.GetLastResponseAsXML();
+
+            const string xpath = @"/H2G2/ERROR[@TYPE=""TWITTERPROFILEMANDATORYFIELDSMISSING""]/ERRORMESSAGE";
+
+            const string expected = "Please fill in the mandatory fields for creating/updating a profile";
+
+            var actual = response.SelectSingleNode(xpath).InnerXml;
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }

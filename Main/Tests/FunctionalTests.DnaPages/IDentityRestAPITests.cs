@@ -47,7 +47,7 @@ namespace FunctionalTests
         public void LoginAndAuthenticateAsTestEditor()
         {
             IDnaIdentityWebServiceProxy proxy = new IdentityRestSignIn();
-            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;http://www-cache.reith.bbc.co.uk:80;logging", "");
+            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;;logging", "");
             Assert.IsTrue(proxy.TrySecureSetUserViaCookies(TestUserAccounts.GetEditorUserAccount.Cookie, TestUserAccounts.GetEditorUserAccount.SecureCookie), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
             Assert.IsTrue(proxy.TrySecureSetUserViaCookies(TestUserAccounts.GetSuperUserAccount.Cookie, TestUserAccounts.GetSuperUserAccount.SecureCookie), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
         }
@@ -56,7 +56,7 @@ namespace FunctionalTests
         public void LoginWithUserNameAndPassword()
         {
             IDnaIdentityWebServiceProxy proxy = new IdentityRestSignIn();
-            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;http://www-cache.reith.bbc.co.uk:80;logging", "");
+            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;;logging", "");
             Assert.IsTrue(proxy.TrySetUserViaUserNamePassword(TestUserAccounts.GetEditorUserAccount.UserName, TestUserAccounts.GetEditorUserAccount.Password), "*** FAILED TO SET EDITOR VIA COOKIE - Check Certs or account still exists ***");
             string cookie = proxy.GetCookieValue;
             string secureCookie = proxy.GetSecureCookieValue;
@@ -112,7 +112,7 @@ namespace FunctionalTests
         public void DNAIdentityWebServiceProxy_TrySetUserWithValidCookie_ExpectOk()
         {
             IDnaIdentityWebServiceProxy proxy = new IdentityRestSignIn();
-            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;http://www-cache.reith.bbc.co.uk:80;logging", "");
+            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;;logging", "");
             bool ok = proxy.TrySecureSetUserViaCookies(_identityUserCookie.Value, "");
             Assert.IsTrue(ok);
         }

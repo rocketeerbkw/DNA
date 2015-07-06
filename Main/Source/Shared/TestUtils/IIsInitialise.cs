@@ -1,7 +1,6 @@
+using Microsoft.Web.Administration;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.DirectoryServices;
+using System.Linq;
 using System.ServiceProcess;
 
 
@@ -29,7 +28,7 @@ namespace Tests
                 //Going to need to switch to the h2g2UnitTesting web site.
                 StartTestSite();
             }
-            
+
         }
 
         ~IIsInitialise()
@@ -65,21 +64,28 @@ namespace Tests
 
         private static void StopStartWebSite(webSiteType siteType, bool start)
         {
-            string entryName = "IIS://LocalHost/W3SVC/1";
-            if (siteType == webSiteType.test)
+            using (var serverManager = new ServerManager())
             {
-                entryName = "IIS://LocalHost/W3SVC/2";
-            }
+                Site site = null;
 
-            using (var dirEntry = new DirectoryEntry(entryName))
-            {
+                var h2g2Sites = serverManager.Sites.Where(s => s.Name.ToLower().Contains("h2g2"));
+
+                switch (siteType)
+                {
+                    case webSiteType.main: site = h2g2Sites.First(s => s.Name.ToLower() == "h2g2"); break;
+
+                    case webSiteType.test: site = h2g2Sites.First(s => s.Name.ToLower().Contains("test")); break;
+
+                    default: break;
+                }
+
                 if (start)
                 {
-                    dirEntry.Invoke("start");
+                    site.Start();
                 }
                 else
                 {
-                    dirEntry.Invoke("stop");
+                    site.Stop();
                 }
             }
         }
@@ -128,7 +134,7 @@ namespace Tests
             StopWebSite(webSiteType.main);
             RestartMemCache();
             StartWebSite(webSiteType.test);
-            GetSites();
+
         }
 
         /// <summary>
@@ -141,58 +147,26 @@ namespace Tests
             StartWebSite(webSiteType.main);
         }
 
-        /// <summary>
-        /// Displays Web Sites.
-        /// Expecting Default web Sites to be site 1 and test site enumeration 2.
-        /// </summary>
-        private static void GetSites()
-        {
-            //Enumerate Sites.
-            using (DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC"))
-            {
-                foreach (DirectoryEntry site in entry.Children)
-                {
-                    if (site.SchemaClassName == "IIsWebServer")
-                    {
-                        string ServerComment = site.Properties["ServerComment"].Value.ToString();
-                        Console.WriteLine(ServerComment + " (" + site.Name + ")");
-                    }
-                }
-            }
-        }
 
         /// <summary>
         /// Gets the root directory of the web site with the given name.
         /// </summary>
         /// <returns></returns>
-        public string GetWebSiteRoot( string website )
+        public string GetWebSiteRoot(string website)
         {
             try
             {
-                using (DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC"))
+                using (var serverManager = new ServerManager())
                 {
-                    foreach (DirectoryEntry site in entry.Children)
-                    {
-                        if (site.SchemaClassName == "IIsWebServer")
-                        {
-                            string serverComment = site.Properties["ServerComment"].Value.ToString();
-                            if (serverComment == website)
-                            {
-                                using (DirectoryEntry rootVDir = new DirectoryEntry("IIS://localhost/W3SVC/" + site.Name + "/Root"))
-                                {
-                                    return rootVDir.Properties["Path"].Value.ToString();
-                                }
-                            }
-                        }
-                    }
+                    var site = serverManager.Sites.Single(s => s.Name.ToLower() == website.ToLower());
+
+                    return site.Applications["/"].VirtualDirectories["/"].PhysicalPath;
                 }
             }
             catch (Exception e)
             {
                 throw new Exception("Error trying to get root path of test web site " + e.Message);
             }
-
-            return string.Empty;
         }
 
         /// <summary>
@@ -202,32 +176,31 @@ namespace Tests
         /// <param name="vdirname"></param>
         /// <param name="website"></param>
         /// <returns></returns>
-        public string GetVDirPath(string website ,string vdirname)
+        public string GetVDirPath(string website, string vdirname)
         {
             try
             {
-                using (DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC"))
+                using (var serverManager = new ServerManager())
                 {
-                    foreach (DirectoryEntry site in entry.Children)
+                    var site = serverManager.Sites.Single(s => s.Name.ToLower() == website.ToLower());
+
+                    var virtualPath = "/" + vdirname;
+
+                    var virtualDirectory = site.Applications["/"].VirtualDirectories[virtualPath];
+
+                    if (virtualDirectory == null)
                     {
-                        if (site.SchemaClassName == "IIsWebServer")
-                        {
-                            string serverComment = site.Properties["ServerComment"].Value.ToString();
-                            if (serverComment == website)
-                            {
-                                using (DirectoryEntry entries = site.Children.Find("Root", "IIsWebVirtualDir"))
-                                {
-                                    foreach (DirectoryEntry vdir in entries.Children)
-                                    {
-                                        if (vdir.Name == vdirname)
-                                        {
-                                            return vdir.Properties["Path"].Value.ToString();
-                                        }
-                                    }
-                                }
-                            }
-                        }
+                        virtualDirectory = site.Applications["/dna"].VirtualDirectories[virtualPath];
                     }
+
+                    if (virtualDirectory == null)
+                    {
+                        var message = string.Format("'{0}' virtual directory does not exists");
+
+                        throw new Exception(message);
+                    }
+
+                    return virtualDirectory.PhysicalPath;
                 }
             }
             catch (Exception e)
@@ -235,7 +208,6 @@ namespace Tests
                 throw new Exception("Error trying to get root path of test web site " + e.Message);
             }
 
-            return string.Empty;
         }
 
         /// <summary>
@@ -250,27 +222,13 @@ namespace Tests
         {
             try
             {
-                using (DirectoryEntry entry = new DirectoryEntry("IIS://LocalHost/W3SVC"))
+                using (var serverManager = new ServerManager())
                 {
-                    foreach (DirectoryEntry site in entry.Children)
-                    {
-                        if (site.SchemaClassName == "IIsWebServer")
-                        {
-                            string serverComment = site.Properties["ServerComment"].Value.ToString();
-                            if (serverComment == website)
-                            {
-                                DirectoryEntry entries = site.Children.Find("Root", "IIsWebVirtualDir");
-                                foreach (DirectoryEntry vdir in entries.Children)
-                                {
-                                    if (vdir.Name == vdirname)
-                                    {
-                                        DirectoryEntry childEntry = vdir.Children.Find(childDirName, "IIsWebVirtualDir");
-                                        return childEntry.Properties["Path"].Value.ToString();
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    var site = serverManager.Sites.Single(s => s.Name.ToLower() == website.ToLower());
+
+                    var application = "/" + vdirname + "/" + childDirName;
+
+                    return site.Applications[application].VirtualDirectories["/"].PhysicalPath;
                 }
             }
             catch (Exception e)
@@ -278,7 +236,6 @@ namespace Tests
                 throw new Exception("Error trying to get path within test web site " + e.Message);
             }
 
-            return string.Empty;
         }
     }
 }

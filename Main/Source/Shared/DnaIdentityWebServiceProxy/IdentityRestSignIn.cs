@@ -82,10 +82,6 @@ namespace DnaIdentityWebServiceProxy
                 }
                 if (details.Length > 2)
                 {
-                    _proxy = details[2];
-                }
-                if (details.Length > 3)
-                {
                     _traceOutput = true;
                 }
 
