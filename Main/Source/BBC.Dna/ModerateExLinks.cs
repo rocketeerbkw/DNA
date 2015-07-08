@@ -79,6 +79,7 @@ namespace BBC.Dna
                 int modId = InputContext.GetParamIntOrZero("modid", i, "ModerationId");
                 String notes = InputContext.GetParamStringOrEmpty("notes", i, "notes");
                 int referTo = InputContext.GetParamIntOrZero("referTo", i, "referTo");
+                String emailType = InputContext.GetParamStringOrEmpty("emailtype", i, "Email Template Insert Text");
 
                 if (decision == (int)ModerationItemStatus.Refer && referTo == 0)
                 {
@@ -94,6 +95,7 @@ namespace BBC.Dna
                         reader.AddParameter("userid", InputContext.ViewingUser.UserID);
                         reader.AddParameter("notes", notes);
                         reader.AddParameter("referTo", referTo);
+                        reader.AddParameter("emailType", emailType);
                         reader.Execute();
                     }
                 }
