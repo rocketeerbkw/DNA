@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web;
-using DnaIdentityWebServiceProxy;
+﻿using DnaIdentityWebServiceProxy;
 
 namespace TestUtils
 {
@@ -105,7 +101,7 @@ namespace TestUtils
             }
         }
     }
-    
+
     /// <summary>
     /// Helper class that creates the account details for all the different test users we have
     /// </summary>
@@ -206,7 +202,7 @@ namespace TestUtils
                 {
                     string cookie, secureCookie;
                     GetUserCookies("DotNetEditor", "789456123", out cookie, out secureCookie);
-                    testEditorUserAccount = new UserAccount("DotNetEditor", "789456123", cookie, secureCookie, 1090558353, true); 
+                    testEditorUserAccount = new UserAccount("DotNetEditor", "789456123", cookie, secureCookie, 1090558353, true);
                 }
                 return testEditorUserAccount;
             }
@@ -224,7 +220,7 @@ namespace TestUtils
                 {
                     string cookie, secureCookie;
                     GetUserCookies("DotNetSuperUser", "789456123", out cookie, out secureCookie);
-                    testSuperUserAccount = new UserAccount("DotNetSuperUser", "789456123", cookie, secureCookie, 1090558354, true); 
+                    testSuperUserAccount = new UserAccount("DotNetSuperUser", "789456123", cookie, secureCookie, 1090558354, true);
                 }
                 return testSuperUserAccount;
             }
@@ -242,11 +238,11 @@ namespace TestUtils
                 {
                     string cookie, secureCookie;
                     GetUserCookies("DotNetModerator", "789456123", out cookie, out secureCookie);
-                    testModeratorAccount = new UserAccount("DotNetModerator", "789456123", cookie, secureCookie, 1090564231, true); 
+                    testModeratorAccount = new UserAccount("DotNetModerator", "789456123", cookie, secureCookie, 1090564231, true);
                 }
                 return testModeratorAccount;
             }
-       }
+        }
 
         /// <summary>
         /// Creates the user account details for the Pre moderated user
@@ -260,7 +256,7 @@ namespace TestUtils
                 {
                     string cookie, secureCookie;
                     GetUserCookies("DotNetPreModUser", "789456123", out cookie, out secureCookie);
-                    testPreModeratedUserAccount = new UserAccount("DotNetPreModUser", "789456123", cookie, secureCookie, 1090565871, true); 
+                    testPreModeratedUserAccount = new UserAccount("DotNetPreModUser", "789456123", cookie, secureCookie, 1090565871, true);
                 }
                 return testPreModeratedUserAccount;
             }
@@ -278,7 +274,7 @@ namespace TestUtils
                 {
                     string cookie, secureCookie;
                     GetUserCookies("DotNetNotableUser", "789456123", out cookie, out secureCookie);
-                    testNotableUserAccount = new UserAccount("DotNetNotableUser", "789456123", cookie, secureCookie, 1165233424, true); 
+                    testNotableUserAccount = new UserAccount("DotNetNotableUser", "789456123", cookie, secureCookie, 1165233424, true);
                 }
                 return testNotableUserAccount;
             }
@@ -296,7 +292,7 @@ namespace TestUtils
                 {
                     string cookie, secureCookie;
                     GetUserCookies("test_trusted", "789456123", out cookie, out secureCookie);
-                    testTrustedUserAccount = new UserAccount("test_trusted", "789456123", cookie, secureCookie, 1165333429, true); 
+                    testTrustedUserAccount = new UserAccount("test_trusted", "789456123", cookie, secureCookie, 1165333429, true);
                 }
                 return testTrustedUserAccount;
             }
@@ -323,7 +319,7 @@ namespace TestUtils
         public static void GetUserCookies(string userName, string password, out string cookie, out string secureCookie)
         {
             IDnaIdentityWebServiceProxy proxy = new IdentityRestSignIn();
-            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;http://www-cache.reith.bbc.co.uk:80;logging", "");
+            proxy.Initialise("https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna", "");
             proxy.TrySetUserViaUserNamePassword(userName, password);
             cookie = proxy.GetCookieValue;
             secureCookie = proxy.GetSecureCookieValue;

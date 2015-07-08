@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections;
+﻿using BBC.Dna.Api;
+using BBC.Dna.Data;
+using BBC.Dna.Sites;
+using BBC.Dna.SocialAPI;
+using BBC.Dna.Users;
+using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using System.Xml;
-using BBC.Dna.Data;
-using BBC.Dna.Utils;
-using BBC.Dna.Moderation.Utils;
-using BBC.Dna.SocialAPI;
-using BBC.Dna.Api;
-using BBC.Dna.Users;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using System.Xml.Linq;
-using BBC.Dna.Sites;
 
 namespace BBC.Dna.Component
 {
@@ -41,7 +37,7 @@ namespace BBC.Dna.Component
         IDnaDataReaderCreator readerCreator;
         IDnaDiagnostics dnaDiagnostic;
 
-        
+
         /// <summary>
         /// Default constructor for the Twitter Create Profile component
         /// </summary>
@@ -73,13 +69,13 @@ namespace BBC.Dna.Component
 
             //Clean any existing XML.
             RootElement.RemoveAll();
-            
+
             if (InputContext.ViewingUser == null || ((false == InputContext.ViewingUser.IsEditor) && (false == InputContext.ViewingUser.IsSuperUser)))
             {
                 AddErrorXml("UNAUTHORIZED", "Editor permissions required", RootElement);
                 return;
             }
-            
+
             GetQueryParameters();
 
             var siteName = string.Empty;
@@ -95,7 +91,7 @@ namespace BBC.Dna.Component
                 AddErrorXml("SITENOTAVAILABLE", "Site name not available", RootElement);
                 return;
             }
-           
+
             GenerateTwitterProfilePageXml(siteName);
 
             BaseResult result = ProcessCommand(siteName);
@@ -210,12 +206,12 @@ namespace BBC.Dna.Component
 
                     //seperate method to fill up the twitter profile xml
                     CreateTwitterProfileXML(twitterProfile, _commentForumURI, true);
-                   
+
                     string[] str1 = InputContext.CurrentDnaRequest.UrlReferrer.AbsoluteUri.Split('?').ToArray();
 
                     var commentforumlistURI = string.Empty;
 
-                    if (commentForum != null && (false == String.IsNullOrEmpty(commentForum.SiteName)) )
+                    if (commentForum != null && (false == String.IsNullOrEmpty(commentForum.SiteName)))
                     {
                         commentforumlistURI = str1[0].Replace("moderation", commentForum.SiteName);
                         commentforumlistURI = commentforumlistURI.Replace("twitterprofilelist", "commentforumlist?dnahostpageurl=" + commentForum.ParentUri.Trim());
@@ -345,10 +341,15 @@ namespace BBC.Dna.Component
                     return new Error { Type = "TWITTERPROFILEMANDATORYFIELDSMISSING", ErrorMessage = "Please fill in the mandatory fields for creating/updating a profile" };
                 }
 
+                if (_profileId.Trim().Contains(" "))
+                {
+                    return new Error { Type = "TWITTERPROFILEMANDATORYFIELDSMISSING", ErrorMessage = "Profile ID cannot contain spaces" };
+                }
+
                 twitterProfile.ProfileId = _profileId;
                 twitterProfile.Title = _title;
                 twitterProfile.SearchKeywords = _searchterms.Split(',').Where(x => x != " " && !string.IsNullOrEmpty(x)).Distinct().Select(p => p.Trim()).ToList();
-                
+
                 twitterProfile.ProfileCountEnabled = _isCountsEnabled;
                 twitterProfile.ProfileKeywordCountEnabled = _keywordCountsEnabled;
                 twitterProfile.ModerationEnabled = _isModerationEnabled;
@@ -367,7 +368,7 @@ namespace BBC.Dna.Component
                 else
                 {
                     twitterProfile.Users = twitterUserScreenNameList;
-                    
+
                     if (false == string.IsNullOrEmpty(_pageAction) && _pageAction.ToUpper().Equals("UPDATEPROFILE"))
                     {
                         CreateTwitterProfileXML(twitterProfile, _commentForumURI, true);
@@ -399,13 +400,13 @@ namespace BBC.Dna.Component
             if (isProfileCreated.Equals("OK"))
             {
                 //Create and map commentforum
-                Comments commentObj = new Comments(dnaDiagnostic,readerCreator, AppContext.DnaCacheManager, InputContext.TheSiteList);
+                Comments commentObj = new Comments(dnaDiagnostic, readerCreator, AppContext.DnaCacheManager, InputContext.TheSiteList);
 
                 CommentForum commentForum = new CommentForum();
                 commentForum.isContactForm = false;
                 commentForum.SiteName = siteName;
                 if (false == string.IsNullOrEmpty(_commentForumURI))
-                    commentForum.ParentUri = _commentForumURI; 
+                    commentForum.ParentUri = _commentForumURI;
                 else
                     commentForum.ParentUri = string.Empty;
 
@@ -456,11 +457,11 @@ namespace BBC.Dna.Component
         /// <param name="site"></param>
         /// <param name="invalidTwitterUser"></param>
         /// <returns></returns>
-        private List<string> AddValidUserToTheList(List<string> twitterUserScreenNameList, ISite site, out string invalidTwitterUser )
+        private List<string> AddValidUserToTheList(List<string> twitterUserScreenNameList, ISite site, out string invalidTwitterUser)
         {
             List<string> twitterUserIds = new List<string>();
             var isValidUser = string.Empty;
-            
+
             invalidTwitterUser = string.Empty;
 
             var userExists = false;
@@ -556,7 +557,7 @@ namespace BBC.Dna.Component
         /// <returns></returns>
         private BaseResult CreateCommentForum(string siteName, Comments commentObj, CommentForum commentForum, ISite site)
         {
-            CommentForum commentForumData = commentObj.CreateAndUpdateCommentForum(commentForum, site,false);
+            CommentForum commentForumData = commentObj.CreateAndUpdateCommentForum(commentForum, site, false);
 
             if (commentForumData != null && commentForumData.Id == _profileId)
             {
@@ -578,7 +579,7 @@ namespace BBC.Dna.Component
         /// </summary>
         /// <param name="twitterUserName"></param>
         /// <returns></returns>
-        private Dictionary<bool,string> CheckUserExists(string twitterUserName)
+        private Dictionary<bool, string> CheckUserExists(string twitterUserName)
         {
             Dictionary<bool, string> UserExists = new Dictionary<bool, string>();
 
@@ -591,7 +592,7 @@ namespace BBC.Dna.Component
                 if (dataReader.HasRows && dataReader.Read())
                 {
                     var twitterUserExists = dataReader.GetStringNullAsEmpty("TwitterUserID");
-                    
+
                     UserExists.Add(true, twitterUserExists);
                 }
                 else
@@ -620,7 +621,7 @@ namespace BBC.Dna.Component
                 memberList = new MemberList(base.InputContext);
 
                 TweetUsers tweetUser = memberList.RetrieveTweetUserDetails(twitterUserScreenName);
-                
+
                 if (tweetUser.TwitterResponseException != null)
                 {
                     var twitterRateLimitException = "rate limit exceeded.";
@@ -660,7 +661,7 @@ namespace BBC.Dna.Component
                     callingUser.CreateUserFromTwitterUser(siteId, tweetUser);
                     callingUser.SynchroniseSiteSuffix(tweetUser.ProfileImageUrl);
                 }
-           
+
             }
             finally
             {
@@ -676,9 +677,9 @@ namespace BBC.Dna.Component
                 _siteId = InputContext.GetParamIntOrZero("s_siteid", "s_siteid");
             }
 
-            if(InputContext.DoesParamExist("profileid","twitter profile id"))
+            if (InputContext.DoesParamExist("profileid", "twitter profile id"))
             {
-                _profileId = InputContext.GetParamStringOrEmpty("profileid","twitter profile id");
+                _profileId = InputContext.GetParamStringOrEmpty("profileid", "twitter profile id");
             }
 
             if (InputContext.DoesParamExist("title", "twitter profile title"))
@@ -706,7 +707,7 @@ namespace BBC.Dna.Component
             {
                 _isTrustedUsersEnabled = Convert.ToBoolean(InputContext.GetParamStringOrEmpty("trustedusers", "trustedusers"));
             }
-            
+
             if (InputContext.DoesParamExist("countsonly", "countsonly"))
             {
                 _isCountsEnabled = Convert.ToBoolean(InputContext.GetParamStringOrEmpty("countsonly", "countsonly"));
@@ -732,11 +733,11 @@ namespace BBC.Dna.Component
                     {
                         _siteName = InputContext.GetParamStringOrEmpty("s_sitename", "sitename");
                     }
-                } 
+                }
 
             }
 
-            if(InputContext.DoesParamExist("action", "Command string for flow"))
+            if (InputContext.DoesParamExist("action", "Command string for flow"))
             {
                 _cmd = InputContext.GetParamStringOrEmpty("action", "Command string for flow");
             }
