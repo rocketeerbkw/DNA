@@ -389,7 +389,7 @@ namespace BIEventProcessorTests
                 row.AddGetInt32ColumnValue("ModClassId", modClassId);
                 row.AddGetInt32ColumnValue("SiteId", siteId);
                 row.AddGetInt32ColumnValue("ForumId", forumId);
-                row.AddGetInt32ColumnValue("ThreadId", threadId);
+                row.AddGetNullableInt32ColumnValue("ThreadId", threadId);
                 row.AddGetInt32ColumnValue("UserId", userId);
                 row.AddGetDateTimeColumnValue("DatePosted", datePosted);
                 row.AddGetStringColumnValue("text", text);
