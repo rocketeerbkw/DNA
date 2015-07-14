@@ -24,6 +24,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Sites", "BBC.Dna.Sites", "{0FDD2665-B401-48BC-92F9-2BFE1B5A5E86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Users", "BBC.Dna.Users", "{C9A343BA-0502-4C5F-B347-FB8150000926}"
+	ProjectSection(SolutionItems) = preProject
+		Source\Shared\BBC.Dna.Sites.Tests\App.config = Source\Shared\BBC.Dna.Sites.Tests\App.config
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BBC.Dna.Utils", "BBC.Dna.Utils", "{6327E7F4-5495-4A9C-8B7D-D55234DD7679}"
 EndProject

@@ -1,13 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using System.Text.RegularExpressions;
-using System.Runtime.Serialization;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
-using System.Xml.Serialization;
 using System.ServiceModel.Syndication;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace BBC.Dna.Utils
 {
@@ -411,7 +410,7 @@ namespace BBC.Dna.Utils
                 var ns = new XmlSerializerNamespaces();
                 ns.Add("", "");
                 var xs = new XmlSerializer(obj.GetType());
-                var xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.UTF8);
+                var xmlTextWriter = new XmlTextWriter(memoryStream, new UTF8Encoding(false));
                 xs.Serialize(xmlTextWriter, obj, ns);
                 using (var memoryStream2 = (MemoryStream)xmlTextWriter.BaseStream)
                 {
@@ -464,7 +463,7 @@ namespace BBC.Dna.Utils
         {
             MemoryStream stream = (MemoryStream)StringUtils.SerializeToJson(obj);
             return Encoding.UTF8.GetString(stream.ToArray());
-            
+
         }
 
         /// <summary>
@@ -643,7 +642,7 @@ namespace BBC.Dna.Utils
             set;
         }
 
-        
+
 
         public StringWriterWithEncoding(Encoding enc)
             : base()

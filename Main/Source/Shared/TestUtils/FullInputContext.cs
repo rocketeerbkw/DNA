@@ -367,9 +367,7 @@ namespace Tests
                 profileConnectionDetails.Add(new ConnectionStringSettings("ProfileRead", "server=ops-dbdev1.national.core.bbc.co.uk; port=3312; user id=profile; password=crudmeister; database=mdb; pooling=true"));
                 profileConnectionDetails.Add(new ConnectionStringSettings("ProfileWrite", "server=ops-dbdev1.national.core.bbc.co.uk; port=3312; user id=profile; password=crudmeister; database=mdb; pooling=true"));
 
-                //profileConnectionDetails.Add(new ConnectionStringSettings("IdentityURL", @"http://fmtdev16.national.core.bbc.co.uk:10854/opensso/identityservices/IdentityServices;;http://www-cache.reith.bbc.co.uk:80"));
-                profileConnectionDetails.Add(new ConnectionStringSettings("IdentityURL", @"https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;http://www-cache.reith.bbc.co.uk:80"));
-                //profileConnectionDetails.Add(new ConnectionStringSettings("IdentityURL", @"https://api.stage.bbc.co.uk/opensso/identityservices/IdentityServices;dna live;http://www-cache.reith.bbc.co.uk:80"));
+                profileConnectionDetails.Add(new ConnectionStringSettings("IdentityURL", @"https://api.test.bbc.co.uk/opensso/identityservices/IdentityServices;dna;;logging"));
 
                 return profileConnectionDetails;
             }

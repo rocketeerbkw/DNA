@@ -1,12 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BBC.Dna.Sites;
+﻿using BBC.Dna.Data;
 using BBC.Dna.Utils;
-using System.Configuration;
-using BBC.Dna.Data;
-using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using TestUtils;
+using System;
+using System.Collections.Generic;
+using System.Configuration;
 using Tests;
 
 namespace BBC.Dna.Sites.Tests
@@ -81,12 +79,12 @@ namespace BBC.Dna.Sites.Tests
         [TestMethod()]
         public void GetValueInt_ValidInt_ReturnsInt()
         {
-            string section = string.Empty; 
-            string name = string.Empty; 
-            string value = "1"; 
-            SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Int; 
-            string description = string.Empty; 
-            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description); 
+            string section = string.Empty;
+            string name = string.Empty;
+            string value = "1";
+            SiteOption.SiteOptionType type = SiteOption.SiteOptionType.Int;
+            string description = string.Empty;
+            SiteOption target = new SiteOption(DEFAULT_SITE_ID, section, name, value, type, description);
             int expected = 1;
             int actual = target.GetValueInt();
             Assert.AreEqual(expected, actual);
@@ -380,10 +378,10 @@ namespace BBC.Dna.Sites.Tests
             string name = "IsURLFiltered";
             string description = "Set if this site is to be url filtered";
             int siteID = 1;
-            
+
             // Check the option exists first
             GetValueForGivenSiteOptionAssertFail(readerCreator, section, name, siteID, true);
-            
+
             SiteOption siteOption = new SiteOption(siteID, section, name, "0", SiteOption.SiteOptionType.Bool, description);
             SiteOption.RemoveSiteOptionFromSite(siteOption, siteID, readerCreator);
             GetValueForTheSpecificSiteSiteOptionAssertFail(readerCreator, section, name, siteID, false);
@@ -464,7 +462,8 @@ namespace BBC.Dna.Sites.Tests
             return GetSiteOptionSetting(readerCreator, expectResults, sql);
         }
 
-        private static int GetSiteOptionSetting(IDnaDataReaderCreator readerCreator, bool expectResults, string sql){
+        private static int GetSiteOptionSetting(IDnaDataReaderCreator readerCreator, bool expectResults, string sql)
+        {
             int value = -1;
             using (IDnaDataReader reader = readerCreator.CreateDnaDataReader(""))
             {
