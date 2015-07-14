@@ -28,7 +28,7 @@ namespace Dna.DatabaseEmailProcessor
                         message.To.Add(new MailAddress(address));
                     }
 
-                    if (CCAddress.Length > 0)
+                    if (CCAddress != null && CCAddress.Length > 0)
                     {
                         message.CC.Add(new MailAddress(CCAddress));
                     }

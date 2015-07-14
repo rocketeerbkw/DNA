@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="IDnaDataReaderAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThreadedProcessTests.cs" />
     <Compile Include="UnitTest1.cs" />
   </ItemGroup>
   <ItemGroup>

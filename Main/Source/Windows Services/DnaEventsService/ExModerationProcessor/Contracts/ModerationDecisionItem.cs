@@ -46,6 +46,20 @@ namespace Dna.ExModerationProcessor
             set;
         }
 
+        [DataMember(Name = ("reasontype"), Order = 6)]
+        public String ReasonType
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("reasontext"), Order = 7)]
+        public String ReasonText
+        {
+            get;
+            set;
+        }
+
     }
 
     public enum ModDecisionEnum

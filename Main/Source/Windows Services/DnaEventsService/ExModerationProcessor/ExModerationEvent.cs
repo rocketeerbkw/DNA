@@ -43,6 +43,18 @@ namespace Dna.ExModerationProcessor
             set;
         }
 
+        public string ReasonType
+        {
+            get;
+            set;
+        }
+
+        public string ReasonText
+        {
+            get;
+            set;
+        }
+
         public String ToXml()
         {
             ModerationDecisionItem item = new ModerationDecisionItem();
@@ -51,6 +63,8 @@ namespace Dna.ExModerationProcessor
             item.Status = Enum.GetName(typeof(ModDecisionEnum), Decision);
             item.Uri = Uri;
             item.DateCompleted = DateCompleted.ToString();
+            item.ReasonType = ReasonType.ToString();
+            item.ReasonText = ReasonText.ToString();
 
             return StringUtils.SerializeToXmlReturnAsString(item);
         }
@@ -63,9 +77,10 @@ namespace Dna.ExModerationProcessor
             item.Status = Enum.GetName(typeof(ModDecisionEnum), Decision);
             item.Uri = Uri;
             item.DateCompleted = DateCompleted.ToString();
+            item.ReasonType = ReasonType.ToString();
+            item.ReasonText = ReasonText.ToString();
 
             return StringUtils.SerializeToJsonReturnAsString(item);
-
         }
 
         public ExModerationEvent()
@@ -82,6 +97,8 @@ namespace Dna.ExModerationProcessor
             activity.DateCompleted = dataReader.GetDateTime("datecompleted");
             activity.Decision = dataReader.GetInt32NullAsZero("status");
             activity.CallBackUri = dataReader.GetString("callbackuri") ?? "";
+            activity.ReasonType = dataReader.GetString("reasontype") ?? "";
+            activity.ReasonText = dataReader.GetString("reasontext") ?? "";
 
             return activity;
         }
