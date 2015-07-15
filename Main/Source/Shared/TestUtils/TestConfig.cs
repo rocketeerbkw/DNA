@@ -1,8 +1,5 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
-using BBC.Dna;
 using System.Xml;
 
 namespace Tests
@@ -14,7 +11,7 @@ namespace Tests
     /// The Test site h2g2UnitTesting is used for servicing requests with a test configuration.
     /// The dnapages virtual directory contains aspx pages. This directory is used to host ASP.NET.
     /// </summary>
-    public class TestConfig 
+    public class TestConfig
     {
         private string _rootPath;
         private string _dnaPagesDir;
@@ -25,7 +22,7 @@ namespace Tests
         /// 
         /// </summary>
         private TestConfig()
-        { 
+        {
         }
 
         /// <summary>
@@ -65,14 +62,17 @@ namespace Tests
                 return _rootPath;
             }
 
-            IIsInitialise iis = IIsInitialise.GetIIsInitialise();
-            string root = iis.GetWebSiteRoot("h2g2UnitTesting");
-            if ( root == string.Empty )
+            using (var iis = IIsInitialise.GetIIsInitialise())
             {
-                throw new Exception("Unable to get path to ripleyserver.xmlconf because root path of h2g2UnitTesting site was not found.");
+                string root = iis.GetWebSiteRoot("h2g2UnitTesting");
+                if (root == string.Empty)
+                {
+                    throw new Exception("Unable to get path to ripleyserver.xmlconf because root path of h2g2UnitTesting site was not found.");
+                }
+
+                _rootPath = root + @"\";
             }
 
-            _rootPath = root + @"\";
             return _rootPath;
         }
 
@@ -87,13 +87,16 @@ namespace Tests
                 return _dnaPagesDir;
             }
 
-            IIsInitialise iis = IIsInitialise.GetIIsInitialise();
-            string dnaPagesDir = iis.GetVDirPath("h2g2UnitTesting","dna", "dnapages");
-            if (dnaPagesDir == string.Empty)
+            using (var iis = IIsInitialise.GetIIsInitialise())
             {
-                throw new Exception("Unable to find physical path of dnapages virtual directory");
+                string dnaPagesDir = iis.GetVDirPath("h2g2UnitTesting", "dna", "dnapages");
+                if (dnaPagesDir == string.Empty)
+                {
+                    throw new Exception("Unable to find physical path of dnapages virtual directory");
+                }
+                _dnaPagesDir = dnaPagesDir + @"\";
             }
-            _dnaPagesDir = dnaPagesDir + @"\";
+
             return _dnaPagesDir;
         }
 

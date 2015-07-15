@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Xml;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
 namespace BBC.Dna.LoadTest
@@ -25,7 +24,7 @@ namespace BBC.Dna.LoadTest
         private XmlDocument _prevXmlResults;
         private readonly double _tolerance;
 
-        public StressTestHandler( string testName, string server, string serverName, double tolerance)
+        public StressTestHandler(string testName, string server, string serverName, double tolerance)
         {
             var now = DateTime.Now;
             _testName = testName;
@@ -38,11 +37,11 @@ namespace BBC.Dna.LoadTest
 
         public void MakeReplacements(Dictionary<string, string> replacements)
         {
-            if(replacements == null)
+            if (replacements == null)
             {
                 return;
             }
-            var stream = File.OpenText(WorkingDirectory + _testName + "\\script.txt" );
+            var stream = File.OpenText(WorkingDirectory + _testName + "\\script.txt");
             var script = stream.ReadToEnd();
             stream.Close();
             script = replacements.Aggregate(script, (current, replacement) => current.Replace("<!--" + replacement.Key + "-->", replacement.Value));
@@ -52,12 +51,11 @@ namespace BBC.Dna.LoadTest
 
         public void InitialiseServer()
         {
-            if(_server == "local.bbc.co.uk:8081")
+            SnapshotInitialisation.ForceRestore();
+            using (var iis = IIsInitialise.GetIIsInitialise())
             {
-                SnapshotInitialisation.ForceRestore();
-                IIsInitialise.GetIIsInitialise().RestartTestSite();
+                iis.RestartTestSite();
             }
-
 
             var request = new DnaTestURLRequest("h2g2");
             //request.RequestPage("status");
@@ -111,16 +109,16 @@ namespace BBC.Dna.LoadTest
         {
             _prevXmlResults = null;
             var dir = (from d in Directory.GetDirectories(WorkingDirectory + _testName, "20*")
-                        orderby d descending
-                        select d).FirstOrDefault();
+                       orderby d descending
+                       select d).FirstOrDefault();
 
-            if(dir == null)
+            if (dir == null)
             {
                 return;
             }
 
             var xmlDoc = new FileInfo(dir + "\\log.xml");
-            if(!xmlDoc.Exists)
+            if (!xmlDoc.Exists)
             {
                 return;
             }
@@ -135,11 +133,11 @@ namespace BBC.Dna.LoadTest
             return CheckForErrors(_xmlResults);
         }
 
-    
+
         private bool CheckForErrors(XmlDocument xmlResults)
         {
             return xmlResults.SelectSingleNode("//Webcat/Log/Statistics/BadStatusErrors") != null;
-            
+
         }
 
         private LoggingHelper _logHelper;
@@ -153,7 +151,7 @@ namespace BBC.Dna.LoadTest
 
         private bool CompareStatisticsResults()
         {
-            
+
             _logHelper = new LoggingHelper("STATISTICS COMPARISON RESULTS");
             _logHelper.Content += string.Format("Counter\tPrevious Run\tCurrent Run*\tResult\r\n");
 
@@ -167,7 +165,7 @@ namespace BBC.Dna.LoadTest
                 _logHelper.WriteToLog();
                 throw e;
             }
-            
+
 
             _logHelper.Content += string.Format("*plus tolerance amount\r\n");
             _logHelper.WriteToLog();
@@ -185,7 +183,7 @@ namespace BBC.Dna.LoadTest
                 previousResult = 0.0;
             }
             _logHelper.Content += previousResult + "\t";
-            
+
             double currentResult;
             if (!double.TryParse(_xmlResults.SelectSingleNode(xPath).InnerText, out currentResult))
             {
@@ -198,7 +196,7 @@ namespace BBC.Dna.LoadTest
             _logHelper.Content += Environment.NewLine;
 
             return currentResult >= previousResult;
-            
+
         }
 
         private bool CompareCounterResults()
@@ -233,7 +231,7 @@ namespace BBC.Dna.LoadTest
                 previousResult = 0.0;
             }
             _logHelper.Content += previousResult + "\t";
-            
+
             double currentResult;
             if (!double.TryParse(_xmlResults.SelectSingleNode(xPath).InnerText, out currentResult))
             {
@@ -242,7 +240,7 @@ namespace BBC.Dna.LoadTest
             _logHelper.Content += currentResult + "\t";
 
             var result = false;
-            if(reverseComparison)
+            if (reverseComparison)
             {
                 result = (currentResult <= previousResult);
             }
@@ -256,6 +254,6 @@ namespace BBC.Dna.LoadTest
 
             return result;
         }
-        
+
     }
 }

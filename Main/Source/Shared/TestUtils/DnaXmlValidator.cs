@@ -72,17 +72,21 @@ namespace Tests
             {
                 //Get Local Path of schema file.
                 // Make sure that you specify the Schema directory name is Case correct.
-                String path = IIsInitialise.GetIIsInitialise().GetVDirPath("h2g2UnitTesting", "Schemas");
-                path = Path.Combine(path, schemaUri);
 
-                _xmlSchema = new XmlSchema();
-                //Uri ourUri = new Uri(fullSchemaURI);
-                //WebRequest request = WebRequest.Create(ourUri);
-                //request.Proxy = null;
-                //WebResponse response = request.GetResponse();
+                using (var iis = IIsInitialise.GetIIsInitialise())
+                {
+                    String path = iis.GetVDirPath("h2g2UnitTesting", "Schemas");
+                    path = Path.Combine(path, schemaUri);
 
-                //Read Schema from local path. This allows relative includes within the schema files to be resolved correctly.
-                _xmlSchema = XmlSchema.Read(new XmlTextReader(path), new ValidationEventHandler(xmlReaderSettingsValidationEventHandler));
+                    _xmlSchema = new XmlSchema();
+                    //Uri ourUri = new Uri(fullSchemaURI);
+                    //WebRequest request = WebRequest.Create(ourUri);
+                    //request.Proxy = null;
+                    //WebResponse response = request.GetResponse();
+
+                    //Read Schema from local path. This allows relative includes within the schema files to be resolved correctly.
+                    _xmlSchema = XmlSchema.Read(new XmlTextReader(path), new ValidationEventHandler(xmlReaderSettingsValidationEventHandler));
+                }
 
                 //Cache it.
                 _cachedSchemas[schemaUri] = _xmlSchema;
