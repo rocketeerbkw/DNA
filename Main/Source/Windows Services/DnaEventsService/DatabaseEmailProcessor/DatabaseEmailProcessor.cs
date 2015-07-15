@@ -39,8 +39,9 @@ namespace Dna.DatabaseEmailProcessor
             BatchSize = batchSize;
             SMTPClient = new DnaSmtpClient(emailServerHostName, emailServerUsername, emailServerPassword, enableSsl);
 
-            int minNumThreads, minCompPorts;
+            int minNumThreads, minCompPorts, maxNumThreads, maxCompPorts;
             ThreadPool.GetMinThreads(out minNumThreads, out minCompPorts);
+            ThreadPool.GetMaxThreads(out maxNumThreads, out maxCompPorts);
 
             if (minNumThreads < NumberOfThreads)
                 ThreadPool.SetMinThreads(NumberOfThreads, NumberOfThreads);
@@ -57,6 +58,8 @@ namespace Dna.DatabaseEmailProcessor
                 { "Database connection string",   DataReaderCreator != null ? DataReaderCreator.ConnectionString : "NULL" },
                 { "Interval",                     processInterval },
                 { "NumThreads",                   NumberOfThreads },
+                { "MinThreads",                   minNumThreads },
+                { "MaxThreads",                   maxNumThreads },
                 { "BatchSize",                    BatchSize },
                 { "SMTP Hostname",                emailServerHostName },
                 { "SMTP Username",                emailServerUsername},

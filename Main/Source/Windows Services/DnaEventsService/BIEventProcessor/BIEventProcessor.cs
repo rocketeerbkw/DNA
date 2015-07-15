@@ -40,8 +40,9 @@ namespace Dna.BIEventSystem
             RecRiskModDecOnThreadEntries = recRiskModDecOnThreadEntries;
             NumThreads = numThreads;
 
-            int minNumThreads, minCompPorts;
+            int minNumThreads, minCompPorts, maxNumThreads, maxCompPorts;
             ThreadPool.GetMinThreads(out minNumThreads, out minCompPorts);
+            ThreadPool.GetMaxThreads(out maxNumThreads, out maxCompPorts);
             if (minNumThreads < NumThreads)
                 ThreadPool.SetMinThreads(NumThreads, NumThreads);
 
@@ -54,7 +55,9 @@ namespace Dna.BIEventSystem
                 { "Interval",                     interval },
                 { "DisableRiskMod",               DisableRiskMod },
                 { "RecRiskModDecOnThreadEntries", RecRiskModDecOnThreadEntries },
-                { "NumThreads",                   NumThreads }
+                { "NumThreads",                   NumThreads },
+                { "MinThreads",                   minNumThreads },
+                { "MaxThreads",                   maxNumThreads }
             };
             BIEventLogger.Log(TraceEventType.Information, "Created BIEventProcessor with these params", props);
 
