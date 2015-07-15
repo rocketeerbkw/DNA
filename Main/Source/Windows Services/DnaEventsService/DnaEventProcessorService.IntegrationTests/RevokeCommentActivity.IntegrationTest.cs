@@ -45,6 +45,7 @@ namespace DnaEventProcessorService.IntegrationTests
         //
         #endregion
 
+        [Ignore]
         [TestMethod]
         public void RevokeCommentActivity_SubmitActivityAndRevoke_Success()
         {

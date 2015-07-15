@@ -294,7 +294,8 @@ namespace DnaEventProcessorService.IntegrationTests
                 string sql = string.Format(@"
                             declare @siteid int; 
                             select @siteid=siteid from sites where urlname = '{0}';
-                            update signinuseridmapping set identityuserid = 6 where dnauserid = 6
+                            execute openidentityuseridkey
+                            update signinuseridmapping set identityuserid = 6, EncryptedIdentityUserId = dbo.udf_encryptidentityuserid(6, 6) where dnauserid = 6
                             delete from snesapplicationmetadata where siteid = @siteid
                             insert into snesapplicationmetadata(siteid, applicationid, applicationname) 
                                 values (@siteid, '{0}', 'Hitchhiker''s guide to the Galaxy')", urlname);
