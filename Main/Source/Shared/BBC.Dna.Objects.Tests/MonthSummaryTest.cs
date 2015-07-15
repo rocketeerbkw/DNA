@@ -1,17 +1,13 @@
-﻿using BBC.Dna.Objects;
+﻿using BBC.Dna.Data;
+using BBC.Dna.Sites;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using BBC.Dna.Data;
-using System.Xml;
-using System.Xml.Serialization;
+using Rhino.Mocks;
+using Rhino.Mocks.Constraints;
 using System;
 using System.Collections.Generic;
-using Rhino.Mocks;
-using TestUtils.Mocks.Extentions;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using Rhino.Mocks.Constraints;
+using System.Xml;
 using TestUtils;
-using BBC.Dna.Sites;
-using BBC.Dna.Common;
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -201,7 +197,7 @@ namespace BBC.Dna.Objects.Tests
 
             var target = new MonthSummary()
             {
-                 GuideEntries = new List<ArticleSummary> { ArticleSummaryTest.CreateArticleSummaryTest() } 
+                GuideEntries = new List<ArticleSummary> { ArticleSummaryTest.CreateArticleSummaryTest() }
             };
 
             var reader = mocks.DynamicMock<IDnaDataReader>();
@@ -218,13 +214,13 @@ namespace BBC.Dna.Objects.Tests
         /// <summary>
         /// Tests if CreateMonthSummary atually uses the cache when DoNotIgnoreCache = true
         /// </summary>
-        [TestMethod()]
+        [TestMethod]
         public void CreateMonthSummary_WithDoNotIgnoreCache_CacheIsNotIgnored()
         {
 
             string monthSummaryCacheKey = "BBC.Dna.Objects.MonthSummary, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|1|";
             DateTime lastUpdated = DateTime.Now;
-          
+
             // PREPARE THE TEST
             // setup the default mocks
             MockRepository mocks;
@@ -233,7 +229,7 @@ namespace BBC.Dna.Objects.Tests
             User viewingUser;
             ISite site;
             CreateMonthSummary_SetupDefaultMocks(out mocks, out cache, out readerCreator, out viewingUser, out site);
-            
+
             MonthSummary cachedMonthSummary = CreateTestMonthSummary();
             cachedMonthSummary.LastUpdated = lastUpdated;
 
@@ -263,6 +259,7 @@ namespace BBC.Dna.Objects.Tests
             Assert.AreSame(cachedMonthSummary, actual);
         }
 
+
         /// <summary>
         ///A test for Clone
         ///</summary>
@@ -275,7 +272,8 @@ namespace BBC.Dna.Objects.Tests
                 { 
                     ArticleSummaryTest.CreateArticleSummaryTest() 
                 }
-                , LastUpdated = DateTime.Now
+                ,
+                LastUpdated = DateTime.Now
             };
             var actual = (MonthSummary)target.Clone();
             Assert.AreEqual(1, actual.GuideEntries.Count);
@@ -309,7 +307,7 @@ namespace BBC.Dna.Objects.Tests
             return monthSummary;
         }
 
-#region MockSetup
+        #region MockSetup
 
         /// <summary>
         /// Helper function to set up parameters for CreateMonthSummary call
@@ -365,6 +363,6 @@ namespace BBC.Dna.Objects.Tests
             reader.Stub(x => x.GetInt32NullAsZero("type")).Return(1).Repeat.Twice();
             reader.Stub(x => x.GetDateTime("datecreated")).Return(DateTime.Now).Repeat.Twice();
         }
-#endregion
+        #endregion
     }
 }
