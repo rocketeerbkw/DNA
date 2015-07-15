@@ -1,13 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Web;
 using BBC.Dna;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using System.IO;
 
 namespace Tests
 {
@@ -22,7 +18,7 @@ namespace Tests
         const string FILTER_DERIVED_SKIN = "filter-derived-skin";
         const string REQUESTED_SKIN = "requested-skin";
         const string INVALID_SKIN = "invalid-skin";
-  
+
         Mockery _mock;
         ISite _site;
         IUser _user;
@@ -48,7 +44,7 @@ namespace Tests
             Stub.On(_site).Method("DoesSkinExist").With(FILTER_DERIVED_SKIN).Will(Return.Value(true));
             Stub.On(_site).Method("DoesSkinExist").With("xml").Will(Return.Value(true));
             Stub.On(_site).GetProperty("SkinSet").Will(Return.Value("vanilla"));
-            
+
             _user = _mock.NewMock<IUser>();
 
             _inputContext = _mock.NewMock<IInputContext>();
@@ -56,9 +52,9 @@ namespace Tests
 
             _outputContext = _mock.NewMock<IOutputContext>();
             Stub.On(_outputContext).Method("VerifySkinFileExists").Will(Return.Value(true));
-    
+
             _skinSelector = new SkinSelector();
-           
+
             _request = _mock.NewMock<IRequest>();
         }
 
@@ -88,7 +84,7 @@ namespace Tests
 
             setupRequestToHaveNoSkinSpecifiedOnUrl();
             setupUserAsNotLoggedIn();
-           
+
 
             _skinSelector.Initialise(_inputContext, _outputContext);
             Assert.AreEqual("default-skin", _skinSelector.SkinName);
@@ -286,10 +282,14 @@ namespace Tests
             setupUserAsNotLoggedIn();
             setupRequestToHaveNoFilterDerivedSkin();
 
-            Stub.On(_outputContext).Method("GetSkinPath").Will(Return.Value(Path.Combine(IIsInitialise.GetIIsInitialise().GetWebSiteRoot("h2g2UnitTesting"), @"Skins/SkinSets/vanilla/default/output.xsl")));
+            using (var iis = IIsInitialise.GetIIsInitialise())
+            {
+                Stub.On(_outputContext).Method("GetSkinPath").Will(Return.Value(Path.Combine(iis.GetWebSiteRoot("h2g2UnitTesting"), @"Skins/SkinSets/vanilla/default/output.xsl")));
+            }
+
             _skinSelector.Initialise(_inputContext, _outputContext);
 
-            Assert.AreEqual(expectedSkin , _skinSelector.SkinName);
+            Assert.AreEqual(expectedSkin, _skinSelector.SkinName);
         }
 
 

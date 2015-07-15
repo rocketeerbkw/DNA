@@ -1,18 +1,18 @@
+using BBC.Dna;
+using BBC.Dna.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Extensions.Asp;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
 using System.Net;
+using System.Runtime.Serialization.Json;
 using System.Text;
 using System.Web;
 using System.Xml;
-using BBC.Dna;
-using BBC.Dna.Data;
-using NUnit.Extensions.Asp;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestUtils;
-using System.Runtime.Serialization.Json;
 
 namespace Tests
 {
@@ -131,6 +131,8 @@ namespace Tests
         public void Dispose()
         {
             _response.Close();
+
+            _iisInitialse.Dispose();
         }
 
         /// <summary>

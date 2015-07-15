@@ -1,5 +1,6 @@
 using Microsoft.Web.Administration;
 using System;
+using System.Configuration;
 using System.Linq;
 using System.ServiceProcess;
 
@@ -10,7 +11,7 @@ namespace Tests
     /// Class used to Initialise h2g2UnitTesting web site.
     /// Will do this once only.
     /// </summary>
-    public class IIsInitialise
+    public class IIsInitialise : IDisposable
     {
         private static IIsInitialise _iisTestSite = new IIsInitialise();
 
@@ -19,22 +20,31 @@ namespace Tests
         /// </summary>
         static IIsInitialise()
         {
-            // Now workout what the machines name is. If it's ops-dna1, then we need to set the server to dnadev!
-            String server = DnaTestURLRequest.CurrentServer;
-
-            // Just make the server the machine name plus the rest
-            if (server == "local.bbc.co.uk:8081")
-            {
-                //Going to need to switch to the h2g2UnitTesting web site.
-                StartTestSite();
-            }
-
+            StartTestSite();
         }
 
-        ~IIsInitialise()
+        private static bool IsTestServerRemote()
         {
-            RestoreDefaultSite();
+            return !string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer:isRemote"])
+                && ConfigurationManager.AppSettings["testServer:isRemote"].Trim().ToLower() == "true";
         }
+
+
+        private static ServerManager ServerManagerInstance()
+        {
+            var server = DnaTestURLRequest.CurrentServer;
+
+            var isRemote = IsTestServerRemote();
+
+            return isRemote ? ServerManager.OpenRemote(server) : new ServerManager();
+        }
+
+        //~IIsInitialise()
+        //{
+        //    RestoreDefaultSite();
+
+        //    _serverManager.Dispose();
+        //}
 
         /// <summary>
         /// This class is a singleton.
@@ -64,10 +74,10 @@ namespace Tests
 
         private static void StopStartWebSite(webSiteType siteType, bool start)
         {
-            using (var serverManager = new ServerManager())
-            {
-                Site site = null;
+            Site site = null;
 
+            using (var serverManager = ServerManagerInstance())
+            {
                 var h2g2Sites = serverManager.Sites.Where(s => s.Name.ToLower().Contains("h2g2"));
 
                 switch (siteType)
@@ -156,7 +166,7 @@ namespace Tests
         {
             try
             {
-                using (var serverManager = new ServerManager())
+                using (var serverManager = ServerManagerInstance())
                 {
                     var site = serverManager.Sites.Single(s => s.Name.ToLower() == website.ToLower());
 
@@ -180,7 +190,7 @@ namespace Tests
         {
             try
             {
-                using (var serverManager = new ServerManager())
+                using (var serverManager = ServerManagerInstance())
                 {
                     var site = serverManager.Sites.Single(s => s.Name.ToLower() == website.ToLower());
 
@@ -202,6 +212,7 @@ namespace Tests
 
                     return virtualDirectory.PhysicalPath;
                 }
+
             }
             catch (Exception e)
             {
@@ -222,7 +233,7 @@ namespace Tests
         {
             try
             {
-                using (var serverManager = new ServerManager())
+                using (var serverManager = ServerManagerInstance())
                 {
                     var site = serverManager.Sites.Single(s => s.Name.ToLower() == website.ToLower());
 
@@ -230,12 +241,17 @@ namespace Tests
 
                     return site.Applications[application].VirtualDirectories["/"].PhysicalPath;
                 }
+
             }
             catch (Exception e)
             {
                 throw new Exception("Error trying to get path within test web site " + e.Message);
             }
+        }
 
+        public void Dispose()
+        {
+            RestoreDefaultSite();
         }
     }
 }
