@@ -214,49 +214,7 @@ namespace BBC.Dna.Objects.Tests
         /// <summary>
         /// Tests if CreateMonthSummary atually uses the cache when DoNotIgnoreCache = true
         /// </summary>
-        [TestMethod()]
-        public void IsUpToDate_ReturnsTrue()
-        {
-
-            string monthSummaryCacheKey = "BBC.Dna.Objects.MonthSummary, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|1|";
-            DateTime lastUpdated = DateTime.Now;
-
-            // PREPARE THE TEST
-            // setup the default mocks
-            MockRepository mocks;
-            ICacheManager cache;
-            IDnaDataReaderCreator readerCreator;
-            User viewingUser;
-            ISite site;
-            CreateMonthSummary_SetupDefaultMocks(out mocks, out cache, out readerCreator, out viewingUser, out site);
-
-            MonthSummary cachedMonthSummary = CreateTestMonthSummary();
-            cachedMonthSummary.LastUpdated = lastUpdated;
-
-            cache.Stub(x => x.GetData(monthSummaryCacheKey)).Return(cachedMonthSummary);
-
-
-            IDnaDataReader cacheGetMonthSummaryReader = mocks.DynamicMock<IDnaDataReader>();
-            cacheGetMonthSummaryReader.Stub(x => x.HasRows).Return(true);
-            cacheGetMonthSummaryReader.Stub(x => x.Read()).Return(true);
-            cacheGetMonthSummaryReader.Stub(x => x.GetInt32NullAsZero("seconds")).Return(5000);
-
-            readerCreator.Stub(x => x.CreateDnaDataReader("")).Return(cacheGetMonthSummaryReader).Constraints(Is.Anything());
-
-            // EXECUTE THE TEST             
-            mocks.ReplayAll();
-
-            var actual = cachedMonthSummary.IsUpToDate(readerCreator);
-
-            const bool expected = true;
-
-            Assert.AreEqual(expected, actual);
-        }
-
-        /// <summary>
-        /// Tests if CreateMonthSummary atually uses the cache when DoNotIgnoreCache = true
-        /// </summary>
-        [TestMethod, Ignore]
+        [TestMethod]
         public void CreateMonthSummary_WithDoNotIgnoreCache_CacheIsNotIgnored()
         {
 
