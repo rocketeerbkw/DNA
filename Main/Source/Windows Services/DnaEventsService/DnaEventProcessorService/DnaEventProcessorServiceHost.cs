@@ -34,7 +34,7 @@ namespace DnaEventProcessorService
             if (Properties.Settings.Default.DebugOn)
             {
 #if DEBUG
-                System.Diagnostics.Debugger.Break();
+                System.Diagnostics.Debugger.Launch();
 #endif
             }
 
