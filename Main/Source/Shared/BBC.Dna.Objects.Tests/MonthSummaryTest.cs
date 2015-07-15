@@ -245,9 +245,8 @@ namespace BBC.Dna.Objects.Tests
 
             // EXECUTE THE TEST             
             mocks.ReplayAll();
-            MonthSummary monthSummary = MonthSummary.CreateMonthSummary(cache, readerCreator, 1);
 
-            var actual = monthSummary.IsUpToDate(readerCreator);
+            var actual = cachedMonthSummary.IsUpToDate(readerCreator);
 
             const bool expected = true;
 
