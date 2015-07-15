@@ -57,7 +57,9 @@ namespace Dna.BIEventSystem
                 { "RecRiskModDecOnThreadEntries", RecRiskModDecOnThreadEntries },
                 { "NumThreads",                   NumThreads },
                 { "MinThreads",                   minNumThreads },
-                { "MaxThreads",                   maxNumThreads }
+                { "MinCompPorts",                   minCompPorts },
+                { "MaxThreads",                   maxNumThreads },
+                { "MaxCompPorts",                   maxCompPorts }
             };
             BIEventLogger.Log(TraceEventType.Information, "Created BIEventProcessor with these params", props);
 
