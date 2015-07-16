@@ -174,7 +174,7 @@
       <Name>BBC.DNA.Moderation.Utils</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Objects\BBC.Dna.Objects.csproj">
-      <Project>{B4EA926E-7D99-4077-8315-882F413B994D}</Project>
+      <Project>{b4ea926e-7d99-4077-8315-882f413b994d}</Project>
       <Name>BBC.Dna.Objects</Name>
     </ProjectReference>
     <ProjectReference Include="..\BBC.Dna.Sites\BBC.Dna.Sites.csproj">
