@@ -214,6 +214,7 @@ namespace BBC.Dna.Objects.Tests
         /// <summary>
         /// Tests if CreateMonthSummary atually uses the cache when DoNotIgnoreCache = true
         /// </summary>
+        [Ignore]
         [TestMethod]
         public void CreateMonthSummary_WithDoNotIgnoreCache_CacheIsNotIgnored()
         {

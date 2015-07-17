@@ -39,12 +39,6 @@ namespace Tests
             return isRemote ? ServerManager.OpenRemote(server) : new ServerManager();
         }
 
-        //~IIsInitialise()
-        //{
-        //    RestoreDefaultSite();
-
-        //    _serverManager.Dispose();
-        //}
 
         /// <summary>
         /// This class is a singleton.
@@ -141,7 +135,8 @@ namespace Tests
         private static void StartTestSite()
         {
             // Stop Default Site
-            StopWebSite(webSiteType.main);
+            if (!IsTestServerRemote())
+                StopWebSite(webSiteType.main);
             RestartMemCache();
             StartWebSite(webSiteType.test);
 
@@ -154,7 +149,9 @@ namespace Tests
         {
             StopWebSite(webSiteType.test);
             RestartMemCache();
-            StartWebSite(webSiteType.main);
+
+            if (!IsTestServerRemote())
+                StartWebSite(webSiteType.main);
         }
 
 
@@ -170,7 +167,9 @@ namespace Tests
                 {
                     var site = serverManager.Sites.Single(s => s.Name.ToLower() == website.ToLower());
 
-                    return site.Applications["/"].VirtualDirectories["/"].PhysicalPath;
+                    var absolutePath = site.Applications["/"].VirtualDirectories["/"].PhysicalPath;
+
+                    return ApplicationPath(absolutePath);
                 }
             }
             catch (Exception e)
@@ -210,7 +209,7 @@ namespace Tests
                         throw new Exception(message);
                     }
 
-                    return virtualDirectory.PhysicalPath;
+                    return ApplicationPath(virtualDirectory.PhysicalPath);
                 }
 
             }
@@ -239,13 +238,32 @@ namespace Tests
 
                     var application = "/" + vdirname + "/" + childDirName;
 
-                    return site.Applications[application].VirtualDirectories["/"].PhysicalPath;
+                    var absolutePath = site.Applications[application].VirtualDirectories["/"].PhysicalPath;
+
+                    return ApplicationPath(absolutePath);
                 }
 
             }
             catch (Exception e)
             {
                 throw new Exception("Error trying to get path within test web site " + e.Message);
+            }
+        }
+
+
+        private string ApplicationPath(string absolutePath)
+        {
+            var isRemote = IsTestServerRemote();
+
+            if (isRemote)
+            {
+                var subPath = absolutePath.Remove(0, 3);
+
+                return string.Format(@"\\{0}\{1}", DnaTestURLRequest.CurrentServer, subPath);
+            }
+            else
+            {
+                return absolutePath;
             }
         }
 
