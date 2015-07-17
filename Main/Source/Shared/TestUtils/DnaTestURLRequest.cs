@@ -584,7 +584,7 @@ namespace Tests
         {
             get
             {
-                if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer"]))
+                if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer"]) && IsTestServerRemote())
                 {//overridden in app.config
                     return ConfigurationManager.AppSettings["testServer"];
                 }
@@ -600,6 +600,13 @@ namespace Tests
                 }
             }
         }
+
+        private static bool IsTestServerRemote()
+        {
+            return !string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer:isRemote"])
+                && ConfigurationManager.AppSettings["testServer:isRemote"].Trim().ToLower() == "true";
+        }
+
         /// <summary>
         /// Current SecureServerAddress
         /// </summary>
@@ -607,7 +614,7 @@ namespace Tests
         {
             get
             {
-                if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer"]))
+                if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer"]) && IsTestServerRemote())
                 {//overridden in app.config
                     return ConfigurationManager.AppSettings["testServer"];
                 }
