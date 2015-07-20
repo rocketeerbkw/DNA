@@ -1,4 +1,11 @@
-﻿using System;
+﻿using BBC.Dna.Api;
+using BBC.Dna.Api.Contracts;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Sites;
+using BBC.Dna.Users;
+using BBC.Dna.Utils;
+using Microsoft.ServiceModel.Web;
+using System;
 using System.Collections.Specialized;
 using System.Configuration;
 using System.IO;
@@ -6,14 +13,6 @@ using System.Net;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
 using System.ServiceModel.Web;
-using BBC.Dna.Api;
-using BBC.Dna.Moderation.Utils;
-using BBC.Dna.Sites;
-using BBC.Dna.Users;
-using BBC.Dna.Utils;
-using Microsoft.ServiceModel.Web;
-using System.Linq;
-using BBC.Dna.Api.Contracts;
 
 namespace BBC.Dna.Services
 {
@@ -23,7 +22,8 @@ namespace BBC.Dna.Services
     {
         private readonly Comments _commentObj;
 
-        public CommentsService() : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
+        public CommentsService()
+            : base(Global.connectionString, Global.siteList, Global.dnaDiagnostics)
         {
             _commentObj = new Comments(dnaDiagnostic, readerCreator, cacheManager, Global.siteList);
             _commentObj.ItemsPerPage = itemsPerPage;
@@ -40,24 +40,6 @@ namespace BBC.Dna.Services
             _commentObj.IpAddress = _iPAddress;
             _commentObj.BasePath = ConfigurationManager.AppSettings["ServerBasePath"];
         }
-
-        /*
-        [WebGet(UriTemplate = "V1/commentsforums/")]
-        [WebHelp(Comment = "Get the comments forums in XML format")]
-        [OperationContract]
-        public Stream GetCommentForums()
-        {
-            CommentForumList commentForumList;
-            try
-            {
-                commentForumList = _commentObj.GetCommentForumListBySite(null);
-            }
-            catch (ApiException ex)
-            {
-                throw new DnaWebProtocolException(ex);
-            }
-            return GetOutputStream(commentForumList);
-        }*/
 
         [WebGet(UriTemplate = "V1/site/{siteName}/mostrecentlycommentedcommentforum/")]
         [WebHelp(Comment = "Get the most recently commented comment forums.<br/>Param : count. Defines the max number of forums to return, default = 5<br/>Param : prefix. Defines the prefix that the returned forums should begin with, default = Empty String")]
@@ -124,11 +106,11 @@ namespace BBC.Dna.Services
             CommentForumList commentForumList;
             try
             {
-                switch(filterBy)
+                switch (filterBy)
                 {
                     case FilterBy.PostsWithinTimePeriod:
                         int timePeriod;
-                        if(!Int32.TryParse(filterByData, out timePeriod))
+                        if (!Int32.TryParse(filterByData, out timePeriod))
                         {
                             timePeriod = 24;
                         }
@@ -139,8 +121,8 @@ namespace BBC.Dna.Services
                         commentForumList = _commentObj.GetCommentForumListBySite(site, prefix);
                         break;
                 }
-                
-                
+
+
             }
             catch (ApiException ex)
             {
@@ -201,9 +183,9 @@ namespace BBC.Dna.Services
             {
                 //get the startindex to include the post id
                 var postValue = QueryStringHelper.GetQueryParameterAsString("includepostid", string.Empty);
-                if(postValue != string.Empty)
+                if (postValue != string.Empty)
                 {
-                    int postId =0;
+                    int postId = 0;
                     if (!Int32.TryParse(postValue, out postId))
                     {
                         throw ApiException.GetError(ErrorType.CommentNotFound);
@@ -295,7 +277,7 @@ namespace BBC.Dna.Services
             {
                 commentList = String.IsNullOrEmpty(prefix) ? _commentObj.GetCommentsListBySite(site) : _commentObj.GetCommentsListBySite(site, prefix);
                 output = GetOutputStream(commentList, commentList.LastUpdate);
-            
+
             }
             catch (ApiException ex)
             {
@@ -316,7 +298,7 @@ namespace BBC.Dna.Services
                 CommentForum commentForumData = _commentObj.CreateCommentForum(commentForum, site);
 
                 _commentObj.CallingUser = GetCallingUserOrNotSignedInUser(site, commentForumData);
-                
+
                 if (commentForum.commentList != null && commentForum.commentList.comments != null &&
                     commentForum.commentList.comments.Count > 0)
                 {
@@ -469,7 +451,7 @@ namespace BBC.Dna.Services
         {
             CommentForum commentForumData;
             ErrorType error;
-            DnaWebProtocolException  webEx = null;
+            DnaWebProtocolException webEx = null;
             try
             {
                 commentForumData = new CommentForum
@@ -512,7 +494,7 @@ namespace BBC.Dna.Services
             string ptrt = WebFormat.GetPtrtWithResponse(error.ToString());
             if (String.IsNullOrEmpty(ptrt))
             {
-//none returned...
+                //none returned...
                 if (error == ErrorType.Ok)
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
@@ -565,7 +547,7 @@ namespace BBC.Dna.Services
                 _commentObj.CallingUser = GetCallingUser(site);
                 isEditor = _commentObj.CallingUser.IsUserA(UserTypes.Editor);
             }
-            catch{}
+            catch { }
             comment.text = CommentInfo.FormatComment(comment.text, comment.PostStyle, comment.hidden, isEditor);
             return GetOutputStream(comment);
         }
@@ -580,13 +562,13 @@ namespace BBC.Dna.Services
             CommentInfo commentInfo;
             try
             {
-                commentInfo = new CommentInfo {text = formsData["text"]};
+                commentInfo = new CommentInfo { text = formsData["text"] };
                 if (!String.IsNullOrEmpty(formsData["PostStyle"]))
                 {
                     try
                     {
                         commentInfo.PostStyle =
-                            (PostStyle.Style) Enum.Parse(typeof (PostStyle.Style), formsData["PostStyle"]);
+                            (PostStyle.Style)Enum.Parse(typeof(PostStyle.Style), formsData["PostStyle"]);
                     }
                     catch
                     {
@@ -607,7 +589,7 @@ namespace BBC.Dna.Services
             string ptrt = WebFormat.GetPtrtWithResponse(error.ToString());
             if (String.IsNullOrEmpty(ptrt))
             {
-//none returned...
+                //none returned...
                 if (error == ErrorType.Ok)
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Created;
@@ -719,7 +701,7 @@ namespace BBC.Dna.Services
             siteObject.SiteOptions = siteList.GetSiteOptionListForSite(siteObject.SiteID);
             //siteObject.SiteOptions = siteObject.SiteOptions.FindAll(x => x.Section.ToUpper() == "COMMENTFORUM" || x.Section.ToUpper() == "GENERAL");
 
-            
+
             return GetOutputStream(siteObject);
         }
 
@@ -780,7 +762,7 @@ namespace BBC.Dna.Services
             { //anonymous call...
                 userId = 0;
             }
-            if(userId == 0 && !siteList.GetSiteOptionValueBool(site.SiteID, "CommentForum", "AllowNotSignedInRating"))
+            if (userId == 0 && !siteList.GetSiteOptionValueBool(site.SiteID, "CommentForum", "AllowNotSignedInRating"))
             {
                 throw new DnaWebProtocolException(ApiException.GetError(ErrorType.NotAuthorized));
             }
@@ -813,10 +795,10 @@ namespace BBC.Dna.Services
         [OperationContract]
         public Stream GetConversationsForCommentForum(string siteName, string commentForumUid)
         {
-            var conversations = new Conversations(); 
+            var conversations = new Conversations();
             return GetOutputStream(conversations);
         }
-        
+
         //Numbers reference API spec - https://confluence.dev.bbc.co.uk/display/DNA/Initial+API+Mock+data
         //5. CreateConversation()
         [WebInvoke(Method = "POST", UriTemplate = "V1/site/{siteName}/commentsforums/{commentForumUid}/conversations")]
@@ -835,7 +817,7 @@ namespace BBC.Dna.Services
         public Stream PostCommentToConversation(string siteName, string commentForumUid, string conversationId, CommentInfo commentInfo)
         {
             var threadId = int.Parse(conversationId);
-            
+
             //Yuck!!!
             _commentObj.CallingUser = GetCallingUser(GetSite(siteName));
             var comment = _commentObj.PostCommentToConversation(siteName, commentForumUid, threadId, commentInfo);
