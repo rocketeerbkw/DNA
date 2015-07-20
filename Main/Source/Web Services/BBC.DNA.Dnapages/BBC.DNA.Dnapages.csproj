@@ -883,6 +883,10 @@
       <Project>{4770D032-9B06-450D-8B00-7200D8330397}</Project>
       <Name>Memcached.ClientLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\TestUtils\TestUtils.csproj">
+      <Project>{e09bf891-7d4f-403e-b830-b9e2606d2c22}</Project>
+      <Name>TestUtils</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="acsdemoindex.aspx" />
