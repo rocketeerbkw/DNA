@@ -5,7 +5,7 @@ using Microsoft.Practices.EnterpriseLibrary.PolicyInjection;
 
 namespace Dna.ExModerationProcessor
 {
-    class ExModerationEvent : MarshalByRefObject
+    public class ExModerationEvent : MarshalByRefObject
     {
         public int ModId
         {
