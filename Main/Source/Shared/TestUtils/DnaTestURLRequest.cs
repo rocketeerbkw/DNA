@@ -98,7 +98,6 @@ namespace Tests
         /// class fields
         /// </summary>
         private string _serviceName = "";
-        private WebProxy _proxy = new WebProxy("http://www-cache.reith.bbc.co.uk:80");
         private bool _useProxyPassing = false;
         private bool _useEditorAuthentication = false;
         private bool _useDebugIdentityUser = false;
@@ -472,8 +471,8 @@ namespace Tests
         /// </summary>
         public WebProxy CurrentWebProxy
         {
-            get { return _proxy; }
-            set { _proxy = value; }
+            get;
+            set;
         }
 
         /// <summary>
@@ -684,11 +683,11 @@ namespace Tests
             }
 
             // Check to see if we require a proxy for the request
-            if (_useProxyPassing)
+            if (_useProxyPassing && CurrentWebProxy != null)
             {
                 Console.WriteLine("Using proxy");
                 // Set the proxy
-                Browser.Proxy = _proxy;
+                Browser.Proxy = CurrentWebProxy;
             }
             else
             {
@@ -834,11 +833,11 @@ namespace Tests
             Console.WriteLine("Requesting " + URL.ToString());
 
             // Check to see if we require a proxy for the request
-            if (_useProxyPassing)
+            if (_useProxyPassing && CurrentWebProxy != null)
             {
                 Console.WriteLine("Using proxy");
                 // Set the proxy
-                webRequest.Proxy = _proxy;
+                webRequest.Proxy = CurrentWebProxy;
             }
             else
             {
@@ -1031,11 +1030,11 @@ namespace Tests
             Console.WriteLine("Requesting " + URL.ToString());
 
             // Check to see if we require a proxy for the request
-            if (_useProxyPassing)
+            if (_useProxyPassing && CurrentWebProxy != null)
             {
                 Console.WriteLine("Using proxy");
                 // Set the proxy
-                webRequest.Proxy = _proxy;
+                webRequest.Proxy = CurrentWebProxy;
             }
             else
             {
@@ -1203,10 +1202,10 @@ namespace Tests
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL + postdata);
 
             // Check to see if we require a proxy for the request
-            if (_useProxyPassing)
+            if (_useProxyPassing && CurrentWebProxy != null)
             {
                 // Set the proxy
-                webRequest.Proxy = _proxy;
+                webRequest.Proxy = CurrentWebProxy;
             }
             else
             {
@@ -1389,127 +1388,137 @@ namespace Tests
         /// Logs the current user in via the SSO web service
         /// </summary>
         /// <returns></returns>
-        public HttpWebResponse SignUserIntoSSOViaWebRequest(usertype userType)
-        {
-            // Check to see what type of user we are wanting to sign in as
-            Console.WriteLine("SignUserIntoSSOViaWebRequest");
-            if (userType == usertype.NORMALUSER)
-            {
-                // Set the user to be the normal user
-                SetCurrentUserNormal();
-            }
-            else if (userType == usertype.EDITOR)
-            {
-                // Set the user to be the editor
-                SetCurrentUserEditor();
-            }
-            else if (userType == usertype.SUPERUSER)
-            {
-                // Set the user to be the super user
-                SetCurrentUserSuperUser();
-            }
-            else if (userType == usertype.PROFILETEST)
-            {
-                // Set the user to be the profile test user
-                SetCurrentUserProfileTest();
-            }
-            else if (userType == usertype.MODERATOR)
-            {
-                // Set the user to be the moderator test user
-                SetCurrentUserModerator();
-            }
-            else if (userType == usertype.PREMODUSER)
-            {
-                // Set the user to be the premod test user
-                SetCurrentUserPreModUser();
-            }
-            else if (userType == usertype.NOTABLE)
-            {
-                // Set the user to be the notable test user
-                SetCurrentUserNotableUser();
-            }
-            else if (userType == usertype.IDENTITYTEST)
-            {
-                // Set the user to be the notable test user
-                SetCurrentUserAsIdentityTestUser();
-            }
+        //public HttpWebResponse SignUserIntoSSOViaWebRequest(usertype userType)
+        //{
+        //    // Check to see what type of user we are wanting to sign in as
+        //    Console.WriteLine("SignUserIntoSSOViaWebRequest");
+        //    if (userType == usertype.NORMALUSER)
+        //    {
+        //        // Set the user to be the normal user
+        //        SetCurrentUserNormal();
+        //    }
+        //    else if (userType == usertype.EDITOR)
+        //    {
+        //        // Set the user to be the editor
+        //        SetCurrentUserEditor();
+        //    }
+        //    else if (userType == usertype.SUPERUSER)
+        //    {
+        //        // Set the user to be the super user
+        //        SetCurrentUserSuperUser();
+        //    }
+        //    else if (userType == usertype.PROFILETEST)
+        //    {
+        //        // Set the user to be the profile test user
+        //        SetCurrentUserProfileTest();
+        //    }
+        //    else if (userType == usertype.MODERATOR)
+        //    {
+        //        // Set the user to be the moderator test user
+        //        SetCurrentUserModerator();
+        //    }
+        //    else if (userType == usertype.PREMODUSER)
+        //    {
+        //        // Set the user to be the premod test user
+        //        SetCurrentUserPreModUser();
+        //    }
+        //    else if (userType == usertype.NOTABLE)
+        //    {
+        //        // Set the user to be the notable test user
+        //        SetCurrentUserNotableUser();
+        //    }
+        //    else if (userType == usertype.IDENTITYTEST)
+        //    {
+        //        // Set the user to be the notable test user
+        //        SetCurrentUserAsIdentityTestUser();
+        //    }
 
-            // Set the url with the requested service anme and user details
-            Uri URL = new Uri("http://ops-dev14.national.core.bbc.co.uk/cgi-perl/signon/mainscript.pl?service=" + _serviceName + "&c_login=login&username=" + _userName + "&password=" + _password);
-            WebRequest webRequest = HttpWebRequest.Create(URL);
-            webRequest.Proxy = _proxy;
-            webRequest.Timeout = 400000;
-            try
-            {
-                // Try to send the request and get the response
-                Console.Write("Signing in user ->");
-                _response = (HttpWebResponse)webRequest.GetResponse();
-                Console.WriteLine(" done");
-            }
-            catch (Exception ex)
-            {
-                // Problems!
-                Console.WriteLine(" failed!");
-                Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
-                _response = null;
-            }
+        //    // Set the url with the requested service anme and user details
+        //    Uri URL = new Uri("http://ops-dev14.national.core.bbc.co.uk/cgi-perl/signon/mainscript.pl?service=" + _serviceName + "&c_login=login&username=" + _userName + "&password=" + _password);
+        //    WebRequest webRequest = HttpWebRequest.Create(URL);
 
-            GetLastResponseAsString();
+        //    if (CurrentWebProxy != null)
+        //    {
+        //        webRequest.Proxy = CurrentWebProxy;
+        //    }
 
-            return _response;
-        }
+        //    webRequest.Timeout = 400000;
+        //    try
+        //    {
+        //        // Try to send the request and get the response
+        //        Console.Write("Signing in user ->");
+        //        _response = (HttpWebResponse)webRequest.GetResponse();
+        //        Console.WriteLine(" done");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Problems!
+        //        Console.WriteLine(" failed!");
+        //        Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
+        //        _response = null;
+        //    }
+
+        //    GetLastResponseAsString();
+
+        //    return _response;
+        //}
 
         /// <summary>
         /// This function is used to sign out a given user.
         /// You need to set the current user and password before calling this function. The default is to use the profile api test user
         /// </summary>
         /// <returns>The HTTP response to the request</returns>
-        public HttpWebResponse SignOutUserFromSSO()
-        {
-            // Set the url with the requested service anme and user details
-            Uri URL = new Uri("http://ops-dev14.national.core.bbc.co.uk/cgi-perl/signon/mainscript.pl?service=" + _serviceName + "&c=signout");
-            HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
-            webRequest.Proxy = _proxy;
-            webRequest.Timeout = 400000;
-            if (_cookie.Length >= 66)
-            {
-                // Create and add the cookie to the request
-                Cookie cookie;
-                if (_useIdentity)
-                {
-                    cookie = new Cookie("IDENTITY", _cookie, "/", _server);
-                }
-                else
-                {
-                    cookie = new Cookie("SSO2-UID", _cookie, "/", _server);
-                }
-                webRequest.CookieContainer = new CookieContainer();
-                webRequest.CookieContainer.Add(cookie);
+        //public HttpWebResponse SignOutUserFromSSO()
+        //{
+        //    // Set the url with the requested service anme and user details
+        //    Uri URL = new Uri("http://ops-dev14.national.core.bbc.co.uk/cgi-perl/signon/mainscript.pl?service=" + _serviceName + "&c=signout");
+        //    HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
 
-                foreach (Cookie cookies in _cookieList)
-                {
-                    webRequest.CookieContainer.Add(cookies);
-                }
-            }
-            try
-            {
-                // Try to send the request and get the response
-                Console.Write("Signing out user ->");
-                _response = (HttpWebResponse)webRequest.GetResponse();
-                Console.WriteLine(" done");
-            }
-            catch (Exception ex)
-            {
-                // Problems!
-                Console.WriteLine(" failed!");
-                Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
-                _response = null;
-            }
+        //    if (CurrentWebProxy != null)
+        //    {
+        //        webRequest.Proxy = CurrentWebProxy;
+        //    }
 
-            GetLastResponseAsString();
+        //    webRequest.Timeout = 400000;
+        //    if (_cookie.Length >= 66)
+        //    {
+        //        // Create and add the cookie to the request
+        //        Cookie cookie;
+        //        if (_useIdentity)
+        //        {
+        //            cookie = new Cookie("IDENTITY", _cookie, "/", _server);
+        //        }
+        //        else
+        //        {
+        //            cookie = new Cookie("SSO2-UID", _cookie, "/", _server);
+        //        }
+        //        webRequest.CookieContainer = new CookieContainer();
+        //        webRequest.CookieContainer.Add(cookie);
 
-            return _response;
-        }
+        //        foreach (Cookie cookies in _cookieList)
+        //        {
+        //            webRequest.CookieContainer.Add(cookies);
+        //        }
+        //    }
+        //    try
+        //    {
+        //        // Try to send the request and get the response
+        //        Console.Write("Signing out user ->");
+        //        _response = (HttpWebResponse)webRequest.GetResponse();
+        //        Console.WriteLine(" done");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        // Problems!
+        //        Console.WriteLine(" failed!");
+        //        Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
+        //        _response = null;
+        //    }
+
+        //    GetLastResponseAsString();
+
+        //    return _response;
+        //}
 
         /// <summary>
         /// Gets the last response as xml.

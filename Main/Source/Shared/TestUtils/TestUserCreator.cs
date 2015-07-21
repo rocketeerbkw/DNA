@@ -1,14 +1,14 @@
-﻿using System;
+﻿using BBC.Dna.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
-using BBC.Dna.Data;
-using Tests;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Threading;
+using Tests;
 
 namespace TestUtils
 {
@@ -125,12 +125,8 @@ namespace TestUtils
             UnderAgeRangeCheck
         }
 
-        //private static string _IdentityServerBaseUri = "https://api.stage.cwwtf.bbc.co.uk/idservices"; // <-- Watford data centre only
-
-        //private static string _IdentityServerBaseUri = "https://api.stage.bbc.co.uk/idservices"; // Load balanced calls
-        //private static string _identityCookieDomain = "api.stage.bbc.co.uk";
-
         private static string _IdentityServerBaseUri = "https://api.test.bbc.co.uk/idservices"; // Load balanced calls
+
         private static string _identityCookieDomain = "api.test.bbc.co.uk";
 
 
@@ -144,9 +140,7 @@ namespace TestUtils
         }
 
 
-        //private static string _webServiceCertificationName = "dna live";
         private static string _webServiceCertificationName = "dna";
-        private static string _proxy = "http://10.152.4.180:80";
 
         private static string _wrUserName = "username";
         private static string _wrPassword = "password";
@@ -203,16 +197,16 @@ namespace TestUtils
         /// <param name="secureCookie">Output value for the users secure cookie</param>
         /// <param name="userIdentityID"></param>
         /// <returns>True if created, false if not</returns>
-        static public bool CreateIdentityUser(string userName, 
-                                                string password, 
-                                                string dateOfBirth, 
-                                                string email, 
-                                                string displayName, 
-                                                bool acceptedIdentityTCs, 
-                                                IdentityPolicies policy, 
-                                                bool acceptedPolicyTCs, 
-                                                int legacySSOID, 
-                                                out Cookie cookie, 
+        static public bool CreateIdentityUser(string userName,
+                                                string password,
+                                                string dateOfBirth,
+                                                string email,
+                                                string displayName,
+                                                bool acceptedIdentityTCs,
+                                                IdentityPolicies policy,
+                                                bool acceptedPolicyTCs,
+                                                int legacySSOID,
+                                                out Cookie cookie,
                                                 out Cookie secureCookie,
                                                 out string userIdentityID)
         {
@@ -268,7 +262,7 @@ namespace TestUtils
             List<Cookie> cookies = new List<Cookie>();
             cookies.Add(cookie);
             cookies.Add(secureCookie);
-           
+
             // Now update the personal attribute for the policy T&Cs
             if (acceptedPolicyTCs)
             {
@@ -613,7 +607,7 @@ namespace TestUtils
         {
             List<Cookie> cookies = new List<Cookie>();
             cookies.Add(new Cookie("IDENTITY", cookie, "/", _identityCookieDomain));
-            Dictionary<string,string> reqParams = new Dictionary<string,string>();
+            Dictionary<string, string> reqParams = new Dictionary<string, string>();
 
             string identityAttrib = "";
             if (attributeName == AttributeNames.UserName)
@@ -657,7 +651,7 @@ namespace TestUtils
                 return false;
             }
 
-            reqParams.Add(identityAttrib ,value);
+            reqParams.Add(identityAttrib, value);
             HttpWebResponse response = CallIdentityRestAPI(string.Format("users/{0}/attributes", loginName), reqParams, cookies, RequestVerb.PUT);
             bool ok = true;
             if (response.StatusCode != HttpStatusCode.Accepted)
@@ -737,10 +731,11 @@ namespace TestUtils
                     break;
             }
             Console.WriteLine("Method : " + webRequest.Method);
-            
+
             webRequest.Accept = "application/xml";
+
             webRequest.Timeout = 1000 * 400;
-            webRequest.Proxy = new WebProxy(_proxy);
+
             webRequest.CookieContainer = new CookieContainer();
             if (cookies != null)
             {
@@ -781,7 +776,7 @@ namespace TestUtils
                 UTF8Encoding encoding = new UTF8Encoding();
                 byte[] bytes = encoding.GetBytes(urlParams);
                 webRequest.ContentLength = bytes.Length;
-                
+
                 try
                 {
                     Stream requestBody = webRequest.GetRequestStream();

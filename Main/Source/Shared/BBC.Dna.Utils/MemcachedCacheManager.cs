@@ -1,13 +1,12 @@
+using Memcached.ClientLibrary;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Configuration;
+using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
+using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
+using Microsoft.Practices.EnterpriseLibrary.Logging;
 using System;
 using System.Collections;
 using System.Collections.Specialized;
-using BBC.Dna.Utils;
-using Memcached.ClientLibrary;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using Microsoft.Practices.EnterpriseLibrary.Logging;
-using Microsoft.Practices.EnterpriseLibrary.Caching.Expirations;
-using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
-using Microsoft.Practices.EnterpriseLibrary.Caching.Configuration;
 using System.Xml;
 
 namespace BBC.Dna.Utils
@@ -28,96 +27,97 @@ namespace BBC.Dna.Utils
         public MemcachedCacheManager(NameValueCollection configuration)
         {
             using (new Tracer(this.GetType().Namespace))
+            {
+                try
                 {
-                    try
+                    Logger.Write(new LogEntry() { Message = "Beginning Memcached Initialisation", Severity = System.Diagnostics.TraceEventType.Information });
+
+                    _mc = new MemcachedClient();
+                    SockIOPool pool = SockIOPool.GetInstance();
+                    for (int i = 0; i < configuration.Count; i++)
                     {
-                        Logger.Write(new LogEntry() { Message = "Beginning Memcached Initialisation", Severity = System.Diagnostics.TraceEventType.Information });
-
-                        _mc = new MemcachedClient();
-                        SockIOPool pool = SockIOPool.GetInstance();
-                        for (int i = 0; i < configuration.Count; i++)
+                        if (configuration.Keys[i].ToUpper() == "POOLNAME")
                         {
-                            if(configuration.Keys[i].ToUpper() == "POOLNAME")
-                            {
-                                _mc.PoolName = configuration[i];
-                                pool = SockIOPool.GetInstance(_mc.PoolName);
-                            }
+                            _mc.PoolName = configuration[i];
+                            pool = SockIOPool.GetInstance(_mc.PoolName);
                         }
-                        
-
-                        //default values
-                        //pool.SetServers(serverlist);
-                        pool.InitConnections = 3;
-                        pool.MinConnections = 3;
-                        pool.MaxConnections = 5;
-                        pool.SocketConnectTimeout = 1000;
-                        pool.SocketTimeout = 3000;
-                        pool.MaintenanceSleep = 30;
-                        pool.Failover = true;
-                        pool.Nagle = false;
-                        _mc.EnableCompression = true;
-
-                        //check for configuration
-                        for (int i = 0; i < configuration.Count; i++)
-                        {
-                            switch (configuration.Keys[i].ToUpper())
-                            {
-                                case "SERVERLIST":
-                                    pool.SetServers(configuration[i].Split(','));
-                                    break;
-
-                                case "INITCONNECTIONS":
-                                    pool.InitConnections = Int32.Parse(configuration[i].ToString());
-                                    break;
-
-                                case "MINCONNECTIONS":
-                                    pool.MinConnections = Int32.Parse(configuration[i].ToString());
-                                    break;
-
-                                case "MAXCONNECTIONS":
-                                    pool.MaxConnections = Int32.Parse(configuration[i].ToString());
-                                    break;
-
-                                case "SOCKETCONNECTTIMEOUT":
-                                    pool.SocketConnectTimeout = Int32.Parse(configuration[i].ToString());
-                                    break;
-
-                                case "SOCKETTIMEOUT":
-                                    pool.SocketTimeout = Int32.Parse(configuration[i].ToString());
-                                    break;
-
-                                case "MAINTENANCESLEEP":
-                                    pool.MaintenanceSleep = Int32.Parse(configuration[i].ToString());
-                                    break;
-
-                                case "FAILOVER":
-                                    pool.Failover = bool.Parse(configuration[i].ToString());
-                                    break;
-
-                                case "NAGLE":
-                                    pool.Nagle = bool.Parse(configuration[i].ToString());
-                                    break;
-
-                                case "ENABLECOMPRESSION":
-                                    _mc.EnableCompression = bool.Parse(configuration[i].ToString());
-                                    break;
-                            }
-                        }
-
-                        if (pool.Servers.Count == 0)
-                        {
-                            Logger.Write(new LogEntry() { Message = "No servers defined for caching", Severity = System.Diagnostics.TraceEventType.Error });
-                            throw new Exception("No servers defined for memcached caching");
-                        }
-                        pool.Initialize();
-                        Logger.Write(new LogEntry() { Message = "Ending Memcached Initialisation", Severity = System.Diagnostics.TraceEventType.Information });
                     }
-                    catch (Exception e)
+
+
+                    //default values
+                    //pool.SetServers(serverlist);
+                    pool.InitConnections = 3;
+                    pool.MinConnections = 3;
+                    pool.MaxConnections = 5;
+                    pool.SocketConnectTimeout = 1000;
+                    pool.SocketTimeout = 3000;
+                    pool.MaintenanceSleep = 30;
+                    pool.Failover = true;
+                    pool.Nagle = false;
+                    _mc.EnableCompression = true;
+
+                    //check for configuration
+                    for (int i = 0; i < configuration.Count; i++)
                     {
-                        _mc = null;
-                        throw e;
+                        switch (configuration.Keys[i].ToUpper())
+                        {
+                            case "SERVERLIST":
+                                pool.SetServers(configuration[i].Split(','));
+                                break;
+
+                            case "INITCONNECTIONS":
+                                pool.InitConnections = Int32.Parse(configuration[i].ToString());
+                                break;
+
+                            case "MINCONNECTIONS":
+                                pool.MinConnections = Int32.Parse(configuration[i].ToString());
+                                break;
+
+                            case "MAXCONNECTIONS":
+                                pool.MaxConnections = Int32.Parse(configuration[i].ToString());
+                                break;
+
+                            case "SOCKETCONNECTTIMEOUT":
+                                pool.SocketConnectTimeout = Int32.Parse(configuration[i].ToString());
+                                break;
+
+                            case "SOCKETTIMEOUT":
+                                pool.SocketTimeout = Int32.Parse(configuration[i].ToString());
+                                break;
+
+                            case "MAINTENANCESLEEP":
+                                pool.MaintenanceSleep = Int32.Parse(configuration[i].ToString());
+                                break;
+
+                            case "FAILOVER":
+                                pool.Failover = bool.Parse(configuration[i].ToString());
+                                break;
+
+                            case "NAGLE":
+                                pool.Nagle = bool.Parse(configuration[i].ToString());
+                                break;
+
+                            case "ENABLECOMPRESSION":
+                                _mc.EnableCompression = bool.Parse(configuration[i].ToString());
+                                break;
+                            default: break;
+                        }
                     }
+
+                    if (pool.Servers.Count == 0)
+                    {
+                        Logger.Write(new LogEntry() { Message = "No servers defined for caching", Severity = System.Diagnostics.TraceEventType.Error });
+                        throw new Exception("No servers defined for memcached caching");
+                    }
+                    pool.Initialize();
+                    Logger.Write(new LogEntry() { Message = "Ending Memcached Initialisation", Severity = System.Diagnostics.TraceEventType.Information });
                 }
+                catch (Exception e)
+                {
+                    _mc = null;
+                    throw e;
+                }
+            }
 
         }
 
@@ -155,7 +155,7 @@ namespace BBC.Dna.Utils
             try
             {
                 Hashtable stats = GetStats();
-                if(stats.Keys.Count == 0)
+                if (stats.Keys.Count == 0)
                 {
                     throw new Exception("Empty stats object - no valid servers");
                 }
@@ -205,7 +205,7 @@ namespace BBC.Dna.Utils
         /// <param name="expirations"></param>
         public void Add(string key, object value, CacheItemPriority scavengingPriority, ICacheItemRefreshAction refreshAction, params ICacheItemExpiration[] expirations)
         {
-            if(String.IsNullOrEmpty(key))
+            if (String.IsNullOrEmpty(key))
             {
                 return;
             }
@@ -256,7 +256,7 @@ namespace BBC.Dna.Utils
                     //failed to set
                     if (!setSuccess)
                     {
-                        Logger.Write(new LogEntry(){Message="Failed to set in memcached", Severity= System.Diagnostics.TraceEventType.Error});
+                        Logger.Write(new LogEntry() { Message = "Failed to set in memcached", Severity = System.Diagnostics.TraceEventType.Error });
                         DnaDiagnostics.Default.WriteWarningToLog("CACHING", _mc.LastError);
                     }
 
