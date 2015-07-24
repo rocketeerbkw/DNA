@@ -1,13 +1,10 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tests;
-using System.Xml;
-using System.Net;
-using BBC.Dna.Api;
+﻿using BBC.Dna.Api;
 using BBC.Dna.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
+using Tests;
 
 namespace FunctionalTests.Dna.Services.Categories
 {
@@ -18,7 +15,10 @@ namespace FunctionalTests.Dna.Services.Categories
     public class Index
     {
         private const string _schemaIndex = @"Dna.Services.Categories\index.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
+        private const string _schemaError = "Dna.Services\\error.xsd";
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
+
         private string _sitename = "h2g2";
 
         public Index()

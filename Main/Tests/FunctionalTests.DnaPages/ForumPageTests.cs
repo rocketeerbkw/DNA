@@ -1546,7 +1546,7 @@ links: http://www.bbc.co.uk and other stuff";
                 reader.Execute();
             }
 
-            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-site", DnaTestURLRequest.CurrentServer);
+            var url = String.Format("{0}dna/h2g2/dnaSignal?action=recache-site", DnaTestURLRequest.CurrentServer.AbsoluteUri);
             var request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(url, null, "text/xml");

@@ -107,8 +107,8 @@ namespace Tests
         private string _cookie = "a873c2ff689054b54adf15746210e9ab5a941c10855a";
         private int _userid = 1090498911;
         private string _identityuserid = "";
-        private string _server = "";
-        private string _secureServer = "";
+        private Uri _server = null;
+        private Uri _secureServer = null;
         private HttpWebResponse _response = null;
         private string _responseAsString = null;
         private XmlDocument _responseAsXML = null;
@@ -579,23 +579,19 @@ namespace Tests
         /// <summary>
         /// Current server property
         /// </summary>
-        public static string CurrentServer
+        public static Uri CurrentServer
         {
             get
             {
                 if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer"]) && IsTestServerRemote())
-                {//overridden in app.config
-                    return ConfigurationManager.AppSettings["testServer"];
-                }
-                if (Environment.MachineName.ToLower() == "ops-dna1")
                 {
-                    // We've on ops-dev1! make the server name dnadev!
-                    return "dnadev.national.core.bbc.co.uk:8081";
+                    var testServerUri = ConfigurationManager.AppSettings["testServer"];
+
+                    return new Uri("http://" + testServerUri);
                 }
                 else
                 {
-                    // Just make the server the machine name plus the rest
-                    return "local.bbc.co.uk:8081";
+                    return new Uri("http://local.bbc.co.uk:8081");
                 }
             }
         }
@@ -609,23 +605,19 @@ namespace Tests
         /// <summary>
         /// Current SecureServerAddress
         /// </summary>
-        public static string SecureServerAddress
+        public static Uri SecureServerAddress
         {
             get
             {
-                if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer"]) && IsTestServerRemote())
-                {//overridden in app.config
-                    return ConfigurationManager.AppSettings["testServer"];
-                }
-                if (Environment.MachineName.ToLower() == "ops-dna1")
+                if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["testServer:secure"]) && IsTestServerRemote())
                 {
-                    // We've on ops-dev1! make the server name dnadev!
-                    return "dnadev.national.core.bbc.co.uk";
+                    var testServerUri = ConfigurationManager.AppSettings["testServer:secure"];
+
+                    return new Uri("https://" + testServerUri);
                 }
                 else
                 {
-                    // Just make the server the machine name plus the rest
-                    return "local.bbc.co.uk:443";
+                    return new Uri("https://local.bbc.co.uk");
                 }
             }
         }
@@ -641,7 +633,7 @@ namespace Tests
             string server;
 
             //local.bbc.co.uk could not be resolved by Browser.GetPage() - not sure why.
-            server = _server;
+            server = _server.Host;
             server = server.Replace("local.bbc.co.uk", "localhost");
 
             relativePath = AddDebugUserParams(relativePath);
@@ -819,12 +811,14 @@ namespace Tests
             Uri URL;
             if (secure)
             {
-                URL = new Uri("https://" + _secureServer + "/dna/" + _serviceName + "/" + pageAndParams);
+                //URL = new Uri("https://" + _secureServer + "/dna/" + _serviceName + "/" + pageAndParams);
+                URL = new Uri(_secureServer, "dna/" + _serviceName + "/" + pageAndParams);
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
             }
             else
             {
-                URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
+                //URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
+                URL = new Uri(_server, "dna/" + _serviceName + "/" + pageAndParams);
             }
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
             webRequest.Timeout = 400000;
@@ -864,17 +858,17 @@ namespace Tests
                 Cookie cookie;
                 if (_useIdentity)
                 {
-                    cookie = new Cookie("IDENTITY", _cookie, "/", _server);
+                    cookie = new Cookie("IDENTITY", _cookie, "/", _server.Host);
                     webRequest.CookieContainer.Add(cookie);
                     if (secure)
                     {
-                        cookie = new Cookie("IDENTITY-HTTPS", _secureCookie, "/", _server);
+                        cookie = new Cookie("IDENTITY-HTTPS", _secureCookie, "/", _server.Host);
                         webRequest.CookieContainer.Add(cookie);
                     }
                 }
                 else
                 {
-                    cookie = new Cookie("SSO2-UID", _cookie, "/", _server);
+                    cookie = new Cookie("SSO2-UID", _cookie, "/", _server.Host);
                     webRequest.CookieContainer.Add(cookie);
                 }
             }
@@ -884,7 +878,7 @@ namespace Tests
                 if (cookie != null)
                 {
                     Console.WriteLine("Adding cookie - " + cookie.Name + " : " + cookie.Value);
-                    webRequest.CookieContainer.Add(new Uri("http://" + _server + "/"), cookie);
+                    webRequest.CookieContainer.Add(new Uri("http://" + _server.Host + "/"), cookie);
                 }
             }
 
@@ -1062,17 +1056,17 @@ namespace Tests
                 Cookie cookie;
                 if (_useIdentity)
                 {
-                    cookie = new Cookie("IDENTITY", _cookie, "/", _server);
+                    cookie = new Cookie("IDENTITY", _cookie, "/", _server.Host);
                     webRequest.CookieContainer.Add(cookie);
                     if (fullUrl.IndexOf("https://") == 0)
                     {//only add secure cookie if secure
-                        cookie = new Cookie("IDENTITY-HTTPS", _secureCookie, "/", _server);
+                        cookie = new Cookie("IDENTITY-HTTPS", _secureCookie, "/", _server.Host);
                         webRequest.CookieContainer.Add(cookie);
                     }
                 }
                 else
                 {
-                    cookie = new Cookie("SSO2-UID", _cookie, "/", _server);
+                    cookie = new Cookie("SSO2-UID", _cookie, "/", _server.Host);
                     webRequest.CookieContainer.Add(cookie);
                 }
             }
@@ -1085,7 +1079,7 @@ namespace Tests
                     {
                         webRequest.CookieContainer = new CookieContainer();
                     }
-                    webRequest.CookieContainer.Add(new Uri("http://" + _server + "/"), cookie);
+                    webRequest.CookieContainer.Add(new Uri("http://" + _server.Host + "/"), cookie);
                 }
             }
 
@@ -1198,7 +1192,8 @@ namespace Tests
             }
 
             // Create the URL and the Request object
-            Uri URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + page);
+            //Uri URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + page);
+            Uri URL = new Uri(_server, "dna/" + _serviceName + "/" + page);
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL + postdata);
 
             // Check to see if we require a proxy for the request
@@ -1229,11 +1224,11 @@ namespace Tests
                 Cookie cookie;
                 if (_useIdentity)
                 {
-                    cookie = new Cookie("IDENTITY", _cookie, "/", _server);
+                    cookie = new Cookie("IDENTITY", _cookie, "/", _server.Host);
                 }
                 else
                 {
-                    cookie = new Cookie("SSO2-UID", _cookie, "/", _server);
+                    cookie = new Cookie("SSO2-UID", _cookie, "/", _server.Host);
                 }
                 webRequest.CookieContainer = new CookieContainer();
                 webRequest.CookieContainer.Add(cookie);
@@ -1383,142 +1378,6 @@ namespace Tests
                 inputContext.GetCurrentSignInObject.TrySetUserViaCookie(_cookie);
             }
         }
-
-        /// <summary>
-        /// Logs the current user in via the SSO web service
-        /// </summary>
-        /// <returns></returns>
-        //public HttpWebResponse SignUserIntoSSOViaWebRequest(usertype userType)
-        //{
-        //    // Check to see what type of user we are wanting to sign in as
-        //    Console.WriteLine("SignUserIntoSSOViaWebRequest");
-        //    if (userType == usertype.NORMALUSER)
-        //    {
-        //        // Set the user to be the normal user
-        //        SetCurrentUserNormal();
-        //    }
-        //    else if (userType == usertype.EDITOR)
-        //    {
-        //        // Set the user to be the editor
-        //        SetCurrentUserEditor();
-        //    }
-        //    else if (userType == usertype.SUPERUSER)
-        //    {
-        //        // Set the user to be the super user
-        //        SetCurrentUserSuperUser();
-        //    }
-        //    else if (userType == usertype.PROFILETEST)
-        //    {
-        //        // Set the user to be the profile test user
-        //        SetCurrentUserProfileTest();
-        //    }
-        //    else if (userType == usertype.MODERATOR)
-        //    {
-        //        // Set the user to be the moderator test user
-        //        SetCurrentUserModerator();
-        //    }
-        //    else if (userType == usertype.PREMODUSER)
-        //    {
-        //        // Set the user to be the premod test user
-        //        SetCurrentUserPreModUser();
-        //    }
-        //    else if (userType == usertype.NOTABLE)
-        //    {
-        //        // Set the user to be the notable test user
-        //        SetCurrentUserNotableUser();
-        //    }
-        //    else if (userType == usertype.IDENTITYTEST)
-        //    {
-        //        // Set the user to be the notable test user
-        //        SetCurrentUserAsIdentityTestUser();
-        //    }
-
-        //    // Set the url with the requested service anme and user details
-        //    Uri URL = new Uri("http://ops-dev14.national.core.bbc.co.uk/cgi-perl/signon/mainscript.pl?service=" + _serviceName + "&c_login=login&username=" + _userName + "&password=" + _password);
-        //    WebRequest webRequest = HttpWebRequest.Create(URL);
-
-        //    if (CurrentWebProxy != null)
-        //    {
-        //        webRequest.Proxy = CurrentWebProxy;
-        //    }
-
-        //    webRequest.Timeout = 400000;
-        //    try
-        //    {
-        //        // Try to send the request and get the response
-        //        Console.Write("Signing in user ->");
-        //        _response = (HttpWebResponse)webRequest.GetResponse();
-        //        Console.WriteLine(" done");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Problems!
-        //        Console.WriteLine(" failed!");
-        //        Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
-        //        _response = null;
-        //    }
-
-        //    GetLastResponseAsString();
-
-        //    return _response;
-        //}
-
-        /// <summary>
-        /// This function is used to sign out a given user.
-        /// You need to set the current user and password before calling this function. The default is to use the profile api test user
-        /// </summary>
-        /// <returns>The HTTP response to the request</returns>
-        //public HttpWebResponse SignOutUserFromSSO()
-        //{
-        //    // Set the url with the requested service anme and user details
-        //    Uri URL = new Uri("http://ops-dev14.national.core.bbc.co.uk/cgi-perl/signon/mainscript.pl?service=" + _serviceName + "&c=signout");
-        //    HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
-
-        //    if (CurrentWebProxy != null)
-        //    {
-        //        webRequest.Proxy = CurrentWebProxy;
-        //    }
-
-        //    webRequest.Timeout = 400000;
-        //    if (_cookie.Length >= 66)
-        //    {
-        //        // Create and add the cookie to the request
-        //        Cookie cookie;
-        //        if (_useIdentity)
-        //        {
-        //            cookie = new Cookie("IDENTITY", _cookie, "/", _server);
-        //        }
-        //        else
-        //        {
-        //            cookie = new Cookie("SSO2-UID", _cookie, "/", _server);
-        //        }
-        //        webRequest.CookieContainer = new CookieContainer();
-        //        webRequest.CookieContainer.Add(cookie);
-
-        //        foreach (Cookie cookies in _cookieList)
-        //        {
-        //            webRequest.CookieContainer.Add(cookies);
-        //        }
-        //    }
-        //    try
-        //    {
-        //        // Try to send the request and get the response
-        //        Console.Write("Signing out user ->");
-        //        _response = (HttpWebResponse)webRequest.GetResponse();
-        //        Console.WriteLine(" done");
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        // Problems!
-        //        Console.WriteLine(" failed!");
-        //        Assert.Fail("Web request ( " + webRequest.RequestUri + " ) failed with error : " + ex.Message);
-        //        _response = null;
-        //    }
-
-        //    GetLastResponseAsString();
-
-        //    return _response;
-        //}
 
         /// <summary>
         /// Gets the last response as xml.

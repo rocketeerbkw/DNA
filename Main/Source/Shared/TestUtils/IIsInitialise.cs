@@ -33,9 +33,11 @@ namespace Tests
         {
             var server = DnaTestURLRequest.CurrentServer;
 
+            var remoteServer = server.Host + ":" + server.Port;
+
             var isRemote = IsTestServerRemote();
 
-            return isRemote ? ServerManager.OpenRemote(server) : new ServerManager();
+            return isRemote ? ServerManager.OpenRemote(remoteServer) : new ServerManager();
         }
 
 

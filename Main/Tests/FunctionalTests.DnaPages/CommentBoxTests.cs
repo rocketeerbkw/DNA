@@ -1,18 +1,12 @@
+using BBC.Dna;
+using BBC.Dna.Data;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Web;
 using System.Xml;
-using System.Xml.XPath;
-using BBC.Dna;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
-using BBC.Dna.Utils;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
-using System.Threading;
 
 
 
@@ -26,8 +20,9 @@ namespace FunctionalTests
     {
         private bool _doOpenSite = false;
         private const string _schemaUri = "H2G2CommentBoxFlat.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
-        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress.Host;
 
         [TestCleanup]
         public void ShutDown()
@@ -306,7 +301,7 @@ namespace FunctionalTests
         }
 
 
-        
+
 
         /// <summary>
         /// Test that we can create a forum and post to it for a normal non moderated emergency closed site
@@ -321,7 +316,7 @@ namespace FunctionalTests
             Assert.IsTrue(SetSiteEmergencyClosed(true), "Failed to close the site in a timely fashion!!!");
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
-            
+
             //request.SetCurrentUserEditor();
             //request.UseEditorAuthentication = true;
             //request.RequestPage("messageboardschedule?action=closesite&confirm=1&skin=purexml");
@@ -428,10 +423,10 @@ namespace FunctionalTests
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
 
-            Assert.IsTrue(xml.SelectSingleNode("/H2G2/ERROR[@TYPE='commentfailed-invalidsite']") != null,"Error not created." );
+            Assert.IsTrue(xml.SelectSingleNode("/H2G2/ERROR[@TYPE='commentfailed-invalidsite']") != null, "Error not created.");
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS").Attributes["FORUMPOSTCOUNT"].Value == "0", "Comment appears to have been created from a different site.");
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST") == null, "Post was created where it was not expected.");
-          
+
         }
 
 
@@ -697,7 +692,7 @@ return.&dnahostpageurl=" + hosturl + "&dnapoststyle=1&skin=purexml";
             // now get the response
             xml = request.GetLastResponseAsXML();
             Assert.IsTrue(xml.SelectSingleNode("/H2G2/COMMENTBOX/FORUMTHREADPOSTS/POST/COMMENTFORUMTITLE").InnerText == "TestingCommentBoxChangesTitle", "Forum Title has not been changed.");
-            
+
             request.RequestPage("CommentForumList?dnaskip=0&dnashow=100&skin=purexml");
             // Check to make sure that the page returned with the correct information
             xml = request.GetLastResponseAsXML();
@@ -756,7 +751,7 @@ return.";
             string encodedComment = HttpUtility.UrlEncode(comment);
             string url = "acswithoutapi?dnauid=" + uid + "&dnaaction=add&dnacomment=" + encodedComment + "&dnahostpageurl=" + hosturl + "&dnapoststyle=1&dnaur=1&skin=purexml";
             request.RequestSecurePage(url);
-            
+
             XmlDocument xml = request.GetLastResponseAsXML();
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();
@@ -821,7 +816,7 @@ return.";
 
             // Now check to make sure we can post to the comment box
             request.RequestSecurePage("acswithoutapi?dnauid=" + uid + "&dnaaction=add&dnacomment=&dnahostpageurl=" + hosturl + "&skin=purexml");
-            
+
             //The unicode string just goes in as it is to come out not sure this will fully test how the string will come from the skins
             request.RequestSecurePage("acswithoutapi?dnauid=" + uid + "&dnaaction=add&dnacomment=" + comment + "&dnahostpageurl=" + hosturl + "&skin=purexml");
             xml = request.GetLastResponseAsXML();
@@ -983,8 +978,8 @@ return.";
 
             // Now check to make sure we can post to the comment box
             //The unicode string just goes in as it is to come out not sure this will fully test how the string will come from the skins
-            request.RequestSecurePage("acswithoutapi?dnauid=" + uid + "&dnaaction=add&dnacomment=" + comment + "&dnahostpageurl=" + hosturl + "&skin=purexml");            
-            
+            request.RequestSecurePage("acswithoutapi?dnauid=" + uid + "&dnaaction=add&dnacomment=" + comment + "&dnahostpageurl=" + hosturl + "&skin=purexml");
+
             xml = request.GetLastResponseAsXML();
             validator = new DnaXmlValidator(xml.InnerXml, _schemaUri);
             validator.Validate();

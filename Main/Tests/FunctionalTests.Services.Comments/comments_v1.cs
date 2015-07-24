@@ -1,27 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Xml;
-using System.Xml.XPath;
 using BBC.Dna.Api;
-using BBC.Dna.Component;
 using BBC.Dna.Data;
+using BBC.Dna.Moderation;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
-
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Web;
+using System.Xml;
 using Tests;
 using TestUtils;
-using BBC.Dna.Moderation;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
 
 
 
@@ -38,8 +28,10 @@ namespace FunctionalTests.Services.Comments
         private const string _schemaCommentForum = "Dna.Services\\commentForum.xsd";
         private const string _schemaComment = "Dna.Services\\comment.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
-        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+
+        public static string _server = _hostAndPort;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress.Host;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -62,7 +54,7 @@ namespace FunctionalTests.Services.Comments
         /// </summary>
         public CommentsTests_V1()
         {
-          
+
         }
 
         /// <summary>
@@ -112,7 +104,7 @@ namespace FunctionalTests.Services.Comments
         /// A helper class for other tests that need a comment to operate.
         /// </summary>
         /// <returns></returns>
-        public CommentInfo CreateCommentHelperWithPut(CommentForum forum, string text,  bool UseNotSignedIn, string userName)
+        public CommentInfo CreateCommentHelperWithPut(CommentForum forum, string text, bool UseNotSignedIn, string userName)
         {
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
@@ -121,13 +113,13 @@ namespace FunctionalTests.Services.Comments
                 request.SetCurrentUserNormal();
             }
 
-            forum.NotSignedInUserId = UseNotSignedIn?1:0;
+            forum.NotSignedInUserId = UseNotSignedIn ? 1 : 0;
             forum.commentList = new BBC.Dna.Api.CommentsList();
             forum.commentList.comments = new List<CommentInfo>();
-            forum.commentList.comments.Add(new CommentInfo{text = text});
-            if(!String.IsNullOrEmpty(userName))
+            forum.commentList.comments.Add(new CommentInfo { text = text });
+            if (!String.IsNullOrEmpty(userName))
             {
-                forum.commentList.comments[0].User = new User{DisplayName = userName};
+                forum.commentList.comments[0].User = new User { DisplayName = userName };
             }
 
 
@@ -174,7 +166,7 @@ namespace FunctionalTests.Services.Comments
 
             BBC.Dna.Api.CommentForum returnedForum = (BBC.Dna.Api.CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentForum));
             Assert.IsTrue(returnedForum.Id == id);
-            
+
             Assert.IsTrue(returnedForum.ParentUri == parentUri);
             Assert.IsTrue(returnedForum.Title == title);
             Assert.IsTrue(returnedForum.ModerationServiceGroup == moderationStatus);
@@ -200,7 +192,7 @@ namespace FunctionalTests.Services.Comments
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/",_sitename,commentForum.Id);
+            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -450,7 +442,7 @@ namespace FunctionalTests.Services.Comments
             string uid = Guid.NewGuid().ToString();
 
             string template = @"{{""id"":""{0}"",""title"":""{1}"",""parentUri"":""{2}"", ""commentsList"":{{""comments"":[{{""text"":""{3}""}}]}}}}";
-                
+
             string commentXML = string.Format(template,
                 uid, "title", HttpUtility.UrlEncode("http://www.bbc.co.uk/dna/h2g2/"),
                 text);
@@ -515,7 +507,7 @@ namespace FunctionalTests.Services.Comments
             }
 
             Assert.AreEqual(HttpStatusCode.BadRequest, request.CurrentWebResponse.StatusCode);
-            
+
             // check that we have created a new forum
             finalForumcount = testUtils_CommentsAPI.countForums(_sitename);
 
@@ -561,7 +553,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(returnedComment.text == text);
             Assert.IsNotNull(returnedComment.User);
             Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
-            Assert.AreEqual(string.Format("http://www.bbc.co.uk/dna/{0}/comments/UserComplaintPage?PostID={1}&s_start=1",_sitename, returnedComment.ID), returnedComment.ComplaintUri);
+            Assert.AreEqual(string.Format("http://www.bbc.co.uk/dna/{0}/comments/UserComplaintPage?PostID={1}&s_start=1", _sitename, returnedComment.ID), returnedComment.ComplaintUri);
             Console.WriteLine("After CreateComment");
         }
 
@@ -638,7 +630,7 @@ namespace FunctionalTests.Services.Comments
                         order by te.entryid desc");
                     Assert.IsTrue(dataReader.Read());
                     Assert.AreEqual(ipAddr, dataReader.GetString("IPAddress"));
-                    Assert.AreEqual(Guid.Empty, dataReader.GetGuid("BBCUID"),"We expect the empty GUID if an IP address is present but the BBCUID cookie is missing");
+                    Assert.AreEqual(Guid.Empty, dataReader.GetGuid("BBCUID"), "We expect the empty GUID if an IP address is present but the BBCUID cookie is missing");
                 }
             }
         }
@@ -666,7 +658,7 @@ namespace FunctionalTests.Services.Comments
             // now get the response
             request.RequestPageWithFullURL(url, jsonComment, "application/json");
 
-            
+
 
             CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentInfo));
             Assert.IsTrue(returnedComment.text == text);
@@ -726,7 +718,7 @@ namespace FunctionalTests.Services.Comments
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(xml.NameTable);
             nsmgr.AddNamespace("api", "BBC.Dna.Api");
             XmlNode pick = xml.SelectSingleNode("api:comment/api:text", nsmgr);
-            Assert.IsTrue(pick.InnerText == text.Replace("\r\n", "<BR />")); 
+            Assert.IsTrue(pick.InnerText == text.Replace("\r\n", "<BR />"));
 
 
             returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
@@ -825,7 +817,7 @@ namespace FunctionalTests.Services.Comments
             }
             catch { }
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.Unauthorized);
-            
+
 
             Console.WriteLine("After CreateComment");
         }
@@ -1151,7 +1143,7 @@ namespace FunctionalTests.Services.Comments
             XmlDocument xml = request.GetLastResponseAsXML();
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForum);
             validator.Validate();
-            
+
             CommentInfo returnedComment = (CommentInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
             Assert.IsTrue(returnedComment.text == text);
             Assert.IsTrue(returnedComment.PostStyle == postStyle);
@@ -1361,7 +1353,7 @@ namespace FunctionalTests.Services.Comments
             //create the forum
             CommentForum commentForum = CommentForumCreate("tests", Guid.NewGuid().ToString());
 
-            
+
             string text = "<b>Functiontest Title" + Guid.NewGuid().ToString() + "</b>";
             string expectedText = text.Replace("<b>", "").Replace("</b>", "");
             PostStyle.Style postStyle = PostStyle.Style.plaintext;
@@ -1696,7 +1688,7 @@ namespace FunctionalTests.Services.Comments
             XmlNode ago = xml.SelectSingleNode("api:comment/api:created/api:ago", nsmgr);
             XmlNode commentId = xml.SelectSingleNode("api:comment/api:id", nsmgr);
 
-            Assert.IsTrue(ago.InnerText == expectedResponse); 
+            Assert.IsTrue(ago.InnerText == expectedResponse);
 
             //set the comment time back 5 minutes
             using (FullInputContext _context = new FullInputContext(""))
@@ -1705,7 +1697,7 @@ namespace FunctionalTests.Services.Comments
                 {
                     string sql = "update threadentries set DatePosted = dateadd(minute, -5, getdate()) where entryid = " + commentId.InnerText;
                     dataReader.ExecuteDEBUGONLY(sql);
-    
+
                     sql = "INSERT INTO ForumLastUpdated (ForumID, LastUpdated) VALUES(" + commentForum.ForumID + ", getdate())";
                     dataReader.ExecuteDEBUGONLY(sql);
                 }
@@ -1716,9 +1708,9 @@ namespace FunctionalTests.Services.Comments
             expectedResponse = "5 Minutes Ago";
             ago = xml.SelectSingleNode("api:commentForum/api:commentsList/api:comments/api:comment/api:created/api:ago", nsmgr);
 
-            Assert.AreEqual(expectedResponse, ago.InnerText); 
+            Assert.AreEqual(expectedResponse, ago.InnerText);
 
-            
+
         }
 
         /// <summary>
@@ -1749,7 +1741,7 @@ namespace FunctionalTests.Services.Comments
             {
                 request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             }
-            catch{}
+            catch { }
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.Unauthorized);
             CheckErrorSchema(request.GetLastResponseAsXML());
 
@@ -1790,7 +1782,7 @@ namespace FunctionalTests.Services.Comments
                 }
                 catch { }
                 Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.OK);
-                
+
             }
             finally
             {
@@ -2028,7 +2020,7 @@ namespace FunctionalTests.Services.Comments
 
         private void SendTermsSignal()
         {
-            var url = String.Format("http://{0}/dna/api/comments/status.aspx?action=recache-terms", DnaTestURLRequest.CurrentServer);
+            var url = String.Format("{0}dna/api/comments/status.aspx?action=recache-terms", DnaTestURLRequest.CurrentServer.AbsoluteUri);
             var request = new DnaTestURLRequest("mbiplayer");
             //request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(url, null, "text/xml");
@@ -2044,7 +2036,7 @@ namespace FunctionalTests.Services.Comments
                 {
                     using (IDnaDataReader dataReader = _context.CreateDnaDataReader("dbu_createsiteoption"))
                     {
-                        dataReader.AddParameter("siteid",siteId);
+                        dataReader.AddParameter("siteid", siteId);
                         dataReader.AddParameter("section", "User");
                         dataReader.AddParameter("Name", "UseSiteSuffix");
                         dataReader.AddParameter("Value", siteSuffixValue);

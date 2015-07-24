@@ -1,25 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Xml;
-using System.Xml.XPath;
 using BBC.Dna.Api;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
-using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Objects;
 using BBC.Dna.Utils;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tests;
+using System;
 using System.Collections.Specialized;
+using System.Net;
+using System.Web;
+using System.Xml;
+using Tests;
 
 
 
@@ -33,7 +21,8 @@ namespace FunctionalTests.Services.Forums
     {
         private const string _schemaForumThreads = "Dna.Services.Forums\\forumThreads.xsd";
         private const string _schemaReviewForumPage = "Dna.Services.Forums\\reviewForumPage.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -56,10 +45,10 @@ namespace FunctionalTests.Services.Forums
         /// </summary>
         public ForumThreads_V1()
         {
-          
+
         }
 
-        
+
         /// <summary>
         /// Test CreateCommentForum method from service
         /// </summary>
@@ -75,7 +64,7 @@ namespace FunctionalTests.Services.Forums
             request.RequestPageWithFullURL(url, null, "text/xml");
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
-            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"","") , _schemaForumThreads);
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaForumThreads);
             validator.Validate();
 
             Console.WriteLine("After GetForumXml_ReadOnly_ReturnsValidXml");
@@ -227,7 +216,7 @@ namespace FunctionalTests.Services.Forums
             }
             Assert.AreEqual(HttpStatusCode.Unauthorized, request.CurrentWebResponse.StatusCode);
             ErrorData errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
-            Assert.AreEqual(ErrorType.NotAuthorized.ToString(), errorData.Code);            
+            Assert.AreEqual(ErrorType.NotAuthorized.ToString(), errorData.Code);
 
 
 
@@ -242,7 +231,7 @@ namespace FunctionalTests.Services.Forums
             }
             Assert.AreEqual(HttpStatusCode.Unauthorized, request.CurrentWebResponse.StatusCode);
             errorData = (ErrorData)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(ErrorData));
-            Assert.AreEqual(ErrorType.NotAuthorized.ToString(), errorData.Code);            
+            Assert.AreEqual(ErrorType.NotAuthorized.ToString(), errorData.Code);
 
             Console.WriteLine("After SubscribeToUnsubscribeFromThread_ReturnsFailure");
         }

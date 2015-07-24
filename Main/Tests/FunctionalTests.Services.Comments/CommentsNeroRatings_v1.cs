@@ -1,27 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Xml;
-using System.Xml.XPath;
 using BBC.Dna.Api;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
-using BBC.Dna.Moderation.Utils;
-using BBC.Dna.Utils;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tests;
-using TestUtils;
-using BBC.Dna.Common;
 using BBC.Dna.Api.Contracts;
+using BBC.Dna.Common;
+using BBC.Dna.Data;
+using BBC.Dna.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
+using Tests;
 
 
 
@@ -37,8 +23,10 @@ namespace FunctionalTests.Services.Comments
         private const string _schemaCommentForum = "Dna.Services\\commentForum.xsd";
         private const string _schemaComment = "Dna.Services\\comment.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
-        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+
+        private static string _server = _hostAndPort;
+        private string _secureserver = _hostAndPort;
         private string _sitename = "h2g2";
         private CommentsTests_V1 commentsHelper;
 
@@ -71,7 +59,7 @@ namespace FunctionalTests.Services.Comments
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
             //create the forum
-            if(string.IsNullOrEmpty(commentForum.Id))
+            if (string.IsNullOrEmpty(commentForum.Id))
             {
                 commentForum = commentsHelper.CommentForumCreate("tests", Guid.NewGuid().ToString());
             }
@@ -133,10 +121,10 @@ namespace FunctionalTests.Services.Comments
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
             string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
-            
+
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
-            
+
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
             if (apiVersion == 1)
@@ -401,7 +389,7 @@ namespace FunctionalTests.Services.Comments
             int apiVersion = 2;
             CreateCommentAndRateUpValidateTotal(apiVersion);
         }
-        
+
         [TestMethod]
         public void RateUpComment_DuplicateV1_ReturnsValidTotal()
         {
@@ -708,6 +696,6 @@ namespace FunctionalTests.Services.Comments
             myRequest.RequestPageWithFullURL("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/h2g2/?action=recache-site&siteid=1", "", "text/xml");
 
         }
-        
+
     }
 }

@@ -1,23 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Xml;
-using System.Xml.XPath;
-using BBC.Dna.Api;
-using BBC.Dna.Component;
+﻿using BBC.Dna.Api;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
 using Tests;
-
 using TestUtils;
 
 namespace FunctionalTests.Services.Comments
@@ -35,8 +23,9 @@ namespace FunctionalTests.Services.Comments
         private const string _schemaThread = "Dna.Services\\thread.xsd";
         private const string _schemaThreadlist = "Dna.Services\\threadlist.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
-        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress.Host;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -60,7 +49,7 @@ namespace FunctionalTests.Services.Comments
         /// </summary>
         public RatingsComments_V1()
         {
-          
+
         }
 
         /// <summary>
@@ -102,9 +91,9 @@ namespace FunctionalTests.Services.Comments
             // now get the response
             request.RequestPageWithFullURL(url, ratingForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
-            
-            return  (RatingInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(RatingInfo));
-            
+
+            return (RatingInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(RatingInfo));
+
         }
 
         /// <summary>
@@ -140,7 +129,7 @@ namespace FunctionalTests.Services.Comments
 
             BBC.Dna.Api.RatingForum returnedForum = (BBC.Dna.Api.RatingForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.RatingForum));
             Assert.IsTrue(returnedForum.Id == id);
-            
+
             Assert.IsTrue(returnedForum.ParentUri == parentUri);
             Assert.IsTrue(returnedForum.Title == title);
             Assert.IsTrue(returnedForum.ModerationServiceGroup == moderationStatus);
@@ -796,7 +785,7 @@ namespace FunctionalTests.Services.Comments
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentList);
             validator.Validate();
 
-            BBC.Dna.Api.CommentsList returnedCommentList = (BBC.Dna.Api.CommentsList) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
+            BBC.Dna.Api.CommentsList returnedCommentList = (BBC.Dna.Api.CommentsList)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedCommentList.comments.Count == 2);
             //returnedThread = (ThreadInfo)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(ThreadInfo));
             //Assert.IsTrue(returnedThread.id > 0);

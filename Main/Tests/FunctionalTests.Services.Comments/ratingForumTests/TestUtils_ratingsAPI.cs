@@ -1,16 +1,14 @@
-using System;
-using System.Net;
-using System.Web;
-using System.Xml;
 using BBC.Dna;
 using BBC.Dna.Api;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Web;
+using System.Xml;
 using Tests;
-using System.IO;
 
 
 namespace FunctionalTests.Services.Comments
@@ -20,7 +18,7 @@ namespace FunctionalTests.Services.Comments
     /// This set of tests check what happens with different types of user - normal people should not be able to create them
     /// In all cases, use the basic minimum of data
     /// </summary>
-    
+
     public class testUtils_ratingsAPI
     {
         public const string _schemaRatingForum = "Dna.Services\\ratingForum.xsd";
@@ -35,48 +33,12 @@ namespace FunctionalTests.Services.Comments
         public const int _implementedCeiling = 255; // documentation says "The score as a byte between 0-255"
         public const int _implementedFloor = 0;
 
-        public static string server = DnaTestURLRequest.CurrentServer;
-        public static string secureserver = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+
+        public static string server = _hostAndPort;
+        public static string secureserver = DnaTestURLRequest.SecureServerAddress.AbsoluteUri;
         public static string sitename = "h2g2";
-        //public static string sitename = "Weather";
-        //public static string _readByFidUrlStub = "http://" + server + _resourceLocation + sitename + "/reviewforum/" ;
-        //public static string _createForumUrl = "http://" + server + _resourceLocation + sitename + "/";
 
-        /*
-        public static int runningForumCount = 0; // used to see our starting count, before we start adding forums.
-
-        /// <summary>
-        /// Simply count the number of commentsForums that have been created so far on this site
-        /// </summary>
-        /// <param name="SiteName">the name of the sute to query</param>
-        /// <returns>the count</returns>
-        /// As of the start of August 2009, this does not work because there is no 'list review fora attached to a a site'
-        public static int countForums(string SiteName)
-        {
-            string _server = DnaTestURLRequest.CurrentServer;
-
-            DnaTestURLRequest request = new DnaTestURLRequest(SiteName);
-
-            request.SetCurrentUserNormal();
-
-            // Setup the request url
-            string url = "http://" + _server + _resourceLocation + SiteName + "/";
-
-            // now get the response - no POST data, nor any clue about the input mime-type
-            request.RequestPageWithFullURL(url, "", "");
-
-            Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.OK);
-
-            XmlDocument xml = request.GetLastResponseAsXML();
-            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaRatingForum);
-            validator.Validate();
-
-            BBC.Dna.Api.CommentForumList returnedList = (BBC.Dna.Api.CommentForumList)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentForumList));
-            Assert.IsTrue(returnedList != null);
-
-            return returnedList.TotalCount;
-        }
-        */
 
 
         /// <summary>
@@ -88,21 +50,21 @@ namespace FunctionalTests.Services.Comments
             DateTime dt = DateTime.Now;
             String TimeStamp = makeTimeStamp();
 
-            if( id == "")
+            if (id == "")
                 id = "FunctiontestReviewForum-" + Guid.NewGuid().ToString(); // the tail bit creates an unique string
 
             if (title == "")
                 title = "Functiontest Title " + TimeStamp;
 
             if (parentUri == "")
-                parentUri = "http://www.bbc.co.uk/dna/" +  TimeStamp + "/";
+                parentUri = "http://www.bbc.co.uk/dna/" + TimeStamp + "/";
 
             string postXML = String.Format(
                 "<ratingForum xmlns=\"BBC.Dna.Api\">" +
                 "<id>{0}</id>" +
                 "<title>{1}</title>" +
                 "<parentUri>{2}</parentUri>" +
-                "</ratingForum>", 
+                "</ratingForum>",
                 id, title, parentUri);
 
             return postXML;
@@ -132,7 +94,7 @@ namespace FunctionalTests.Services.Comments
             return postData;
         }
 
-       
+
 
         /// <summary>
         /// Make up some unique post data
@@ -144,11 +106,11 @@ namespace FunctionalTests.Services.Comments
             string postData = "";
             string rawText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque urna nunc, placerat nec tempus a, vehicula at justo. Vivamus vehicula hendrerit tincidunt. Aenean eleifend molestie purus et euismod. Nullam sapien elit, consectetur et tristique vel, molestie a ante. Nunc in elit in magna imperdiet faucibus vel vitae ligula. In ullamcorper";
 
-            if (inputRating == "")  
+            if (inputRating == "")
                 inputRating = RandNum.Next(1, 5).ToString();
 
-            if( inputText == "" )
-                inputText = rawText.Substring(RandNum.Next(0, 10), RandNum.Next(10, rawText.Length-21));
+            if (inputText == "")
+                inputText = rawText.Substring(RandNum.Next(0, 10), RandNum.Next(10, rawText.Length - 21));
 
             postData = String.Format(
                 "<rating xmlns=\"BBC.Dna.Api\"><text>{0}</text><rating>{1}</rating></rating>",
@@ -206,7 +168,7 @@ namespace FunctionalTests.Services.Comments
             string title = "";
             string parentUri = ""; // not actually going to do anything with these, but need to give them the postXML
 
-            string url = makeCreateForumUrl(); 
+            string url = makeCreateForumUrl();
 
             string postXML = makeCreatePostXml_minimal(ref id, ref title, ref parentUri); // make some unique data for the new forum
 
@@ -229,7 +191,7 @@ namespace FunctionalTests.Services.Comments
 
             BBC.Dna.Api.RatingForum returnedForum = (BBC.Dna.Api.RatingForum)StringUtils.DeserializeObject(myRequest.GetLastResponseAsString(), typeof(BBC.Dna.Api.RatingForum));
             Assert.IsTrue(returnedForum.Id == id);
-            
+
             return returnedForum.Id;
         }
         /*
@@ -266,7 +228,7 @@ namespace FunctionalTests.Services.Comments
 
         public static string makeTestItem(string forumId, int index)
         {
-            
+
             System.Random RandNum = new System.Random();
             int inputRating = RandNum.Next(1, 5);
             string ratingString = "";
@@ -350,7 +312,7 @@ namespace FunctionalTests.Services.Comments
         /// </summary>
         /// <param name="testForumId">forum to be affected</param>
         /// <param name="forumCeiling">new value to be used by this forum</param>
-        internal static void readCeiling(string testForumId )
+        internal static void readCeiling(string testForumId)
         {
             string row = "";
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
@@ -428,7 +390,7 @@ namespace FunctionalTests.Services.Comments
 
                     sqlStr = "delete from siteoptions where siteid=" + site.SiteID.ToString() + " and Name='MaxForumRatingScore' ";
                     sqlStr += "insert into siteoptions (SiteID,Section,Name,Value,Type, Description) values(";
-                    sqlStr += site.SiteID.ToString() + ",'CommentForum', 'MaxForumRatingScore'," + forumCeiling + ",0,'test MaxForumRatingScore value')"; 
+                    sqlStr += site.SiteID.ToString() + ",'CommentForum', 'MaxForumRatingScore'," + forumCeiling + ",0,'test MaxForumRatingScore value')";
 
                     reader.ExecuteDEBUGONLY(sqlStr);
 
@@ -443,7 +405,6 @@ namespace FunctionalTests.Services.Comments
 
         public static string makeCreateForumUrl()
         {
-            //http://dnadev.national.core.bbc.co.uk:8082/comments/ReviewService.svc/V1/site/{sitename}/
             return String.Format(
              "http://{0}/{1}/{2}/",
              testUtils_ratingsAPI.server,
@@ -454,9 +415,8 @@ namespace FunctionalTests.Services.Comments
 
         public static string makeCreatePostUrl(string forumId)
         {
-            //http://dnadev.national.core.bbc.co.uk:8082/comments/ReviewService.svc/V1/site/{siteName}/reviewforum/{RatingForumID}/
             return String.Format(
-             "https://{0}/{1}/{2}/reviewforum/{3}/",
+             "{0}{1}/{2}/reviewforum/{3}/",
              testUtils_ratingsAPI.secureserver,
              testUtils_ratingsAPI._resourceLocation,
              testUtils_ratingsAPI.sitename,
@@ -466,7 +426,6 @@ namespace FunctionalTests.Services.Comments
 
         public static string makeReadForumUrl(string forumID)
         {
-            //http://dnadev.national.core.bbc.co.uk:8082/comments/ReviewService.svc/V1/site/{siteName}/reviewforum/{reviewForumId}/
             return String.Format(
                  "http://{0}/{1}/{2}/reviewforum/{3}/",
                 testUtils_ratingsAPI.server,

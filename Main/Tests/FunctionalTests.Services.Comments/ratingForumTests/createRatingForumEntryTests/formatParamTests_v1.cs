@@ -1,10 +1,9 @@
-using System;
-using System.Net;
-using System.Text.RegularExpressions;
-using System.Xml;
 using BBC.Dna.Api;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
 using Tests;
 
 
@@ -215,7 +214,7 @@ namespace FunctionalTests.Services.Comments
             // step 2 - create the review item
             myRequest.SetCurrentUserNormal();
             url = String.Format(
-                "https://{0}/dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/",
+                "{0}dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/",
                 testUtils_ratingsAPI.secureserver,
                 testUtils_ratingsAPI.sitename,
                 testForumId
@@ -234,7 +233,7 @@ namespace FunctionalTests.Services.Comments
 
             return myRequest;
         }
-       // =============================================================================================
+        // =============================================================================================
 
         [TestCleanup]
         public void ShutDown()
@@ -255,6 +254,6 @@ namespace FunctionalTests.Services.Comments
             // testUtils_ratingsAPI.runningForumCount = testUtils_ratingsAPI.countForums(testUtils_ratingsAPI.sitename);
         }
 
-    
+
     } // ends class
 } // ends namespace

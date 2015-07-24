@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using BBC.Dna;
+﻿using BBC.Dna;
 using BBC.Dna.Data;
-using BBC.Dna.Users;
-using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using Tests;
-using BBC.Dna.Moderation.Utils;
-using TestUtils;
-using System.Web;
 
 
 namespace FunctionalTests
@@ -21,7 +13,7 @@ namespace FunctionalTests
     [TestClass]
     public class FrontPageRedirectorTests
     {
-        private int _siteId = 70;//mbiplayer
+        private int _siteId = 70;
         private string _siteName = "mbiplayer";
 
         [TestInitialize]
@@ -242,7 +234,7 @@ namespace FunctionalTests
 
         private void SendSignal()
         {
-            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-site", DnaTestURLRequest.CurrentServer);
+            var url = String.Format("{0}dna/h2g2/dnaSignal?action=recache-site", DnaTestURLRequest.CurrentServer.AbsoluteUri);
             var request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(url, null, "text/xml");

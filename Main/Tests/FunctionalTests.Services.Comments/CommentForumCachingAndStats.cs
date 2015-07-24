@@ -1,33 +1,27 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using BBC.Dna;
 using BBC.Dna.Api;
 using BBC.Dna.Data;
+using BBC.Dna.Moderation;
 using BBC.Dna.Moderation.Utils;
-using BBC.Dna.Sites;
-using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using NMock2;
+using System;
+using System.Xml;
 using Tests;
-
 using TestUtils;
-using BBC.Dna.Moderation;
 
 
 namespace FunctionalTests.Services.Comments
 {
-	/// <summary>
-	/// Tests for the Cookie decoder class
-	/// </summary>
-	[TestClass]
-	public class CommentForumCachingAndStats_v1
-	{
+    /// <summary>
+    /// Tests for the Cookie decoder class
+    /// </summary>
+    [TestClass]
+    public class CommentForumCachingAndStats_v1
+    {
         //private ISiteList _siteList;
-        private string _server = DnaTestURLRequest.CurrentServer;
-        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
+        private string _absoluteHttpServerUri = DnaTestURLRequest.CurrentServer.AbsoluteUri;
+        private string _absoluteHttpsServerUri = DnaTestURLRequest.SecureServerAddress.AbsoluteUri;
         private string _sitename = "h2g2";
 
         /// <summary>
@@ -54,15 +48,15 @@ namespace FunctionalTests.Services.Comments
         /// </summary>
         public CommentForumCachingAndStats_v1()
         {
-           
+
         }
-		
-		/// <summary>
-		/// Tests of the read of comment forums by sitename
-		/// </summary>
-		[TestMethod]
+
+        /// <summary>
+        /// Tests of the read of comment forums by sitename
+        /// </summary>
+        [TestMethod]
         public void CommentForum_BasicAddCommentWithStatsCheck()
-		{
+        {
             CommentForum commentForum = new CommentForum
             {
                 Id = Guid.NewGuid().ToString(),
@@ -86,7 +80,7 @@ namespace FunctionalTests.Services.Comments
 
             XmlDocument xStats = GetAllStatCounter();
             Assert.IsTrue(GetStatCounter(xStats, "RAWREQUESTS") == 3);
-            
+
             //get forum again
             result = ReadForum(result.Id);
             Assert.IsTrue(result != null);
@@ -94,7 +88,7 @@ namespace FunctionalTests.Services.Comments
             xStats = GetAllStatCounter();
             Assert.IsTrue(GetStatCounter(xStats, "RAWREQUESTS") == 4);
 
-		}
+        }
 
         /// <summary>
         /// Tests of the read of comment forums by sitename
@@ -129,7 +123,7 @@ namespace FunctionalTests.Services.Comments
 
             //get total for this site
             CommentsList listAfter = ReadCommentsReadBySite("");
-            Assert.IsTrue(listAfter.TotalCount == list.TotalCount+1);
+            Assert.IsTrue(listAfter.TotalCount == list.TotalCount + 1);
 
             XmlDocument xStats = GetAllStatCounter();
             Assert.IsTrue(GetStatCounter(xStats, "RAWREQUESTS") == 5);
@@ -175,7 +169,7 @@ namespace FunctionalTests.Services.Comments
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
 
-            
+
 
             CreateComment(comment, result);
 
@@ -259,7 +253,7 @@ namespace FunctionalTests.Services.Comments
             result = ReadForumJson(result.Id);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.isClosed);
-            
+
 
 
         }
@@ -287,7 +281,7 @@ namespace FunctionalTests.Services.Comments
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
 
-            
+
 
             CreateComment(comment, result);
 
@@ -309,7 +303,7 @@ namespace FunctionalTests.Services.Comments
                     dataReader.AddParameter("hiddenid", 6);
                     dataReader.Execute();
                 }
-          
+
             }
             result = ReadForum(result.Id);
             Assert.IsTrue(result != null);
@@ -354,8 +348,8 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(result.commentSummary.Total == 1);
 
             // Now ste the closing date of the forum to something in the past.
-            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.Passed,"");
-            
+            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.Passed, "");
+
             result = ReadForum(result.Id);
             Assert.IsTrue(result != null);
             Assert.IsTrue(result.commentList.comments[0].text == comment.text);
@@ -389,7 +383,7 @@ namespace FunctionalTests.Services.Comments
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
 
-            
+
 
             CreateComment(comment, result);
 
@@ -400,7 +394,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(result.commentSummary.Total == 1);
             Assert.IsTrue(result.commentList.comments[0].hidden == CommentStatus.Hidden.Hidden_AwaitingPreModeration);
             // Now ste the closing date of the forum to something in the past.
-            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.Failed,"");
+            ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.Failed, "");
 
             result = ReadForum(result.Id);
             Assert.IsTrue(result != null);
@@ -435,7 +429,7 @@ namespace FunctionalTests.Services.Comments
             //add a comment 
             CommentInfo comment = new CommentInfo { text = "this is a nunit generated comment." + Guid.NewGuid().ToString() };
 
-            
+
 
             CreateComment(comment, result);
 
@@ -449,7 +443,7 @@ namespace FunctionalTests.Services.Comments
 
             string newText = " this is editted text";
             // Now ste the closing date of the forum to something in the past.
-            
+
             ModerateComment(result.commentList.comments[0].ID, result.ForumID, ModerationItemStatus.PassedWithEdit, newText);
 
             result = ReadForum(result.Id);
@@ -497,7 +491,7 @@ namespace FunctionalTests.Services.Comments
                     dataReader.Execute();
                 }
 
-                if(status == ModerationItemStatus.PassedWithEdit)
+                if (status == ModerationItemStatus.PassedWithEdit)
                 {
                     using (IDnaDataReader dataReader = _context.CreateDnaDataReader("updatepostdetails"))
                     {
@@ -529,7 +523,7 @@ namespace FunctionalTests.Services.Comments
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string url = "http://" + _server + "/dna/api/comments/status.aspx?skin=purexml&interval=" + (24 * 60).ToString();
+            string url = _absoluteHttpServerUri + "dna/api/comments/status.aspx?skin=purexml&interval=" + (24 * 60).ToString();
 
             // now get the response
             request.RequestPageWithFullURL(url, "", "text/xml");
@@ -557,7 +551,7 @@ namespace FunctionalTests.Services.Comments
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string url = "http://" + _server + "/dna/api/comments/status.aspx?reset=1";
+            string url = _absoluteHttpServerUri + "dna/api/comments/status.aspx?reset=1";
 
             // now get the response
             request.RequestPageWithFullURL(url, "", "text/xml");
@@ -575,7 +569,7 @@ namespace FunctionalTests.Services.Comments
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/", _sitename);
+            string url = String.Format(_absoluteHttpServerUri + "dna/api/comments/CommentsService.svc/V1/site/{0}/", _sitename);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -596,7 +590,7 @@ namespace FunctionalTests.Services.Comments
             request.SetCurrentUserNormal();
 
             // Setup the request url
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, forum.Id);
+            string url = String.Format(_absoluteHttpsServerUri + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, forum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -613,7 +607,7 @@ namespace FunctionalTests.Services.Comments
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
+            string url = String.Format(_absoluteHttpServerUri + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -628,7 +622,7 @@ namespace FunctionalTests.Services.Comments
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
+            string url = String.Format(_absoluteHttpServerUri + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, uid);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/javascript");
             // Check to make sure that the page returned with the correct information
@@ -641,7 +635,7 @@ namespace FunctionalTests.Services.Comments
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/comments/?prefix={1}", _sitename, prefix);
+            string url = String.Format(_absoluteHttpServerUri + "dna/api/comments/CommentsService.svc/V1/site/{0}/comments/?prefix={1}", _sitename, prefix);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             // Check to make sure that the page returned with the correct information

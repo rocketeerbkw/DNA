@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Net;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
 
@@ -13,7 +13,8 @@ namespace FunctionalTests.Services.Moderation
     [TestClass]
     public class ModerateItems_V1
     {
-        private string _server = DnaTestURLRequest.CurrentServer;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
         private string _siteName = "h2g2";
 
         [TestCleanup]

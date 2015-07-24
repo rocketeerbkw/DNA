@@ -1,20 +1,16 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TestUtils;
-using Tests;
-using BBC.Dna.Sites;
-using BBC.Dna.Moderation.Utils;
-using System.Xml;
-using BBC.Dna.Api;
-using BBC.Dna.Utils;
+﻿using BBC.Dna.Api;
 using BBC.Dna.Data;
-using System.Net;
-using BBC.Dna.SocialAPI;
 using BBC.Dna.Moderation;
-using BBC.Dna.Users;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Sites;
+using BBC.Dna.SocialAPI;
+using BBC.Dna.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Xml;
+using Tests;
 
 namespace FunctionalTests.Services.Comments
 {
@@ -27,7 +23,9 @@ namespace FunctionalTests.Services.Comments
         private ISiteList _siteList;
         private string _sitename = "h2g2";
         private int _siteid = 1;
-        private readonly string _server = DnaTestURLRequest.CurrentServer;
+
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private readonly string _server = _hostAndPort;
         private FullInputContext _context;
         private CommentForum _commentForumReactive;
         private string _tweetPostUrlReactive;
@@ -134,7 +132,7 @@ namespace FunctionalTests.Services.Comments
             var tweet = CreateTwitterBuzzTestTweet(tweetText);
             var tweetData = CreateTweetJsonData(tweet);
             var response = CreateCommentFromTweet(tweetData);
-            
+
             if (response.ID != 0)
             {
                 Assert.AreEqual(PostStyle.Style.tweet, response.PostStyle);

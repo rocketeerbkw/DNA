@@ -1,10 +1,10 @@
-﻿using System;
-using System.Xml;
-using BBC.Dna.Api;
+﻿using BBC.Dna.Api;
+using BBC.Dna.Common;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Xml;
 using Tests;
-using BBC.Dna.Common;
 
 namespace FunctionalTests.Services.Comments
 {
@@ -18,8 +18,9 @@ namespace FunctionalTests.Services.Comments
         private const string _schemaCommentForum = "Dna.Services\\commentForum.xsd";
         private const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
-        private readonly string _server = DnaTestURLRequest.CurrentServer;
-        private readonly string _secureserver = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
+        private readonly string _secureserver = DnaTestURLRequest.SecureServerAddress.Host;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -80,7 +81,7 @@ namespace FunctionalTests.Services.Comments
 
                 returnedForum =
                     (CommentForum)
-                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
                 Assert.IsTrue(returnedForum.Id == id);
 
                 //post comments to list
@@ -106,7 +107,7 @@ namespace FunctionalTests.Services.Comments
 
                     var returnedComment =
                         (CommentInfo)
-                        StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentInfo));
+                        StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
                     Assert.IsTrue(returnedComment.text == text);
                     Assert.IsNotNull(returnedComment.User);
                     Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
@@ -136,7 +137,7 @@ namespace FunctionalTests.Services.Comments
 
             var returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList != null);
             //Assert.IsTrue(returnedList.TotalCount == 9); // 3 forums with 3 comments per forum = 9
             Console.WriteLine("After GetCommentForumsBySitenameXML");
@@ -185,7 +186,7 @@ namespace FunctionalTests.Services.Comments
 
                 returnedForum =
                     (CommentForum)
-                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
                 Assert.IsTrue(returnedForum.Id == id);
 
                 //post comments to list
@@ -211,7 +212,7 @@ namespace FunctionalTests.Services.Comments
 
                     var returnedComment =
                         (CommentInfo)
-                        StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentInfo));
+                        StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
                     Assert.IsTrue(returnedComment.text == text);
                     Assert.IsNotNull(returnedComment.User);
                     Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
@@ -241,7 +242,7 @@ namespace FunctionalTests.Services.Comments
 
             var returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList != null);
             Console.WriteLine("After GetCommentForumsBySitenameXML");
 
@@ -258,7 +259,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -277,7 +278,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -295,10 +296,10 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
-                // should fail and return the default
+            // should fail and return the default
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
             prevCreate = DateTime.MinValue;
@@ -315,12 +316,12 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
             Assert.IsTrue(returnedList.SortBy.ToString() == SortBy.Created.ToString());
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
 
             prevCreate = DateTime.MaxValue;
             for (int i = 0; i < returnedList.comments.Count; i++)
@@ -337,13 +338,13 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection);
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
             Assert.IsTrue(returnedList.SortBy.ToString() == SortBy.Created.ToString());
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
 
             prevCreate = DateTime.MinValue;
             for (int i = 0; i < returnedList.comments.Count; i++)
@@ -397,7 +398,7 @@ namespace FunctionalTests.Services.Comments
 
                 returnedForum =
                     (CommentForum)
-                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
                 Assert.IsTrue(returnedForum.Id == id);
 
                 //post comments to list
@@ -423,7 +424,7 @@ namespace FunctionalTests.Services.Comments
 
                     var returnedComment =
                         (CommentInfo)
-                        StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentInfo));
+                        StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
                     Assert.IsTrue(returnedComment.text == text);
                     Assert.IsNotNull(returnedComment.User);
                     Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
@@ -450,7 +451,7 @@ namespace FunctionalTests.Services.Comments
 
             var returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList != null);
             Assert.IsTrue(returnedList.TotalCount != 0);
         }
@@ -498,7 +499,7 @@ namespace FunctionalTests.Services.Comments
 
                 returnedForum =
                     (CommentForum)
-                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
                 Assert.IsTrue(returnedForum.Id == id);
 
                 //post comments to list
@@ -524,7 +525,7 @@ namespace FunctionalTests.Services.Comments
 
                     var returnedComment =
                         (CommentInfo)
-                        StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentInfo));
+                        StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentInfo));
                     Assert.IsTrue(returnedComment.text == text);
                     Assert.IsNotNull(returnedComment.User);
                     Assert.IsTrue(returnedComment.User.UserId == request.CurrentUserID);
@@ -551,7 +552,7 @@ namespace FunctionalTests.Services.Comments
 
             var returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList != null);
             Assert.IsTrue(returnedList.TotalCount != 0);
 
@@ -568,7 +569,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -587,7 +588,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -605,10 +606,10 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
-                // should fail and return the default
+            // should fail and return the default
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
             prevCreate = DateTime.MinValue;
@@ -625,12 +626,12 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
             Assert.IsTrue(returnedList.SortBy.ToString() == SortBy.Created.ToString());
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
 
             prevCreate = DateTime.MaxValue;
             for (int i = 0; i < returnedList.comments.Count; i++)
@@ -647,13 +648,13 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (BBC.Dna.Api.CommentsList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (BBC.Dna.Api.CommentsList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.CommentsList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection);
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
             Assert.IsTrue(returnedList.SortBy.ToString() == SortBy.Created.ToString());
-                // should fail and return the default which is Created
+            // should fail and return the default which is Created
 
             prevCreate = DateTime.MinValue;
             for (int i = 0; i < returnedList.comments.Count; i++)

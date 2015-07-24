@@ -1,24 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Xml;
-using System.Xml.XPath;
 using BBC.Dna.Api;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
+using BBC.Dna.Common;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
 using Tests;
-
 using TestUtils;
-using BBC.Dna.Common;
 
 namespace FunctionalTests.Services.Comments
 {
@@ -31,8 +20,9 @@ namespace FunctionalTests.Services.Comments
         private const string _schemaRatingForum = "Dna.Services\\ratingForum.xsd";
         private const string _schemaRating = "Dna.Services\\rating.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
-        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private string _server = _hostAndPort;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress.Host;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -49,7 +39,7 @@ namespace FunctionalTests.Services.Comments
         {
             SnapshotInitialisation.RestoreFromSnapshot();
         }
-                
+
 
         /// <summary>
         /// Test GetReviewForumXMLWithoutNamespace method from service
@@ -64,7 +54,7 @@ namespace FunctionalTests.Services.Comments
 
             // Setup the request url
             url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, ratingForum.Id);
-           
+
 
             // now get the response
             request.RequestPageWithFullURL(url, "", "text/xml");
@@ -75,7 +65,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             BBC.Dna.Api.RatingForum returnedForum = (BBC.Dna.Api.RatingForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.RatingForum));
-            
+
         }
 
         /// <summary>
@@ -99,9 +89,9 @@ namespace FunctionalTests.Services.Comments
 
                 // Setup the request url
                 url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, returnedForum.Id);
-                
+
                 //change the user for a review...
-                switch(i)
+                switch (i)
                 {
                     case 1: request.SetCurrentUserModerator(); break;
                     case 2: request.SetCurrentUserNormal(); break;
@@ -210,7 +200,7 @@ namespace FunctionalTests.Services.Comments
         [Ignore]//ignored because method is no longer supported
         public void GetReviewForumXML_WithUserList()
         {
-            BBC.Dna.Api.RatingForum returnedForum = RatingForumIdentityUserCreate("tests", Guid.NewGuid().ToString() ,ModerationStatus.ForumStatus.Reactive, DateTime.MinValue);
+            BBC.Dna.Api.RatingForum returnedForum = RatingForumIdentityUserCreate("tests", Guid.NewGuid().ToString(), ModerationStatus.ForumStatus.Reactive, DateTime.MinValue);
             string url = String.Empty;
             string identitySiteName = "identity606";
 
@@ -237,7 +227,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(returnedList.ratingsList.FilterBy.ToString() == filterBy);
             Assert.IsTrue(returnedList.ratingsList.TotalCount == 2);
             Assert.IsTrue(returnedList.ratingsSummary.Total == 2);
-            Assert.IsTrue(returnedList.ratingsSummary.Average == (returnedList.ratingsList.ratings[0].rating + returnedList.ratingsList.ratings[1].rating)/2);
+            Assert.IsTrue(returnedList.ratingsSummary.Average == (returnedList.ratingsList.ratings[0].rating + returnedList.ratingsList.ratings[1].rating) / 2);
 
             //test when no user list passed
             userList = string.Empty;
@@ -259,7 +249,7 @@ namespace FunctionalTests.Services.Comments
             catch
             {// Check to make sure that the page returned with the correct information
                 Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
-            }     
+            }
         }
 
         private void PostToRatingForumAsIdentityUser(RatingForum ratingForum, DnaTestURLRequest request, string sitename)
@@ -366,7 +356,7 @@ namespace FunctionalTests.Services.Comments
             DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, _schemaRatingForum);
             validator.Validate();
 
-            return  (BBC.Dna.Api.RatingForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.RatingForum));
+            return (BBC.Dna.Api.RatingForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.RatingForum));
         }
 
         /// <summary>
@@ -387,7 +377,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(url, "", "application/json");
 
             BBC.Dna.Api.RatingForum returnedForum = (BBC.Dna.Api.RatingForum)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.RatingForum));
-            
+
         }
 
         /// <summary>
@@ -472,7 +462,7 @@ namespace FunctionalTests.Services.Comments
             }
             CheckErrorSchema(request.GetLastResponseAsXML());
         }
-        
+
         /// <summary>
         /// Test CreateReviewForum method from service
         /// </summary>
@@ -508,7 +498,7 @@ namespace FunctionalTests.Services.Comments
 
             Console.WriteLine("After GetReviewForumXML");
         }
-        
+
         /// <summary>
         /// Test CreateReviewForum method from service
         /// </summary>
@@ -797,10 +787,10 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {// Check to make sure that the page returned with the correct information
-                
+
             }
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
-            
+
             Console.WriteLine("After GetReviewForumXML");
         }
 
@@ -950,7 +940,7 @@ namespace FunctionalTests.Services.Comments
 
             // Setup the request url
             string url = commentInfo.ForumUri + "?filterBy=EditorsPick";
-            
+
             //Check that picked comment is in results.
             request.RequestPageWithFullURL(url, "", "text/xml");
             XmlDocument xml = request.GetLastResponseAsXML();

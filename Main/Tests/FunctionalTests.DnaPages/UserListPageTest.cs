@@ -1,16 +1,14 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BBC.Dna;
+using BBC.Dna.Api;
+using BBC.Dna.Data;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
 using System.Xml;
 using Tests;
 using TestUtils;
-using BBC.Dna.Data;
-using BBC.Dna;
-using BBC.Dna.Utils;
-using BBC.Dna.Api;
-using BBC.Dna.Moderation.Utils;
 
 namespace FunctionalTests
 {
@@ -46,7 +44,7 @@ namespace FunctionalTests
         [TestCleanup]
         public void Cleanup()
         {
-            
+
             //reset via db - dont bother doing request
             using (IDnaDataReader reader = testContext.CreateDnaDataReader("reactivateaccount"))
             {
@@ -173,7 +171,7 @@ namespace FunctionalTests
             {
                 Assert.AreEqual(expectedTwitterError, xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["TWITTEREXCEPTION"].Value);
             }
-            
+
         }
 
         [TestMethod]
@@ -227,14 +225,14 @@ namespace FunctionalTests
             var newModStatus = "Postmoderated";
             var newDuration = "1440";
 
-            var applyKey = string.Format("applyTo|{0}|{1}", _normalUserId, _siteId); 
+            var applyKey = string.Format("applyTo|{0}|{1}", _normalUserId, _siteId);
             Queue<KeyValuePair<string, string>> postData = new Queue<KeyValuePair<string, string>>();
-            postData.Enqueue(new KeyValuePair<string,string>(applyKey, ""));
-            postData.Enqueue(new KeyValuePair<string,string>("userStatusDescription", newModStatus));
+            postData.Enqueue(new KeyValuePair<string, string>(applyKey, ""));
+            postData.Enqueue(new KeyValuePair<string, string>("userStatusDescription", newModStatus));
             postData.Enqueue(new KeyValuePair<string, string>("duration", newDuration));
             postData.Enqueue(new KeyValuePair<string, string>("reasonChange", "test"));
             postData.Enqueue(new KeyValuePair<string, string>("ApplyAction", "1"));
-            
+
 
 
             var request = new DnaTestURLRequest(_siteName);
@@ -336,7 +334,7 @@ namespace FunctionalTests
             request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();
             request.RequestPage("mbfrontpage?skin=purexml");
-            xml =request.GetLastResponseAsXML();
+            xml = request.GetLastResponseAsXML();
             Assert.IsNull(xml.SelectSingleNode("//H2G2/VIEWING-USER/USER"));
 
             //c++ test
@@ -350,7 +348,7 @@ namespace FunctionalTests
         {
             var newModStatus = "Deactivated";
             var newDuration = "0";
-            var removeContent =true;
+            var removeContent = true;
 
             var applyKey = string.Format("applyTo|{0}|{1}", _normalUserId, _siteId);
             Queue<KeyValuePair<string, string>> postData = new Queue<KeyValuePair<string, string>>();
@@ -573,9 +571,9 @@ namespace FunctionalTests
         public void UserList_RemovePostsE2EWithCommentsApi_ReturnsCorrectResults()
         {
             //check existing forum
-            string commentForumUrl = string.Format("http://{0}/dna/api/comments/CommentsService.svc/V1/site/{1}/commentsforums/{2}/",
-                    DnaTestURLRequest.CurrentServer, "h2g2", "TestUniqueKeyValue");
-            
+            string commentForumUrl = string.Format("{0}dna/api/comments/CommentsService.svc/V1/site/{1}/commentsforums/{2}/",
+                    DnaTestURLRequest.CurrentServer.AbsoluteUri, "h2g2", "TestUniqueKeyValue");
+
             var request = new DnaTestURLRequest("h2g2");
             request.RequestPageWithFullURL(commentForumUrl);
             var xml = request.GetLastResponseAsXML();
@@ -683,7 +681,7 @@ namespace FunctionalTests
             //check audit tables
             using (IDnaDataReader reader = testContext.CreateDnaDataReader(""))
             {
-                reader.ExecuteDEBUGONLY("select * from UserPrefStatusAudit where userid=" + TestUserAccounts.GetSuperUserAccount.UserID + " and userupdateid in (select max(UserUpdateId) from UserPrefStatusAudit)" );
+                reader.ExecuteDEBUGONLY("select * from UserPrefStatusAudit where userid=" + TestUserAccounts.GetSuperUserAccount.UserID + " and userupdateid in (select max(UserUpdateId) from UserPrefStatusAudit)");
                 Assert.IsTrue(reader.Read());
                 int auditId = reader.GetInt32("UserUpdateId");
                 Assert.AreEqual(newModStatus.ToUpper() == "DEACTIVATED", reader.GetBoolean("DeactivateAccount"));
@@ -693,7 +691,7 @@ namespace FunctionalTests
                 reader.ExecuteDEBUGONLY("select * from UserPrefStatusAuditActions where UserUpdateId=" + auditId.ToString() + " and siteid=" + siteId);
                 Assert.IsTrue(reader.Read());
                 Assert.IsTrue(reader.HasRows);
-                switch(newModStatus.ToUpper())
+                switch (newModStatus.ToUpper())
                 {
                     case "POSTMODERATED":
                         Assert.AreEqual(2, reader.GetInt32("NewPrefStatus")); break;
@@ -715,7 +713,7 @@ namespace FunctionalTests
             DnaXmlValidator validator = new DnaXmlValidator(xml.SelectSingleNode("//H2G2/MEMBERLIST").OuterXml, "memberlist.xsd");
             validator.Validate();
 
-            if(shouldFindUsers)
+            if (shouldFindUsers)
             {
                 Assert.AreNotEqual("0", xml.SelectSingleNode("//H2G2/MEMBERLIST").Attributes["COUNT"].Value);
             }

@@ -1,18 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using BBC.Dna;
+﻿using BBC.Dna;
 using BBC.Dna.Data;
-using BBC.Dna.Users;
+using BBC.Dna.Moderation;
+using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Web;
+using System.Xml;
 using Tests;
 using TestUtils;
-using System.Web;
-using BBC.Dna.Moderation.Utils;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using BBC.Dna.Moderation;
 
 namespace FunctionalTests
 {
@@ -60,12 +58,12 @@ namespace FunctionalTests
         {
             var processPreMod = false;
             var siteStatus = ModerationStatus.SiteStatus.UnMod;
-            var forumStatus =ModerationStatus.ForumStatus.Reactive;
+            var forumStatus = ModerationStatus.ForumStatus.Reactive;
             var threadStatus = ModerationStatus.ForumStatus.Reactive;
             var userStatus = ModerationStatus.UserStatus.Standard;
             var expectedPostStatus = ModerationStatus.ForumStatus.Reactive;
 
-            SetPermissions(siteStatus, forumStatus,threadStatus, userStatus, processPreMod);
+            SetPermissions(siteStatus, forumStatus, threadStatus, userStatus, processPreMod);
 
             var xml = PostToForum();
 
@@ -190,7 +188,7 @@ namespace FunctionalTests
             var xml = PostToForum();
 
             Assert.AreEqual(_threadId.ToString(), xml.SelectSingleNode("H2G2/POSTPREMODERATED/@THREAD").InnerText);
-            
+
             CheckPostInModQueue(xml, expectedPostStatus, processPreMod);
 
         }
@@ -333,7 +331,7 @@ namespace FunctionalTests
                 request.RequestPage(url, postParams);
             }
             catch { }
-            
+
             var xml = request.GetLastResponseAsXML();
 
             Assert.IsNotNull(xml.SelectSingleNode("//H2G2/POSTTHREADUNREG"));
@@ -364,7 +362,7 @@ namespace FunctionalTests
         {
             string post = "my post";
             string expected = "my post";
-            
+
             PreviewPost(post, expected, BBC.Dna.Objects.QuoteEnum.None);
         }
 
@@ -465,7 +463,7 @@ namespace FunctionalTests
         [TestMethod]
         public void PostToForum_WithMaxCharLimitExceeded_CorrectError()
         {
-            SetSiteOptions(0, 5, false,false,0);
+            SetSiteOptions(0, 5, false, false, 0);
 
             DnaTestURLRequest request = new DnaTestURLRequest(_siteName);
             //request.SetCurrentUserNormal();
@@ -940,9 +938,8 @@ namespace FunctionalTests
 
         public void SendTermsSignal()
         {
-            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-terms", DnaTestURLRequest.CurrentServer);
+            var url = String.Format("{0}dna/h2g2/dnaSignal?action=recache-terms", DnaTestURLRequest.CurrentServer.AbsoluteUri);
             var request = new DnaTestURLRequest(_siteName);
-            //request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(url, null, "text/xml");
         }
 
@@ -994,7 +991,7 @@ namespace FunctionalTests
             request = PostToForumWithException(request, "my post2", DnaTestURLRequest.usertype.NOTABLE);
             var xml = request.GetLastResponseAsXML();
 
-            
+
             CheckPostInThread(xml, expectedPostStatus, processPreMod);
 
         }
@@ -1121,12 +1118,12 @@ namespace FunctionalTests
 
         private void CheckPostInThread(XmlDocument xml, ModerationStatus.ForumStatus modStatus, bool processPreMod)
         {
-             //get forum page
+            //get forum page
             var request = new DnaTestURLRequest(_siteName);
             request.SetCurrentUserNormal();
             request.RequestPage(string.Format("NF{0}?thread={1}&skin=purexml", _forumId, _threadId));
             var xmlDoc = request.GetLastResponseAsXML();
-            
+
 
             if (processPreMod)
             {
@@ -1150,7 +1147,7 @@ namespace FunctionalTests
             }
         }
 
-        private void SetPermissions(ModerationStatus.SiteStatus siteStatus, ModerationStatus.ForumStatus forumStatus, 
+        private void SetPermissions(ModerationStatus.SiteStatus siteStatus, ModerationStatus.ForumStatus forumStatus,
             ModerationStatus.ForumStatus threadStatus, ModerationStatus.UserStatus userStatus, bool processPreMod)
         {
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
@@ -1178,8 +1175,8 @@ namespace FunctionalTests
                 dataReader.ExecuteDEBUGONLY(string.Format("delete from Preferences where userid={0} and siteid={1}", _userId, _siteId));
                 if (userStatus != ModerationStatus.UserStatus.Standard)
                 {
-                    dataReader.ExecuteDEBUGONLY(string.Format("insert into Preferences (userid, siteid, AutoSinBin, prefstatus, AgreedTerms, DateJoined,PrefStatusDuration, PrefStatusChangedDate) values ({0},{1},{2},{3},1,'2010/1/1',{4},'2020/1/1')", 
-                        _userId, _siteId,(userStatus == ModerationStatus.UserStatus.Premoderated) ? 1 : 0, (int)userStatus, 1000));
+                    dataReader.ExecuteDEBUGONLY(string.Format("insert into Preferences (userid, siteid, AutoSinBin, prefstatus, AgreedTerms, DateJoined,PrefStatusDuration, PrefStatusChangedDate) values ({0},{1},{2},{3},1,'2010/1/1',{4},'2020/1/1')",
+                        _userId, _siteId, (userStatus == ModerationStatus.UserStatus.Premoderated) ? 1 : 0, (int)userStatus, 1000));
                 }
                 else
                 {
@@ -1200,7 +1197,7 @@ namespace FunctionalTests
 
         private void SendSignal()
         {
-            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-site", DnaTestURLRequest.CurrentServer);
+            var url = String.Format("{0}dna/h2g2/dnaSignal?action=recache-site", DnaTestURLRequest.CurrentServer.AbsoluteUri);
             var request = new DnaTestURLRequest(_siteName);
             request.RequestPageWithFullURL(url, null, "text/xml");
 
@@ -1274,7 +1271,7 @@ namespace FunctionalTests
             try
             {
                 var url = String.Format("PostToForum?skin=purexml&forumid=" + _forumId.ToString());
-                switch(quote)
+                switch (quote)
                 {
                     case BBC.Dna.Objects.QuoteEnum.QuoteId:
                         url += "&AddQuoteID=1"; break;

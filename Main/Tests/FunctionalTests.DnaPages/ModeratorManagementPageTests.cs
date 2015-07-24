@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using BBC.Dna;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tests;
-using System.Threading;
-using System.Linq;
+﻿using BBC.Dna.Data;
 using BBC.Dna.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Xml;
+using Tests;
 using TestUtils;
 
 
@@ -91,7 +85,7 @@ namespace FunctionalTests
             XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNotNull(node);
 
-            
+
 
             CheckUserPermissions("MODERATOR");
 
@@ -116,7 +110,7 @@ namespace FunctionalTests
             XmlNode node = xml.SelectSingleNode(String.Format("/H2G2/MODERATOR-LIST/MODERATOR[USER/USERID={0}]/SITES/SITE[@SITEID={1}]", TestUserAccounts.GetNormalUserAccount.UserID, 1));
             Assert.IsNotNull(node);
 
-            
+
             CheckUserPermissions("NOTABLES");
 
             //Remove Access
@@ -251,7 +245,7 @@ namespace FunctionalTests
             var xml = request3.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("//H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME[text()='" + groupName + "']"));
             //api
-            var callinguser_url = @"https://" + DnaTestURLRequest.SecureServerAddress + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser";
+            var callinguser_url = DnaTestURLRequest.SecureServerAddress.AbsoluteUri + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser";
             request3.RequestPageWithFullURL(callinguser_url);
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request3.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
             Assert.IsTrue(user.UsersListOfGroups.Exists(x => x.Name.ToUpper() == groupName.ToUpper()), "The group '" + groupName + "' not found in the users xml\r\n" + request3.GetLastResponseAsXML().OuterXml);
@@ -260,7 +254,7 @@ namespace FunctionalTests
             xml = request3.GetLastResponseAsXML();
             Assert.IsNotNull(xml.SelectSingleNode("//H2G2/VIEWING-USER/USER/GROUPS/GROUP/NAME[text()='" + groupName + "']"));
 
-            
+
 
         }
 
@@ -291,7 +285,7 @@ namespace FunctionalTests
 
             var node = xml.SelectSingleNode("H2G2/MODERATION-CLASSES");
             Assert.AreEqual(0, node.ChildNodes.Count);
-    
+
         }
 
         [TestMethod]
@@ -351,7 +345,7 @@ namespace FunctionalTests
             xml = request.GetLastResponseAsXML();
             Assert.AreEqual(0, xml.SelectSingleNode("/H2G2/MODERATOR-LIST").ChildNodes.Count);
             Assert.AreEqual(2, xml.SelectSingleNode("/H2G2/SITE-LIST").ChildNodes.Count);
-            
+
 
 
         }
@@ -397,15 +391,15 @@ namespace FunctionalTests
 
         private void SendSignal()
         {
-            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-groups", DnaTestURLRequest.CurrentServer);
+            var url = String.Format("{0}dna/h2g2/dnaSignal?action=recache-groups", DnaTestURLRequest.CurrentServer.AbsoluteUri);
+
             var request = new DnaTestURLRequest("h2g2");
-            //request.SetCurrentUserNormal();
+
             request.RequestPageWithFullURL(url, null, "text/xml");
 
-            url = String.Format("http://{0}/dna/api/comments/status.aspx?action=recache-groups", DnaTestURLRequest.CurrentServer);
+            url = String.Format("{0}dna/api/comments/status.aspx?action=recache-groups", DnaTestURLRequest.CurrentServer.AbsoluteUri);
+
             request.RequestPageWithFullURL(url, null, "text/xml");
-
-
         }
 
     }
