@@ -191,7 +191,7 @@ namespace Tests
             {
                 var subPath = absolutePath.Remove(0, 3);
 
-                return string.Format(@"\\{0}\{1}", DnaTestURLRequest.CurrentServer, subPath);
+                return string.Format(@"\\{0}\{1}", DnaTestURLRequest.CurrentServer.Host, subPath);
             }
             else
             {
