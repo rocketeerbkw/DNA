@@ -82,6 +82,12 @@
       </xsl:choose>
     </identity>
   </xsl:variable>
+  
+  <xsl:variable name="customhouseruleurl">
+    <xsl:if test="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='CustomHouseRuleURL']">
+      <xsl:value-of select="/H2G2/SITE/SITEOPTIONS/SITEOPTION[NAME='CustomHouseRuleURL']/VALUE"/>
+    </xsl:if>
+  </xsl:variable>  
 
   <xsl:variable name="houserulespopupurl">
     <xsl:choose>
@@ -91,6 +97,9 @@
       <xsl:when test="/H2G2/SITE/IDENTITYSIGNIN='1' and /H2G2/SITE/IDENTITYPOLICY='http://identity/policies/dna/schools'">
         <xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_house_rules_schools.html</xsl:text>
       </xsl:when>
+      <xsl:when test="string-length($customhouseruleurl) &gt; 0">
+        <xsl:value-of select="$customhouseruleurl"/>
+      </xsl:when>      
       <xsl:otherwise>
         <!-- Default to adult -->
         <xsl:text>http://www.bbc.co.uk/messageboards/newguide/popup_house_rules.html</xsl:text>
