@@ -150,7 +150,7 @@ namespace Tests
 
                 StringBuilder builder = new StringBuilder();
                 builder.AppendLine("USE MASTER; ");
-                builder.AppendLine("RESTORE DATABASE " + smallGuideName + " FROM DATABASE_SNAPSHOT = '" + smallGuideSSName + "' ");
+                builder.AppendLine("RESTORE DATABASE " + smallGuideName + " FROM DATABASE_SNAPSHOT = '" + smallGuideSSName + "' WITH RECOVERY");
 
                 using (IDnaDataReader reader = StoredProcedureReader.Create("", updateSpConnString))
                 {

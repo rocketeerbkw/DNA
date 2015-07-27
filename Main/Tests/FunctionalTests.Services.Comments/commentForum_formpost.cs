@@ -1,11 +1,11 @@
+using BBC.Dna.Api;
+using BBC.Dna.Moderation.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Specialized;
 using System.Net;
 using System.Web;
 using System.Xml;
-using BBC.Dna.Api;
-using BBC.Dna.Moderation.Utils;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
 
@@ -21,8 +21,9 @@ namespace FunctionalTests.Services.Comments
         private const string _schemaCommentForum = "Dna.Services\\commentForum.xsd";
         private const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
-        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress.Host;
         private string _sitename = "h2g2";
         private static CommentsTests_V1 GetCommentsTests()
         {
@@ -177,7 +178,7 @@ namespace FunctionalTests.Services.Comments
             NameValueCollection localHeaders = new NameValueCollection();
             localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1#acs");
             string expectedResponse = "http://www.bbc.co.uk/dna/h2g2/?test=1&resultCode=" + ErrorType.Ok.ToString() + "#acs";
-            
+
             // Setup the request url
             string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
@@ -307,7 +308,7 @@ namespace FunctionalTests.Services.Comments
 
 
 
-        // Check to make sure that the page returned with the correct information
+            // Check to make sure that the page returned with the correct information
             // Setup the request url
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response

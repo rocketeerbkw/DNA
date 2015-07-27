@@ -1,10 +1,10 @@
+using BBC.Dna.Api;
+using BBC.Dna.Moderation.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Specialized;
 using System.Net;
 using System.Web;
-using BBC.Dna.Api;
-using BBC.Dna.Moderation.Utils;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
 
@@ -20,8 +20,9 @@ namespace FunctionalTests.Services.Comments
         private const string _schemaCommentForum = "Dna.Services\\commentForum.xsd";
         private const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
-        private string _secureServer = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
+        private string _secureServer = DnaTestURLRequest.SecureServerAddress.Host;
         private string _sitename = "h2g2";
         private static CommentsTests_V1 GetCommentsTests()
         {
@@ -61,7 +62,7 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void CreateRatingForum_AsFormPost()
         {
-            
+
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
@@ -89,7 +90,7 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void CreateRatingForum_AsFormPostWithQueryString()
         {
-            
+
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
@@ -121,7 +122,7 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void CreateRatingForum_AsFormPostWithQueryStringAndAnchor()
         {
-            
+
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
@@ -138,7 +139,7 @@ namespace FunctionalTests.Services.Comments
             NameValueCollection localHeaders = new NameValueCollection();
             localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1#acs");
             string expectedResponse = "http://www.bbc.co.uk/dna/h2g2/?test=1&resultCode=" + ErrorType.Ok.ToString() + "#acs";
-            
+
             // Setup the request url
             string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
@@ -155,7 +156,7 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void CreateRatingForum_AsFormPost_InPreMod()
         {
-            
+
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
@@ -186,7 +187,7 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void CreateRatingForum_AsFormPost_CloseDate()
         {
-            
+
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
@@ -218,7 +219,7 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void CreateRatingForum_AsFormPost_InPostMod()
         {
-            
+
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
@@ -250,7 +251,7 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void CreateRatingForum_AsFormPost_InvalidModerationStatus()
         {
-            
+
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
@@ -268,7 +269,7 @@ namespace FunctionalTests.Services.Comments
 
 
 
-        // Check to make sure that the page returned with the correct information
+            // Check to make sure that the page returned with the correct information
             // Setup the request url
             string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/create.htm", _sitename);
             // now get the response
@@ -283,7 +284,7 @@ namespace FunctionalTests.Services.Comments
         [TestMethod]
         public void CreateRatingForum_AsFormPost_Noneditor()
         {
-            
+
 
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();

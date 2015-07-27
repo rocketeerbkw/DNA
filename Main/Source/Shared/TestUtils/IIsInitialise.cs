@@ -20,7 +20,6 @@ namespace Tests
         /// </summary>
         static IIsInitialise()
         {
-            StartTestSite();
         }
 
         private static bool IsTestServerRemote()
@@ -34,9 +33,11 @@ namespace Tests
         {
             var server = DnaTestURLRequest.CurrentServer;
 
+            var remoteServer = server.Host;// +":" + server.Port;
+
             var isRemote = IsTestServerRemote();
 
-            return isRemote ? ServerManager.OpenRemote(server) : new ServerManager();
+            return isRemote ? ServerManager.OpenRemote(remoteServer) : new ServerManager();
         }
 
 
@@ -52,46 +53,6 @@ namespace Tests
                 _iisTestSite = new IIsInitialise();
             }
             return _iisTestSite;
-        }
-
-        private enum webSiteType { main, test };
-
-        private static void StopWebSite(webSiteType siteType)
-        {
-            StopStartWebSite(siteType, false);
-        }
-
-        private static void StartWebSite(webSiteType siteType)
-        {
-            StopStartWebSite(siteType, true);
-        }
-
-        private static void StopStartWebSite(webSiteType siteType, bool start)
-        {
-            Site site = null;
-
-            using (var serverManager = ServerManagerInstance())
-            {
-                var h2g2Sites = serverManager.Sites.Where(s => s.Name.ToLower().Contains("h2g2"));
-
-                switch (siteType)
-                {
-                    case webSiteType.main: site = h2g2Sites.First(s => s.Name.ToLower() == "h2g2"); break;
-
-                    case webSiteType.test: site = h2g2Sites.First(s => s.Name.ToLower().Contains("test")); break;
-
-                    default: break;
-                }
-
-                if (start)
-                {
-                    site.Start();
-                }
-                else
-                {
-                    site.Stop();
-                }
-            }
         }
 
         private static void RestartMemCache()
@@ -122,36 +83,7 @@ namespace Tests
 
         public void RestartTestSite()
         {
-            RestoreDefaultSite();
-            StartTestSite();
-        }
-
-        /// <summary>
-        /// Enables the h2g2UnitTesting web site.
-        /// Disables current site first as XP only supports 1 active web site.
-        /// Uses IISAdmin .NET tool to query web sites and start h2g2UnitTesting.
-        /// Not required for Server / Server 2003 versions as they support multiple web sites.
-        /// </summary>
-        private static void StartTestSite()
-        {
-            // Stop Default Site
-            if (!IsTestServerRemote())
-                StopWebSite(webSiteType.main);
             RestartMemCache();
-            StartWebSite(webSiteType.test);
-
-        }
-
-        /// <summary>
-        /// Enable the Default web Site and stop test web site.
-        /// </summary>
-        private void RestoreDefaultSite()
-        {
-            StopWebSite(webSiteType.test);
-            RestartMemCache();
-
-            if (!IsTestServerRemote())
-                StartWebSite(webSiteType.main);
         }
 
 
@@ -259,7 +191,7 @@ namespace Tests
             {
                 var subPath = absolutePath.Remove(0, 3);
 
-                return string.Format(@"\\{0}\{1}", DnaTestURLRequest.CurrentServer, subPath);
+                return string.Format(@"\\{0}\{1}", DnaTestURLRequest.CurrentServer.Host, subPath);
             }
             else
             {
@@ -269,7 +201,6 @@ namespace Tests
 
         public void Dispose()
         {
-            RestoreDefaultSite();
         }
     }
 }

@@ -6,7 +6,6 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
-using System.Security.Permissions;
 
 //
 // General Information about an assembly is controlled through the following 
@@ -37,6 +36,4 @@ using System.Security.Permissions;
 [assembly: ComVisible(false)]
 
 [assembly: AllowPartiallyTrustedCallers]
-[assembly: SecurityCritical(SecurityCriticalScope.Explicit)]
-[assembly: SecurityPermission(SecurityAction.RequestMinimum, Execution = true)]
-
+[assembly: SecurityRules(SecurityRuleSet.Level2)]

@@ -1,9 +1,9 @@
-using System;
-using System.Net;
-using System.Xml;
 using BBC.Dna.Api;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
 using Tests;
 
 
@@ -36,7 +36,7 @@ namespace FunctionalTests.Services.Comments
             string inputRating = "";
             string inputText = "";
             string postData = "";
-    
+
             DnaTestURLRequest myRequest = null;
 
             // run test
@@ -226,13 +226,13 @@ namespace FunctionalTests.Services.Comments
             testForumId = testUtils_ratingsAPI.makeTestForum();
 
             // step 2 - create the review item
-            if( formatFrag != "" )
+            if (formatFrag != "")
                 formatParam = "?format=" + formatFrag;
-            
+
             myRequest.SetCurrentUserNormal();
 
             url = String.Format(
-                "https://{0}/dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}{4}",
+                "{0}dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}{4}",
                 testUtils_ratingsAPI.secureserver,
                 testUtils_ratingsAPI.sitename,
                 testForumId,
@@ -252,7 +252,7 @@ namespace FunctionalTests.Services.Comments
             return myRequest;
         }
 
-       // =============================================================================================
+        // =============================================================================================
 
         [TestCleanup]
         public void ShutDown()
@@ -273,6 +273,6 @@ namespace FunctionalTests.Services.Comments
             // testUtils_ratingsAPI.runningForumCount = testUtils_ratingsAPI.countForums(testUtils_ratingsAPI.sitename);
         }
 
-    
+
     } // ends class
 } // ends namespace

@@ -1,9 +1,7 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Net;
 using System.Xml;
-using BBC.Dna.Sites;
-using BBC.Dna.Utils;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
 
@@ -18,7 +16,7 @@ namespace FunctionalTests.Services.Comments
     [TestClass]
     public class ratingValueTest_v1
     {
-        
+
         /// <summary>
         /// Create a rating with a value = min allowed value
         /// </summary>
@@ -35,7 +33,7 @@ namespace FunctionalTests.Services.Comments
 
             Console.WriteLine("After ReviewAPI_RatingEntriesTests_ratingValue_V1 - atFloor");
         }
-        
+
         /// <summary>
         /// Create a rating with a value = (min - 1) allowed value
         /// </summary>
@@ -82,7 +80,7 @@ namespace FunctionalTests.Services.Comments
             Random random = new Random();
 
             // set the ceiling to be somewhere in the top half of the range allowed by the implementation
-            int testRatingCeilingValue = random.Next((int)(testUtils_ratingsAPI._implementedCeiling / 2) , testUtils_ratingsAPI._implementedCeiling);
+            int testRatingCeilingValue = random.Next((int)(testUtils_ratingsAPI._implementedCeiling / 2), testUtils_ratingsAPI._implementedCeiling);
 
             int testRatingValue = testRatingCeilingValue - 1;
 
@@ -157,7 +155,7 @@ namespace FunctionalTests.Services.Comments
         }
 
         //***************
-        
+
         /// <summary>
         /// Set the ceiling to the max implemented value and then create a rating just under that ceiling. Do this in the range specified for the implementation
         /// </summary>
@@ -266,7 +264,7 @@ namespace FunctionalTests.Services.Comments
             postData = testUtils_ratingsAPI.makeEntryPostXml_minimal(ref theText, ref theRating);
 
             url = String.Format(
-                "https://{0}/dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}?format={4}",
+                "{0}dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}?format={4}",
                 testUtils_ratingsAPI.secureserver,
                 testUtils_ratingsAPI.sitename,
                 testForumId,
@@ -308,7 +306,7 @@ namespace FunctionalTests.Services.Comments
                 DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, testUtils_ratingsAPI._schemaError);
                 validator.Validate();
             }
-        
+
         }
 
         /*
@@ -367,6 +365,6 @@ namespace FunctionalTests.Services.Comments
 
         }
 
-    
+
     } // ends class
 } // ends namespace

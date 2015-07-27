@@ -1,7 +1,7 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Net;
 using System.Xml;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 
 
@@ -130,8 +130,8 @@ namespace FunctionalTests.Services.Comments
             doIt_formPost(request, HttpStatusCode.Created);
 
             Console.WriteLine("After userType - bannedUser");
-        }        
-        
+        }
+
         // =============================================================================================
         /// <summary>
         /// Abstraction of the actual work
@@ -161,7 +161,7 @@ namespace FunctionalTests.Services.Comments
             postData = testUtils_ratingsAPI.makeEntryPostXml_minimal(ref theText, ref theRating);
 
             url = String.Format(
-                "https://{0}/dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}?format={4}",
+                "{0}dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}?format={4}",
                 testUtils_ratingsAPI.secureserver,
                 testUtils_ratingsAPI.sitename,
                 testForumId,
@@ -199,7 +199,7 @@ namespace FunctionalTests.Services.Comments
                 DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml, testUtils_ratingsAPI._schemaError);
                 validator.Validate();
             }
-        
+
         }
 
         // =============================================================================================
@@ -226,7 +226,7 @@ namespace FunctionalTests.Services.Comments
             postData = testUtils_ratingsAPI.makeEntryPostHTML_minimal(ref theText, ref theRating);
 
             url = String.Format(
-                "https://{0}/dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}?format={4}",
+                "{0}dna/api/comments/ReviewService.svc/V1/site/{1}/reviewforum/{2}/{3}?format={4}",
                 testUtils_ratingsAPI.secureserver,
                 testUtils_ratingsAPI.sitename,
                 testForumId,
@@ -248,7 +248,7 @@ namespace FunctionalTests.Services.Comments
                 );
 
         }
-       // =============================================================================================
+        // =============================================================================================
 
         [TestCleanup]
         public void ShutDown()
@@ -267,6 +267,6 @@ namespace FunctionalTests.Services.Comments
             // testUtils_ratingsAPI.runningForumCount = testUtils_ratingsAPI.countForums(testUtils_ratingsAPI.sitename);
         }
 
-    
+
     } // ends class
 } // ends namespace

@@ -1,18 +1,15 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tests;
-using System.Web;
-using System.Net;
-using BBC.Dna;
+﻿using BBC.Dna;
 using BBC.Dna.Api;
 using BBC.Dna.Data;
-using BBC.Dna.Utils;
 using BBC.Dna.Objects;
-using System.Xml;
+using BBC.Dna.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Specialized;
+using System.Net;
+using System.Web;
+using System.Xml;
+using Tests;
 
 namespace FunctionalTests.Services.Users
 {
@@ -27,7 +24,7 @@ namespace FunctionalTests.Services.Users
         string callinguser_url_json;
 
         string callinguserfull_secure_url;
-        
+
         private const string _schemaUser = @"Dna.Services.Users\user.xsd";
         private const string _schemaArticle = "Dna.Services.Articles\\article.xsd";
         private const string _schemaForumThreads = "Dna.Services.Forums\\forumThreads.xsd";
@@ -41,29 +38,29 @@ namespace FunctionalTests.Services.Users
         private const string _schemaPostList = "Dna.Services.Common\\postList.xsd";
         private const string _schemaFriendsList = @"Dna.Services.Users\friendsList.xsd";
 
-        private string _server = DnaTestURLRequest.CurrentServer;
+        private string _absoluteUri = DnaTestURLRequest.CurrentServer.AbsoluteUri;
         private string _sitename = "h2g2";
 
         public users()
         {
-            callinguser_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=xml";
-            callinguser_url_json = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=json";
-            callinguser_url_withInvalidSite = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/unknownsite/users/callinguser?format=xml";
-            callinguserfull_secure_url = @"https://" + DnaTestURLRequest.SecureServerAddress + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguserfull?format=xml";
+            callinguser_url = _absoluteUri + @"dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=xml";
+            callinguser_url_json = _absoluteUri + @"dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguser?format=json";
+            callinguser_url_withInvalidSite = _absoluteUri + @"dna/api/users/UsersService.svc/V1/site/unknownsite/users/callinguser?format=xml";
+            callinguserfull_secure_url = _absoluteUri + @"dna/api/users/UsersService.svc/V1/site/h2g2/users/callinguserfull?format=xml";
         }
 
         [TestMethod]
         public void GetCallingUserInfo_AsEditor_ReturnsEditorItemInGroup()
         {
             Console.WriteLine("Before GetCallingUserInfo_AsEditor_ReturnsEditorItemInGroup");
-            
+
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserEditor();
             request.RequestPageWithFullURL(callinguser_url);
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
-            Assert.IsNotNull(user.UsersListOfGroups.Find(x => x.Name.ToLower()  == "editor"));
+            Assert.IsNotNull(user.UsersListOfGroups.Find(x => x.Name.ToLower() == "editor"));
 
             Console.WriteLine("After GetCallingUserInfo_AsEditor_ReturnsEditorItemInGroup");
         }
@@ -94,7 +91,7 @@ namespace FunctionalTests.Services.Users
             request.RequestPageWithFullURL(callinguserfull_secure_url);
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
-            
+
             Assert.IsTrue(user.UsersListOfGroups.Exists(x => x.Name.ToLower() == "moderator"));
 
             Console.WriteLine("After GetCallingUserInfo_AsModerator_ReturnsModeratorItemInGroup");
@@ -146,7 +143,7 @@ namespace FunctionalTests.Services.Users
             request.RequestPageWithFullURL(callinguser_url_json);
 
             Console.WriteLine("After GetCallingUserInfo_AsNormalUser_ReturnsValidJson");
-        }        
+        }
 
         [TestMethod]
         public void GetCallingUserInfo_AsNotableUser_ReturnsNotablesItemInGroup()
@@ -164,17 +161,17 @@ namespace FunctionalTests.Services.Users
             Console.WriteLine("After GetCallingUserInfo_AsModerator_ReturnsNotablesItemInGroup");
         }
 
-        [TestMethod]        
+        [TestMethod]
         public void GetCallingUserInfo_AsNotLoggedInUser_Returns401()
         {
             Console.WriteLine("Before GetCallingUserInfo_AsNotLoggedInUser_Returns401");
 
-            DnaTestURLRequest request = new DnaTestURLRequest("h2g2"); 
+            DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNotLoggedInUser();
             request.AssertWebRequestFailure = false;
             try
             {
-                request.RequestPageWithFullURL(callinguserfull_secure_url);               
+                request.RequestPageWithFullURL(callinguserfull_secure_url);
             }
             catch (WebException)
             {
@@ -191,8 +188,10 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetCallingUserInfo_UnknownSite_Returns404");
 
-            DnaTestURLRequest request = new DnaTestURLRequest(DnaTestURLRequest.CurrentServer);
-            request.AssertWebRequestFailure = false; 
+            var serviceName = string.Format("{0}:{1}/", DnaTestURLRequest.CurrentServer.Host, DnaTestURLRequest.CurrentServer.Port);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(serviceName);
+            request.AssertWebRequestFailure = false;
             try
             {
                 request.RequestPageWithFullURL(callinguser_url_withInvalidSite);
@@ -219,7 +218,7 @@ namespace FunctionalTests.Services.Users
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
-            Assert.AreEqual("Normal", user.StatusAsString);            
+            Assert.AreEqual("Normal", user.StatusAsString);
 
             Console.WriteLine("After GetCallingUserInfo_AsPreModUser_ReturnsNormalUser");
         }
@@ -235,8 +234,8 @@ namespace FunctionalTests.Services.Users
 
             BBC.Dna.Users.User user = (BBC.Dna.Users.User)StringUtils.DeserializeObject(request.GetLastResponseAsXML().OuterXml, typeof(BBC.Dna.Users.User));
 
-            Assert.AreEqual("Super", user.StatusAsString);            
-            
+            Assert.AreEqual("Super", user.StatusAsString);
+
 
             Console.WriteLine("After GetCallingUserInfo_AsSuperUser_ReturnsSuperStatus");
         }
@@ -254,7 +253,7 @@ namespace FunctionalTests.Services.Users
 
             Assert.IsTrue(string.IsNullOrEmpty(user.IdentityUserID));
             Assert.IsTrue(string.IsNullOrEmpty(user.IdentityUserName));
-           
+
             Console.WriteLine("After GetCallingUserInfo_Non_Secure_ReturnsLessDetails");
         }
 
@@ -263,7 +262,10 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetCallingUserInfoFull_Non_Secure_Returns401");
 
-            DnaTestURLRequest request = new DnaTestURLRequest(DnaTestURLRequest.CurrentServer);
+            var serviceName = string.Format("{0}:{1}/", DnaTestURLRequest.CurrentServer.Host, DnaTestURLRequest.CurrentServer.Port);
+
+            DnaTestURLRequest request = new DnaTestURLRequest(serviceName);
+
             request.AssertWebRequestFailure = false;
             try
             {
@@ -295,7 +297,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users About Me IdentityUserName:" + name);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?format=xml", _sitename, name);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?format=xml", _sitename, name);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -320,7 +322,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users About Me UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -346,7 +348,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Journal IdentityUserName:" + name);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?format=xml", _sitename, name);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?format=xml", _sitename, name);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -372,7 +374,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Journal UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -397,7 +399,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Messages IdentityUserName:" + name);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?format=xml", _sitename, name);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?format=xml", _sitename, name);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -423,7 +425,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Messages UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -448,7 +450,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Links IdentityUserName:" + name);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?format=xml", _sitename, name);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?format=xml", _sitename, name);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -474,7 +476,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Links UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -503,7 +505,7 @@ namespace FunctionalTests.Services.Users
                 request.SetCurrentUserNormal();
 
                 Console.WriteLine("Validating Users Article Subscriptions IdentityUserName:" + name);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/articlesubscriptions?format=xml", _sitename, name);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/articlesubscriptions?format=xml", _sitename, name);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -542,7 +544,7 @@ namespace FunctionalTests.Services.Users
                 reader.AddParameter("siteid", siteID);
 
                 reader.Execute();
-           }
+            }
         }
 
         private int SetupASimpleGuideEntry(int editor)
@@ -569,7 +571,7 @@ namespace FunctionalTests.Services.Users
                 reader.Execute();
             }
         }
-        
+
         /// <summary>
         /// Test GetUsersArticleSubscriptions method from service
         /// </summary>
@@ -585,7 +587,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Article Subscriptions UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/articlesubscriptions?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/articlesubscriptions?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -612,7 +614,7 @@ namespace FunctionalTests.Services.Users
                 request.SetCurrentUserNormal();
 
                 Console.WriteLine("Validating Users User Subscriptions UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/usersubscriptions?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/usersubscriptions?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -639,7 +641,7 @@ namespace FunctionalTests.Services.Users
                 request.SetCurrentUserNormal();
 
                 Console.WriteLine("Validating Users Blocked User Subscriptions UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -666,7 +668,7 @@ namespace FunctionalTests.Services.Users
                 request.SetCurrentUserNormal();
 
                 Console.WriteLine("Validating Users Subscribing Users UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/subscribingusers?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/subscribingusers?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -694,7 +696,7 @@ namespace FunctionalTests.Services.Users
                 request.SetCurrentUserNormal();
 
                 Console.WriteLine("Validating Users Link Subscriptions UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/linksubscriptions?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/linksubscriptions?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -724,7 +726,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users About Me IdentityUserName:" + name);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?format=json", _sitename, name);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?format=json", _sitename, name);
                 // now get the response
                 request.RequestPageWithFullURL(url);
 
@@ -748,7 +750,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users About Me UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?idtype=DNAUserId&format=json", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?idtype=DNAUserId&format=json", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url);
 
@@ -772,7 +774,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Journal IdentityUserName:" + name);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?format=json", _sitename, name);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?format=json", _sitename, name);
                 // now get the response
                 request.RequestPageWithFullURL(url);
 
@@ -796,7 +798,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Journal UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?idtype=DNAUserId&format=json", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?idtype=DNAUserId&format=json", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url);
 
@@ -819,7 +821,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Messages IdentityUserName:" + name);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?format=json", _sitename, name);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?format=json", _sitename, name);
                 // now get the response
                 request.RequestPageWithFullURL(url);
 
@@ -843,7 +845,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Messages UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?idtype=DNAUserId&format=json", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?idtype=DNAUserId&format=json", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url);
 
@@ -866,7 +868,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Links IdentityUserName:" + name);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?format=json", _sitename, name);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?format=json", _sitename, name);
                 // now get the response
                 request.RequestPageWithFullURL(url);
 
@@ -890,7 +892,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Links UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?idtype=DNAUserId&format=json", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?idtype=DNAUserId&format=json", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url);
 
@@ -914,7 +916,7 @@ namespace FunctionalTests.Services.Users
             request.AssertWebRequestFailure = false;
             try
             {
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?format=xml", _sitename, identityusername);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/aboutme?format=xml", _sitename, identityusername);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
             }
@@ -943,7 +945,7 @@ namespace FunctionalTests.Services.Users
             request.AssertWebRequestFailure = false;
             try
             {
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?format=xml", _sitename, identityusername);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/journal?format=xml", _sitename, identityusername);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
             }
@@ -972,7 +974,7 @@ namespace FunctionalTests.Services.Users
             request.AssertWebRequestFailure = false;
             try
             {
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?format=xml", _sitename, identityusername);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/messages?format=xml", _sitename, identityusername);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
             }
@@ -1001,7 +1003,7 @@ namespace FunctionalTests.Services.Users
             request.AssertWebRequestFailure = false;
             try
             {
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?format=xml", _sitename, identityusername);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?format=xml", _sitename, identityusername);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
             }
@@ -1030,7 +1032,7 @@ namespace FunctionalTests.Services.Users
             request.AssertWebRequestFailure = false;
             try
             {
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?idtype=DNAUserId&format=xml", _sitename, dnaUserId);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links?idtype=DNAUserId&format=xml", _sitename, dnaUserId);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
             }
@@ -1132,7 +1134,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Articles UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/articles?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/articles?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -1158,7 +1160,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Conversations UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/conversations?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/conversations?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -1184,7 +1186,7 @@ namespace FunctionalTests.Services.Users
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
 
                 Console.WriteLine("Validating Users Friends List UserID:" + id);
-                string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends?idtype=DNAUserId&format=xml", _sitename, id);
+                string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends?idtype=DNAUserId&format=xml", _sitename, id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 // Check to make sure that the page returned with the correct information
@@ -1210,7 +1212,7 @@ namespace FunctionalTests.Services.Users
             string postData = String.Format("siteSuffix={0}",
                  HttpUtility.HtmlEncode(siteSuffix));
 
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/userdetails/create.htm", _sitename);
+            string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/userdetails/create.htm", _sitename);
 
             NameValueCollection localHeaders = new NameValueCollection();
             localHeaders.Add("referer", "http://www.bbc.co.uk/dna/h2g2/?test=1");
@@ -1239,7 +1241,7 @@ namespace FunctionalTests.Services.Users
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
 
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/acceptsubscriptions", _sitename);
+            string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/acceptsubscriptions", _sitename);
             string postData = "No data to send";
 
             request.RequestPageWithFullURL(url, postData, "text/xml");
@@ -1252,7 +1254,7 @@ namespace FunctionalTests.Services.Users
 
             Assert.AreEqual(true, user.AcceptSubscriptions);
 
-            url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/acceptsubscriptions/remove", _sitename);
+            url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/callinguser/acceptsubscriptions/remove", _sitename);
 
             request.RequestPageWithFullURL(url, postData, "text/xml");
 
@@ -1279,7 +1281,7 @@ namespace FunctionalTests.Services.Users
             request.SetCurrentUserNormal();
             int dnaUserId = 1090501859;
             int friendId = 6;
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}/add?idtype=dnauserid", _sitename, dnaUserId, friendId);
+            string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}/add?idtype=dnauserid", _sitename, dnaUserId, friendId);
             string postData = "No data to send";
 
             // now get the response
@@ -1303,7 +1305,7 @@ namespace FunctionalTests.Services.Users
             int friendId = 6;
             string postData = "No data to send";
 
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}/delete?idtype=dnauserid", _sitename, dnaUserId, friendId);
+            string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/friends/{2}/delete?idtype=dnauserid", _sitename, dnaUserId, friendId);
 
             // now get the response
             request.RequestPageWithFullURL(url, postData, "text/xml", "POST");
@@ -1332,7 +1334,7 @@ namespace FunctionalTests.Services.Users
             //request.RequestPageWithFullURL(url, null, "text/xml");
 
 
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links/{2}/delete", _sitename, name, link);
+            string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/links/{2}/delete", _sitename, name, link);
 
             // now get the response
             request.RequestPageWithFullURL(url, postData, "text/xml", "POST");
@@ -1353,7 +1355,7 @@ namespace FunctionalTests.Services.Users
             request.SetCurrentUserNormal();
             int dnaUserId = 1090501859;
             int blockId = 6;
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/block?idtype=dnauserid", _sitename, dnaUserId, blockId);
+            string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/block?idtype=dnauserid", _sitename, dnaUserId, blockId);
 
             // now get the response
             request.RequestPageWithFullURL(url, "No data to Send", "text/xml", "POST");
@@ -1376,13 +1378,13 @@ namespace FunctionalTests.Services.Users
             int unblockId = 6;
 
             //Block user 6 first
-            string url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/block?idtype=dnauserid", _sitename, dnaUserId, unblockId);
+            string url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/block?idtype=dnauserid", _sitename, dnaUserId, unblockId);
 
             // now get the response
             request.RequestPageWithFullURL(url, "No data to Send", "text/xml", "POST");
 
             //Unblock 
-            url = String.Format("http://" + _server + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/unblock?idtype=dnauserid", _sitename, dnaUserId, unblockId);
+            url = String.Format(_absoluteUri + "dna/api/users/UsersService.svc/V1/site/{0}/users/{1}/blockedusers/{2}/unblock?idtype=dnauserid", _sitename, dnaUserId, unblockId);
 
             // now get the response
             request.RequestPageWithFullURL(url, String.Empty, String.Empty, "POST");

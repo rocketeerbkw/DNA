@@ -1,22 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Xml;
-using System.Xml.XPath;
-using BBC.Dna.Api;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
-using BBC.Dna.Moderation.Utils;
+﻿using BBC.Dna.Api;
 using BBC.Dna.Utils;
-
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
 using Tests;
 
 
@@ -30,7 +17,8 @@ namespace FunctionalTests.Services.Forums
     public class forumSource_V1
     {
         private const string _schemaForumSource = "Dna.Services.Forums\\forumSource.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -52,9 +40,9 @@ namespace FunctionalTests.Services.Forums
         /// Constructor
         /// </summary>
         public forumSource_V1()
-        {          
+        {
         }
-        
+
         /// <summary>
         /// Test GetForumSource method from service
         /// </summary>
@@ -70,7 +58,7 @@ namespace FunctionalTests.Services.Forums
             request.RequestPageWithFullURL(url, null, "text/xml");
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
-            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"","") , _schemaForumSource);
+            DnaXmlValidator validator = new DnaXmlValidator(xml.InnerXml.Replace("xmlns=\"http://schemas.datacontract.org/2004/07/BBC.Dna.Objects\"", ""), _schemaForumSource);
             validator.Validate();
 
             Console.WriteLine("After GetForumSource_V1Xml_ReadOnly_ReturnsValidXml");
@@ -88,7 +76,7 @@ namespace FunctionalTests.Services.Forums
             request.AssertWebRequestFailure = false;
 
             string url = String.Format("http://" + _server + "/dna/api/forums/ForumsService.svc/V1/site/{0}/forums/{1}/threads/{2}/forumsource?format=xml", _sitename, 666, 666);
-            
+
             try
             {
                 request.RequestPageWithFullURL(url, null, "text/xml", String.Empty, null);
@@ -102,7 +90,7 @@ namespace FunctionalTests.Services.Forums
             Assert.AreEqual(ErrorType.ForumOrThreadNotFound.ToString(), errorData.Code);
 
             Console.WriteLine("After GetForumSource_V1Xml_ReadOnly_Returns404");
-            
+
         }
     }
 }

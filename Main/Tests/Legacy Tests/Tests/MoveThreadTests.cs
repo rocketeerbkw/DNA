@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using BBC.Dna;
 using BBC.Dna.Component;
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NMock2;
+using System;
+using System.Xml;
 
 namespace Tests
 {
@@ -269,7 +267,7 @@ namespace Tests
 
             using (IDnaDataReader reader = context.CreateDnaDataReader("FindUserFromID"))
             {
-                reader.AddParameter("UserID",userID);
+                reader.AddParameter("UserID", userID);
                 reader.Execute();
 
                 Assert.IsTrue(reader.HasRows, "No rows came back from the FindUserFromID storedprocedure");
@@ -360,8 +358,9 @@ namespace Tests
             request.SetCurrentUserEditor();
             //request.SignUserIntoSSOViaWebRequest(DnaTestURLRequest.usertype.EDITOR);
             //request.SignUserIntoSSOViaProfileAPI(DnaTestURLRequest.usertype.EDITOR);
+            string hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
 
-            string server = DnaTestURLRequest.CurrentServer;
+            string server = hostAndPort;
 
             // Setup the request url
             string uid = Guid.NewGuid().ToString();

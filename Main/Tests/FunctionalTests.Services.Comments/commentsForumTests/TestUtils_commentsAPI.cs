@@ -1,10 +1,9 @@
-using System;
-using System.Net;
-using System.Web;
-using System.Xml;
 using BBC.Dna.Api;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
 using Tests;
 
 
@@ -15,10 +14,10 @@ namespace FunctionalTests.Services.Comments
     /// This set of tests check what happens with different types of user - normal people should not be able to create them
     /// In all cases, use the basic minimum of data
     /// </summary>
-    
+
     public class testUtils_CommentsAPI
     {
-        
+
         public const string _schemaCommentForumList = "Dna.Services\\commentForumList.xsd";
         public const string _schemaCommentForum = "Dna.Services\\commentForum.xsd";
         public const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
@@ -26,8 +25,9 @@ namespace FunctionalTests.Services.Comments
         public const string _schemaError = "Dna.Services\\error.xsd";
 
         public const string _resourceLocation = "/dna/api/comments/CommentsService.svc/v1/";
-        public static string server = DnaTestURLRequest.CurrentServer;
-        public static string secureServer = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        public static string server = _hostAndPort;
+        public static string secureServer = DnaTestURLRequest.SecureServerAddress.AbsoluteUri;
         public static string sitename = "h2g2";
 
         public static int runningForumCount = 0; // used to see our starting count, before we start adding forums.
@@ -39,7 +39,7 @@ namespace FunctionalTests.Services.Comments
         /// <returns>teh count</returns>
         public static int countForums(string SiteName)
         {
-            string _server = DnaTestURLRequest.CurrentServer;
+            string _server = _hostAndPort;
 
             DnaTestURLRequest request = new DnaTestURLRequest(SiteName);
 
@@ -73,7 +73,7 @@ namespace FunctionalTests.Services.Comments
             DateTime dt = DateTime.Now;
             String TimeStamp = makeTimeStamp();
 
-            if( id == "")
+            if (id == "")
                 id = "FunctiontestCommentForum-" + Guid.NewGuid().ToString(); // the tail bit creates an unique string
 
             if (title == "")
@@ -81,7 +81,7 @@ namespace FunctionalTests.Services.Comments
 
             if (parentUri == "")
                 parentUri = "http://www.bbc.co.uk/dna/" + TimeStamp + "/";
-            
+
             string postXML = String.Format("<commentForum xmlns=\"BBC.Dna.Api\">" +
                 "<id>{0}</id>" +
                 "<title>{1}</title>" +
@@ -146,8 +146,8 @@ namespace FunctionalTests.Services.Comments
         {
             Random ranGen = new Random();
             string raw = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla adipiscing rutrum nunc a blandit. Etiam at odio vel purus malesuada gravida. Integer sapien erat, mattis eget vestibulum vitae, tincidunt eget mi. Suspendisse luctus, nisl vitae consectetur vulputate, odio mauris convallis erat, in vestibulum purus nunc nec nisi. Curabitur tellus ipsum, laoreet blandit aliquet at, tincidunt ac urna. Sed sed metus eget nibh dignissim blandit in nec neque. Donec justo ligula, consequat vel tincidunt nec, consequat in nibh. Proin mattis sapien porta nunc sagittis mattis. Nullam bibendum dapibus velit, a luctus purus dictum a. Sed a nisl non leo euismod gravida.";
-            int startInex = ranGen.Next(0, raw.Length/2);
-            int len = ranGen.Next(10, (raw.Length/2) - 1);
+            int startInex = ranGen.Next(0, raw.Length / 2);
+            int len = ranGen.Next(10, (raw.Length / 2) - 1);
 
             string postXML = String.Format(
                 "<comment xmlns=\"BBC.Dna.Api\"><text>{0}</text></comment>",
@@ -182,7 +182,7 @@ namespace FunctionalTests.Services.Comments
             string title = "";
             string parentUri = ""; // not actually going to do anything with these, but need to give them the postXML
 
-            string url = "http://" + testUtils_CommentsAPI.server + testUtils_CommentsAPI._resourceLocation + "/site/" +testUtils_CommentsAPI.sitename + "/";
+            string url = "http://" + testUtils_CommentsAPI.server + testUtils_CommentsAPI._resourceLocation + "/site/" + testUtils_CommentsAPI.sitename + "/";
 
             string postXML = testUtils_CommentsAPI.makePostXml(ref id, ref title, ref parentUri); // make some unique data for the new forum
 
@@ -218,7 +218,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(returnedForum.Id == id);
 
             return id;
-            }
+        }
 
         /// <summary>
         /// Assumes that the name that it has been given is the name of a good comments forum
@@ -229,9 +229,9 @@ namespace FunctionalTests.Services.Comments
         public static string makeTestComment(string forumName)
         {
             string postData = makeCommentPostXML();
-            string url = String.Format("https://{0}/dna/api/comments/CommentsService.svc/V1/site/{1}/commentsforums/{2}/",
+            string url = String.Format("{0}dna/api/comments/CommentsService.svc/V1/site/{1}/commentsforums/{2}/",
                 testUtils_CommentsAPI.secureServer, testUtils_CommentsAPI.sitename, forumName);
-            
+
             DnaTestURLRequest myRequest = new DnaTestURLRequest(sitename);
             myRequest.SetCurrentUserNormal();
             myRequest.UseIdentitySignIn = true;

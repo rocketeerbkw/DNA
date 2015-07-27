@@ -1,8 +1,5 @@
-using System;
-using System.Net;
-using System.Xml;
-using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using Tests;
 
 
@@ -66,7 +63,7 @@ namespace FunctionalTests.Services.Comments
             Assert.IsTrue(assertThrown);
 
             Console.WriteLine("After missingData - missTrailingSlash");
-        } 
+        }
 
     } // ends class
 } // ends namespace

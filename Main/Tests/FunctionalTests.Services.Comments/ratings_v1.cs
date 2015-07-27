@@ -1,24 +1,12 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Web;
-using System.Xml;
-using System.Xml.XPath;
 using BBC.Dna.Api;
-using BBC.Dna.Component;
 using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
 using Tests;
-
 using TestUtils;
 
 namespace FunctionalTests.Services.Comments
@@ -32,8 +20,9 @@ namespace FunctionalTests.Services.Comments
         private const string _schemaRatingForum = "Dna.Services\\ratingForum.xsd";
         private const string _schemaComment = "Dna.Services\\rating.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
-        private string _secureserver = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress.Host;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -56,7 +45,7 @@ namespace FunctionalTests.Services.Comments
         /// </summary>
         public RatingTests_V1()
         {
-          
+
         }
 
         /// <summary>
@@ -137,7 +126,7 @@ namespace FunctionalTests.Services.Comments
             //create the forum
             RatingForum ratingForum = RatingForumCreate("tests", Guid.NewGuid().ToString());
 
-            return CreateRatingHelper(ratingForum.Id, false);            
+            return CreateRatingHelper(ratingForum.Id, false);
         }
 
         /// <summary>
@@ -183,7 +172,7 @@ namespace FunctionalTests.Services.Comments
 
             BBC.Dna.Api.RatingForum returnedForum = (BBC.Dna.Api.RatingForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(BBC.Dna.Api.RatingForum));
             Assert.IsTrue(returnedForum.Id == id);
-            
+
             Assert.IsTrue(returnedForum.ParentUri == parentUri);
             Assert.IsTrue(returnedForum.Title == title);
             Assert.IsTrue(returnedForum.ModerationServiceGroup == moderationStatus);
@@ -334,7 +323,7 @@ namespace FunctionalTests.Services.Comments
                 uid, "title", "http://www.bbc.co.uk/dna/h2g2/",
                 text, 5);
 
-            
+
 
             // Setup the request url
             string url = String.Format("https://" + _secureserver + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/", _sitename, uid);
@@ -433,7 +422,7 @@ namespace FunctionalTests.Services.Comments
             }
             catch { }
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.Unauthorized);
-            
+
 
             Console.WriteLine("After CreateRating");
         }
@@ -821,7 +810,7 @@ namespace FunctionalTests.Services.Comments
         {
             Console.WriteLine("Before ViewIdentityUsersRating");
             string siteName = "identity606";
-           //create the forum
+            //create the forum
             RatingForum ratingForum = RatingForumIdentityUserCreate("tests", Guid.NewGuid().ToString());
 
             string text = "Functiontest Title" + Guid.NewGuid().ToString();
@@ -901,9 +890,9 @@ namespace FunctionalTests.Services.Comments
 
             // Setup the request url
             string url = String.Format("http://" + _server + "/dna/api/comments/ReviewService.svc/V1/site/{0}/reviewforum/{1}/?filterBy=EditorPicks", _sitename, ratingForum.Id);
-            
-            
-            
+
+
+
             //Check that picked comment is in results.
             request.RequestPageWithFullURL(url, "", "text/xml");
             XmlDocument xml = request.GetLastResponseAsXML();
@@ -962,11 +951,11 @@ namespace FunctionalTests.Services.Comments
                 CheckErrorSchema(request.GetLastResponseAsXML());
 
             }
-            finally 
+            finally
             {
                 DeleteMinMaxLimitSiteOptions();
             }
-            
+
 
             Console.WriteLine("After CreateRatingHtml_TooFewCharsRating");
         }
@@ -981,7 +970,7 @@ namespace FunctionalTests.Services.Comments
             try
             {
 
-            
+
                 SetMaxCharLimit(10);
 
                 DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
@@ -1013,7 +1002,7 @@ namespace FunctionalTests.Services.Comments
 
                 DeleteMinMaxLimitSiteOptions();
             }
-            
+
 
             Console.WriteLine("After CreateRatingHtml_TooManyCharsRating");
         }

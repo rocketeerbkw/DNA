@@ -1,27 +1,15 @@
+using BBC.Dna;
+using BBC.Dna.Api;
+using BBC.Dna.Data;
+using BBC.Dna.Objects;
+using BBC.Dna.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Linq;
+using System.Collections.Specialized;
 using System.Net;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 using System.Xml;
-using System.Xml.XPath;
-using BBC.Dna.Api;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
-using BBC.Dna.Moderation.Utils;
-using BBC.Dna.Utils;
-
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
-using BBC.Dna.Objects;
-using System.Collections.Specialized;
-using BBC.Dna;
-using TestUtils;
 
 
 
@@ -34,7 +22,8 @@ namespace FunctionalTests.Services.Forums
     public class ForumThreadPosts_V1
     {
         private const string _schemaForumThreads = "Dna.Services.Forums\\forumThreadPosts.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
         private string _sitename = "h2g2";
 
         [TestCleanup]
@@ -152,7 +141,7 @@ namespace FunctionalTests.Services.Forums
 
             Assert.AreEqual(@"Doe the stuff that buys me beer!", threadPost.Subject);
             Assert.AreEqual(@"Dough.. the $tuff that buys me beer,<BR />Ray.. the guy who sells me beer, *<BR />Me.. the guy who drinks the beer,<BR />Fa(r).. the distance to my beer,<BR />So.. I think I'll have a beer,<BR />La.. la la la la la beer,<BR />Tea.. no thanks I'm drinking beer!<BR /><BR />That will bring us back to .... [looks at empty glass] d'oh! <BR /><BR /><SMILEY TYPE='kiss' H2G2='Smiley#kiss'/><SMILEY TYPE='kiss' H2G2='Smiley#kiss'/>", threadPost.Text);
-            
+
             Assert.AreEqual(60, threadPost.PostId);
 
             Console.WriteLine("Before GetThreadPostXml_ReadOnly_ReturnsValidXml");
@@ -252,7 +241,7 @@ namespace FunctionalTests.Services.Forums
 
             request.RequestPageWithFullURL(url, postData, "application/x-www-form-urlencoded", "POST", localHeaders);
             Assert.AreEqual(HttpStatusCode.OK, request.CurrentWebResponse.StatusCode);
-            
+
             //check deserialisation
             ThreadPost savedThreadPost = (ThreadPost)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(ThreadPost));
 
@@ -821,7 +810,7 @@ namespace FunctionalTests.Services.Forums
 
             try
             {
-                SetSiteOption("1", "CommentForum", "MinCommentCharacterLength","0",  5, "description"); 
+                SetSiteOption("1", "CommentForum", "MinCommentCharacterLength", "0", 5, "description");
                 try
                 {
                     request.RequestPageWithFullURL(url, serializedData, "text/xml");

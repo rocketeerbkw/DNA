@@ -1,15 +1,15 @@
+using BBC.Dna.Api;
+using BBC.Dna.Common;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Sites;
+using BBC.Dna.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Net;
 using System.Xml;
-using BBC.Dna.Api;
-using BBC.Dna.Moderation.Utils;
-using BBC.Dna.Utils;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
 using TestUtils;
-using BBC.Dna.Sites;
-using BBC.Dna.Common;
 
 namespace FunctionalTests.Services.Comments
 {
@@ -23,8 +23,9 @@ namespace FunctionalTests.Services.Comments
         private const string _schemaCommentForum = "Dna.Services\\commentForum.xsd";
         private const string _schemaCommentsList = "Dna.Services\\commentsList.xsd";
         private const string _schemaError = "Dna.Services\\error.xsd";
-        private readonly string _server = DnaTestURLRequest.CurrentServer;
-        private readonly string _secureServer = DnaTestURLRequest.SecureServerAddress;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
+        private readonly string _secureServer = DnaTestURLRequest.SecureServerAddress.Host;
         private string _sitename = "h2g2";
         private ISiteList _siteList;
 
@@ -82,7 +83,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             var returnedForum =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedForum.Id == id);
 
             Assert.IsTrue(returnedForum.ParentUri == parentUri);
@@ -91,7 +92,7 @@ namespace FunctionalTests.Services.Comments
             return returnedForum;
         }
 
- 
+
         /// <summary>
         /// Test GetCommentForumsBySitenameXML method from service
         /// </summary>
@@ -110,17 +111,17 @@ namespace FunctionalTests.Services.Comments
             // now get the response
             request.RequestPageWithFullURL(url, "", "text/xml");
 
-            
+
 
             // Check to make sure that the page returned with the correct information
             XmlDocument xml = request.GetLastResponseAsXML();
             var validator = new DnaXmlValidator(xml.InnerXml, _schemaCommentForumList);
             validator.Validate();
 
-            
+
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
 
             //check the content language returned
             Assert.IsNotNull(request.CurrentWebResponse.Headers["Content-Language"]);
@@ -157,7 +158,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -176,7 +177,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -194,7 +195,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
             // should fail and return the default
@@ -214,7 +215,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
             // should fail and return the default which is Created
@@ -259,7 +260,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -278,7 +279,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -296,7 +297,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
             // should fail and return the default
@@ -316,7 +317,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
 
@@ -358,7 +359,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -377,7 +378,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -395,7 +396,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
             // should fail and return the default
@@ -415,7 +416,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
             // should fail and return the default which is Created
@@ -466,7 +467,7 @@ namespace FunctionalTests.Services.Comments
 
                 returnedForum =
                     (CommentForum)
-                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
                 Assert.IsTrue(returnedForum.Id == id);
             }
             //create a non-prefixed one
@@ -488,7 +489,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             returnedForum =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedForum.Id == id);
 
             // Setup the request url
@@ -505,7 +506,7 @@ namespace FunctionalTests.Services.Comments
 
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList != null);
             Console.WriteLine("After GetCommentForumsBySitenameXML");
 
@@ -517,7 +518,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -536,7 +537,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() == sortBy);
 
@@ -554,7 +555,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() != sortDirection); // should fail and return the default
             Assert.IsTrue(returnedList.SortDirection.ToString() == SortDirection.Ascending.ToString());
             // should fail and return the default
@@ -574,7 +575,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Assert.IsTrue(returnedList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.SortBy.ToString() != sortBy);
             // should fail and return the default which is Created
@@ -616,7 +617,7 @@ namespace FunctionalTests.Services.Comments
 
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             int forumCount = 0;
             while (returnedList.TotalCount > forumCount)
             {
@@ -636,7 +637,7 @@ namespace FunctionalTests.Services.Comments
 
                 returnedList =
                     (CommentForumList)
-                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                    StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
                 forumCount += returnedList.CommentForums.Count;
             }
             Assert.IsTrue(forumCount == returnedList.TotalCount);
@@ -662,7 +663,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(url, "", "application/json");
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             Console.WriteLine("After GetCommentForumsBySitenameJSON");
         }
 
@@ -710,7 +711,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             //get the first for test
             CommentForum commentForum = returnedList.CommentForums.First();
 
@@ -729,7 +730,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             var returnedForum =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
         }
 
 
@@ -761,7 +762,7 @@ namespace FunctionalTests.Services.Comments
             {
                 commentForumUIDs += returnedList.CommentForums[i].Id + ",";
             }
-           
+
 
             commentForumUIDs = commentForumUIDs.TrimEnd(',');
 
@@ -816,7 +817,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             var returnedForum =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedForum.Id == id);
             //create 10 comments
             for (int i = 0; i < 3; i++)
@@ -848,7 +849,7 @@ namespace FunctionalTests.Services.Comments
             //test ascending created
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             var returnedList =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.commentList.SortBy.ToString() == sortBy);
 
@@ -866,7 +867,7 @@ namespace FunctionalTests.Services.Comments
             sortDirection = SortDirection.Descending.ToString();
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.commentList.SortBy.ToString() == sortBy);
 
@@ -883,7 +884,7 @@ namespace FunctionalTests.Services.Comments
             sortDirection = SortDirection.Descending.ToString().ToLower();
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() != sortDirection);
             // should fail and return the default
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() == SortDirection.Ascending.ToString());
@@ -903,7 +904,7 @@ namespace FunctionalTests.Services.Comments
             sortDirection = SortDirection.Descending.ToString();
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() == sortDirection);
             Assert.IsTrue(returnedList.commentList.SortBy.ToString() != sortBy);
             // should fail and return the default which is Created
@@ -924,7 +925,7 @@ namespace FunctionalTests.Services.Comments
             sortDirection = "";
             request.RequestPageWithFullURL(String.Format(sortUrl, sortBy, sortDirection), "", "text/xml");
             returnedList =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() != sortDirection);
             Assert.IsTrue(returnedList.commentList.SortDirection.ToString() == SortDirection.Ascending.ToString());
             Assert.IsTrue(returnedList.commentList.SortBy.ToString() != sortBy);
@@ -961,7 +962,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             //get the first for test
             CommentForum commentForum = returnedList.CommentForums.First();
 
@@ -976,7 +977,7 @@ namespace FunctionalTests.Services.Comments
 
             var returnedForum =
                 (CommentForum)
-                StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(CommentForum));
         }
 
         /// <summary>
@@ -1001,7 +1002,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             //get the first for test
             CommentForum commentForum = returnedList.CommentForums.First();
 
@@ -1042,7 +1043,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             //get the first for test
             CommentForum commentForum = returnedList.CommentForums.First();
             // Setup the request url
@@ -1079,7 +1080,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
             var returnedList =
                 (CommentForumList)
-                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForumList));
+                StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForumList));
             //get the first for test
             CommentForum commentForum = returnedList.CommentForums.First();
             // Setup the request url
@@ -1118,8 +1119,8 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {
-// Check to make sure that the page returned with the correct information
-                
+                // Check to make sure that the page returned with the correct information
+
             }
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.NotFound);
             CheckErrorSchema(request.GetLastResponseAsXML());
@@ -1146,11 +1147,11 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {
-// Check to make sure that the page returned with the correct information
+                // Check to make sure that the page returned with the correct information
                 Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.NotFound);
             }
             var error =
-                (ErrorData) StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof (ErrorData));
+                (ErrorData)StringUtils.DeserializeJSONObject(request.GetLastResponseAsString(), typeof(ErrorData));
         }
 
         /// <summary>
@@ -1185,7 +1186,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             var returnedForum =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedForum.Id == id);
 
             Console.WriteLine("After GetCommentForumXML");
@@ -1221,7 +1222,7 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {
-// Check to make sure that the page returned with the correct information
+                // Check to make sure that the page returned with the correct information
                 Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
             }
             CheckErrorSchema(request.GetLastResponseAsXML());
@@ -1256,7 +1257,7 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {
-// Check to make sure that the page returned with the correct information
+                // Check to make sure that the page returned with the correct information
                 Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
             }
             CheckErrorSchema(request.GetLastResponseAsXML());
@@ -1292,7 +1293,7 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {
-// Check to make sure that the page returned with the correct information
+                // Check to make sure that the page returned with the correct information
                 Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
             }
             CheckErrorSchema(request.GetLastResponseAsXML());
@@ -1328,7 +1329,7 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {
-// Check to make sure that the page returned with the correct information
+                // Check to make sure that the page returned with the correct information
                 Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
             }
             CheckErrorSchema(request.GetLastResponseAsXML());
@@ -1369,7 +1370,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             var returnedForum =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedForum.ModerationServiceGroup == moderationStatus);
             Console.WriteLine("After GetCommentForumXML");
         }
@@ -1409,7 +1410,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             var returnedForum =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedForum.ModerationServiceGroup == moderationStatus);
             Console.WriteLine("After GetCommentForumXML");
         }
@@ -1449,7 +1450,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             var returnedForum =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
             Assert.IsTrue(returnedForum.ModerationServiceGroup == moderationStatus);
             Console.WriteLine("After GetCommentForumXML");
         }
@@ -1486,7 +1487,7 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {
-// Check to make sure that the page returned with the correct information
+                // Check to make sure that the page returned with the correct information
             }
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
 
@@ -1526,7 +1527,7 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {
-// Check to make sure that the page returned with the correct information
+                // Check to make sure that the page returned with the correct information
             }
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.BadRequest);
 
@@ -1568,7 +1569,7 @@ namespace FunctionalTests.Services.Comments
             validator.Validate();
 
             var returnedForum =
-                (CommentForum) StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof (CommentForum));
+                (CommentForum)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(CommentForum));
 
             DateTime anticipatedClosedDate = DateTime.Parse(closeDate.AddDays(1).ToString("yyyy-MM-dd"));
             Assert.IsTrue(returnedForum.CloseDate == anticipatedClosedDate);
@@ -1606,7 +1607,7 @@ namespace FunctionalTests.Services.Comments
             }
             catch
             {
-// Check to make sure that the page returned with the correct information
+                // Check to make sure that the page returned with the correct information
             }
             //Should return 401 unauthorised
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.Unauthorized);
@@ -1919,7 +1920,7 @@ namespace FunctionalTests.Services.Comments
             var sortBy = SortBy.Created;
             var sortDirection = SortDirection.Descending;
             var expectedStartIndex = 0;
-            var itemsPerPage =1;
+            var itemsPerPage = 1;
 
             //create the forum
             CommentForum commentForum = CommentForumCreateHelper();
@@ -1950,7 +1951,7 @@ namespace FunctionalTests.Services.Comments
             Assert.AreEqual(itemsPerPage, returnedForum.commentList.ItemsPerPage);
             Assert.AreEqual(commentInfo3.ID, returnedForum.commentList.comments[0].ID);
 
-            
+
         }
 
         [TestMethod]
@@ -2008,13 +2009,13 @@ namespace FunctionalTests.Services.Comments
 
             // Setup the request url
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?includepostid={2}&sortBy={3}&sortDirection={4}&itemsPerPage={5}",
-                                       _sitename, commentForum.Id, Int32.MaxValue-1, sortBy, sortDirection, itemsPerPage);
+                                       _sitename, commentForum.Id, Int32.MaxValue - 1, sortBy, sortDirection, itemsPerPage);
             try
             {
                 // now get the response
                 request.RequestPageWithFullURL(url, "", "text/xml");
             }
-            catch 
+            catch
             {
             }
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.NotFound);
@@ -2044,7 +2045,7 @@ namespace FunctionalTests.Services.Comments
                 // now get the response
                 request.RequestPageWithFullURL(url, "", "text/xml");
             }
-            catch 
+            catch
             {
             }
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.NotFound);
@@ -2105,7 +2106,7 @@ namespace FunctionalTests.Services.Comments
                                                    "<parentUri>{2}</parentUri>" +
                                                    "<closeDate>{4}</closeDate>" +
                                                    "<moderationServiceGroup>{3}</moderationServiceGroup>" +
-                                                   "</commentForum>", id, title, parentUri, moderationStatus,closeDate.ToString("yyyy-MM-dd"));
+                                                   "</commentForum>", id, title, parentUri, moderationStatus, closeDate.ToString("yyyy-MM-dd"));
 
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -2203,7 +2204,7 @@ namespace FunctionalTests.Services.Comments
             request.SetCurrentUserNormal();
 
             var commentForum = CommentForumCreateHelper();
-           
+
 
             // Setup the request url
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/close",

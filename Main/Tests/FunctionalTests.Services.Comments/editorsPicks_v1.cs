@@ -1,10 +1,10 @@
-﻿using System;
+﻿using BBC.Dna.Api;
+using BBC.Dna.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Net;
 using System.Xml;
-using BBC.Dna.Api;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Tests;
-using BBC.Dna.Utils;
 
 
 
@@ -17,15 +17,16 @@ namespace FunctionalTests.Services.Comments
     public class EditorsPicks_V1
     {
         private const string _schemaCommentForumList = "Dna.Services\\commentForumList.xsd";
-        private string _server = DnaTestURLRequest.CurrentServer;
+        private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
+        private static string _server = _hostAndPort;
         private string _sitename = "h2g2";
 
         private CommentInfo _commentInfo = null;
- 
+
         [TestCleanup]
         public void ShutDown()
         {
-            
+
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace FunctionalTests.Services.Comments
         /// Helper Function for Tests that require an editors pick.
         /// </summary>
         /// <param name="commentId"></param>
-        public void CreateEditorsPickHelper( String siteName, int commentId )
+        public void CreateEditorsPickHelper(String siteName, int commentId)
         {
             // Setup the request url
             string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/comments/{1}/editorpicks/", _sitename, commentId);
@@ -51,7 +52,7 @@ namespace FunctionalTests.Services.Comments
             request.RequestPageWithFullURL(url, "No data to send", "text/xml");
         }
 
-        
+
         /// <summary>
         /// Test that an editors pick may be created.
         /// </summary>
@@ -65,13 +66,13 @@ namespace FunctionalTests.Services.Comments
             _commentInfo = comments.CreateCommentHelper(commentForums.CommentForumCreateHelper().Id);
 
             Assert.IsNotNull(_commentInfo, "Unable to Create Comment");
-            
+
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserEditor();
 
-             // Setup the request url
-            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/comments/{1}/editorpicks/", _sitename,_commentInfo.ID);
-            
+            // Setup the request url
+            string url = String.Format("http://" + _server + "/dna/api/comments/CommentsService.svc/V1/site/{0}/comments/{1}/editorpicks/", _sitename, _commentInfo.ID);
+
             request.RequestPageWithFullURL(url, "No data to send", "text/xml");
 
             //Check for Editors Pick presence.
@@ -81,7 +82,7 @@ namespace FunctionalTests.Services.Comments
             XmlDocument xml = request.GetLastResponseAsXML();
             XmlNamespaceManager nsmgr = new XmlNamespaceManager(xml.NameTable);
             nsmgr.AddNamespace("api", "BBC.Dna.Api");
-            
+
             String xPath = String.Format("api:commentsList/api:comments/api:comment[api:id='{0}']", _commentInfo.ID);
             XmlNode pick = xml.SelectSingleNode(xPath, nsmgr);
             Assert.IsNotNull(pick);
@@ -115,7 +116,7 @@ namespace FunctionalTests.Services.Comments
             //Should return 401 unauthorised
             Assert.IsTrue(request.CurrentWebResponse.StatusCode == HttpStatusCode.Unauthorized);
 
-           
+
         }
 
         /// <summary>

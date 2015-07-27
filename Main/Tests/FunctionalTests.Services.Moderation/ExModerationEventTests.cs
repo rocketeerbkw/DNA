@@ -1,22 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Web;
-using System.Xml;
-using System.Xml.XPath;
-using BBC.Dna;
-using BBC.Dna.Api;
-using BBC.Dna.Component;
+﻿using BBC.Dna;
 using BBC.Dna.Data;
-using BBC.Dna.Moderation;
-using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.IO;
+using System.Net;
+using System.Threading;
 using Tests;
 
 
@@ -28,7 +16,6 @@ namespace FunctionalTests.Services.Moderation
     [TestClass]
     public class ExModerationEventTests
     {
-        private string _server = DnaTestURLRequest.CurrentServer;
         private Thread _thread = null;
         private String _callbackBody = String.Empty;
 
@@ -42,7 +29,7 @@ namespace FunctionalTests.Services.Moderation
             _thread.Start();
 
             SnapshotInitialisation.RestoreFromSnapshot();
-            System.Diagnostics.Process.Start("net",@"start ""SNesActivitiesService""");
+            System.Diagnostics.Process.Start("net", @"start ""SNesActivitiesService""");
 
         }
 
@@ -69,7 +56,7 @@ namespace FunctionalTests.Services.Moderation
 
             //Put an item into moderation queue and moderate it.
             IInputContext context = DnaMockery.CreateDatabaseInputContext();
-            String sql = String.Format("EXECUTE addexlinktomodqueue @siteid={0}, @uri='{1}', @callbackuri='{2}', @notes='{3}'",1, "http://localhost:8089/", "http://localhost:8089/", "Test");
+            String sql = String.Format("EXECUTE addexlinktomodqueue @siteid={0}, @uri='{1}', @callbackuri='{2}', @notes='{3}'", 1, "http://localhost:8089/", "http://localhost:8089/", "Test");
             int modId = 0;
             using (IDnaDataReader dataReader = context.CreateDnaDataReader(sql))
             {
@@ -80,7 +67,7 @@ namespace FunctionalTests.Services.Moderation
                 modId = dataReader.GetInt32NullAsZero("modid");
 
                 dataReader.ExecuteDEBUGONLY(String.Format("EXECUTE moderateexlinks @modid={0}, @userid={1},@decision={2},@notes='{3}',@referto={4}", modId, request.CurrentUserID, 3, "Testing", 0));
-            
+
                 //Process Event Queue 
                 dataReader.ExecuteDEBUGONLY("EXECUTE processeventqueue");
             }
@@ -92,9 +79,9 @@ namespace FunctionalTests.Services.Moderation
             }
 
             //Check Moderation Item has been processed.
-            Assert.IsTrue( _callbackBody.Contains(Convert.ToString(modId)),"Checking value of returned ModId. In order for this test to work the SNESEventProcessor Service must be running against Small Guide.");
+            Assert.IsTrue(_callbackBody.Contains(Convert.ToString(modId)), "Checking value of returned ModId. In order for this test to work the SNESEventProcessor Service must be running against Small Guide.");
 
-           
+
         }
 
         private void Run()
