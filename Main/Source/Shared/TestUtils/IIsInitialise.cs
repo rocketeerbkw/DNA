@@ -33,7 +33,7 @@ namespace Tests
         {
             var server = DnaTestURLRequest.CurrentServer;
 
-            var remoteServer = server.Host + ":" + server.Port;
+            var remoteServer = server.Host;// +":" + server.Port;
 
             var isRemote = IsTestServerRemote();
 
