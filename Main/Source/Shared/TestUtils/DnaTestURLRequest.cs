@@ -808,13 +808,11 @@ namespace Tests
             Uri URL;
             if (secure)
             {
-                //URL = new Uri("https://" + _secureServer + "/dna/" + _serviceName + "/" + pageAndParams);
                 URL = new Uri(_secureServer, "dna/" + _serviceName + "/" + pageAndParams);
                 System.Net.ServicePointManager.ServerCertificateValidationCallback = ((sender, certificate, chain, sslPolicyErrors) => true);
             }
             else
             {
-                //URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + pageAndParams);
                 URL = new Uri(_server, "dna/" + _serviceName + "/" + pageAndParams);
             }
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL);
@@ -1189,7 +1187,6 @@ namespace Tests
             }
 
             // Create the URL and the Request object
-            //Uri URL = new Uri("http://" + _server + "/dna/" + _serviceName + "/" + page);
             Uri URL = new Uri(_server, "dna/" + _serviceName + "/" + page);
             HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(URL + postdata);
 

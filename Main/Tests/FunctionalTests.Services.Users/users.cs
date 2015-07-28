@@ -1071,7 +1071,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus");
 
-            string callinguser_url = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/DotNetSuperUser?format=xml";
+            string callinguser_url = DnaTestURLRequest.CurrentServer.AbsoluteUri + @"dna/api/users/UsersService.svc/V1/site/h2g2/users/DotNetSuperUser?format=xml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.AssertWebRequestFailure = false;
@@ -1104,7 +1104,7 @@ namespace FunctionalTests.Services.Users
             request.SetCurrentUserNormal();
             try
             {
-                string url = String.Format("https://" + DnaTestURLRequest.SecureServerAddress + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}?idtype=DNAUserId&format=xml", _sitename, dnaUserId);
+                string url = String.Format(DnaTestURLRequest.SecureServerAddress.AbsoluteUri + "/dna/api/users/UsersService.svc/V1/site/{0}/users/{1}?idtype=DNAUserId&format=xml", _sitename, dnaUserId);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
             }
