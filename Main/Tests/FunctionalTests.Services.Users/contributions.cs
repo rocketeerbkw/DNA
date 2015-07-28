@@ -1,14 +1,12 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tests;
-using BBC.Dna.Utils;
+﻿using BBC.Dna;
+using BBC.Dna.Data;
 using BBC.Dna.Objects;
 using BBC.Dna.Sites;
-using BBC.Dna;
-using BBC.Dna.Data;
+using BBC.Dna.Utils;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
+using Tests;
 using TestUtils;
 
 namespace FunctionalTests.Services.Users
@@ -18,7 +16,7 @@ namespace FunctionalTests.Services.Users
     /// </summary>
     [TestClass]
     public class contributions
-    {        
+    {
         static string test_usercontributionsUrl;
         static string test_allrecentcontributionsUrl;
         static string test_allrecentcontributionsbySiteUrl;
@@ -30,9 +28,9 @@ namespace FunctionalTests.Services.Users
         static string test_username = "U" + test_dnauserid;
 
         static int test_blog_siteId = 73; // identity blog
-        static string test_blog_url = "identityblogs"; 
+        static string test_blog_url = "identityblogs";
         //int test_blog_commentForumId = 0;        
-        static string test_blog_commentUniqueForumID = "blogUniqueID";  
+        static string test_blog_commentUniqueForumID = "blogUniqueID";
         static string test_blog_titleText = "blog title test";
         //static string test_blog_subjectText = "blog subject";
         static string test_blog_commentText = "blog comment new";
@@ -40,21 +38,21 @@ namespace FunctionalTests.Services.Users
 
         //int test_messageboard_siteId = 27; // five live
         // static string test_messageboard_name = "identityblogs";
-        static string test_messageboard_url = "mbfivelive"; 
+        static string test_messageboard_url = "mbfivelive";
         static int test_messageBoard_forumId = 2148567;  // tennis
         static int test_messageboard_postId;
         static string test_messageboard_subjectText = "message board title";
         static string test_messageboard_commentText = "message board post text";
 
         static int test_community_siteId = 1;  // h2g2   
-        static string test_community_url = "h2g2"; 
+        static string test_community_url = "h2g2";
         static int test_community_forumId = 19585; // ask h2g2
         static int test_community_postId;
         static string test_community_subjectText = "community title";
         static string test_community_content = "community post text";
 
         //int test_embeddedComments_siteId = 72;  // haveyoursay    
-        static string test_embeddedComments_url = "haveyoursay"; 
+        static string test_embeddedComments_url = "haveyoursay";
         static int test_embeddedComments_forumId = 7619031; // test message
         static int test_embeddedComments_postId;
         static string test_embeddedComments_subjectText = "embedded comments title";
@@ -62,10 +60,10 @@ namespace FunctionalTests.Services.Users
 
         public contributions()
         {
-             test_allrecentcontributionsUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/recentcontributions/type/{type}";
-             test_usercontributionsUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/usercontributions/{user}";
-             test_allrecentcontributionsbySiteUrl = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/recentcontributions/site/{site}";
-             test_getcontribution = @"http://" + DnaTestURLRequest.CurrentServer + @"/dna/api/users/UsersService.svc/V1/contributions/{threadentryid}";
+            test_allrecentcontributionsUrl = DnaTestURLRequest.CurrentServer.AbsoluteUri + @"dna/api/users/UsersService.svc/V1/recentcontributions/type/{type}";
+            test_usercontributionsUrl = DnaTestURLRequest.CurrentServer.AbsoluteUri + @"dna/api/users/UsersService.svc/V1/usercontributions/{user}";
+            test_allrecentcontributionsbySiteUrl = DnaTestURLRequest.CurrentServer.AbsoluteUri + @"dna/api/users/UsersService.svc/V1/recentcontributions/site/{site}";
+            test_getcontribution = DnaTestURLRequest.CurrentServer.AbsoluteUri + @"dna/api/users/UsersService.svc/V1/contributions/{threadentryid}";
         }
 
         private TestContext testContextInstance;
@@ -85,7 +83,7 @@ namespace FunctionalTests.Services.Users
                 testContextInstance = value;
             }
         }
-        
+
         /// <summary>
         /// The setup will restore the snapshot, and create a user with one of each type of contribution.
         /// </summary>
@@ -178,7 +176,7 @@ namespace FunctionalTests.Services.Users
                 Guid hash = DnaHasher.GenerateCommentHashValue(test_messageboard_commentText, test_messageBoard_forumId.ToString(), test_dnauserid);
 
                 reader.AddParameter("@userid", test_dnauserid)
-                .AddParameter("@forumid", test_messageBoard_forumId)	
+                .AddParameter("@forumid", test_messageBoard_forumId)
                 .AddParameter("@inreplyto", DBNull.Value)
                 .AddParameter("@threadid", DBNull.Value)
                 .AddParameter("@subject", test_messageboard_subjectText)
@@ -281,7 +279,7 @@ namespace FunctionalTests.Services.Users
 
             Contribution blogContribution = contributions.ContributionItems[contributions.ContributionItems.Count - 4];
             Contribution communityContribution = contributions.ContributionItems[contributions.ContributionItems.Count - 3];
-            Contribution messageBoardContribution = contributions.ContributionItems[contributions.ContributionItems.Count - 2];            
+            Contribution messageBoardContribution = contributions.ContributionItems[contributions.ContributionItems.Count - 2];
             Contribution embeddedCommentsContribution = contributions.ContributionItems[contributions.ContributionItems.Count - 1];
 
             Assert.AreEqual(test_blog_titleText, blogContribution.Title);
@@ -353,7 +351,7 @@ namespace FunctionalTests.Services.Users
         [TestMethod]
         public void GetUserContributionsForAllTypesJSON_UserWithContributions_ReturnsValidJSON()
         {
-         
+
 
             Console.WriteLine("Before GetUserContributionsForAllTypesJSON_UserWithContributions_ReturnsValidJSON");
 
@@ -398,7 +396,7 @@ namespace FunctionalTests.Services.Users
         [TestMethod]
         public void GetUserContributionsForAllTypesXML_UserWithContributions_ReturnsValidXML()
         {
-           
+
 
             Console.WriteLine("Before GetUserContributionsForAllTypesXML_UserWithContributions_ReturnsValidXML");
 
@@ -409,7 +407,7 @@ namespace FunctionalTests.Services.Users
             request.RequestPageWithFullURL(contributions_for_type_xml_url);
 
             Contributions contributions = (Contributions)StringUtils.DeserializeObject(request.GetLastResponseAsString(), typeof(Contributions));
-            
+
             bool containsBlog = ((from c in contributions.ContributionItems where c.SiteType == SiteType.Blog select c).FirstOrDefault() != null);
             bool containsMessageboard = ((from c in contributions.ContributionItems where c.SiteType == SiteType.Messageboard select c).FirstOrDefault() != null);
             bool containsCommunity = ((from c in contributions.ContributionItems where c.SiteType == SiteType.Community select c).FirstOrDefault() != null);
@@ -463,7 +461,7 @@ namespace FunctionalTests.Services.Users
             {
                 Assert.AreEqual(SiteType.Messageboard, contribution.SiteType);
             }
-            
+
 
             Console.WriteLine("After GetUserContributionsForMessageBoardTypeXML_UserWithContributions_ReturnsValidXML");
         }
@@ -527,7 +525,7 @@ namespace FunctionalTests.Services.Users
             foreach (Contribution contribution in contributions.ContributionItems)
             {
                 Assert.AreEqual(SiteType.Blog, contribution.SiteType);
-            }            
+            }
             Console.WriteLine("After GetAllRecentContributionsXML_WithForBlogType_ReturnsValidXML");
         }
 

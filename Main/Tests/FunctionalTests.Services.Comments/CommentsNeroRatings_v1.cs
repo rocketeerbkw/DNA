@@ -26,7 +26,7 @@ namespace FunctionalTests.Services.Comments
         private static string _hostAndPort = DnaTestURLRequest.CurrentServer.Host + ":" + DnaTestURLRequest.CurrentServer.Port;
 
         private static string _server = _hostAndPort;
-        private string _secureserver = _hostAndPort;
+        private string _secureserver = DnaTestURLRequest.SecureServerAddress.AbsoluteUri;
         private string _sitename = "h2g2";
         private CommentsTests_V1 commentsHelper;
 
@@ -70,7 +70,7 @@ namespace FunctionalTests.Services.Comments
                 "</comment>", text);
 
             // Setup the request url
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, commentForumXml, "text/xml");
             // Check to make sure that the page returned with the correct information
@@ -120,7 +120,7 @@ namespace FunctionalTests.Services.Comments
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
+            string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
 
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
@@ -143,7 +143,7 @@ namespace FunctionalTests.Services.Comments
                 Assert.Fail("We only support version 1 or 2 of ratings!");
             }
 
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             xml = request.GetLastResponseAsXML();
@@ -153,7 +153,7 @@ namespace FunctionalTests.Services.Comments
             var returnedForum = (CommentForum)StringUtils.DeserializeObject(xml.InnerXml, typeof(CommentForum));
             Assert.AreEqual(1, returnedForum.commentList.comments[0].NeroRatingValue);
 
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/comments/{1}", _sitename, returnedForum.commentList.comments[0].ID);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/comments/{1}", _sitename, returnedForum.commentList.comments[0].ID);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             xml = request.GetLastResponseAsXML();
@@ -193,7 +193,7 @@ namespace FunctionalTests.Services.Comments
             {
                 SetSiteOption(1, "CommentForum", "AllowNotSignedInRating", 1, "1");
                 request.AddCookie(new Cookie("BBC-UID", "a4acfefaf9d7a374026abfa9419a957ae48c5e5800803144642fba8aadcff86f0Mozilla%2f5%2e0%20%28Windows%3b%20U%3b%20Windows%20NT%205%2e1%3b%20en%2dGB%3b%20rv%3a1%2e9%2e2%2e12%29%20Gecko%2f20101026%20Firefox%2f3%2e6%2e12%20%28%2eNET%20CLR%203%2e5%2e30729%29"));
-                string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down?clientIp=1.1.1.1", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
+                string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down?clientIp=1.1.1.1", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
                 // Check to make sure that the page returned with the correct information
@@ -216,7 +216,7 @@ namespace FunctionalTests.Services.Comments
                 }
 
 
-                url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+                url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
                 // now get the response
                 request.RequestPageWithFullURL(url, null, "text/xml");
                 xml = request.GetLastResponseAsXML();
@@ -242,7 +242,7 @@ namespace FunctionalTests.Services.Comments
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID);
+            string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID);
             // now get the response
             try
             {
@@ -267,7 +267,7 @@ namespace FunctionalTests.Services.Comments
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID);
+            string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID);
             // now get the response
             try
             {
@@ -292,7 +292,7 @@ namespace FunctionalTests.Services.Comments
         {
             DnaTestURLRequest request = new DnaTestURLRequest(_sitename);
             request.SetCurrentUserNormal();
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/test/comment/notacomment/rate/up", _sitename);
+            string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/test/comment/notacomment/rate/up", _sitename);
             // now get the response
             try
             {
@@ -327,7 +327,7 @@ namespace FunctionalTests.Services.Comments
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
+            string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             // Check to make sure that the page returned with the correct information
@@ -349,7 +349,7 @@ namespace FunctionalTests.Services.Comments
             }
             //Assert.AreEqual("1", xml.DocumentElement.InnerText);
 
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             xml = request.GetLastResponseAsXML();
@@ -370,7 +370,7 @@ namespace FunctionalTests.Services.Comments
             }
             //Assert.AreEqual("-1", xml.DocumentElement.InnerText);
 
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             xml = request.GetLastResponseAsXML();
@@ -404,7 +404,7 @@ namespace FunctionalTests.Services.Comments
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
+            string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
 
@@ -445,7 +445,7 @@ namespace FunctionalTests.Services.Comments
                 Assert.Fail("We don't support any other version than 1 or 2");
             }
 
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             xml = request.GetLastResponseAsXML();
@@ -479,7 +479,7 @@ namespace FunctionalTests.Services.Comments
             CommentForum commentForum = new CommentForum();
             CommentInfo commentInfo = new CommentInfo();
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
+            string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             // Check to make sure that the page returned with the correct information
@@ -519,7 +519,7 @@ namespace FunctionalTests.Services.Comments
             }
 
             request.SetCurrentUserNotableUser();
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             xml = request.GetLastResponseAsXML();
             if (apiVersion == 1)
@@ -538,7 +538,7 @@ namespace FunctionalTests.Services.Comments
                 Assert.Fail("We don't support any other version than 1 or 2");
             }
 
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/", _sitename, commentForum.Id);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             xml = request.GetLastResponseAsXML();
@@ -575,7 +575,7 @@ namespace FunctionalTests.Services.Comments
             CreateTestForumAndComment(ref commentForum, ref commentInfo);
             CreateTestForumAndComment(ref commentForum, ref commentInfo2);
 
-            string url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
+            string url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/up", _sitename, commentForum.Id, commentInfo.ID, apiVersion);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             // Check to make sure that the page returned with the correct information
@@ -618,7 +618,7 @@ namespace FunctionalTests.Services.Comments
             }
 
             request.SetCurrentUserNotableUser();
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo2.ID, apiVersion);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V{3}/site/{0}/commentsforums/{1}/comment/{2}/rate/down", _sitename, commentForum.Id, commentInfo2.ID, apiVersion);
             request.RequestPageWithFullURL(url, null, "text/xml", "PUT");
             xml = request.GetLastResponseAsXML();
             //Assert.AreEqual("-1", xml.DocumentElement.InnerText);
@@ -639,7 +639,7 @@ namespace FunctionalTests.Services.Comments
             }
 
             //test as ascending
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?sortBy={2}&sortDirection={3}", _sitename, commentForum.Id, SortBy.RatingValue, SortDirection.Ascending);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?sortBy={2}&sortDirection={3}", _sitename, commentForum.Id, SortBy.RatingValue, SortDirection.Ascending);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             xml = request.GetLastResponseAsXML();
@@ -651,7 +651,7 @@ namespace FunctionalTests.Services.Comments
             Assert.AreEqual(commentInfo.ID, returnedForum.commentList.comments[1].ID);
 
             //test as ascending
-            url = String.Format("https://" + _secureserver + "/dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?sortBy={2}&sortDirection={3}", _sitename, commentForum.Id, SortBy.RatingValue, SortDirection.Descending);
+            url = String.Format(_secureserver + "dna/api/comments/CommentsService.svc/V1/site/{0}/commentsforums/{1}/?sortBy={2}&sortDirection={3}", _sitename, commentForum.Id, SortBy.RatingValue, SortDirection.Descending);
             // now get the response
             request.RequestPageWithFullURL(url, null, "text/xml");
             xml = request.GetLastResponseAsXML();

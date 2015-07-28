@@ -1,10 +1,6 @@
-﻿using TechTalk.SpecFlow;
-using Comments.AcceptanceTests.Support;
-using BBC.Dna.Api;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TechTalk.SpecFlow;
 using Tests;
-using System;
-using System.Net;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Comments.AcceptanceTests.StepDefinitions
 {
@@ -13,13 +9,13 @@ namespace Comments.AcceptanceTests.StepDefinitions
         [When(@"I visit the admin console as an editor")]
         public void WhenIVisitTheAdminConsoleAsAnEditor()
         {
-            string requestURL = "http://" + DnaTestURLRequest.CurrentServer + "/dna/moderation/admin/twitterprofilelist?skin=purexml";
+            string requestURL = DnaTestURLRequest.CurrentServer.AbsoluteUri + "dna/moderation/admin/twitterprofilelist?skin=purexml";
             try
             {
                 request.SetCurrentUserEditor();
                 request.RequestPageWithFullURL(requestURL, string.Empty, "text/xml");
             }
-            catch{ }
+            catch { }
         }
 
         [Then(@"I can see the Buzz Profile list page")]
@@ -35,7 +31,7 @@ namespace Comments.AcceptanceTests.StepDefinitions
         [When(@"I visit the admin console as a normal user")]
         public void WhenIVisitTheAdminConsoleAsANormalUser()
         {
-            string requestURL = "http://" + DnaTestURLRequest.CurrentServer + "/dna/moderation/admin/twitterprofilelist?skin=purexml";
+            string requestURL = DnaTestURLRequest.CurrentServer.AbsoluteUri + "dna/moderation/admin/twitterprofilelist?skin=purexml";
             try
             {
                 request.SetCurrentUserNormal();

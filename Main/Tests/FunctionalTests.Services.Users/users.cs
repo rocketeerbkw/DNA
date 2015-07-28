@@ -1052,7 +1052,7 @@ namespace FunctionalTests.Services.Users
         {
             Console.WriteLine("Before GetUserInfo_ForASuperUser_ReturnsTheirSuperStatus");
 
-            string url = @"https://" + DnaTestURLRequest.SecureServerAddress + @"/dna/api/users/UsersService.svc/V1/site/h2g2/users/DotNetSuperUser?format=xml";
+            string url = DnaTestURLRequest.SecureServerAddress.AbsoluteUri + @"dna/api/users/UsersService.svc/V1/site/h2g2/users/DotNetSuperUser?format=xml";
 
             DnaTestURLRequest request = new DnaTestURLRequest("h2g2");
             request.SetCurrentUserNormal();

@@ -698,43 +698,40 @@ namespace Tests
         /// <param name="pageParams">The params the page is to take</param>
         public void RequestAspxPage(string page, string pageParams)
         {
-            // Make sure that we clear the last response objects
             _responseAsString = null;
+
             _responseAsXML = null;
 
-            //Require a copy of RipleyServer config as we are going to host ASP.NET in dnapages dir.
-            //Will only be copied on first call.
-            TestConfig.GetConfig().CopyRipleyServerConfig();
-
-            // Check to see if we've got a host already setup
-            //if (_hostRequest == null)
-            //{
-            // Use dnapages directory as physical dir.
-            //string dnapagesdir = System.Environment.GetEnvironmentVariable("dnapages");
-            _hostRequest = Host.Create(TestConfig.GetConfig().GetDnaPagesDir());
-            //}
-
-            // Check to see if the query contains the site
             if (!pageParams.Contains("_si="))
             {
-                // Add the site name to the query
                 pageParams += "&_si=" + _serviceName;
             }
 
-            // See if we need to put the path to the skins in
             if (!pageParams.Contains("d_skinfile="))
             {
                 string skinPath = System.Environment.GetEnvironmentVariable("RipleyServerPath");
+
                 skinPath += @"\skins\" + _serviceName + @"\HTMLOutput.xsl";
+
                 pageParams += "&d_skinfile=" + skinPath;
             }
 
             pageParams = AddDebugUserParams(pageParams);
 
-            // Now call the request
-            _hostRequest.ProcessRequest(page, pageParams, "IDENTITY=" + _cookie);
+            var request = new System.Net.WebClient();
 
-            // State that the last request was for an aspx page
+            var cookies = "IDENTITY=" + _cookie;
+
+            request.Headers.Add("Cookie", cookies);
+
+            var absoluteUri = DnaTestURLRequest.CurrentServer.AbsoluteUri;
+
+            var uriString = string.Format("{0}dna/dnapages/{1}?{2}", absoluteUri, page, pageParams);
+
+            var uri = new Uri(uriString);
+
+            _responseAsString = request.DownloadString(uri);
+
             _lastRequestWasASPX = true;
         }
 

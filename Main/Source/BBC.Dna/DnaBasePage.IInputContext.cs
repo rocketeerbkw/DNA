@@ -1,20 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
-using System.Diagnostics;
-using System.Net;
-using System.Net.Mail;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
-using System.Web;
-using System.Web.Configuration;
-using System.Xml;
-using BBC.Dna.Component;
+
 using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
+using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Net.Mail;
+using System.Runtime.InteropServices;
+using System.Web;
 
 
 namespace BBC.Dna.Page
@@ -40,9 +33,9 @@ namespace BBC.Dna.Page
         /// </summary>
         public string SkinName
         {
-            get 
-            { 
-                return _skinName; 
+            get
+            {
+                return _skinName;
             }
         }
 
@@ -87,7 +80,7 @@ namespace BBC.Dna.Page
         public bool IsPreviewMode()
         {
             string value = "";
-            if(TryGetParamString("_previewmode", ref value, "Preview mode") )
+            if (TryGetParamString("_previewmode", ref value, "Preview mode"))
             {
                 return value == "1";
             }
@@ -100,6 +93,11 @@ namespace BBC.Dna.Page
         private void SetCurrentSiteName()
         {
             Request.TryGetParamString("_si", ref _currentSiteName, "Site name as extracted from the URL. Internal use only.");
+
+            if (_currentSiteName.Split(',').Length > 1)
+            {
+                _currentSiteName = _currentSiteName.Split(',')[1];
+            }
 
             if (_currentSiteName.IndexOf("?") > 0)
             {
@@ -346,36 +344,36 @@ namespace BBC.Dna.Page
             return Request.GetParamBoolOrFalse(paramName, index, description);
         }
 
-		/// <summary>
-		/// IP address of request as passed through from the front end server
-		/// </summary>
-		public string IpAddress
-		{
-			get
-			{
-				return GetParamStringOrEmpty("__ip__", "IP address for this request");
-			}
-		}
+        /// <summary>
+        /// IP address of request as passed through from the front end server
+        /// </summary>
+        public string IpAddress
+        {
+            get
+            {
+                return GetParamStringOrEmpty("__ip__", "IP address for this request");
+            }
+        }
 
-		/// <summary>
-		/// Guid extracted from the BBC-UID cookie
-		/// </summary>
-		public Guid BBCUid
-		{
-			get
-			{
-				//return new Guid();
-				DnaCookie cookie = GetCookie("BBC-UID");
-				if (cookie != null)
-				{
-					return UidCookieDecoder.Decode(cookie.Value, AppContext.TheAppContext.Config.SecretKey);
-				}
-				else
-				{
-					return new Guid("00000000000000000000000000000000");
-				}
-			}
-		}
+        /// <summary>
+        /// Guid extracted from the BBC-UID cookie
+        /// </summary>
+        public Guid BBCUid
+        {
+            get
+            {
+                //return new Guid();
+                DnaCookie cookie = GetCookie("BBC-UID");
+                if (cookie != null)
+                {
+                    return UidCookieDecoder.Decode(cookie.Value, AppContext.TheAppContext.Config.SecretKey);
+                }
+                else
+                {
+                    return new Guid("00000000000000000000000000000000");
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the site URL
@@ -422,27 +420,27 @@ namespace BBC.Dna.Page
             }
             catch (Exception Ex)
             {
-		        //Create a unique filename. QueryPerformanceCounter used to distinguish emails sent within a second.
-		        string filename = "M";
-		        DateTime dt = DateTime.Now;
+                //Create a unique filename. QueryPerformanceCounter used to distinguish emails sent within a second.
+                string filename = "M";
+                DateTime dt = DateTime.Now;
 
-		        filename += dt.ToString("yyyyMMddHHmmss");
+                filename += dt.ToString("yyyyMMddHHmmss");
 
-		        long counter = 0;
-		        QueryPerformanceCounter(ref counter);
-		        filename += "-" + counter + ".txt";
+                long counter = 0;
+                QueryPerformanceCounter(ref counter);
+                filename += "-" + counter + ".txt";
 
                 string mail = String.Empty;
                 mail += "From: " + fromAddress + "\r\n";
                 mail += "Recipient: " + email + "\r\n";
 
-		        string toField;
-		        if (clientAddr != String.Empty)
-		        {
+                string toField;
+                if (clientAddr != String.Empty)
+                {
                     toField = "X-Originating-IP: [";
                     toField += clientAddr + "]";
                     mail += toField + "\r\n";
-		        }
+                }
                 mail += "Subject: " + subject + "\r\n";
                 toField = "To: ";
                 toField += email;

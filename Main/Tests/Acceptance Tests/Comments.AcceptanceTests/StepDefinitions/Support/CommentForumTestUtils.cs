@@ -1,14 +1,13 @@
-﻿using System;
+﻿using BBC.Dna.Api;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Tests;
 using System.IO;
 using System.Runtime.Serialization.Json;
-using BBC.Dna.Api;
-using TechTalk.SpecFlow;
+using System.Text;
 using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TechTalk.SpecFlow;
+using Tests;
 
 namespace Comments.AcceptanceTests.Support
 {
@@ -16,13 +15,13 @@ namespace Comments.AcceptanceTests.Support
     {
         public static string CallPUTCreateCommentAPIRequest(DnaTestURLRequest request, string sitename, string commentForumUID, string postData, DnaTestURLRequest.usertype userType)
         {
-            string requestURL = "http://" + DnaTestURLRequest.CurrentServer + "/dna/api/comments/CommentsService.svc/V1/site/" + sitename + "/commentsforums/" + commentForumUID + "/";
+            string requestURL = DnaTestURLRequest.CurrentServer.AbsoluteUri + "dna/api/comments/CommentsService.svc/V1/site/" + sitename + "/commentsforums/" + commentForumUID + "/";
             return CallAPIRequest(request, requestURL, postData, userType, "PUT");
         }
 
         public static string CallGETCommentForumAPIRequest(DnaTestURLRequest request, string sitename, string commentForumUID)
         {
-            string requestURL = "http://" + DnaTestURLRequest.CurrentServer + "/dna/api/comments/CommentsService.svc/V1/site/" + sitename + "/commentsforums/" + commentForumUID + "/";
+            string requestURL = DnaTestURLRequest.CurrentServer.AbsoluteUri + "dna/api/comments/CommentsService.svc/V1/site/" + sitename + "/commentsforums/" + commentForumUID + "/";
             return CallAPIRequest(request, requestURL, "", DnaTestURLRequest.usertype.NOTLOGGEDIN, "GET");
         }
 
