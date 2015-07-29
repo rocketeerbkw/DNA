@@ -2,7 +2,7 @@ using BBC.Dna.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Configuration;
-using System.Text;
+using System.IO;
 
 
 namespace Tests
@@ -148,26 +148,35 @@ namespace Tests
                 TimeSpan time = DateTime.Now.Subtract(start);
                 Console.WriteLine("> waited for " + time.Seconds.ToString() + " seconds.");
 
-                StringBuilder builder = new StringBuilder();
-                builder.AppendLine("USE MASTER; ");
-                builder.AppendLine("RESTORE DATABASE " + smallGuideName + " FROM DATABASE_SNAPSHOT = '" + smallGuideSSName + "' WITH RECOVERY");
-
-                using (IDnaDataReader reader = StoredProcedureReader.Create("", updateSpConnString))
-                {
-                    Console.WriteLine(builder);
-                    reader.ExecuteDEBUGONLY(builder.ToString());
-                }
-
-
-                Console.WriteLine("Restored SmallGuide from Snapshot successfully.");
-
-                _hasRestored = true;
+                RestoreDatabase(smallGuideName, smallGuideSSName, updateSpConnString);
             }
             catch (Exception e)
             {
                 Console.WriteLine("FAILED!!! SmallGuide Snapshot restore." + e.Message);
                 Assert.Fail(e.Message);
             }
+        }
+
+        private static void RestoreDatabase(string smallGuideName, string smallGuideSSName, string updateSpConnString)
+        {
+            var restoreSqlFile = Path.Combine(Environment.CurrentDirectory, "RestoreDatabase.sql");
+
+            var restoreSql = File.ReadAllText(restoreSqlFile);
+
+            var sqlRoot = ConfigurationManager.AppSettings["testserver:sqlDirectoryRoot"];
+
+            if (string.IsNullOrEmpty(sqlRoot)) throw new ConfigurationErrorsException("testserver:sqlDirectoryRoot does not exist");
+
+            sqlRoot = sqlRoot.EndsWith("\\") ? sqlRoot : sqlRoot + "\\";
+
+            var exectueSql = restoreSql.Replace("[SQLROOT]", sqlRoot);
+
+            using (IDnaDataReader reader = StoredProcedureReader.Create("", updateSpConnString))
+            {
+                reader.ExecuteDEBUGONLY(exectueSql);
+            }
+
+            _hasRestored = true;
         }
     }
 }

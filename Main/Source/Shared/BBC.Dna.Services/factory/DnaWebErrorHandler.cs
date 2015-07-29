@@ -1,20 +1,16 @@
 namespace BBC.Dna.Services
 {
+    using Microsoft.ServiceModel.Web;
     using System;
-    using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Net;
-    using System.Runtime.Serialization;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
     using System.ServiceModel.Dispatcher;
     using System.ServiceModel.Security;
     using System.ServiceModel.Web;
-    using System.Threading;
     using System.Web;
     using System.Xml;
-    using Microsoft.ServiceModel.Web;
-    
+
     class DnaWebErrorHandler : IErrorHandler
     {
         public bool EnableAspNetCustomErrors { get; set; }
@@ -77,7 +73,7 @@ namespace BBC.Dna.Services
                 object dummy;
                 if (OperationContext.Current.IncomingMessageProperties.TryGetValue(ResponseWebFormatPropertyAttacher.PropertyName, out dummy))
                 {
-                    format = (WebMessageFormat) dummy;
+                    format = (WebMessageFormat)dummy;
                 }
                 //check for dna format parameter
                 WebFormat.format dnaFormat = WebFormat.format.UNKNOWN;
@@ -132,10 +128,12 @@ namespace BBC.Dna.Services
                 errorMessage = String.Format(errorText, "Invalid enum value");
                 return true;
             }
-            pos = errorMessage.IndexOf("There was an error deserializing the object of type");
-            if (pos >= 0)
+
+            var normalisedErrorMessage = errorMessage.ToLower().Trim();
+
+            if (normalisedErrorMessage.Contains("there was an error deserializing the object of type") || normalisedErrorMessage.Contains("there was an error checking start element of"))
             {
-                pos = errorMessage.IndexOf(". ")+1;
+                pos = errorMessage.IndexOf(". ") + 1;
                 errorMessage = String.Format(errorText, errorMessage.Substring(pos, errorMessage.Length - pos));
                 return true;
             }
