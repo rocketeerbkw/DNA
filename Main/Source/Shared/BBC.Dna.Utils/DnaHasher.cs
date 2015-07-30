@@ -20,7 +20,7 @@ namespace BBC.Dna.Utils
         public static Guid GenerateCommentHashValue(string content, string uid, int userID)
         {
             string source = content + "<:>" + uid + "<:>" + userID.ToString();
-            System.Text.UTF8Encoding utf8 = new System.Text.UTF8Encoding();
+            System.Text.UTF8Encoding utf8 = new UTF8Encoding(false);
             MD5CryptoServiceProvider md5Hasher = new System.Security.Cryptography.MD5CryptoServiceProvider();
             byte[] hashedDataBytes = md5Hasher.ComputeHash(utf8.GetBytes(source));
             return new Guid(hashedDataBytes);
@@ -33,7 +33,7 @@ namespace BBC.Dna.Utils
 		/// <returns>Guid representing the 128bit hash value</returns>
 		public static Guid GenerateHash(string content)
 		{
-			System.Text.UTF8Encoding utf8 = new System.Text.UTF8Encoding();
+			System.Text.UTF8Encoding utf8 = new UTF8Encoding(false);
 			MD5CryptoServiceProvider md5Hasher = new System.Security.Cryptography.MD5CryptoServiceProvider();
 			byte[] hashedDataBytes = md5Hasher.ComputeHash(utf8.GetBytes(content));
 			return new Guid(hashedDataBytes);

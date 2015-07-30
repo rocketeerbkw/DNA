@@ -3,28 +3,13 @@
 //-----------------------------------------------------------------------------
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ServiceModel.Channels;
-using System.ServiceModel;
-using System.Web;
-using System.IdentityModel.Claims;
-using System.ServiceModel.Security;
-using System.Collections.ObjectModel;
-using System.ServiceModel.Dispatcher;
-using System.ServiceModel.Description;
-using System.ServiceModel.Syndication;
-using System.Threading;
-using System.ServiceModel.Web;
-using System.Xml;
-using System.Runtime.Serialization;
-using System.Xml.Schema;
-using System.Xml.Linq;
+using System.Globalization;
 using System.IO;
 using System.Net;
-using System.Runtime.Serialization.Json;
-using System.Globalization;
+using System.ServiceModel.Channels;
+using System.ServiceModel.Dispatcher;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace Microsoft.ServiceModel.Web
 {
@@ -49,7 +34,7 @@ namespace Microsoft.ServiceModel.Web
             {
                 newLocation = message.Properties["WebHttpRedirect"] as Uri;
             }
-            if (newLocation != null && to != null)
+            if (newLocation != null && to != null && to.AbsolutePath.EndsWith("/"))
             {
                 // ...redirect
                 Message redirectResult = Message.CreateMessage(MessageVersion.None, null);
@@ -70,7 +55,7 @@ namespace Microsoft.ServiceModel.Web
             Uri helpPageUri;
             if (!Uri.TryCreate(this.HelpPageLink, UriKind.Absolute, out helpPageUri))
             {
-                helpPageUri = new Uri(string.Format(CultureInfo.InvariantCulture, "{0}/{1}",  this.BaseUri.AbsoluteUri, this.HelpPageLink));
+                helpPageUri = new Uri(string.Format(CultureInfo.InvariantCulture, "{0}/{1}", this.BaseUri.AbsoluteUri, this.HelpPageLink));
             }
             Message result = Message.CreateMessage(MessageVersion.None, null, new ErrorPageBodyWriter() { UriMatched = uriMatched, HelpPageUri = helpPageUri });
             HttpResponseMessageProperty resp = new HttpResponseMessageProperty();

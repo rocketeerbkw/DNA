@@ -1,15 +1,8 @@
 
-using System.Diagnostics;   
-using System.IO;
-using System.Collections.Generic;
-using System.Text;
-using System.Web.Hosting; 
-using System.Xml;
-using System.Web;
 using System;
-using System.Runtime.Serialization;
-using BBC.Dna.Page;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.IO;
+using System.Web;
+using System.Web.Hosting;
 
 namespace Tests
 {
@@ -67,7 +60,7 @@ namespace Tests
             //Set the cookie we want.
             //Another way to do this would be to override GetKnownRequestHandler(HttpWorkerRequest.CookieHeader) to return a cookie header.
             HttpContext context = extraData as HttpContext;
-           
+
             if (this.ParameterData != null)
             {
                 // *** Add any extra data here to the 
@@ -154,10 +147,10 @@ namespace Tests
         /// Static method creates the AppDomain for hosting ASP.NET.
         /// This class acts as a bridge across to the ASP.NET App Domain.
         /// </summary>
-        public static Host Create( string physicalDir )
-        {   
+        public static Host Create(string physicalDir)
+        {
             // return (Host)ApplicationHost.CreateApplicationHost(typeof(Host), "/", Directory.GetCurrentDirectory()); 
-            Host host = (Host)ApplicationHost.CreateApplicationHost(typeof(Host),"/", physicalDir );
+            Host host = (Host)ApplicationHost.CreateApplicationHost(typeof(Host), "/", physicalDir);
 
             return host;
         }
@@ -166,7 +159,7 @@ namespace Tests
         /// Process Request in the ASP.NET App Domain.
         /// HttpRunTime.Processequest() marks the start of the HttpPipeLine.
         /// </summary>
-        public void ProcessRequest(string page, string query, string cookies )
+        public void ProcessRequest(string page, string query, string cookies)
         {
             // Create the output writer
             if (_outputWriter != null)
@@ -185,45 +178,6 @@ namespace Tests
             _workerRequest.SetCookies(cookies);
             HttpRuntime.ProcessRequest(_workerRequest);
         }
-
-        /*public static void SetUp()
-        {
-            //Copy any test dll files to bin directory.
-            Directory.CreateDirectory(tempBinPath);
-            foreach (string file in Directory.GetFiles(tempPath, "*.dll"))
-            {
-                string newFile = Path.Combine(tempBinPath, Path.GetFileName(file));
-                if (File.Exists(newFile))
-                {
-                    File.Delete(newFile);
-                }
-                File.Copy(file, newFile);
-            }
-
-            //Copy aspx files to current dir
-            foreach (string file in Directory.GetFiles(aspxPath, "*.aspx"))
-            {
-                string newFile = Path.Combine(tempPath, Path.GetFileName(file));
-                if (File.Exists(newFile))
-                {
-                    File.Delete(newFile);
-                }
-
-                File.Copy(file, newFile);
-            }
-
-            //Copy any dlls to bin directory
-            foreach (string file in Directory.GetFiles(aspxPath, "*.dll"))
-            {
-                string newFile = Path.Combine(tempBinPath, Path.GetFileName(file));
-                if (File.Exists(newFile))
-                {
-                    File.Delete(newFile);
-                }
-
-                File.Copy(file, newFile);
-            }
-        }*/
 
         /// <summary>
         /// Copy the test page to dnapages 
@@ -275,6 +229,6 @@ namespace Tests
     }
 }
 
-   
+
 
 

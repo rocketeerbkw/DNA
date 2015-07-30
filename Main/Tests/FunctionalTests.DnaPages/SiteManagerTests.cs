@@ -147,12 +147,11 @@ namespace FunctionalTests
 
         private void SendSignal()
         {
-            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-moderationclasses", DnaTestURLRequest.CurrentServer);
+            var url = String.Format("{0}dna/h2g2/dnaSignal?action=recache-moderationclasses", DnaTestURLRequest.CurrentServer.AbsoluteUri);
+           
             var request = new DnaTestURLRequest("h2g2");
-            //request.SetCurrentUserNormal();
+            
             request.RequestPageWithFullURL(url, null, "text/xml");
-
-
         }
 
         /// <summary />

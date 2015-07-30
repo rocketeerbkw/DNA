@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
-using BBC.Dna;
-using BBC.Dna.Component;
-using BBC.Dna.Data;
+﻿using BBC.Dna.Data;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.Sites;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Tests;
 using FunctionalTests.Services.Comments;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Xml;
+using Tests;
 
 
 namespace FunctionalTests
@@ -29,7 +25,7 @@ namespace FunctionalTests
         {
             SnapshotInitialisation.RestoreFromSnapshot();
         }
- 
+
         /// <summary>
         /// make some posts and tehn retreive them witht eh LIFO flag set different ways
         /// There is currently no GUI to allow for the setting of the bit, so it has to be done directly using SQL
@@ -45,7 +41,7 @@ namespace FunctionalTests
 
             string[] newItems = new string[numbItems];
 
-            for( int itemCount = 0; itemCount < numbItems; itemCount++)
+            for (int itemCount = 0; itemCount < numbItems; itemCount++)
             {
                 newItems[itemCount] = testUtils_CommentsAPI.makeTestComment(newForum);
             }
@@ -159,7 +155,7 @@ namespace FunctionalTests
             myRequest.UseEditorAuthentication = true; ;
 
             myRequest.RequestPageWithFullURL(url, "", "");
-            
+
             /* have to comment this out because teh schema is not a match of the output
             // just make sure that we are getting what we want
             DnaXmlValidator validator = new DnaXmlValidator(myRequest.GetLastResponseAsXML().InnerXml, "H2G2ModeratePosts.xsd");
@@ -200,7 +196,7 @@ namespace FunctionalTests
 
         private void SendSignal()
         {
-            var url = String.Format("http://{0}/dna/h2g2/dnaSignal?action=recache-moderationclasses", DnaTestURLRequest.CurrentServer);
+            var url = String.Format("{0}dna/h2g2/dnaSignal?action=recache-moderationclasses", DnaTestURLRequest.CurrentServer.AbsoluteUri);
             var request = new DnaTestURLRequest("h2g2");
             //request.SetCurrentUserNormal();
             request.RequestPageWithFullURL(url, null, "text/xml");
@@ -222,7 +218,7 @@ namespace FunctionalTests
                     ISiteList _siteList = SiteList.GetSiteList();
                     ISite site = _siteList.GetSite(testUtils_CommentsAPI.sitename);
 
-                    string sqlStr = "select ModClassId FROM Sites WHERE shortname ='" + siteName +"'";
+                    string sqlStr = "select ModClassId FROM Sites WHERE shortname ='" + siteName + "'";
 
                     reader.ExecuteDEBUGONLY(sqlStr);
 

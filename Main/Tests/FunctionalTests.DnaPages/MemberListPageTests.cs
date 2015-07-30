@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Xml;
-using BBC.Dna;
-using BBC.Dna.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NUnit.Extensions.Asp;
 using NUnit.Extensions.Asp.AspTester;
 using NUnit.Extensions.Asp.HtmlTester;
+using System;
 using Tests;
 
 
@@ -19,19 +12,20 @@ namespace FunctionalTests
     /// MemberListTests
     /// </summary>
     [TestClass]
-    public class MemberListPageTests : WebFormTestCase 
+    public class MemberListPageTests : WebFormTestCase
     {
         DnaTestURLRequest _dnarequest = new DnaTestURLRequest("haveyoursay");
 
         int testSuperUserID = 1090558354;
         int testWrongUserID = 666;
 
-        public MemberListPageTests() : base()
+        public MemberListPageTests()
+            : base()
         {
             MasterSetUp();
         }
 
-        protected override void SetUp() 
+        protected override void SetUp()
         {
             base.SetUp();
         }
@@ -58,7 +52,7 @@ namespace FunctionalTests
 
             ButtonTester search = new ButtonTester("Search", CurrentWebForm);
 
-            LabelTester err = new LabelTester("lblError",CurrentWebForm);
+            LabelTester err = new LabelTester("lblError", CurrentWebForm);
             Assert.AreNotEqual("Insufficient permissions - Editor Status Required", err.Text);
 
             Console.WriteLine("After Test01MemberListPage");
@@ -79,20 +73,20 @@ namespace FunctionalTests
             HtmlTableTester table = new HtmlTableTester("tblResults");
 
             bool found = false;
-            HtmlTagTester htmltag = (HtmlTagTester) table.Rows[1].Children("td").GetValue(1);
+            HtmlTagTester htmltag = (HtmlTagTester)table.Rows[1].Children("td").GetValue(1);
             string userID = htmltag.InnerHtml;
 
             if (userID == testSuperUserID.ToString())
             {
                 found = true;
             }
-                /*string[] cells = row.TrimmedCells;
-                if (cells[1] == userID)
-                {
-                    //List Created OK 
-                    found = true;
-                    break;
-                }*/
+            /*string[] cells = row.TrimmedCells;
+            if (cells[1] == userID)
+            {
+                //List Created OK 
+                found = true;
+                break;
+            }*/
 
             Assert.IsTrue(!found, "User " + testSuperUserID.ToString() + ": Not returned and displayed in Member List Page.");
             Console.WriteLine("After Test02MemberListPageWithUserID");
@@ -140,8 +134,8 @@ namespace FunctionalTests
             RadioButtonListTester radiolist = new RadioButtonListTester("rdSearchType", CurrentWebForm);
             Assert.AreEqual(radiolist.Visible, true);
 
-            int index = GetSelectedIndex(radiolist, "User Name"); 
-            
+            int index = GetSelectedIndex(radiolist, "User Name");
+
             radiolist.SelectedIndex = index;
 
             ButtonTester search = new ButtonTester("Search", CurrentWebForm);
@@ -195,7 +189,7 @@ namespace FunctionalTests
         {
             Console.WriteLine("Before Test05MemberListSearchByEmailPage");
             _dnarequest.SetCurrentUserEditor();
-            
+
             _dnarequest.UseEditorAuthentication = true;
             string relativePath = @"/dna/haveyoursay/MemberList";
             _dnarequest.RequestNUnitASPPage(relativePath, Browser);
@@ -207,7 +201,7 @@ namespace FunctionalTests
 
             RadioButtonListTester radiolist = new RadioButtonListTester("rdSearchType", CurrentWebForm);
             Assert.AreEqual(radiolist.Visible, true);
-            
+
             int index = GetSelectedIndex(radiolist, "Email");
 
             radiolist.SelectedIndex = index;
@@ -238,7 +232,7 @@ namespace FunctionalTests
             {
                 Assert.IsTrue(false, "Error no results returned.");
             }
- 
+
             Console.WriteLine("After Test05MemberListSearchByEmailPage");
         }
         /// <summary>

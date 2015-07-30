@@ -376,7 +376,7 @@ namespace BBC.Dna.Utils
         public static Stream SerializeToXml(object obj)
         {
             MemoryStream stream = new MemoryStream();
-            using (XmlWriter writer = XmlWriter.Create(stream, new XmlWriterSettings { Encoding = Encoding.UTF8 }))
+            using (XmlWriter writer = XmlWriter.Create(stream, new XmlWriterSettings { Encoding = new UTF8Encoding(false) }))
             {
                 DataContractSerializer dcs = new DataContractSerializer(obj.GetType());
                 dcs.WriteObject(writer, obj);
