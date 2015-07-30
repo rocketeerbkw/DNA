@@ -104,50 +104,6 @@ namespace Tests
 
                 string updateSpConnString = node.Attributes["connectionString"].Value;
 
-
-
-                // Check to make sure there are no connection on the small guide database
-                bool noConnections = false;
-                int tries = 0;
-                DateTime start = DateTime.Now;
-                Console.Write("Checking for connections on small guide -");
-
-                // Keep checking while there's connections and we tried less than 24 times. We sleep for 5 seconds
-                // in between each check. A total of 2 minutes before giving up.
-                while (!noConnections && tries++ <= 24)
-                {
-                    using (IDnaDataReader reader = StoredProcedureReader.Create("", updateSpConnString))
-                    {
-                        string sql = "USE Master; SELECT 'count' = COUNT(*) FROM sys.sysprocesses sp INNER JOIN sys.databases db ON db.database_id = sp.dbid WHERE db.name = '" + smallGuideName + "' AND sp.SPID >= 50";
-                        reader.ExecuteDEBUGONLY(sql);
-
-                        if (reader.Read())
-                        {
-                            noConnections = (reader.GetInt32NullAsZero("count") == 0);
-                        }
-
-                        if (!noConnections)
-                        {
-                            if (clearConnections)
-                            {
-                                string clearConSql = @"ALTER DATABASE " + smallGuideName + @" SET OFFLINE WITH ROLLBACK IMMEDIATE;" +
-                                                     @"ALTER DATABASE " + smallGuideName + @" SET ONLINE;";
-                                reader.ExecuteDEBUGONLY(clearConSql);
-                            }
-                            else
-                            {
-                                // Goto sleep for 5 secs
-                                System.Threading.Thread.Sleep(5000);
-                                Console.Write("-");
-                            }
-                        }
-                    }
-                }
-
-                // Change the tries into seconds and write to the console
-                TimeSpan time = DateTime.Now.Subtract(start);
-                Console.WriteLine("> waited for " + time.Seconds.ToString() + " seconds.");
-
                 RestoreDatabase(smallGuideName, smallGuideSSName, updateSpConnString);
             }
             catch (Exception e)
@@ -171,7 +127,9 @@ namespace Tests
 
             var exectueSql = restoreSql.Replace("[SQLROOT]", sqlRoot);
 
-            using (IDnaDataReader reader = StoredProcedureReader.Create("", updateSpConnString))
+            var masterConnectionString = updateSpConnString.Replace(smallGuideName, "master");
+
+            using (IDnaDataReader reader = StoredProcedureReader.Create("", masterConnectionString))
             {
                 reader.ExecuteDEBUGONLY(exectueSql);
             }
