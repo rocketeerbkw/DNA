@@ -36,6 +36,7 @@ namespace BBC.Dna.Services
             {
                 if (error is SecurityAccessDeniedException) webError = new DnaWebProtocolException(HttpStatusCode.Unauthorized, errorMessage, error);
                 else if (error is ServerTooBusyException) webError = new DnaWebProtocolException(HttpStatusCode.ServiceUnavailable, errorMessage, error);
+                else if (error is InvalidOperationException) webError = new DnaWebProtocolException(HttpStatusCode.UnsupportedMediaType, errorMessage, error);
                 else if (error is FaultException)
                 {
                     FaultException fe = error as FaultException;
