@@ -5,7 +5,7 @@ IF @state = 'RESTORING'
 BEGIN 
 	DROP DATABASE [smallGuideSS] 
 	DROP DATABASE [SmallGuide] 
-	EXECUTE xp_cmdshell 'del [SQLROOT]Data\smallGuideSS.mdf'
+	EXECUTE xp_cmdshell 'del "[SQLROOT]Data\smallGuideSS.mdf"'
 	RESTORE DATABASE [SmallGuide] FROM 
 	DISK = '[SQLROOT]Backup\SmallGuide.bak'
 	WITH  FILE = 1,  
