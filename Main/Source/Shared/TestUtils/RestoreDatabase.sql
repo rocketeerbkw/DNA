@@ -1,16 +1,26 @@
-Declare @state varchar(50)
 USE [master]
-ALTER DATABASE [SmallGuide] SET OFFLINE WITH ROLLBACK IMMEDIATE
-ALTER DATABASE [SmallGuide] SET ONLINE
+
+Declare @state varchar(50)
 SELECT @state = Cast(DATABASEPROPERTYEX ('SmallGuide', 'Status') as varchar(50))
-IF @state = 'RESTORING'	or db_id('smallguidess') is null
+
+IF ISNULL(@state, '') <> 'RESTORING'
+BEGIN
+	ALTER DATABASE [SmallGuide] SET OFFLINE WITH ROLLBACK IMMEDIATE
+	ALTER DATABASE [SmallGuide] SET ONLINE
+END
+
+IF @state = 'RESTORING'	OR db_id('smallGuideSS') IS NULL
 BEGIN 
-	If db_id('smallguidess') is not null
+	IF db_id('smallGuideSS') IS NOT NULL
 	BEGIN
 		DROP DATABASE [smallGuideSS] 
 		EXECUTE xp_cmdshell 'del "[SQLROOT]Data\smallGuideSS.mdf"'
 	END
-	DROP DATABASE [SmallGuide] 
+	
+	IF db_id('SmallGuide') IS NOT NULL
+	BEGIN
+		DROP DATABASE [SmallGuide] 
+	END
 
 	RESTORE DATABASE [SmallGuide] FROM 
 	DISK = '[SQLROOT]Backup\SmallGuide.bak'
@@ -37,6 +47,7 @@ BEGIN
 		GRANT CONTROL ON CERTIFICATE::cert_keyProtection TO ripleyrole;
 		GRANT VIEW DEFINITION ON SYMMETRIC KEY::key_EmailAddress TO ripleyrole;
 	END
+
 	IF OBJECT_ID('dbo.Salt', 'U') IS NULL
 	BEGIN
 		CREATE TABLE Salt
