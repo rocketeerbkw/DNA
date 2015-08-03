@@ -1,14 +1,12 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml;
 using BBC.Dna.Data;
-using BBC.Dna.Utils;
 using BBC.Dna.Moderation.Utils;
 using BBC.Dna.SocialAPI;
 using BBC.Dna.Users;
+using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using System;
+using System.Collections.Generic;
+using System.Xml;
 
 namespace BBC.Dna.Component
 {
@@ -33,7 +31,7 @@ namespace BBC.Dna.Component
         private const string _docDnaSiteID = @"Site ID to apply the new pref status of the user for.";
         private const string _docDnaNewPrefStatus = @"New pref status for the user.";
         private const string _docDnaNewPrefStatusDuration = @"New pref status duration for the user (in days).";
-                   
+
         string _cacheName = String.Empty;
 
         IDnaDataReaderCreator readerCreator;
@@ -99,7 +97,7 @@ namespace BBC.Dna.Component
                 return false;
             }
 
-            
+
 
             GenerateMemberListPageXml(userSearchType,
                                        searchText,
@@ -121,9 +119,9 @@ namespace BBC.Dna.Component
 
             if (action.ToUpper() == "APPLYACTION")
             {
-                int newPrefStatus = (int)Enum.Parse(typeof(BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus), InputContext.GetParamStringOrEmpty("userStatusDescription", "new status"));                 
+                int newPrefStatus = (int)Enum.Parse(typeof(BBC.Dna.Moderation.Utils.ModerationStatus.UserStatus), InputContext.GetParamStringOrEmpty("userStatusDescription", "new status"));
                 int newPrefStatusDuration = InputContext.GetParamIntOrZero("duration", _docDnaNewPrefStatusDuration);
-                bool hideAllContent = InputContext.DoesParamExist("hideAllPosts","hideAllPosts");
+                bool hideAllContent = InputContext.DoesParamExist("hideAllPosts", "hideAllPosts");
                 string reason = InputContext.GetParamStringOrEmpty("reasonChange", "");
                 if (string.IsNullOrEmpty(reason))
                 {
@@ -133,7 +131,7 @@ namespace BBC.Dna.Component
                 var extraNotes = InputContext.GetParamStringOrEmpty("additionalNotes", "");
                 if (!String.IsNullOrEmpty(extraNotes))
                 {
-                    reason += " - " + extraNotes; 
+                    reason += " - " + extraNotes;
                 }
                 if (hideAllContent && newPrefStatus != 5)
                 {
@@ -164,11 +162,11 @@ namespace BBC.Dna.Component
                         return false;
                     }
                     else
-                    if(deactivatedUserIds.Count > 0)
-                    {
-                        ModerationStatus.ReactivateAccount(AppContext.ReaderCreator, deactivatedUserIds, reason, InputContext.ViewingUser.UserID);
-                    }
-                    ModerationStatus.UpdateModerationStatuses(AppContext.ReaderCreator, userIDs, siteIDs, 
+                        if (deactivatedUserIds.Count > 0)
+                        {
+                            ModerationStatus.ReactivateAccount(AppContext.ReaderCreator, deactivatedUserIds, reason, InputContext.ViewingUser.UserID);
+                        }
+                    ModerationStatus.UpdateModerationStatuses(AppContext.ReaderCreator, userIDs, siteIDs,
                         newPrefStatus, newPrefStatusDuration, reason, InputContext.ViewingUser.UserID);
                 }
             }
@@ -199,7 +197,7 @@ namespace BBC.Dna.Component
             return true;
         }
 
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -224,7 +222,7 @@ namespace BBC.Dna.Component
                 var userName = users.Item(i).SelectSingleNode("USERNAME").InnerText;
                 var deactivated = users.Item(i).SelectSingleNode("ACTIVE").InnerText == "0";
 
-                if(Int32.TryParse(users.Item(i).Attributes["USERID"].Value, out userId) && Int32.TryParse(users.Item(i).SelectSingleNode("SITEID").InnerText, out siteId) )
+                if (Int32.TryParse(users.Item(i).Attributes["USERID"].Value, out userId) && Int32.TryParse(users.Item(i).SelectSingleNode("SITEID").InnerText, out siteId))
                 {
                     string formVar = string.Format("applyTo|{0}|{1}", userId, siteId);
                     if (applyToAll || InputContext.DoesParamExist(formVar, formVar))
@@ -287,7 +285,7 @@ namespace BBC.Dna.Component
                 }
                 catch
                 {
-                    AddErrorXml("NotValidBBCUid", "A BBC Uid must be of the format 00000000-0000-0000-0000-000000000000",  null);
+                    AddErrorXml("NotValidBBCUid", "A BBC Uid must be of the format 00000000-0000-0000-0000-000000000000", null);
                     return;
                 }
 
@@ -348,8 +346,8 @@ namespace BBC.Dna.Component
                     twitterException = CreateRetrieveTwitterUser(searchText, dataReader);
                 }
 
-                GenerateMemberListXml(dataReader, 
-                                        userSearchType, 
+                GenerateMemberListXml(dataReader,
+                                        userSearchType,
                                         searchText,
                                         checkAllSites,
                                         twitterException);
@@ -430,10 +428,10 @@ namespace BBC.Dna.Component
         /// <returns></returns>
         public TweetUsers RetrieveTweetUserDetails(string twitterScreenName)
         {
-             //TODO: Call the twitter api to get the user details
+            //TODO: Call the twitter api to get the user details
             TwitterClient client;
-            TweetUsers tweetUser =  new TweetUsers();
-            
+            TweetUsers tweetUser = new TweetUsers();
+
             try
             {
                 client = new TwitterClient();
@@ -480,7 +478,7 @@ namespace BBC.Dna.Component
             AddAttribute(memberList, "USERSEARCHTYPE", userSearchType.ToString());
             AddAttribute(memberList, "SEARCHTEXT", searchText);
             AddAttribute(memberList, "CHECKALLSITES", checkAllSites.ToString());
-            
+
 
             if (dataReader.HasRows)
             {
@@ -493,15 +491,7 @@ namespace BBC.Dna.Component
                     do
                     {
                         int userID = dataReader.GetInt32NullAsZero("USERID");
-                        /*if (userID != previousUserID)
-                        {
-                            if (userAccount != null)
-                            {
-                                userAccounts.AppendChild(userAccount);
-                            }
-                            userAccount = CreateElementNode("USERACCOUNT");
-                            previousUserID = userID;
-                        }*/
+
                         userAccount = CreateElementNode("USERACCOUNT");
 
                         //Start filling new user xml
@@ -509,7 +499,17 @@ namespace BBC.Dna.Component
                         AddTextTag(userAccount, "SITEID", dataReader.GetInt32NullAsZero("SITEID"));
 
                         AddTextTag(userAccount, "USERNAME", dataReader.GetStringNullAsEmpty("USERNAME"));
-                        AddTextTag(userAccount, "LOGINNAME", dataReader.GetStringNullAsEmpty("LOGINNAME"));
+
+                        var loginName = dataReader.GetStringNullAsEmpty("LOGINNAME");
+
+                        if (searchText != null && searchText.ToLower() == loginName.ToLower())
+                        {
+                            loginName = searchText;
+                        }
+
+                        AddTextTag(userAccount, "LOGINNAME", loginName);
+
+
                         AddTextTag(userAccount, "EMAIL", dataReader.GetStringNullAsEmpty("EMAIL"));
                         AddTextTag(userAccount, "PREFSTATUS", dataReader.GetInt32NullAsZero("PREFSTATUS"));
                         AddTextTag(userAccount, "PREFSTATUSDURATION", dataReader.GetInt32NullAsZero("PREFSTATUSDURATION"));
@@ -549,11 +549,11 @@ namespace BBC.Dna.Component
                             AddIntElement(userAccount, "SSOUSERID", dataReader.GetInt32NullAsZero("SSOUserID"));
                         }
                         AddTextTag(userAccount, "IDENTITYUSERID", dataReader.GetStringNullAsEmpty("IdentityUserID"));
-                        AddIntElement(userAccount, "ACTIVE", dataReader.GetInt32NullAsZero("STATUS") != 0 ? 1:0);
+                        AddIntElement(userAccount, "ACTIVE", dataReader.GetInt32NullAsZero("STATUS") != 0 ? 1 : 0);
                         userAccounts.AppendChild(userAccount);
 
                         count++;
-                        
+
                     } while (dataReader.Read());
 
                     memberList.AppendChild(userAccounts);
@@ -670,7 +670,7 @@ namespace BBC.Dna.Component
         }
 
 
-        
+
         /// <summary>
         /// Converts form string into prefstatus and hide all posts values
         /// </summary>
@@ -701,7 +701,7 @@ namespace BBC.Dna.Component
                 case "DEACTIVATE":
                     newPrefStatusValue = 5;
                     break;
-                    
+
                 default:
                     newPrefStatusValue = 0;
                     break;
@@ -738,6 +738,6 @@ namespace BBC.Dna.Component
             return newPrefStatusValue;
         }
 
-        
+
     }
 }

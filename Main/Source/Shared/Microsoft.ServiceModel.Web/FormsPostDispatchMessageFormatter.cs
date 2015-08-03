@@ -1,22 +1,18 @@
-﻿//-----------------------------------------------------------------------------
+﻿using System;
+using System.Collections.Specialized;
+//-----------------------------------------------------------------------------
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 //-----------------------------------------------------------------------------
-
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.ServiceModel.Channels;
-using System.ServiceModel;
-using System.Web;
-using System.ServiceModel.Description;
-using System.ServiceModel.Security;
-using System.Collections.ObjectModel;
-using System.ServiceModel.Dispatcher;
-using System.Collections.Specialized;
-using System.Xml;
-using System.ServiceModel.Web;
+using System.Net.Mime;
 using System.Reflection;
+using System.ServiceModel.Channels;
+using System.ServiceModel.Description;
+using System.ServiceModel.Dispatcher;
+using System.ServiceModel.Web;
+using System.Text;
+using System.Web;
+using System.Xml;
 
 namespace Microsoft.ServiceModel.Web
 {
@@ -75,7 +71,8 @@ namespace Microsoft.ServiceModel.Web
                 UriTemplateMatch match = message.Properties["UriTemplateMatchResults"] as UriTemplateMatch;
                 ParameterInfo[] paramInfos = this.od.SyncMethod.GetParameters();
                 var binder = CreateParameterBinder(match);
-                object[] values = (from p in paramInfos where p.ParameterType != typeof(NameValueCollection)
+                object[] values = (from p in paramInfos
+                                   where p.ParameterType != typeof(NameValueCollection)
                                    select binder(p)).ToArray<Object>();
                 int index = 0;
                 for (int i = 0; i < paramInfos.Length; ++i)
@@ -89,8 +86,44 @@ namespace Microsoft.ServiceModel.Web
             }
             else
             {
-                inner.DeserializeRequest(message, parameters);
+                try
+                {
+                    inner.DeserializeRequest(message, parameters);
+                }
+                catch (InvalidOperationException e)
+                {
+                    var httpRequestProperties = (HttpRequestMessageProperty)message.Properties["httpRequest"];
+
+                    if (httpRequestProperties != null)
+                    {
+                        var contentType = httpRequestProperties.Headers["Content-Type"];
+
+                        if (!string.IsNullOrEmpty(contentType) && !ContentTypeIsKnown(contentType))
+                        {
+                            throw new HttpRequestValidationException(e.Message, e);
+                        }
+                    }
+
+                    throw;
+                }
             }
+        }
+
+        private bool ContentTypeIsKnown(string contentType)
+        {
+            var applicationTypes = typeof(MediaTypeNames.Application);
+
+            var types = applicationTypes.GetFields();
+
+            var match = types.Any(f => Convert.ToString(f.GetValue(types)) == contentType);
+
+            if (match) return true;
+
+            var textTypes = typeof(MediaTypeNames.Text);
+
+            types = textTypes.GetFields();
+
+            return types.Any(f => Convert.ToString(f.GetValue(types)) == contentType);
         }
 
         public Message SerializeReply(MessageVersion messageVersion, object[] parameters, object result)
@@ -107,7 +140,7 @@ namespace Microsoft.ServiceModel.Web
                 {
                     return this.queryStringConverter.ConvertStringToValue(value, pi.ParameterType);
                 }
-                else 
+                else
                 {
                     return pi.RawDefaultValue;
                 }

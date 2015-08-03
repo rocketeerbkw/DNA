@@ -37,10 +37,11 @@ namespace BBC.Dna.Services
                 if (error is SecurityAccessDeniedException) webError = new DnaWebProtocolException(HttpStatusCode.Unauthorized, errorMessage, error);
                 else if (error is ServerTooBusyException) webError = new DnaWebProtocolException(HttpStatusCode.ServiceUnavailable, errorMessage, error);
                 else if (error is InvalidOperationException) webError = new DnaWebProtocolException(HttpStatusCode.UnsupportedMediaType, errorMessage, error);
+                else if (error is HttpRequestValidationException) webError = new DnaWebProtocolException(HttpStatusCode.InternalServerError, errorMessage, error);
                 else if (error is FaultException)
                 {
                     FaultException fe = error as FaultException;
-                    if (fe.Code.IsSenderFault)
+                    if (fe.Code != null && fe.Code.IsSenderFault)
                     {
                         if (fe.Code.SubCode.Name == "FailedAuthentication")
                         {
@@ -132,7 +133,9 @@ namespace BBC.Dna.Services
 
             var normalisedErrorMessage = errorMessage.ToLower().Trim();
 
-            if (normalisedErrorMessage.Contains("there was an error deserializing the object of type") || normalisedErrorMessage.Contains("there was an error checking start element of"))
+            if (normalisedErrorMessage.Contains("there was an error deserializing the object of type")
+                || normalisedErrorMessage.Contains("there was an error checking start element of")
+                || normalisedErrorMessage.Contains("the incoming message has an unexpected message format"))
             {
                 pos = errorMessage.IndexOf(". ") + 1;
                 errorMessage = String.Format(errorText, errorMessage.Substring(pos, errorMessage.Length - pos));
@@ -157,5 +160,6 @@ namespace BBC.Dna.Services
                 Error.WriteDetail(writer);
             }
         }
+
     }
 }

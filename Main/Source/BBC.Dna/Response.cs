@@ -1,8 +1,6 @@
-using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Web;
-using System.IO;
 
 namespace BBC.Dna
 {
@@ -37,7 +35,9 @@ namespace BBC.Dna
         /// <param name="url">The url you want to redirect to</param>
         public void Redirect(string url)
         {
-            _response.Redirect(url,false);
+            var encodedUrl = HttpUtility.UrlEncode(url);
+
+            _response.Redirect(encodedUrl, false);
         }
 
         /// <summary>

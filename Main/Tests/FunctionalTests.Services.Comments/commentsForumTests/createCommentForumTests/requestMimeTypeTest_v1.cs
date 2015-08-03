@@ -1,12 +1,9 @@
-using System;
-using System.Net;
-using System.Web;
-using System.Xml;
 using BBC.Dna.Utils;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Net;
+using System.Xml;
 using Tests;
-
-
 
 
 namespace FunctionalTests.Services.Comments
@@ -19,7 +16,7 @@ namespace FunctionalTests.Services.Comments
     /// </summary>
     [TestClass]
     public class mimeTypes
-    {        
+    {
         /// <summary>
         /// XML POST data, No request mime-type, expect it to reject the request
         /// </summary>
@@ -91,7 +88,7 @@ namespace FunctionalTests.Services.Comments
             string parentUri = "";
             string fileName = "";
             string postData = testUtils_CommentsAPI.makePostXml(ref id, ref title, ref parentUri);
-            
+
             // working data
             DnaTestURLRequest request;
             int newSiteCount = 0;
@@ -144,7 +141,7 @@ namespace FunctionalTests.Services.Comments
 
             // check content of what came back
             respStr = request.GetLastResponseAsString();
-            BBC.Dna.Api.CommentForum returnedForum = 
+            BBC.Dna.Api.CommentForum returnedForum =
                 (BBC.Dna.Api.CommentForum)StringUtils.DeserializeObject(respStr, typeof(BBC.Dna.Api.CommentForum));
 
             Assert.IsTrue(returnedForum.Id == id, "ID was corrupted from " + id + " to " + returnedForum.Id);
@@ -307,7 +304,7 @@ Located :    at System.ServiceModel.Dispatcher.DemultiplexingDispatchMessageForm
             // check that one was actually created
             newSiteCount = testUtils_CommentsAPI.countForums(testUtils_CommentsAPI.sitename);
             Assert.IsTrue(newSiteCount == (testUtils_CommentsAPI.runningForumCount + 1));
-            testUtils_CommentsAPI.runningForumCount = newSiteCount; 
+            testUtils_CommentsAPI.runningForumCount = newSiteCount;
 
             // examine what has come back
             respStr = request.GetLastResponseAsString();
@@ -351,7 +348,7 @@ Located :    at System.ServiceModel.Dispatcher.DemultiplexingDispatchMessageForm
             DnaTestURLRequest request;
 
             request = doIt(postData, mimeType, expectedResponseCode, fileName);
-            
+
         } // ends inJsonMimeTypeAppUrlEnc
 
         //-------------------------------------------------------------------------------------------------------------------
@@ -431,40 +428,40 @@ Located :    at System.ServiceModel.Dispatcher.DemultiplexingDispatchMessageForm
 
 
         //-------------------------------------------------------------------------------------------------------------------------------
-       /// <summary>
-       /// Abstraction of the actual work - make the call and check the response
-       /// </summary>
-       /// <param name="myPostData">Post data that is to be used</param>
-       /// <param name="myMimeType">The mime type that is to be declared</param>
-       /// <param name="myRespCode">The HTTP repsonse code to expect</param>
-       /// <returns>the populated request object</returns>
-       private DnaTestURLRequest doIt(string myPostData, string myMimeType, HttpStatusCode myRespCode, string fileName)
-       {
+        /// <summary>
+        /// Abstraction of the actual work - make the call and check the response
+        /// </summary>
+        /// <param name="myPostData">Post data that is to be used</param>
+        /// <param name="myMimeType">The mime type that is to be declared</param>
+        /// <param name="myRespCode">The HTTP repsonse code to expect</param>
+        /// <returns>the populated request object</returns>
+        private DnaTestURLRequest doIt(string myPostData, string myMimeType, HttpStatusCode myRespCode, string fileName)
+        {
 
-           DnaTestURLRequest request = new DnaTestURLRequest(testUtils_CommentsAPI.sitename);
-           request.SetCurrentUserEditor();
+            DnaTestURLRequest request = new DnaTestURLRequest(testUtils_CommentsAPI.sitename);
+            request.SetCurrentUserEditor();
 
-           string url = "http://" + testUtils_CommentsAPI.server + "/dna/api/comments/CommentsService.svc/v1/site/" + testUtils_CommentsAPI.sitename + "/" + fileName;
+            string url = "http://" + testUtils_CommentsAPI.server + "/dna/api/comments/CommentsService.svc/v1/site/" + testUtils_CommentsAPI.sitename + "/" + fileName;
 
-           // now get the response - minimal POST data, no clue about the input mime-type , user is not allowed, however
-           try
-           {
-               request.RequestPageWithFullURL(url, myPostData, myMimeType);
-           }
-           catch
-           {
-               // don't loose control.
-               string resStr = request.GetLastResponseAsString();
-           }
-           
-           Assert.IsTrue(
-               request.CurrentWebResponse.StatusCode == myRespCode,
-               "Expected a response of: " + myRespCode + 
-               " actaully got: " + request.CurrentWebResponse.StatusCode +" - "+ request.CurrentWebResponse.StatusDescription +
-               " more details: "+ request.GetLastResponseAsString()
-               );
+            // now get the response - minimal POST data, no clue about the input mime-type , user is not allowed, however
+            try
+            {
+                request.RequestPageWithFullURL(url, myPostData, myMimeType);
+            }
+            catch
+            {
+                // don't loose control.
+                string resStr = request.GetLastResponseAsString();
+            }
 
-           return request;
+            Assert.IsTrue(
+                request.CurrentWebResponse.StatusCode == myRespCode,
+                "Expected a response of: " + myRespCode +
+                " actaully got: " + request.CurrentWebResponse.StatusCode + " - " + request.CurrentWebResponse.StatusDescription +
+                " more details: " + request.GetLastResponseAsString()
+                );
+
+            return request;
         }
 
         // =============================================================================================
@@ -485,6 +482,6 @@ Located :    at System.ServiceModel.Dispatcher.DemultiplexingDispatchMessageForm
             testUtils_CommentsAPI.runningForumCount = testUtils_CommentsAPI.countForums(testUtils_CommentsAPI.sitename);
         }
 
-    
+
     } // ends class
 } // ends namespace

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
+﻿using BBC.Dna.Api;
 using BBC.Dna.Utils;
-using BBC.Dna.Api;
+using System.Text.RegularExpressions;
+using System.Xml;
 
 namespace BBC.Dna.Objects
 {
@@ -12,7 +9,7 @@ namespace BBC.Dna.Objects
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Xml", "2.0.50727.3053")]
     [System.SerializableAttribute()]
-    
+
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, TypeName = "GUIDE")]
     [System.Xml.Serialization.XmlRootAttribute(Namespace = "", IsNullable = false, ElementName = "GUIDE")]
@@ -69,7 +66,11 @@ namespace BBC.Dna.Objects
                     //If something has gone wrong log stuff
                     DnaDiagnostics.Default.WriteExceptionToLog(e);
 
-                    throw new ApiException("GuideML Transform Failed", e);
+                    var errorMessage = Regex.Replace(e.Message, "position +[0-9][0-9]* ", "", RegexOptions.IgnoreCase);
+
+                    var xmlException = new XmlException(errorMessage, e);
+
+                    throw new ApiException("GuideML Transform Failed", xmlException);
                 }
             }
 

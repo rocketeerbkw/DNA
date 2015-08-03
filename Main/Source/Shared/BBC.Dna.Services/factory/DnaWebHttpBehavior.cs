@@ -1,21 +1,9 @@
 namespace BBC.Dna.Services
 {
-    using System.Threading;
-    using System.ServiceModel.Diagnostics;
-    using System.Diagnostics;
-    using System;
+    using Microsoft.ServiceModel.Web;
     using System.ServiceModel.Description;
     using System.ServiceModel.Dispatcher;
-    using System.ServiceModel.Channels;
     using System.ServiceModel.Web;
-    using System.Xml;
-    using System.Text;
-    using System.Web;
-    using System.Collections.Specialized;
-    using System.Security;
-    using System.Security.Principal;
-    using System.Web.Configuration;
-    using Microsoft.ServiceModel.Web;
 
     public class DnaWebHttpBehavior : WebHttpBehavior
     {
@@ -63,7 +51,8 @@ namespace BBC.Dna.Services
         {
             foreach (OperationDescription od in endpoint.Contract.Operations)
             {
-                WebMessageFormat outgoingFormat = WebMessageFormat.Xml;
+                var outgoingFormat = WebMessageFormat.Xml;
+
                 WebGetAttribute getAttr = od.Behaviors.Find<WebGetAttribute>();
                 if (getAttr != null)
                 {
@@ -77,7 +66,7 @@ namespace BBC.Dna.Services
                         outgoingFormat = (invokeAttr.IsResponseFormatSetExplicitly) ? invokeAttr.ResponseFormat : base.DefaultOutgoingResponseFormat;
                     }
                 }
-                endpointDispatcher.DispatchRuntime.Operations[od.Name].ParameterInspectors.Add(new ResponseWebFormatPropertyAttacher() { Format =  outgoingFormat });
+                endpointDispatcher.DispatchRuntime.Operations[od.Name].ParameterInspectors.Add(new ResponseWebFormatPropertyAttacher() { Format = outgoingFormat });
             }
             endpointDispatcher.ChannelDispatcher.ErrorHandlers.Add(new DnaWebErrorHandler() { EnableAspNetCustomErrors = this.EnableAspNetCustomErrors, IncludeExceptionDetailInFaults = endpointDispatcher.DispatchRuntime.ChannelDispatcher.IncludeExceptionDetailInFaults });
         }
