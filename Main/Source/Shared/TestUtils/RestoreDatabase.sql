@@ -1,11 +1,16 @@
 Declare @state varchar(50)
 USE [master]
+ALTER DATABASE [SmallGuide] SET OFFLINE WITH ROLLBACK IMMEDIATE
+ALTER DATABASE [SmallGuide] SET ONLINE
 SELECT @state = Cast(DATABASEPROPERTYEX ('SmallGuide', 'Status') as varchar(50))
-IF @state = 'RESTORING'	
+IF @state = 'RESTORING'	or db_id('smallguidess') is null
 BEGIN 
-	DROP DATABASE [smallGuideSS] 
+	If db_id('smallguidess') is not null
+	BEGIN
+		DROP DATABASE [smallGuideSS] 
+		EXECUTE xp_cmdshell 'del "[SQLROOT]Data\smallGuideSS.mdf"'
+	END
 	DROP DATABASE [SmallGuide] 
-	EXECUTE xp_cmdshell 'del "[SQLROOT]Data\smallGuideSS.mdf"'
 
 	RESTORE DATABASE [SmallGuide] FROM 
 	DISK = '[SQLROOT]Backup\SmallGuide.bak'
@@ -32,7 +37,7 @@ BEGIN
 		GRANT CONTROL ON CERTIFICATE::cert_keyProtection TO ripleyrole;
 		GRANT VIEW DEFINITION ON SYMMETRIC KEY::key_EmailAddress TO ripleyrole;
 	END
-	IF dbo.udf_tableexists('Salt')=0
+	IF OBJECT_ID('dbo.Salt', 'U') IS NULL
 	BEGIN
 		CREATE TABLE Salt
 		(
@@ -53,7 +58,5 @@ BEGIN
 END
 ELSE
 BEGIN
-    ALTER DATABASE [SmallGuide] SET OFFLINE WITH ROLLBACK IMMEDIATE
-    ALTER DATABASE [SmallGuide] SET ONLINE
 	RESTORE DATABASE  [SmallGuide]  FROM DATABASE_SNAPSHOT = 'smallGuideSS' WITH RECOVERY
 END
