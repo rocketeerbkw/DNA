@@ -6,6 +6,7 @@ BEGIN
 	DROP DATABASE [smallGuideSS] 
 	DROP DATABASE [SmallGuide] 
 	EXECUTE xp_cmdshell 'del "[SQLROOT]Data\smallGuideSS.mdf"'
+
 	RESTORE DATABASE [SmallGuide] FROM 
 	DISK = '[SQLROOT]Backup\SmallGuide.bak'
 	WITH  FILE = 1,  
@@ -13,10 +14,42 @@ BEGIN
 	MOVE N'SmallGuide_log' TO N'[SQLROOT]Log\SmallGuide_log.LDF',  
 	NOUNLOAD,  REPLACE,  STATS = 1
 
+	EXEC sp_change_users_login 'Auto_Fix', 'ripley' 
+
+	IF NOT EXISTS(SELECT * FROM sys.symmetric_keys WHERE name = 'key_EmailAddress')
+	BEGIN
+		CREATE MASTER KEY ENCRYPTION BY PASSWORD = 'Dev Master Key PW c0mPl3x!';
+
+		CREATE CERTIFICATE cert_keyProtection WITH SUBJECT = 'Key Protection';
+
+		CREATE SYMMETRIC KEY key_EmailAddress WITH
+			KEY_SOURCE = 'Eh up chuck',
+			ALGORITHM = TRIPLE_DES, 
+			IDENTITY_VALUE = 'Nice day'
+			ENCRYPTION BY CERTIFICATE cert_keyProtection;
+
+		-- Grant ripleyrole permissions to use the objects
+		GRANT CONTROL ON CERTIFICATE::cert_keyProtection TO ripleyrole;
+		GRANT VIEW DEFINITION ON SYMMETRIC KEY::key_EmailAddress TO ripleyrole;
+	END
+	IF dbo.udf_tableexists('Salt')=0
+	BEGIN
+		CREATE TABLE Salt
+		(
+			SaltId varchar(50) CONSTRAINT PK_Salt PRIMARY KEY CLUSTERED,
+			EncryptedSalt varbinary(8000)
+		)
+
+		-- Add an encrypted salt value for email hashes
+		OPEN SYMMETRIC KEY key_EmailAddress DECRYPTION BY CERTIFICATE cert_keyProtection;
+		DECLARE @enc varbinary(8000)
+		SET @enc=EncryptByKey(KEY_GUID('key_EmailAddress'),'Dev Salt')
+		INSERT Salt VALUES('Email',@enc)
+	END
+
 	CREATE DATABASE [smallGuideSS] ON
 	( NAME = smallGuide, FILENAME = '[SQLROOT]Data\smallGuideSS.mdf' )
 	AS SNAPSHOT OF SmallGuide
-
 END
 ELSE
 BEGIN
