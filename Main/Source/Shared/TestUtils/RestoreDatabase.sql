@@ -3,7 +3,11 @@ USE [master]
 Declare @state varchar(50)
 SELECT @state = Cast(DATABASEPROPERTYEX ('SmallGuide', 'Status') as varchar(50))
 
-IF ISNULL(@state, '') <> 'RESTORING'
+IF (ISNULL(@state, '') = 'RESTORING') OR (ISNULL(@state, '') = '')
+BEGIN
+	PRINT 'Not attempting to set [SmallGuide] offline'
+END
+ELSE
 BEGIN
 	ALTER DATABASE [SmallGuide] SET OFFLINE WITH ROLLBACK IMMEDIATE
 	ALTER DATABASE [SmallGuide] SET ONLINE
@@ -29,6 +33,7 @@ BEGIN
 	MOVE N'SmallGuide_log' TO N'[SQLROOT]Log\SmallGuide_log.LDF',  
 	NOUNLOAD,  REPLACE,  STATS = 1
 
+	EXEC sp_grantdbaccess N'ripley', N'ripley'
 	EXEC sp_change_users_login 'Auto_Fix', 'ripley' 
 
 	IF NOT EXISTS(SELECT * FROM sys.symmetric_keys WHERE name = 'key_EmailAddress')
