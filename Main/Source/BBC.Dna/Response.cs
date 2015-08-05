@@ -35,17 +35,7 @@ namespace BBC.Dna
         /// <param name="url">The url you want to redirect to</param>
         public void Redirect(string url)
         {
-            if (url == "http://www.bbc.co.uk/")
-            {
-                _response.Redirect(url, false);
-
-            }
-            else
-            {
-                var encodedUrl = HttpUtility.UrlEncode(url);
-
-                _response.Redirect(encodedUrl, false);
-            }
+            _response.Redirect(url, false);
         }
 
         /// <summary>

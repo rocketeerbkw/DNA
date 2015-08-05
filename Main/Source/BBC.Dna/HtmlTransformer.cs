@@ -1,10 +1,9 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
+using System.Web;
 using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl;
-using System.IO;
 
 namespace BBC.Dna
 {
@@ -17,7 +16,8 @@ namespace BBC.Dna
         /// Constructor for the HTML transformer.
         /// </summary>
         /// <param name="outputContext">Output context of the request.</param>
-        public HtmlTransformer(IOutputContext outputContext) : base(outputContext)
+        public HtmlTransformer(IOutputContext outputContext)
+            : base(outputContext)
         {
         }
 
@@ -37,22 +37,22 @@ namespace BBC.Dna
             return null;
         }
 
-		/// <summary>
-		/// <see cref="IDnaTransformer"/>
-		/// </summary>
-		/// <returns></returns>
-		public override bool IsCachedOutputAvailable()
-		{
-			if (OutputContext.IsHtmlCachingEnabled())
-			{
-				string key = CreateTransformerRequestCacheKey();
-				return (null != OutputContext.GetCachedObject(key));
-			}
-			else
-			{
-				return false;
-			}
-		}
+        /// <summary>
+        /// <see cref="IDnaTransformer"/>
+        /// </summary>
+        /// <returns></returns>
+        public override bool IsCachedOutputAvailable()
+        {
+            if (OutputContext.IsHtmlCachingEnabled())
+            {
+                string key = CreateTransformerRequestCacheKey();
+                return (null != OutputContext.GetCachedObject(key));
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         /// The main transformation function. This takes a component and then transforms the XML Doc with the required xslt file.
@@ -62,18 +62,29 @@ namespace BBC.Dna
         /// <remarks>Note that only the first redirect will be executed, so first come first served!!!</remarks>
         /// <param name="component">The IDNACompnent you are transforming</param>
         /// <returns>true if ok, false if not</returns>
-		public override bool TransformXML(IDnaComponent component)
-		{
+        public override bool TransformXML(IDnaComponent component)
+        {
             // Create the XML navigator for the given component XMLDoc. Check to see if we've been given a redirect
             XPathDocument xdoc = new XPathDocument(new XmlNodeReader(component.RootElement.FirstChild));
-			XPathNavigator xnav = xdoc.CreateNavigator();
-			XPathNavigator redirect = xnav.SelectSingleNode("/H2G2/REDIRECT/@URL");
-			if (null != redirect)
-			{
+            XPathNavigator xnav = xdoc.CreateNavigator();
+            XPathNavigator redirect = xnav.SelectSingleNode("/H2G2/REDIRECT/@URL");
+            if (null != redirect)
+            {
                 // We've been given a redirect, so execute it and return
-				OutputContext.Redirect(redirect.InnerXml);
-				return true;
-			}
+
+                if (redirect.InnerXml == "http://www.bbc.co.uk/")
+                {
+                    OutputContext.Redirect(redirect.InnerXml);
+                }
+                else
+                {
+                    var encodedUrl = HttpUtility.UrlEncode(redirect.InnerXml);
+
+                    OutputContext.Redirect(encodedUrl);
+                }
+
+                return true;
+            }
 
             // Try to get a cached transform for this xslt file
             string xslFile = OutputContext.GetSkinPath(XsltFileName);
@@ -121,7 +132,7 @@ namespace BBC.Dna
                     // No output caching, so write directly to OutputContext.Writer
                     Transformer.Transform(xnav, null, OutputContext.Writer);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     OutputContext.Diagnostics.WriteTimedEventToLog("Transform", ex.Message);
                     throw;
@@ -131,7 +142,7 @@ namespace BBC.Dna
             }
 
             // Make a note on how long it took
-			return true;
-		}
-	}
+            return true;
+        }
+    }
 }
