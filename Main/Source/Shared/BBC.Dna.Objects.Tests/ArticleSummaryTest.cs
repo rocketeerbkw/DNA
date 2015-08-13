@@ -1,14 +1,11 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BBC.Dna.Data;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using BBC.Dna.Data;
-using BBC.Dna.Sites;
-using BBC.Dna.Utils;
-using BBC.Dna.Common;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Threading;
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -48,28 +45,6 @@ namespace BBC.Dna.Objects.Tests
             }
         }
 
-        #region Additional test attributes
-        //
-        // You can use the following additional attributes as you write your tests:
-        //
-        // Use ClassInitialize to run code before running the first test in the class
-        // [ClassInitialize()]
-        // public static void MyClassInitialize(TestContext testContext) { }
-        //
-        // Use ClassCleanup to run code after all tests in a class have run
-        // [ClassCleanup()]
-        // public static void MyClassCleanup() { }
-        //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
-        //
-        // Use TestCleanup to run code after each test has run
-        // [TestCleanup()]
-        // public void MyTestCleanup() { }
-        //
-        #endregion
-
         public void GetChildArticles_SetupDefaultMocks(out MockRepository mocks, out IDnaDataReaderCreator readerCreator)
         {
             mocks = new MockRepository();
@@ -85,7 +60,7 @@ namespace BBC.Dna.Objects.Tests
                 Editor = new UserElement()
                 {
                     user = UserTest.CreateTestUser()
-                },                
+                },
                 H2G2ID = 1,
                 LastUpdated = new DateElement(DateTime.Now),
                 Name = "Test",
@@ -98,6 +73,12 @@ namespace BBC.Dna.Objects.Tests
                 StrippedName = "StrippedName"
             };
             return summary;
+        }
+
+        [TestInitialize]
+        public void BeforeTest()
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB", false);
         }
 
         /// <summary>
@@ -145,10 +126,10 @@ namespace BBC.Dna.Objects.Tests
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorSiteSuffix")).Return(true);
             getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorSiteSuffix")).Return("suffix");
             getarticlesinhierarchynodeReader.Stub(x => x.Exists("editorTitle")).Return(true);
-            getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorTitle")).Return("title");            
+            getarticlesinhierarchynodeReader.Stub(x => x.GetStringNullAsEmpty("editorTitle")).Return("title");
             getarticlesinhierarchynodeReader.Stub(x => x.GetDateTime("datecreated")).Return(testDate);
             getarticlesinhierarchynodeReader.Stub(x => x.GetDateTime("lastupdated")).Return(testDate);
-            getarticlesinhierarchynodeReader.Stub(x => x.GetInt32NullAsZero("Type")).Return(1);            
+            getarticlesinhierarchynodeReader.Stub(x => x.GetInt32NullAsZero("Type")).Return(1);
             readerCreator.Stub(x => x.CreateDnaDataReader("getarticlesinhierarchynode")).Return(getarticlesinhierarchynodeReader);
 
             // EXECUTE THE TEST
@@ -261,8 +242,8 @@ namespace BBC.Dna.Objects.Tests
 
             // VERIFY THE RESULTS
             Assert.AreEqual(actual.Count, 10);
-        }   
-        
+        }
+
     }
 }
 
