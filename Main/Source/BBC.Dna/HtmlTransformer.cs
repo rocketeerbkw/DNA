@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Web;
 using System.Xml;
 using System.Xml.XPath;
 using System.Xml.Xsl;
@@ -71,7 +72,16 @@ namespace BBC.Dna
             {
                 // We've been given a redirect, so execute it and return
 
-                OutputContext.Redirect(redirect.InnerXml);
+                if (redirect.InnerXml == "http://www.bbc.co.uk/")
+                {
+                    OutputContext.Redirect(redirect.InnerXml);
+                }
+                else
+                {
+                    var encodedUrl = HttpUtility.UrlEncode(redirect.InnerXml);
+
+                    OutputContext.Redirect(encodedUrl);
+                }
 
                 return true;
             }
