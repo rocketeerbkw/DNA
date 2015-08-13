@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-
 using System.Runtime.Serialization;
 using BBC.Dna.Moderation;
 
@@ -57,5 +55,61 @@ namespace BBC.Dna.Moderation
             set;
         }
 
+    }
+
+    [Serializable]
+    [DataContract(Name = "ExLinkModCallbackItem", Namespace = "BBC.Dna.Moderation")]
+    public class ExLinkModCallbackItem
+    {
+        public ExLinkModCallbackItem() { }
+
+        [DataMember(Name = ("id"), Order = 1)]
+        public int ModId
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("status"), Order = 2)]
+        public string Decision
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("uri"), Order = 3)]
+        public string Uri
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("notes"), Order = 4)]
+        public string Notes
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("datecompleted"), Order = 5)]
+        public string DateCompleted
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("reasontype"), Order = 6)]
+        public string ReasonType
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("reasontext"), Order = 7)]
+        public string ReasonText
+        {
+            get;
+            set;
+        }
     }
 }
