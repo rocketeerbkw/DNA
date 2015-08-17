@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-using System.Net;
-using System.Text;
-using System.Web;
-using System.Xml;
-using BBC.Dna;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Configuration;
+using System.IO;
+using System.Text;
 
 namespace Tests
 {
@@ -17,7 +12,7 @@ namespace Tests
     [TestClass]
     public class XSLTCachingTests
     {
-        private string _testXSLTFilename = Environment.CurrentDirectory + "DnaXsltCacheTestFile.xsl";
+        private string _testXSLTFilename = ConfigurationManager.AppSettings["testXsltFilePath"];
         HtmlCachingTests _htmlCachingTests = null;
 
         /// <summary>
@@ -99,7 +94,7 @@ namespace Tests
             request.RequestPage("acs?d_skinfile=" + _testXSLTFilename);
             Assert.IsFalse(request.GetLastResponseAsString().Contains("XSLT caching test 1"));
             Assert.IsTrue(request.GetLastResponseAsString().Contains("XSLT caching test 2"));
-            
+
             Console.WriteLine("After TestXSLTCaching");
         }
 
