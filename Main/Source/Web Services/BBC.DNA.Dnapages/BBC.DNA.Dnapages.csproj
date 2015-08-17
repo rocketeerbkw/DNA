@@ -389,7 +389,7 @@
     <Compile Include="NewUsers.aspx.designer.cs">
       <DependentUpon>NewUsers.aspx</DependentUpon>
     </Compile>
-    <None Include="App_Code\ActionlessForm.cs" />
+    <Compile Include="App_Code\ActionlessForm.cs" />
     <Compile Include="ArticleDiagnosticPage.aspx.cs">
       <DependentUpon>ArticleDiagnosticPage.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
