@@ -1,12 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Text;
-using System.Xml;
 using BBC.Dna;
 using BBC.Dna.Sites;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Globalization;
+using System.Threading;
+using System.Xml;
 
 namespace Tests
 {
@@ -30,6 +29,8 @@ namespace Tests
         [TestInitialize]
         public void SetupTestSite()
         {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB", false);
+
             _inputcontext = new FullInputContext("");
             _testSite = new Site(1, "h2g2", 0, false, "brunel", true, "H2G2", "h2g2",
                         "moderator@bbc.co.uk", "editor@bbc.co.uk", "feedback@bbc.co.uk", 1090497224, false, true, true, "", "Alert", 2000, 1090497224, 0,
@@ -64,7 +65,7 @@ namespace Tests
                 Assert.AreEqual(testnode.Attributes["ID"].InnerText, "1", "Site ID Attribute Xml incorrect");
             }
         }
-        
+
         /// <summary>
         /// Test3TestSiteName
         /// </summary>
@@ -189,7 +190,7 @@ namespace Tests
         public void Test9TestSkinExists()
         {
             Console.WriteLine("Test9TestSkinExists");
-            _testSite.AddSkin("testskin","Description for testskin", false);
+            _testSite.AddSkin("testskin", "Description for testskin", false);
 
             Assert.AreEqual(_testSite.DoesSkinExist("testskin"), true);
 
@@ -322,7 +323,7 @@ namespace Tests
         public void TestGTestSiteOptions()
         {
             Console.WriteLine("TestGTestSiteOptions");
-            
+
             using (FullInputContext fullInputContext = new FullInputContext(""))
             {
                 SiteList siteList = new SiteList(fullInputContext.ReaderCreator, fullInputContext.dnaDiagnostics, CacheFactory.GetCacheManager(), null, null);
