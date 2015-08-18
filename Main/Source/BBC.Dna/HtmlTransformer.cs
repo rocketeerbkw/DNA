@@ -70,18 +70,7 @@ namespace BBC.Dna
             XPathNavigator redirect = xnav.SelectSingleNode("/H2G2/REDIRECT/@URL");
             if (null != redirect)
             {
-                // We've been given a redirect, so execute it and return
-
-                if (redirect.InnerXml == "http://www.bbc.co.uk/")
-                {
-                    OutputContext.Redirect(redirect.InnerXml);
-                }
-                else
-                {
-                    var encodedUrl = HttpUtility.UrlEncode(redirect.InnerXml);
-
-                    OutputContext.Redirect(encodedUrl);
-                }
+                OutputContext.Redirect(redirect.InnerXml);
 
                 return true;
             }
