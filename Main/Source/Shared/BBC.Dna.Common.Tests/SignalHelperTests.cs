@@ -47,7 +47,7 @@ namespace BBC.Dna.Common.Tests
 
             var xml = new XmlDocument();
             xml.LoadXml(StringUtils.SerializeToXmlUsingXmlSerialiser(stats));
-            Assert.IsNotNull(xml.SelectSingleNode("/SIGNALSTATUS/SIGNALSTATUSMEMBER[NAME = 'BBC.Dna.Moderation.BannedEmails, BBC.Dna.Moderation, Version=1.0.0.1, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887']/NAME"));
+            Assert.IsNotNull(xml.SelectSingleNode("/SIGNALSTATUS/SIGNALSTATUSMEMBER[NAME = 'BBC.Dna.Moderation.BannedEmails, BBC.Dna.Moderation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887']/NAME"));
             Assert.IsNotNull(xml.SelectSingleNode("/SIGNALSTATUS/SIGNALSTATUSMEMBER[NAME = 'BBC.Dna.Moderation.Utils.ProfanityFilter, BBC.DNA.Moderation.Utils, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887']/NAME"));
         }
 

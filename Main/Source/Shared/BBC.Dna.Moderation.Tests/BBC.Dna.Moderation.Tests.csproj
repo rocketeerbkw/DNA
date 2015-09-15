@@ -117,6 +117,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="BannedEmailsTests.cs" />
     <Compile Include="TermDetailsTest.cs" />
     <Compile Include="UserReputationTests.cs" />

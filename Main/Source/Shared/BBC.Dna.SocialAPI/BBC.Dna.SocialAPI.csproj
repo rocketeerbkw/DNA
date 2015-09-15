@@ -82,6 +82,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="BuzzClient.cs" />
     <Compile Include="Contracts\BuzzTwitterProfile.Contract.cs" />
     <Compile Include="Contracts\BuzzTwitterProfiles.Contract.cs" />

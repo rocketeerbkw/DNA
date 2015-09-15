@@ -149,7 +149,7 @@ namespace Tests
             catch (Exception e)
             {
                 //Dont throe error form a destrutor.
-                Console.Out.Write("Unable to delete ripleyServer.xmlcong from dnapages dir:" + e.Message);
+                Console.Out.Write("Unable to delete ripleyServer.xmlconf from dnapages dir:" + e.Message);
             }
         }
 

@@ -1,17 +1,14 @@
-﻿using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
+﻿using BBC.Dna.Api;
+using BBC.Dna.Common;
+using BBC.Dna.Data;
+using BBC.Dna.Moderation.Utils;
+using BBC.Dna.Sites;
+using Microsoft.Practices.EnterpriseLibrary.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Rhino.Mocks;
-using Microsoft.Practices.EnterpriseLibrary.Caching;
-using BBC.Dna.Data;
-using BBC.Dna.Sites;
-using BBC.Dna.Api;
-using BBC.Dna.Moderation.Utils;
 using Rhino.Mocks.Constraints;
-using BBC.Dna.Utils;
-using BBC.Dna.Common;
+using System;
+using System.Collections.Generic;
 
 namespace BBC.Dna.Objects.Tests
 {
@@ -29,7 +26,7 @@ namespace BBC.Dna.Objects.Tests
         private readonly DateTime _test_timestamp = DateTime.Now.AddDays(-20);
         private readonly DateTime _test_instance_created_datetime = DateTime.Now;
 
-        
+
         private readonly SortDirection _test_sortDirection;
         private readonly SiteType _test_siteType = SiteType.Blog;
         private readonly string _test_body = "Body Text";
@@ -47,14 +44,14 @@ namespace BBC.Dna.Objects.Tests
 
 
         private readonly string _test_cache_key = "BBC.Dna.Objects.Contribution, BBC.Dna.Objects, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c2c5f2d0ba0d9887|99|Blog|h2g2|Ascending|10|0|identityuserid|";
-        
+
         public ContributionsTest()
         {
             _test_sortDirection = SortDirection.Ascending;
         }
 
 
-         public void CreateContributions_SetupDefaultMocks(out MockRepository mocks, out ICacheManager cache, out IDnaDataReaderCreator readerCreator)
+        public void CreateContributions_SetupDefaultMocks(out MockRepository mocks, out ICacheManager cache, out IDnaDataReaderCreator readerCreator)
         {
             mocks = new MockRepository();
             cache = mocks.DynamicMock<ICacheManager>();
@@ -73,7 +70,7 @@ namespace BBC.Dna.Objects.Tests
             ICacheManager cache;
             IDnaDataReaderCreator readerCreator;
             CreateContributions_SetupDefaultMocks(out mocks, out cache, out readerCreator);
-            
+
             IDnaDataReader getuserReader = mocks.DynamicMock<IDnaDataReader>();
             getuserReader.Stub(x => x.HasRows).Return(true);
             getuserReader.Stub(x => x.Read()).Return(true).Repeat.Times(1);
@@ -101,7 +98,7 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorIdentityUsername")).Return(_test_author_identityusername);
 
 
-            
+
 
             readerCreator.Stub(x => x.CreateDnaDataReader("getusercontributions")).Return(getusercontributionsReader);
 
@@ -124,7 +121,7 @@ namespace BBC.Dna.Objects.Tests
             // check the cache was NEVER accessed, that a datareader call was made and that item was added to cache
             cache.AssertWasNotCalled(c => c.GetData(_test_cache_key));
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("getusercontributions"));
-            readerCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("cachegetlastpostdate"));    
+            readerCreator.AssertWasNotCalled(x => x.CreateDnaDataReader("cachegetlastpostdate"));
             cache.AssertWasCalled(c => c.Add(_test_cache_key, actual));
         }
 
@@ -175,8 +172,8 @@ namespace BBC.Dna.Objects.Tests
             // we were only testing the 'ignoreCache' parameter from the previous call
             // check the cache was accessed and the same instance returned
             cache.AssertWasCalled(c => c.GetData(_test_cache_key), options => options.Repeat.AtLeastOnce());
-            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("cachegetlastpostdate"));    
-            Assert.AreSame(cachedContributions, actual);                
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("cachegetlastpostdate"));
+            Assert.AreSame(cachedContributions, actual);
         }
 
         /// <summary>
@@ -210,7 +207,7 @@ namespace BBC.Dna.Objects.Tests
 
             // similate the DB returning an update that's 30 minues after the cachedContributions
             cachegetcontributioninfoReader.Stub(x => x.GetDateTime("LastPosted")).Return(_test_instance_created_datetime).Repeat.Times(1);
-            
+
             readerCreator.Stub(x => x.CreateDnaDataReader("cachegetlastpostdate")).Return(cachegetcontributioninfoReader).Constraints(Is.Anything());
 
             // EXECUTE THE TEST            
@@ -231,10 +228,10 @@ namespace BBC.Dna.Objects.Tests
             // check that the cache was accessed, that lastpostdate was called and the cache instace refreshed
             cache.AssertWasCalled(c => c.GetData(_test_cache_key), options => options.Repeat.AtLeastOnce());
             readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("getusercontributions"));
-            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("cachegetlastpostdate"));            
+            readerCreator.AssertWasCalled(x => x.CreateDnaDataReader("cachegetlastpostdate"));
             Assert.AreNotSame(cachedContributions, actual);
         }
-                 
+
         /// <summary>
         /// Tests that a call to GetUserContributions returns a valid MessageBoard, Article and Blog.
         /// </summary>
@@ -253,7 +250,7 @@ namespace BBC.Dna.Objects.Tests
             IDnaDataReader getuserReader = mocks.DynamicMock<IDnaDataReader>();
             getuserReader.Stub(x => x.HasRows).Return(true);
             getuserReader.Stub(x => x.Read()).Return(true).Repeat.Times(1);
-                        
+
             IDnaDataReader getusercontributionsReader = mocks.DynamicMock<IDnaDataReader>();
             getusercontributionsReader.Stub(x => x.HasRows).Return(true);
             getusercontributionsReader.Stub(x => x.Read()).Return(true).Repeat.Times(4);
@@ -288,8 +285,8 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Community Title").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Subject")).Return("Community Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Community First Subject").Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(String.Empty).Repeat.Once();;
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(_test_guideentry_subject).Repeat.Once();;
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(String.Empty).Repeat.Once(); ;
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(_test_guideentry_subject).Repeat.Once(); ;
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
@@ -307,8 +304,8 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Messageboard Title").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Subject")).Return("Messageboard Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Messageboard First Subject").Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(String.Empty).Repeat.Once();;
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(String.Empty).Repeat.Once();;
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(String.Empty).Repeat.Once(); ;
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(String.Empty).Repeat.Once(); ;
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
@@ -326,8 +323,8 @@ namespace BBC.Dna.Objects.Tests
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("ForumTitle")).Return("Comments Title").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("Subject")).Return("Comments Subject").Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("FirstSubject")).Return("Comments First Subject").Repeat.Once();
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(String.Empty).Repeat.Once();;
-            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(String.Empty).Repeat.Once();;
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("CommentForumUrl")).Return(String.Empty).Repeat.Once(); ;
+            getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("GuideEntrySubject")).Return(String.Empty).Repeat.Once(); ;
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("TotalPostsOnForum")).Return(_test_totalpostsonforum).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetInt32NullAsZero("AuthorUserId")).Return(_test_author_user_id).Repeat.Once();
             getusercontributionsReader.Stub(x => x.GetStringNullAsEmpty("AuthorUsername")).Return(_test_author_username).Repeat.Once();
@@ -497,7 +494,7 @@ namespace BBC.Dna.Objects.Tests
             {
                 // VERIFY THE RESULTS
                 Assert.AreEqual(e.type, ErrorType.InvalidUserId);
-            }     
+            }
         }
 
         public static Contributions CreateTestContributions()

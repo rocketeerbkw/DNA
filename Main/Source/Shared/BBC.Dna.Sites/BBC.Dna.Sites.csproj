@@ -101,6 +101,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="BBCDivisions.cs" />
     <Compile Include="ISite.cs" />
     <Compile Include="ISiteList.cs" />

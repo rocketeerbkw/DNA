@@ -102,6 +102,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
     <Compile Include="ArticleInfoPageAuthorTest.cs" />
     <Compile Include="ArticleInfoReferencesEntryLinkTest.cs" />
     <Compile Include="ArticleInfoSubmittableTest.cs" />
