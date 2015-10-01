@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
-using BBC.Dna.Moderation;
 
 namespace BBC.Dna.Moderation
 {
@@ -50,6 +46,13 @@ namespace BBC.Dna.Moderation
 
         [DataMember(Name = ("notes"), Order = 6)]
         public String Notes
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = ("bbcuseridentity"), Order = 7)]
+        public string BBCUserIdentity
         {
             get;
             set;

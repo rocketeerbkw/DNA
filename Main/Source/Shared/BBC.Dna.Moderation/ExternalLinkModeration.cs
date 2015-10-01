@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BBC.Dna.Data;
+﻿using BBC.Dna.Data;
 using BBC.Dna.Sites;
 using BBC.Dna.Utils;
 using Microsoft.Practices.EnterpriseLibrary.Caching;
-
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Json;
-using System.IO;
-using System.Text.RegularExpressions;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace BBC.Dna.Moderation
 {
@@ -28,18 +22,60 @@ namespace BBC.Dna.Moderation
         /// Add Link to Mod Queue
         /// </summary>
         /// <param name="link"></param>
-        public void AddToModerationQueue(Uri uri, Uri callBackUri, String complaintText, String notes, int siteId)
+        public void AddToModerationQueue(Uri uri, Uri callBackUri, String complaintText, String notes, int siteId, string bbcUserIdentity = null)
         {
+            var userId = 0;
+
+            if (bbcUserIdentity != null)
+            {
+                userId = ValidateBbcIdentityId(bbcUserIdentity);
+            }
+
             using (IDnaDataReader reader = DnaDataReaderCreator.CreateDnaDataReader("addexlinktomodqueue"))
             {
                 reader.AddParameter("uri", uri.ToString());
                 reader.AddParameter("callbackuri", callBackUri.ToString());
                 reader.AddParameter("siteid", siteId);
+
                 if (complaintText != null && complaintText != String.Empty)
+                {
                     reader.AddParameter("complainttext", complaintText);
+                }
+
                 if (notes != null && notes != string.Empty)
+                {
                     reader.AddParameter("notes", notes);
+                }
+
+                if (userId > 0)
+                {
+                    reader.AddParameter("userid", userId);
+                }
+
                 reader.Execute();
+            }
+        }
+
+        private int ValidateBbcIdentityId(string bbcUserIdentity)
+        {
+            using (var reader = DnaDataReaderCreator.CreateDnaDataReader("getdnauseridbyidentityuserid"))
+            {
+                reader.AddParameter("identityuserid", bbcUserIdentity);
+
+                var userId = 0;
+
+                reader.AddIntOutputParameter("DnaUserID");
+
+                reader.Execute();
+
+                reader.TryGetIntOutputParameter("DnaUserID", out userId);
+
+                if (userId == 0)
+                {
+                    throw new InvalidOperationException("User does not exists");
+                }
+
+                return userId;
             }
         }
 

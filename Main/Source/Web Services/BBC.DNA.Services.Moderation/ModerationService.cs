@@ -1,12 +1,12 @@
-﻿using System;
-using System.ServiceModel;
-using System.ServiceModel.Web;
+﻿using BBC.Dna.Moderation;
 using BBC.Dna.Sites;
 using BBC.Dna.Users;
 using BBC.Dna.Utils;
 using Microsoft.ServiceModel.Web;
-using BBC.Dna.Moderation;
+using System;
 using System.IO;
+using System.ServiceModel;
+using System.ServiceModel.Web;
 
 namespace BBC.Dna.Services
 {
@@ -35,7 +35,7 @@ namespace BBC.Dna.Services
                     Uri callback;
                     if (Uri.TryCreate(modItem.Uri, UriKind.Absolute, out source) && Uri.TryCreate(modItem.CallBackUri, UriKind.Absolute, out callback))
                     {
-                        exLinkMod.AddToModerationQueue(new Uri(modItem.Uri), new Uri(modItem.CallBackUri), modItem.ComplaintText, modItem.Notes, site.SiteID);
+                        exLinkMod.AddToModerationQueue(new Uri(modItem.Uri), new Uri(modItem.CallBackUri), modItem.ComplaintText, modItem.Notes, site.SiteID, modItem.BBCUserIdentity);
                     }
                     else
                     {
