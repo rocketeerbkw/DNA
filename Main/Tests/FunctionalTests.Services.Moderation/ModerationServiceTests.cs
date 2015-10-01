@@ -124,5 +124,10 @@ namespace FunctionalTests.Services.Moderation
 
             Assert.AreEqual(expected, actual);
         }
+
+        public void Blah()
+        {
+            //dummy commit
+        }
     }
 }
