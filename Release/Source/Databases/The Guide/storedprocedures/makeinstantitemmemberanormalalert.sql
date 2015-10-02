@@ -107,7 +107,7 @@ BEGIN
 	RETURN 0
 END
 
--- Now we definatly have something to do! Start the transaction
+-- Now we definitely have something to do! Start the transaction
 BEGIN TRANSACTION
 
 -- Now make sure the the item does not already exist in the Instant members
